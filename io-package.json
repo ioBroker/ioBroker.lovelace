@@ -1,0 +1,108 @@
+{
+    "common": {
+        "name": "lovelace",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Visualization with Lovelace-UI",
+        "titleLang": {
+            "en": "Visualization with Lovelace-UI",
+            "de": "Visualisierung mit Lovelace-UI",
+            "ru": "Визуализация с помощью Lovelace-UI",
+            "pt": "Visualização com Lovelace-UI",
+            "nl": "Visualisatie met Lovelace-UI",
+            "fr": "Visualisation avec Lovelace-UI",
+            "it": "Visualizzazione con Lovelace-UI",
+            "es": "Visualización con Lovelace-UI",
+            "pl": "Wizualizacja za pomocą Lovelace-UI",
+            "zh-cn": "使用Lovelace-UI进行可视化"
+        },
+        "desc": {
+            "en": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
+            "de": "Mit diesem Adapter können Sie eine Visualisierung für ioBroker mit der Home Assistant Lovelace-Benutzeroberfläche erstellen",
+            "ru": "С помощью этого адаптера вы можете создавать визуализацию для ioBroker с Home Assistant Lovelace UI",
+            "pt": "Com este adaptador você pode construir visualização para o ioBroker com o Home Assistant Lovelace UI",
+            "nl": "Met deze adapter kunt u visualisatie bouwen voor ioBroker met Home Assistant Lovelace UI",
+            "fr": "Avec cet adaptateur, vous pouvez créer une visualisation pour ioBroker avec Home Assistant Lovelace UI",
+            "it": "Con questo adattatore puoi costruire la visualizzazione per ioBroker con l'interfaccia utente di Home Assistant Lovelace",
+            "es": "Con este adaptador puede crear visualización para ioBroker con Home Assistant Lovelace UI",
+            "pl": "Za pomocą tego adaptera możesz zbudować wizualizację dla ioBroker z interfejsem Home Assistant Lovelace",
+            "zh-cn": "使用此适配器，您可以使用Home Assistant Lovelace UI为ioBroker构建可视化"
+        },
+        "authors": [
+            "bluefox <dogafox@gmail.com>"
+        ],
+        "keywords": [
+            "ioBroker",
+            "template",
+            "Smart Home",
+            "home automation"
+        ],
+        "license": "Apache-2.0",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "lovelace.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
+        "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "visualization",
+        "compact": true,
+        "materialize": true,
+        "materializeTab": true,
+        "adminTab": {
+            "singleton": true,
+            "name": {
+                "en": "Visualization with Lovelace-UI ",
+                "de": "Visualisierung mit Lovelace-UI",
+                "ru": "Визуализация с помощью Lovelace-UI",
+                "pt": "Visualização com Lovelace-UI",
+                "nl": "Visualisatie met Lovelace-UI",
+                "fr": "Visualisation avec Lovelace-UI",
+                "it": "Visualizzazione con Lovelace-UI",
+                "es": "Visualización con Lovelace-UI",
+                "pl": "Wizualizacja za pomocą Lovelace-UI",
+                "zh-cn": "使用Lovelace-UI进行可视化"
+            },
+            "link": "",
+            "fa-icon": "info"
+        },
+        "supportCustoms": true,
+        "dependencies": [
+            {
+                "admin": ">=3.0.0"
+            }
+        ]
+    },
+    "native": {
+        "port":                     8091,
+        "auth":                     false,
+        "secure":                   false,
+        "bind":                     "0.0.0.0",
+        "certPublic":               "",
+        "certPrivate":              "",
+        "certChained":              "",
+        "defaultUser":              "admin",
+        "onlyAllowWhenUserIsOwner": false,
+        "webInstance":              "",
+
+        "leEnabled":                false,
+        "leUpdate":                 false,
+        "leCheckPort":              80
+    },
+    "objects": [],
+    "instanceObjects": []
+}

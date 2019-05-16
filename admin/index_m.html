@@ -1,0 +1,145 @@
+<html>
+
+<head>
+
+    <!-- Load ioBroker scripts and styles-->
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+    <!-- Load our own files -->
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="words.js"></script>
+
+    <script type="text/javascript">
+
+        function showHideSettings() {
+            if ($('#webInstance').val()) {
+                $('.no-if-extend').hide();
+            } else {
+                $('.no-if-extend').show();
+                if ($('#secure').prop('checked')) {
+                    $('#_certPublic').show();
+                    $('#_certPrivate').show();
+                    $('#_certChained').show();
+                    $('.le-settings').show();
+
+                    if ($('#leEnabled').prop('checked')) {
+                        $('.le-sub-settings').show();
+                        if ($('#leUpdate').prop('checked')) {
+                            $('.le-sub-settings-update').show();
+                        } else {
+                            $('.le-sub-settings-update').hide();
+                        }
+                    } else {
+                        $('.le-sub-settings').hide();
+                    }
+                } else {
+                    $('#_certPublic').hide();
+                    $('#_certPrivate').hide();
+                    $('#_certChained').hide();
+                    $('#auth').prop('checked', false);
+                    $('.le-settings').hide();
+                }
+                if ($('#auth').prop('checked')) {
+                    $('#defaultUser').val('admin');
+                    $('.defaultUser').hide();
+                } else {
+                    $('.defaultUser').show();
+                }
+            }
+        }
+
+        function load(settings, onChange) {
+            if (!settings) return;
+
+            if (!settings.lePort) settings.lePort = 80;
+
+            getIPs(function(ips) {
+                for (var i = 0; i < ips.length; i++) {
+                    $('#bind').append('<option value="' + ips[i].address + '">' + ips[i].name + '</option>');
+                }
+                $('#bind.value').val(settings.bind);
+            });
+
+            $('.value').each(function () {
+                var $key = $(this);
+                var id = $key.attr('id');
+                if ($key.attr('type') === 'checkbox') {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.prop('checked', settings[id])
+                        .on('change', () => onChange())
+                        ;
+                } else {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.val(settings[id])
+                        .on('change', () => {
+                            if (id === 'webInstance') showHideSettings();
+                            onChange();
+                        })
+                        .on('keyup', () => onChange())
+                        ;
+                }
+            });
+
+            fillSelectCertificates('#certPublic',  'public',  settings.certPublic);
+            fillSelectCertificates('#certPublic',  'public',  settings.certPublic);
+            fillSelectCertificates('#certPrivate', 'private', settings.certPrivate);
+            fillSelectCertificates('#certChained', 'chained', settings.certChained);
+            fillUsers('#defaultUser', settings.defaultUser);
+
+            showHideSettings();
+
+            onChange(false);
+            // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+            if (M) M.updateTextFields();
+        }
+
+        // This will be called by the admin adapter when the user presses the save button
+        function save(callback) {
+            // example: select elements with class=value and build settings object
+            var obj = {};
+            $('.value').each(function () {
+                var $this = $(this);
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+                } else {
+                    obj[$this.attr('id')] = $this.val();
+                }
+            });
+
+            if ($('#secure').prop('checked') && (!$('#certPrivate').val() || !$('#certPublic').val())) {
+                showMessage(_('Set certificates or load it first in the system settings (right top).'));
+                return;
+            }
+
+            callback(obj);
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="m adapter-container">
+        <div class="row">
+            <div class="col s12 m4 l2">
+                <img src="lovelace.png" class="logo">
+            </div>
+        </div>
+        <!-- For example columns with settings: -->
+        <div class="row">
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
