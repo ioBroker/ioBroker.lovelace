@@ -19,40 +19,54 @@
 
     <script type="text/javascript">
 
-        function showHideSettings() {
-            if ($('#webInstance').val()) {
-                $('.no-if-extend').hide();
-            } else {
-                $('.no-if-extend').show();
-                if ($('#secure').prop('checked')) {
-                    $('#_certPublic').show();
-                    $('#_certPrivate').show();
-                    $('#_certChained').show();
-                    $('.le-settings').show();
+        function showHideSettings(id) {
+            var $secure = $('#secure');
+            var $auth   = $('#auth');
 
-                    if ($('#leEnabled').prop('checked')) {
-                        $('.le-sub-settings').show();
-                        if ($('#leUpdate').prop('checked')) {
-                            $('.le-sub-settings-update').show();
-                        } else {
-                            $('.le-sub-settings-update').hide();
-                        }
+            if ($secure.prop('checked')) {
+                $('.col-certPublic').show();
+                $('.col-certPrivate').show();
+                $('.col-certChained').show();
+                $('.le-settings').removeClass('disabled');
+                if ($('#leEnabled').prop('checked')) {
+                    $('.le-sub-settings').show();
+                    if ($('#leUpdate').prop('checked')) {
+                        $('.le-sub-settings-update').show();
                     } else {
-                        $('.le-sub-settings').hide();
+                        $('.le-sub-settings-update').hide();
                     }
                 } else {
-                    $('#_certPublic').hide();
-                    $('#_certPrivate').hide();
-                    $('#_certChained').hide();
-                    $('#auth').prop('checked', false);
-                    $('.le-settings').hide();
+                    $('.le-sub-settings').hide();
                 }
-                if ($('#auth').prop('checked')) {
-                    $('#defaultUser').val('admin');
-                    $('.defaultUser').hide();
-                } else {
-                    $('.defaultUser').show();
+            } else {
+                $('.col-certPublic').hide();
+                $('.col-certPrivate').hide();
+                $('.col-certChained').hide();
+                $('.le-settings').addClass('disabled');
+            }
+            if ($auth.prop('checked')) {
+                $('.tab-login').removeClass('disabled');
+                $('#defaultUser').val('admin');
+                $('.col-defaultUser').hide();
+                $('.col-ttl').show();
+
+                if ((id === 'auth' || id === 'secure') && !$secure.prop('checked')) {
+                    confirmMessage(_('Unsecure_Auth'), _('Warning!'), 'security', [_('Ignore warning'), _('Disable authentication')], function (result) {
+                        if (result === 1) {
+                            $('#auth').prop('checked', false).trigger('change');
+                            showToast(null, _('Authentication was deactivated'));
+                        }
+                    });
                 }
+            } else {
+                $('.tab-login').addClass('disabled');
+                $('.col-defaultUser').show();
+                $('.col-ttl').hide();
+            }
+            if ($('#loginBackgroundImage').prop('checked')) {
+                $('.background').show();
+            } else {
+                $('.background').hide();
             }
         }
 
@@ -61,7 +75,7 @@
 
             if (!settings.lePort) settings.lePort = 80;
 
-            getIPs(function(ips) {
+            getIPs(function (ips) {
                 for (var i = 0; i < ips.length; i++) {
                     $('#bind').append('<option value="' + ips[i].address + '">' + ips[i].name + '</option>');
                 }
@@ -74,17 +88,20 @@
                 if ($key.attr('type') === 'checkbox') {
                     // do not call onChange direct, because onChange could expect some arguments
                     $key.prop('checked', settings[id])
-                        .on('change', () => onChange())
-                        ;
+                        .on('change', function () {
+                            showHideSettings($(this).attr('id'));
+                            onChange();
+                        });
                 } else {
                     // do not call onChange direct, because onChange could expect some arguments
                     $key.val(settings[id])
-                        .on('change', () => {
-                            if (id === 'webInstance') showHideSettings();
+                        .on('change', function () {
+                            showHideSettings($(this).attr('id'));
                             onChange();
                         })
-                        .on('keyup', () => onChange())
-                        ;
+                        .on('keyup', function () {
+                            onChange();
+                        });
                 }
             });
 
@@ -126,20 +143,93 @@
 </head>
 
 <body>
-
-    <div class="m adapter-container">
-        <div class="row">
-            <div class="col s12 m4 l2">
-                <img src="lovelace.png" class="logo">
+<!-- you have to put your config page in a div with id adapter-container -->
+<div class="m adapter-container">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s2"><a href="#tab-main"  class="translate active">Main settings</a></li>
+                <li class="tab col s2 le-settings"><a href="#tab-le"    class="translate">Let's Encrypt SSL</a></li>
+                <li class="tab col s2 tab-login"><a href="#tab-config" class="translate">Config</a></li>
+            </ul>
+        </div>
+        <div id="tab-main" class="col s12 page">
+            <div class="row">
+                <div class="col s6 m4 l2">
+                    <img src="lovelace.png" class="logo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m8 l5">
+                    <select class="value" id="bind"></select>
+                    <label class="translate" for="bind">IP:</label>
+                </div>
+                <div class="input-field col s12 m4 l3">
+                    <input class="value" id="port" size="5" maxlength="5" type="number"/>
+                    <label class="translate" for="port">Port:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l2">
+                    <input class="value" id="secure" type="checkbox" />
+                    <label class="translate" for="secure">Secure(HTTPS):</label>
+                </div>
+                <div class="input-field col s12 m6 l2 col-certPublic">
+                    <select id="certPublic" class="value"></select>
+                    <label class="translate" for="certPublic">Public certificate:</label>
+                </div>
+                <div class="input-field col s12 m6 l2 col-certPrivate">
+                    <select id="certPrivate" class="value"></select>
+                    <label class="translate" for="certPrivate">Private certificate:</label>
+                </div>
+                <div class="input-field col s12 m6 l2 col-certChained">
+                    <select id="certChained" class="value"></select>
+                    <label class="translate" for="certChained">Chained certificate:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l2">
+                    <input class="value" id="auth" type="checkbox" />
+                    <label class="translate" for="auth">Authentication:</label>
+                </div>
+                <div class="input-field col s12 m6 l2 col-defaultUser">
+                    <select class="value" id="defaultUser"></select>
+                    <label class="translate" for="defaultUser">Run as:</label>
+                </div>
+                <div class="input-field col s12 m6 l2 col-ttl">
+                    <input class="value" type="number" id="ttl" />
+                    <label class="translate" for="ttl">Login timeout(sec):</label>
+                </div>
             </div>
         </div>
-        <!-- For example columns with settings: -->
-        <div class="row">
-
+        <div id="tab-le" class="col s12 page">
+            <div class="row">
+                <div class="col s12">
+                    <img src="../../img/le.png" class="logo-le">
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s11">
+                    <input class="value" id="leEnabled" type="checkbox" data-link="lets-encrypt-certificates"/>
+                    <label for="leEnabled" class="translate">Use Lets Encrypt certificates:</label>
+                </div>
+            </div>
+            <div class="row le-sub-settings">
+                <div class="input-field col s11">
+                    <input class="value" id="leUpdate" type="checkbox" data-link="lets-encrypt-certificates"/>
+                    <label for="leUpdate" class="translate">Use this instance for automatic update:</label>
+                </div>
+            </div>
+            <div class="row le-sub-settings le-sub-settings-update">
+                <div class="input-field col s11 l4">
+                    <input class="value" id="lePort" type="number" size="5" maxlength="5" data-link="lets-encrypt-certificates"/>
+                    <label for="lePort" class="translate">Port to check the domain:</label>
+                </div>
+            </div>
         </div>
-
+        <div id="tab-config" class="col s12 page">
+        </div>
     </div>
-
+</div>
 </body>
-
 </html>
