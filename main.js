@@ -50,7 +50,7 @@ function startAdapter(options) {
         stateChange: (id, state) => {
             if (state) {
                 // The state was changed
-                adapter.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+                adapter.server.onStateChange(id, state);
             } else {
                 // The state was deleted
                 adapter.log.info(`state ${id} deleted`);
