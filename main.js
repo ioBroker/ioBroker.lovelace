@@ -1,10 +1,11 @@
 'use strict';
+const express = require('express');
 
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
-
-const WebServer = require('./lib/server');
+const LE = require(utils.controllerDir + '/lib/letsencrypt');
+const ApiServer = require('./lib/server');
 
 /**
  * The adapter instance
@@ -29,7 +30,15 @@ function startAdapter(options) {
         unload: (callback) => {
             try {
                 adapter.log.info('cleaned everything up...');
-                callback();
+
+                adapter.apiServer && adapter.apiServer.destroy();
+
+                if (adapter.webServer) {
+                    adapter.webServer.close(callback);
+                    adapter.webServer = null;
+                } else {
+                    callback();
+                }
             } catch (e) {
                 callback();
             }
@@ -39,7 +48,7 @@ function startAdapter(options) {
         objectChange: (id, obj) => {
             if (obj) {
                 // The object was changed
-                adapter.server.onObjectChange(id, obj);
+                adapter.apiServer.onObjectChange(id, obj);
             } else {
                 // The object was deleted
                 adapter.log.info(`object ${id} deleted`);
@@ -50,7 +59,7 @@ function startAdapter(options) {
         stateChange: (id, state) => {
             if (state) {
                 // The state was changed
-                adapter.server.onStateChange(id, state);
+                adapter.apiServer.onStateChange(id, state);
             } else {
                 // The state was deleted
                 adapter.log.info(`state ${id} deleted`);
@@ -73,8 +82,71 @@ function startAdapter(options) {
     }));
 }
 
+function initWebServer(settings) {
+    const server = {
+        app:       express(),
+        server:    null,
+        api:       null,
+        io:        null,
+        settings:  settings
+    };
+
+    settings.port = parseInt(settings.port, 10);
+
+    if (settings.port) {
+
+        if (settings.secure && !adapter.config.certificates) return null;
+
+        server.server = LE.createServer(server.app, settings, adapter.config.certificates, adapter.config.leConfig, adapter.log);
+        server.server.__server = server;
+    } else {
+        adapter.log.error('port missing');
+        if (adapter.terminate) {
+            adapter.terminate(1);
+        } else {
+            process.exit(1);
+        }
+    }
+
+    if (server.server) {
+        adapter.getPort(settings.port, port => {
+            if (port !== settings.port && !adapter.config.findNextPort) {
+                adapter.log.error('port ' + settings.port + ' already in use');
+                if (adapter.terminate) {
+                    adapter.terminate(1);
+                } else {
+                    process.exit(1);
+                }
+            }
+            server.server.listen(port);
+            adapter.log.info('http' + (settings.secure ? 's' : '') + ' server listening on port ' + port);
+        });
+    }
+
+    if (server.server) {
+        return server;
+    } else {
+        return null;
+    }
+}
+
 function main(adapter) {
-    adapter.server = new WebServer({adapter});
+    if (adapter.config.secure) {
+        // subscribe on changes of permissions
+        adapter.subscribeForeignObjects('system.group.*');
+        adapter.subscribeForeignObjects('system.user.*');
+
+        // Load certificates
+        adapter.getCertificates((err, certificates, leConfig) => {
+            adapter.config.certificates = certificates;
+            adapter.config.leConfig     = leConfig;
+            adapter.webServer = initWebServer(adapter.config);
+            adapter.apiServer = new ApiServer({adapter, server: adapter.webServer.server, app: adapter.webServer.app});
+        });
+    } else {
+        adapter.webServer = initWebServer(adapter.config);
+        adapter.apiServer = new ApiServer({adapter, server: adapter.webServer.server, app: adapter.webServer.app});
+    }
 
     // examples for the checkPassword/checkGroup functions
     /*adapter.checkPassword('admin', 'iobroker', (res) => {

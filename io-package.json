@@ -62,25 +62,8 @@
         "type": "visualization",
         "compact": true,
         "materialize": true,
-        "materializeTab": true,
-        "adminTab": {
-            "singleton": true,
-            "name": {
-                "en": "Visualization with Lovelace-UI ",
-                "de": "Visualisierung mit Lovelace-UI",
-                "ru": "Визуализация с помощью Lovelace-UI",
-                "pt": "Visualização com Lovelace-UI",
-                "nl": "Visualisatie met Lovelace-UI",
-                "fr": "Visualisation avec Lovelace-UI",
-                "it": "Visualizzazione con Lovelace-UI",
-                "es": "Visualización con Lovelace-UI",
-                "pl": "Wizualizacja za pomocą Lovelace-UI",
-                "zh-cn": "使用Lovelace-UI进行可视化"
-            },
-            "link": "",
-            "fa-icon": "info"
-        },
         "supportCustoms": true,
+        "localLink": "%protocol%://%ip%:%port%/",
         "dependencies": [
             {
                 "admin": ">=3.0.0"
