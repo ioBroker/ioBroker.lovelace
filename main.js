@@ -109,9 +109,9 @@ function initWebServer(settings) {
     }
 
     if (server.server) {
-        adapter.getPort(settings.port, port => {
-            if (port !== settings.port && !adapter.config.findNextPort) {
-                adapter.log.error('port ' + settings.port + ' already in use');
+        adapter.getPort(server.settings.port, port => {
+            if (port !== server.settings.port && !adapter.config.findNextPort) {
+                adapter.log.error('port ' + server.settings.port + ' already in use');
                 if (adapter.terminate) {
                     adapter.terminate(1);
                 } else {
@@ -119,7 +119,7 @@ function initWebServer(settings) {
                 }
             }
             server.server.listen(port);
-            adapter.log.info('http' + (settings.secure ? 's' : '') + ' server listening on port ' + port);
+            adapter.log.info('http' + (server.settings.secure ? 's' : '') + ' server listening on port ' + port);
         });
     }
 

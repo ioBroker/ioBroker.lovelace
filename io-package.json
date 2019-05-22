@@ -64,6 +64,14 @@
         "materialize": true,
         "supportCustoms": true,
         "localLink": "%protocol%://%ip%:%port%/",
+        "welcomeScreen": {
+          "link": "",
+          "name": "Lovelace",
+          "img": "lovelace/icons/favicon-192x192.png",
+          "color": "#53C1F2",
+          "order": 2,
+          "localLink": true
+        },
         "dependencies": [
             {
                 "admin": ">=3.0.0"
@@ -71,6 +79,7 @@
         ]
     },
     "native": {
+        "history":                  "",
         "port":                     8091,
         "auth":                     false,
         "secure":                   false,

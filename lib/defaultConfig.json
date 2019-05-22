@@ -1,8 +1,8 @@
 {
   "title": "Home",
   "views": [{
-    "badges": ["person.admin", "sensor.yr_symbol", "sun.sun"],
-    "cards": [{"type": "custom:hui-empty-state-card"}],
+    "badges": [],
+    "cards": [],
     "path": "default_view",
     "title": "Home"
   }]

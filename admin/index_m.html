@@ -70,6 +70,22 @@
             }
         }
 
+        function getAllHistoryInstances(value) {
+            socket.emit('getObjectView', 'system', 'instance', {startkey: 'system.adapter.', endkey: 'system.adapter.\u9999'}, function (err, doc) {
+                if (!err && doc.rows.length) {
+                    var $select = $('#history');
+                    for (var i = 0; i < doc.rows.length; i++) {
+                        if (doc.rows[i].value && doc.rows[i].value.common && doc.rows[i].value.common.getHistory) {
+                            var id = doc.rows[i].id.replace(/^system\.adapter\./, '');
+                            $select.append('<option value="' + id + '">' + id + '</option>');
+                        }
+                    }
+                }
+                $select.val(value || '');
+                $select.select();
+            });
+        }
+
         function load(settings, onChange) {
             if (!settings) return;
 
@@ -112,6 +128,8 @@
             fillUsers('#defaultUser', settings.defaultUser);
 
             showHideSettings();
+
+            getAllHistoryInstances(settings.history);
 
             onChange(false);
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
@@ -189,6 +207,14 @@
             </div>
             <div class="row">
                 <div class="input-field col s12 m6 l2">
+                    <select class="value" id="history" >
+                        <option value="" class="translate">disabled</option>
+                    </select>
+                    <label class="translate" for="history">Historical instance:</label>
+                </div>
+            </div>
+            <!--div class="row">
+                <div class="input-field col s12 m6 l2">
                     <input class="value" id="auth" type="checkbox" />
                     <label class="translate" for="auth">Authentication:</label>
                 </div>
@@ -200,7 +226,7 @@
                     <input class="value" type="number" id="ttl" />
                     <label class="translate" for="ttl">Login timeout(sec):</label>
                 </div>
-            </div>
+            </div-->
         </div>
         <div id="tab-le" class="col s12 page">
             <div class="row">
