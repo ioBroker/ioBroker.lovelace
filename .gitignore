@@ -2,6 +2,7 @@
 .idea
 node_modules
 nbproject
+build/home-assistant-polymer/
 
 # npm package files
 iobroker.*.tgz

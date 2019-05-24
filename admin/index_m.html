@@ -157,6 +157,7 @@
             callback(obj);
         }
     </script>
+    <script src="../../../iobroker/home-assistant-polymer/src/panels/lovelace/cards/hui-map-card.ts"></script>
 
 </head>
 
@@ -168,7 +169,6 @@
             <ul class="tabs">
                 <li class="tab col s2"><a href="#tab-main"  class="translate active">Main settings</a></li>
                 <li class="tab col s2 le-settings"><a href="#tab-le"    class="translate">Let's Encrypt SSL</a></li>
-                <li class="tab col s2 tab-login"><a href="#tab-config" class="translate">Config</a></li>
             </ul>
         </div>
         <div id="tab-main" class="col s12 page">
@@ -252,8 +252,6 @@
                     <label for="lePort" class="translate">Port to check the domain:</label>
                 </div>
             </div>
-        </div>
-        <div id="tab-config" class="col s12 page">
         </div>
     </div>
 </div>

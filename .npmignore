@@ -5,6 +5,8 @@ nbproject/
 .vs*/
 Thumbs.db
 gulpfile.js
+assets/
+build/
 
 test/
 travis/

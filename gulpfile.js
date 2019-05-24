@@ -6,6 +6,7 @@
 
 const gulp = require('gulp');
 const fs = require('fs');
+const path = require('path');
 const pkg = require('./package.json');
 const iopackage = require('./io-package.json');
 const version = (pkg && pkg.version) ? pkg.version : iopackage.common.version;
@@ -349,6 +350,19 @@ async function translateNotExisting(obj, baseText, yandex) {
     }
 }
 
+function filesWalk(folder, func) {
+    const files = fs.readdirSync(folder);
+    files.forEach(file => {
+        const fullPath = path.join(folder, file);
+        const stat = fs.statSync(fullPath);
+        if (stat.isDirectory()) {
+            filesWalk(fullPath, func);
+        } else {
+            func(fullPath);
+        }
+    });
+}
+
 //TASKS
 
 gulp.task('adminWords2languages', function (done) {
@@ -468,6 +482,27 @@ gulp.task('translate', async function (done) {
 
     }
     fs.writeFileSync('io-package.json', JSON.stringify(iopackage, null, 4));
+});
+
+gulp.task('rename', done => {
+    filesWalk(__dirname + '/hass_frontend', fileName => {
+        if (fileName.endsWith('.js') || fileName.endsWith('.html') || fileName.endsWith('.json')) {
+            const text = fs.readFileSync(fileName).toString('utf-8');
+            let newText = text.replace(/Home Assistant/g, 'ioBroker');
+            if (fileName.endsWith('index.html')) {
+                newText = newText.replace('{% for extra_url in extra_urls -%}<link rel="import" href="{{ extra_url }}" async>{% endfor -%}', '');
+            }
+
+            if (newText !== text) {
+                console.log(`File ${fileName} patched.`);
+                fs.writeFileSync(fileName, newText);
+            }
+        } else if (fileName.endsWith('.py')) {
+            console.log(`${fileName} deleted`);
+            fs.unlinkSync(fileName);
+        }
+    });
+    done();
 });
 
 gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages'));
