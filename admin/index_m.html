@@ -18,6 +18,42 @@
     <script type="text/javascript" src="words.js"></script>
 
     <script type="text/javascript">
+        function formatTime(time) {
+            const date = new Date(time);
+            return date.toISOString();
+        }
+        function readFiles() {
+            socket.emit('readDir', 'lovelace.' + instance, '/cards/', function (err, list) {
+                var $files_list = $('#files_list');
+                var text = '<table>';
+                text += '<tr><th>' + _('File') + '</th><th>' + _('Size') + '</th><th>' + _('Modified') + '</th><th></th></tr>';
+                list.sort(function (a, b) {
+                    if (a.file > b.file) return 1;
+                    if (a.file < b.file) return -1;
+                    return 0;
+                });
+                for (var i = 0; i < list.length; i++) {
+                    text += '<tr><td>' + list[i].file + '</td>' +
+                        '<td>' + list[i].stats.size + '</td>' +
+                        '<td>' + formatTime(list[i].modifiedAt) + '</td>' +
+                        '<td><a class="btn-floating btn-small waves-effect waves-light red delete-file" data-name="' + list[i].file + '"><i class="material-icons">delete</i></a></td>' +
+                        '</tr>';
+                }
+                text += '</table>';
+                $files_list.html(text);
+
+                $files_list.find('.delete-file').off('click').on('click', function () {
+                    console.log('Delete lovelace.' + instance + ' /cards/' + $(this).data('name'));
+                    socket.emit('deleteFile', 'lovelace.' + instance, '/cards/' + $(this).data('name'), function (err) {
+                        if (err) {
+                            showError(_('Cannot delete file: ' + err));
+                        } else {
+                            setTimeout(readFiles, 100);
+                        }
+                    });
+                });
+            });
+        }
 
         function showHideSettings(id) {
             var $secure = $('#secure');
@@ -86,6 +122,86 @@
             });
         }
 
+        function uploadFile(file, callback) {
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = function(e) {
+                socket.emit('writeFile', 'lovelace.' + instance, '/cards/' + file.name, e.target.result, function () {
+                    callback && callback(file.name);
+                });
+            };
+
+            // Read in the image file as a data URL.
+            reader.readAsArrayBuffer(file);
+        }
+
+        function fileHandler(event) {
+            event.preventDefault();
+            var files = event.dataTransfer ? event.dataTransfer.files : event.target.files;
+
+            var $dz      = $(this).find('.drop-zone');
+            var callback = $(this).data('drop-zone-cb');
+            var limit    = $(this).data('limit');
+            var count = 0;
+            for (var f = 0; f < files.length; f++) {
+                var file = files[f];
+                if (file.size > (limit || 100000)) {
+                    callback && callback(_('File is too big!'));
+                    $dz.hide();
+                    return false;
+                }
+                if (count === 0) {
+                    $dz.show();
+                }
+                count++;
+
+                uploadFile(file, function () {
+                    if (!--count) {
+                        $dz.hide();
+                        callback && callback();
+                    }
+                });
+                /*(function (_file) {
+                    var reader = new FileReader();
+                    reader.onload = function (evt) {
+                        $dz.hide();
+                        callback && callback(null, evt.target.result, _file.name);
+                    };
+                    reader.readAsDataURL(file);
+                })(file);*/
+            }
+        }
+
+        /**
+         * Install file upload on some div
+         * @param {object} $dropZone is jquery object of the div (DOM element) where the drop zone must be installed
+         * @param {number} limit is maximal size of file in bytes
+         * @param {function} callback is callback in form function (err, fileDataBase64) {}
+         */
+        function installFileUpload($dropZone, limit, callback) {
+            if (typeof window.FileReader !== 'undefined' && !$dropZone.data('installed')) {
+                $dropZone.data('installed', true);
+                $dropZone.prepend('<div class="drop-zone" style="display: none"><input type="file" class="drop-file" style="display: none" /></div>');
+                var $dz = $dropZone.find('.drop-zone');
+                $dropZone[0].ondragover = function() {
+                    $dz.off('click');
+                    $dz.show();
+                    return false;
+                };
+
+                $dz[0].ondragleave = function() {
+                    $dz.hide();
+                    return false;
+                };
+
+                $dz[0].ondrop = fileHandler.bind($dropZone[0]);
+            }
+            $dropZone.data('drop-zone-cb', callback);
+            $dropZone.data('limit', limit);
+            $dropZone.find('.drop-file').on('change', fileHandler.bind($dropZone[0]));
+        }
+
         function load(settings, onChange) {
             if (!settings) return;
 
@@ -131,7 +247,34 @@
 
             getAllHistoryInstances(settings.history);
 
+            var $dropZone = $('#tab-custom');
+            installFileUpload($dropZone, 2000000, function (err) {
+                if (err) {
+                    showError(_('Cannot uplpad file: ') + err);
+                } else {
+                    readFiles();
+                }
+            });
+
             onChange(false);
+
+            socket.emit('getObject', 'system.adapter.lovelace.' + instance, function (err, obj) {
+                if (obj.common.enabled) {
+                    $('.btn-restart').on('click', function () {
+                        socket.emit('getObject', 'system.adapter.lovelace.' + instance, function (err, obj) {
+                            obj.common.enabled = false;
+                            socket.emit('setObject', 'system.adapter.lovelace.' + instance, function (err) {
+                                obj.common.enabled = true;
+                                socket.emit('setObject', 'system.adapter.lovelace.' + instance, function (err) {
+
+                                });
+                            });
+                        });
+                    }).removeClass('disabled');
+                }
+            });
+
+            readFiles();
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
             if (M) M.updateTextFields();
         }
@@ -157,8 +300,40 @@
             callback(obj);
         }
     </script>
-    <script src="../../../iobroker/home-assistant-polymer/src/panels/lovelace/cards/hui-map-card.ts"></script>
+    <style>
+        .drop-zone {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0.8;
+            top: 0;
+            left: 0;
+            background: #eee;
+            border: 5px dashed #ccc;
 
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            z-index: 1;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .dropZone-error {
+            background: #faa !important;
+            color: #f00;
+        }
+
+        .notice {
+            float: right;
+            margin-top: 15px;
+        }
+        .btn-restart {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -169,6 +344,7 @@
             <ul class="tabs">
                 <li class="tab col s2"><a href="#tab-main"  class="translate active">Main settings</a></li>
                 <li class="tab col s2 le-settings"><a href="#tab-le"    class="translate">Let's Encrypt SSL</a></li>
+                <li class="tab col s2"><a href="#tab-custom"    class="translate">Custom Cards</a></li>
             </ul>
         </div>
         <div id="tab-main" class="col s12 page">
@@ -252,6 +428,11 @@
                     <label for="lePort" class="translate">Port to check the domain:</label>
                 </div>
             </div>
+        </div>
+        <div id="tab-custom" class="col s12 page">
+            <a class="waves-effect waves-light btn btn-restart disabled" style="margin-top: 5px;"><i class="material-icons left">refresh</i>Restart adapter to update files</a>
+            <span class="translate notice" style="margin-top: 15px;">Drag and drop the custom cards files here</span>
+            <div id="files_list"></div>
         </div>
     </div>
 </div>

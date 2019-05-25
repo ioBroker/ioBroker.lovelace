@@ -98,10 +98,31 @@
     "objects": [],
     "instanceObjects": [
         {
+            "_id": "",
+            "type": "meta",
+            "common": {
+                "name": "user files and images for lovelace",
+                "type": "meta.user"
+            },
+            "native": {}
+        },
+        {
             "_id": "configuration",
             "type": "channel",
             "common": {
                 "name": "Storage"
+            },
+            "native": {
+
+            }
+        },
+        {
+            "_id": "session",
+            "type": "state",
+            "common": {
+                "name": "Oauth2 Session",
+                "type": "json",
+                "role": "state"
             },
             "native": {
 
@@ -153,6 +174,18 @@
                 "name": "Data for control vis",
                 "type": "string",
                 "desc": "Used for: alert, changeView, dialog, popup, playSound, changedView"
+            },
+            "native": {}
+        },
+        {
+            "_id": "control.shopping_list",
+            "type": "state",
+            "common": {
+                "name": "Shopping list as json",
+                "type": "json",
+                "write": true,
+                "read": true,
+                "desc": "Used for shopping list card"
             },
             "native": {}
         }

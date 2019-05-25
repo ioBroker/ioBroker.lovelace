@@ -15,6 +15,21 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/ioBroke
 
 With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI
 
+## Configuration
+There are two arts how the entities could be configured:
+- auto
+- manual
+
+### Auto
+In auto mode the similar process will be applied like for `google home` or `material adapter`. 
+  
+***Only objects and channel will be detected that have `function`and `room` categories defined***
+
+You can define friendly names and this will be used in entities.
+
+### Manual
+The objects can be defined manually in object tree like sql or histroy. The type of entity must be provided and optionally the name of object.
+With this method only simple entities, like input_number, input_text or input_boolean could be created. It may not have more than one state or attribute.
 
 ## Panels
 ### Alarm panel
@@ -68,6 +83,7 @@ common: {
         }
     }
 }
+```
 
 ### Timer
 Timer could be simulated by following script:
@@ -169,8 +185,51 @@ Tested with yr and daswetter. One or more of following objects must have `Functi
 5. Format index.html
 6. Start `gulp rename` task.
 
-## ToDo
-- on the fly objects update
+### Map
+The objects must look like this one:
+```
+createState('location', '39.5681295;2.6432632', false, {
+    "name": "location",
+    "role": "value.gps",
+    "type": "string",
+    "read": true,
+    "write": false,
+    "desc": "Gps Coordinates"
+});
+```
+
+or this two objects:
+
+```
+createState('location.longitude', 2.6432632, false, {
+    "name": "location longitude",
+    "role": "value.gps.longitude",
+    "type": "number",
+    "read": true,
+    "write": false,
+    "desc": "Gps Coordinates"
+});
+createState('location.latitude', 39.5681295, false, {
+    "name": "location latitude",
+    "role": "value.gps.latitude",
+    "type": "number",
+    "read": true,
+    "write": false,
+    "desc": "Gps Coordinates"
+});
+```
+
+## Custom cards
+### Upload of custom cards
+To upload the custom card write following:
+
+```iobroker file write PATH_TO_FILE\bignumber-card.js /lovelace.0/cards/```
+
+After restart of lovelace adapter it will include all files from the `cards` directory automatically.
+
+Following custom cards could be tested successfully:
+- bignumber-card: https://github.com/custom-cards/bignumber-card/blob/master/bignumber-card.js 
+- simple-thermostat: https://github.com/nervetattoo/simple-thermostat/releases (take the latest release)
 
 ## Changelog
 

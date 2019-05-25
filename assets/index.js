@@ -24,3 +24,4 @@ function hideButtons() {
 }
 
 hideButtons();
+setInterval(hideButtons, 2000);
