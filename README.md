@@ -34,6 +34,7 @@ With this method only simple entities, like input_number, input_text or input_bo
 ## Panels
 ### Alarm panel
 ioBroker does not support such a device yet, but it can be simulated. If you create such a script:
+
 ```
 createState(
     'alarmSimple',
@@ -67,6 +68,8 @@ createState(
 );
 ```
 
+or you just use `lovelace.X.control.alarm (entity_id = alarm_control_panel.defaultAlarm)` for it.
+
 ### Number input
 This can be done manually if input_number entity type in custom dialog is selected.
 This type required `min` and `max` values in `common` and optional `step` could be added.
@@ -87,6 +90,7 @@ common: {
 
 ### Timer
 Timer could be simulated by following script:
+
 ```
 createState(
     'timerSimple',
@@ -173,6 +177,16 @@ Tested with yr and daswetter. One or more of following objects must have `Functi
 - daswetter.0.NextDays.Location_1
 - yr.0.forecast
 
+### Shopping list
+Shopping list writes the values in form:
+```
+[
+   {name: 'Task 1', id: 1234222, complete: false},
+   {name: 'Task 2', id: 1234223, complete: true}
+]
+```
+into `lovelace.X.control.shopping_list` state.
+   
 ## Development
 ### How to build the new Lovelace version
 1. go to ./build directory.
@@ -187,6 +201,7 @@ Tested with yr and daswetter. One or more of following objects must have `Functi
 
 ### Map
 The objects must look like this one:
+
 ```
 createState('location', '39.5681295;2.6432632', false, {
     "name": "location",
@@ -230,6 +245,90 @@ After restart of lovelace adapter it will include all files from the `cards` dir
 Following custom cards could be tested successfully:
 - bignumber-card: https://github.com/custom-cards/bignumber-card/blob/master/bignumber-card.js 
 - simple-thermostat: https://github.com/nervetattoo/simple-thermostat/releases (take the latest release)
+- thermostat: https://github.com/ciotlosm/custom-lovelace/tree/master/thermostat-card (both files .js and .lib.js are required)
+
+
+I found this link https://github.com/jimz011/homeassistant as an interesting resource for custom cards.
+
+## Own images
+The custom images (e.g. for background) could be loaded via the same configuration dialog like the custom cards. And use it like this:
+
+`background: center / cover no-repeat url("/cards/background.jpg") fixed`
+
+in lovelace configuration file. Read more about background in lovelace [here](https://www.home-assistant.io/lovelace/views/#background).
+
+## Themes
+The themes can be defined in configuration dialog of ioBroker.
+Paste something like:
+```
+midnight:
+  # Main colors
+  primary-color: '#5294E2'                                                        # Header
+  accent-color: '#E45E65'                                                         # Accent color
+  dark-primary-color: 'var(--accent-color)'                                       # Hyperlinks                                         
+  light-primary-color: 'var(--accent-color)'                                      # Horizontal line in about
+  																			 
+  # Text colors                                                                  
+  primary-text-color: '#FFFFFF'                                                   # Primary text colour, here is referencing dark-primary-color
+  text-primary-color: 'var(--primary-text-color)'                                 # Primary text colour
+  secondary-text-color: '#5294E2'                                                 # For secondary titles in more info boxes etc.
+  disabled-text-color: '#7F848E'                                                  # Disabled text colour
+  label-badge-border-color: 'green'                                               # Label badge border, just a reference value   
+  
+  # Background colors                                                            
+  primary-background-color: '#383C45'                                             # Settings background
+  secondary-background-color: '#383C45'                                           # Main card UI background  
+  divider-color: 'rgba(0, 0, 0, .12)'                                             # Divider 
+    
+  # Table rows                                                                   
+  table-row-background-color: '#353840'                                           # Table row
+  table-row-alternative-background-color: '#3E424B'                               # Table row alternative
+  																			 
+  # Nav Menu                                                                   
+  paper-listbox-color: 'var(--primary-color)'                                     # Navigation menu selection hoover
+  paper-listbox-background-color: '#2E333A'                                       # Navigation menu background
+  paper-grey-50: 'var(--primary-text-color)'                                   
+  paper-grey-200: '#414A59'                                                       # Navigation menu selection
+  																			 
+  # Paper card                                                               
+  paper-card-header-color: 'var(--accent-color)'                                  # Card header text colour
+  paper-card-background-color: '#434954'                                          # Card background colour
+  paper-dialog-background-color: '#434954'                                        # Card dialog background colour
+  paper-item-icon-color: 'var(--primary-text-color)'                              # Icon color
+  paper-item-icon-active-color: '#F9C536'                                         # Icon color active
+  paper-item-icon_-_color: 'green'           
+  paper-item-selected_-_background-color: '#434954'                               # Popup item select                      
+  paper-tabs-selection-bar-color: 'green'
+  
+  # Labels 
+  label-badge-red: 'var(--accent-color)'                                          # References the brand colour label badge border
+  label-badge-text-color: 'var(--primary-text-color)'                             # Now same as label badge border but that's a matter of taste
+  label-badge-background-color: '#2E333A'                                         # Same, but can also be set to transparent here
+  
+  # Switches
+  paper-toggle-button-checked-button-color: 'var(--accent-color)'
+  paper-toggle-button-checked-bar-color: 'var(--accent-color)'
+  paper-toggle-button-checked-ink-color: 'var(--accent-color)'
+  paper-toggle-button-unchecked-button-color: 'var(--disabled-text-color)'
+  paper-toggle-button-unchecked-bar-color: 'var(--disabled-text-color)'
+  paper-toggle-button-unchecked-ink-color: 'var(--disabled-text-color)'  
+  
+  # Sliders
+  paper-slider-knob-color: 'var(--accent-color)'
+  paper-slider-knob-start-color: 'var(--accent-color)'
+  paper-slider-pin-color: 'var(--accent-color)'
+  paper-slider-active-color: 'var(--accent-color)'
+  paper-slider-container-color: 'linear-gradient(var(--primary-background-color), var(--secondary-background-color)) no-repeat'
+  paper-slider-secondary-color: 'var(--secondary-background-color)'
+  paper-slider-disabled-active-color: 'var(--disabled-text-color)'
+  paper-slider-disabled-secondary-color: 'var(--disabled-text-color)'
+  
+  # Google colors
+  google-red-500: '#E45E65'
+  google-green-500: '#39E949'
+```
+
+taken from [here](https://community.home-assistant.io/t/midnight-theme/28598/2).
 
 ## Changelog
 

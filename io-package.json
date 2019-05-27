@@ -89,6 +89,7 @@
         "certChained":              "",
         "defaultUser":              "admin",
         "onlyAllowWhenUserIsOwner": false,
+        "ttl":                      3600,
         "themes":                   "",
         "defaultTheme":             "default",
 
@@ -189,6 +190,21 @@
                 "desc": "Used for shopping list card"
             },
             "native": {}
+        },
+        {
+            "_id": "control.alarm",
+            "type": "state",
+            "common": {
+                "name": "alarm",
+                "type": "boolean",
+                "write": true,
+                "read": true,
+                "desc": "Arm or disarm with code",
+                "def": false
+            },
+            "native": {
+                "alarm_code": 1234
+            }
         }
     ]
 }
