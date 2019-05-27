@@ -63,8 +63,10 @@
         "compact": true,
         "materialize": true,
         "supportCustoms": true,
+        "messagebox": true,
         "localLink": "%protocol%://%ip%:%port%/",
-        "welcomeScreen": {
+
+        "welcomeScreen1": {
           "link": "",
           "name": "Lovelace",
           "img": "lovelace/icons/favicon-192x192.png",

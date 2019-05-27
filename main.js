@@ -66,6 +66,12 @@ function startAdapter(options) {
             }
         },
 
+        message: obj=> {
+            if (obj.command === 'browse') {
+                adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
+            }
+        }
+
         // Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
         // requires "common.message" property to be set to true in io-package.json
         // message: (obj) => {

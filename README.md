@@ -255,6 +255,10 @@ The custom images (e.g. for background) could be loaded via the same configurati
 
 `background: center / cover no-repeat url("/cards/background.jpg") fixed`
 
+or 
+
+`background: center / cover no-repeat url("/local/custom_ui/background.jpg") fixed`
+
 in lovelace configuration file. Read more about background in lovelace [here](https://www.home-assistant.io/lovelace/views/#background).
 
 ## Themes
@@ -329,6 +333,9 @@ midnight:
 ```
 
 taken from [here](https://community.home-assistant.io/t/midnight-theme/28598/2).
+
+## Icons
+Use icons in form `mdi:NAME`, like 'mdi:play-network'. Names can be taken from here: https://materialdesignicons.com/
 
 ## Changelog
 
