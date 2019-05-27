@@ -12,16 +12,56 @@
     <script type="text/javascript" src="../../js/translate.js"></script>
     <script type="text/javascript" src="../../lib/js/materialize.js"></script>
     <script type="text/javascript" src="../../js/adapter-settings.js"></script>
-
+    <script type="text/javascript" src="../../lib/js/ace-1.2.0/ace.js"></script>
+    <script type="text/javascript" src="../../lib/js/ace-1.2.0/mode-yaml.js" charset="utf-8"></script>
     <!-- Load our own files -->
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="words.js"></script>
-
+    <script type="text/javascript" src="js-yaml.min.js"></script>
     <script type="text/javascript">
+
+        var parseYamlTimer;
+        var themes = [];
+        var editor = null;
+        var defaultTheme = '';
+
+        function parseYaml() {
+            parseYamlTimer && clearTimeout(parseYamlTimer);
+            parseYamlTimer = setTimeout(function () {
+                parseYamlTimer = null;
+                var yaml;
+                if (!editor) {
+                    yaml = $('#themes_fallback').val();
+                } else {
+                    yaml = editor.getValue();
+                }
+                var doc;
+                try {
+                    doc = jsyaml.load(yaml);
+                } catch (e) {
+                    !editor && $('#themes_fallback').addClass('error');
+                    $('#defaultTheme').html('<option value="default">' + _('default') + '</option>').select();
+                    return;
+                }
+                !editor && $('#themes_fallback').removeClass('error');
+
+                var _themes = doc ? Object.keys(doc) : [];
+                if (JSON.stringify(_themes) !== JSON.stringify(themes)) {
+                    themes = _themes;
+                    var text = '<option value="default">' + _('default') + '</option>';
+                    for (var i = 0; i < _themes.length; i++) {
+                        text += '<option value="' + _themes[i] + '">' + _themes[i] + '</option>';
+                    }
+                    $('#defaultTheme').html(text).select().val(defaultTheme);
+                }
+            });
+        }
+
         function formatTime(time) {
             const date = new Date(time);
             return date.toISOString();
         }
+
         function readFiles() {
             socket.emit('readDir', 'lovelace.' + instance, '/cards/', function (err, list) {
                 var $files_list = $('#files_list');
@@ -228,7 +268,13 @@
                     // do not call onChange direct, because onChange could expect some arguments
                     $key.val(settings[id])
                         .on('change', function () {
-                            showHideSettings($(this).attr('id'));
+                            var id = $(this).attr('id');
+                            showHideSettings(id);
+
+                            if (id === 'defaultTheme') {
+                                defaultTheme = $(this).val();
+                            }
+
                             onChange();
                         })
                         .on('keyup', function () {
@@ -274,14 +320,39 @@
                 }
             });
 
+            defaultTheme = settings.defaultTheme;
+            $('.tab-themes').on('click', function () {
+                setTimeout(function () {
+                    if (editor === null) {
+                        try {
+                            editor = ace.edit('themes');
+                            var YamlMode = ace.require('ace/mode/yaml').Mode;
+                            $('#themes').show();
+                            editor.session.setMode(new YamlMode());
+                            editor.setValue(settings.themes || ' ', -1);
+                            $('#themes_fallback').hide();
+                            editor.on('change', function () {
+                                onChange();
+                                parseYaml();
+                            });
+                        } catch (e) {
+                            editor = false;
+                            $('#themes').hide();
+                            $('#themes_fallback').show().on('change', parseYaml).on('keyup', parseYaml).val(settings.themes);
+                        }
+                        parseYaml();
+                    }
+                }, 100);
+            });
+
             readFiles();
+
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
             if (M) M.updateTextFields();
         }
 
         // This will be called by the admin adapter when the user presses the save button
         function save(callback) {
-            // example: select elements with class=value and build settings object
             var obj = {};
             $('.value').each(function () {
                 var $this = $(this);
@@ -291,6 +362,12 @@
                     obj[$this.attr('id')] = $this.val();
                 }
             });
+
+            if (!editor) {
+                obj.themes = $('#themes_fallback').val();
+            } else {
+                obj.themes = editor.getValue();
+            }
 
             if ($('#secure').prop('checked') && (!$('#certPrivate').val() || !$('#certPublic').val())) {
                 showMessage(_('Set certificates or load it first in the system settings (right top).'));
@@ -333,6 +410,22 @@
         .btn-restart {
             margin-top: 5px;
         }
+        #themes_fallback {
+            width: 100%;
+            resize: none;
+            height: calc(100% - 104px);
+            font-family: monospace;
+        }
+        #themes {
+            width: 100%;
+            height: calc(100% - 104px);
+        }
+        .row-narrow {
+            margin-bottom: 0 !important;
+        }
+        .error {
+            border: 1px solid red;
+        }
     </style>
 </head>
 
@@ -345,6 +438,7 @@
                 <li class="tab col s2"><a href="#tab-main"  class="translate active">Main settings</a></li>
                 <li class="tab col s2 le-settings"><a href="#tab-le"    class="translate">Let's Encrypt SSL</a></li>
                 <li class="tab col s2"><a href="#tab-custom"    class="translate">Custom Cards</a></li>
+                <li class="tab col s2 tab-themes"><a href="#tab-themes"    class="translate">Themes</a></li>
             </ul>
         </div>
         <div id="tab-main" class="col s12 page">
@@ -433,6 +527,19 @@
             <a class="waves-effect waves-light btn btn-restart disabled" style="margin-top: 5px;"><i class="material-icons left">refresh</i>Restart adapter to update files</a>
             <span class="translate notice" style="margin-top: 15px;">Drag and drop the custom cards files here</span>
             <div id="files_list"></div>
+        </div>
+        <div id="tab-themes" class="col s12 page">
+            <div class="row row-narrow">
+                <div class="input-field col s12 m6 l2">
+                    <select id="defaultTheme" class="value"></select>
+                    <label class="translate" for="defaultTheme">Default theme</label>
+                </div>
+            </div>
+            <div class="row row-narrow">
+                <label class="translate" for="defaultTheme">Place the themes as YAML here:</label><br>
+                <div id="themes"></div>
+                <textarea id="themes_fallback"></textarea>
+            </div>
         </div>
     </div>
 </div>

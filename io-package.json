@@ -89,7 +89,8 @@
         "certChained":              "",
         "defaultUser":              "admin",
         "onlyAllowWhenUserIsOwner": false,
-        "webInstance":              "",
+        "themes":                   "",
+        "defaultTheme":             "default",
 
         "leEnabled":                false,
         "leUpdate":                 false,
