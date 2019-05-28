@@ -5,7 +5,7 @@ nbproject/
 .vs*/
 Thumbs.db
 gulpfile.js
-assets/
+.github/
 build/
 
 test/
