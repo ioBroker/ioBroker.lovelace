@@ -68,7 +68,10 @@ function startAdapter(options) {
 
         message: obj=> {
             if (obj.command === 'browse') {
-                adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
+                obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
+            } else if (obj.command === 'send') {
+                adapter.apiServer.addNotification(obj.message, list =>
+                    obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
             }
         }
 

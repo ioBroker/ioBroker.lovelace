@@ -30,8 +30,9 @@
             parseYamlTimer = setTimeout(function () {
                 parseYamlTimer = null;
                 var yaml;
+                var $themes = $('#themes_fallback');
                 if (!editor) {
-                    yaml = $('#themes_fallback').val();
+                    yaml = $themes.val();
                 } else {
                     yaml = editor.getValue();
                 }
@@ -39,11 +40,11 @@
                 try {
                     doc = jsyaml.load(yaml);
                 } catch (e) {
-                    !editor && $('#themes_fallback').addClass('error');
+                    !editor && $themes.addClass('error');
                     $('#defaultTheme').html('<option value="default">' + _('default') + '</option>').select();
                     return;
                 }
-                !editor && $('#themes_fallback').removeClass('error');
+                !editor && $themes.removeClass('error');
 
                 var _themes = doc ? Object.keys(doc) : [];
                 if (JSON.stringify(_themes) !== JSON.stringify(themes)) {
@@ -59,8 +60,8 @@
 
         function formatIds(obj) {
             if (!obj) return '';
-            if (obj.getId && obj.setId) {
-                return obj.getId + '/' + obj.setId;
+            if (obj.getId && obj.setId && obj.getId !== obj.setId) {
+                return obj.getId + ' / ' + obj.setId;
             } else if (obj.getId) {
                 return obj.getId
             } else if (obj.setId) {
@@ -68,6 +69,18 @@
             } else {
                 return '';
             }
+        }
+
+        function clippyCopy(e) {
+            var $input = $('<input>');
+            $(this).append($input);
+            $input.val($(this).text());
+            $input.trigger('select');
+            document.execCommand('copy');
+            $input.remove();
+            e.preventDefault();
+            e.stopPropagation();
+            showToast(null, _('Copied'));
         }
 
         function readEntities() {
@@ -80,14 +93,15 @@
                     if (a.entity_id > b.entity_id) return 1;
                     if (a.entity_id < b.entity_id) return -1;
                 });
+                var click2copy = _('Click to copy');
                 for (var i = 0; i < list.length; i++) {
-                    text += '<tr><td class="entity-id">' + list[i].entity_id + '</td>';
+                    text += '<tr><td class="entity-id" title="' + click2copy + '">' + list[i].entity_id + '</td>';
                     text += '<td>' + formatIds(list[i].context.STATE) + '</td><td class="attributes">';
 
                     if (list[i].context.ATTRIBUTES) {
                         var attrs = [];
                         list[i].context.ATTRIBUTES.forEach(function (attr) {
-                            attrs.push(attr.attribute + ': ' + formatIds(attr));
+                            attrs.push('<b>' + attr.attribute + '</b>: ' + formatIds(attr));
                         });
                         text += attrs.join('<br>');
                     }
@@ -95,13 +109,17 @@
                 }
                 $entities.html(text);
 
-                var invisible = $('.btn-attributes').data('visible');
+                var invisible = $('.btn-attributes').data('invisible');
+                if (invisible === 'true') invisible = true;
+                if (invisible === 'false') invisible = false;
 
                 if (invisible) {
                     $('.attributes').hide();
                 } else {
                     $('.attributes').show();
                 }
+
+                $entities.find('.entity-id').on('click', clippyCopy);
             });
         }
 
@@ -185,7 +203,7 @@
             } else {
                 $('.tab-login').addClass('disabled');
                 $('.col-defaultUser').show();
-                $('.col-ttl').hide();
+                //$('.col-ttl').hide();
             }
             if ($('#loginBackgroundImage').prop('checked')) {
                 $('.background').show();
@@ -214,7 +232,7 @@
             var reader = new FileReader();
 
             // Closure to capture the file information.
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 socket.emit('writeFile', 'lovelace.' + instance, '/cards/' + file.name, e.target.result, function () {
                     callback && callback(file.name);
                 });
@@ -299,7 +317,7 @@
                 for (var i = 0; i < ips.length; i++) {
                     $('#bind').append('<option value="' + ips[i].address + '">' + ips[i].name + '</option>');
                 }
-                $('#bind.value').val(settings.bind);
+                $('#bind.value').select().val(settings.bind);
             });
 
             $('.value').each(function () {
@@ -394,24 +412,39 @@
             });
 
             readFiles();
-            readEntities();
+            getIsAdapterAlive(function (isAlive) {
+                var $btnRefresh = $('.btn-refresh');
+                if (isAlive || common.enabled) {
 
-            $('.btn-refresh').on('click', function () {
-                readEntities();
+                    $btnRefresh.removeClass('disabled');
+
+                    readEntities();
+
+                    $btnRefresh.on('click', function () {
+                        readEntities();
+                    });
+                } else {
+                    $btnRefresh.addClass('disabled');
+                }
             });
 
             $('.btn-attributes').on('click', function () {
-                var invisible = $(this).data('visible');
+                var invisible = $(this).data('invisible');
+                if (invisible === 'true') invisible = true;
+                if (invisible === 'false') invisible = false;
                 invisible = !invisible;
 
                 if (invisible) {
                     $('.attributes').hide();
+                    $(this).find('.translate').text(_('Show attributes'));
                 } else {
                     $('.attributes').show();
+                    $(this).find('.translate').text(_('Hide attributes'));
                 }
 
-                $(this).data('visible', invisible);
+                $(this).data('invisible', invisible);
             });
+
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
             if (M) M.updateTextFields();
         }
@@ -493,6 +526,27 @@
         }
         .entity-id {
             font-weight: bold;
+            vertical-align: top;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .div-entities {
+            width: 100%;
+            height: calc(100% - 50px);
+            overflow: auto;
+        }
+        .div-entities thead {
+            background: gray;
+            color: white;
+        }
+        .div-entities tbody {
+            font-size: 14px;
+        }
+        .div-entities tbody .attributes{
+            font-size: 10px;
+        }
+        .div-entities tbody td {
+            padding: 3px 5px;
         }
     </style>
 </head>
@@ -553,6 +607,10 @@
                 </div>
             </div>
             <div class="row">
+                <div class="input-field col s12 m6 l2 col-ttl">
+                    <input class="value" type="number" id="ttl" />
+                    <label class="translate" for="ttl">Login timeout(sec):</label>
+                </div>
                 <!--div class="input-field col s12 m6 l2">
                     <input class="value" id="auth" type="checkbox" />
                     <label class="translate" for="auth">Authentication:</label>
@@ -561,10 +619,6 @@
                     <select class="value" id="defaultUser"></select>
                     <label class="translate" for="defaultUser">Run as:</label>
                 </div-->
-                <div class="input-field col s12 m6 l2 col-ttl">
-                    <input class="value" type="number" id="ttl" />
-                    <label class="translate" for="ttl">Login timeout(sec):</label>
-                </div>
             </div>
         </div>
         <div id="tab-le" class="col s12 page">
@@ -599,9 +653,14 @@
         </div>
         <div id="tab-themes" class="col s12 page">
             <div class="row row-narrow">
-                <div class="input-field col s12 m6 l2">
+                <div class="input-field col s6 l3">
                     <select id="defaultTheme" class="value"></select>
                     <label class="translate" for="defaultTheme">Default theme</label>
+                </div>
+                <div class="input-field col s6 l3">
+                    <input id="hideHeader" type="checkbox" class="value"/>
+                    <span class="translate" for="hideHeader">Hide toolbar</span>
+                    <span class="translate"><br>(add to URL '...?toolbar=true' to show toolbar again)</span>
                 </div>
             </div>
             <div class="row row-narrow">
@@ -612,15 +671,17 @@
         </div>
         <div id="tab-entities" class="col s12 page">
             <a class="waves-effect waves-light btn btn-refresh" style="margin-top: 5px;"><i class="material-icons left">refresh</i><span class="translate">Reload entities</span></a>
-            <a class="waves-effect waves-light btn btn-attributes" style="margin-top: 5px;"><i class="material-icons left">check</i><span class="translate">Show attributes</span></a>
-            <table>
-                <thead>
-                    <tr><th>Entity ID</th><th>States</th><th class="attributes">Attributes</th></tr>
-                </thead>
-                <tbody id="entities">
+            <a class="waves-effect waves-light btn btn-attributes" style="margin-top: 5px;" data-invisible="true"><i class="material-icons left">check</i><span class="translate">Show attributes</span></a>
+            <div class="div-entities">
+                <table>
+                    <thead>
+                        <tr><th>Entity ID</th><th>States</th><th class="attributes">Attributes</th></tr>
+                    </thead>
+                    <tbody id="entities">
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

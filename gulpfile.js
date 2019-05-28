@@ -494,6 +494,7 @@ gulp.task('rename', done => {
         if (fileName.endsWith('.js') || fileName.endsWith('.html') || fileName.endsWith('.json')) {
             const text = fs.readFileSync(fileName).toString('utf-8');
             let newText = text.replace(/Home Assistant/g, 'ioBroker');
+            newText = newText.replace('https://www.home-assistant.io/images/merchandise/shirt-frontpage.png', '/images/image.jpg');
             if (fileName.endsWith('index.html')) {
                 newText = newText.replace('{% for extra_url in extra_urls -%}<link rel="import" href="{{ extra_url }}" async>{% endfor -%}', '');
             }
@@ -507,6 +508,7 @@ gulp.task('rename', done => {
             fs.unlinkSync(fileName);
         }
     });
+    fs.writeFileSync(__dirname + '/hass_frontend/images/image.jpg', fs.readFileSync(__dirname + '/assets/image.jpg'));
     done();
 });
 

@@ -187,18 +187,6 @@ Shopping list writes the values in form:
 ```
 into `lovelace.X.control.shopping_list` state.
    
-## Development
-### How to build the new Lovelace version
-1. go to ./build directory.
-2. `git clone https://github.com/home-assistant/home-assistant-polymer.git`
-3. `cd home-assistant-polymer`
-4. `git checkout master`
-5. `npm install`
-6. `gulp run build-app`
-4. `./build/home-assistant-polymer/hass_frontend` into `./hass_frontend` in this repo
-5. Format index.html
-6. Start `gulp rename` task.
-
 ### Map
 The objects must look like this one:
 
@@ -233,6 +221,31 @@ createState('location.latitude', 39.5681295, false, {
     "desc": "Gps Coordinates"
 });
 ```
+
+### Picture entity
+You can use static picture for it or use any state that delivers URL as state.
+E.g.:
+
+```
+{
+  "_id": "daswetter.0.NextDays.Location_1.Day_1.iconURL",
+  "type": "state",
+  "common": {
+    "name": "Weather icon URL",
+    "type": "string",
+    "role": "weather.icon.forecast.0",
+    "read": true,
+    "write": false
+  },
+  "native": {}
+}
+```
+
+or just set manually the entity type to `camera` and write URL into it.
+
+### Hide toolbar
+To hide toolbar you can set the checkbox in the ioBroker configuration dialog on the Themes tab.
+To show it, you can disable it in dialog again or just call the URL with `?toolbar=true` parameter.
 
 ## Custom cards
 ### Upload of custom cards
@@ -337,6 +350,35 @@ taken from [here](https://community.home-assistant.io/t/midnight-theme/28598/2).
 ## Icons
 Use icons in form `mdi:NAME`, like 'mdi:play-network'. Names can be taken from here: https://materialdesignicons.com/
 
+## Notifications
+You can add notifications via `sendTo` functionality or by writing the state into `lovelace.X.notifications.add`:
+
+```
+sendTo('lovelace.0', 'send', {message: 'Message text', title: 'Title'}); // full version
+sendTo('lovelace.0', 'send', 'Message text'); // short version
+```
+
+or
+
+```
+setState('lovelace.0.notifications.add', '{"message": "Message text", "title": "Title"}'); // full version
+setState('lovelace.0.notifications.add', 'Message text'); // short version
+```
+
+## Todo
+Security must be taken from current user and not from default_user
+
+## Development
+### How to build the new Lovelace version
+1. go to ./build directory.
+2. `git clone https://github.com/home-assistant/home-assistant-polymer.git`
+3. `cd home-assistant-polymer`
+4. `git checkout master`
+5. `npm install`
+6. `gulp run build-app`
+4. `./build/home-assistant-polymer/hass_frontend` into `./hass_frontend` in this repo
+5. Format index.html
+6. Start `gulp rename` task.
 ## Changelog
 
 ### 0.0.1
@@ -344,16 +386,16 @@ Use icons in form `mdi:NAME`, like 'mdi:play-network'. Names can be taken from h
 
 ## License
    
-   Copyright 2019, bluefox <dogafox@gmail.com>
+Copyright 2019, bluefox <dogafox@gmail.com>
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+   http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

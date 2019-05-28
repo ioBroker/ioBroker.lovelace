@@ -94,6 +94,7 @@
         "ttl":                      3600,
         "themes":                   "",
         "defaultTheme":             "default",
+        "hideHeader":               false,
 
         "leEnabled":                false,
         "leUpdate":                 false,
@@ -136,7 +137,7 @@
             "_id": "control",
             "type": "channel",
             "common": {
-                "name": "Control vis"
+                "name": "Control lovelace"
             },
             "native": {}
         },
@@ -144,7 +145,7 @@
             "_id": "control.instance",
             "type": "state",
             "common": {
-                "name": "Control vis",
+                "name": "Control lovelace",
                 "type": "string",
                 "desc": "Write here browser instance ID to control or 'FFFFFFFF' to control all instances"
             },
@@ -154,7 +155,7 @@
             "_id": "control.command",
             "type": "state",
             "common": {
-                "name": "Command for vis",
+                "name": "Command for lovelace",
                 "type": "string",
                 "desc": "Writing this variable act as the trigger. Instance and data must be preset before 'command' will be written. 'changedView' will be signalled too",
                 "states": {
@@ -175,7 +176,7 @@
             "_id": "control.data",
             "type": "state",
             "common": {
-                "name": "Data for control vis",
+                "name": "Data for control lovelace",
                 "type": "string",
                 "desc": "Used for: alert, changeView, dialog, popup, playSound, changedView"
             },
@@ -207,6 +208,50 @@
             "native": {
                 "alarm_code": 1234
             }
+        },
+        {
+            "_id": "notifications",
+            "type": "channel",
+            "common": {
+                "name": "notifications"
+            },
+            "native": {}
+        },
+        {
+            "_id": "notifications.list",
+            "type": "state",
+            "common": {
+                "name": "alarm",
+                "type": "json",
+                "write": true,
+                "read": true,
+                "desc": "List of notifications"
+            },
+            "native": {}
+        },
+        {
+            "_id": "notifications.add",
+            "type": "state",
+            "common": {
+                "name": "Add notification",
+                "type": "json",
+                "write": true,
+                "read": false,
+                "desc": "Add notification"
+            },
+            "native": {}
+        },
+        {
+            "_id": "notifications.clear",
+            "type": "state",
+            "common": {
+                "name": "Clear notification",
+                "type": "number",
+                "write": true,
+                "read": false,
+                "desc": "Clear notification by id or all if no id"
+            },
+            "native": {}
         }
     ]
 }
