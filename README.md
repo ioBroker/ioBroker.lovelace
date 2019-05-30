@@ -381,7 +381,7 @@ Security must be taken from current user and not from default_user
 6. Start `gulp rename` task.
 ## Changelog
 
-### 0.0.1
+### 0.0.2 (2019-05-29)
 * (bluefox) initial release
 
 ## License
