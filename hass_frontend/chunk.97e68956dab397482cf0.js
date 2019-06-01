@@ -194,7 +194,7 @@
         <div class="content">
           <div class="about">
             <p class="version">
-              <a href="https://www.home-assistant.io"
+              <a href="https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1"
                 ><img src="/static/icons/favicon-192x192.png" height="192"/></a
               ><br />
               ioBroker<br />

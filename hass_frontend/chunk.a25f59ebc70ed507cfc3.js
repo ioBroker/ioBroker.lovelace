@@ -1513,7 +1513,7 @@
             [[localize('ui.panel.profile.themes.error_no_theme')]]
           </template>
           <a
-            href="https://www.home-assistant.io/components/frontend/#defining-themes"
+            href="https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1/components/frontend/#defining-themes"
             target="_blank"
             >[[localize('ui.panel.profile.themes.link_promo')]]</a
           >

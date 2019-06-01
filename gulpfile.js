@@ -495,6 +495,7 @@ gulp.task('rename', done => {
             const text = fs.readFileSync(fileName).toString('utf-8');
             let newText = text.replace(/Home Assistant/g, 'ioBroker');
             newText = newText.replace('https://www.home-assistant.io/images/merchandise/shirt-frontpage.png', '/images/image.jpg');
+            newText = newText.replace('https://www.home-assistant.io', 'https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1');
             if (fileName.endsWith('index.html')) {
                 newText = newText.replace('{% for extra_url in extra_urls -%}<link rel="import" href="{{ extra_url }}" async>{% endfor -%}', '');
             }
