@@ -24,6 +24,11 @@
         var themes = [];
         var editor = null;
         var defaultTheme = '';
+        var httpServer = {
+            port: 8091,
+            secure: false,
+            bind: '0.0.0.0'
+        };
 
         function parseYaml() {
             parseYamlTimer && clearTimeout(parseYamlTimer);
@@ -138,8 +143,13 @@
                     if (a.file < b.file) return -1;
                     return 0;
                 });
+
+                var server = httpServer.secure ? 'https://' : 'http://';
+                server += httpServer.bind === '0.0.0.0' ? window.location.hostname : httpServer.bind;
+                server += ':' + httpServer.port;
+
                 for (var i = 0; i < list.length; i++) {
-                    text += '<tr><td>' + list[i].file + '</td>' +
+                    text += '<tr><td><a href="' + server + '/cards/' + list[i].file + '" target="_blank">' + list[i].file + '</a></td>' +
                         '<td>' + list[i].stats.size + '</td>' +
                         '<td>' + formatTime(list[i].modifiedAt) + '</td>' +
                         '<td><a class="btn-floating btn-small waves-effect waves-light red delete-file" data-name="' + list[i].file + '"><i class="material-icons">delete</i></a></td>' +
@@ -445,6 +455,10 @@
                 $(this).data('invisible', invisible);
             });
 
+            httpServer.port = settings.port;
+            httpServer.secure = settings.secure;
+            httpServer.bind = settings.bind;
+
             // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
             if (M) M.updateTextFields();
         }
@@ -471,7 +485,12 @@
                 showMessage(_('Set certificates or load it first in the system settings (right top).'));
                 return;
             }
-
+            if (httpServer.port != obj.port || httpServer.secure !== obj.secure || httpServer.bind !== obj.bind) {
+                httpServer.port = obj.port;
+                httpServer.secure = obj.secure;
+                httpServer.bind = obj.bind;
+                readFiles();
+            }
             callback(obj);
         }
     </script>
