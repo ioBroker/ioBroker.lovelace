@@ -509,7 +509,11 @@ gulp.task('rename', done => {
             fs.unlinkSync(fileName);
         }
     });
-    fs.writeFileSync(__dirname + '/hass_frontend/images/image.jpg', fs.readFileSync(__dirname + '/assets/image.jpg'));
+    if (fs.existsSync(__dirname + '/hass_frontend/images/')) {
+        fs.writeFileSync(__dirname + '/hass_frontend/images/image.jpg', fs.readFileSync(__dirname + '/assets/image.jpg'));
+    } else {
+        fs.writeFileSync(__dirname + '/hass_frontend/static/images/image.jpg', fs.readFileSync(__dirname + '/assets/image.jpg'));
+    }
     done();
 });
 

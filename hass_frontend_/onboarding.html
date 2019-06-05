@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>ioBroker</title>
+    <link rel='preload' href='/static/fonts/roboto/Roboto-Light.ttf' as='font' crossorigin />
+    <link rel='preload' href='/static/fonts/roboto/Roboto-Regular.ttf' as='font' crossorigin />
+    <meta charset="utf-8">
+<link rel='manifest' href='/manifest.json' crossorigin="use-credentials">
+<link rel='icon' href='/static/icons/favicon.ico'>
+<meta name='viewport' content='width=device-width, user-scalable=no'>
+<style>
+  body {
+    font-family: Roboto, sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+  }
+</style>
+
+    <style>
+      .content {
+        padding: 20px 16px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        font-size: 1.96em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 300;
+      }
+
+      .header img {
+        margin-right: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class='header'>
+        <img src="/static/icons/favicon-192x192.png" height="52">
+        ioBroker
+      </div>
+
+      <ha-onboarding>Initializing</ha-onboarding>
+    </div>
+    
+    <script>
+    window.stepsPromise = fetch('/api/onboarding', { credentials: 'same-origin' });
+
+    var webComponentsSupported = (
+      'customElements' in window &&
+      'content' in document.createElement('template'));
+    if (!webComponentsSupported) {
+      var e = document.createElement('script');
+      e.src = '/static/webcomponents-bundle.js';
+      document.write(e.outerHTML);
+    }
+    </script>
+    <script src="/frontend_latest/onboarding.0451644e.js"></script>
+    <script src='/frontend_latest/hass-icons.4fe72992.js' async></script>
+  </body>
+</html>
