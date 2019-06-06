@@ -218,7 +218,7 @@ var registerEditCardDialog = function registerEditCardDialog(element) {
     dialogShowEvent: "show-move-card-view",
     dialogTag: "hui-dialog-move-card-view",
     dialogImport: function dialogImport() {
-      return Promise.all(/*! import() | hui-dialog-move-card-view */[__webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~device-registry-detail-dialog~dialog~c2bc888a"), __webpack_require__.e("hui-dialog-move-card-view")]).then(__webpack_require__.bind(null, /*! ./hui-dialog-move-card-view */ "./src/panels/lovelace/editor/card-editor/hui-dialog-move-card-view.ts"));
+      return Promise.all(/*! import() | hui-dialog-move-card-view */[__webpack_require__.e("vendors~dialog-config-flow~hui-dialog-edit-card~hui-dialog-edit-lovelace~hui-dialog-edit-view~hui-di~60dfacf3"), __webpack_require__.e("hui-dialog-move-card-view")]).then(__webpack_require__.bind(null, /*! ./hui-dialog-move-card-view */ "./src/panels/lovelace/editor/card-editor/hui-dialog-move-card-view.ts"));
     }
   });
 };

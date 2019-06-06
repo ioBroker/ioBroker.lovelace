@@ -44,5 +44,5 @@ function hideHeader() {
     }
 }
 
-hideButtons();
-setInterval(hideButtons, 2000);
+//hideButtons();
+//setInterval(hideButtons, 2000);

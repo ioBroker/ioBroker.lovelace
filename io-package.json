@@ -103,6 +103,36 @@
     "objects": [],
     "instanceObjects": [
         {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "connected",
+            "type": "state",
+            "common": {
+                "name": "Info about connected socket clients",
+                "type": "string",
+                "read":  true,
+                "write": false,
+                "role":  "text"
+            }
+        },
+        {
+            "_id": "info.entitiesUpdated",
+            "type": "state",
+            "common": {
+                "name": "If the list of entities was updated",
+                "type": "boolean",
+                "read":  true,
+                "write": false,
+                "role":  "state"
+            }
+        },
+        {
             "_id": "",
             "type": "meta",
             "common": {

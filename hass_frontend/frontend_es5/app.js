@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"panel-config":"panel-config","panel-custom":"panel-custom","panel-iframe":"panel-iframe","vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6":"vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6","vendors~notification-manager":"vendors~notification-manager","notification-manager":"notification-manager","vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61":"vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61","vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e":"vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e","vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~60eddf8d":"vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~60eddf8d","vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb":"vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb","vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179":"vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179","vendors~dialog-config-flow~more-info-dialog~panel-config-customize~panel-config-integrations~panel-c~e5758c2a":"vendors~dialog-config-flow~more-info-dialog~panel-config-customize~panel-config-integrations~panel-c~e5758c2a","vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-calendar~panel-config-cus~ab938ece":"vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-calendar~panel-config-cus~ab938ece","vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332":"vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332","vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-script~panel-kiosk~~500bf1bb":"vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-script~panel-kiosk~~500bf1bb","vendors~more-info-dialog~panel-config-automation~panel-config-cloud~panel-kiosk~panel-lovelace~panel~1e6cf785":"vendors~more-info-dialog~panel-config-automation~panel-config-cloud~panel-kiosk~panel-lovelace~panel~1e6cf785","vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-kiosk~panel-lovelace~pane~abfacb2f":"vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-kiosk~panel-lovelace~pane~abfacb2f","vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-lovelace~panel-map~panel-states":"vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-lovelace~panel-map~panel-states","vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-states":"vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-states","vendors~more-info-dialog~panel-history~panel-logbook":"vendors~more-info-dialog~panel-history~panel-logbook","vendors~dialog-config-flow~more-info-dialog~onboarding-core-config":"vendors~dialog-config-flow~more-info-dialog~onboarding-core-config","vendors~dialog-config-flow~more-info-dialog":"vendors~dialog-config-flow~more-info-dialog","vendors~more-info-dialog":"vendors~more-info-dialog","more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad":"more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad","more-info-dialog~panel-history~panel-kiosk~panel-lovelace~panel-states":"more-info-dialog~panel-history~panel-kiosk~panel-lovelace~panel-states","more-info-dialog~panel-config-automation~panel-kiosk~panel-lovelace~panel-states":"more-info-dialog~panel-config-automation~panel-kiosk~panel-lovelace~panel-states","more-info-dialog~panel-kiosk~panel-lovelace~panel-states":"more-info-dialog~panel-kiosk~panel-lovelace~panel-states","more-info-dialog~panel-kiosk~panel-states":"more-info-dialog~panel-kiosk~panel-states","more-info-dialog~panel-lovelace":"more-info-dialog~panel-lovelace","more-info-dialog":"more-info-dialog","vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa":"vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa","vendors~panel-history~panel-logbook":"vendors~panel-history~panel-logbook","panel-history":"panel-history","vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~device-registry-detail-dialog~dialog~c2bc888a":"vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~device-registry-detail-dialog~dialog~c2bc888a","vendors~dialog-config-flow~panel-config-automation~panel-config-cloud~panel-config-integrations~pane~9cfecaa0":"vendors~dialog-config-flow~panel-config-automation~panel-config-cloud~panel-config-integrations~pane~9cfecaa0","vendors~panel-profile":"vendors~panel-profile","panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a":"panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a","panel-profile":"panel-profile","vendors~panel-shopping-list":"vendors~panel-shopping-list","panel-shopping-list":"panel-shopping-list","vendors~panel-config-automation~panel-config-integrations~panel-config-script~panel-config-users~pan~347d38cc":"vendors~panel-config-automation~panel-config-integrations~panel-config-script~panel-config-users~pan~347d38cc","vendors~panel-kiosk~panel-lovelace~panel-mailbox~panel-states":"vendors~panel-kiosk~panel-lovelace~panel-mailbox~panel-states","vendors~panel-config-automation~panel-config-cloud~panel-config-script~panel-lovelace":"vendors~panel-config-automation~panel-config-cloud~panel-config-script~panel-lovelace","vendors~panel-lovelace":"vendors~panel-lovelace","panel-config-cloud~panel-config-core~panel-config-zwave~panel-dev-info~panel-lovelace~zha-add-device~04db7e16":"panel-config-cloud~panel-config-core~panel-config-zwave~panel-dev-info~panel-lovelace~zha-add-device~04db7e16","panel-config-automation~panel-config-script~panel-config-zwave~panel-kiosk~panel-lovelace~panel-stat~04fe3cc4":"panel-config-automation~panel-config-script~panel-config-zwave~panel-kiosk~panel-lovelace~panel-stat~04fe3cc4","panel-kiosk~panel-lovelace~panel-states":"panel-kiosk~panel-lovelace~panel-states","panel-lovelace":"panel-lovelace","vendors~panel-kiosk~panel-states":"vendors~panel-kiosk~panel-states","panel-states":"panel-states","panel-kiosk":"panel-kiosk","vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~704fb8c7":"vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~704fb8c7","vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~a32750d8":"vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~a32750d8","vendors~panel-dev-state":"vendors~panel-dev-state","hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-edi~530c088e":"hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-edi~530c088e","panel-dev-state":"panel-dev-state","vendors~panel-dev-mqtt~panel-dev-service":"vendors~panel-dev-mqtt~panel-dev-service","vendors~panel-dev-service":"vendors~panel-dev-service","hui-entity-button-card-editor~hui-picture-card-editor~panel-config-automation~panel-config-script~pa~5db45e03":"hui-entity-button-card-editor~hui-picture-card-editor~panel-config-automation~panel-config-script~pa~5db45e03","panel-dev-service":"panel-dev-service","panel-logbook":"panel-logbook","vendors~panel-dev-event":"vendors~panel-dev-event","panel-dev-event":"panel-dev-event","panel-dev-mqtt":"panel-dev-mqtt","vendors~panel-mailbox":"vendors~panel-mailbox","panel-mailbox":"panel-mailbox","vendors~panel-dev-template":"vendors~panel-dev-template","panel-dev-template":"panel-dev-template","vendors~ha-sidebar":"vendors~ha-sidebar","ha-sidebar":"ha-sidebar","panel-map":"panel-map","ha-store-auth-card":"ha-store-auth-card","vendors~panel-calendar~panel-config-automation~panel-config-script":"vendors~panel-calendar~panel-config-automation~panel-config-script","vendors~load_chart~panel-calendar":"vendors~load_chart~panel-calendar","vendors~panel-calendar":"vendors~panel-calendar","panel-calendar":"panel-calendar","vendors~panel-dev-info":"vendors~panel-dev-info","panel-dev-info":"panel-dev-info","vendors~polyfill-web-animations-next":"vendors~polyfill-web-animations-next","panel-config-entity-registry":"panel-config-entity-registry","panel-config-zha":"panel-config-zha","vendors~hui-view-editable~panel-config-area-registry~panel-config-automation~panel-config-integratio~3bab15b9":"vendors~hui-view-editable~panel-config-area-registry~panel-config-automation~panel-config-integratio~3bab15b9","panel-config-cloud~panel-config-integrations":"panel-config-cloud~panel-config-integrations","panel-config-integrations":"panel-config-integrations","vendors~onboarding-core-config~panel-config-automation~panel-config-core~panel-config-script":"vendors~onboarding-core-config~panel-config-automation~panel-config-core~panel-config-script","vendors~panel-config-automation":"vendors~panel-config-automation","panel-config-automation~panel-config-script":"panel-config-automation~panel-config-script","panel-config-automation":"panel-config-automation","vendors~panel-config-script":"vendors~panel-config-script","panel-config-script":"panel-config-script","vendors~panel-config-customize~panel-config-zwave":"vendors~panel-config-customize~panel-config-zwave","panel-config-zwave":"panel-config-zwave","panel-config-customize":"panel-config-customize","vendors~panel-config-cloud":"vendors~panel-config-cloud","panel-config-cloud":"panel-config-cloud","vendors~onboarding-core-config~panel-config-core":"vendors~onboarding-core-config~panel-config-core","onboarding-core-config~panel-config-core":"onboarding-core-config~panel-config-core","panel-config-core":"panel-config-core","vendors~panel-config-area-registry":"vendors~panel-config-area-registry","panel-config-area-registry":"panel-config-area-registry","vendors~panel-config-person~panel-config-users":"vendors~panel-config-person~panel-config-users","panel-config-person":"panel-config-person","vendors~panel-config-dashboard":"vendors~panel-config-dashboard","panel-config-dashboard":"panel-config-dashboard","panel-config-users":"panel-config-users","import-href-polyfill":"import-href-polyfill","mdi-icons":"mdi-icons","vendors~hls.js":"vendors~hls.js","vendors~load_chart":"vendors~load_chart","load_chart":"load_chart","vendors~load_markdown":"vendors~load_markdown","load_markdown":"load_markdown","dialog-config-flow~ha-mfa-module-setup-flow":"dialog-config-flow~ha-mfa-module-setup-flow","ha-mfa-module-setup-flow":"ha-mfa-module-setup-flow","voice-command-dialog":"voice-command-dialog","hui-empty-state-card":"hui-empty-state-card","hui-unused-entities":"hui-unused-entities","hui-dialog-edit-lovelace":"hui-dialog-edit-lovelace","hui-dialog-save-config":"hui-dialog-save-config","vendors~hui-dialog-edit-card~lovelace-yaml-editor":"vendors~hui-dialog-edit-card~lovelace-yaml-editor","hui-dialog-edit-card~lovelace-yaml-editor":"hui-dialog-edit-card~lovelace-yaml-editor","hui-dialog-edit-card":"hui-dialog-edit-card","vendors~hui-dialog-edit-view":"vendors~hui-dialog-edit-view","hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge-card-editor~hu~1ba0b6cb":"hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge-card-editor~hu~1ba0b6cb","hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge-card-editor~hu~293ef878":"hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge-card-editor~hu~293ef878","hui-dialog-edit-view":"hui-dialog-edit-view","vendors~hui-alarm-panel-card-editor~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge~ad2d78d9":"vendors~hui-alarm-panel-card-editor~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge~ad2d78d9","hui-alarm-panel-card-editor":"hui-alarm-panel-card-editor","hui-entities-card-editor":"hui-entities-card-editor","hui-gauge-card-editor":"hui-gauge-card-editor","hui-glance-card-editor":"hui-glance-card-editor","hui-light-card-editor":"hui-light-card-editor","hui-sensor-card-editor":"hui-sensor-card-editor","hui-thermostat-card-editor":"hui-thermostat-card-editor","hui-map-card-editor":"hui-map-card-editor","hui-media-control-card-editor":"hui-media-control-card-editor","hui-plant-status-card-editor":"hui-plant-status-card-editor","hui-weather-forecast-card-editor":"hui-weather-forecast-card-editor","hui-entity-button-card-editor~hui-picture-card-editor":"hui-entity-button-card-editor~hui-picture-card-editor","hui-entity-button-card-editor":"hui-entity-button-card-editor","hui-picture-card-editor":"hui-picture-card-editor","hui-iframe-card-editor":"hui-iframe-card-editor","hui-shopping-list-editor":"hui-shopping-list-editor","hui-markdown-card-editor":"hui-markdown-card-editor","lovelace-yaml-editor":"lovelace-yaml-editor","hui-view-editable":"hui-view-editable","vendors~jquery-roundslider":"vendors~jquery-roundslider","jquery-roundslider":"jquery-roundslider","vendors~leaflet":"vendors~leaflet","vendors~ha-dialog-show-audio-message":"vendors~ha-dialog-show-audio-message","ha-dialog-show-audio-message":"ha-dialog-show-audio-message","vendors~system-log-detail-dialog":"vendors~system-log-detail-dialog","system-log-detail-dialog":"system-log-detail-dialog","vendors~entity-registry-detail-dialog":"vendors~entity-registry-detail-dialog","entity-registry-detail-dialog":"entity-registry-detail-dialog","vendors~zha-add-devices-page~zha-configuration-page":"vendors~zha-add-devices-page~zha-configuration-page","zha-add-devices-page~zha-configuration-page":"zha-add-devices-page~zha-configuration-page","zha-configuration-page":"zha-configuration-page","zha-add-devices-page":"zha-add-devices-page","device-registry-detail-dialog":"device-registry-detail-dialog","vendors~dialog-config-flow":"vendors~dialog-config-flow","dialog-config-flow":"dialog-config-flow","zwave-log-dialog":"zwave-log-dialog","dialog-cloud-certificate":"dialog-cloud-certificate","vendors~cloud-webhook-manage-dialog":"vendors~cloud-webhook-manage-dialog","cloud-webhook-manage-dialog":"cloud-webhook-manage-dialog","vendors~area-registry-detail-dialog":"vendors~area-registry-detail-dialog","area-registry-detail-dialog":"area-registry-detail-dialog","vendors~person-detail-dialog":"vendors~person-detail-dialog","person-detail-dialog":"person-detail-dialog","vendors~ha-dialog-add-user":"vendors~ha-dialog-add-user","ha-dialog-add-user":"ha-dialog-add-user","hui-dialog-move-card-view":"hui-dialog-move-card-view","dialog-domain-toggler":"dialog-domain-toggler"}[chunkId]||chunkId) + ".chunk.js"
+/******/ 		return __webpack_require__.p + "" + ({"vendors~dialog-config-flow~more-info-dialog~notification-manager~panel-lovelace":"vendors~dialog-config-flow~more-info-dialog~notification-manager~panel-lovelace","vendors~dialog-config-flow~more-info-dialog~onboarding-core-config~panel-lovelace":"vendors~dialog-config-flow~more-info-dialog~onboarding-core-config~panel-lovelace","vendors~dialog-config-flow~more-info-dialog~panel-lovelace":"vendors~dialog-config-flow~more-info-dialog~panel-lovelace","vendors~ha-store-auth-card~more-info-dialog~panel-lovelace":"vendors~ha-store-auth-card~more-info-dialog~panel-lovelace","vendors~more-info-dialog~panel-lovelace":"vendors~more-info-dialog~panel-lovelace","vendors~dialog-config-flow~panel-lovelace":"vendors~dialog-config-flow~panel-lovelace","vendors~panel-lovelace":"vendors~panel-lovelace","dialog-config-flow~more-info-dialog~panel-lovelace":"dialog-config-flow~more-info-dialog~panel-lovelace","more-info-dialog~panel-lovelace":"more-info-dialog~panel-lovelace","panel-lovelace":"panel-lovelace","vendors~notification-manager":"vendors~notification-manager","notification-manager":"notification-manager","vendors~ha-store-auth-card~more-info-dialog":"vendors~ha-store-auth-card~more-info-dialog","ha-store-auth-card":"ha-store-auth-card","vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~a6d8cfe8":"vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~a6d8cfe8","vendors~dialog-config-flow~more-info-dialog~onboarding-core-config":"vendors~dialog-config-flow~more-info-dialog~onboarding-core-config","vendors~dialog-config-flow~more-info-dialog":"vendors~dialog-config-flow~more-info-dialog","vendors~more-info-dialog":"vendors~more-info-dialog","more-info-dialog":"more-info-dialog","vendors~polyfill-web-animations-next":"vendors~polyfill-web-animations-next","hui-empty-state-card":"hui-empty-state-card","hui-unused-entities":"hui-unused-entities","import-href-polyfill":"import-href-polyfill","mdi-icons":"mdi-icons","vendors~dialog-config-flow~hui-dialog-edit-card~hui-dialog-edit-lovelace~hui-dialog-edit-view~hui-di~60dfacf3":"vendors~dialog-config-flow~hui-dialog-edit-card~hui-dialog-edit-lovelace~hui-dialog-edit-view~hui-di~60dfacf3","hui-dialog-edit-lovelace":"hui-dialog-edit-lovelace","hui-dialog-save-config":"hui-dialog-save-config","vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~f3f49732":"vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~f3f49732","vendors~hui-dialog-edit-card~lovelace-yaml-editor":"vendors~hui-dialog-edit-card~lovelace-yaml-editor","hui-dialog-edit-card~lovelace-yaml-editor":"hui-dialog-edit-card~lovelace-yaml-editor","hui-dialog-edit-card":"hui-dialog-edit-card","vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~969aebdd":"vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~969aebdd","vendors~hui-dialog-edit-view":"vendors~hui-dialog-edit-view","hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-edi~441ae239":"hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-edi~441ae239","hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge-card-editor~hu~1ba0b6cb":"hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge-card-editor~hu~1ba0b6cb","hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge-card-editor~hu~293ef878":"hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge-card-editor~hu~293ef878","hui-dialog-edit-view":"hui-dialog-edit-view","vendors~hui-alarm-panel-card-editor~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge~ad2d78d9":"vendors~hui-alarm-panel-card-editor~hui-entities-card-editor~hui-entity-button-card-editor~hui-gauge~ad2d78d9","hui-iframe-card-editor":"hui-iframe-card-editor","hui-shopping-list-editor":"hui-shopping-list-editor","hui-alarm-panel-card-editor":"hui-alarm-panel-card-editor","hui-entities-card-editor":"hui-entities-card-editor","hui-gauge-card-editor":"hui-gauge-card-editor","hui-glance-card-editor":"hui-glance-card-editor","hui-light-card-editor":"hui-light-card-editor","hui-sensor-card-editor":"hui-sensor-card-editor","hui-thermostat-card-editor":"hui-thermostat-card-editor","hui-map-card-editor":"hui-map-card-editor","hui-media-control-card-editor":"hui-media-control-card-editor","hui-plant-status-card-editor":"hui-plant-status-card-editor","hui-weather-forecast-card-editor":"hui-weather-forecast-card-editor","hui-entity-button-card-editor~hui-picture-card-editor":"hui-entity-button-card-editor~hui-picture-card-editor","hui-entity-button-card-editor":"hui-entity-button-card-editor","hui-picture-card-editor":"hui-picture-card-editor","hui-markdown-card-editor":"hui-markdown-card-editor","lovelace-yaml-editor":"lovelace-yaml-editor","vendors~hui-view-editable":"vendors~hui-view-editable","hui-view-editable":"hui-view-editable","vendors~jquery-roundslider":"vendors~jquery-roundslider","jquery-roundslider":"jquery-roundslider","vendors~leaflet":"vendors~leaflet","vendors~load_chart":"vendors~load_chart","load_chart":"load_chart","vendors~load_markdown":"vendors~load_markdown","load_markdown":"load_markdown","voice-command-dialog":"voice-command-dialog","vendors~hls.js":"vendors~hls.js","hui-dialog-move-card-view":"hui-dialog-move-card-view"}[chunkId]||chunkId) + ".chunk.js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -2214,584 +2214,6 @@ Object(_polymer_polymer_lib_legacy_polymer_fn_js__WEBPACK_IMPORTED_MODULE_2__["P
   },
   _computeMediaQuery: function _computeMediaQuery(forceNarrow, responsiveWidth) {
     return forceNarrow ? '(min-width: 0px)' : '(max-width: ' + responsiveWidth + ')';
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/@polymer/app-layout/app-drawer/app-drawer.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@polymer/app-layout/app-drawer/app-drawer.js ***!
-  \*******************************************************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _polymer_polymer_polymer_legacy_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @polymer/polymer/polymer-legacy.js */ "./node_modules/@polymer/polymer/polymer-legacy.js");
-/* harmony import */ var _polymer_iron_flex_layout_iron_flex_layout_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @polymer/iron-flex-layout/iron-flex-layout.js */ "./node_modules/@polymer/iron-flex-layout/iron-flex-layout.js");
-/* harmony import */ var _polymer_polymer_lib_legacy_polymer_fn_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @polymer/polymer/lib/legacy/polymer-fn.js */ "./node_modules/@polymer/polymer/lib/legacy/polymer-fn.js");
-/* harmony import */ var _polymer_polymer_lib_legacy_polymer_dom_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @polymer/polymer/lib/legacy/polymer.dom.js */ "./node_modules/@polymer/polymer/lib/legacy/polymer.dom.js");
-/* harmony import */ var _polymer_polymer_lib_utils_html_tag_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @polymer/polymer/lib/utils/html-tag.js */ "./node_modules/@polymer/polymer/lib/utils/html-tag.js");
-/* harmony import */ var _polymer_polymer_lib_utils_render_status_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @polymer/polymer/lib/utils/render-status.js */ "./node_modules/@polymer/polymer/lib/utils/render-status.js");
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    <style>\n      :host {\n        position: fixed;\n        top: -120px;\n        right: 0;\n        bottom: -120px;\n        left: 0;\n\n        visibility: hidden;\n\n        transition-property: visibility;\n      }\n\n      :host([opened]) {\n        visibility: visible;\n      }\n\n      :host([persistent]) {\n        width: var(--app-drawer-width, 256px);\n      }\n\n      :host([persistent][position=left]) {\n        right: auto;\n      }\n\n      :host([persistent][position=right]) {\n        left: auto;\n      }\n\n      #contentContainer {\n        position: absolute;\n        top: 0;\n        bottom: 0;\n        left: 0;\n\n        width: var(--app-drawer-width, 256px);\n        padding: 120px 0;\n\n        transition-property: -webkit-transform;\n        transition-property: transform;\n        -webkit-transform: translate3d(-100%, 0, 0);\n        transform: translate3d(-100%, 0, 0);\n\n        background-color: #FFF;\n\n        @apply --app-drawer-content-container;\n      }\n\n      #contentContainer[persistent] {\n        width: 100%;\n      }\n\n      #contentContainer[position=right] {\n        right: 0;\n        left: auto;\n\n        -webkit-transform: translate3d(100%, 0, 0);\n        transform: translate3d(100%, 0, 0);\n      }\n\n      #contentContainer[swipe-open]::after {\n        position: fixed;\n        top: 0;\n        bottom: 0;\n        left: 100%;\n\n        visibility: visible;\n\n        width: 20px;\n\n        content: '';\n      }\n\n      #contentContainer[swipe-open][position=right]::after {\n        right: 100%;\n        left: auto;\n      }\n\n      #contentContainer[opened] {\n        -webkit-transform: translate3d(0, 0, 0);\n        transform: translate3d(0, 0, 0);\n      }\n\n      #scrim {\n        position: absolute;\n        top: 0;\n        right: 0;\n        bottom: 0;\n        left: 0;\n\n        transition-property: opacity;\n        -webkit-transform: translateZ(0);\n        transform:  translateZ(0);\n\n        opacity: 0;\n        background: var(--app-drawer-scrim-background, rgba(0, 0, 0, 0.5));\n      }\n\n      #scrim.visible {\n        opacity: 1;\n      }\n\n      :host([no-transition]) #contentContainer {\n        transition-property: none;\n      }\n    </style>\n\n    <div id=\"scrim\" on-click=\"close\"></div>\n\n    <!-- HACK(keanulee): Bind attributes here (in addition to :host) for styling to workaround Safari\n    bug. https://bugs.webkit.org/show_bug.cgi?id=170762 -->\n    <div id=\"contentContainer\" opened$=\"[[opened]]\" persistent$=\"[[persistent]]\" position$=\"[[position]]\" swipe-open$=\"[[swipeOpen]]\">\n      <slot></slot>\n    </div>\n"], ["\n    <style>\n      :host {\n        position: fixed;\n        top: -120px;\n        right: 0;\n        bottom: -120px;\n        left: 0;\n\n        visibility: hidden;\n\n        transition-property: visibility;\n      }\n\n      :host([opened]) {\n        visibility: visible;\n      }\n\n      :host([persistent]) {\n        width: var(--app-drawer-width, 256px);\n      }\n\n      :host([persistent][position=left]) {\n        right: auto;\n      }\n\n      :host([persistent][position=right]) {\n        left: auto;\n      }\n\n      #contentContainer {\n        position: absolute;\n        top: 0;\n        bottom: 0;\n        left: 0;\n\n        width: var(--app-drawer-width, 256px);\n        padding: 120px 0;\n\n        transition-property: -webkit-transform;\n        transition-property: transform;\n        -webkit-transform: translate3d(-100%, 0, 0);\n        transform: translate3d(-100%, 0, 0);\n\n        background-color: #FFF;\n\n        @apply --app-drawer-content-container;\n      }\n\n      #contentContainer[persistent] {\n        width: 100%;\n      }\n\n      #contentContainer[position=right] {\n        right: 0;\n        left: auto;\n\n        -webkit-transform: translate3d(100%, 0, 0);\n        transform: translate3d(100%, 0, 0);\n      }\n\n      #contentContainer[swipe-open]::after {\n        position: fixed;\n        top: 0;\n        bottom: 0;\n        left: 100%;\n\n        visibility: visible;\n\n        width: 20px;\n\n        content: '';\n      }\n\n      #contentContainer[swipe-open][position=right]::after {\n        right: 100%;\n        left: auto;\n      }\n\n      #contentContainer[opened] {\n        -webkit-transform: translate3d(0, 0, 0);\n        transform: translate3d(0, 0, 0);\n      }\n\n      #scrim {\n        position: absolute;\n        top: 0;\n        right: 0;\n        bottom: 0;\n        left: 0;\n\n        transition-property: opacity;\n        -webkit-transform: translateZ(0);\n        transform:  translateZ(0);\n\n        opacity: 0;\n        background: var(--app-drawer-scrim-background, rgba(0, 0, 0, 0.5));\n      }\n\n      #scrim.visible {\n        opacity: 1;\n      }\n\n      :host([no-transition]) #contentContainer {\n        transition-property: none;\n      }\n    </style>\n\n    <div id=\"scrim\" on-click=\"close\"></div>\n\n    <!-- HACK(keanulee): Bind attributes here (in addition to :host) for styling to workaround Safari\n    bug. https://bugs.webkit.org/show_bug.cgi?id=170762 -->\n    <div id=\"contentContainer\" opened\\$=\"[[opened]]\" persistent\\$=\"[[persistent]]\" position\\$=\"[[position]]\" swipe-open\\$=\"[[swipeOpen]]\">\n      <slot></slot>\n    </div>\n"]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-/**
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at
-http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
-http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
-found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
-part of the polymer project is also subject to an additional IP rights grant
-found at http://polymer.github.io/PATENTS.txt
-*/
-
-
-
-
-
-
-/**
-app-drawer is a navigation drawer that can slide in from the left or right.
-
-Example:
-
-Align the drawer at the start, which is left in LTR layouts (default):
-
-```html
-<app-drawer opened></app-drawer>
-```
-
-Align the drawer at the end:
-
-```html
-<app-drawer align="end" opened></app-drawer>
-```
-
-To make the contents of the drawer scrollable, create a wrapper for the scroll
-content, and apply height and overflow styles to it.
-
-```html
-<app-drawer>
-  <div style="height: 100%; overflow: auto;"></div>
-</app-drawer>
-```
-
-### Styling
-
-Custom property                  | Description                            | Default
----------------------------------|----------------------------------------|--------------------
-`--app-drawer-width`             | Width of the drawer                    | 256px
-`--app-drawer-content-container` | Mixin for the drawer content container | {}
-`--app-drawer-scrim-background`  | Background for the scrim               | rgba(0, 0, 0, 0.5)
-
-**NOTE:** If you use `<app-drawer>` with `<app-drawer-layout>` and specify a
-value for
-`--app-drawer-width`, that value must be accessible by both elements. This can
-be done by defining the value on the `:host` that contains `<app-drawer-layout>`
-(or `html` if outside a shadow root):
-
-```css
-:host {
-  --app-drawer-width: 300px;
-}
-```
-
-@group App Elements
-@element app-drawer
-@demo app-drawer/demo/left-drawer.html Simple Left Drawer
-@demo app-drawer/demo/right-drawer.html Right Drawer with Icons
-*/
-
-Object(_polymer_polymer_lib_legacy_polymer_fn_js__WEBPACK_IMPORTED_MODULE_2__["Polymer"])({
-  _template: Object(_polymer_polymer_lib_utils_html_tag_js__WEBPACK_IMPORTED_MODULE_4__["html"])(_templateObject()),
-  is: 'app-drawer',
-  properties: {
-    /**
-     * The opened state of the drawer.
-     */
-    opened: {
-      type: Boolean,
-      value: false,
-      notify: true,
-      reflectToAttribute: true
-    },
-
-    /**
-     * The drawer does not have a scrim and cannot be swiped close.
-     */
-    persistent: {
-      type: Boolean,
-      value: false,
-      reflectToAttribute: true
-    },
-
-    /**
-     * The transition duration of the drawer in milliseconds.
-     */
-    transitionDuration: {
-      type: Number,
-      value: 200
-    },
-
-    /**
-     * The alignment of the drawer on the screen ('left', 'right', 'start' or
-     * 'end'). 'start' computes to left and 'end' to right in LTR layout and
-     * vice versa in RTL layout.
-     */
-    align: {
-      type: String,
-      value: 'left'
-    },
-
-    /**
-     * The computed, read-only position of the drawer on the screen ('left' or
-     * 'right').
-     */
-    position: {
-      type: String,
-      readOnly: true,
-      reflectToAttribute: true
-    },
-
-    /**
-     * Create an area at the edge of the screen to swipe open the drawer.
-     */
-    swipeOpen: {
-      type: Boolean,
-      value: false,
-      reflectToAttribute: true
-    },
-
-    /**
-     * Trap keyboard focus when the drawer is opened and not persistent.
-     */
-    noFocusTrap: {
-      type: Boolean,
-      value: false
-    },
-
-    /**
-     * Disables swiping on the drawer.
-     */
-    disableSwipe: {
-      type: Boolean,
-      value: false
-    }
-  },
-  observers: ['resetLayout(position, isAttached)', '_resetPosition(align, isAttached)', '_styleTransitionDuration(transitionDuration)', '_openedPersistentChanged(opened, persistent)'],
-  _translateOffset: 0,
-  _trackDetails: null,
-  _drawerState: 0,
-  _boundEscKeydownHandler: null,
-  _firstTabStop: null,
-  _lastTabStop: null,
-  attached: function attached() {
-    Object(_polymer_polymer_lib_utils_render_status_js__WEBPACK_IMPORTED_MODULE_5__["afterNextRender"])(this, function () {
-      this._boundEscKeydownHandler = this._escKeydownHandler.bind(this);
-      this.addEventListener('keydown', this._tabKeydownHandler.bind(this)); // Only listen for horizontal track so you can vertically scroll
-      // inside the drawer.
-
-      this.listen(this, 'track', '_track');
-      this.setScrollDirection('y');
-    });
-    this.fire('app-reset-layout');
-  },
-  detached: function detached() {
-    document.removeEventListener('keydown', this._boundEscKeydownHandler);
-  },
-
-  /**
-   * Opens the drawer.
-   */
-  open: function open() {
-    this.opened = true;
-  },
-
-  /**
-   * Closes the drawer.
-   */
-  close: function close() {
-    this.opened = false;
-  },
-
-  /**
-   * Toggles the drawer open and close.
-   */
-  toggle: function toggle() {
-    this.opened = !this.opened;
-  },
-
-  /**
-   * Gets the width of the drawer.
-   *
-   * @return {number} The width of the drawer in pixels.
-   */
-  getWidth: function getWidth() {
-    return this._savedWidth || this.$.contentContainer.offsetWidth;
-  },
-  _isRTL: function _isRTL() {
-    return window.getComputedStyle(this).direction === 'rtl';
-  },
-  _resetPosition: function _resetPosition() {
-    switch (this.align) {
-      case 'start':
-        this._setPosition(this._isRTL() ? 'right' : 'left');
-
-        return;
-
-      case 'end':
-        this._setPosition(this._isRTL() ? 'left' : 'right');
-
-        return;
-    }
-
-    this._setPosition(this.align);
-  },
-  _escKeydownHandler: function _escKeydownHandler(event) {
-    var ESC_KEYCODE = 27;
-
-    if (event.keyCode === ESC_KEYCODE) {
-      // Prevent any side effects if app-drawer closes.
-      event.preventDefault();
-      this.close();
-    }
-  },
-  _track: function _track(event) {
-    if (this.persistent || this.disableSwipe) {
-      return;
-    } // Disable user selection on desktop.
-
-
-    event.preventDefault();
-
-    switch (event.detail.state) {
-      case 'start':
-        this._trackStart(event);
-
-        break;
-
-      case 'track':
-        this._trackMove(event);
-
-        break;
-
-      case 'end':
-        this._trackEnd(event);
-
-        break;
-    }
-  },
-  _trackStart: function _trackStart(event) {
-    this._drawerState = this._DRAWER_STATE.TRACKING;
-    var rect = this.$.contentContainer.getBoundingClientRect();
-    this._savedWidth = rect.width;
-
-    if (this.position === 'left') {
-      this._translateOffset = rect.left;
-    } else {
-      this._translateOffset = rect.right - window.innerWidth;
-    }
-
-    this._trackDetails = []; // Disable transitions since style attributes will reflect user track
-    // events.
-
-    this._styleTransitionDuration(0);
-
-    this.style.visibility = 'visible';
-  },
-  _trackMove: function _trackMove(event) {
-    this._translateDrawer(event.detail.dx + this._translateOffset); // Use Date.now() since event.timeStamp is inconsistent across browsers
-    // (e.g. most browsers use milliseconds but FF 44 uses microseconds).
-
-
-    this._trackDetails.push({
-      dx: event.detail.dx,
-      timeStamp: Date.now()
-    });
-  },
-  _trackEnd: function _trackEnd(event) {
-    var x = event.detail.dx + this._translateOffset;
-    var drawerWidth = this.getWidth();
-    var isPositionLeft = this.position === 'left';
-    var isInEndState = isPositionLeft ? x >= 0 || x <= -drawerWidth : x <= 0 || x >= drawerWidth;
-
-    if (!isInEndState) {
-      // No longer need the track events after this method returns - allow them
-      // to be GC'd.
-      var trackDetails = this._trackDetails;
-      this._trackDetails = null;
-
-      this._flingDrawer(event, trackDetails);
-
-      if (this._drawerState === this._DRAWER_STATE.FLINGING) {
-        return;
-      }
-    } // If the drawer is not flinging, toggle the opened state based on the
-    // position of the drawer.
-
-
-    var halfWidth = drawerWidth / 2;
-
-    if (event.detail.dx < -halfWidth) {
-      this.opened = this.position === 'right';
-    } else if (event.detail.dx > halfWidth) {
-      this.opened = this.position === 'left';
-    }
-
-    if (isInEndState) {
-      this.debounce('_resetDrawerState', this._resetDrawerState);
-    } else {
-      this.debounce('_resetDrawerState', this._resetDrawerState, this.transitionDuration);
-    }
-
-    this._styleTransitionDuration(this.transitionDuration);
-
-    this._resetDrawerTranslate();
-
-    this.style.visibility = '';
-  },
-  _calculateVelocity: function _calculateVelocity(event, trackDetails) {
-    // Find the oldest track event that is within 100ms using binary search.
-    var now = Date.now();
-    var timeLowerBound = now - 100;
-    var trackDetail;
-    var min = 0;
-    var max = trackDetails.length - 1;
-
-    while (min <= max) {
-      // Floor of average of min and max.
-      var mid = min + max >> 1;
-      var d = trackDetails[mid];
-
-      if (d.timeStamp >= timeLowerBound) {
-        trackDetail = d;
-        max = mid - 1;
-      } else {
-        min = mid + 1;
-      }
-    }
-
-    if (trackDetail) {
-      var dx = event.detail.dx - trackDetail.dx;
-      var dt = now - trackDetail.timeStamp || 1;
-      return dx / dt;
-    }
-
-    return 0;
-  },
-  _flingDrawer: function _flingDrawer(event, trackDetails) {
-    var velocity = this._calculateVelocity(event, trackDetails); // Do not fling if velocity is not above a threshold.
-
-
-    if (Math.abs(velocity) < this._MIN_FLING_THRESHOLD) {
-      return;
-    }
-
-    this._drawerState = this._DRAWER_STATE.FLINGING;
-    var x = event.detail.dx + this._translateOffset;
-    var drawerWidth = this.getWidth();
-    var isPositionLeft = this.position === 'left';
-    var isVelocityPositive = velocity > 0;
-    var isClosingLeft = !isVelocityPositive && isPositionLeft;
-    var isClosingRight = isVelocityPositive && !isPositionLeft;
-    var dx;
-
-    if (isClosingLeft) {
-      dx = -(x + drawerWidth);
-    } else if (isClosingRight) {
-      dx = drawerWidth - x;
-    } else {
-      dx = -x;
-    } // Enforce a minimum transition velocity to make the drawer feel snappy.
-
-
-    if (isVelocityPositive) {
-      velocity = Math.max(velocity, this._MIN_TRANSITION_VELOCITY);
-      this.opened = this.position === 'left';
-    } else {
-      velocity = Math.min(velocity, -this._MIN_TRANSITION_VELOCITY);
-      this.opened = this.position === 'right';
-    } // Calculate the amount of time needed to finish the transition based on the
-    // initial slope of the timing function.
-
-
-    var t = this._FLING_INITIAL_SLOPE * dx / velocity;
-
-    this._styleTransitionDuration(t);
-
-    this._styleTransitionTimingFunction(this._FLING_TIMING_FUNCTION);
-
-    this._resetDrawerTranslate();
-
-    this.debounce('_resetDrawerState', this._resetDrawerState, t);
-  },
-  _styleTransitionDuration: function _styleTransitionDuration(duration) {
-    this.style.transitionDuration = duration + 'ms';
-    this.$.contentContainer.style.transitionDuration = duration + 'ms';
-    this.$.scrim.style.transitionDuration = duration + 'ms';
-  },
-  _styleTransitionTimingFunction: function _styleTransitionTimingFunction(timingFunction) {
-    this.$.contentContainer.style.transitionTimingFunction = timingFunction;
-    this.$.scrim.style.transitionTimingFunction = timingFunction;
-  },
-  _translateDrawer: function _translateDrawer(x) {
-    var drawerWidth = this.getWidth();
-
-    if (this.position === 'left') {
-      x = Math.max(-drawerWidth, Math.min(x, 0));
-      this.$.scrim.style.opacity = 1 + x / drawerWidth;
-    } else {
-      x = Math.max(0, Math.min(x, drawerWidth));
-      this.$.scrim.style.opacity = 1 - x / drawerWidth;
-    }
-
-    this.translate3d(x + 'px', '0', '0', this.$.contentContainer);
-  },
-  _resetDrawerTranslate: function _resetDrawerTranslate() {
-    this.$.scrim.style.opacity = '';
-    this.transform('', this.$.contentContainer);
-  },
-  _resetDrawerState: function _resetDrawerState() {
-    var oldState = this._drawerState; // If the drawer was flinging, we need to reset the style attributes.
-
-    if (oldState === this._DRAWER_STATE.FLINGING) {
-      this._styleTransitionDuration(this.transitionDuration);
-
-      this._styleTransitionTimingFunction('');
-
-      this.style.visibility = '';
-    }
-
-    this._savedWidth = null;
-
-    if (this.opened) {
-      this._drawerState = this.persistent ? this._DRAWER_STATE.OPENED_PERSISTENT : this._DRAWER_STATE.OPENED;
-    } else {
-      this._drawerState = this._DRAWER_STATE.CLOSED;
-    }
-
-    if (oldState !== this._drawerState) {
-      if (this._drawerState === this._DRAWER_STATE.OPENED) {
-        this._setKeyboardFocusTrap();
-
-        document.addEventListener('keydown', this._boundEscKeydownHandler);
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.removeEventListener('keydown', this._boundEscKeydownHandler);
-        document.body.style.overflow = '';
-      } // Don't fire the event on initial load.
-
-
-      if (oldState !== this._DRAWER_STATE.INIT) {
-        this.fire('app-drawer-transitioned');
-      }
-    }
-  },
-
-  /**
-   * Resets the layout.
-   *
-   * @method resetLayout
-   */
-  resetLayout: function resetLayout() {
-    this.fire('app-reset-layout');
-  },
-  _setKeyboardFocusTrap: function _setKeyboardFocusTrap() {
-    if (this.noFocusTrap) {
-      return;
-    } // NOTE: Unless we use /deep/ (which we shouldn't since it's deprecated),
-    // this will not select focusable elements inside shadow roots.
-
-
-    var focusableElementsSelector = ['a[href]:not([tabindex="-1"])', 'area[href]:not([tabindex="-1"])', 'input:not([disabled]):not([tabindex="-1"])', 'select:not([disabled]):not([tabindex="-1"])', 'textarea:not([disabled]):not([tabindex="-1"])', 'button:not([disabled]):not([tabindex="-1"])', 'iframe:not([tabindex="-1"])', '[tabindex]:not([tabindex="-1"])', '[contentEditable=true]:not([tabindex="-1"])'].join(',');
-    var focusableElements = Object(_polymer_polymer_lib_legacy_polymer_dom_js__WEBPACK_IMPORTED_MODULE_3__["dom"])(this).querySelectorAll(focusableElementsSelector);
-
-    if (focusableElements.length > 0) {
-      this._firstTabStop = focusableElements[0];
-      this._lastTabStop = focusableElements[focusableElements.length - 1];
-    } else {
-      // Reset saved tab stops when there are no focusable elements in the
-      // drawer.
-      this._firstTabStop = null;
-      this._lastTabStop = null;
-    } // Focus on app-drawer if it has non-zero tabindex. Otherwise, focus the
-    // first focusable element in the drawer, if it exists. Use the tabindex
-    // attribute since the this.tabIndex property in IE/Edge returns 0 (instead
-    // of -1) when the attribute is not set.
-
-
-    var tabindex = this.getAttribute('tabindex');
-
-    if (tabindex && parseInt(tabindex, 10) > -1) {
-      this.focus();
-    } else if (this._firstTabStop) {
-      this._firstTabStop.focus();
-    }
-  },
-  _tabKeydownHandler: function _tabKeydownHandler(event) {
-    if (this.noFocusTrap) {
-      return;
-    }
-
-    var TAB_KEYCODE = 9;
-
-    if (this._drawerState === this._DRAWER_STATE.OPENED && event.keyCode === TAB_KEYCODE) {
-      if (event.shiftKey) {
-        if (this._firstTabStop && Object(_polymer_polymer_lib_legacy_polymer_dom_js__WEBPACK_IMPORTED_MODULE_3__["dom"])(event).localTarget === this._firstTabStop) {
-          event.preventDefault();
-
-          this._lastTabStop.focus();
-        }
-      } else {
-        if (this._lastTabStop && Object(_polymer_polymer_lib_legacy_polymer_dom_js__WEBPACK_IMPORTED_MODULE_3__["dom"])(event).localTarget === this._lastTabStop) {
-          event.preventDefault();
-
-          this._firstTabStop.focus();
-        }
-      }
-    }
-  },
-  _openedPersistentChanged: function _openedPersistentChanged(opened, persistent) {
-    this.toggleClass('visible', opened && !persistent, this.$.scrim); // Use a debounce timer instead of transitionend since transitionend won't
-    // fire when app-drawer is display: none.
-
-    this.debounce('_resetDrawerState', this._resetDrawerState, this.transitionDuration);
-  },
-  _MIN_FLING_THRESHOLD: 0.2,
-  _MIN_TRANSITION_VELOCITY: 1.2,
-  _FLING_TIMING_FUNCTION: 'cubic-bezier(0.667, 1, 0.667, 1)',
-  _FLING_INITIAL_SLOPE: 1.5,
-  _DRAWER_STATE: {
-    INIT: 0,
-    OPENED: 1,
-    OPENED_PERSISTENT: 2,
-    CLOSED: 3,
-    TRACKING: 4,
-    FLINGING: 5
-    /**
-     * Fired when the layout of app-drawer has changed.
-     *
-     * @event app-reset-layout
-     */
-
-    /**
-     * Fired when app-drawer has finished transitioning.
-     *
-     * @event app-drawer-transitioned
-     */
-
   }
 });
 
@@ -37340,10 +36762,9 @@ var HassSubpage = _decorate([Object(lit_element__WEBPACK_IMPORTED_MODULE_0__["cu
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lit_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-element */ "./node_modules/lit-element/lit-element.js");
 /* harmony import */ var _polymer_app_layout_app_drawer_layout_app_drawer_layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @polymer/app-layout/app-drawer-layout/app-drawer-layout */ "./node_modules/@polymer/app-layout/app-drawer-layout/app-drawer-layout.js");
-/* harmony import */ var _polymer_app_layout_app_drawer_app_drawer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @polymer/app-layout/app-drawer/app-drawer */ "./node_modules/@polymer/app-layout/app-drawer/app-drawer.js");
-/* harmony import */ var _polymer_iron_media_query_iron_media_query__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @polymer/iron-media-query/iron-media-query */ "./node_modules/@polymer/iron-media-query/iron-media-query.js");
-/* harmony import */ var _partial_panel_resolver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./partial-panel-resolver */ "./src/layouts/partial-panel-resolver.ts");
-/* harmony import */ var _common_dom_fire_event__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../common/dom/fire_event */ "./src/common/dom/fire_event.ts");
+/* harmony import */ var _polymer_iron_media_query_iron_media_query__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @polymer/iron-media-query/iron-media-query */ "./node_modules/@polymer/iron-media-query/iron-media-query.js");
+/* harmony import */ var _partial_panel_resolver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./partial-panel-resolver */ "./src/layouts/partial-panel-resolver.ts");
+/* harmony import */ var _common_dom_fire_event__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/dom/fire_event */ "./src/common/dom/fire_event.ts");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _templateObject2() {
@@ -37357,7 +36778,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n      <iron-media-query\n        query=\"(max-width: 870px)\"\n        @query-matches-changed=", "\n      ></iron-media-query>\n\n      <app-drawer-layout\n        fullbleed\n        .forceNarrow=", "\n        responsive-width=\"0\"\n      >\n        <app-drawer\n          id=\"drawer\"\n          align=\"start\"\n          slot=\"drawer\"\n          .disableSwipe=", "\n          .swipeOpen=", "\n          .persistent=", "\n        >\n          <ha-sidebar .hass=", "></ha-sidebar>\n        </app-drawer>\n\n        <partial-panel-resolver\n          .narrow=", "\n          .hass=", "\n          .route=", "\n        ></partial-panel-resolver>\n      </app-drawer-layout>\n    "]);
+  var data = _taggedTemplateLiteral(["\n      <iron-media-query\n        query=\"(max-width: 870px)\"\n        @query-matches-changed=", "\n      ></iron-media-query>\n\n      <app-drawer-layout\n        fullbleed\n        .forceNarrow=", "\n        responsive-width=\"0\"\n      >\n\t\t<!-- Disabled for IoB -->\n        <!--app-drawer\n          id=\"drawer\"\n          align=\"start\"\n          slot=\"drawer\"\n          .disableSwipe=", "\n          .swipeOpen=", "\n          .persistent=", "\n        >\n          <ha-sidebar .hass=", "></ha-sidebar>\n        </app-drawer-->\n\n        <partial-panel-resolver\n          .narrow=", "\n          .hass=", "\n          .route=", "\n        ></partial-panel-resolver>\n      </app-drawer-layout>\n    "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -37413,8 +36834,8 @@ function _superPropBase(object, property) { while (!Object.prototype.hasOwnPrope
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-
- // Not a duplicate, it's for typing
+ // import "@polymer/app-layout/app-drawer/app-drawer";
+// Not a duplicate, it's for typing
 // tslint:disable-next-line
 
 
@@ -37485,7 +36906,7 @@ var HomeAssistantMain = _decorate(null, function (_initialize, _LitElement) {
       value: function firstUpdated() {
         var _this2 = this;
 
-        Promise.all(/*! import() | ha-sidebar */[__webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~ha-sidebar"), __webpack_require__.e("ha-sidebar")]).then(__webpack_require__.bind(null, /*! ../components/ha-sidebar */ "./src/components/ha-sidebar.ts"));
+        // import(/* webpackChunkName: "ha-sidebar" */ "../components/ha-sidebar");
         this.addEventListener("hass-toggle-menu", function () {
           var shouldOpen = !_this2.drawer.opened;
 
@@ -37493,7 +36914,7 @@ var HomeAssistantMain = _decorate(null, function (_initialize, _LitElement) {
             if (_this2._narrow) {
               _this2.drawer.open();
             } else {
-              Object(_common_dom_fire_event__WEBPACK_IMPORTED_MODULE_5__["fireEvent"])(_this2, "hass-dock-sidebar", {
+              Object(_common_dom_fire_event__WEBPACK_IMPORTED_MODULE_4__["fireEvent"])(_this2, "hass-dock-sidebar", {
                 dock: true
               });
             }
@@ -37501,7 +36922,7 @@ var HomeAssistantMain = _decorate(null, function (_initialize, _LitElement) {
             _this2.drawer.close();
 
             if (_this2.hass.dockedSidebar) {
-              Object(_common_dom_fire_event__WEBPACK_IMPORTED_MODULE_5__["fireEvent"])(_this2, "hass-dock-sidebar", {
+              Object(_common_dom_fire_event__WEBPACK_IMPORTED_MODULE_4__["fireEvent"])(_this2, "hass-dock-sidebar", {
                 dock: false
               });
             }
@@ -37878,63 +37299,45 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var CACHE_COMPONENTS = ["lovelace", "states"];
 var COMPONENTS = {
-  calendar: function calendar() {
-    return Promise.all(/*! import() | panel-calendar */[__webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-calendar~panel-config-cus~ab938ece"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-script"), __webpack_require__.e("vendors~load_chart~panel-calendar"), __webpack_require__.e("vendors~panel-calendar"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("panel-calendar")]).then(__webpack_require__.bind(null, /*! ../panels/calendar/ha-panel-calendar */ "./src/panels/calendar/ha-panel-calendar.js"));
-  },
-  config: function config() {
-    return __webpack_require__.e(/*! import() | panel-config */ "panel-config").then(__webpack_require__.bind(null, /*! ../panels/config/ha-panel-config */ "./src/panels/config/ha-panel-config.ts"));
-  },
-  custom: function custom() {
-    return __webpack_require__.e(/*! import() | panel-custom */ "panel-custom").then(__webpack_require__.bind(null, /*! ../panels/custom/ha-panel-custom */ "./src/panels/custom/ha-panel-custom.ts"));
-  },
-  "dev-event": function devEvent() {
-    return Promise.all(/*! import() | panel-dev-event */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~a32750d8"), __webpack_require__.e("vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332"), __webpack_require__.e("vendors~panel-dev-event"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("panel-dev-event")]).then(__webpack_require__.bind(null, /*! ../panels/dev-event/ha-panel-dev-event */ "./src/panels/dev-event/ha-panel-dev-event.js"));
-  },
-  "dev-info": function devInfo() {
-    return Promise.all(/*! import() | panel-dev-info */[__webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~panel-dev-info"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("panel-config-cloud~panel-config-core~panel-config-zwave~panel-dev-info~panel-lovelace~zha-add-device~04db7e16"), __webpack_require__.e("panel-dev-info")]).then(__webpack_require__.bind(null, /*! ../panels/dev-info/ha-panel-dev-info */ "./src/panels/dev-info/ha-panel-dev-info.ts"));
-  },
-  "dev-mqtt": function devMqtt() {
-    return Promise.all(/*! import() | panel-dev-mqtt */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~a32750d8"), __webpack_require__.e("vendors~panel-dev-mqtt~panel-dev-service"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("panel-dev-mqtt")]).then(__webpack_require__.bind(null, /*! ../panels/dev-mqtt/ha-panel-dev-mqtt */ "./src/panels/dev-mqtt/ha-panel-dev-mqtt.js"));
-  },
-  "dev-service": function devService() {
-    return Promise.all(/*! import() | panel-dev-service */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~60eddf8d"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~704fb8c7"), __webpack_require__.e("vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~a32750d8"), __webpack_require__.e("vendors~panel-dev-mqtt~panel-dev-service"), __webpack_require__.e("vendors~panel-dev-service"), __webpack_require__.e("hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-edi~530c088e"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad"), __webpack_require__.e(0), __webpack_require__.e("hui-entity-button-card-editor~hui-picture-card-editor~panel-config-automation~panel-config-script~pa~5db45e03"), __webpack_require__.e("panel-dev-service")]).then(__webpack_require__.bind(null, /*! ../panels/dev-service/ha-panel-dev-service */ "./src/panels/dev-service/ha-panel-dev-service.js"));
-  },
-  "dev-state": function devState() {
-    return Promise.all(/*! import() | panel-dev-state */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~60eddf8d"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~704fb8c7"), __webpack_require__.e("vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~a32750d8"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-calendar~panel-config-cus~ab938ece"), __webpack_require__.e("vendors~panel-dev-state"), __webpack_require__.e("hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-edi~530c088e"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad"), __webpack_require__.e(0), __webpack_require__.e("panel-dev-state")]).then(__webpack_require__.bind(null, /*! ../panels/dev-state/ha-panel-dev-state */ "./src/panels/dev-state/ha-panel-dev-state.js"));
-  },
-  "dev-template": function devTemplate() {
-    return Promise.all(/*! import() | panel-dev-template */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~a32750d8"), __webpack_require__.e("vendors~panel-dev-template"), __webpack_require__.e("panel-dev-template")]).then(__webpack_require__.bind(null, /*! ../panels/dev-template/ha-panel-dev-template */ "./src/panels/dev-template/ha-panel-dev-template.js"));
-  },
+  //  calendar: () =>
+  //    import(/* webpackChunkName: "panel-calendar" */ "../panels/calendar/ha-panel-calendar"),
+  //  config: () =>
+  //    import(/* webpackChunkName: "panel-config" */ "../panels/config/ha-panel-config"),
+  //  custom: () =>
+  //    import(/* webpackChunkName: "panel-custom" */ "../panels/custom/ha-panel-custom"),
+  //  "dev-event": () =>
+  //    import(/* webpackChunkName: "panel-dev-event" */ "../panels/dev-event/ha-panel-dev-event"),
+  //  "dev-info": () =>
+  //    import(/* webpackChunkName: "panel-dev-info" */ "../panels/dev-info/ha-panel-dev-info"),
+  //  "dev-mqtt": () =>
+  //    import(/* webpackChunkName: "panel-dev-mqtt" */ "../panels/dev-mqtt/ha-panel-dev-mqtt"),
+  //  "dev-service": () =>
+  //    import(/* webpackChunkName: "panel-dev-service" */ "../panels/dev-service/ha-panel-dev-service"),
+  //  "dev-state": () =>
+  //    import(/* webpackChunkName: "panel-dev-state" */ "../panels/dev-state/ha-panel-dev-state"),
+  //  "dev-template": () =>
+  //    import(/* webpackChunkName: "panel-dev-template" */ "../panels/dev-template/ha-panel-dev-template"),
   lovelace: function lovelace() {
-    return Promise.all(/*! import() | panel-lovelace */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-customize~panel-config-integrations~panel-c~e5758c2a"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-calendar~panel-config-cus~ab938ece"), __webpack_require__.e("vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332"), __webpack_require__.e("vendors~more-info-dialog~panel-config-automation~panel-config-cloud~panel-kiosk~panel-lovelace~panel~1e6cf785"), __webpack_require__.e("vendors~panel-config-automation~panel-config-integrations~panel-config-script~panel-config-users~pan~347d38cc"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-kiosk~panel-lovelace~pane~abfacb2f"), __webpack_require__.e("vendors~dialog-config-flow~panel-config-automation~panel-config-cloud~panel-config-integrations~pane~9cfecaa0"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-lovelace~panel-map~panel-states"), __webpack_require__.e("vendors~panel-kiosk~panel-lovelace~panel-mailbox~panel-states"), __webpack_require__.e("vendors~panel-config-automation~panel-config-cloud~panel-config-script~panel-lovelace"), __webpack_require__.e("vendors~panel-lovelace"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad"), __webpack_require__.e(0), __webpack_require__.e("panel-config-cloud~panel-config-core~panel-config-zwave~panel-dev-info~panel-lovelace~zha-add-device~04db7e16"), __webpack_require__.e("panel-config-automation~panel-config-script~panel-config-zwave~panel-kiosk~panel-lovelace~panel-stat~04fe3cc4"), __webpack_require__.e("more-info-dialog~panel-history~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-lovelace"), __webpack_require__.e("panel-lovelace")]).then(__webpack_require__.bind(null, /*! ../panels/lovelace/ha-panel-lovelace */ "./src/panels/lovelace/ha-panel-lovelace.ts"));
-  },
-  states: function states() {
-    return Promise.all(/*! import() | panel-states */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179"), __webpack_require__.e("vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-script~panel-kiosk~~500bf1bb"), __webpack_require__.e("vendors~more-info-dialog~panel-config-automation~panel-config-cloud~panel-kiosk~panel-lovelace~panel~1e6cf785"), __webpack_require__.e("vendors~panel-config-automation~panel-config-integrations~panel-config-script~panel-config-users~pan~347d38cc"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-kiosk~panel-lovelace~pane~abfacb2f"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-lovelace~panel-map~panel-states"), __webpack_require__.e("vendors~panel-kiosk~panel-lovelace~panel-mailbox~panel-states"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-states"), __webpack_require__.e("vendors~panel-kiosk~panel-states"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad"), __webpack_require__.e(0), __webpack_require__.e("panel-config-automation~panel-config-script~panel-config-zwave~panel-kiosk~panel-lovelace~panel-stat~04fe3cc4"), __webpack_require__.e("more-info-dialog~panel-history~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-kiosk~panel-states"), __webpack_require__.e("panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("panel-states")]).then(__webpack_require__.bind(null, /*! ../panels/states/ha-panel-states */ "./src/panels/states/ha-panel-states.js"));
-  },
-  history: function history() {
-    return Promise.all(/*! import() | panel-history */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~60eddf8d"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-customize~panel-config-integrations~panel-c~e5758c2a"), __webpack_require__.e("vendors~more-info-dialog~panel-history~panel-logbook"), __webpack_require__.e("vendors~panel-history~panel-logbook"), __webpack_require__.e("more-info-dialog~panel-history~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("panel-history")]).then(__webpack_require__.bind(null, /*! ../panels/history/ha-panel-history */ "./src/panels/history/ha-panel-history.js"));
-  },
-  iframe: function iframe() {
-    return __webpack_require__.e(/*! import() | panel-iframe */ "panel-iframe").then(__webpack_require__.bind(null, /*! ../panels/iframe/ha-panel-iframe */ "./src/panels/iframe/ha-panel-iframe.js"));
-  },
-  kiosk: function kiosk() {
-    return Promise.all(/*! import() | panel-kiosk */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179"), __webpack_require__.e("vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-script~panel-kiosk~~500bf1bb"), __webpack_require__.e("vendors~more-info-dialog~panel-config-automation~panel-config-cloud~panel-kiosk~panel-lovelace~panel~1e6cf785"), __webpack_require__.e("vendors~panel-config-automation~panel-config-integrations~panel-config-script~panel-config-users~pan~347d38cc"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-kiosk~panel-lovelace~pane~abfacb2f"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-lovelace~panel-map~panel-states"), __webpack_require__.e("vendors~panel-kiosk~panel-lovelace~panel-mailbox~panel-states"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-states"), __webpack_require__.e("vendors~panel-kiosk~panel-states"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad"), __webpack_require__.e(0), __webpack_require__.e("panel-config-automation~panel-config-script~panel-config-zwave~panel-kiosk~panel-lovelace~panel-stat~04fe3cc4"), __webpack_require__.e("more-info-dialog~panel-history~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-kiosk~panel-states"), __webpack_require__.e("panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("panel-states"), __webpack_require__.e("panel-kiosk")]).then(__webpack_require__.bind(null, /*! ../panels/kiosk/ha-panel-kiosk */ "./src/panels/kiosk/ha-panel-kiosk.js"));
-  },
-  logbook: function logbook() {
-    return Promise.all(/*! import() | panel-logbook */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~60eddf8d"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~704fb8c7"), __webpack_require__.e("vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332"), __webpack_require__.e("vendors~more-info-dialog~panel-history~panel-logbook"), __webpack_require__.e("vendors~panel-history~panel-logbook"), __webpack_require__.e("hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-card-edi~530c088e"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad"), __webpack_require__.e(0), __webpack_require__.e("panel-logbook")]).then(__webpack_require__.bind(null, /*! ../panels/logbook/ha-panel-logbook */ "./src/panels/logbook/ha-panel-logbook.js"));
-  },
-  mailbox: function mailbox() {
-    return Promise.all(/*! import() | panel-mailbox */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~hui-dialog-edit-card~hui-entity-button-card-editor~hui-markdown-card-editor~hui-picture-card~a32750d8"), __webpack_require__.e("vendors~panel-kiosk~panel-lovelace~panel-mailbox~panel-states"), __webpack_require__.e("vendors~panel-mailbox"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("panel-mailbox")]).then(__webpack_require__.bind(null, /*! ../panels/mailbox/ha-panel-mailbox */ "./src/panels/mailbox/ha-panel-mailbox.js"));
-  },
-  map: function map() {
-    return Promise.all(/*! import() | panel-map */[__webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-lovelace~panel-map~panel-states"), __webpack_require__.e("panel-map")]).then(__webpack_require__.bind(null, /*! ../panels/map/ha-panel-map */ "./src/panels/map/ha-panel-map.js"));
-  },
-  profile: function profile() {
-    return Promise.all(/*! import() | panel-profile */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~device-registry-detail-dialog~dialog~c2bc888a"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-customize~panel-config-integrations~panel-c~e5758c2a"), __webpack_require__.e("vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332"), __webpack_require__.e("vendors~more-info-dialog~panel-config-automation~panel-config-cloud~panel-kiosk~panel-lovelace~panel~1e6cf785"), __webpack_require__.e("vendors~dialog-config-flow~panel-config-automation~panel-config-cloud~panel-config-integrations~pane~9cfecaa0"), __webpack_require__.e("vendors~panel-profile"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("panel-profile")]).then(__webpack_require__.bind(null, /*! ../panels/profile/ha-panel-profile */ "./src/panels/profile/ha-panel-profile.js"));
-  },
-  "shopping-list": function shoppingList() {
-    return Promise.all(/*! import() | panel-shopping-list */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~panel-calendar~panel-config-automation~panel-config-core~panel-config-customize~panel-config~1b9f94fa"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-calendar~panel-config-cus~ab938ece"), __webpack_require__.e("vendors~panel-shopping-list"), __webpack_require__.e("panel-calendar~panel-config-area-registry~panel-config-automation~panel-config-cloud~panel-config-co~ec44ff5a"), __webpack_require__.e("panel-shopping-list")]).then(__webpack_require__.bind(null, /*! ../panels/shopping-list/ha-panel-shopping-list */ "./src/panels/shopping-list/ha-panel-shopping-list.js"));
-  }
+    return Promise.all(/*! import() | panel-lovelace */[__webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~notification-manager~panel-lovelace"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~onboarding-core-config~panel-lovelace"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-lovelace"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-lovelace"), __webpack_require__.e("vendors~more-info-dialog~panel-lovelace"), __webpack_require__.e("vendors~dialog-config-flow~panel-lovelace"), __webpack_require__.e("vendors~panel-lovelace"), __webpack_require__.e("dialog-config-flow~more-info-dialog~panel-lovelace"), __webpack_require__.e("more-info-dialog~panel-lovelace"), __webpack_require__.e("panel-lovelace")]).then(__webpack_require__.bind(null, /*! ../panels/lovelace/ha-panel-lovelace */ "./src/panels/lovelace/ha-panel-lovelace.ts"));
+  } //  states: () =>
+  //    import(/* webpackChunkName: "panel-states" */ "../panels/states/ha-panel-states"),
+  //  history: () =>
+  //    import(/* webpackChunkName: "panel-history" */ "../panels/history/ha-panel-history"),
+  //  iframe: () =>
+  //    import(/* webpackChunkName: "panel-iframe" */ "../panels/iframe/ha-panel-iframe"),
+  //  kiosk: () =>
+  //    import(/* webpackChunkName: "panel-kiosk" */ "../panels/kiosk/ha-panel-kiosk"),
+  //  logbook: () =>
+  //    import(/* webpackChunkName: "panel-logbook" */ "../panels/logbook/ha-panel-logbook"),
+  //  mailbox: () =>
+  //    import(/* webpackChunkName: "panel-mailbox" */ "../panels/mailbox/ha-panel-mailbox"),
+  //  map: () =>
+  //    import(/* webpackChunkName: "panel-map" */ "../panels/map/ha-panel-map"),
+  //  profile: () =>
+  //    import(/* webpackChunkName: "panel-profile" */ "../panels/profile/ha-panel-profile"),
+  //  "shopping-list": () =>
+  //    import(/* webpackChunkName: "panel-shopping-list" */ "../panels/shopping-list/ha-panel-shopping-list"),
+
 };
 
 var getRoutes = function getRoutes(panels) {
@@ -38675,7 +38078,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
           if (Object(_common_auth_token_storage__WEBPACK_IMPORTED_MODULE_1__["askWrite"])()) {
             this.updateComplete.then(function () {
-              return Promise.all(/*! import() | ha-store-auth-card */[__webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-lovelace~panel-map~panel-states"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-states"), __webpack_require__.e("ha-store-auth-card")]).then(__webpack_require__.bind(null, /*! ../dialogs/ha-store-auth-card */ "./src/dialogs/ha-store-auth-card.js"));
+              return Promise.all(/*! import() | ha-store-auth-card */[__webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-lovelace"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog"), __webpack_require__.e("ha-store-auth-card")]).then(__webpack_require__.bind(null, /*! ../dialogs/ha-store-auth-card */ "./src/dialogs/ha-store-auth-card.js"));
             }).then(function () {
               var el = document.createElement("ha-store-auth-card");
 
@@ -39150,7 +38553,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
           _get(_getPrototypeOf(_class.prototype), "firstUpdated", this).call(this, changedProps); // Need to load in advance because when disconnected, can't dynamically load code.
 
 
-          Promise.all(/*! import() | notification-manager */[__webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~notification-manager"), __webpack_require__.e("notification-manager")]).then(__webpack_require__.bind(null, /*! ../managers/notification-manager */ "./src/managers/notification-manager.ts"));
+          Promise.all(/*! import() | notification-manager */[__webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~notification-manager~panel-lovelace"), __webpack_require__.e("vendors~notification-manager"), __webpack_require__.e("notification-manager")]).then(__webpack_require__.bind(null, /*! ../managers/notification-manager */ "./src/managers/notification-manager.ts"));
         }
       }, {
         key: "hassReconnected",
@@ -39562,7 +38965,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return _this2._handleMoreInfo(e);
         }); // Load it once we are having the initial rendering done.
 
-        Promise.all(/*! import() | more-info-dialog */[__webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~8d022d61"), __webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~area-registry-detail-dialog~entity-registry-detail-dialog~more-info-dialog~panel-config-auto~58812f3e"), __webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~60eddf8d"), __webpack_require__.e("vendors~dialog-config-flow~ha-sidebar~more-info-dialog~onboarding-core-config~panel-calendar~panel-c~e05044eb"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-customize~panel-con~cb9ef179"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-customize~panel-config-integrations~panel-c~e5758c2a"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-calendar~panel-config-cus~ab938ece"), __webpack_require__.e("vendors~more-info-dialog~panel-config-integrations~panel-dev-event~panel-kiosk~panel-logbook~panel-l~3149c332"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-config-automation~panel-config-script~panel-kiosk~~500bf1bb"), __webpack_require__.e("vendors~more-info-dialog~panel-config-automation~panel-config-cloud~panel-kiosk~panel-lovelace~panel~1e6cf785"), __webpack_require__.e("vendors~dialog-config-flow~ha-mfa-module-setup-flow~more-info-dialog~panel-kiosk~panel-lovelace~pane~abfacb2f"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-lovelace~panel-map~panel-states"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-kiosk~panel-states"), __webpack_require__.e("vendors~more-info-dialog~panel-history~panel-logbook"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~onboarding-core-config"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog"), __webpack_require__.e("vendors~more-info-dialog"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-config-cloud~panel-config-entity-registry~panel-confi~13c426ad"), __webpack_require__.e(0), __webpack_require__.e("more-info-dialog~panel-history~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-config-automation~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-kiosk~panel-lovelace~panel-states"), __webpack_require__.e("more-info-dialog~panel-kiosk~panel-states"), __webpack_require__.e("more-info-dialog~panel-lovelace"), __webpack_require__.e("more-info-dialog")]).then(__webpack_require__.bind(null, /*! ../dialogs/ha-more-info-dialog */ "./src/dialogs/ha-more-info-dialog.js"));
+        Promise.all(/*! import() | more-info-dialog */[__webpack_require__.e("vendors~hui-alarm-panel-card-editor~hui-dialog-edit-view~hui-entities-card-editor~hui-entity-button-~a6d8cfe8"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~notification-manager~panel-lovelace"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~onboarding-core-config~panel-lovelace"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~panel-lovelace"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~onboarding-core-config"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog~panel-lovelace"), __webpack_require__.e("vendors~more-info-dialog~panel-lovelace"), __webpack_require__.e("vendors~dialog-config-flow~more-info-dialog"), __webpack_require__.e("vendors~ha-store-auth-card~more-info-dialog"), __webpack_require__.e("vendors~more-info-dialog"), __webpack_require__.e("dialog-config-flow~more-info-dialog~panel-lovelace"), __webpack_require__.e("more-info-dialog~panel-lovelace"), __webpack_require__.e("more-info-dialog")]).then(__webpack_require__.bind(null, /*! ../dialogs/ha-more-info-dialog */ "./src/dialogs/ha-more-info-dialog.js"));
       }
     }, {
       key: "_handleMoreInfo",
@@ -39658,7 +39061,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
             dialogShowEvent: "hass-notification",
             dialogTag: "notification-manager",
             dialogImport: function dialogImport() {
-              return Promise.all(/*! import() | notification-manager */[__webpack_require__.e("vendors~area-registry-detail-dialog~cloud-webhook-manage-dialog~dialog-cloud-certificate~dialog-conf~c4d256c6"), __webpack_require__.e("vendors~notification-manager"), __webpack_require__.e("notification-manager")]).then(__webpack_require__.bind(null, /*! ../managers/notification-manager */ "./src/managers/notification-manager.ts"));
+              return Promise.all(/*! import() | notification-manager */[__webpack_require__.e("vendors~dialog-config-flow~more-info-dialog~notification-manager~panel-lovelace"), __webpack_require__.e("vendors~notification-manager"), __webpack_require__.e("notification-manager")]).then(__webpack_require__.bind(null, /*! ../managers/notification-manager */ "./src/managers/notification-manager.ts"));
             }
           });
         }

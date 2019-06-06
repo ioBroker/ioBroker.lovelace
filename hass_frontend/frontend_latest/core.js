@@ -1057,7 +1057,9 @@ const authProm = isExternal ? () => __webpack_require__.e(/*! import() | externa
 }) => createExternalAuth(_data_auth__WEBPACK_IMPORTED_MODULE_5__["hassUrl"])) : () => Object(home_assistant_js_websocket__WEBPACK_IMPORTED_MODULE_0__["getAuth"])({
   hassUrl: _data_auth__WEBPACK_IMPORTED_MODULE_5__["hassUrl"],
   saveTokens: _common_auth_token_storage__WEBPACK_IMPORTED_MODULE_1__["saveTokens"],
-  loadTokens: () => Promise.resolve(Object(_common_auth_token_storage__WEBPACK_IMPORTED_MODULE_1__["loadTokens"])())
+  loadTokens: () => Promise.resolve(Object(_common_auth_token_storage__WEBPACK_IMPORTED_MODULE_1__["loadTokens"])()),
+  authCode: window.hassNoAuth // for IoB
+
 });
 
 const connProm = async auth => {

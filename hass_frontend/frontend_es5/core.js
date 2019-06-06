@@ -1101,7 +1101,9 @@ var authProm = isExternal ? function () {
     saveTokens: _common_auth_token_storage__WEBPACK_IMPORTED_MODULE_1__["saveTokens"],
     loadTokens: function loadTokens() {
       return Promise.resolve(Object(_common_auth_token_storage__WEBPACK_IMPORTED_MODULE_1__["loadTokens"])());
-    }
+    },
+    authCode: window.hassNoAuth // for IoB
+
   });
 };
 
