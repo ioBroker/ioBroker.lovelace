@@ -52,7 +52,7 @@
                 !editor && $themes.removeClass('error');
 
                 var _themes = doc ? Object.keys(doc) : [];
-                if (JSON.stringify(_themes) !== JSON.stringify(themes)) {
+                if (!_themes.length || JSON.stringify(_themes) !== JSON.stringify(themes)) {
                     themes = _themes;
                     var text = '<option value="default">' + _('default') + '</option>';
                     for (var i = 0; i < _themes.length; i++) {
