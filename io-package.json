@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.0.3",
+        "version": "0.1.0",
         "news": {
+            "0.1.0": {
+                "en": "Authentication could be disabled\nLovelace compiled extra for ioBroker ",
+                "de": "Die Authentifizierung kann deaktiviert werden\nLovelace extra für ioBroker zusammengestellt",
+                "ru": "Аутентификация может быть отключена\nЛовелас скомпилирован дополнительно для ioBroker",
+                "nl": "Verificatie kan worden uitgeschakeld\nLovelace heeft extra gecompileerd voor ioBroker",
+                "fr": "L'authentification pourrait être désactivée\nLovelace compilé extra pour ioBroker",
+                "pt": "Autenticação pode ser desativada\nLovelace compilado extra para ioBroker",
+                "it": "L'autenticazione potrebbe essere disabilitata\nLovelace ha compilato un extra per ioBroker",
+                "es": "La autenticación podría estar deshabilitada\nLovelace compilado extra para ioBroker",
+                "pl": "Uwierzytelnianie może być wyłączone\nLovelace skompilowany dodatkowo dla ioBroker",
+                "zh-cn": "可以禁用身份验证\nLovelace为ioBroker编译了额外的内容"
+            },
             "0.0.3": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",
