@@ -1,127 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="preload" href="/frontend_latest/core.js" as="script" crossorigin />
-    <link
-      rel="preload"
-      href="/static/fonts/roboto/Roboto-Regular.ttf"
-      as="font"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="/static/fonts/roboto/Roboto-Medium.ttf"
-      as="font"
-      crossorigin
-    />
+<head>
+    <link rel="preload" href="/frontend_latest/core.c42f1d37.js" as="script" crossorigin>
+    <link rel="preload" href="/static/fonts/roboto/Roboto-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="/static/fonts/roboto/Roboto-Medium.ttf" as="font" crossorigin>
     <meta charset="utf-8">
-<link rel='manifest' href='/manifest.json' crossorigin="use-credentials">
-<link rel='icon' href='/static/icons/favicon.ico'>
-<meta name='viewport' content='width=device-width, user-scalable=no'>
-<style>
-  body {
-    font-family: Roboto, sans-serif;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-weight: 400;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-  }
-</style>
-
+    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
+    <link rel="icon" href="/static/icons/favicon.ico">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <style>body {
+        font-family: Roboto, sans-serif;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-weight: 400;
+        margin: 0;
+        padding: 0;
+        height: 100vh
+    }</style>
     <title>ioBroker</title>
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/static/icons/favicon-apple-180x180.png"
-    />
-    <link rel="mask-icon" href="/static/icons/mask-icon.svg" color="#03a9f4" />
-    <meta name="apple-itunes-app" content="app-id=1099568401" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="msapplication-square70x70logo"
-      content="/static/icons/tile-win-70x70.png"
-    />
-    <meta
-      name="msapplication-square150x150logo"
-      content="/static/icons/tile-win-150x150.png"
-    />
-    <meta
-      name="msapplication-wide310x150logo"
-      content="/static/icons/tile-win-310x150.png"
-    />
-    <meta
-      name="msapplication-square310x310logo"
-      content="/static/icons/tile-win-310x310.png"
-    />
-    <meta name="msapplication-TileColor" content="#03a9f4ff" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="referrer" content="same-origin" />
-    <meta name="theme-color" content="#THEMEC" />
-    <style>
-      #ha-init-skeleton::before {
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/favicon-apple-180x180.png">
+    <link rel="mask-icon" href="/static/icons/mask-icon.svg" color="#03a9f4">
+    <meta name="apple-itunes-app" content="app-id=1099568401">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="msapplication-square70x70logo" content="/static/icons/tile-win-70x70.png">
+    <meta name="msapplication-square150x150logo" content="/static/icons/tile-win-150x150.png">
+    <meta name="msapplication-wide310x150logo" content="/static/icons/tile-win-310x150.png">
+    <meta name="msapplication-square310x310logo" content="/static/icons/tile-win-310x310.png">
+    <meta name="msapplication-TileColor" content="#03a9f4ff">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="referrer" content="same-origin">
+    <meta name="theme-color" content="{{ theme_color }}">
+    <style>#ha-init-skeleton::before {
         display: block;
         content: "";
         height: 112px;
-        background-color: #THEMEC;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="ha-init-skeleton"></div>
-    <home-assistant> </home-assistant>
+        background-color: {{ theme_color }}
+    }</style>
+</head>
+<body>
+<div id="ha-init-skeleton"></div>
+<home-assistant></home-assistant>
+<script>
+    function _ls(e) {
+        var t = document.documentElement, s = t.insertBefore(document.createElement("script"), t.lastChild);
+        s.type = "text/javascript", s.src = e
+    }
 
-        <script>
-      function _ls(src) {
-        var doc = document.documentElement;
-        var script = doc.insertBefore(
-          document.createElement("script"),
-          doc.lastChild
-        );
-        script.type = "text/javascript";
-        script.src = src;
-      }
-      window.Polymer = {
-        lazyRegister: true,
-        useNativeCSSProperties: true,
+    window.Polymer = {
+        lazyRegister: !0,
+        useNativeCSSProperties: !0,
         dom: "shadow",
-        suppressTemplateNotifications: true,
-        suppressBindingNotifications: true,
-      };
-      var webComponentsSupported =
-        "customElements" in window &&
-        "content" in document.createElement("template");
-      if (!webComponentsSupported) {
-        _ls("/static/polyfills/webcomponents-bundle.js");
-      }
-      var isS101 = /\s+Version\/10\.1(?:\.\d+)?\s+Safari\//.test(navigator.userAgent);
-    </script>
+        suppressTemplateNotifications: !0,
+        suppressBindingNotifications: !0
+    };
+    var webComponentsSupported = "customElements" in window && "content" in document.createElement("template");
+    webComponentsSupported || _ls("/static/polyfills/webcomponents-bundle.js");
+    var isS101 = /\s+Version\/10\.1(?:\.\d+)?\s+Safari\//.test(navigator.userAgent)
+</script>
+<script type="module">
+    import "/frontend_latest/core.c42f1d37.js";
+    import "/frontend_latest/app.6d82fe82.js";
+    import "/frontend_latest/hass-icons.2b3e9d6a.js";
 
-
-    <script type="module">
-      import "/frontend_latest/core.js";
-      import "/frontend_latest/app.js";
-      import "/frontend_latest/hass-icons.js";
-      window.customPanelJS = "/frontend_latest/custom-panel.js";
-    </script>
-
-    <script nomodule>
-      (function() {
-        // // Safari 10.1 supports type=module but ignores nomodule, so we add this check.
-        if (!isS101) {
-          window.customPanelJS = "/frontend_es5/custom-panel.js";
-          _ls("/static/polyfills/custom-elements-es5-adapter.js");
-          _ls("/frontend_es5/compatibility.js");
-          _ls("/frontend_es5/core.js");
-          _ls("/frontend_es5/app.js");
-          _ls("/frontend_es5/hass-icons.js");
-        }
-      })();
-    </script>
-
-    {% for extra_url in extra_urls -%}
-    <link rel="import" href="{{ extra_url }}" async />
-    {% endfor -%}
-  </body>
+    window.customPanelJS = "/frontend_latest/custom-panel.12931a91.js";
+</script>
+<script nomodule>
+    isS101 || (window.customPanelJS = "/frontend_es5/custom-panel.9229b9ae.js", _ls("/static/polyfills/custom-elements-es5-adapter.js"), _ls("/frontend_es5/compatibility.6672980e.js"), _ls("/frontend_es5/core.bceeb420.js"), _ls("/frontend_es5/app.3e5bde86.js"), _ls("/frontend_es5/hass-icons.5e345082.js"))
+</script>
+</body>
 </html>
