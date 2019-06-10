@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "news": {
+            "0.1.1": {
+                "en": "Fixed control of states",
+                "de": "Feste Kontrolle über Zustände",
+                "ru": "Исправлен контроль состояний",
+                "pt": "Controle fixo de estados",
+                "fr": "Contrôle fixe des états",
+                "nl": "Vaste controle van toestanden",
+                "it": "Controllo fisso degli stati",
+                "es": "Control fijo de estados.",
+                "pl": "Naprawiono kontrolę stanów",
+                "zh-cn": "固定国家控制"
+            },
             "0.1.0": {
                 "en": "Authentication could be disabled\nLovelace compiled extra for ioBroker ",
                 "de": "Die Authentifizierung kann deaktiviert werden\nLovelace extra für ioBroker zusammengestellt",
