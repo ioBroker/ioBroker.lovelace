@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="preload" href="/frontend_latest/core.c42f1d37.js" as="script" crossorigin>
-    <link rel="preload" href="/static/fonts/roboto/Roboto-Regular.ttf" as="font" crossorigin>
-    <link rel="preload" href="/static/fonts/roboto/Roboto-Medium.ttf" as="font" crossorigin>
+    <link rel="preload" href="/frontend_latest/core.f81f9d72.js" as="script" crossorigin="use-credentials">
+    <link rel="preload" href="/static/fonts/roboto/Roboto-Regular.woff2" as="font" crossorigin>
+    <link rel="preload" href="/static/fonts/roboto/Roboto-Medium.woff2" as="font" crossorigin>
     <meta charset="utf-8">
     <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
     <link rel="icon" href="/static/icons/favicon.ico">
@@ -41,31 +41,47 @@
 <div id="ha-init-skeleton"></div>
 <home-assistant></home-assistant>
 <script>
-    function _ls(e) {
-        var t = document.documentElement, s = t.insertBefore(document.createElement("script"), t.lastChild);
-        s.type = "text/javascript", s.src = e
-    }
+	function _ls(e) {
+	    var t = document.documentElement, s = t.insertBefore(document.createElement("script"), t.lastChild);
+	    s.type = "text/javascript", s.src = e
+	}
 
-    window.Polymer = {
-        lazyRegister: !0,
-        useNativeCSSProperties: !0,
-        dom: "shadow",
-        suppressTemplateNotifications: !0,
-        suppressBindingNotifications: !0
-    };
-    var webComponentsSupported = "customElements" in window && "content" in document.createElement("template");
-    webComponentsSupported || _ls("/static/polyfills/webcomponents-bundle.js");
-    var isS101 = /\s+Version\/10\.1(?:\.\d+)?\s+Safari\//.test(navigator.userAgent)
+	window.Polymer = {
+	    lazyRegister: !0,
+	    useNativeCSSProperties: !0,
+	    dom: "shadow",
+	    suppressTemplateNotifications: !0,
+	    suppressBindingNotifications: !0
+	};
+	var webComponentsSupported = "customElements" in window && "content" in document.createElement("template");
+	webComponentsSupported || _ls("/static/polyfills/webcomponents-bundle.js");
+	var isS101 = /\s+Version\/10\.1(?:\.\d+)?\s+Safari\//.test(navigator.userAgent)
 </script>
-<script type="module">
-    import "/frontend_latest/core.c42f1d37.js";
-    import "/frontend_latest/app.6d82fe82.js";
-    import "/frontend_latest/hass-icons.2b3e9d6a.js";
+<script type="module" crossorigin="use-credentials">
+	import "/frontend_latest/core.f81f9d72.js";
+	import "/frontend_latest/app.2b8117a2.js";
+	import "/frontend_latest/hass-icons.beefe6c2.js";
 
-    window.customPanelJS = "/frontend_latest/custom-panel.12931a91.js";
+	window.customPanelJS = "/frontend_latest/custom-panel.4c8f0d68.js";
 </script>
+{% for extra_module in extra_modules -%}
+<script type="module" crossorigin="use-credentials" src="{{ extra_module }}"></script>
+{% endfor -%}
 <script nomodule>
-    isS101 || (window.customPanelJS = "/frontend_es5/custom-panel.9229b9ae.js", _ls("/static/polyfills/custom-elements-es5-adapter.js"), _ls("/frontend_es5/compatibility.6672980e.js"), _ls("/frontend_es5/core.bceeb420.js"), _ls("/frontend_es5/app.3e5bde86.js"), _ls("/frontend_es5/hass-icons.5e345082.js"))
+    (function () {
+    // // Safari 10.1 supports type=module but ignores nomodule, so we add this check.
+    if (!isS101) {
+        window.customPanelJS = "/frontend_es5/custom-panel.aa9eaf4d.js";
+        _ls("/static/polyfills/custom-elements-es5-adapter.js");
+        _ls("/frontend_es5/compatibility.6c0946b5.js");
+        _ls("/frontend_es5/core.aa088dc7.js");
+        _ls("/frontend_es5/app.68818144.js");
+        _ls("/frontend_es5/hass-icons.8f768402.js");
+        {% for extra_script in extra_js_es5 -%}
+        _ls("{{ extra_script }}");
+        {% endfor -%}
+    }
+})();
 </script>
 </body>
 </html>

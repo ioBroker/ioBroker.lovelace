@@ -1,4 +1,4 @@
-importScripts("/frontend_latest/precache-manifest.077fa15a6e2e14c75f2229c05d0280ff.js", "/frontend_latest/workbox-v4.3.1/workbox-sw.js");
+importScripts("/frontend_latest/precache-manifest.55cfcb2f1243f080ad1baff525b94bda.js", "/frontend_latest/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/frontend_latest/workbox-v4.3.1"});
 /*
   This file is not run through webpack, but instead is directly manipulated
