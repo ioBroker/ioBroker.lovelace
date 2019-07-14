@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "news": {
+            "0.1.2": {
+                "en": "translate Chinese words to pinyin",
+                "de": "übersetzen chinesische Wörter in Pinyin",
+                "ru": "перевести китайские слова в пиньинь",
+                "pt": "traduzir palavras chinesas para pinyin",
+                "nl": "vertaal Chinese woorden naar pinyin",
+                "fr": "traduire des mots chinois en pinyin",
+                "it": "traduci le parole cinesi in pinyin",
+                "es": "traducir palabras chinas a pinyin",
+                "pl": "przetłumacz chińskie słowa na pinyin",
+                "zh-cn": "将汉语单词翻译成拼音"
+            },
             "0.1.1": {
                 "en": "Fixed control of states",
                 "de": "Feste Kontrolle über Zustände",
@@ -89,14 +101,13 @@
         "supportCustoms": true,
         "messagebox": true,
         "localLink": "%protocol%://%ip%:%port%/",
-
         "welcomeScreen1": {
-          "link": "",
-          "name": "Lovelace",
-          "img": "lovelace/icons/favicon-192x192.png",
-          "color": "#53C1F2",
-          "order": 2,
-          "localLink": true
+            "link": "",
+            "name": "Lovelace",
+            "img": "lovelace/icons/favicon-192x192.png",
+            "color": "#53C1F2",
+            "order": 2,
+            "localLink": true
         },
         "dependencies": [
             {
@@ -105,24 +116,23 @@
         ]
     },
     "native": {
-        "history":                  "",
-        "port":                     8091,
-        "auth":                     false,
-        "secure":                   false,
-        "bind":                     "0.0.0.0",
-        "certPublic":               "",
-        "certPrivate":              "",
-        "certChained":              "",
-        "defaultUser":              "admin",
+        "history": "",
+        "port": 8091,
+        "auth": false,
+        "secure": false,
+        "bind": "0.0.0.0",
+        "certPublic": "",
+        "certPrivate": "",
+        "certChained": "",
+        "defaultUser": "admin",
         "onlyAllowWhenUserIsOwner": false,
-        "ttl":                      3600,
-        "themes":                   "",
-        "defaultTheme":             "default",
-        "hideHeader":               false,
-
-        "leEnabled":                false,
-        "leUpdate":                 false,
-        "leCheckPort":              80
+        "ttl": 3600,
+        "themes": "",
+        "defaultTheme": "default",
+        "hideHeader": false,
+        "leEnabled": false,
+        "leUpdate": false,
+        "leCheckPort": 80
     },
     "objects": [],
     "instanceObjects": [
@@ -140,9 +150,9 @@
             "common": {
                 "name": "Info about connected socket clients",
                 "type": "string",
-                "read":  true,
+                "read": true,
                 "write": false,
-                "role":  "text"
+                "role": "text"
             }
         },
         {
@@ -151,9 +161,9 @@
             "common": {
                 "name": "If the list of entities was updated",
                 "type": "boolean",
-                "read":  true,
+                "read": true,
                 "write": false,
-                "role":  "state"
+                "role": "state"
             }
         },
         {
@@ -171,9 +181,7 @@
             "common": {
                 "name": "Storage"
             },
-            "native": {
-
-            }
+            "native": {}
         },
         {
             "_id": "session",
@@ -183,9 +191,7 @@
                 "type": "json",
                 "role": "state"
             },
-            "native": {
-
-            }
+            "native": {}
         },
         {
             "_id": "control",
