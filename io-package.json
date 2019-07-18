@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "news": {
+            "0.1.3": {
+                "en": "if no ACTUAL is discovered, use SET value as switch entity value",
+                "de": "Wenn kein IST-Wert erkannt wird, verwenden Sie den SET-Wert als Wert für die Switch-Entität",
+                "ru": "если ACTUAL не обнаружено, используйте значение SET в качестве значения переключателя",
+                "pt": "se nenhum ACTUAL for descoberto, use o valor SET como o valor da entidade do switch",
+                "nl": "als er geen ACTUAL wordt ontdekt, gebruikt u de SET-waarde als waarde van de schakelentiteit",
+                "fr": "si aucun ACTUAL n'est découvert, utilisez la valeur SET comme valeur d'entité de commutateur",
+                "it": "se non viene rilevato ACTUAL, utilizzare il valore SET come valore di entità switch",
+                "es": "Si no se descubre ningún ACTUAL, use el valor SET como valor de entidad de conmutación",
+                "pl": "jeśli nie wykryto żadnego RZECZYWISTEGO, użyj wartości SET jako wartości jednostki przełączającej",
+                "zh-cn": "如果未发现ACTUAL，则使用SET值作为switch的值"
+            },
             "0.1.2": {
                 "en": "translate Chinese words to pinyin",
                 "de": "übersetzen chinesische Wörter in Pinyin",
