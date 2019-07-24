@@ -5516,7 +5516,7 @@
           >[[localize('ui.dialogs.more_info_control.updater.title')]]</a
         >
       </div>
-    `}static get properties(){return{stateObj:{type:Object}}}computeReleaseNotes(e){return e.attributes.release_notes||"https://www.home-assistant.io/docs/installation/updating/"}});customElements.define("more-info-vacuum",class extends n.a{static get template(){return a.a`
+    `}static get properties(){return{stateObj:{type:Object}}}computeReleaseNotes(e){return e.attributes.release_notes||"https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1/docs/installation/updating/"}});customElements.define("more-info-vacuum",class extends n.a{static get template(){return a.a`
       <style include="iron-flex iron-flex-alignment"></style>
       <style>
         :host {

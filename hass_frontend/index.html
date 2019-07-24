@@ -40,30 +40,26 @@
 <body>
 <div id="ha-init-skeleton"></div>
 <home-assistant></home-assistant>
-<script>
-    function _ls(e) {
-        var t = document.documentElement, s = t.insertBefore(document.createElement("script"), t.lastChild);
-        s.type = "text/javascript", s.src = e
-    }
+<script>function _ls(e) {
+    var t = document.documentElement, s = t.insertBefore(document.createElement("script"), t.lastChild);
+    s.type = "text/javascript", s.src = e
+}
 
-    window.Polymer = {
-        lazyRegister: !0,
-        useNativeCSSProperties: !0,
-        dom: "shadow",
-        suppressTemplateNotifications: !0,
-        suppressBindingNotifications: !0
-    };
-    var webComponentsSupported = "customElements" in window && "content" in document.createElement("template");
-    webComponentsSupported || _ls("/static/polyfills/webcomponents-bundle.js");
-    var isS101 = /\s+Version\/10\.1(?:\.\d+)?\s+Safari\//.test(navigator.userAgent)
-</script>
-<script type="module" crossorigin="use-credentials">
-    import "/frontend_latest/core.4004e4f2.js";
-    import "/frontend_latest/app.47a2f5ee.js";
-    import "/frontend_latest/hass-icons.d26fa25d.js";
+window.Polymer = {
+    lazyRegister: !0,
+    useNativeCSSProperties: !0,
+    dom: "shadow",
+    suppressTemplateNotifications: !0,
+    suppressBindingNotifications: !0
+};
+var webComponentsSupported = "customElements" in window && "content" in document.createElement("template");
+webComponentsSupported || _ls("/static/polyfills/webcomponents-bundle.js");
+var isS101 = /\s+Version\/10\.1(?:\.\d+)?\s+Safari\//.test(navigator.userAgent)</script>
+<script type="module" crossorigin="use-credentials">import "/frontend_latest/core.4004e4f2.js";
+import "/frontend_latest/app.07d51c63.js";
+import "/frontend_latest/hass-icons.d26fa25d.js";
 
-    window.customPanelJS = "/frontend_latest/custom-panel.66e3f236.js";
-</script>
+window.customPanelJS = "/frontend_latest/custom-panel.66e3f236.js";</script>
 {% for extra_module in extra_modules -%}
 <script type="module" crossorigin="use-credentials" src="{{ extra_module }}"></script>
 {% endfor -%}
@@ -75,7 +71,7 @@
             _ls("/static/polyfills/custom-elements-es5-adapter.js");
             _ls("/frontend_es5/compatibility.a22d1909.js");
             _ls("/frontend_es5/core.cb7070e3.js");
-            _ls("/frontend_es5/app.6f3e3149.js");
+            _ls("/frontend_es5/app.10ca381b.js");
             _ls("/frontend_es5/hass-icons.4fc4f601.js");
             {% for extra_script in extra_js_es5 -%}
             _ls("{{ extra_script }}");
