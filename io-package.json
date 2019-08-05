@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.1.3",
+        "version": "0.1.4",
         "news": {
+            "0.1.4": {
+                "en": "fixed timestamp conversion",
+                "de": "Zeitstempelkonvertierung",
+                "ru": "исправлено преобразование метки времени",
+                "pt": "conversão fixa de timestamp",
+                "nl": "vaste tijdstempelconversie",
+                "fr": "conversion d'horodatage fixe",
+                "it": "conversione data / ora fissa",
+                "es": "conversión de marca de tiempo fija",
+                "pl": "poprawiona konwersja znacznika czasu",
+                "zh-cn": "固定时间戳转换"
+            },
             "0.1.3": {
                 "en": "if no ACTUAL is discovered, use SET value as switch entity value",
                 "de": "Wenn kein IST-Wert erkannt wird, verwenden Sie den SET-Wert als Wert für die Switch-Entität",
