@@ -39,7 +39,8 @@
             <label class="translate">Entity type</label>
         </div>
         <div class="col s4">
-            <input type="text" data-field="name" size="20">
+            <input type="text" data-field="name" size="20" list="suggestionList">
+            <datalist id="suggestionList"></datalist>
             <label class="translate">Entity name</label>
             <span class="translate">(unique for one entity type)</span>
         </div>
@@ -47,7 +48,7 @@
 </script>
 
 <script type="text/javascript">
-    $.get("adapter/lovelace/words.js", function(script) {
+    $.get("adapter/lovelace/words.js", function (script) {
         let translation = script.substring(script.indexOf('{'), script.length);
         translation = translation.substring(0, translation.lastIndexOf(';'));
         $.extend(systemDictionary, JSON.parse(translation));
@@ -60,10 +61,74 @@
     if (typeof defaults !== 'undefined') {
         defaults["lovelace"] = function (obj, instanceObj) {
             return {
-                enabled:        false,
-                entity:         '',
-                name:           ''
+                enabled: false,
+                entity: '',
+                name: ''
             };
         }
     }
+
+    if (typeof customPostInits !== 'undefined') {
+        customPostInits.lovelace = function ($div, values, instanceObj, type, role) {
+            try {
+                var Input = {};
+                var DataList = {};
+                initializeDivs();
+
+                intializeSuggestions();
+
+                function initializeDivs() {
+                    // DataList
+                    DataList.suggestionList = $div.find('datalist[id="suggestionList"]');
+                }
+
+                async function intializeSuggestions() {
+                    let entitiesList = await getEntitiesAsync();
+                    let suggestionList = [];
+
+                    for (var i = 0; i < entitiesList.length; i++) {
+                        let entityId = entitiesList[i].entity_id;
+
+                        if (entityId) {
+                            // remove Id
+                            let prefix = entityId.substring(entityId.indexOf('.') + 1, entityId.length);
+
+                            if (prefix && prefix.includes('_')) {
+                                // loop trough prefixs
+                                let sug = prefix;
+                                for (var d = 0; d <= prefix.split("_").length - 1; d++) {
+                                    sug = sug.substring(0, sug.lastIndexOf('_'))
+
+                                    if (sug) {
+                                        entityIdSuggestion = `<option value="${sug}_">`;
+                                        if (!suggestionList.includes(entityIdSuggestion)) {
+                                            // nur zu prefixId array hinzufügen wenn noch nicht vorhanden
+                                            suggestionList.push(entityIdSuggestion);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    DataList.suggestionList.html(suggestionList.sort().join("\n"))
+                }
+            } catch (err) {
+                gMain.showError(`Error: ${err.message}<br>Stack: ${err.stack}`);
+            }
+        }
+    }
+
+    async function getEntitiesAsync(pattern) {
+        return new Promise((resolve, reject) => {
+            gMain.socket.emit('sendTo', 'lovelace.0', 'browse', null, function (list) {
+                if (list && Object.keys(list).length > 0) {
+                    resolve(list);
+                } else {
+                    resolve(null);
+                }
+            });
+        });
+    }
+
 </script>
