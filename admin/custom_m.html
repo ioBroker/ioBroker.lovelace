@@ -71,27 +71,49 @@
     if (typeof customPostInits !== 'undefined') {
         customPostInits.lovelace = function ($div, values, instanceObj, type, role) {
             try {
-                var Input = {};
-                var DataList = {};
+                let entitiesIdList = [];
+
+                let Input = {};
+                let DataList = {};
+
                 initializeDivs();
 
                 intializeSuggestions();
 
+                events();
+
                 function initializeDivs() {
+                    // Input
+                    Input.name = $div.find('input[data-field="name"]');
+
                     // DataList
                     DataList.suggestionList = $div.find('datalist[id="suggestionList"]');
                 }
 
+                function events() {
+                    Input.name.on('input', function () {
+                        if (this.value.length > 0 && entitiesIdList && entitiesIdList.length > 0) {
+                            if (entitiesIdList.includes(this.value)) {
+                                gMain.showError(_("Entity name '%s' is already in use", this.value));
+                                this.value = '';                                
+                            }
+                        }
+                    });
+                }
+
                 async function intializeSuggestions() {
-                    let entitiesList = await getEntitiesAsync();
+                    entitiesList = await getEntitiesAsync();
                     let suggestionList = [];
 
                     for (var i = 0; i < entitiesList.length; i++) {
                         let entityId = entitiesList[i].entity_id;
 
                         if (entityId) {
-                            // remove Id
+                            // remove entity type
                             let prefix = entityId.substring(entityId.indexOf('.') + 1, entityId.length);
+
+                            // add entityId to List
+                            entitiesIdList.push(prefix);
 
                             if (prefix && prefix.includes('_')) {
                                 // loop trough prefixs
