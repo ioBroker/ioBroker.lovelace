@@ -71,10 +71,20 @@
     if (typeof customPostInits !== 'undefined') {
         customPostInits.lovelace = function ($div, values, instanceObj, type, role) {
             try {
+                let myNamespace = instanceObj._id.replace("system.adapter.", "");
+                let currentObj = gMain.objects[gMain.navigateGetParams()];
+
                 let entitiesIdList = [];
 
                 let Input = {};
                 let DataList = {};
+                var Select = {};
+
+                var selectedEntity = "auto";
+                if (currentObj && currentObj.common && currentObj.common.custom && currentObj.common.custom[myNamespace] && currentObj.common.custom[myNamespace].entity) {
+                    selectedEntity = currentObj.common.custom[myNamespace].entity;
+                }
+
 
                 initializeDivs();
 
@@ -82,22 +92,30 @@
 
                 events();
 
+                
                 function initializeDivs() {
                     // Input
                     Input.name = $div.find('input[data-field="name"]');
 
                     // DataList
                     DataList.suggestionList = $div.find('datalist[id="suggestionList"]');
+
+                    // Select
+                    Select.entity = $div.find('select[data-field="entity"]');
                 }
 
                 function events() {
                     Input.name.on('input', function () {
                         if (this.value.length > 0 && entitiesIdList && entitiesIdList.length > 0) {
-                            if (entitiesIdList.includes(this.value)) {
+                            if (entitiesIdList.includes(`${selectedEntity}.${this.value}`)) {
                                 gMain.showError(_("Entity name '%s' is already in use", this.value));
-                                this.value = '';                                
+                                this.value = '';
                             }
                         }
+                    });
+
+                    Select.entity.on('change', function () {
+                        selectedEntity = this.value;
                     });
                 }
 
@@ -109,11 +127,11 @@
                         let entityId = entitiesList[i].entity_id;
 
                         if (entityId) {
+                            // add entityId to List
+                            entitiesIdList.push(entityId);
+
                             // remove entity type
                             let prefix = entityId.substring(entityId.indexOf('.') + 1, entityId.length);
-
-                            // add entityId to List
-                            entitiesIdList.push(prefix);
 
                             if (prefix && prefix.includes('_')) {
                                 // loop trough prefixs
