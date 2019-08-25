@@ -38,12 +38,16 @@
             </select>
             <label class="translate">Entity type</label>
         </div>
+      
         <div class="col s4">
             <input type="text" data-field="name" size="20" list="suggestionList">
             <datalist id="suggestionList"></datalist>
             <label class="translate">Entity name</label>
             <span class="translate">(unique for one entity type)</span>
         </div>
+        <div class="col s0">
+            <a data-command="entityNameAutoGenerate" class="values-buttons btn-floating btn-medium waves-effect waves-light" title="Auto generate entity name form object id"><i class="material-icons">create</i></a>
+        </div>          
     </div>
 </script>
 
@@ -79,6 +83,7 @@
                 let Input = {};
                 let DataList = {};
                 var Select = {};
+                var Button = {};
 
                 var selectedEntity = "auto";
                 if (currentObj && currentObj.common && currentObj.common.custom && currentObj.common.custom[myNamespace] && currentObj.common.custom[myNamespace].entity) {
@@ -92,7 +97,7 @@
 
                 events();
 
-                
+
                 function initializeDivs() {
                     // Input
                     Input.name = $div.find('input[data-field="name"]');
@@ -102,6 +107,9 @@
 
                     // Select
                     Select.entity = $div.find('select[data-field="entity"]');
+
+                    // Buttons
+                    Button.autoGenerateEntityName = $div.find('.values-buttons');
                 }
 
                 function events() {
@@ -113,13 +121,19 @@
                             }
 
                             if (this.value.includes('.')) {
-                                this.value = this.value.replace(/\./g,'_');
+                                this.value = this.value.replace(/\./g, '_');
                             }
                         }
                     });
 
                     Select.entity.on('change', function () {
                         selectedEntity = this.value;
+                    });
+
+                    Button.autoGenerateEntityName.click(function () {
+                        let id = currentObj._id;
+                        extractInstance = id.match(/\.\d+\./);
+                        Input.name.val(id.split(extractInstance, 2)[1].replace(/\./g, '_'));
                     });
                 }
 
