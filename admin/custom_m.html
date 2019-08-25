@@ -111,6 +111,10 @@
                                 gMain.showError(_("Entity name '%s' is already in use", this.value));
                                 this.value = '';
                             }
+
+                            if (this.value.includes('.')) {
+                                this.value = this.value.replace(/\./g,'_');
+                            }
                         }
                     });
 
