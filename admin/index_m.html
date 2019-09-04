@@ -100,15 +100,36 @@
                 });
                 var click2copy = _('Click to copy');
                 for (var i = 0; i < list.length; i++) {
-                    text += '<tr><td class="entity-id" title="' + click2copy + '">' + list[i].entity_id + '</td>';
+                    text += '<tr>';
+
+                    if (list[i].isManual) {
+                        text += '<td><a class="btn-floating btn-small waves-effect waves-light open-custom" data-name="' + list[i].context.id + '"><i class="material-icons">build</i></a></td>';
+                    } else {
+                        text += '<td><a class="btn-floating btn-small waves-effect waves-light open-custom" data-name="' + list[i].context.id + '" disabled="true"><i class="material-icons">build</i></a></td>';
+                    }
+                    text += '<td class="entity-id" title="' + click2copy + '">' + list[i].entity_id + '</td>';
                     text += '<td>' + formatIds(list[i].context.STATE) + '</td><td class="attributes">';
 
-                    if (list[i].context.ATTRIBUTES) {
+                    if (list[i].attributes || list[i].context.ATTRIBUTES) {
                         var attrs = [];
-                        list[i].context.ATTRIBUTES.forEach(function (attr) {
-                            attrs.push('<b>' + attr.attribute + '</b>: ' + formatIds(attr));
-                        });
-                        text += attrs.join('<br>');
+                        var keysList = [];
+
+                        if (list[i].context.ATTRIBUTES) {
+                            list[i].context.ATTRIBUTES.forEach(function (attr) {
+                                attrs.push('<b>' + attr.attribute + '</b>: ' + formatIds(attr));
+                                keysList.push(attr.attribute);
+                            });
+                        }
+
+                        if (list[i].attributes) {
+                            for (var key in list[i].attributes) {
+                                let attribute = '<b>' + key + '</b>: ' + list[i].attributes[key];
+                                if (!keysList.includes(key)) {
+                                    attrs.push('<b>' + key + '</b>: ' + list[i].attributes[key]);
+                                }
+                            }
+                        }
+                        text += attrs.sort().join('<br>');
                     }
                     text += '</td></tr>';
                 }
@@ -125,6 +146,11 @@
                 }
 
                 $entities.find('.entity-id').on('click', clippyCopy);
+
+                $entities.find('.open-custom').off('click').on('click', function () {
+                    let url = `${window.location.origin}/#tab-objects/customs/${$(this).data('name')}`;
+                    window.open(url);
+                });
             });
         }
 
@@ -698,7 +724,7 @@
             <div class="div-entities">
                 <table>
                     <thead>
-                        <tr><th>Entity ID</th><th>States</th><th class="attributes">Attributes</th></tr>
+                        <tr><th></th><th>Entity ID</th><th>States</th><th class="attributes">Attributes</th></tr>
                     </thead>
                     <tbody id="entities">
 
