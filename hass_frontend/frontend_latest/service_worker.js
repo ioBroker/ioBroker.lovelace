@@ -1,4 +1,4 @@
-importScripts("/frontend_latest/precache-manifest.b2d9e8c38a7a40c1cd3c04d1bf42c27a.js", "/frontend_latest/workbox-v4.3.1/workbox-sw.js");
+importScripts("/frontend_latest/precache-manifest.6beadb14a762f4a411c2eeb3435d1409.js", "/frontend_latest/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/frontend_latest/workbox-v4.3.1"});
 /*
   This file is not run through webpack, but instead is directly manipulated
@@ -21,9 +21,11 @@ function initRouting() {
     new workbox.strategies.NetworkOnly()
   );
 
-  // Get manifest and service worker from network.
+  // Get manifest, service worker, onboarding from network.
   workbox.routing.registerRoute(
-    new RegExp(`${location.host}/(service_worker.js|manifest.json)`),
+    new RegExp(
+      `${location.host}/(service_worker.js|manifest.json|onboarding.html)`
+    ),
     new workbox.strategies.NetworkOnly()
   );
 
@@ -80,11 +82,7 @@ function initPushNotifications() {
         event.waitUntil(
           self.registration
             .getNotifications({ tag: data.tag })
-            .then(function(notifications) {
-              for (const n of notifications) {
-                n.close();
-              }
-            })
+            .then((notifications) => notifications.forEach((n) => n.close()))
         );
         return;
       }
