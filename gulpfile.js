@@ -497,7 +497,24 @@ gulp.task('rename', done => {
             newText = newText.replace('https://www.home-assistant.io/images/merchandise/shirt-frontpage.png', '/images/image.jpg');
             newText = newText.replace('https://www.home-assistant.io', 'https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1');
             if (fileName.endsWith('index.html')) {
+                let m = newText.match(/[^"]<script[^>]*>[^\n]/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text[0] + '\n' + text.substring(1, text.length - 1) + '\n' + text[text.length - 1]));
+
+                m = newText.match(/[^\n]<\/script>[^\n]/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text.replace('</script>', '\n</script>\n')));
+
+
+                newText = newText.replace(/\n\n\n/g, '\n');
+                newText = newText.replace(/\n\n/g, '\n');
+                newText = newText.replace(`<script type="module" crossorigin="use-credentials" src="{{ extra_module }}">
+</script>`, '<script type="module" crossorigin="use-credentials" src="{{ extra_module }}"></script>');
                 newText = newText.replace('{% for extra_url in extra_urls -%}<link rel="import" href="{{ extra_url }}" async>{% endfor -%}', '');
+                newText = newText.replace(`{% for extra_url in extra_urls -%}
+    <link rel="import" href="{{ extra_url }}" async />
+    {% endfor -%}`, '');
+                newText = newText.replace('</script>{% endfor -%}', '</script>\n{% endfor -%}');
             }
 
             if (newText !== text) {

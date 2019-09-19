@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.1.5",
+        "version": "0.2.0",
         "news": {
+            "0.2.0": {
+                "en": "Some bugs on \"Custom Dialog\" were fixed\nbug fix: if value set by lovelace and max is not 100\nlog warn if no max value set for light entity\nVersion of home-assistant-polymer was updated to 1.0.0",
+                "de": "Einige Fehler im \"Benutzerdefinierten Dialog\" wurden behoben\nFehlerbehebung: Wenn der Wert von lovelace und max nicht 100 ist\nlog warnen, wenn kein Maximalwert für die Lichteinheit eingestellt ist\nDie Version von home-assistant-polymer wurde auf 1.0.0 aktualisiert",
+                "ru": "Некоторые ошибки в «Custom Dialog» были исправлены\nисправление ошибки: если значение установлено lovelace и max не равно 100\nпротоколировать предупреждение, если для объекта не установлено максимальное значение\nВерсия home-assistant-polymer была обновлена до 1.0.0",
+                "pt": "Alguns erros no \"diálogo personalizado\" foram corrigidos\ncorreção de bug: se o valor definido por lovelace e max não for 100\nlog avisar se nenhum valor máximo definido para entidade leve\nA versão do polímero assistente doméstico foi atualizada para 1.0.0",
+                "nl": "Sommige bugs in \"Custom Dialog\" zijn opgelost\nfout gerepareerd: als de waarde ingesteld door lovelace en max niet 100 is\nlogwaarschuwing als er geen maximale waarde is ingesteld voor de lichtentiteit\nVersie van home-assistant-polymeer is bijgewerkt naar 1.0.0",
+                "fr": "Quelques bugs sur \"Custom Dialog\" ont été corrigés\ncorrection de bogue: si la valeur définie par lovelace et max n'est pas 100\nlog warning si aucune valeur maximale n'est définie pour l'entité légère\nLa version de home-assistant-polymer a été mise à jour à 1.0.0",
+                "it": "Sono stati corretti alcuni bug nella \"Finestra di dialogo personalizzata\"\ncorrezione bug: se il valore impostato da lovelace e max non è 100\nlog avvisa se non è stato impostato alcun valore massimo per l'entità luce\nLa versione di home-assistant-polymer è stata aggiornata alla 1.0.0",
+                "es": "Se corrigieron algunos errores en el \"Diálogo personalizado\"\ncorrección de errores: si el valor establecido por lovelace y max no es 100\nlog advierte si no se ha establecido un valor máximo para la entidad ligera\nLa versión de home-Assistant-Polymer se actualizó a 1.0.0",
+                "pl": "Niektóre błędy w „Oknie niestandardowym” zostały naprawione\nnaprawa błędu: jeśli wartość ustawiona przez lovelace i max nie jest równa 100\nloguj ostrzegaj, jeśli nie określono maksymalnej wartości dla encji lekkiej\nWersja domowego asystenta-polimeru została zaktualizowana do 1.0.0",
+                "zh-cn": "修复了“自定义对话框”中的一些错误\n错误修复：如果lovelace和max设置的值不是100\n如果没有为light实体设置最大值，则会发出警告\n家用助剂聚合物的版本更新为1.0.0"
+            },
             "0.1.5": {
                 "en": "fixed timestamp conversion",
                 "de": "Zeitstempelkonvertierung",
