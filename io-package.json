@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.2.0",
+        "version": "0.2.1",
         "news": {
+            "0.2.1": {
+                "en": "Processing of empty states was corrected",
+                "de": "Die Verarbeitung leerer Zustände wurde korrigiert",
+                "ru": "Исправлена обработка пустых состояний",
+                "pt": "O processamento de estados vazios foi corrigido",
+                "nl": "Verwerking van lege toestanden is gecorrigeerd",
+                "fr": "Le traitement des états vides a été corrigé",
+                "it": "L'elaborazione di stati vuoti è stata corretta",
+                "es": "Se corrigió el procesamiento de estados vacíos",
+                "pl": "Przetwarzanie pustych stanów zostało poprawione",
+                "zh-cn": "空状态的处理已得到纠正"
+            },
             "0.2.0": {
                 "en": "Some bugs on \"Custom Dialog\" were fixed\nbug fix: if value set by lovelace and max is not 100\nlog warn if no max value set for light entity\nVersion of home-assistant-polymer was updated to 1.0.0",
                 "de": "Einige Fehler im \"Benutzerdefinierten Dialog\" wurden behoben\nFehlerbehebung: Wenn der Wert von lovelace und max nicht 100 ist\nlog warnen, wenn kein Maximalwert für die Lichteinheit eingestellt ist\nDie Version von home-assistant-polymer wurde auf 1.0.0 aktualisiert",
