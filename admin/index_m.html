@@ -407,13 +407,13 @@
             onChange(false);
 
             socket.emit('getObject', 'system.adapter.lovelace.' + instance, function (err, obj) {
-                if (obj.common.enabled) {
+                if (obj && obj.common && obj.common.enabled) {
                     $('.btn-restart').on('click', function () {
                         socket.emit('getObject', 'system.adapter.lovelace.' + instance, function (err, obj) {
                             obj.common.enabled = false;
-                            socket.emit('setObject', 'system.adapter.lovelace.' + instance, function (err) {
+                            socket.emit('setObject', 'system.adapter.lovelace.' + instance, obj, function (err) {
                                 obj.common.enabled = true;
-                                socket.emit('setObject', 'system.adapter.lovelace.' + instance, function (err) {
+                                socket.emit('setObject', 'system.adapter.lovelace.' + instance, obj, function (err) {
 
                                 });
                             });
