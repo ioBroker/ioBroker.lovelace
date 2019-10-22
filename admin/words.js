@@ -2,17 +2,17 @@
 'use strict';
 
 systemDictionary = {
-    'lovelace adapter settings': {
-        'en': 'Adapter settings for lovelace',
-        'de': 'Adaptereinstellungen für lovelace',
-        'ru': 'Настройки адаптера для lovelace',
-        'pt': 'Configurações do adaptador para lovelace',
-        'nl': 'Adapterinstellingen voor lovelace',
-        'fr': "Paramètres d'adaptateur pour lovelace",
-        'it': "Impostazioni dell'adattatore per lovelace",
-        'es': 'Ajustes del adaptador para lovelace',
-        'pl': 'Ustawienia adaptera dla lovelace',
-        'zh-cn': 'lovelace的适配器设置'
+    "lovelace adapter settings": {
+        "en": "Adapter settings for lovelace",
+        "de": "Adaptereinstellungen für lovelace",
+        "ru": "Настройки адаптера для lovelace",
+        "pt": "Configurações do adaptador para lovelace",
+        "nl": "Adapterinstellingen voor lovelace",
+        "fr": "Paramètres d'adaptateur pour lovelace",
+        "it": "Impostazioni dell'adattatore per lovelace",
+        "es": "Ajustes del adaptador para lovelace",
+        "pl": "Ustawienia adaptera dla lovelace",
+        "zh-cn": "lovelace的适配器设置"
     },
     "Run as:": { "de": "Laufen unter Anwender:", "ru": "Запустить от пользователя:" },
     "Allow only when User is Owner:": { "de": "Nue erlauben wenn Anwender auch Besitzer ist:", "ru": "Allow only when User is Owner:" },

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.2.1",
+        "version": "0.2.2",
         "news": {
+            "0.2.2": {
+                "en": "The custom settings were corrected",
+                "de": "Die benutzerdefinierten Einstellungen wurden korrigiert",
+                "ru": "Пользовательские настройки были исправлены",
+                "pt": "As configurações personalizadas foram corrigidas",
+                "nl": "De aangepaste instellingen zijn gecorrigeerd",
+                "fr": "Les paramètres personnalisés ont été corrigés",
+                "it": "Le impostazioni personalizzate sono state corrette",
+                "es": "Se corrigió la configuración personalizada",
+                "pl": "Ustawienia niestandardowe zostały poprawione",
+                "zh-cn": "自定义设置已更正"
+            },
             "0.2.1": {
                 "en": "Processing of empty states was corrected",
                 "de": "Die Verarbeitung leerer Zustände wurde korrigiert",
