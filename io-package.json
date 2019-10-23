@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "news": {
-            "0.2.2": {
+            "0.2.3": {
                 "en": "The custom settings were corrected",
                 "de": "Die benutzerdefinierten Einstellungen wurden korrigiert",
                 "ru": "Пользовательские настройки были исправлены",

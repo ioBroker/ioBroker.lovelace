@@ -1,7 +1,7 @@
 /*global systemDictionary:true */
 'use strict';
 
-systemDictionary = {
+var lovelace_systemDictionary = {
     "lovelace adapter settings": {
         "en": "Adapter settings for lovelace",
         "de": "Adaptereinstellungen für lovelace",
