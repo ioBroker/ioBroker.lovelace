@@ -7,7 +7,7 @@ var lovelace_systemDictionary = {
     "Authentication": {                              "en": "Authentication",                                  "de": "Authentifizierung",                               "ru": "Аутентификация"},
     "Authentication:": {                             "de": "Authentifikation:",                               "ru": "Аутентификация:"},
     "Auto generate entity name form object id": {    "en": "Auto generate entity name form object id",        "de": "Objekt-ID des Objektnamens automatisch generieren", "ru": "Автоматическая генерация имени объекта формы объекта ID"},
-    "Chained certificate:": {                        "en": "Chained certificate:",                            "de": "Kettenzertifikat:",                               "ru": "'Chained' сертификат:"},
+    "Chained certificate": {                         "en": "Chained certificate",                             "de": "Kettenzertifikat",                                "ru": "'Chained' сертификат:"},
     "Custom Cards": {                                "en": "Custom Cards",                                    "de": "Kundenspezifische Karten",                        "ru": "Пользовательские Карты"},
     "Default theme": {                               "en": "Default theme",                                   "de": "Standardthema",                                   "ru": "Тема по умолчанию"},
     "Drag and drop the custom cards files here": {   "en": "Drag and drop the custom cards files here",       "de": "Ziehen Sie die benutzerdefinierten Kartendateien hierher und legen Sie sie dort ab", "ru": "Перетащите файлы пользовательских карт сюда"},
@@ -81,4 +81,6 @@ var lovelace_systemDictionary = {
     "water_heater": {                                "en": "water heater",                                    "de": "Wasserkocher",                                    "ru": "водонагреватель"},
     "weather": {                                     "en": "weather",                                         "de": "Wetter",                                          "ru": "Погода"},
     "weblink": {                                     "en": "weblink",                                         "de": "Weblink",                                         "ru": "ссылка на сайт"},
+    "Click to copy": {                               "en": "Click to copy"},
+    "default": {                                     "en": "default"},
 };

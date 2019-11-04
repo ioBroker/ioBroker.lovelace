@@ -52,6 +52,18 @@
 </script>
 
 <script type="text/javascript">
+    $.get({
+        url: 'adapter/lovelace/words.js',
+        success: function (result) {
+            if (result.isOk) {
+                let translation = script.substring(script.indexOf('{'), script.length);
+                translation = translation.substring(0, translation.lastIndexOf(';'));
+                $.extend(systemDictionary, JSON.parse(translation));
+            }
+        },
+        async: false
+    });
+
     // There are two ways how to predefine default settings:
     // - with attribute "data-default" (content independent)
     // - with function in global variable "defaults". Function name is equal with adapter name.
@@ -182,11 +194,5 @@
             });
         });
     }
-    
-    $.get("adapter/lovelace/words.js", function (script) {
-        let translation = script.substring(script.indexOf('{'), script.length);
-        translation = translation.substring(0, translation.lastIndexOf(';'));
-        systemDictionary = $.extend(systemDictionary, JSON.parse(translation));
-    });
 
 </script>
