@@ -46,18 +46,12 @@
             <span class="translate">(unique for one entity type)</span>
         </div>
         <div class="col s0">
-            <a data-command="entityNameAutoGenerate" class="values-buttons btn-floating btn-medium waves-effect waves-light" title="Auto generate entity name form object id"><i class="material-icons">create</i></a>
+            <a data-command="entityNameAutoGenerate" class="values-buttons btn-floating btn-medium waves-effect waves-light translateT" title="Auto generate entity name form object id"><i class="material-icons">create</i></a>
         </div>
     </div>
 </script>
 
 <script type="text/javascript">
-    $.get("adapter/lovelace/words.js", function (script) {
-        let translation = script.substring(script.indexOf('{'), script.length);
-        translation = translation.substring(0, translation.lastIndexOf(';'));
-        systemDictionary = $.extend(systemDictionary, JSON.parse(translation));
-    });
-
     // There are two ways how to predefine default settings:
     // - with attribute "data-default" (content independent)
     // - with function in global variable "defaults". Function name is equal with adapter name.
@@ -69,7 +63,7 @@
                 entity: '',
                 name: ''
             };
-        }
+        };
     }
 
     if (typeof customPostInits !== 'undefined') {
@@ -169,12 +163,12 @@
                         }
                     }
 
-                    DataList.suggestionList.html(suggestionList.sort().join("\n"))
+                    DataList.suggestionList.html(suggestionList.sort().join("\n"));
                 }
             } catch (err) {
                 gMain.showError(`Error: ${err.message}<br>Stack: ${err.stack}`);
             }
-        }
+        };
     }
 
     async function getEntitiesAsync(pattern) {
@@ -188,5 +182,11 @@
             });
         });
     }
+    
+    $.get("adapter/lovelace/words.js", function (script) {
+        let translation = script.substring(script.indexOf('{'), script.length);
+        translation = translation.substring(0, translation.lastIndexOf(';'));
+        systemDictionary = $.extend(systemDictionary, JSON.parse(translation));
+    });
 
 </script>
