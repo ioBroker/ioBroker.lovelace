@@ -54,12 +54,10 @@
 <script type="text/javascript">
     $.get({
         url: 'adapter/lovelace/words.js',
-        success: function (result) {
-            if (result.isOk) {
-                let translation = script.substring(script.indexOf('{'), script.length);
-                translation = translation.substring(0, translation.lastIndexOf(';'));
-                $.extend(systemDictionary, JSON.parse(translation));
-            }
+        success: function (script) {
+            let translation = script.substring(script.indexOf('{'), script.length);
+            translation = translation.substring(0, translation.lastIndexOf(';'));
+            $.extend(systemDictionary, JSON.parse(translation));
         },
         async: false
     });
