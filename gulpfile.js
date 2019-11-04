@@ -74,9 +74,8 @@ function padRight(text, totalLength) {
 
 function writeWordJs(data, src) {
     let text = '';
-    text += '/*global lovelace_systemDictionary:true */\n';
     text += "'use strict';\n\n";
-    text += 'lovelace_systemDictionary = {\n';
+    text += 'var lovelace_systemDictionary = {\n';
     for (const word in data) {
         if (data.hasOwnProperty(word)) {
             text += '    ' + padRight('"' + word.replace(/"/g, '\\"') + '": {', 50);

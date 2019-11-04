@@ -1,7 +1,6 @@
-/*global lovelace_systemDictionary:true */
 'use strict';
 
-lovelace_systemDictionary = {
+var lovelace_systemDictionary = {
     "(add to URL '...?toolbar=true' to show toolbar again)": {"en": "(add to URL '...?toolbar=true' to show toolbar again)", "de": "(zur URL '...? toolbar = true' hinzufügen, um die Symbolleiste wieder anzuzeigen)", "ru": "(добавьте в URL «...? toolbar = true», чтобы снова показать панель инструментов)"},
     "(unique for one entity type)": {                "en": "(unique for one entity type)",                    "de": "(eindeutig für einen Entitätstyp)",               "ru": "(уникально для одного типа объекта)"},
     "Allow only when User is Owner:": {              "en": "Allow only when User is Owner:",                  "de": "Nue erlauben wenn Anwender auch Besitzer ist:",   "ru": "Allow only when User is Owner:"},
