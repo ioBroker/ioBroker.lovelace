@@ -69,9 +69,9 @@
             if (obj.getId && obj.setId && obj.getId !== obj.setId) {
                 return obj.getId + ' / ' + obj.setId;
             } else if (obj.getId) {
-                return obj.getId
+                return obj.getId;
             } else if (obj.setId) {
-                return obj.setId
+                return obj.setId;
             } else {
                 return '';
             }
@@ -710,7 +710,8 @@
                 <div class="input-field col s6 l3">
                     <input id="hideHeader" type="checkbox" class="value"/>
                     <span class="translate" for="hideHeader">Hide toolbar</span>
-                    <span class="translate"><br>(add to URL '...?toolbar=true' to show toolbar again)</span>
+                    <br>
+                    <span class="translate">(add to URL '...?toolbar=true' to show toolbar again)</span>
                 </div>
             </div>
             <div class="row row-narrow">

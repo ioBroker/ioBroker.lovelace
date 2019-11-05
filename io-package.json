@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.2.3",
+        "version": "0.2.4",
         "news": {
+            "0.2.4": {
+                "en": "Translations added",
+                "de": "Übersetzungen hinzugefügt",
+                "ru": "Добавлены переводы",
+                "pt": "Traduções adicionadas",
+                "nl": "Vertalingen toegevoegd",
+                "fr": "Traductions ajoutées",
+                "it": "Traduzioni aggiunte",
+                "es": "Traducciones agregadas",
+                "pl": "Dodano tłumaczenia",
+                "zh-cn": "已添加翻译"
+            },
             "0.2.3": {
                 "en": "The custom settings were corrected",
                 "de": "Die benutzerdefinierten Einstellungen wurden korrigiert",
@@ -176,24 +188,23 @@
         ]
     },
     "native": {
-        "history":                  "",
-        "port":                     8091,
-        "auth":                     false,
-        "secure":                   false,
-        "bind":                     "0.0.0.0",
-        "certPublic":               "",
-        "certPrivate":              "",
-        "certChained":              "",
-        "defaultUser":              "admin",
+        "history": "",
+        "port": 8091,
+        "auth": false,
+        "secure": false,
+        "bind": "0.0.0.0",
+        "certPublic": "",
+        "certPrivate": "",
+        "certChained": "",
+        "defaultUser": "admin",
         "onlyAllowWhenUserIsOwner": false,
-        "ttl":                      3600,
-        "themes":                   "",
-        "defaultTheme":             "default",
-        "hideHeader":               false,
-
-        "leEnabled":                false,
-        "leUpdate":                 false,
-        "leCheckPort":              80
+        "ttl": 3600,
+        "themes": "",
+        "defaultTheme": "default",
+        "hideHeader": false,
+        "leEnabled": false,
+        "leUpdate": false,
+        "leCheckPort": 80
     },
     "objects": [],
     "instanceObjects": [
