@@ -176,6 +176,7 @@ createState(
 Tested with yr and daswetter. One or more of following objects must have `Function=Weather` and `Room=Any` set to be available in configuration:
 - daswetter.0.NextDays.Location_1
 - yr.0.forecast
+
 Tested with AccuWeather driver v1.1.0 https://github.com/iobroker-community-adapters/ioBroker.accuweather. 
 Custom Lovelace card created in support of accuweather forecast - https://github.com/algar42/IoB.lovelace.accuweather-card
 
