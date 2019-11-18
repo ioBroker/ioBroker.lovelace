@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.2.4",
+        "version": "0.2.5",
         "news": {
+            "0.2.5": {
+                "en": "Updates to Light Dimmer, input_boolean, input_select. Russian translation updated",
+                "de": "Aktualisierungen für Light Dimmer, input_boolean, input_select. Russische Übersetzung aktualisiert",
+                "ru": "Обновления для Light Dimmer, input_boolean, input_select. Русский перевод обновлен",
+                "pt": "Atualizações para o Light Dimmer, input_boolean, input_select. Tradução para o russo atualizada",
+                "nl": "Updates voor Light Dimmer, input_boolean, input_select. Russische vertaling bijgewerkt",
+                "fr": "Mises à jour de Light Dimmer, input_boolean, input_select. Traduction russe mise à jour",
+                "it": "Aggiornamenti a Light Dimmer, input_boolean, input_select. Traduzione in russo aggiornata",
+                "es": "Actualizaciones a Light Dimmer, input_boolean, input_select. Traducción al ruso actualizada",
+                "pl": "Aktualizacje Light Dimmer, input_boolean, input_select. Tłumaczenie rosyjskiego zaktualizowane",
+                "zh-cn": "更新为Light Dimmer，input_boolean，input_select。俄语翻译已更新"
+            },
             "0.2.4": {
                 "en": "Translations added",
                 "de": "Übersetzungen hinzugefügt",
