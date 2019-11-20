@@ -423,6 +423,7 @@ Used version of home-assistant-frontend@1.0.0
 * (algar42) Entities object updates with new states added (resolved issue #46 showing old values on page refresh)
 * (algar42) Switch entity updated to show two state buttonts in GUI (assumed_state attrbute set to true)
 * (algar42) Russian translation updated
+* (algar42) Language support added. Lovelace runs with IoB System Language
 
 ### 0.2.4 (2019-11-05)
 * (ldittmar) Fixed translations
