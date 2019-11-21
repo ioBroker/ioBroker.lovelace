@@ -90,12 +90,12 @@ common: {
 
 ### Select input
 This can be done manually if input_select entity type in custom dialog is selected.
-The list of options to select from should be provide in commom.options:
+The list of options to select from should be provide in standard commom.states object:
 
 ```
 "common": {
     "type": "string",
-    "options": {
+    "states": {
       "1": "select 1",
       "2": "Select 2",
       "3": "select 3"
@@ -108,8 +108,7 @@ The list of options to select from should be provide in commom.options:
       }
     }
 ```
-
-Key names of options are not important and can be any. 
+in other words in should also be input select in IoB.
 
 ### Timer
 Timer could be simulated by following script:
