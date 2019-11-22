@@ -414,6 +414,9 @@ Used version of home-assistant-frontend@1.0.0
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.0.0 (2019-11-23)
+* (bluefox) Implemented bindings ala vis in markdown
+
 ### 0.2.5 (2019-11-18)
 * (algar42) Dimmer light is now switched on with the previous brightness level and not 100%
 * (algar42) Added ability to correctly control light brightness from Card and from more_info dialog as well

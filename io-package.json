@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "0.2.5",
+        "version": "1.0.0",
         "news": {
+            "1.0.0": {
+                "en": "Implemented bindings ala vis in markdown",
+                "de": "Bindungen im Markdown implementiert",
+                "ru": "Реализованы bindings в Markdown",
+                "pt": "Ligações implementadas ala vis na Markdown",
+                "nl": "Geïmplementeerde bindingen ala vis in markdown",
+                "fr": "Liaisons implémentées ala vis dans Markdown",
+                "it": "Attacchi implementati ala vis in markdown",
+                "es": "Enlaces implementados ala vis en markdown",
+                "pl": "Zaimplementowane wiązania między innymi w Markdown",
+                "zh-cn": "在Markdown中实现绑定"
+            },
             "0.2.5": {
                 "en": "Updates to Light Dimmer, input_boolean, input_select. Russian translation updated",
                 "de": "Aktualisierungen für Light Dimmer, input_boolean, input_select. Russische Übersetzung aktualisiert",
