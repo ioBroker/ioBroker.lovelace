@@ -49,6 +49,7 @@ function lang2data(lang, isFlat) {
     }
 }
 
+const NODE_JS_EXPORT = `if (typeof module !== 'undefined' && module.parent) { module.exports = lovelace_systemDictionary; }\n`;
 function readWordJs(src) {
     try {
         let words;
@@ -57,6 +58,7 @@ function readWordJs(src) {
         } else {
             words = fs.readFileSync(src + fileName).toString();
         }
+        words = words.replace(NODE_JS_EXPORT, '');
         words = words.substring(words.indexOf('{'), words.length);
         words = words.substring(0, words.lastIndexOf(';'));
 
@@ -92,7 +94,10 @@ function writeWordJs(data, src) {
             text += line + '},\n';
         }
     }
-    text += '};';
+    text += '};\n';
+
+    text += NODE_JS_EXPORT;
+
     if (fs.existsSync(src + 'js/' + fileName)) {
         fs.writeFileSync(src + 'js/' + fileName, text);
     } else {
@@ -504,6 +509,33 @@ gulp.task('rename', done => {
                 m && m.forEach(text =>
                     newText = newText.replace(text, text.replace('</script>', '\n</script>\n')));
 
+                /* // remove absolute paths, but it does not work
+                m = newText.match(/src='\/[^']+'/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text.replace("'/", "'")));
+
+                m = newText.match(/import\s"\/[^"]+"/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text.replace('"/', '"')));
+
+                m = newText.match(/href="\/[^"]+"/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text.replace('"/', '"')));
+
+                m = newText.match(/href='\/[^']+'/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text.replace("'/", "'")));
+
+                m = newText.match(/content="\/[^"]+"/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text.replace('"/', '"')));
+                m = newText.match(/customPanelJS = "\/[^"]+"/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text.replace('"/', '"')));
+                m = newText.match(/_ls\("\/[^"]+"/g);
+                m && m.forEach(text =>
+                    newText = newText.replace(text, text.replace('"/', '"')));
+                 */
 
                 newText = newText.replace(/\n\n\n/g, '\n');
                 newText = newText.replace(/\n\n/g, '\n');

@@ -6,6 +6,7 @@ const express = require('express');
 const utils = require('@iobroker/adapter-core');
 const LE = require(utils.controllerDir + '/lib/letsencrypt');
 const ApiServer = require('./lib/server');
+const words = require('./admin/words');
 
 /**
  * The adapter instance
@@ -150,11 +151,11 @@ function main(adapter) {
             adapter.config.certificates = certificates;
             adapter.config.leConfig     = leConfig;
             adapter.webServer = initWebServer(adapter.config);
-            adapter.apiServer = new ApiServer({adapter, server: adapter.webServer.server, app: adapter.webServer.app});
+            adapter.apiServer = new ApiServer({adapter, server: adapter.webServer.server, app: adapter.webServer.app, words});
         });
     } else {
         adapter.webServer = initWebServer(adapter.config);
-        adapter.apiServer = new ApiServer({adapter, server: adapter.webServer.server, app: adapter.webServer.app});
+        adapter.apiServer = new ApiServer({adapter, server: adapter.webServer.server, app: adapter.webServer.app, words});
     }
 
     // examples for the checkPassword/checkGroup functions

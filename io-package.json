@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "news": {
-            "1.0.0": {
+            "1.0.1": {
                 "en": "Implemented bindings ala vis in markdown",
                 "de": "Bindungen im Markdown implementiert",
                 "ru": "Реализованы bindings в Markdown",
@@ -286,6 +286,28 @@
                 "name": "Oauth2 Session",
                 "type": "json",
                 "role": "state"
+            },
+            "native": {}
+        },
+        {
+            "_id": "conversation",
+            "type": "state",
+            "common": {
+              "name": "Question and answer for conversation ",
+              "desc": {
+                "en": "Question and answer for conversation dialog. See readme for how to use.",
+                "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
+                "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
+                "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
+                "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
+                "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
+                "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
+                "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
+                "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
+                "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
+              },
+              "type": "string",
+              "role": "state"
             },
             "native": {}
         },
