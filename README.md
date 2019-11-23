@@ -404,6 +404,19 @@ Security must be taken from current user and not from default_user
 Used version of home-assistant-frontend@1.0.0
 
 ### How to build the new Lovelace version
+First of all the actual https://github.com/home-assistant/home-assistant-polymer (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (iob) branch.
+
+All changes for ioBroker are marked with comment `// IoB`.
+For now (2019.11.23) following files were modified:
+- `.gitignore` - added `.idea` ignore
+- `build-scripts\gulp\app.js` - Added new gulp task
+- `build-scripts\gulp\webpack.js` - Added new gulp task
+- `src\entrypoints\core.ts` - modified authentication process
+- `src\data\lovelace.ts` - added hide bar option
+- `src\panels\lovelace\hui-root.ts` - added notifications and voice control
+
+After that checkout modified version in `./build` folder. Then.
+
 1. go to ./build directory.
 2. `git clone https://github.com/GermanBluefox/home-assistant-polymer.git` it is fork of https://github.com/home-assistant/home-assistant-polymer.git, but some things are modified (e.g. notifications).
 3. `cd home-assistant-polymer`
