@@ -396,6 +396,9 @@ setState('lovelace.0.notifications.add', 'Message text'); // short version
 ## Original sources for lovelace
 Used sources are here https://github.com/GermanBluefox/home-assistant-polymer .
 
+## Bindings in markdown
+Same as in iobroker.vis
+
 ## Todo
 Security must be taken from current user and not from default_user
 
