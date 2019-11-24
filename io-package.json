@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.1",
+        "version": "1.0.2",
         "news": {
-            "1.0.1": {
+            "1.0.2": {
                 "en": "Implemented bindings ala vis in markdown",
                 "de": "Bindungen im Markdown implementiert",
                 "ru": "Реализованы bindings в Markdown",
@@ -294,7 +294,8 @@
             "type": "state",
             "common": {
               "name": "Question and answer for conversation ",
-              "desc": {
+              "desc": "Question and answer for conversation dialog. See readme for how to use.",
+              "desc1": {
                 "en": "Question and answer for conversation dialog. See readme for how to use.",
                 "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
                 "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
