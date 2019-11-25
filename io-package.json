@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.2",
+        "version": "1.0.4",
         "news": {
-            "1.0.2": {
+            "1.0.4": {
                 "en": "Implemented bindings ala vis in markdown",
                 "de": "Bindungen im Markdown implementiert",
                 "ru": "Реализованы bindings в Markdown",
