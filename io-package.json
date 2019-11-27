@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.4",
+        "version": "1.0.5",
         "news": {
+            "1.0.5": {
+                "en": "Getting back broken update of internal _entities",
+                "de": "Wiederherstellen eines fehlerhaften Updates der internen Eigenschaften",
+                "ru": "Возвращение неработающего обновления внутренних объектов",
+                "pt": "voltando atualização quebrada de _entities internas",
+                "nl": "defecte update van interne _entiteiten terugkrijgen",
+                "fr": "récupérer une mise à jour cassée des entités internes",
+                "it": "ottenere l'aggiornamento interrotto di _entities interne",
+                "es": "recuperar actualizaciones rotas de entidades internas",
+                "pl": "odzyskiwanie uszkodzonej aktualizacji wewnętrznych elementów",
+                "zh-cn": "恢复内部实体的损坏的更新"
+            },
             "1.0.4": {
                 "en": "Implemented bindings ala vis in markdown",
                 "de": "Bindungen im Markdown implementiert",

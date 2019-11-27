@@ -448,6 +448,9 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.0.5 (2019-11-27)
+* (algar42) getting back broken update of internal_entities
+
 ### 1.0.4 (2019-11-25)
 * (bluefox) Implemented bindings ala vis in markdown
 * (bluefox) protect access to states
