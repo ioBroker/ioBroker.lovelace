@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.5",
+        "version": "1.0.6",
         "news": {
+            "1.0.6": {
+                "en": "Fixed disconnection behavior",
+                "de": "Verbindungsabbau behoben",
+                "ru": "Исправлено поведение отключения",
+                "pt": "Corrigido comportamento de desconexão",
+                "nl": "Vast ontkoppelingsgedrag",
+                "fr": "Comportement de déconnexion fixe",
+                "it": "Risolto il problema di disconnessione",
+                "es": "Comportamiento de desconexión fija",
+                "pl": "Naprawiono zachowanie przy rozłączaniu",
+                "zh-cn": "固定断开行为"
+            },
             "1.0.5": {
                 "en": "Getting back broken update of internal _entities",
                 "de": "Wiederherstellen eines fehlerhaften Updates der internen Eigenschaften",
@@ -62,102 +74,6 @@
                 "es": "Se corrigió la configuración personalizada",
                 "pl": "Ustawienia niestandardowe zostały poprawione",
                 "zh-cn": "自定义设置已更正"
-            },
-            "0.2.1": {
-                "en": "Processing of empty states was corrected",
-                "de": "Die Verarbeitung leerer Zustände wurde korrigiert",
-                "ru": "Исправлена обработка пустых состояний",
-                "pt": "O processamento de estados vazios foi corrigido",
-                "nl": "Verwerking van lege toestanden is gecorrigeerd",
-                "fr": "Le traitement des états vides a été corrigé",
-                "it": "L'elaborazione di stati vuoti è stata corretta",
-                "es": "Se corrigió el procesamiento de estados vacíos",
-                "pl": "Przetwarzanie pustych stanów zostało poprawione",
-                "zh-cn": "空状态的处理已得到纠正"
-            },
-            "0.2.0": {
-                "en": "Some bugs on \"Custom Dialog\" were fixed\nbug fix: if value set by lovelace and max is not 100\nlog warn if no max value set for light entity\nVersion of home-assistant-polymer was updated to 1.0.0",
-                "de": "Einige Fehler im \"Benutzerdefinierten Dialog\" wurden behoben\nFehlerbehebung: Wenn der Wert von lovelace und max nicht 100 ist\nlog warnen, wenn kein Maximalwert für die Lichteinheit eingestellt ist\nDie Version von home-assistant-polymer wurde auf 1.0.0 aktualisiert",
-                "ru": "Некоторые ошибки в «Custom Dialog» были исправлены\nисправление ошибки: если значение установлено lovelace и max не равно 100\nпротоколировать предупреждение, если для объекта не установлено максимальное значение\nВерсия home-assistant-polymer была обновлена до 1.0.0",
-                "pt": "Alguns erros no \"diálogo personalizado\" foram corrigidos\ncorreção de bug: se o valor definido por lovelace e max não for 100\nlog avisar se nenhum valor máximo definido para entidade leve\nA versão do polímero assistente doméstico foi atualizada para 1.0.0",
-                "nl": "Sommige bugs in \"Custom Dialog\" zijn opgelost\nfout gerepareerd: als de waarde ingesteld door lovelace en max niet 100 is\nlogwaarschuwing als er geen maximale waarde is ingesteld voor de lichtentiteit\nVersie van home-assistant-polymeer is bijgewerkt naar 1.0.0",
-                "fr": "Quelques bugs sur \"Custom Dialog\" ont été corrigés\ncorrection de bogue: si la valeur définie par lovelace et max n'est pas 100\nlog warning si aucune valeur maximale n'est définie pour l'entité légère\nLa version de home-assistant-polymer a été mise à jour à 1.0.0",
-                "it": "Sono stati corretti alcuni bug nella \"Finestra di dialogo personalizzata\"\ncorrezione bug: se il valore impostato da lovelace e max non è 100\nlog avvisa se non è stato impostato alcun valore massimo per l'entità luce\nLa versione di home-assistant-polymer è stata aggiornata alla 1.0.0",
-                "es": "Se corrigieron algunos errores en el \"Diálogo personalizado\"\ncorrección de errores: si el valor establecido por lovelace y max no es 100\nlog advierte si no se ha establecido un valor máximo para la entidad ligera\nLa versión de home-Assistant-Polymer se actualizó a 1.0.0",
-                "pl": "Niektóre błędy w „Oknie niestandardowym” zostały naprawione\nnaprawa błędu: jeśli wartość ustawiona przez lovelace i max nie jest równa 100\nloguj ostrzegaj, jeśli nie określono maksymalnej wartości dla encji lekkiej\nWersja domowego asystenta-polimeru została zaktualizowana do 1.0.0",
-                "zh-cn": "修复了“自定义对话框”中的一些错误\n错误修复：如果lovelace和max设置的值不是100\n如果没有为light实体设置最大值，则会发出警告\n家用助剂聚合物的版本更新为1.0.0"
-            },
-            "0.1.5": {
-                "en": "fixed timestamp conversion",
-                "de": "Zeitstempelkonvertierung",
-                "ru": "исправлено преобразование метки времени",
-                "pt": "conversão fixa de timestamp",
-                "nl": "vaste tijdstempelconversie",
-                "fr": "conversion d'horodatage fixe",
-                "it": "conversione data / ora fissa",
-                "es": "conversión de marca de tiempo fija",
-                "pl": "poprawiona konwersja znacznika czasu",
-                "zh-cn": "固定时间戳转换"
-            },
-            "0.1.3": {
-                "en": "if no ACTUAL is discovered, use SET value as switch entity value",
-                "de": "Wenn kein IST-Wert erkannt wird, verwenden Sie den SET-Wert als Wert für die Switch-Entität",
-                "ru": "если ACTUAL не обнаружено, используйте значение SET в качестве значения переключателя",
-                "pt": "se nenhum ACTUAL for descoberto, use o valor SET como o valor da entidade do switch",
-                "nl": "als er geen ACTUAL wordt ontdekt, gebruikt u de SET-waarde als waarde van de schakelentiteit",
-                "fr": "si aucun ACTUAL n'est découvert, utilisez la valeur SET comme valeur d'entité de commutateur",
-                "it": "se non viene rilevato ACTUAL, utilizzare il valore SET come valore di entità switch",
-                "es": "Si no se descubre ningún ACTUAL, use el valor SET como valor de entidad de conmutación",
-                "pl": "jeśli nie wykryto żadnego RZECZYWISTEGO, użyj wartości SET jako wartości jednostki przełączającej",
-                "zh-cn": "如果未发现ACTUAL，则使用SET值作为switch的值"
-            },
-            "0.1.2": {
-                "en": "translate Chinese words to pinyin",
-                "de": "übersetzen chinesische Wörter in Pinyin",
-                "ru": "перевести китайские слова в пиньинь",
-                "pt": "traduzir palavras chinesas para pinyin",
-                "nl": "vertaal Chinese woorden naar pinyin",
-                "fr": "traduire des mots chinois en pinyin",
-                "it": "traduci le parole cinesi in pinyin",
-                "es": "traducir palabras chinas a pinyin",
-                "pl": "przetłumacz chińskie słowa na pinyin",
-                "zh-cn": "将汉语单词翻译成拼音"
-            },
-            "0.1.1": {
-                "en": "Fixed control of states",
-                "de": "Feste Kontrolle über Zustände",
-                "ru": "Исправлен контроль состояний",
-                "pt": "Controle fixo de estados",
-                "fr": "Contrôle fixe des états",
-                "nl": "Vaste controle van toestanden",
-                "it": "Controllo fisso degli stati",
-                "es": "Control fijo de estados.",
-                "pl": "Naprawiono kontrolę stanów",
-                "zh-cn": "固定国家控制"
-            },
-            "0.1.0": {
-                "en": "Authentication could be disabled\nLovelace compiled extra for ioBroker ",
-                "de": "Die Authentifizierung kann deaktiviert werden\nLovelace extra für ioBroker zusammengestellt",
-                "ru": "Аутентификация может быть отключена\nЛовелас скомпилирован дополнительно для ioBroker",
-                "nl": "Verificatie kan worden uitgeschakeld\nLovelace heeft extra gecompileerd voor ioBroker",
-                "fr": "L'authentification pourrait être désactivée\nLovelace compilé extra pour ioBroker",
-                "pt": "Autenticação pode ser desativada\nLovelace compilado extra para ioBroker",
-                "it": "L'autenticazione potrebbe essere disabilitata\nLovelace ha compilato un extra per ioBroker",
-                "es": "La autenticación podría estar deshabilitada\nLovelace compilado extra para ioBroker",
-                "pl": "Uwierzytelnianie może być wyłączone\nLovelace skompilowany dodatkowo dla ioBroker",
-                "zh-cn": "可以禁用身份验证\nLovelace为ioBroker编译了额外的内容"
-            },
-            "0.0.3": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
             }
         },
         "title": "Visualization with Lovelace-UI",
@@ -242,7 +158,17 @@
         "leUpdate": false,
         "leCheckPort": 80
     },
-    "objects": [],
+    "objects": [
+        {
+            "_id": "_design/custom",
+            "language": "javascript",
+            "views": {
+                "state": {
+                    "map": "function(doc) { doc.type === 'state' && doc.common && doc.common.custom && emit(doc._id, doc.common.custom) }"
+                }
+            }
+        }
+    ],
     "instanceObjects": [
         {
             "_id": "info",

@@ -160,7 +160,7 @@ function main(adapter) {
 
     // examples for the checkPassword/checkGroup functions
     /*adapter.checkPassword('admin', 'iobroker', (res) => {
-        adapter.log.info('check user admin pw ioboker: ' + res);
+        adapter.log.info('check user admin pw iobroker: ' + res);
     });*/
 }
 
