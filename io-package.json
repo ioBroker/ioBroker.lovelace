@@ -3,6 +3,18 @@
         "name": "lovelace",
         "version": "1.0.6",
         "news": {
+            "1.0.7": {
+                "en": "Invalid objects will be filtered out.",
+                "de": "Ungültige Objekte werden herausgefiltert.",
+                "ru": "Неверные объекты будут отфильтрованы.",
+                "pt": "Objetos inválidos serão filtrados.",
+                "nl": "Ongeldige objecten worden uitgefilterd.",
+                "fr": "Les objets non valides seront filtrés.",
+                "it": "Gli oggetti non validi verranno filtrati.",
+                "es": "Los objetos inválidos serán filtrados.",
+                "pl": "Nieprawidłowe obiekty zostaną odfiltrowane.",
+                "zh-cn": "无效的对象将被过滤掉。"
+            },
             "1.0.6": {
                 "en": "Fixed disconnection behavior",
                 "de": "Verbindungsabbau behoben",
