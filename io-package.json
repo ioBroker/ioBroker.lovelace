@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.6",
+        "version": "1.0.8",
         "news": {
+            "1.0.8": {
+                "en": "Processing max value of saturation and hue\nDisabled extensive debug logging\nMany changes done concerning detection of devices and processing of states\nUpdated hass lovelace",
+                "de": "Maximaler Wert für Sättigung und Farbton wird verarbeitet\nUmfangreiche Debug-Protokollierung deaktiviert\nViele Änderungen in Bezug auf die Erkennung von Geräten und die Verarbeitung von Zuständen\nHass Lovelace aktualisiert",
+                "ru": "Обработка максимального значения насыщенности и оттенка\nОтключено расширенное ведение журнала отладки\nМного изменений сделано в отношении обнаружения устройств и обработки состояний\nОбновлен хас Ловелас",
+                "pt": "Processando o valor máximo de saturação e matiz\nDesativado log de depuração extensivo\nMuitas mudanças feitas em relação à detecção de dispositivos e processamento de estados\nAtualizado hass lovelace",
+                "nl": "Verwerking van de maximale waarde van verzadiging en tint\nUitgebreide foutopsporingsregistratie uitgeschakeld\nVeel wijzigingen aangebracht met betrekking tot detectie van apparaten en verwerking van toestanden\nBijgewerkt hass lovelace",
+                "fr": "Traitement de la valeur maximale de saturation et de teinte\nJournalisation de débogage étendue désactivée\nNombreuses modifications apportées concernant la détection des appareils et le traitement des états\nMis à jour hass lovelace",
+                "it": "Elaborazione del valore massimo di saturazione e tonalità\nRegistrazione di debug estesa disabilitata\nNumerose modifiche apportate riguardanti il rilevamento di dispositivi e l'elaborazione degli stati\nLovelace hass aggiornato",
+                "es": "Procesando el valor máximo de saturación y tono\nRegistro de depuración extenso deshabilitado\nMuchos cambios realizados en relación con la detección de dispositivos y el procesamiento de estados\nHass Lovelace actualizado",
+                "pl": "Przetwarzanie maksymalnej wartości nasycenia i odcienia\nWyłączono intensywne rejestrowanie debugowania\nDokonano wielu zmian dotyczących wykrywania urządzeń i przetwarzania stanów\nZaktualizowano hass lovelace",
+                "zh-cn": "处理饱和度和色相的最大值\n禁用大量调试日志记录\n关于设备检测和状态处理所做的许多更改\n更新了hass lovelace"
+            },
             "1.0.7": {
                 "en": "Invalid objects will be filtered out.",
                 "de": "Ungültige Objekte werden herausgefiltert.",
