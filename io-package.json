@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.8",
+        "version": "1.0.9",
         "news": {
+            "1.0.9": {
+                "en": "Dimmer control was fixed",
+                "de": "Dimmer Kontrolle wurde behoben",
+                "ru": "Управление диммером было исправлено",
+                "pt": "O controle do dimmer foi corrigido",
+                "nl": "Dimmerregeling was opgelost",
+                "fr": "Le contrôle du gradateur a été corrigé",
+                "it": "Il controllo del dimmer è stato corretto",
+                "es": "El control del atenuador fue reparado",
+                "pl": "Kontrola przyciemnienia została naprawiona",
+                "zh-cn": "调光器控制是固定的"
+            },
             "1.0.8": {
                 "en": "Processing max value of saturation and hue\nDisabled extensive debug logging\nMany changes done concerning detection of devices and processing of states\nUpdated hass lovelace",
                 "de": "Maximaler Wert für Sättigung und Farbton wird verarbeitet\nUmfangreiche Debug-Protokollierung deaktiviert\nViele Änderungen in Bezug auf die Erkennung von Geräten und die Verarbeitung von Zuständen\nHass Lovelace aktualisiert",
