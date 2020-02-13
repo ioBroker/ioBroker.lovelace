@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.9",
+        "version": "1.0.10",
         "news": {
+            "1.0.10": {
+                "en": "Fixed handling of malformed / null RGB string\nBinary sensor added\nfixed manual dimmer \nfixed for duplicated states via websockets\nfixed handling of deleted objects ",
+                "de": "Behobenes Handling von fehlerhaften / null RGB Strings\nBinärsensor hinzugefügt\nfester manueller Dimmer\nFür doppelte Zustände über Websockets behoben\nBehobener Umgang mit gelöschten Objekten",
+                "ru": "Исправлена обработка некорректной / нулевой строки RGB\nДобавлен бинарный датчик\nфиксированный ручной диммер\nисправлено для дублированных состояний через веб-сокеты\nисправлена обработка удаленных объектов",
+                "pt": "Manipulação corrigida de sequência de caracteres RGB inválida / nula\nSensor binário adicionado\ndimmer manual fixo\ncorrigido para estados duplicados via websockets\nmanipulação fixa de objetos excluídos",
+                "nl": "Vaste verwerking van misvormde / nul RGB-tekenreeks\nBinaire sensor toegevoegd\nvaste handmatige dimmer\nopgelost voor dubbele status via websockets\nvaste afhandeling van verwijderde objecten",
+                "fr": "Correction de la gestion de la chaîne RVB mal formée / nulle\nCapteur binaire ajouté\nvariateur manuel fixe\ncorrigé pour les états dupliqués via les websockets\ncorrection de la gestion des objets supprimés",
+                "it": "Risolto il problema con la gestione della stringa RGB non valida / nulla\nAggiunto sensore binario\ndimmer manuale fisso\nriparato per stati duplicati tramite websocket\ngestione fissa degli oggetti eliminati",
+                "es": "Manejo fijo de cadenas RGB malformadas / nulas\nSensor binario agregado\nregulador manual fijo\narreglado para estados duplicados a través de websockets\nmanejo fijo de objetos eliminados",
+                "pl": "Naprawiono obsługę źle zniekształconego / zerowego ciągu RGB\nDodano czujnik binarny\nnaprawiony ręczny ściemniacz\nnaprawiono dla zduplikowanych stanów poprzez websockets\npoprawiona obsługa usuniętych obiektów",
+                "zh-cn": "修复了格式错误/无效的RGB字符串的处理\n增加了二进制传感器\n固定式手动调光器\n通过websocket修复了重复状态\n修复删除对象的处理"
+            },
             "1.0.9": {
                 "en": "Dimmer control was fixed",
                 "de": "Dimmer Kontrolle wurde behoben",
@@ -267,22 +279,22 @@
             "_id": "conversation",
             "type": "state",
             "common": {
-              "name": "Question and answer for conversation ",
-              "desc": "Question and answer for conversation dialog. See readme for how to use.",
-              "desc1": {
-                "en": "Question and answer for conversation dialog. See readme for how to use.",
-                "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
-                "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
-                "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
-                "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
-                "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
-                "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
-                "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
-                "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
-                "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
-              },
-              "type": "string",
-              "role": "state"
+                "name": "Question and answer for conversation ",
+                "desc": "Question and answer for conversation dialog. See readme for how to use.",
+                "desc1": {
+                    "en": "Question and answer for conversation dialog. See readme for how to use.",
+                    "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
+                    "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
+                    "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
+                    "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
+                    "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
+                    "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
+                    "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
+                    "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
+                    "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
+                },
+                "type": "string",
+                "role": "state"
             },
             "native": {}
         },

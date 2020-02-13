@@ -1,6 +1,6 @@
 {
   "name": "iobroker.lovelace",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
   "author": {
     "name": "bluefox",
@@ -27,12 +27,12 @@
     "mime": "^2.4.4",
     "multer": "^1.4.2",
     "pinyin": "^2.9.0",
-    "request": "^2.88.0",
+    "request": "^2.88.2",
     "ws": "^7.2.1",
     "jstimezonedetect": "^1.0.7"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.7",
+    "@types/chai": "^4.2.9",
     "@types/chai-as-promised": "^7.1.2",
     "@types/gulp": "^4.0.6",
     "@types/mocha": "^5.2.7",
@@ -40,16 +40,16 @@
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.5.1",
     "@types/sinon-chai": "^3.2.3",
-    "axios": "^0.19.1",
+    "axios": "^0.19.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^6.8.0",
     "gulp": "^4.0.2",
-    "mocha": "^7.0.0",
+    "mocha": "^7.0.1",
     "proxyquire": "^2.1.3",
-    "sinon": "^8.0.4",
+    "sinon": "^8.1.1",
     "sinon-chai": "^3.4.0",
-    "tslint": "^5.20.1"
+    "tslint": "^6.0.0"
   },
   "main": "main.js",
   "scripts": {
