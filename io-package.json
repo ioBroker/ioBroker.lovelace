@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.10",
+        "version": "1.0.11",
         "news": {
+            "1.0.11": {
+                "en": "Added option to restrict auto entity creation to alias.0.*",
+                "de": "Option hinzugefügt, um die automatische Entitätserstellung auf Alias.0 zu beschränken. *",
+                "ru": "Добавлена возможность ограничить автоматическое создание сущности псевдонимом 0. *",
+                "pt": "Adicionada opção para restringir a criação automática de entidades ao alias.0. *",
+                "nl": "Optie toegevoegd om het automatisch maken van entiteiten te beperken tot alias.0. *",
+                "fr": "Ajout d'une option pour restreindre la création automatique d'entités à alias.0. *",
+                "it": "Aggiunta opzione per limitare la creazione automatica di entità ad alias.0. *",
+                "es": "Opción agregada para restringir la creación automática de entidades a alias.0. *",
+                "pl": "Dodano opcję ograniczenia automatycznego tworzenia encji do aliasu.0. *",
+                "zh-cn": "添加了将自动实体创建限制为alias.0。*的选项"
+            },
             "1.0.10": {
                 "en": "Fixed handling of malformed / null RGB string\nBinary sensor added\nfixed manual dimmer \nfixed for duplicated states via websockets\nfixed handling of deleted objects ",
                 "de": "Behobenes Handling von fehlerhaften / null RGB Strings\nBinärsensor hinzugefügt\nfester manueller Dimmer\nFür doppelte Zustände über Websockets behoben\nBehobener Umgang mit gelöschten Objekten",
