@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.11",
+        "version": "1.0.12",
         "news": {
-            "1.0.11": {
+            "1.0.12": {
                 "en": "Added option to restrict auto entity creation to alias.0.*",
                 "de": "Option hinzugefügt, um die automatische Entitätserstellung auf Alias.0 zu beschränken. *",
                 "ru": "Добавлена возможность ограничить автоматическое создание сущности псевдонимом 0. *",
