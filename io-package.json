@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.12",
+        "version": "1.0.13",
         "news": {
+            "1.0.13": {
+                "en": "The translation was corrected in the custom settings",
+                "de": "Die Übersetzung wurde in den benutzerdefinierten Einstellungen korrigiert",
+                "ru": "Перевод был исправлен в пользовательских настройках",
+                "pt": "A tradução foi corrigida nas configurações personalizadas",
+                "nl": "De vertaling is gecorrigeerd in de aangepaste instellingen",
+                "fr": "La traduction a été corrigée dans les paramètres personnalisés",
+                "it": "La traduzione è stata corretta nelle impostazioni personalizzate",
+                "es": "La traducción se corrigió en la configuración personalizada",
+                "pl": "Tłumaczenie zostało poprawione w ustawieniach niestandardowych",
+                "zh-cn": "翻译已在自定义设置中更正"
+            },
             "1.0.12": {
                 "en": "Added option to restrict auto entity creation to alias.0.*",
                 "de": "Option hinzugefügt, um die automatische Entitätserstellung auf Alias.0 zu beschränken. *",
