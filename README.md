@@ -449,6 +449,9 @@ After that checkout modified version in `./build` folder. Then.
 
 ## Changelog
 ### 1.0.13 (2020-04-13)
+* (algar42) Call of deprecated getObjectView updated for js-controller v3
+
+### 1.0.13 (2020-04-13)
 * (bluefox) The translation was corrected in the custom settings.
 
 ### 1.0.12 (2020-03-16)
