@@ -14,7 +14,7 @@
                 "es": "Llamada de getObjectView actualizada para js-controller v3",
                 "pl": "Zaktualizowano wywołanie getObjectView dla js-controller v3",
                 "zh-cn": "为js-controller v3更新的getObjectView调用"
-            }
+            },
             "1.0.13": {
                 "en": "The translation was corrected in the custom settings",
                 "de": "Die Übersetzung wurde in den benutzerdefinierten Einstellungen korrigiert",
