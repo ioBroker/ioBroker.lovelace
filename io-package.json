@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.13",
+        "version": "1.0.14",
         "news": {
+            "1.0.14": {
+                "en": "Call of getObjectView updated for js-controller v3",
+                "de": "Aufruf von getObjectView für js-controller v3 aktualisiert",
+                "ru": "Обновлен вызов getObjectView для js-controller v3",
+                "pt": "Chamada de getObjectView atualizada para js-controller v3",
+                "nl": "Aanroep van getObjectView bijgewerkt voor js-controller v3",
+                "fr": "Appel de getObjectView mis à jour pour js-controller v3",
+                "it": "Chiamata di getObjectView aggiornata per js-controller v3",
+                "es": "Llamada de getObjectView actualizada para js-controller v3",
+                "pl": "Zaktualizowano wywołanie getObjectView dla js-controller v3",
+                "zh-cn": "为js-controller v3更新的getObjectView调用"
+            }
             "1.0.13": {
                 "en": "The translation was corrected in the custom settings",
                 "de": "Die Übersetzung wurde in den benutzerdefinierten Einstellungen korrigiert",
