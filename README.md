@@ -448,7 +448,7 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
-### 1.0.13 (2020-04-13)
+### 1.0.14 (2020-04-22)
 * (algar42) Call of deprecated getObjectView updated for js-controller v3
 
 ### 1.0.13 (2020-04-13)
