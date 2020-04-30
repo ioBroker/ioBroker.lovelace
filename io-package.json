@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.14",
+        "version": "1.0.15",
         "news": {
+            "1.0.15": {
+                "en": "errors on webserver initialization are handled properly",
+                "de": "Fehler bei der Webserver-Initialisierung werden ordnungsgemäß behandelt",
+                "ru": "ошибки при инициализации веб-сервера обрабатываются правильно",
+                "pt": "erros na inicialização do servidor da web são tratados adequadamente",
+                "nl": "fouten bij het initialiseren van de webserver worden correct afgehandeld",
+                "fr": "les erreurs lors de l'initialisation du serveur Web sont gérées correctement",
+                "it": "gli errori sull'inizializzazione del server web sono gestiti correttamente",
+                "es": "los errores en la inicialización del servidor web se manejan correctamente",
+                "pl": "błędy przy inicjalizacji serwera są obsługiwane poprawnie",
+                "zh-cn": "网站服务器初始化错误得到正确处理"
+            },
             "1.0.14": {
                 "en": "Call of getObjectView updated for js-controller v3",
                 "de": "Aufruf von getObjectView für js-controller v3 aktualisiert",
