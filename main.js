@@ -119,6 +119,23 @@ function initWebServer(settings) {
     }
 
     if (server.server) {
+        let serverListening = false;
+        let serverPort = server.settings.port;
+
+        server.server.on('error', e => {
+            if (e.toString().includes('EACCES') && serverPort <= 1024) {
+                adapter.log.error(`node.js process has no rights to start server on the port ${serverPort}.\n` +
+                    `Do you know that on linux you need special permissions for ports under 1024?\n` +
+                    `You can call in shell following scrip to allow it for node.js: "iobroker fix"`
+                );
+            } else {
+                adapter.log.error(`Cannot start server on ${settings.bind || '0.0.0.0'}:${serverPort}: ${e}`);
+            }
+            if (!serverListening) {
+                adapter.terminate ? adapter.terminate(1) : process.exit(1);
+            }
+        });
+
         adapter.getPort(server.settings.port, port => {
             if (port !== server.settings.port && !adapter.config.findNextPort) {
                 adapter.log.error('port ' + server.settings.port + ' already in use');
@@ -128,7 +145,11 @@ function initWebServer(settings) {
                     process.exit(1);
                 }
             }
-            server.server.listen(port);
+            serverPort = port;
+
+            server.server.listen(port, () => {
+                serverListening = true;
+            });
             adapter.log.info('http' + (server.settings.secure ? 's' : '') + ' server listening on port ' + port);
         });
     }

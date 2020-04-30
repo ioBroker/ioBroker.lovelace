@@ -64,4 +64,69 @@
     "url": "https://github.com/ioBroker/ioBroker.lovelace/issues"
   },
   "readmeFilename": "README.md"
+    "name": "iobroker.lovelace",
+    "version": "1.0.14",
+    "description": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
+    "author": {
+        "name": "bluefox",
+        "email": "dogafox@gmail.com"
+    },
+    "homepage": "https://github.com/ioBroker/ioBroker.lovelace",
+    "license": "Apache-2.0",
+    "keywords": [
+        "ioBroker",
+        "template",
+        "Smart Home",
+        "home automation"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ioBroker/ioBroker.lovelace"
+    },
+    "dependencies": {
+        "@iobroker/adapter-core": "^2.3.1",
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "iobroker.type-detector": "^0.1.9",
+        "js-yaml": "^3.13.1",
+        "mime": "^2.4.4",
+        "multer": "^1.4.2",
+        "pinyin": "^2.9.0",
+        "request": "^2.88.2",
+        "ws": "^7.2.1",
+        "jstimezonedetect": "^1.0.7"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.2.9",
+        "@types/chai-as-promised": "^7.1.2",
+        "@types/gulp": "^4.0.6",
+        "@types/mocha": "^7.0.2",
+        "@types/node": "^13.13.4",
+        "@types/proxyquire": "^1.3.28",
+        "@types/sinon": "^9.0.0",
+        "@types/sinon-chai": "^3.2.4",
+        "axios": "^0.19.2",
+        "chai": "^4.2.0",
+        "chai-as-promised": "^7.1.1",
+        "eslint": "^6.8.0",
+        "gulp": "^4.0.2",
+        "mocha": "^7.1.2",
+        "proxyquire": "^2.1.3",
+        "sinon": "^9.0.2",
+        "sinon-chai": "^3.5.0",
+        "tslint": "^6.1.2"
+    },
+    "main": "main.js",
+    "scripts": {
+        "test:js": "mocha --opts test/mocha.custom.opts",
+        "test:package": "mocha test/testPackageFiles.js --exit",
+        "test:iobroker": "mocha test/testStartup.js --exit",
+        "test": "npm run test:js && npm run test:package",
+        "lint": "npm run lint:ts \"src/**/*.ts\"",
+        "lint:ts": "tslint"
+    },
+    "bugs": {
+        "url": "https://github.com/ioBroker/ioBroker.lovelace/issues"
+    },
+    "readmeFilename": "README.md"
 }
