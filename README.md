@@ -449,6 +449,9 @@ After that checkout modified version in `./build` folder. Then.
 
 ## Changelog
 
+### __WORK IN PROGRESS__
+* (Apollon77) webserver initialization optimized again to prevent errors with invalid certificates 
+
 ### 1.0.15 (2020-04-30)
 * (Apollon77) errors on webserver initialization are handled properly
 

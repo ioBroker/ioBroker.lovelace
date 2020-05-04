@@ -107,14 +107,21 @@ function initWebServer(settings) {
 
         if (settings.secure && !adapter.config.certificates) return null;
 
-        server.server = LE.createServer(server.app, settings, adapter.config.certificates, adapter.config.leConfig, adapter.log);
+        try {
+            server.server = LE.createServer(server.app, settings, adapter.config.certificates, adapter.config.leConfig, adapter.log);
+        } catch (err) {
+            adapter.log.error(`Cannot create webserver: ${err}`);
+            adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+            return;
+        }
+
         server.server.__server = server;
     } else {
         adapter.log.error('port missing');
         if (adapter.terminate) {
-            adapter.terminate(1);
+            adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
         } else {
-            process.exit(1);
+            process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
         }
     }
 
@@ -132,7 +139,7 @@ function initWebServer(settings) {
                 adapter.log.error(`Cannot start server on ${settings.bind || '0.0.0.0'}:${serverPort}: ${e}`);
             }
             if (!serverListening) {
-                adapter.terminate ? adapter.terminate(1) : process.exit(1);
+                adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
             }
         });
 
@@ -140,9 +147,9 @@ function initWebServer(settings) {
             if (port !== server.settings.port && !adapter.config.findNextPort) {
                 adapter.log.error('port ' + server.settings.port + ' already in use');
                 if (adapter.terminate) {
-                    adapter.terminate(1);
+                    adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
                 } else {
-                    process.exit(1);
+                    process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
                 }
             }
             serverPort = port;
