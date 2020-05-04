@@ -449,7 +449,7 @@ After that checkout modified version in `./build` folder. Then.
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.0.16 (2020-05-04)
 * (Apollon77) webserver initialization optimized again to prevent errors with invalid certificates 
 
 ### 1.0.15 (2020-04-30)

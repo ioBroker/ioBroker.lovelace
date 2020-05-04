@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.0.15",
+        "version": "1.0.16",
         "news": {
+            "1.0.16": {
+                "en": "webserver initialization optimized again to prevent errors with invalid certificates",
+                "de": "Die Webserver-Initialisierung wurde erneut optimiert, um Fehler mit ungültigen Zertifikaten zu vermeiden",
+                "ru": "Инициализация веб-сервера снова оптимизирована для предотвращения ошибок с недействительными сертификатами",
+                "pt": "inicialização do servidor da web otimizada novamente para evitar erros com certificados inválidos",
+                "nl": "de initialisatie van de webserver is opnieuw geoptimaliseerd om fouten met ongeldige certificaten te voorkomen",
+                "fr": "initialisation du serveur Web optimisée à nouveau pour éviter les erreurs avec des certificats invalides",
+                "it": "inizializzazione del server web nuovamente ottimizzata per prevenire errori con certificati non validi",
+                "es": "La inicialización del servidor web se optimizó nuevamente para evitar errores con certificados no válidos",
+                "pl": "inicjalizacja serwera WWW została ponownie zoptymalizowana, aby zapobiec błędom z nieprawidłowymi certyfikatami",
+                "zh-cn": "再次优化了Web服务器的初始化，以防止证书无效而出错"
+            },
             "1.0.15": {
                 "en": "errors on webserver initialization are handled properly",
                 "de": "Fehler bei der Webserver-Initialisierung werden ordnungsgemäß behandelt",
