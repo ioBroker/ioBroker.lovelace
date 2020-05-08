@@ -80,28 +80,26 @@
     if (typeof customPostInits !== 'undefined') {
         customPostInits.lovelace = function ($div, values, instanceObj, type, role) {
             try {
-                let myNamespace = instanceObj._id.replace("system.adapter.", "");
-                let currentObj = gMain.objects[gMain.navigateGetParams()];
+                var myNamespace = instanceObj._id.replace('system.adapter.', '');
+                var currentObj = gMain.objects[gMain.navigateGetParams()];
 
-                let entitiesIdList = [];
+                var entitiesIdList = [];
 
-                let Input = {};
-                let DataList = {};
+                var Input = {};
+                var DataList = {};
                 var Select = {};
                 var Button = {};
 
-                var selectedEntity = "auto";
+                var selectedEntity ='auto';
                 if (currentObj && currentObj.common && currentObj.common.custom && currentObj.common.custom[myNamespace] && currentObj.common.custom[myNamespace].entity) {
                     selectedEntity = currentObj.common.custom[myNamespace].entity;
                 }
 
-
                 initializeDivs();
 
-                intializeSuggestions();
+                initializeSuggestions();
 
                 events();
-
 
                 function initializeDivs() {
                     // Input
@@ -136,34 +134,34 @@
                     });
 
                     Button.autoGenerateEntityName.click(function () {
-                        let id = currentObj._id;
-                        extractInstance = id.match(/\.\d+\./);
+                        var id = currentObj._id;
+                        var extractInstance = id.match(/\.\d+\./);
                         Input.name.val(id.split(extractInstance, 2)[1].replace(/\./g, '_'));
                     });
                 }
 
-                async function intializeSuggestions() {
-                    entitiesList = await getEntitiesAsync();
-                    let suggestionList = [];
+                async function initializeSuggestions() {
+                    var entitiesList = await getEntitiesAsync();
+                    var suggestionList = [];
 
                     for (var i = 0; i < entitiesList.length; i++) {
-                        let entityId = entitiesList[i].entity_id;
+                        var entityId = entitiesList[i].entity_id;
 
                         if (entityId) {
                             // add entityId to List
                             entitiesIdList.push(entityId);
 
                             // remove entity type
-                            let prefix = entityId.substring(entityId.indexOf('.') + 1, entityId.length);
+                            var prefix = entityId.substring(entityId.indexOf('.') + 1, entityId.length);
 
                             if (prefix && prefix.includes('_')) {
-                                // loop trough prefixs
-                                let sug = prefix;
-                                for (var d = 0; d <= prefix.split("_").length - 1; d++) {
-                                    sug = sug.substring(0, sug.lastIndexOf('_'))
+                                // loop trough prefixes
+                                var sug = prefix;
+                                for (var d = 0; d <= prefix.split('_').length - 1; d++) {
+                                    sug = sug.substring(0, sug.lastIndexOf('_'));
 
                                     if (sug) {
-                                        entityIdSuggestion = `<option value="${sug}_">`;
+                                        var entityIdSuggestion = '<option value="' + sug  + '_">';
                                         if (!suggestionList.includes(entityIdSuggestion)) {
                                             // nur zu prefixId array hinzufügen wenn noch nicht vorhanden
                                             suggestionList.push(entityIdSuggestion);
@@ -174,17 +172,17 @@
                         }
                     }
 
-                    DataList.suggestionList.html(suggestionList.sort().join("\n"));
+                    DataList.suggestionList.html(suggestionList.sort().join('\n'));
                 }
             } catch (err) {
-                gMain.showError(`Error: ${err.message}<br>Stack: ${err.stack}`);
+                gMain.showError(`Error: ${err && err.message}<br>Stack: ${err && err.stack}`);
             }
         };
     }
 
     async function getEntitiesAsync(pattern) {
-        return new Promise((resolve, reject) => {
-            gMain.socket.emit('sendTo', 'lovelace.0', 'browse', null, function (list) {
+        return new Promise(resolve => {
+            gMain.socket.emit('sendTo', 'lovelace.0', 'browse', null, list => {
                 if (list && Object.keys(list).length > 0) {
                     resolve(list);
                 } else {
