@@ -448,6 +448,11 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.0.17 (2020-05-28)
+* (Garfonso) added windowsTilt device type
+* (Garfonso) reworked friendly name for auto generated entities, allow space in name.
+* (Garfonso) use device_class feature for sensors (where applicable) -> results in translation features of lovelace being used.
+* (Garfonso) multiple fixes/additions to media player (like volume scaling, on/off support, shuffle support, stop support) 
 
 ### 1.0.16 (2020-05-04)
 * (Apollon77) webserver initialization optimized again to prevent errors with invalid certificates 
