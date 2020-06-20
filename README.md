@@ -448,6 +448,15 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.2.0 (2020-06-20)
+* (Garfonso) Added: Support for cover entity (cover and input_number entities are now created for blinds)
+* (Garfonso) Added: Support for new blind types which let lovelace determine direction of 0/100%
+* (Garfonso) Fixed: Prefer ON_LIGHT for lights if present, should fix cases where there is also a switch state in a light device.
+* (Garfonso) Added: Enable history support, let's more-info show history of states
+* (Garfonso) Added: zone.home entity from system.config (i.e. lat/long)
+* (Garfonso) Fixed: Make door devices create a device_class door entity
+* (Garfonso) Fixed: Added some missing translations, improved translation a bit, added domain name to translations in custom tab.
+
 ### 1.1.0 (2020-05-28)
 * (Garfonso) BREAKING: fixed issue with entity_id generation which now allows umlauts to be replaced by ue/ae/oe.
 * (Garfonso) added windowsTilt device type
