@@ -412,6 +412,11 @@ on({id: 'lovelace.0.conversation', ack: false, change: 'any'}, obj => {
 });
 ```
 
+## Trouble Shooting
+If you messed up the YAML Code and see a blank page but still have the top menu, you can enable edit mode (if not already enabled) from the menu and then open the menu again to access the "RAW Yaml Editor" in which you see the complete YAML code and can clean it up.
+If that does not help, you can open the object lovelace.*.configuration in raw-editor in ioBroker and have a look there.
+You can also restore that object from a backup. It contains the complete configuration of your visualization.
+
 ## Original sources for lovelace
 Used sources are here https://github.com/GermanBluefox/home-assistant-polymer .
 
