@@ -456,6 +456,11 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.2.1 (2020-06-23)
+* (Garfonso) Updated Hass Lovelace. Which fixes weather-card, no weather icons with authorization and (maybe?) store credentials
+* (Garfonso) Fix: yaml editor goes missing on Firefox 
+* (Garfonso) Added: Support for new type of blinds (needs type-detector update)
+
 ### 1.2.0 (2020-06-20)
 * (Garfonso) Added: Support for cover entity (cover and input_number entities are now created for blinds)
 * (Garfonso) Added: Support for new blind types which let lovelace determine direction of 0/100%
