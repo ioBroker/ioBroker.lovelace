@@ -423,7 +423,7 @@ Security must be taken from current user and not from default_user
 Used version of home-assistant-frontend@1.0.0
 
 ### How to build the new Lovelace version
-First of all the actual https://github.com/home-assistant/home-assistant-polymer (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
+First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
 For now (2020.01.12) following files were modified:
@@ -431,15 +431,18 @@ For now (2020.01.12) following files were modified:
 - `build-scripts/gulp/app.js` - Added new gulp task
 - `build-scripts/gulp/webpack.js` - Added new gulp task
 - `src/data/lovelace.ts` - added hide bar option
+- `src/data/weather.ts` - add support to display ioBroker weather icon again.
+- `src/dialogs/more-info/more-info-controls.js` - remove entity settings button
 - `src/dialogs/notifications/notification-drawer.js` - added button ack all
 - `src/entrypoints/core.ts` - modified authentication process
 - `src/layouts/home-assistant-main.ts` - remove app sidebar
 - `src/panels/lovelace/hui-root.ts` - added notifications and voice control
+- `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display ioBroker weather icon again.
 
 After that checkout modified version in `./build` folder. Then.
 
 1. go to ./build directory.
-2. `git clone https://github.com/GermanBluefox/home-assistant-polymer.git` it is a fork of https://github.com/home-assistant/home-assistant-polymer.git, but some things are modified (see the file list earlier).
+2. `git clone https://github.com/GermanBluefox/home-assistant-polymer.git` it is a fork of https://github.com/home-assistant/frontend.git, but some things are modified (see the file list earlier).
 3. `cd home-assistant-polymer`
 4. `git checkout master`
 5. `npm install`
