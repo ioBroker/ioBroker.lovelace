@@ -456,6 +456,14 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.2.2 (2020-06-24)
+* (Garfonso) Fixed: Notification-drawer was to wide on narrow screens
+* (Garfonso) Fixed: Clear-all notifications button now has its icon again
+* (Garfonso) Fixed: Notification-button could move unpredictable in toolbar
+* (Garfonso) Fixed: Lock status is now displayed in icon (open/close)
+* (Garfonso) Fixed: Lock status is now received if no dedicated getId exists (by subscribing setId like with other entities)
+* (Garfonso) Added: Support for open-service call (which is not yet? supported in lovelace itself...)
+
 ### 1.2.1 (2020-06-23)
 * (Garfonso) Updated Hass Lovelace. Which fixes weather-card, no weather icons with authorization and (maybe?) store credentials
 * (Garfonso) Fix: yaml editor goes missing on Firefox 
