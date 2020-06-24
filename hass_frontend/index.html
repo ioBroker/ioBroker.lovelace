@@ -5,17 +5,5 @@ function _ls(e){var t=document.documentElement,s=t.insertBefore(document.createE
 function _pf(o,t){var n=document.createElement("link");n.rel="preload",n.as="font",n.type="font/woff2",n.href=o,n.crossOrigin="anonymous",document.head.append(n)}-1===navigator.userAgent.indexOf("Android")&&-1===navigator.userAgent.indexOf("CrOS")&&(_pf("/static/fonts/roboto/Roboto-Regular.woff2"),_pf("/static/fonts/roboto/Roboto-Medium.woff2"))</script>
 <script>
 import("/frontend_latest/core.63bf91a5.js"),import("/frontend_latest/app.8ebedb13.js"),window.customPanelJS="/frontend_latest/custom-panel.09e74d03.js",window.latestJS=!0</script>
-<script>
-{% for extra_module in extra_modules -%}
-    import("{{ extra_module }}");
-    {% endfor -%}</script>
-<script>
 window.latestJS||(window.customPanelJS="/frontend_es5/custom-panel.17957b93.js",_ls("/frontend_es5/core.d0d5086a.js"),_ls("/frontend_es5/app.0bcfbabc.js"))</script>
-<script>
-if (!window.latestJS) {
-        {% for extra_script in extra_js_es5 -%}
-        _ls("{{ extra_script }}");
-        {% endfor -%}
-      }
-</script>
 </body></html>
