@@ -546,6 +546,19 @@ gulp.task('rename', done => {
     <link rel="import" href="{{ extra_url }}" async />
     {% endfor -%}`, '');
                 newText = newText.replace('</script>{% endfor -%}', '</script>\n{% endfor -%}');
+
+                newText = newText.replace('<script>\n' +
+                    '{% for extra_module in extra_modules -%}\n' +
+                    '    import("{{ extra_module }}");\n' +
+                    '    {% endfor -%}</script>\n' +
+                    '<script>', '');
+                newText = newText.replace('<script>\n' +
+                    'if (!window.latestJS) {\n' +
+                    '        {% for extra_script in extra_js_es5 -%}\n' +
+                    '        _ls("{{ extra_script }}");\n' +
+                    '        {% endfor -%}\n' +
+                    '      }\n' +
+                    '</script>', '');
             }
 
             if (newText !== text) {
