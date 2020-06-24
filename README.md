@@ -466,6 +466,10 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 1.2.1 (2020-06-23)
 * (Garfonso) Updated Hass Lovelace. Which fixes weather-card, no weather icons with authorization and (maybe?) store credentials
+             Please make sure to update your custom cards! Follwing cards need updates:
+                [mini-graph-card](https://github.com/kalkih/mini-graph-card)
+                [Slideshow](https://github.com/igloo15/slideshow-card)
+                [button-entity-row](https://github.com/mattatcha/button-entity-row)
 * (Garfonso) Fix: yaml editor goes missing on Firefox 
 * (Garfonso) Added: Support for new type of blinds (needs type-detector update)
 
