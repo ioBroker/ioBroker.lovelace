@@ -77,7 +77,19 @@ var lovelace_systemDictionary = {
     "open": {                                        "en": "Open",                                            "de": "Offen",                                           "ru": "открыто",                                         "pt": "Aberto",                                          "nl": "Open",                                            "fr": "Ouvert",                                          "it": "Aperto",                                          "es": "Abierto",                                         "pl": "otwarty",                                         "zh-cn": "打开"},
     "closed": {                                      "en": "Closed",                                          "de": "Geschlossen",                                     "ru": "Закрыто",                                         "pt": "Fechadas",                                        "nl": "Gesloten",                                        "fr": "Fermé",                                           "it": "Chiuso",                                          "es": "Cerrado",                                         "pl": "Zamknięte",                                       "zh-cn": "关闭"},
     "tilted": {                                      "en": "Tilted",                                          "de": "Gekippt",                                         "ru": "Наклонная",                                       "pt": "Inclinado",                                       "nl": "Gekanteld",                                       "fr": "Incliné",                                         "it": "Tilted",                                          "es": "Inclinado",                                       "pl": "Przechylony",                                     "zh-cn": "斜"},
-    "Hide attributes": {                             "en": "Hide attributes",                                 "de": "Attribute ausblenden",                            "ru": "Скрыть атрибуты",                                 "pt": "Ocultar atributos",                               "nl": "Verberg attributen",                              "fr": "Masquer les attributs",                           "it": "Nascondi attributi",                              "es": "Ocultar atributos",                               "pl": "Ukryj atrybuty",                                  "zh-cn": "隐藏属性"}
+    "Hide attributes": {                             "en": "Hide attributes",                                 "de": "Attribute ausblenden",                            "ru": "Скрыть атрибуты",                                 "pt": "Ocultar atributos",                               "nl": "Verberg attributen",                              "fr": "Masquer les attributs",                           "it": "Nascondi attributi",                              "es": "Ocultar atributos",                               "pl": "Ukryj atrybuty",                                  "zh-cn": "隐藏属性"},
+    "blindsInvert": {
+        "en": "Blinds 100% means blind is closed. If false, 100% means blind is open.",
+        "de": "Blinds 100% bedeutet, dass Blinds geschlossen sind. Wenn false, bedeutet 100%, dass blind geöffnet ist.",
+        "ru": "Жалюзи 100% означает, что слепой закрыт. Если false, 100% означает, что слепой открыт.",
+        "pt": "Blinds 100 %s ignifica que o blind está fechado. Se falso, 100% significa que o blind está aberto.",
+        "nl": "Blinds 100% betekent dat jaloezie gesloten is. Indien false, betekent 100% dat blind open is.",
+        "fr": "Les stores à 100 %s ignifient que le store est fermé. Si faux, 100% signifie que le store est ouvert.",
+        "it": "Blinds 100 %s ignifica che il blind è chiuso. Se falso, 100% significa che il buio è aperto.",
+        "es": "Persianas 100 %s ignifica que la persiana está cerrada. Si es falso, 100% significa que la persiana está abierta.",
+        "pl": "100% w ciemno oznacza, że ciemna jest zamknięta. Jeśli false, 100% oznacza, że blind jest otwarty.",
+        "zh-cn": "百叶窗表示百叶窗关闭。如果为假，则100％表示百叶窗已打开。"
+    }
 
 };
 if (typeof module !== 'undefined' && module.parent) { module.exports = lovelace_systemDictionary; }

@@ -241,7 +241,8 @@
         "leEnabled": false,
         "leUpdate": false,
         "leCheckPort": 80,
-        "aliayOnly": false
+        "aliayOnly": false,
+        "blindsInvert": false
     },
     "objects": [
         {
