@@ -420,5 +420,8 @@
     "component.tellduslive.config.step.user.description": "Leer",
     "component.hangouts.config.step.2fa.description": "Leer",
     "component.hangouts.config.step.user.description": "Leer",
-    "component.zha.config.step.user.description": "Leer"
+    "component.zha.config.step.user.description": "Leer",
+    "component.sensor.state.window.closed": "Geschlossen",
+    "component.sensor.state.window.open": "Offen",
+    "component.sensor.state.window.tilted": "Gekippt"
 }
