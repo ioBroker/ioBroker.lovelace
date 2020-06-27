@@ -240,7 +240,7 @@
           </p>
           <p class="develop">
             <a
-              href="https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1/developers/credits/"
+              href="https://www.home-assistant.io/developers/credits/"
               target="_blank"
               rel="noreferrer"
             >
