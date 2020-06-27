@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "news": {
+            "1.2.3": {
+                "en": "* (Garfonso) Added: config to select direction of blinds.\n* (Garfonso) Fixed: missing translation of binary_sensor.states\n* (Garfonso) Fixed: History Graph diagrams for sensor-entities",
+                "de": "* (Garfonso) Hinzugefügt: config zur Auswahl der Richtung der Jalousien.\n* (Garfonso) Behoben: fehlende Übersetzung von binary_sensor.states\n* (Garfonso) Behoben: Verlaufsdiagramme für Sensorentitäten",
+                "ru": "* (Гарфонсо) Добавлено: конфигурация для выбора направления жалюзи.\n* (Гарфонсо) Исправлено: отсутствует перевод файла binary_sensor.states\n* (Гарфонсо) Исправлено: Диаграмма Графика истории для сенсорных объектов",
+                "pt": "* (Garfonso) Adicionado: config para selecionar a direção dos blinds.\n* (Garfonso) Corrigido: falta de tradução do binary_sensor.states\n* (Garfonso) Corrigido: Diagramas de gráficos históricos para entidades sensoras",
+                "nl": "* (Garfonso) Toegevoegd: config om de richting van de blinds te selecteren.\n* (Garfonso) Opgelost: ontbrekende vertaling van binary_sensor.states\n* (Garfonso) Fixed: History Graph diagrams voor sensor-entiteiten",
+                "fr": "* (Garfonso) Ajouté: config pour sélectionner la direction des stores.\n* (Garfonso) Corrigé: traduction manquante de binary_sensor.states\n* (Garfonso) Corrigé: Diagrammes de graphique d'historique pour les entités de capteur",
+                "it": "* (Garfonso) Aggiunto: config per selezionare la direzione dei bui.\n* (Garfonso) Risolto: mancava la traduzione di binary_sensor.states\n* (Garfonso) Risolto: diagrammi del grafico cronologico per entità sensore",
+                "es": "* (Garfonso) Agregado: configuración para seleccionar la dirección de las persianas.\n* (Garfonso) Corregido: falta la traducción de binary_sensor.states\n* (Garfonso) Corregido: diagramas de gráficos de historia para entidades de sensores",
+                "pl": "* (Garfonso) Dodano: konfiguracja, aby wybrać kierunek żaluzji.\n* (Garfonso) Naprawiono: brak tłumaczenia binary_sensor.states\n* (Garfonso) Naprawiono: Wykresy historii dla encji czujnikowych",
+                "zh-cn": "*（Garfonso）添加：配置以选择百叶窗的方向。\n*（Garfonso）固定：缺少binary_sensor.states的翻译\n*（Garfonso）固定：传感器实体的历史图表图"
+            },
             "1.2.2": {
                 "en": "* (Garfonso) Fixed: Notification-drawer was to wide on narrow screens\n* (Garfonso) Fixed: Clear-all notifications button now has its icon again\n* (Garfonso) Fixed: Notification-button could move unpredictable in toolbar\n* (Garfonso) Fixed: Lock status is now displayed in icon (open/close)\n* (Garfonso) Fixed: Lock status is now received if no dedicated getId exists (by subscribing setId like with other entities)\n* (Garfonso) Added: Support for open-service call (which is not yet? supported in lovelace itself...)",
                 "de": "* (Garfonso) Behoben: Benachrichtigungs-Schublade war auf schmalen Bildschirmen zu breit\n* (Garfonso) Behoben: Die Schaltfläche Alle Benachrichtigungen löschen hat jetzt wieder ihr Symbol\n* (Garfonso) Behoben: Die Benachrichtigungsschaltfläche konnte sich in der Symbolleiste unvorhersehbar bewegen\n* (Garfonso) Behoben: Der Sperrstatus wird jetzt im Symbol angezeigt (Öffnen / Schließen).\n* (Garfonso) Behoben: Der Sperrstatus wird jetzt empfangen, wenn keine dedizierte getId vorhanden ist (durch Abonnieren von setId wie bei anderen Entitäten).\n* (Garfonso) Hinzugefügt: Unterstützung für Open-Service-Anrufe (was noch nicht in Lovelace selbst unterstützt wird ...)",

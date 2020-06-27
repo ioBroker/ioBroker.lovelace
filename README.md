@@ -456,6 +456,11 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.2.3 (2020-06-27)
+* (Garfonso) Added: config to select direction of blinds.
+* (Garfonso) Fixed: missing translation of binary_sensor.states
+* (Garfonso) Fixed: History Graph diagrams for sensor-entities
+
 ### 1.2.2 (2020-06-24)
 * (Garfonso) Fixed: Notification-drawer was to wide on narrow screens
 * (Garfonso) Fixed: Clear-all notifications button now has its icon again
