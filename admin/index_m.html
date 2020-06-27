@@ -561,12 +561,12 @@
         #themes_fallback {
             width: 100%;
             resize: none;
-            height: calc(100% - 104px);
+            height: calc(100vh - 300px);
             font-family: monospace;
         }
         #themes {
             width: 100%;
-            height: calc(100% - 104px);
+            height: calc(100vh - 300px);
         }
         .row-narrow {
             margin-bottom: 0 !important;
@@ -671,9 +671,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s12 m6 l2">
+                <div class="input-field col s8 m10 l10">
                     <input class="value" id="aliasOnly" type="checkbox" />
-                    <label class="translate" for="aliasOnly">Alias Only</label>
+                    <label class="translate" for="aliasOnly">AliasOnly</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s8 m10 l10">
+                    <input class="value" id="blindsInvert" type="checkbox" />
+                    <label class="translate" for="blindsInvert">blindsInvert</label>
                 </div>
             </div>
         </div>

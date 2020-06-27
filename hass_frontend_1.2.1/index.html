@@ -1,0 +1,21 @@
+<!DOCTYPE html><html><head><link rel="preload" href="/frontend_latest/core.63bf91a5.js" as="script" crossorigin="use-credentials"><link rel="preload" href="/frontend_latest/app.a3c2e9b7.js" as="script" crossorigin="use-credentials"><meta charset="utf-8"><link rel="manifest" href="/manifest.json" crossorigin="use-credentials"><link rel="icon" href="/static/icons/favicon.ico"><meta name="viewport" content="width=device-width,user-scalable=no"><style>body{font-family:Roboto,sans-serif;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;font-weight:400;margin:0;padding:0;height:100vh}</style><title>ioBroker</title><link rel="apple-touch-icon" sizes="180x180" href="/static/icons/favicon-apple-180x180.png"><link rel="mask-icon" href="/static/icons/mask-icon.svg" color="#03a9f4"><meta name="apple-itunes-app" content="app-id=1099568401"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="msapplication-square70x70logo" content="/static/icons/tile-win-70x70.png"><meta name="msapplication-square150x150logo" content="/static/icons/tile-win-150x150.png"><meta name="msapplication-wide310x150logo" content="/static/icons/tile-win-310x150.png"><meta name="msapplication-square310x310logo" content="/static/icons/tile-win-310x310.png"><meta name="msapplication-TileColor" content="#03a9f4ff"><meta name="mobile-web-app-capable" content="yes"><meta name="referrer" content="same-origin"><meta name="theme-color" content="{{ theme_color }}"><style>#ha-init-skeleton::before{display:block;content:"";height:112px;background-color:{{ theme_color }}}html{background-color:var(--primary-background-color,#fafafa)}</style></head><body><div id="ha-init-skeleton"></div><home-assistant></home-assistant>
+<script>
+function _ls(e){var t=document.documentElement,s=t.insertBefore(document.createElement("script"),t.lastChild);return s.defer=!0,s.src=e,s}window.Polymer={lazyRegister:!0,useNativeCSSProperties:!0,dom:"shadow",suppressTemplateNotifications:!0,suppressBindingNotifications:!0},"customElements"in window&&"content"in document.createElement("template")||document.write("<script src='/static/polyfills/webcomponents-bundle.js'><\/script>");var isS101=/\s+Version\/10\.1(?:\.\d+)?\s+Safari\//.test(navigator.userAgent)</script>
+<script>
+function _pf(o,t){var n=document.createElement("link");n.rel="preload",n.as="font",n.type="font/woff2",n.href=o,n.crossOrigin="anonymous",document.head.append(n)}-1===navigator.userAgent.indexOf("Android")&&-1===navigator.userAgent.indexOf("CrOS")&&(_pf("/static/fonts/roboto/Roboto-Regular.woff2"),_pf("/static/fonts/roboto/Roboto-Medium.woff2"))</script>
+<script>
+import("/frontend_latest/core.63bf91a5.js"),import("/frontend_latest/app.a3c2e9b7.js"),window.customPanelJS="/frontend_latest/custom-panel.09e74d03.js",window.latestJS=!0</script>
+<script>
+{% for extra_module in extra_modules -%}
+    import("{{ extra_module }}");
+    {% endfor -%}</script>
+<script>
+window.latestJS||(window.customPanelJS="/frontend_es5/custom-panel.17957b93.js",_ls("/frontend_es5/core.d0d5086a.js"),_ls("/frontend_es5/app.d462a10c.js"))</script>
+<script>
+if (!window.latestJS) {
+        {% for extra_script in extra_js_es5 -%}
+        _ls("{{ extra_script }}");
+        {% endfor -%}
+      }
+</script>
+</body></html>

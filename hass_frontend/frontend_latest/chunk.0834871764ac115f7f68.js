@@ -1,0 +1,126 @@
+/*! For license information please see chunk.0834871764ac115f7f68.js.LICENSE */
+(self.webpackJsonp=self.webpackJsonp||[]).push([[150,152],{137:function(e,t,n){"use strict";n.d(t,"a",(function(){return o}));n(4);var r=n(83),a=n(44);const o=[r.a,a.a,{hostAttributes:{role:"option",tabindex:"0"}}]},151:function(e,t,n){"use strict";n(4),n(52),n(155);var r=n(5),a=n(3),o=n(137);Object(r.a)({_template:a.a`
+    <style include="paper-item-shared-styles">
+      :host {
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        @apply --paper-font-subhead;
+
+        @apply --paper-item;
+      }
+    </style>
+    <slot></slot>
+`,is:"paper-item",behaviors:[o.a]})},155:function(e,t,n){"use strict";n(52),n(60),n(51),n(59);const r=document.createElement("template");r.setAttribute("style","display: none;"),r.innerHTML="<dom-module id=\"paper-item-shared-styles\">\n  <template>\n    <style>\n      :host, .paper-item {\n        display: block;\n        position: relative;\n        min-height: var(--paper-item-min-height, 48px);\n        padding: 0px 16px;\n      }\n\n      .paper-item {\n        @apply --paper-font-subhead;\n        border:none;\n        outline: none;\n        background: white;\n        width: 100%;\n        text-align: left;\n      }\n\n      :host([hidden]), .paper-item[hidden] {\n        display: none !important;\n      }\n\n      :host(.iron-selected), .paper-item.iron-selected {\n        font-weight: var(--paper-item-selected-weight, bold);\n\n        @apply --paper-item-selected;\n      }\n\n      :host([disabled]), .paper-item[disabled] {\n        color: var(--paper-item-disabled-color, var(--disabled-text-color));\n\n        @apply --paper-item-disabled;\n      }\n\n      :host(:focus), .paper-item:focus {\n        position: relative;\n        outline: 0;\n\n        @apply --paper-item-focused;\n      }\n\n      :host(:focus):before, .paper-item:focus:before {\n        @apply --layout-fit;\n\n        background: currentColor;\n        content: '';\n        opacity: var(--dark-divider-opacity);\n        pointer-events: none;\n\n        @apply --paper-item-focused-before;\n      }\n    </style>\n  </template>\n</dom-module>",document.head.appendChild(r.content)},156:function(e,t,n){"use strict";n(4),n(42),n(153),n(76),n(158),n(141),n(51),n(183),n(184);var r=n(83),a=n(44),o=n(65),i=n(66),s=n(5),l=n(2),c=n(37),u=n(3);Object(s.a)({_template:u.a`
+    <style include="paper-dropdown-menu-shared-styles"></style>
+
+    <!-- this div fulfills an a11y requirement for combobox, do not remove -->
+    <span role="button"></span>
+    <paper-menu-button id="menuButton" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]" dynamic-align="[[dynamicAlign]]" vertical-offset="[[_computeMenuVerticalOffset(noLabelFloat, verticalOffset)]]" disabled="[[disabled]]" no-animations="[[noAnimations]]" on-iron-select="_onIronSelect" on-iron-deselect="_onIronDeselect" opened="{{opened}}" close-on-activate allow-outside-scroll="[[allowOutsideScroll]]" restore-focus-on-close="[[restoreFocusOnClose]]">
+      <!-- support hybrid mode: user might be using paper-menu-button 1.x which distributes via <content> -->
+      <div class="dropdown-trigger" slot="dropdown-trigger">
+        <paper-ripple></paper-ripple>
+        <!-- paper-input has type="text" for a11y, do not remove -->
+        <paper-input type="text" invalid="[[invalid]]" readonly disabled="[[disabled]]" value="[[value]]" placeholder="[[placeholder]]" error-message="[[errorMessage]]" always-float-label="[[alwaysFloatLabel]]" no-label-float="[[noLabelFloat]]" label="[[label]]">
+          <!-- support hybrid mode: user might be using paper-input 1.x which distributes via <content> -->
+          <iron-icon icon="paper-dropdown-menu:arrow-drop-down" suffix slot="suffix"></iron-icon>
+        </paper-input>
+      </div>
+      <slot id="content" name="dropdown-content" slot="dropdown-content"></slot>
+    </paper-menu-button>
+`,is:"paper-dropdown-menu",behaviors:[r.a,a.a,o.a,i.a],properties:{selectedItemLabel:{type:String,notify:!0,readOnly:!0},selectedItem:{type:Object,notify:!0,readOnly:!0},value:{type:String,notify:!0},label:{type:String},placeholder:{type:String},errorMessage:{type:String},opened:{type:Boolean,notify:!0,value:!1,observer:"_openedChanged"},allowOutsideScroll:{type:Boolean,value:!1},noLabelFloat:{type:Boolean,value:!1,reflectToAttribute:!0},alwaysFloatLabel:{type:Boolean,value:!1},noAnimations:{type:Boolean,value:!1},horizontalAlign:{type:String,value:"right"},verticalAlign:{type:String,value:"top"},verticalOffset:Number,dynamicAlign:{type:Boolean},restoreFocusOnClose:{type:Boolean,value:!0}},listeners:{tap:"_onTap"},keyBindings:{"up down":"open",esc:"close"},hostAttributes:{role:"combobox","aria-autocomplete":"none","aria-haspopup":"true"},observers:["_selectedItemChanged(selectedItem)"],attached:function(){var e=this.contentElement;e&&e.selectedItem&&this._setSelectedItem(e.selectedItem)},get contentElement(){for(var e=Object(l.a)(this.$.content).getDistributedNodes(),t=0,n=e.length;t<n;t++)if(e[t].nodeType===Node.ELEMENT_NODE)return e[t]},open:function(){this.$.menuButton.open()},close:function(){this.$.menuButton.close()},_onIronSelect:function(e){this._setSelectedItem(e.detail.item)},_onIronDeselect:function(e){this._setSelectedItem(null)},_onTap:function(e){c.b(e)===this&&this.open()},_selectedItemChanged:function(e){var t="";t=e?e.label||e.getAttribute("label")||e.textContent.trim():"",this.value=t,this._setSelectedItemLabel(t)},_computeMenuVerticalOffset:function(e,t){return t||(e?-4:8)},_getValidity:function(e){return this.disabled||!this.required||this.required&&!!this.value},_openedChanged:function(){var e=this.opened?"true":"false",t=this.contentElement;t&&t.setAttribute("aria-expanded",e)}})},185:function(e,t,n){"use strict";n(4);var r=n(84),a=n(5),o=n(2);Object(a.a)({is:"iron-iconset-svg",properties:{name:{type:String,observer:"_nameChanged"},size:{type:Number,value:24},rtlMirroring:{type:Boolean,value:!1},useGlobalRtlAttribute:{type:Boolean,value:!1}},created:function(){this._meta=new r.a({type:"iconset",key:null,value:null})},attached:function(){this.style.display="none"},getIconNames:function(){return this._icons=this._createIconMap(),Object.keys(this._icons).map((function(e){return this.name+":"+e}),this)},applyIcon:function(e,t){this.removeIcon(e);var n=this._cloneIcon(t,this.rtlMirroring&&this._targetIsRTL(e));if(n){var r=Object(o.a)(e.root||e);return r.insertBefore(n,r.childNodes[0]),e._svgIcon=n}return null},removeIcon:function(e){e._svgIcon&&(Object(o.a)(e.root||e).removeChild(e._svgIcon),e._svgIcon=null)},_targetIsRTL:function(e){if(null==this.__targetIsRTL)if(this.useGlobalRtlAttribute){var t=document.body&&document.body.hasAttribute("dir")?document.body:document.documentElement;this.__targetIsRTL="rtl"===t.getAttribute("dir")}else e&&e.nodeType!==Node.ELEMENT_NODE&&(e=e.host),this.__targetIsRTL=e&&"rtl"===window.getComputedStyle(e).direction;return this.__targetIsRTL},_nameChanged:function(){this._meta.value=null,this._meta.key=this.name,this._meta.value=this,this.async((function(){this.fire("iron-iconset-added",this,{node:window})}))},_createIconMap:function(){var e=Object.create(null);return Object(o.a)(this).querySelectorAll("[id]").forEach((function(t){e[t.id]=t})),e},_cloneIcon:function(e,t){return this._icons=this._icons||this._createIconMap(),this._prepareSvgClone(this._icons[e],this.size,t)},_prepareSvgClone:function(e,t,n){if(e){var r=e.cloneNode(!0),a=document.createElementNS("http://www.w3.org/2000/svg","svg"),o=r.getAttribute("viewBox")||"0 0 "+t+" "+t,i="pointer-events: none; display: block; width: 100%; height: 100%;";return n&&r.hasAttribute("mirror-in-rtl")&&(i+="-webkit-transform:scale(-1,1);transform:scale(-1,1);transform-origin:center;"),a.setAttribute("viewBox",o),a.setAttribute("preserveAspectRatio","xMidYMid meet"),a.setAttribute("focusable","false"),a.style.cssText=i,a.appendChild(r).removeAttribute("id"),a}return null}})},231:function(e,t,n){"use strict";n.d(t,"a",(function(){return I}));class r extends TypeError{static format(e){const{type:t,path:n,value:r}=e;return`Expected a value of type \`${t}\`${n.length?` for \`${n.join(".")}\``:""} but received \`${JSON.stringify(r)}\`.`}constructor(e){super(r.format(e));const{data:t,path:n,value:a,reason:o,type:i,errors:s=[]}=e;this.data=t,this.path=n,this.value=a,this.reason=o,this.type=i,this.errors=s,s.length||s.push(this),Error.captureStackTrace?Error.captureStackTrace(this,this.constructor):this.stack=(new Error).stack}}var a=Object.prototype.toString,o=function(e){if(void 0===e)return"undefined";if(null===e)return"null";var t=typeof e;if("boolean"===t)return"boolean";if("string"===t)return"string";if("number"===t)return"number";if("symbol"===t)return"symbol";if("function"===t)return"GeneratorFunction"===i(e)?"generatorfunction":"function";if(function(e){return Array.isArray?Array.isArray(e):e instanceof Array}(e))return"array";if(function(e){if(e.constructor&&"function"==typeof e.constructor.isBuffer)return e.constructor.isBuffer(e);return!1}(e))return"buffer";if(function(e){try{if("number"==typeof e.length&&"function"==typeof e.callee)return!0}catch(t){if(-1!==t.message.indexOf("callee"))return!0}return!1}(e))return"arguments";if(function(e){return e instanceof Date||"function"==typeof e.toDateString&&"function"==typeof e.getDate&&"function"==typeof e.setDate}(e))return"date";if(function(e){return e instanceof Error||"string"==typeof e.message&&e.constructor&&"number"==typeof e.constructor.stackTraceLimit}(e))return"error";if(function(e){return e instanceof RegExp||"string"==typeof e.flags&&"boolean"==typeof e.ignoreCase&&"boolean"==typeof e.multiline&&"boolean"==typeof e.global}(e))return"regexp";switch(i(e)){case"Symbol":return"symbol";case"Promise":return"promise";case"WeakMap":return"weakmap";case"WeakSet":return"weakset";case"Map":return"map";case"Set":return"set";case"Int8Array":return"int8array";case"Uint8Array":return"uint8array";case"Uint8ClampedArray":return"uint8clampedarray";case"Int16Array":return"int16array";case"Uint16Array":return"uint16array";case"Int32Array":return"int32array";case"Uint32Array":return"uint32array";case"Float32Array":return"float32array";case"Float64Array":return"float64array"}if(function(e){return"function"==typeof e.throw&&"function"==typeof e.return&&"function"==typeof e.next}(e))return"generator";switch(t=a.call(e)){case"[object Object]":return"object";case"[object Map Iterator]":return"mapiterator";case"[object Set Iterator]":return"setiterator";case"[object String Iterator]":return"stringiterator";case"[object Array Iterator]":return"arrayiterator"}return t.slice(8,-1).toLowerCase().replace(/\s/g,"")};function i(e){return e.constructor?e.constructor.name:null}function s(e){return!(!e||!e["@@__STRUCT__@@"])}function l(e,t){return"function"==typeof e?e(t):e}var c=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e};class u{constructor(e,t,n){this.name=e,this.type=t,this.validate=n}}function p(e,t,n){if(s(e))return e["@@__KIND__@@"];if(e instanceof u)return e;switch(o(e)){case"array":return e.length>1?b(e,t,n):f(e,t,n);case"function":return h(e,t,n);case"object":return y(e,t,n);case"string":{let r,a=!0;if(e.endsWith("?")&&(a=!1,e=e.slice(0,-1)),e.includes("|")){r=g(e.split(/\s*\|\s*/g),t,n)}else if(e.includes("&")){r=w(e.split(/\s*&\s*/g),t,n)}else r=m(e,t,n);return a||(r=v(r,void 0,n)),r}}throw new Error("Invalid schema: "+e)}function d(e,t,n){if("array"!==o(e))throw new Error("Invalid schema: "+e);const r=e.map(e=>{try{return JSON.stringify(e)}catch(t){return String(e)}}).join(" | ");return new u("enum",r,(n=l(t))=>e.includes(n)?[void 0,n]:[{data:n,path:[],value:n,type:r}])}function h(e,t,n){if("function"!==o(e))throw new Error("Invalid schema: "+e);return new u("function","<function>",(n=l(t),r)=>{const a=e(n,r);let i,s={path:[],reason:null};switch(o(a)){case"boolean":i=a;break;case"string":i=!1,s.reason=a;break;case"object":i=!1,s=c({},s,a);break;default:throw new Error("Invalid result: "+a)}return i?[void 0,n]:[c({type:"<function>",value:n,data:n},s)]})}function f(e,t,n){if("array"!==o(e)||1!==e.length)throw new Error("Invalid schema: "+e);const r=m("array",void 0,n),a=p(e[0],void 0,n),i=`[${a.type}]`;return new u("list",i,(e=l(t))=>{const[n,o]=r.validate(e);if(n)return n.type=i,[n];e=o;const s=[],u=[];for(let t=0;t<e.length;t++){const n=e[t],[r,o]=a.validate(n);if(r){(r.errors||[r]).forEach(n=>{n.path=[t].concat(n.path),n.data=e,s.push(n)})}else u[t]=o}return s.length?[c({},s[0],{errors:s})]:[void 0,u]})}function y(e,t,n){if("object"!==o(e))throw new Error("Invalid schema: "+e);const r=m("object",void 0,n),a=[],i={};for(const o in e){a.push(o);const t=p(e[o],void 0,n);i[o]=t}const s=`{${a.join()}}`;return new u("object",s,(e=l(t))=>{const[n]=r.validate(e);if(n)return n.type=s,[n];const a=[],o={},u=Object.keys(e),p=Object.keys(i);return new Set(u.concat(p)).forEach(n=>{let r=e[n];const s=i[n];if(void 0===r){r=l(t&&t[n],e)}if(!s){const t={data:e,path:[n],value:r};return void a.push(t)}const[c,u]=s.validate(r,e);if(c){(c.errors||[c]).forEach(t=>{t.path=[n].concat(t.path),t.data=e,a.push(t)})}else(n in e||void 0!==u)&&(o[n]=u)}),a.length?[c({},a[0],{errors:a})]:[void 0,o]})}function v(e,t,n){return g([e,"undefined"],t,n)}function m(e,t,n){if("string"!==o(e))throw new Error("Invalid schema: "+e);const{types:r}=n,a=r[e];if("function"!==o(a))throw new Error("Invalid type: "+e);const i=h(a,t),s=e;return new u("scalar",s,e=>{const[t,n]=i.validate(e);return t?(t.type=s,[t]):[void 0,n]})}function b(e,t,n){if("array"!==o(e))throw new Error("Invalid schema: "+e);const r=e.map(e=>p(e,void 0,n)),a=m("array",void 0,n),i=`[${r.map(e=>e.type).join()}]`;return new u("tuple",i,(e=l(t))=>{const[n]=a.validate(e);if(n)return n.type=i,[n];const o=[],s=[],u=Math.max(e.length,r.length);for(let t=0;t<u;t++){const n=r[t],a=e[t];if(!n){const n={data:e,path:[t],value:a};s.push(n);continue}const[i,l]=n.validate(a);if(i){(i.errors||[i]).forEach(n=>{n.path=[t].concat(n.path),n.data=e,s.push(n)})}else o[t]=l}return s.length?[c({},s[0],{errors:s})]:[void 0,o]})}function g(e,t,n){if("array"!==o(e))throw new Error("Invalid schema: "+e);const r=e.map(e=>p(e,void 0,n)),a=r.map(e=>e.type).join(" | ");return new u("union",a,(e=l(t))=>{const n=[];for(const t of r){const[r,a]=t.validate(e);if(!r)return[void 0,a];n.push(r)}return n[0].type=a,n})}function w(e,t,n){if("array"!==o(e))throw new Error("Invalid schema: "+e);const r=e.map(e=>p(e,void 0,n)),a=r.map(e=>e.type).join(" & ");return new u("intersection",a,(e=l(t))=>{let n=e;for(const t of r){const[e,r]=t.validate(n);if(e)return e.type=a,[e];n=r}return[void 0,n]})}const _={any:p,dict:function(e,t,n){if("array"!==o(e)||2!==e.length)throw new Error("Invalid schema: "+e);const r=m("object",void 0,n),a=p(e[0],void 0,n),i=p(e[1],void 0,n),s=`dict<${a.type},${i.type}>`;return new u("dict",s,e=>{const n=l(t);e=n?c({},n,e):e;const[o]=r.validate(e);if(o)return o.type=s,[o];const u={},p=[];for(let t in e){const n=e[t],[r,o]=a.validate(t);if(r){(r.errors||[r]).forEach(n=>{n.path=[t].concat(n.path),n.data=e,p.push(n)});continue}t=o;const[s,l]=i.validate(n);if(s){(s.errors||[s]).forEach(n=>{n.path=[t].concat(n.path),n.data=e,p.push(n)})}else u[t]=l}return p.length?[c({},p[0],{errors:p})]:[void 0,u]})},enum:d,enums:function(e,t,n){return f([d(e,void 0)],t,n)},function:h,instance:function(e,t,n){const r=`instance<${e.name}>`;return new u("instance",r,(n=l(t))=>n instanceof e?[void 0,n]:[{data:n,path:[],value:n,type:r}])},interface:function(e,t,n){if("object"!==o(e))throw new Error("Invalid schema: "+e);const r=m("object",void 0,n),a=[],i={};for(const o in e){a.push(o);const t=p(e[o],void 0,n);i[o]=t}const s=`{${a.join()}}`;return new u("interface",s,(e=l(t))=>{const[n]=r.validate(e);if(n)return n.type=s,[n];const a=[],o=e;for(const r in i){let n=e[r];const s=i[r];if(void 0===n){n=l(t&&t[r],e)}const[c,u]=s.validate(n,e);if(c){(c.errors||[c]).forEach(t=>{t.path=[r].concat(t.path),t.data=e,a.push(t)})}else(r in e||void 0!==u)&&(o[r]=u)}return a.length?[c({},a[0],{errors:a})]:[void 0,o]})},lazy:function(e,t,n){if("function"!==o(e))throw new Error("Invalid schema: "+e);let r,a;return r=new u("lazy","lazy...",t=>(a=e(),r.name=a.kind,r.type=a.type,r.validate=a.validate,r.validate(t))),r},list:f,literal:function(e,t,n){const r="literal: "+JSON.stringify(e);return new u("literal",r,(n=l(t))=>n===e?[void 0,n]:[{data:n,path:[],value:n,type:r}])},object:y,optional:v,partial:function(e,t,n){if("object"!==o(e))throw new Error("Invalid schema: "+e);const r=m("object",void 0,n),a=[],i={};for(const o in e){a.push(o);const t=p(e[o],void 0,n);i[o]=t}const s=`{${a.join()},...}`;return new u("partial",s,(e=l(t))=>{const[n]=r.validate(e);if(n)return n.type=s,[n];const a=[],o={};for(const r in i){let n=e[r];const s=i[r];if(void 0===n){n=l(t&&t[r],e)}const[c,u]=s.validate(n,e);if(c){(c.errors||[c]).forEach(t=>{t.path=[r].concat(t.path),t.data=e,a.push(t)})}else(r in e||void 0!==u)&&(o[r]=u)}return a.length?[c({},a[0],{errors:a})]:[void 0,o]})},scalar:m,tuple:b,union:g,intersection:w,dynamic:function(e,t,n){if("function"!==o(e))throw new Error("Invalid schema: "+e);return new u("dynamic","dynamic...",(n=l(t),r)=>{const a=e(n,r);if("function"!==o(a))throw new Error("Invalid schema: "+a);const[i,s]=a.validate(n);return i?[i]:[void 0,s]})}},x={any:e=>void 0!==e};function I(e={}){const t=c({},x,e.types||{});function n(e,n,a={}){s(e)&&(e=e.schema);const o=_.any(e,n,c({},a,{types:t}));function i(e){if(this instanceof i)throw new Error("Invalid `new` keyword!");return i.assert(e)}return Object.defineProperty(i,"@@__STRUCT__@@",{value:!0}),Object.defineProperty(i,"@@__KIND__@@",{value:o}),i.kind=o.name,i.type=o.type,i.schema=e,i.defaults=n,i.options=a,i.assert=e=>{const[t,n]=o.validate(e);if(t)throw new r(t);return n},i.test=e=>{const[t]=o.validate(e);return!t},i.validate=e=>{const[t,n]=o.validate(e);return t?[new r(t)]:[void 0,n]},i}return Object.keys(_).forEach(e=>{const r=_[e];n[e]=(e,a,o)=>n(r(e,a,c({},o,{types:t})),a,o)}),n}["arguments","array","boolean","buffer","error","float32array","float64array","function","generatorfunction","int16array","int32array","int8array","map","null","number","object","promise","regexp","set","string","symbol","uint16array","uint32array","uint8array","uint8clampedarray","undefined","weakmap","weakset"].forEach(e=>{x[e]=t=>o(t)===e}),x.date=e=>"date"===o(e)&&!isNaN(e);I()},253:function(e,t,n){"use strict";n(4),n(52);var r=n(44),a=n(66),o=n(5),i=n(2),s=n(3);Object(o.a)({_template:s.a`
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        width: 400px;
+        border: 1px solid;
+        padding: 2px;
+        -moz-appearance: textarea;
+        -webkit-appearance: textarea;
+        overflow: hidden;
+      }
+
+      .mirror-text {
+        visibility: hidden;
+        word-wrap: break-word;
+        @apply --iron-autogrow-textarea;
+      }
+
+      .fit {
+        @apply --layout-fit;
+      }
+
+      textarea {
+        position: relative;
+        outline: none;
+        border: none;
+        resize: none;
+        background: inherit;
+        color: inherit;
+        /* see comments in template */
+        width: 100%;
+        height: 100%;
+        font-size: inherit;
+        font-family: inherit;
+        line-height: inherit;
+        text-align: inherit;
+        @apply --iron-autogrow-textarea;
+      }
+
+      textarea::-webkit-input-placeholder {
+        @apply --iron-autogrow-textarea-placeholder;
+      }
+
+      textarea:-moz-placeholder {
+        @apply --iron-autogrow-textarea-placeholder;
+      }
+
+      textarea::-moz-placeholder {
+        @apply --iron-autogrow-textarea-placeholder;
+      }
+
+      textarea:-ms-input-placeholder {
+        @apply --iron-autogrow-textarea-placeholder;
+      }
+    </style>
+
+    <!-- the mirror sizes the input/textarea so it grows with typing -->
+    <!-- use &#160; instead &nbsp; of to allow this element to be used in XHTML -->
+    <div id="mirror" class="mirror-text" aria-hidden="true">&nbsp;</div>
+
+    <!-- size the input/textarea with a div, because the textarea has intrinsic size in ff -->
+    <div class="textarea-container fit">
+      <textarea id="textarea" name$="[[name]]" aria-label$="[[label]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]" autocapitalize$="[[autocapitalize]]" inputmode$="[[inputmode]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" required$="[[required]]" disabled$="[[disabled]]" rows$="[[rows]]" minlength$="[[minlength]]" maxlength$="[[maxlength]]"></textarea>
+    </div>
+`,is:"iron-autogrow-textarea",behaviors:[a.a,r.a],properties:{value:{observer:"_valueChanged",type:String,notify:!0},bindValue:{observer:"_bindValueChanged",type:String,notify:!0},rows:{type:Number,value:1,observer:"_updateCached"},maxRows:{type:Number,value:0,observer:"_updateCached"},autocomplete:{type:String,value:"off"},autofocus:{type:Boolean,value:!1},autocapitalize:{type:String,value:"none"},inputmode:{type:String},placeholder:{type:String},readonly:{type:String},required:{type:Boolean},minlength:{type:Number},maxlength:{type:Number},label:{type:String}},listeners:{input:"_onInput"},get textarea(){return this.$.textarea},get selectionStart(){return this.$.textarea.selectionStart},get selectionEnd(){return this.$.textarea.selectionEnd},set selectionStart(e){this.$.textarea.selectionStart=e},set selectionEnd(e){this.$.textarea.selectionEnd=e},attached:function(){navigator.userAgent.match(/iP(?:[oa]d|hone)/)&&!navigator.userAgent.match(/OS 1[3456789]/)&&(this.$.textarea.style.marginLeft="-3px")},validate:function(){var e=this.$.textarea.validity.valid;return e&&(this.required&&""===this.value?e=!1:this.hasValidator()&&(e=a.a.validate.call(this,this.value))),this.invalid=!e,this.fire("iron-input-validate"),e},_bindValueChanged:function(e){this.value=e},_valueChanged:function(e){var t=this.textarea;t&&(t.value!==e&&(t.value=e||0===e?e:""),this.bindValue=e,this.$.mirror.innerHTML=this._valueForMirror(),this.fire("bind-value-changed",{value:this.bindValue}))},_onInput:function(e){var t=Object(i.a)(e).path;this.value=t?t[0].value:e.target.value},_constrain:function(e){var t;for(e=e||[""],t=this.maxRows>0&&e.length>this.maxRows?e.slice(0,this.maxRows):e.slice(0);this.rows>0&&t.length<this.rows;)t.push("");return t.join("<br/>")+"&#160;"},_valueForMirror:function(){var e=this.textarea;if(e)return this.tokens=e&&e.value?e.value.replace(/&/gm,"&amp;").replace(/"/gm,"&quot;").replace(/'/gm,"&#39;").replace(/</gm,"&lt;").replace(/>/gm,"&gt;").split("\n"):[""],this._constrain(this.tokens)},_updateCached:function(){this.$.mirror.innerHTML=this._constrain(this.tokens)}});n(143),n(144),n(145);var l=n(65),c=n(124);Object(o.a)({_template:s.a`
+    <style>
+      :host {
+        display: block;
+      }
+
+      :host([hidden]) {
+        display: none !important;
+      }
+
+      label {
+        pointer-events: none;
+      }
+    </style>
+
+    <paper-input-container no-label-float$="[[noLabelFloat]]" always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]" auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]">
+
+      <label hidden$="[[!label]]" aria-hidden="true" for$="[[_inputId]]" slot="label">[[label]]</label>
+
+      <iron-autogrow-textarea class="paper-input-input" slot="input" id$="[[_inputId]]" aria-labelledby$="[[_ariaLabelledBy]]" aria-describedby$="[[_ariaDescribedBy]]" bind-value="{{value}}" invalid="{{invalid}}" validator$="[[validator]]" disabled$="[[disabled]]" autocomplete$="[[autocomplete]]" autofocus$="[[autofocus]]" inputmode$="[[inputmode]]" name$="[[name]]" placeholder$="[[placeholder]]" readonly$="[[readonly]]" required$="[[required]]" minlength$="[[minlength]]" maxlength$="[[maxlength]]" autocapitalize$="[[autocapitalize]]" rows$="[[rows]]" max-rows$="[[maxRows]]" on-change="_onChange"></iron-autogrow-textarea>
+
+      <template is="dom-if" if="[[errorMessage]]">
+        <paper-input-error aria-live="assertive" slot="add-on">[[errorMessage]]</paper-input-error>
+      </template>
+
+      <template is="dom-if" if="[[charCounter]]">
+        <paper-input-char-counter slot="add-on"></paper-input-char-counter>
+      </template>
+
+    </paper-input-container>
+`,is:"paper-textarea",behaviors:[c.a,l.a],properties:{_ariaLabelledBy:{observer:"_ariaLabelledByChanged",type:String},_ariaDescribedBy:{observer:"_ariaDescribedByChanged",type:String},value:{type:String},rows:{type:Number,value:1},maxRows:{type:Number,value:0}},get selectionStart(){return this.$.input.textarea.selectionStart},set selectionStart(e){this.$.input.textarea.selectionStart=e},get selectionEnd(){return this.$.input.textarea.selectionEnd},set selectionEnd(e){this.$.input.textarea.selectionEnd=e},_ariaLabelledByChanged:function(e){this._focusableElement.setAttribute("aria-labelledby",e)},_ariaDescribedByChanged:function(e){this._focusableElement.setAttribute("aria-describedby",e)},get _focusableElement(){return this.inputElement.textarea}})}}]);
+//# sourceMappingURL=chunk.0834871764ac115f7f68.js.map
