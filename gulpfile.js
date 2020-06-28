@@ -505,7 +505,7 @@ gulp.task('rename', done => {
                 m && m.forEach(text =>
                     newText = newText.replace(text, text[0] + '\n' + text.substring(1, text.length - 1) + '\n' + text[text.length - 1]));
 
-                m = newText.match(/[^\n]<\/script>[^\n]/g);
+                m = newText.match(/[^\n]<\/script>/g);
                 m && m.forEach(text =>
                     newText = newText.replace(text, text.replace('</script>', '\n</script>\n')));
 
