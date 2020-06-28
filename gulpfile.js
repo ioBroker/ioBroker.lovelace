@@ -547,11 +547,7 @@ gulp.task('rename', done => {
     {% endfor -%}`, '');
                 newText = newText.replace('</script>{% endfor -%}', '</script>\n{% endfor -%}');
 
-                newText = newText.replace('<script>\n' +
-                    '{% for extra_module in extra_modules -%}\n' +
-                    '    import("{{ extra_module }}");\n' +
-                    '    {% endfor -%}</script>\n' +
-                    '<script>', '');
+                newText = newText.replace(/<script>\n*\s*{% for extra_module in extra_modules -%}\n*\s*import\("{{ extra_module }}"\);\n*\s*{% endfor -%}\n*\s*<\/script>/, '');
                 newText = newText.replace('<script>\n' +
                     'if (!window.latestJS) {\n' +
                     '        {% for extra_script in extra_js_es5 -%}\n' +
