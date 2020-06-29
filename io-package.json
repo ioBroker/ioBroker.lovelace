@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.2.3",
+        "version": "1.2.4",
         "news": {
+            "1.2.4": {
+                "en": "* (Garfonso) Fixed: corrected hass_frontend files and directory\n* (Garfonso) Fixed: Prevent warning and possible crash",
+                "de": "* (Garfonso) Behoben: hass_frontend Dateien und Verzeichnis korrigiert\n* (Garfonso) Behoben: Warnung und möglichen Absturz verhindern",
+                "ru": "* (Гарфонсо) Исправлено: исправлены файлы и каталог hass_frontend\n* (Гарфонсо) Исправлено: предотвращение предупреждения и возможного сбоя",
+                "pt": "* (Garfonso) Corrigido: arquivos e diretório hass_frontend corrigidos\n* (Garfonso) Corrigido: Impedir aviso e possível falha",
+                "nl": "* (Garfonso) Opgelost: gecorrigeerde hass_frontend-bestanden en directory\n* (Garfonso) Opgelost: voorkom waarschuwing en mogelijke crash",
+                "fr": "* (Garfonso) Corrigé: fichiers et répertoire hass_frontend corrigés\n* (Garfonso) Corrigé: Empêche l'avertissement et un éventuel crash",
+                "it": "* (Garfonso) Risolto: file e directory hass_frontend corretti\n* (Garfonso) Risolto: impedisce l'avvertimento e il possibile arresto anomalo",
+                "es": "* (Garfonso) Corregido: corregido hass_frontend archivos y directorio\n* (Garfonso) Corregido: prevenir advertencia y posible bloqueo",
+                "pl": "* (Garfonso) Naprawiono: poprawiono pliki i katalog hass_frontend\n* (Garfonso) Naprawiono: Zapobiegaj ostrzeżeniom i możliwym awariom",
+                "zh-cn": "*（Garfonso）固定：更正了hass_frontend文件和目录\n*（Garfonso）固定：防止警告和可能的崩溃"
+            },
             "1.2.3": {
                 "en": "* (Garfonso) Added: config to select direction of blinds.\n* (Garfonso) Fixed: missing translation of binary_sensor.states\n* (Garfonso) Fixed: History Graph diagrams for sensor-entities",
                 "de": "* (Garfonso) Hinzugefügt: config zur Auswahl der Richtung der Jalousien.\n* (Garfonso) Behoben: fehlende Übersetzung von binary_sensor.states\n* (Garfonso) Behoben: Verlaufsdiagramme für Sensorentitäten",

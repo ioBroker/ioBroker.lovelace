@@ -456,6 +456,10 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.2.4 (2020-06-29)
+* (Garfonso) Fixed: corrected hass_frontend files and directory
+* (Garfonso) Fixed: Prevent warning and possible crash
+
 ### 1.2.3 (2020-06-27)
 * (Garfonso) Added: config to select direction of blinds.
 * (Garfonso) Fixed: missing translation of binary_sensor.states
