@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.2.4",
+        "version": "1.2.5",
         "news": {
+            "1.2.5": {
+                "en": "* (Garfonso) Fixed: Parse initial values the same way as state changes\n* (Garfonso) Added: Work around for (old) common.states of type string",
+                "de": "* (Garfonso) Behoben: Analysieren Sie Anfangswerte genauso wie Statusänderungen\n* (Garfonso) Hinzugefügt: Umgehen für (alte) common.states vom Typ string",
+                "ru": "* (Гарфонсо) Исправлено: парсинг начальных значений так же, как изменения состояния\n* (Гарфонсо) Добавлено: Обойти (старые) common.states типа string",
+                "pt": "* (Garfonso) Fixo: Analisa os valores iniciais da mesma maneira que as mudanças de estado\n* (Garfonso) Adicionado: solução alternativa para common.states (antigos) do tipo string",
+                "nl": "* (Garfonso) Opgelost: ontleed de beginwaarden op dezelfde manier als de status verandert\n* (Garfonso) Toegevoegd: werk rond voor (oude) common.states van het type string",
+                "fr": "* (Garfonso) Corrigé: analyser les valeurs initiales de la même manière que les changements d'état\n* (Garfonso) Ajouté: Contournement des (anciens) états communs de type chaîne",
+                "it": "* (Garfonso) Risolto: analizza i valori iniziali nello stesso modo in cui cambia lo stato\n* (Garfonso) Aggiunto: aggirare per (vecchi) common.states di tipo stringa",
+                "es": "* (Garfonso) Corregido: Analiza los valores iniciales de la misma manera que los cambios de estado\n* (Garfonso) Agregado: Solución para (viejos) estados comunes. De tipo cadena",
+                "pl": "* (Garfonso) Naprawiono: Analizuj wartości początkowe w taki sam sposób, jak zmiany stanu\n* (Garfonso) Dodano: Obejście dla (starych) common.states typu ciąg znaków",
+                "zh-cn": "*（Garfonso）固定：解析初始值的方式与更改状态相同\n*（Garfonso）添加：解决字符串类型的（旧）common.states"
+            },
             "1.2.4": {
                 "en": "* (Garfonso) Fixed: corrected hass_frontend files and directory\n* (Garfonso) Fixed: Prevent warning and possible crash",
                 "de": "* (Garfonso) Behoben: hass_frontend Dateien und Verzeichnis korrigiert\n* (Garfonso) Behoben: Warnung und möglichen Absturz verhindern",
