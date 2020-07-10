@@ -456,6 +456,10 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.2.5 (2020-07-10)
+* (Garfonso) Fixed: Parse initial values the same way as state changes
+* (Garfonso) Added: Work around for (old) common.states of type string
+
 ### 1.2.4 (2020-06-29)
 * (Garfonso) Fixed: corrected hass_frontend files and directory
 * (Garfonso) Fixed: Prevent warning and possible crash
