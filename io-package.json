@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.2.5",
+        "version": "1.2.6",
         "news": {
+            "1.2.6": {
+                "en": "* (Garfonso) Fixed: invalid date in weather cards\n* (Garfonso) Fixed: issues with space in manual entity names.\n",
+                "de": "* (Garfonso) Behoben: Ungültiges Datum in Wetterkarten\n* (Garfonso) Behoben: Probleme mit dem Leerzeichen in manuellen Entitätsnamen.\n",
+                "ru": "* (Garfonso) Исправлено: неверная дата в погодных картах\n* (Garfonso) Исправлено: проблемы с пробелом в ручных именах объектов.\n",
+                "pt": "* (Garfonso) Fixo: data inválida nos cartões meteorológicos\n* (Garfonso) Corrigido: problemas com espaço em nomes de entidades manuais.\n",
+                "nl": "* (Garfonso) Opgelost: ongeldige datum in weerkaarten\n* (Garfonso) Opgelost: problemen met ruimte in handmatige entiteitsnamen.\n",
+                "fr": "* (Garfonso) Correction: date invalide dans les cartes météo\n* (Garfonso) Correction: problèmes d'espace dans les noms d'entités manuelles.\n",
+                "it": "* (Garfonso) Risolto: data non valida nelle carte meteo\n* (Garfonso) Risolto: problemi con lo spazio nei nomi delle entità manuali.\n",
+                "es": "* (Garfonso) Corregido: fecha no válida en tarjetas meteorológicas\n* (Garfonso) Solucionado: problemas con el espacio en los nombres de entidades manuales.\n",
+                "pl": "* (Garfonso) Naprawiono: nieprawidłowa data w kartach pogody\n* (Garfonso) Naprawiono: problemy ze spacjami w ręcznych nazwach jednostek.\n",
+                "zh-cn": "*（Garfonso）修正：天气卡中的日期无效\n*（Garfonso）已修复：手动实体名称中的空格存在问题。\n"
+            },
             "1.2.5": {
                 "en": "* (Garfonso) Fixed: Parse initial values the same way as state changes\n* (Garfonso) Added: Work around for (old) common.states of type string",
                 "de": "* (Garfonso) Behoben: Analysieren Sie Anfangswerte genauso wie Statusänderungen\n* (Garfonso) Hinzugefügt: Umgehen für (alte) common.states vom Typ string",
