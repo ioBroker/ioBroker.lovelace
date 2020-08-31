@@ -431,7 +431,7 @@ Used version of home-assistant-frontend@1.0.0
 First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (2020.01.12) following files were modified:
+For now (2020.06.20) following files were modified:
 - `.gitignore` - added `.idea` ignore
 - `build-scripts/gulp/app.js` - Added new gulp task
 - `build-scripts/gulp/webpack.js` - Added new gulp task
@@ -456,6 +456,9 @@ After that checkout modified version in `./build` folder. Then.
 8. Start `gulp rename` task.
 
 ## Changelog
+### 1.2.7 (2020-09-XX)
+* (Garfonso) Fixed: Up/Down butten on covers
+
 ### 1.2.6 (2020-08-13)
 * (Garfonso) Fixed: invalid date in weather cards
 * (Garfonso) Fixed: issues with space in manual entity names.
