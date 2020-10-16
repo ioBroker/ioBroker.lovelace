@@ -56,8 +56,7 @@
     "test:package": "mocha test/testPackageFiles.js --exit",
     "test:iobroker": "mocha test/testStartup.js --exit",
     "test": "npm run test:js && npm run test:package",
-    "lint": "npm run lint:ts \"src/**/*.ts\"",
-    "lint:ts": "tslint"
+    "lint": "eslint"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.lovelace/issues"
