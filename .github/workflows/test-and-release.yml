@@ -68,8 +68,8 @@ jobs:
             - name: Install Dependencies
               run: npm ci
 
-            - name: Run unit tests
-              run: npm run test:unit
+            #- name: Run unit tests
+            #  run: npm run test:unit
 
             - name: Run integration tests (unix only)
               if: startsWith(runner.OS, 'windows') == false
