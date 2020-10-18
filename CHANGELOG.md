@@ -4,7 +4,7 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
-## __WORK IN PROGRESS__ - Bug fix Release 
+## 1.2.7 (2020-10-18) - Bug fix Release 
 * (Garfonso) Fixed: manual dimmer ligths did not work in some cases due to missing initialization of entity.state
 * (Garfonso) Fixed/Changed: Testing infrastructure and dev-dependencies (work in progress)
 * (Garfonso) Fixed: set default mode of thermostat to "auto". Should allow setting of temperature.
