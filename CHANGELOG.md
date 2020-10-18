@@ -5,14 +5,13 @@
 	## __WORK IN PROGRESS__
 -->
 ## 1.2.7 (2020-10-18) - Bug fix Release 
-* (Garfonso) Fixed: manual dimmer ligths did not work in some cases due to missing initialization of entity.state
+* (Garfonso) Fixed: manual dimmer lights did not work in some cases due to missing initialization of entity.state
 * (Garfonso) Fixed/Changed: Testing infrastructure and dev-dependencies (work in progress)
 * (Garfonso) Fixed: set default mode of thermostat to "auto". Should allow setting of temperature.
 * (Garfonso) Fixed: Up/Down button on covers
 * (Garfonso) Fixed: Issue with play/pause on media player and improve history
 * (Garfonso) Added: Allow automatically generated dimmers without on/off state.
-* (Garfonso) Fixed: In some occassions names of manually generated entities could crash the adapter
-* 
+* (Garfonso) Fixed: In some occasions names of manually generated entities could crash the adapter
 
 ## 1.2.6 (2020-08-13)
 * (Garfonso) Fixed: invalid date in weather cards
