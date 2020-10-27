@@ -67,7 +67,7 @@ function startAdapter(options) {
             }
         },
 
-        message: obj=> {
+        message: obj => {
             if (obj.command === 'browse') {
                 obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
             } else if (obj.command === 'send') {
@@ -179,11 +179,21 @@ function main(adapter) {
             adapter.config.certificates = certificates;
             adapter.config.leConfig     = leConfig;
             adapter.webServer = initWebServer(adapter.config);
-            adapter.apiServer = new ApiServer({adapter, server: adapter.webServer.server, app: adapter.webServer.app, words});
+            adapter.apiServer = new ApiServer({
+                adapter,
+                server: adapter.webServer.server,
+                app: adapter.webServer.app,
+                words
+            });
         });
     } else {
         adapter.webServer = initWebServer(adapter.config);
-        adapter.apiServer = new ApiServer({adapter, server: adapter.webServer.server, app: adapter.webServer.app, words});
+        adapter.apiServer = new ApiServer({
+            adapter,
+            server: adapter.webServer.server,
+            app: adapter.webServer.app,
+            words
+        });
     }
 
     // examples for the checkPassword/checkGroup functions
