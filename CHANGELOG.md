@@ -4,6 +4,12 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
+## __WORK IN PROGRESS__
+* (Garfonso) Fixed: Revert changes in thermostat to make it working again
+* (Garfonso) Fixed: Prevent crash on invalid call-service action
+* (Garfonso) Added: Support for RGB Arrays (hue-extended).
+* (Garfonso) Enhancement: started refactoring of server.js - will take time, but make maintenance easier.
+
 ## 1.2.7 (2020-10-18) - Bug fix Release 
 * (Garfonso) Fixed: manual dimmer lights did not work in some cases due to missing initialization of entity.state
 * (Garfonso) Fixed/Changed: Testing infrastructure and dev-dependencies (work in progress)
