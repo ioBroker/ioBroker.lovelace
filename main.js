@@ -71,7 +71,7 @@ function startAdapter(options) {
             if (obj.command === 'browse') {
                 obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
             } else if (obj.command === 'send') {
-                adapter.apiServer.addNotification(obj.message, list =>
+                adapter.apiServer.addNotification(obj.message).then(list =>
                     obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
             }
         }
