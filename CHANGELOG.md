@@ -7,8 +7,11 @@
 ## __WORK IN PROGRESS__
 * (Garfonso) Fixed: Revert changes in thermostat to make it working again
 * (Garfonso) Fixed: Prevent crash on invalid call-service action
+* (Garfonso) Fixed: Object changes are now reflected in entities and UI updated.
 * (Garfonso) Added: Support for RGB Arrays (hue-extended).
 * (Garfonso) Enhancement: started refactoring of server.js - will take time, but make maintenance easier.
+* (Garfonso) Change: Notifications are now cached in adapter, makes responses a bit faster
+* (Garfonso) Enhancement: Updated to lovelace 20201021.4
 
 ## 1.2.7 (2020-10-18) - Bug fix Release 
 * (Garfonso) Fixed: manual dimmer lights did not work in some cases due to missing initialization of entity.state
