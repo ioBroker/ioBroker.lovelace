@@ -5,9 +5,6 @@
 	## __WORK IN PROGRESS__
 -->
 ## __WORK IN PROGRESS__
-* (Garfonso) Fixed: Issue with manually genereadte entity IDs (changed and could contain illegal characters)
-
-## 1.3.0-alpha.0 (2020-11-06)
 * (Garfonso) Fixed: Revert changes in thermostat to make it working again
 * (Garfonso) Fixed: Prevent crash on invalid call-service action
 * (Garfonso) Fixed: Object changes are now reflected in entities and UI updated.
