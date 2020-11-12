@@ -292,6 +292,9 @@
         "dependencies": [
             {
                 "admin": ">=3.0.0"
+            },
+            {
+                "js-controller": ">=2.0.0"
             }
         ]
     },
