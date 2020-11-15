@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.3.0",
+        "version": "1.3.1",
         "news": {
+            "1.3.1": {
+                "en": "Fixed: Issue with manually genereadte entity IDs (changed and could contain illegal characters)",
+                "de": "Behoben: Problem mit manuell generierten Entitäts-IDs (geändert und kann unzulässige Zeichen enthalten)",
+                "ru": "Исправлено: проблема с созданием идентификаторов объектов вручную (изменено и могло содержать недопустимые символы)",
+                "pt": "Corrigido: problema com IDs de entidade gerados manualmente (alterados e podem conter caracteres ilegais)",
+                "nl": "Opgelost: probleem met handmatig gegenereerde entiteits-ID's (gewijzigd en kan illegale tekens bevatten)",
+                "fr": "Correction: problème avec les ID d'entité générés manuellement (modifiés et pourraient contenir des caractères illégaux)",
+                "it": "Risolto: problema con gli ID entità generati manualmente (modificati e potrebbero contenere caratteri illegali)",
+                "es": "Solucionado: problema con las ID de entidad generadas manualmente (cambiado y podría contener caracteres ilegales)",
+                "pl": "Naprawiono: problem z ręcznymi identyfikatorami jednostek przypisanych do gatunku (zmieniony i może zawierać niedozwolone znaki)",
+                "zh-cn": "修正：手动基因重新读取实体ID的问题（已更改，可能包含非法字符）"
+            },
             "1.3.0": {
                 "en": "Fixed: Revert changes in thermostat to make it working again\nFixed: Prevent crash on invalid call-service action\nFixed: Object changes are now reflected in entities and UI updated.\nAdded: Support for RGB Arrays (hue-extended).\nEnhancement: started refactoring of server.js - will take time, but make maintenance easier.\nChange: Notifications are now cached in adapter, makes responses a bit faster\nEnhancement: Updated to lovelace 20201021.4",
                 "de": "Behoben: Änderungen am Thermostat rückgängig machen, damit er wieder funktioniert\nBehoben: Absturz bei ungültiger Call-Service-Aktion verhindern\nBehoben: Objektänderungen werden jetzt in Entitäten und aktualisierten Benutzeroberflächen wiedergegeben.\nHinzugefügt: Unterstützung für RGB-Arrays (Farbton erweitert).\nVerbesserung: Das Refactoring von server.js wurde gestartet. Dies dauert einige Zeit, erleichtert jedoch die Wartung.\nÄnderung: Benachrichtigungen werden jetzt im Adapter zwischengespeichert, wodurch die Antworten etwas schneller werden\nVerbesserung: Aktualisiert auf Lovelace 20201021.4",
