@@ -4,6 +4,9 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
+## 1.3.1 (2020-11-15)
+* (Garfonso) Fixed: Issue with manually genereadte entity IDs (changed and could contain illegal characters)
+
 ## 1.3.0 (2020-11-12)
 * (Garfonso) Fixed: Revert changes in thermostat to make it working again
 * (Garfonso) Fixed: Prevent crash on invalid call-service action
