@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.3.1",
+        "version": "1.3.2",
         "news": {
+            "1.3.2": {
+                "en": "Fixed: Possible crash during device creation.",
+                "de": "Behoben: Möglicher Absturz während der Geräteerstellung.",
+                "ru": "Исправлено: возможный сбой при создании устройства.",
+                "pt": "Corrigido: possível travamento durante a criação do dispositivo.",
+                "nl": "Opgelost: mogelijke crash tijdens het maken van een apparaat.",
+                "fr": "Correction: plantage possible lors de la création de l'appareil.",
+                "it": "Risolto: possibile crash durante la creazione del dispositivo.",
+                "es": "Corregido: posible bloqueo durante la creación del dispositivo.",
+                "pl": "Naprawiono: możliwa awaria podczas tworzenia urządzenia.",
+                "zh-cn": "修正：在设备创建过程中可能崩溃。"
+            },
             "1.3.1": {
                 "en": "Fixed: Issue with manually genereadte entity IDs (changed and could contain illegal characters)",
                 "de": "Behoben: Problem mit manuell generierten Entitäts-IDs (geändert und kann unzulässige Zeichen enthalten)",
@@ -230,18 +242,6 @@
                 "es": "Procesando el valor máximo de saturación y tono\nRegistro de depuración extenso deshabilitado\nMuchos cambios realizados en relación con la detección de dispositivos y el procesamiento de estados\nHass Lovelace actualizado",
                 "pl": "Przetwarzanie maksymalnej wartości nasycenia i odcienia\nWyłączono intensywne rejestrowanie debugowania\nDokonano wielu zmian dotyczących wykrywania urządzeń i przetwarzania stanów\nZaktualizowano hass lovelace",
                 "zh-cn": "处理饱和度和色相的最大值\n禁用大量调试日志记录\n关于设备检测和状态处理所做的许多更改\n更新了hass lovelace"
-            },
-            "1.0.7": {
-                "en": "Invalid objects will be filtered out.",
-                "de": "Ungültige Objekte werden herausgefiltert.",
-                "ru": "Неверные объекты будут отфильтрованы.",
-                "pt": "Objetos inválidos serão filtrados.",
-                "nl": "Ongeldige objecten worden uitgefilterd.",
-                "fr": "Les objets non valides seront filtrés.",
-                "it": "Gli oggetti non validi verranno filtrati.",
-                "es": "Los objetos inválidos serán filtrados.",
-                "pl": "Nieprawidłowe obiekty zostaną odfiltrowane.",
-                "zh-cn": "无效的对象将被过滤掉。"
             }
         },
         "title": "Visualization with Lovelace-UI",

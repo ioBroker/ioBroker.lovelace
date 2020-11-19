@@ -4,7 +4,7 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
-## __WORK IN PROGRESS__
+## 1.3.2 (2020-11-19)
 * (Garfonso) Fixed: Possible crash during device creation.
 
 ## 1.3.1 (2020-11-15)
