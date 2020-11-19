@@ -4,6 +4,9 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
+## __WORK IN PROGRESS__
+* (Garfonso) Fixed: Possible crash during device creation.
+
 ## 1.3.1 (2020-11-15)
 * (Garfonso) Fixed: Issue with manually genereadte entity IDs (changed and could contain illegal characters)
 
