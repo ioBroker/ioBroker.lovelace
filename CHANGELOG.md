@@ -4,6 +4,12 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
+## 1.3.3 (2020-11-19)
+* (Garfonso) Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.
+
+## 1.3.2 (2020-11-19)
+* (Garfonso) Fixed: Possible crash during device creation.
+
 ## 1.3.1 (2020-11-15)
 * (Garfonso) Fixed: Issue with manually genereadte entity IDs (changed and could contain illegal characters)
 
