@@ -501,6 +501,19 @@
             }
         },
         {
+            "_id": "control.theme",
+            "type": "state",
+            "common": {
+                "name": "theme",
+                "type": "text",
+                "write": true,
+                "read": true,
+                "desc": "Change default theme during runtime",
+                "def": "default",
+                "states": {"default": "default"}
+            }
+        },
+        {
             "_id": "notifications",
             "type": "channel",
             "common": {
