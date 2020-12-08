@@ -1,4 +1,4 @@
-/*! For license information please see chunk.a1e181f4905df2385e25.js.LICENSE.txt */
+/*! For license information please see chunk.7d287b0cafecb64283c3.js.LICENSE.txt */
 (self.webpackChunkhome_assistant_frontend=self.webpackChunkhome_assistant_frontend||[]).push([[469],{18601:(e,t,i)=>{"use strict";i.d(t,{qN:()=>r.q,Wg:()=>n});var r=i(78220);class n extends r.H{createRenderRoot(){return this.attachShadow({mode:"open",delegatesFocus:!0})}click(){this.formElement&&(this.formElement.focus(),this.formElement.click())}setAriaLabel(e){this.formElement&&this.formElement.setAttribute("aria-label",e)}firstUpdated(){super.firstUpdated(),this.mdcRoot.addEventListener("change",(e=>{this.dispatchEvent(new Event("change",e))}))}}},32333:(e,t,i)=>{"use strict";var r=i(15652);class n extends r.oi{static get properties(){return{value:{type:Number},high:{type:Number},low:{type:Number},min:{type:Number},max:{type:Number},step:{type:Number},startAngle:{type:Number},arcLength:{type:Number},handleSize:{type:Number},handleZoom:{type:Number},readonly:{type:Boolean},disabled:{type:Boolean},dragging:{type:Boolean,reflect:!0},rtl:{type:Boolean},_scale:{type:Number},valueLabel:{type:String},lowLabel:{type:String},highLabel:{type:String}}}constructor(){super(),this.min=0,this.max=100,this.step=1,this.startAngle=135,this.arcLength=270,this.handleSize=6,this.handleZoom=1.5,this.readonly=!1,this.disabled=!1,this.dragging=!1,this.rtl=!1,this._scale=1,this.attachedListeners=!1}get _start(){return this.startAngle*Math.PI/180}get _len(){return Math.min(this.arcLength*Math.PI/180,2*Math.PI-.01)}get _end(){return this._start+this._len}get _showHandle(){return!this.readonly&&(null!=this.value||null!=this.high&&null!=this.low)}_angleInside(e){let t=(this.startAngle+this.arcLength/2-e+180+360)%360-180;return t<this.arcLength/2&&t>-this.arcLength/2}_angle2xy(e){return this.rtl?{x:-Math.cos(e),y:Math.sin(e)}:{x:Math.cos(e),y:Math.sin(e)}}_xy2angle(e,t){return this.rtl&&(e=-e),(Math.atan2(t,e)-this._start+2*Math.PI)%(2*Math.PI)}_value2angle(e){const t=((e=Math.min(this.max,Math.max(this.min,e)))-this.min)/(this.max-this.min);return this._start+t*this._len}_angle2value(e){return Math.round((e/this._len*(this.max-this.min)+this.min)/this.step)*this.step}get _boundaries(){const e=this._angle2xy(this._start),t=this._angle2xy(this._end);let i=1;this._angleInside(270)||(i=Math.max(-e.y,-t.y));let r=1;this._angleInside(90)||(r=Math.max(e.y,t.y));let n=1;this._angleInside(180)||(n=Math.max(-e.x,-t.x));let o=1;return this._angleInside(0)||(o=Math.max(e.x,t.x)),{up:i,down:r,left:n,right:o,height:i+r,width:n+o}}_mouse2value(e){const t=e.type.startsWith("touch")?e.touches[0].clientX:e.clientX,i=e.type.startsWith("touch")?e.touches[0].clientY:e.clientY,r=this.shadowRoot.querySelector("svg").getBoundingClientRect(),n=this._boundaries,o=t-(r.left+n.left*r.width/n.width),s=i-(r.top+n.up*r.height/n.height),a=this._xy2angle(o,s);return this._angle2value(a)}dragStart(e){if(!this._showHandle||this.disabled)return;let t=e.target,i=void 0;if(this._rotation&&"focus"!==this._rotation.type)return;if(t.classList.contains("shadowpath"))if("touchstart"===e.type&&(i=window.setTimeout((()=>{this._rotation&&(this._rotation.cooldown=void 0)}),200)),null==this.low)t=this.shadowRoot.querySelector("#value");else{const i=this._mouse2value(e);t=Math.abs(i-this.low)<Math.abs(i-this.high)?this.shadowRoot.querySelector("#low"):this.shadowRoot.querySelector("#high")}if(t.classList.contains("overflow")&&(t=t.nextElementSibling),!t.classList.contains("handle"))return;t.setAttribute("stroke-width",2*this.handleSize*this.handleZoom*this._scale);const r="high"===t.id?this.low:this.min,n="low"===t.id?this.high:this.max;this._rotation={handle:t,min:r,max:n,start:this[t.id],type:e.type,cooldown:i},this.dragging=!0}_cleanupRotation(){const e=this._rotation.handle;e.setAttribute("stroke-width",2*this.handleSize*this._scale),this._rotation=!1,this.dragging=!1,e.blur()}dragEnd(e){if(!this._showHandle||this.disabled)return;if(!this._rotation)return;const t=this._rotation.handle;this._cleanupRotation();let i=new CustomEvent("value-changed",{detail:{[t.id]:this[t.id]},bubbles:!0,composed:!0});this.dispatchEvent(i),this.low&&this.low>=.99*this.max?this._reverseOrder=!0:this._reverseOrder=!1}drag(e){if(!this._showHandle||this.disabled)return;if(!this._rotation)return;if(this._rotation.cooldown)return window.clearTimeout(this._rotation.coldown),void this._cleanupRotation();if("focus"===this._rotation.type)return;e.preventDefault();const t=this._mouse2value(e);this._dragpos(t)}_dragpos(e){if(e<this._rotation.min||e>this._rotation.max)return;const t=this._rotation.handle;this[t.id]=e;let i=new CustomEvent("value-changing",{detail:{[t.id]:e},bubbles:!0,composed:!0});this.dispatchEvent(i)}_keyStep(e){if(!this._showHandle||this.disabled)return;if(!this._rotation)return;const t=this._rotation.handle;"ArrowLeft"!==e.key&&"ArrowDown"!==e.key||(e.preventDefault(),this.rtl?this._dragpos(this[t.id]+this.step):this._dragpos(this[t.id]-this.step)),"ArrowRight"!==e.key&&"ArrowUp"!==e.key||(e.preventDefault(),this.rtl?this._dragpos(this[t.id]-this.step):this._dragpos(this[t.id]+this.step)),"Home"===e.key&&(e.preventDefault(),this._dragpos(this.min)),"End"===e.key&&(e.preventDefault(),this._dragpos(this.max))}firstUpdated(){document.addEventListener("mouseup",this.dragEnd.bind(this)),document.addEventListener("touchend",this.dragEnd.bind(this),{passive:!1}),document.addEventListener("mousemove",this.drag.bind(this)),document.addEventListener("touchmove",this.drag.bind(this),{passive:!1}),document.addEventListener("keydown",this._keyStep.bind(this))}updated(e){if(this.shadowRoot.querySelector(".slider")){const e=window.getComputedStyle(this.shadowRoot.querySelector(".slider"));if(e&&e.strokeWidth){const t=parseFloat(e.strokeWidth);if(t>this.handleSize*this.handleZoom){const e=this._boundaries,i=`\n          ${t/2*Math.abs(e.up)}px\n          ${t/2*Math.abs(e.right)}px\n          ${t/2*Math.abs(e.down)}px\n          ${t/2*Math.abs(e.left)}px`;this.shadowRoot.querySelector("svg").style.margin=i}}}if(this.shadowRoot.querySelector("svg")&&void 0===this.shadowRoot.querySelector("svg").style.vectorEffect){e.has("_scale")&&1!=this._scale&&this.shadowRoot.querySelector("svg").querySelectorAll("path").forEach((e=>{if(e.getAttribute("stroke-width"))return;const t=parseFloat(getComputedStyle(e).getPropertyValue("stroke-width"));e.style.strokeWidth=t*this._scale+"px"}));const t=this.shadowRoot.querySelector("svg").getBoundingClientRect(),i=Math.max(t.width,t.height);this._scale=2/i}}_renderArc(e,t){const i=t-e;return e=this._angle2xy(e),t=this._angle2xy(t+.001),`\n      M ${e.x} ${e.y}\n      A 1 1,\n        0,\n        ${i>Math.PI?"1":"0"} ${this.rtl?"0":"1"},\n        ${t.x} ${t.y}\n    `}_renderHandle(e){const t=this._value2angle(this[e]),i=this._angle2xy(t),n={value:this.valueLabel,low:this.lowLabel,high:this.highLabel}[e]||"";return r.YP`
       <g class="${e} handle">
         <path
@@ -366,7 +366,7 @@
                     </mwc-list-item>
                   </ha-button-menu>
                 </app-toolbar>
-              `:this._hideToolbar?"":o.dy`
+              `:o.dy`
                 <app-toolbar>
                   <!-- Disabled for IoB -->
                   <!--ha-menu-button
@@ -395,112 +395,115 @@
                             `))}
                         </ha-tabs>
                       `:o.dy`<div main-title>${this.config.title}</div>`}
-
-                  <!-- Enabled for IoB -->
-                  ${this.renderNotificationButton()}
-                  ${!this.narrow&&this._conversation(this.hass.config.components)?o.dy`
-                        <mwc-icon-button
-                          .label=${this.hass.localize("ui.panel.lovelace.menu.start_conversation")}
-                          @click=${this._showVoiceCommandDialog}
-                        >
-                          <ha-svg-icon .path=${f.N3O}></ha-svg-icon>
-                        </mwc-icon-button>
-                      `:""}
-                  <ha-button-menu corner="BOTTOM_START">
-                    <mwc-icon-button
-                      slot="trigger"
-                      .label=${this.hass.localize("ui.panel.lovelace.editor.menu.open")}
-                      .title="${this.hass.localize("ui.panel.lovelace.editor.menu.open")}"
-                    >
-                      <ha-svg-icon .path=${f.SXi}></ha-svg-icon>
-                    </mwc-icon-button>
-                    ${this.narrow&&this._conversation(this.hass.config.components)?o.dy`
-                          <mwc-list-item
-                            .label=${this.hass.localize("ui.panel.lovelace.menu.start_conversation")}
-                            graphic="icon"
-                            @request-selected=${this._showVoiceCommandDialog}
+                  ${this._hideToolbar?this.renderNotificationButton(!0):o.dy`
+                        <!-- Enabled for IoB -->
+                        ${this.renderNotificationButton()}
+                        ${!this.narrow&&this._conversation(this.hass.config.components)?o.dy`
+                              <mwc-icon-button
+                                .label=${this.hass.localize("ui.panel.lovelace.menu.start_conversation")}
+                                @click=${this._showVoiceCommandDialog}
+                              >
+                                <ha-svg-icon
+                                  .path=${f.N3O}
+                                ></ha-svg-icon>
+                              </mwc-icon-button>
+                            `:""}
+                        <ha-button-menu corner="BOTTOM_START">
+                          <mwc-icon-button
+                            slot="trigger"
+                            .label=${this.hass.localize("ui.panel.lovelace.editor.menu.open")}
+                            .title="${this.hass.localize("ui.panel.lovelace.editor.menu.open")}"
                           >
-                            <span
-                              >${this.hass.localize("ui.panel.lovelace.menu.start_conversation")}</span
+                            <ha-svg-icon .path=${f.SXi}></ha-svg-icon>
+                          </mwc-icon-button>
+                          ${this.narrow&&this._conversation(this.hass.config.components)?o.dy`
+                                <mwc-list-item
+                                  .label=${this.hass.localize("ui.panel.lovelace.menu.start_conversation")}
+                                  graphic="icon"
+                                  @request-selected=${this._showVoiceCommandDialog}
+                                >
+                                  <span
+                                    >${this.hass.localize("ui.panel.lovelace.menu.start_conversation")}</span
+                                  >
+                                  <ha-svg-icon
+                                    slot="graphic"
+                                    .path=${f.N3O}
+                                  ></ha-svg-icon>
+                                </mwc-list-item>
+                              `:""}
+                          ${this._yamlMode?o.dy`
+                                <mwc-list-item
+                                  aria-label=${this.hass.localize("ui.panel.lovelace.menu.refresh")}
+                                  graphic="icon"
+                                  @request-selected="${this._handleRefresh}"
+                                >
+                                  <span
+                                    >${this.hass.localize("ui.panel.lovelace.menu.refresh")}</span
+                                  >
+                                  <ha-svg-icon
+                                    slot="graphic"
+                                    .path=${f.jcD}
+                                  ></ha-svg-icon>
+                                </mwc-list-item>
+                                <mwc-list-item
+                                  aria-label=${this.hass.localize("ui.panel.lovelace.unused_entities.title")}
+                                  graphic="icon"
+                                  @request-selected="${this._handleUnusedEntities}"
+                                >
+                                  <span
+                                    >${this.hass.localize("ui.panel.lovelace.unused_entities.title")}</span
+                                  >
+                                  <ha-svg-icon
+                                    slot="graphic"
+                                    .path=${f.RIj}
+                                  ></ha-svg-icon>
+                                </mwc-list-item>
+                              `:""}
+                          ${"yaml"===(null===(e=this.hass.panels.lovelace)||void 0===e||null===(t=e.config)||void 0===t?void 0:t.mode)?o.dy`
+                                <mwc-list-item
+                                  graphic="icon"
+                                  aria-label=${this.hass.localize("ui.panel.lovelace.menu.reload_resources")}
+                                  @request-selected=${this._handleReloadResources}
+                                >
+                                  ${this.hass.localize("ui.panel.lovelace.menu.reload_resources")}
+                                  <ha-svg-icon
+                                    slot="graphic"
+                                    .path=${f.jcD}
+                                  ></ha-svg-icon>
+                                </mwc-list-item>
+                              `:""}
+                          ${(null===(i=this.hass.user)||void 0===i?void 0:i.is_admin)&&!this.hass.config.safe_mode?o.dy`
+                                <mwc-list-item
+                                  graphic="icon"
+                                  aria-label=${this.hass.localize("ui.panel.lovelace.menu.configure_ui")}
+                                  @request-selected=${this._handleEnableEditMode}
+                                >
+                                  ${this.hass.localize("ui.panel.lovelace.menu.configure_ui")}
+                                  <ha-svg-icon
+                                    slot="graphic"
+                                    .path=${f.Shd}
+                                  ></ha-svg-icon>
+                                </mwc-list-item>
+                              `:""}
+                          <a
+                            href="${(0,R.R)(this.hass,"/lovelace/")}"
+                            rel="noreferrer"
+                            class="menu-link"
+                            target="_blank"
+                          >
+                            <mwc-list-item
+                              graphic="icon"
+                              aria-label=${this.hass.localize("ui.panel.lovelace.menu.help")}
                             >
-                            <ha-svg-icon
-                              slot="graphic"
-                              .path=${f.N3O}
-                            ></ha-svg-icon>
-                          </mwc-list-item>
-                        `:""}
-                    ${this._yamlMode?o.dy`
-                          <mwc-list-item
-                            aria-label=${this.hass.localize("ui.panel.lovelace.menu.refresh")}
-                            graphic="icon"
-                            @request-selected="${this._handleRefresh}"
-                          >
-                            <span
-                              >${this.hass.localize("ui.panel.lovelace.menu.refresh")}</span
-                            >
-                            <ha-svg-icon
-                              slot="graphic"
-                              .path=${f.jcD}
-                            ></ha-svg-icon>
-                          </mwc-list-item>
-                          <mwc-list-item
-                            aria-label=${this.hass.localize("ui.panel.lovelace.unused_entities.title")}
-                            graphic="icon"
-                            @request-selected="${this._handleUnusedEntities}"
-                          >
-                            <span
-                              >${this.hass.localize("ui.panel.lovelace.unused_entities.title")}</span
-                            >
-                            <ha-svg-icon
-                              slot="graphic"
-                              .path=${f.RIj}
-                            ></ha-svg-icon>
-                          </mwc-list-item>
-                        `:""}
-                    ${"yaml"===(null===(e=this.hass.panels.lovelace)||void 0===e||null===(t=e.config)||void 0===t?void 0:t.mode)?o.dy`
-                          <mwc-list-item
-                            graphic="icon"
-                            aria-label=${this.hass.localize("ui.panel.lovelace.menu.reload_resources")}
-                            @request-selected=${this._handleReloadResources}
-                          >
-                            ${this.hass.localize("ui.panel.lovelace.menu.reload_resources")}
-                            <ha-svg-icon
-                              slot="graphic"
-                              .path=${f.jcD}
-                            ></ha-svg-icon>
-                          </mwc-list-item>
-                        `:""}
-                    ${(null===(i=this.hass.user)||void 0===i?void 0:i.is_admin)&&!this.hass.config.safe_mode?o.dy`
-                          <mwc-list-item
-                            graphic="icon"
-                            aria-label=${this.hass.localize("ui.panel.lovelace.menu.configure_ui")}
-                            @request-selected=${this._handleEnableEditMode}
-                          >
-                            ${this.hass.localize("ui.panel.lovelace.menu.configure_ui")}
-                            <ha-svg-icon
-                              slot="graphic"
-                              .path=${f.Shd}
-                            ></ha-svg-icon>
-                          </mwc-list-item>
-                        `:""}
-                    <a
-                      href="${(0,R.R)(this.hass,"/lovelace/")}"
-                      rel="noreferrer"
-                      class="menu-link"
-                      target="_blank"
-                    >
-                      <mwc-list-item
-                        graphic="icon"
-                        aria-label=${this.hass.localize("ui.panel.lovelace.menu.help")}
-                      >
-                        ${this.hass.localize("ui.panel.lovelace.menu.help")}
-                        <ha-svg-icon
-                          slot="graphic"
-                          .path=${f.HET}
-                        ></ha-svg-icon>
-                      </mwc-list-item>
-                    </a>
-                  </ha-button-menu>
+                              ${this.hass.localize("ui.panel.lovelace.menu.help")}
+                              <ha-svg-icon
+                                slot="graphic"
+                                .path=${f.HET}
+                              ></ha-svg-icon>
+                            </mwc-list-item>
+                          </a>
+                        </ha-button-menu>
+                      `}
                 </app-toolbar>
               `}
           ${this._editMode?o.dy`
@@ -555,7 +558,6 @@
                             <ha-svg-icon .path=${f.qX5}></ha-svg-icon>
                           </mwc-icon-button>
                         `:""}
-                    ${this._hideToolbar?this.renderNotificationButton(!0):""}
                   </ha-tabs>
                 </div>
               `:""}
@@ -705,4 +707,4 @@
         .narrow=${this.narrow}
       ></hass-loading-screen>
     `}},{kind:"method",key:"firstUpdated",value:function(){this._fetchConfig(!1),this._unsubUpdates||this._subscribeUpdates(),window.addEventListener("connection-status",(e=>{"connected"===e.detail&&this._fetchConfig(!1)}))}},{kind:"method",key:"_regenerateConfig",value:async function(){const e=await(0,c.UO)(this.hass);this._setLovelaceConfig(e,"generated"),this._state="loaded"}},{kind:"method",key:"_subscribeUpdates",value:async function(){this._unsubUpdates=await(0,a.Gc)(this.hass.connection,this.urlPath,(()=>this._lovelaceChanged()))}},{kind:"method",key:"_closeEditor",value:function(){this._state="loaded"}},{kind:"method",key:"_lovelaceChanged",value:function(){this._ignoreNextUpdateEvent?this._ignoreNextUpdateEvent=!1:this.isConnected?(0,l.C)(this,{message:this.hass.localize("ui.panel.lovelace.changed_toast.message"),action:{action:()=>this._fetchConfig(!1),text:this.hass.localize("ui.panel.lovelace.changed_toast.refresh")},duration:0,dismissable:!1}):this._fetchConfigOnConnect=!0}},{kind:"get",key:"urlPath",value:function(){return"lovelace"===this.panel.url_path?null:this.panel.url_path}},{kind:"method",key:"_forceFetchConfig",value:function(){this._fetchConfig(!0)}},{kind:"method",key:"_fetchConfig",value:async function(e){let t,i,r=this.panel.config.mode;const n=window;n.llConfProm&&(i=n.llConfProm,n.llConfProm=void 0),He||(He=!0,(n.llConfProm||(0,a.eL)(this.hass.connection)).then((e=>(0,d.k)(e,this.hass.auth.data.hassUrl)))),null===this.urlPath&&i||(this.lovelace&&"yaml"===this.lovelace.mode&&(this._ignoreNextUpdateEvent=!0),i=(0,a.Q2)(this.hass.connection,this.urlPath,e));try{t=await i}catch(o){if("config_not_found"!==o.code)return console.log(o),this._state="error",void(this._errorMsg=o.message);const e=await this.hass.loadBackendTranslation("title");t=await(0,c.UO)(this.hass,e),r="generated"}finally{this.lovelace&&"yaml"===this.lovelace.mode&&setTimeout((()=>{this._ignoreNextUpdateEvent=!1}),2e3)}this._state="loaded",this._setLovelaceConfig(t,r)}},{kind:"method",key:"_checkLovelaceConfig",value:function(e){let t=Object.isFrozen(e)?void 0:e;return e.views.forEach(((i,r)=>{i.badges&&!i.badges.every(Boolean)&&(t=t||{...e,views:[...e.views]},t.views[r]={...i},t.views[r].badges=i.badges.filter(Boolean))})),t?n()(t):e}},{kind:"method",key:"_setLovelaceConfig",value:function(e,t){e=this._checkLovelaceConfig(e);const r=this.urlPath;this.lovelace={config:e,mode:t,urlPath:this.urlPath,editMode:!!this.lovelace&&this.lovelace.editMode,language:this.hass.language,enableFullEditMode:()=>{We||(We=!0,Promise.all([i.e(9033),i.e(1572),i.e(3822),i.e(2747)]).then(i.bind(i,95912))),this._state="yaml-editor"},setEditMode:e=>{var t,r;e&&"generated"===this.lovelace.mode?(t=this,r={lovelace:this.lovelace,mode:this.panel.config.mode},p||(p=!0,(0,h.B)(t,"register-dialog",{dialogShowEvent:u,dialogTag:"hui-dialog-save-config",dialogImport:()=>Promise.all([i.e(3641),i.e(6372),i.e(9033),i.e(1572),i.e(3822),i.e(4538)]).then(i.bind(i,78082))})),(0,h.B)(t,u,r)):this._updateLovelace({editMode:e})},saveConfig:async e=>{const{config:t,mode:i}=this.lovelace;e=this._checkLovelaceConfig(e);try{this._updateLovelace({config:e,mode:"storage"}),this._ignoreNextUpdateEvent=!0,await(0,a.Oh)(this.hass,r,e)}catch(n){throw console.error(n),this._updateLovelace({config:t,mode:i}),n}},deleteConfig:async()=>{const{config:e,mode:t}=this.lovelace;try{const e=await this.hass.loadBackendTranslation("title");this._updateLovelace({config:await(0,c.UO)(this.hass,e),mode:"generated",editMode:!1}),this._ignoreNextUpdateEvent=!0,await(0,a.vj)(this.hass,r)}catch(i){throw console.error(i),this._updateLovelace({config:e,mode:t}),i}}}}},{kind:"method",key:"_updateLovelace",value:function(e){this.lovelace={...this.lovelace,...e}}}]}}),o.oi);customElements.define("ha-panel-lovelace",Qe)},27322:(e,t,i)=>{"use strict";i.d(t,{R:()=>r});const r=(e,t)=>`https://www.iobroker.net/#${e.language&&e.language.split("-")[0]||"en"}/adapters/adapterref/iobroker.lovelace/README.md`}}]);
-//# sourceMappingURL=chunk.a1e181f4905df2385e25.js.map
+//# sourceMappingURL=chunk.7d287b0cafecb64283c3.js.map
