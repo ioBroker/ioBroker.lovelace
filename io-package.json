@@ -507,9 +507,8 @@
                 "name": "theme",
                 "type": "text",
                 "write": true,
-                "read": true,
+                "read": false,
                 "desc": "Change default theme during runtime",
-                "def": "default",
                 "states": {"default": "default"}
             }
         },
