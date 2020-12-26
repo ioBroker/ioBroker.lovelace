@@ -4,6 +4,16 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
+## __WORK IN PROGRESS__
+* (Garfonso) Fixed: do not ignore devices deleted from iot / without smartName
+* (Garfosno) Added: Support location devices with one GPS state in string form
+* (Garfonso) Added: Support for log service, logs frontend errors in server log
+* (Garfonso) Added: Support for service calls with multiple ids, i.e. header switch of elements card
+* (Garfonso) Fixed: unique check for manual entities only checked instance 0. Made them a bit more userfriendly, too.
+* (Garfonso) Added: Possibility to select theme during runtime / select default dark theme
+* (Garfonso) Fixed: hideToolbar did hide tab bar, too
+* (Garfonso) Added: Support for iobroker_say service call (allows tts in mini-mediaplayer card using platform iobroker)
+
 ## 1.3.3 (2020-11-19)
 * (Garfonso) Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.
 
