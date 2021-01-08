@@ -324,6 +324,7 @@
         "ttl": 3600,
         "themes": "",
         "defaultTheme": "default",
+        "defaultThemeDark": "default",
         "hideHeader": false,
         "leEnabled": false,
         "leUpdate": false,
@@ -497,6 +498,18 @@
             },
             "native": {
                 "alarm_code": 1234
+            }
+        },
+        {
+            "_id": "control.theme",
+            "type": "state",
+            "common": {
+                "name": "theme",
+                "type": "text",
+                "write": true,
+                "read": false,
+                "desc": "Change default theme during runtime",
+                "states": {"default": "default"}
             }
         },
         {
