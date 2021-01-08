@@ -509,7 +509,9 @@
                 "write": true,
                 "read": false,
                 "desc": "Change default theme during runtime",
-                "states": {"default": "default"}
+                "states": {
+                    "default": "default"
+                }
             }
         },
         {
