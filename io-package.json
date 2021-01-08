@@ -505,7 +505,7 @@
             "type": "state",
             "common": {
                 "name": "theme",
-                "type": "text",
+                "type": "string",
                 "write": true,
                 "read": false,
                 "desc": "Change default theme during runtime",
