@@ -5,7 +5,7 @@
 	## __WORK IN PROGRESS__
 -->
 
-## 1.3.5 (2021-01-08)
+## 1.3.6 (2021-01-08)
 * (Garfonso) Fixed: do not ignore devices deleted from iot / without smartName
 * (Garfosno) Added: Support location devices with one GPS state in string form
 * (Garfonso) Added: Support for log service, logs frontend errors in server log

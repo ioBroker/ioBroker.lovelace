@@ -168,17 +168,17 @@ async function initWebServer(settings) {
     }
 }
 
-function main(adapter) {
+async function main(adapter) {
     if (adapter.config.secure) {
         // subscribe on changes of permissions
         adapter.subscribeForeignObjects('system.group.*');
         adapter.subscribeForeignObjects('system.user.*');
 
         // Load certificates
-        adapter.getCertificates((err, certificates, leConfig) => {
+        adapter.getCertificates(async (err, certificates, leConfig) => {
             adapter.config.certificates = certificates;
             adapter.config.leConfig     = leConfig;
-            adapter.webServer = initWebServer(adapter.config);
+            adapter.webServer = await initWebServer(adapter.config);
             adapter.apiServer = new ApiServer({
                 adapter,
                 server: adapter.webServer.server,
@@ -187,7 +187,7 @@ function main(adapter) {
             });
         });
     } else {
-        adapter.webServer = initWebServer(adapter.config);
+        adapter.webServer = await initWebServer(adapter.config);
         adapter.apiServer = new ApiServer({
             adapter,
             server: adapter.webServer.server,
