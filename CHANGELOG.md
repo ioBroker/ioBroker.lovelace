@@ -7,6 +7,7 @@
 
 ## __WORK IN PROGRESS__
 * (thost96) Fixed: set Theme state type to string instead of text
+* (thost96) Added: Darktheme config option 
 
 ## 1.3.6 (2021-01-08)
 * (Garfonso) Fixed: do not ignore devices deleted from iot / without smartName

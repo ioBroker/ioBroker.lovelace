@@ -515,6 +515,20 @@
             }
         },
         {
+            "_id": "control.darktheme",
+            "type": "state",
+            "common": {
+                "name": "darktheme",
+                "type": "string",
+                "write": true,
+                "read": false,
+                "desc": "Change default darktheme during runtime",
+                "states": {
+                    "default": "default"
+                }
+            }
+        },
+        {
             "_id": "notifications",
             "type": "channel",
             "common": {
