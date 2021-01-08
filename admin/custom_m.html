@@ -80,17 +80,17 @@
     if (typeof customPostInits !== 'undefined') {
         customPostInits.lovelace = function ($div, values, instanceObj, type, role) {
             try {
-                var myNamespace = instanceObj._id.replace('system.adapter.', '');
-                var currentObj = gMain.objects[gMain.navigateGetParams()];
+                const myNamespace = instanceObj._id.replace('system.adapter.', '');
+                const currentObj = gMain.objects[gMain.navigateGetParams()];
 
-                var entitiesIdList = [];
+                const entitiesIdList = [];
 
-                var Input = {};
-                var DataList = {};
-                var Select = {};
-                var Button = {};
+                const Input = {};
+                const DataList = {};
+                const Select = {};
+                const Button = {};
 
-                var selectedEntity ='auto';
+                let selectedEntity ='auto';
                 if (currentObj && currentObj.common && currentObj.common.custom && currentObj.common.custom[myNamespace] && currentObj.common.custom[myNamespace].entity) {
                     selectedEntity = currentObj.common.custom[myNamespace].entity;
                 }
@@ -116,17 +116,26 @@
                 }
 
                 function events() {
-                    Input.name.on('input', function () {
-                        if (this.value.length > 0 && entitiesIdList && entitiesIdList.length > 0) {
-                            if (entitiesIdList.includes(`${selectedEntity}.${this.value}`)) {
-                                gMain.showError(_("Entity name '%s' is already in use", this.value));
-                                this.value = '';
-                            }
-
-                            if (this.value.includes('.')) {
-                                this.value = this.value.replace(/\./g, '_');
-                            }
+                    Input.name.on('input', function () { //intentionally change 'this' reference here.
+                        if (Input.timeout) {
+                            clearTimeout(Input.timeout);
                         }
+                        Input.timeout = setTimeout(() => {
+                            if (this.value.length > 0 && entitiesIdList && entitiesIdList.length > 0) {
+                                if (this.value.includes('.')) {
+                                    this.value = this.value.replace(/\./g, '_');
+                                }
+
+                                if (entitiesIdList.includes(`${selectedEntity}.${this.value}`)) {
+                                    gMain.showError(_("Entity name '%s' is already in use", this.value));
+                                    let num = 1;
+                                    while (entitiesIdList.includes(`${selectedEntity}.${this.value}_${num}`)) {
+                                        num += 1;
+                                    }
+                                    this.value += '_' + num;
+                                }
+                            }
+                        }, 300);
                     });
 
                     Select.entity.on('change', function () {
@@ -134,34 +143,34 @@
                     });
 
                     Button.autoGenerateEntityName.click(function () {
-                        var id = currentObj._id;
-                        var extractInstance = id.match(/\.\d+\./);
+                        const id = currentObj._id;
+                        const extractInstance = id.match(/\.\d+\./);
                         Input.name.val(id.split(extractInstance, 2)[1].replace(/\./g, '_'));
                     });
                 }
 
                 async function initializeSuggestions() {
-                    var entitiesList = await getEntitiesAsync();
-                    var suggestionList = [];
+                    const entitiesList = await getEntitiesAsync(myNamespace);
+                    const suggestionList = [];
 
-                    for (var i = 0; i < entitiesList.length; i++) {
-                        var entityId = entitiesList[i].entity_id;
+                    for (const entity of entitiesList) {
+                        const entityId = entity.entity_id;
 
                         if (entityId) {
                             // add entityId to List
                             entitiesIdList.push(entityId);
 
                             // remove entity type
-                            var prefix = entityId.substring(entityId.indexOf('.') + 1, entityId.length);
+                            const prefix = entityId.substring(entityId.indexOf('.') + 1, entityId.length);
 
                             if (prefix && prefix.includes('_')) {
                                 // loop trough prefixes
-                                var sug = prefix;
-                                for (var d = 0; d <= prefix.split('_').length - 1; d++) {
+                                let sug = prefix;
+                                for (let d = 0; d <= prefix.split('_').length - 1; d++) {
                                     sug = sug.substring(0, sug.lastIndexOf('_'));
 
                                     if (sug) {
-                                        var entityIdSuggestion = '<option value="' + sug  + '_">';
+                                        const entityIdSuggestion = '<option value="' + sug  + '_">';
                                         if (!suggestionList.includes(entityIdSuggestion)) {
                                             // nur zu prefixId array hinzufügen wenn noch nicht vorhanden
                                             suggestionList.push(entityIdSuggestion);
@@ -180,9 +189,9 @@
         };
     }
 
-    async function getEntitiesAsync(pattern) {
+    async function getEntitiesAsync(namespace) {
         return new Promise(resolve => {
-            gMain.socket.emit('sendTo', 'lovelace.0', 'browse', null, list => {
+            gMain.socket.emit('sendTo', namespace, 'browse', null, list => {
                 if (list && Object.keys(list).length > 0) {
                     resolve(list);
                 } else {

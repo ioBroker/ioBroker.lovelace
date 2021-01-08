@@ -25,6 +25,7 @@
         var themes = [];
         var editor = null;
         var defaultTheme = '';
+        var defaultThemeDark = '';
         var httpServer = {
             port: 8091,
             secure: false,
@@ -48,6 +49,7 @@
                 } catch (e) {
                     !editor && $themes.addClass('error');
                     $('#defaultTheme').html('<option value="default">' + _('default') + '</option>').select();
+                    $('#defaultThemeDark').html('<option value="default">' + _('default') + '</option>').select();
                     return;
                 }
                 !editor && $themes.removeClass('error');
@@ -60,6 +62,7 @@
                         text += '<option value="' + _themes[i] + '">' + _themes[i] + '</option>';
                     }
                     $('#defaultTheme').html(text).select().val(defaultTheme);
+                    $('#defaultThemeDark').html(text).select().val(defaultThemeDark);
                 }
             });
         }
@@ -377,6 +380,9 @@
                             if (id === 'defaultTheme') {
                                 defaultTheme = $(this).val();
                             }
+                            if (id === 'defaultThemeDark') {
+                                defaultThemeDark = $(this).val();
+                            }
 
                             onChange();
                         })
@@ -428,6 +434,8 @@
             });
 
             defaultTheme = settings.defaultTheme;
+            defaultThemeDark = settings.defaultThemeDark;
+            $('#themes_fallback').val(settings.themes);
             $('.tab-themes').on('click', function () {
                 setTimeout(function () {
                     if (editor === null) {
@@ -507,9 +515,9 @@
             });
 
             if (!editor) {
-                obj.themes = $('#themes_fallback').val();
+                obj.themes = $('#themes_fallback').val() || obj.themes;
             } else {
-                obj.themes = editor.getValue();
+                obj.themes = editor.getValue() || obj.themes;
             }
 
             if ($('#secure').prop('checked') && (!$('#certPrivate').val() || !$('#certPublic').val())) {
@@ -718,6 +726,10 @@
                 <div class="input-field col s6 l3">
                     <select id="defaultTheme" class="value"></select>
                     <label class="translate" for="defaultTheme">Default theme</label>
+                </div>
+                <div class="input-field col s6 l3">
+                    <select id="defaultThemeDark" class="value"></select>
+                    <label class="translate" for="defaultThemeDark">Default theme dark</label>
                 </div>
                 <div class="input-field col s6 l3">
                     <input id="hideHeader" type="checkbox" class="value"/>
