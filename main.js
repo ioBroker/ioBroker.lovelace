@@ -105,7 +105,9 @@ async function initWebServer(settings) {
 
     if (settings.port) {
 
-        if (settings.secure && !adapter.config.certificates) return null;
+        if (settings.secure && !adapter.config.certificates) {
+            return null;
+        }
 
         try {
             if (typeof LE.createServerAsync === 'function') {
