@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.3.6",
+        "version": "1.4.1",
         "news": {
+            "1.4.1": {
+                "en": "Support of new Let's Encrypt (only with js-controller 3.2.x)",
+                "de": "Unterstützung des neuen Let's Encrypt (nur mit js-controller 3.2.x)",
+                "ru": "Поддержка нового Let's Encrypt (только с js-controller 3.2.x)",
+                "pt": "Suporte do novo Let's Encrypt (apenas com js-controller 3.2.x)",
+                "nl": "Ondersteuning van nieuwe Let's Encrypt (alleen met js-controller 3.2.x)",
+                "fr": "Prise en charge du nouveau Let's Encrypt (uniquement avec js-controller 3.2.x)",
+                "it": "Supporto del nuovo Let's Encrypt (solo con js-controller 3.2.x)",
+                "es": "Soporte del nuevo Let's Encrypt (solo con js-controller 3.2.x)",
+                "pl": "Obsługa nowego Let's Encrypt (tylko z js-controller 3.2.x)",
+                "zh-cn": "支持新的Let's Encrypt（仅适用于js-controller 3.2.x）"
+            },
             "1.3.6": {
                 "en": "Fixed: do not ignore devices deleted from iot / without smartName\nAdded: Support location devices with one GPS state in string form\nAdded: Support for log service, logs frontend errors in server log\nAdded: Support for service calls with multiple ids, i.e. header switch of elements card\nFixed: unique check for manual entities only checked instance 0. Made them a bit more userfriendly, too.\nAdded: Possibility to select theme during runtime / select default dark theme\nFixed: hideToolbar did hide tab bar, too\nAdded: Support for iobroker_say service call (allows tts in mini-mediaplayer card using platform iobroker)",
                 "de": "Behoben: Geräte, die aus iot / ohne smartName gelöscht wurden, nicht ignorieren\nHinzugefügt: Unterstützt Ortungsgeräte mit einem GPS-Status in Zeichenfolgenform\nHinzugefügt: Unterstützung für Protokolldienst, Protokollierung von Frontend-Fehlern im Serverprotokoll\nHinzugefügt: Unterstützung für Serviceanrufe mit mehreren IDs, d. H. Header-Schalter der Elementkarte\nBehoben: eindeutige Prüfung für manuelle Entitäten nur Instanz 0 geprüft. Auch etwas benutzerfreundlicher gemacht.\nHinzugefügt: Möglichkeit zur Auswahl eines Themas zur Laufzeit / Auswahl eines dunklen Standardthemas\nBehoben: hideToolbar hat auch die Tab-Leiste ausgeblendet\nHinzugefügt: Unterstützung für den Serviceabruf iobroker_say (ermöglicht tts in Mini-Mediaplayer-Karten über die Plattform iobroker)",
@@ -14,18 +26,6 @@
                 "es": "Corregido: no ignore los dispositivos eliminados de iot / sin smartName\nAgregado: admite dispositivos de ubicación con un estado de GPS en forma de cadena\nAgregado: soporte para el servicio de registro, registra errores de frontend en el registro del servidor\nAgregado: soporte para llamadas de servicio con múltiples identificadores, es decir, interruptor de encabezado de la tarjeta de elementos\nCorregido: la verificación única para entidades manuales solo verificó la instancia 0. También las hizo un poco más fáciles de usar.\nAgregado: posibilidad de seleccionar el tema durante el tiempo de ejecución / seleccionar el tema oscuro predeterminado\nCorregido: hideToolbar también ocultaba la barra de pestañas\nAgregado: Soporte para la llamada de servicio iobroker_say (permite tts en la tarjeta mini-mediaplayer usando la plataforma iobroker)",
                 "pl": "Naprawiono: nie ignoruj urządzeń usuniętych z iot / bez smartName\nDodano: Obsługa urządzeń lokalizacyjnych z jednym stanem GPS w postaci ciągu\nDodano: Wsparcie dla usługi logów, loguje błędy frontendu w logu serwera\nDodano: Wsparcie dla zgłoszeń serwisowych z wieloma identyfikatorami, tj. Przełączanie nagłówka karty elementów\nNaprawiono: unikalne sprawdzanie jednostek ręcznych sprawdzało tylko instancję 0. Uczyniło je również nieco bardziej przyjaznymi dla użytkownika.\nDodano: Możliwość wyboru motywu podczas działania / wybierz domyślny ciemny motyw\nNaprawiono: hideToolbar ukrył również pasek zakładek\nDodano: Wsparcie dla wezwania serwisu iobroker_say (umożliwia tts na karcie mini-mediaplayer przy użyciu platformy iobroker)",
                 "zh-cn": "修正：不要忽略从物联网中删除的设备/没有smartName的设备\n补充：支持具有字符串形式的一个GPS状态的定位设备\n补充：支持日志服务，在服务器日志中记录前端错误\n补充：支持具有多个ID的服务呼叫，即元素卡的标题开关\n修复：手动实体的唯一检查仅检查实例0。也使它们更加易于使用。\n补充：可以在运行时选择主题/选择默认的深色主题\n修复：hideToolbar也隐藏了标签栏\n补充：支持iobroker_say服务调用（允许使用iobroker平台在mini-mediaplayer卡中进行tts）"
-            },
-            "1.3.4": {
-                "en": "Support of new Let's Encrypt (only with js-controller 3.2.x)",
-                "de": "Unterstützung des neuen Let's Encrypt (nur mit js-controller 3.2.x)",
-                "ru": "Поддержка нового Let's Encrypt (только с js-controller 3.2.x)",
-                "pt": "Suporte do novo Let's Encrypt (apenas com js-controller 3.2.x)",
-                "nl": "Ondersteuning van nieuwe Let's Encrypt (alleen met js-controller 3.2.x)",
-                "fr": "Prise en charge du nouveau Let's Encrypt (uniquement avec js-controller 3.2.x)",
-                "it": "Supporto del nuovo Let's Encrypt (solo con js-controller 3.2.x)",
-                "es": "Soporte del nuevo Let's Encrypt (solo con js-controller 3.2.x)",
-                "pl": "Obsługa nowego Let's Encrypt (tylko z js-controller 3.2.x)",
-                "zh-cn": "支持新的Let's Encrypt（仅适用于js-controller 3.2.x）"
             },
             "1.3.3": {
                 "en": "Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.",

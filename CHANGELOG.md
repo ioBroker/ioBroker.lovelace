@@ -5,8 +5,13 @@
 	## __WORK IN PROGRESS__
 -->
 
+
 ## __WORK IN PROGRESS__
 * (thost96) Fixed: set Theme state type to string instead of text
+
+## 1.4.1 (2021-01-08)
+* (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
+
 
 ## 1.3.6 (2021-01-08)
 * (Garfonso) Fixed: do not ignore devices deleted from iot / without smartName
@@ -17,9 +22,6 @@
 * (Garfonso) Added: Possibility to select theme during runtime / select default dark theme
 * (Garfonso) Fixed: hideToolbar did hide tab bar, too
 * (Garfonso) Added: Support for iobroker_say service call (allows tts in mini-mediaplayer card using platform iobroker)
-
-## 1.3.4 (2021-01-08)
-* (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
 
 ## 1.3.3 (2020-11-19)
 * (Garfonso) Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.
