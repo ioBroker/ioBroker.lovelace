@@ -4,7 +4,7 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
-## __WORK IN PROGRESS__
+## 1.3.4 (2021-01-08)
 * (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
 
 ## 1.3.3 (2020-11-19)
