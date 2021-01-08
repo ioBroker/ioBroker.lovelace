@@ -5,6 +5,9 @@
 	## __WORK IN PROGRESS__
 -->
 
+## __WORK IN PROGRESS__
+* (thost96) Fixed: set Theme state type to string instead of text
+
 ## 1.3.6 (2021-01-08)
 * (Garfonso) Fixed: do not ignore devices deleted from iot / without smartName
 * (Garfosno) Added: Support location devices with one GPS state in string form
