@@ -5,6 +5,9 @@
 	## __WORK IN PROGRESS__
 -->
 
+## __WORK IN PROGRESS__
+* (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
+
 ## 1.3.6 (2021-01-08)
 * (Garfonso) Fixed: do not ignore devices deleted from iot / without smartName
 * (Garfosno) Added: Support location devices with one GPS state in string form
@@ -14,9 +17,6 @@
 * (Garfonso) Added: Possibility to select theme during runtime / select default dark theme
 * (Garfonso) Fixed: hideToolbar did hide tab bar, too
 * (Garfonso) Added: Support for iobroker_say service call (allows tts in mini-mediaplayer card using platform iobroker)
-
-## 1.3.4 (2021-01-08)
-* (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
 
 ## 1.3.3 (2020-11-19)
 * (Garfonso) Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.

@@ -108,7 +108,7 @@ async function initWebServer(settings) {
         if (settings.secure && !adapter.config.certificates) return null;
 
         try {
-            server.server = await LE.createServer(server.app, settings, adapter.config.certificates, adapter.config.leConfig, adapter.log, adapter);
+            server.server = await LE.createServerAsync(server.app, settings, adapter.config.certificates, adapter.config.leConfig, adapter.log, adapter);
         } catch (err) {
             adapter.log.error(`Cannot create webserver: ${err}`);
             adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
