@@ -5,7 +5,7 @@
 	## __WORK IN PROGRESS__
 -->
 
-## 1.4.0 (2021-01-08)
+## __WORK IN PROGRESS__
 * (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
 
 ## 1.3.6 (2021-01-08)
