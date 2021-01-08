@@ -6,7 +6,7 @@
 -->
 
 
-## __WORK IN PROGRESS__
+## 1.4.2 (2021-01-08)
 * (thost96) Fixed: set Theme state type to string instead of text
 
 ## 1.4.1 (2021-01-08)

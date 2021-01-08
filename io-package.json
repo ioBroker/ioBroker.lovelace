@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "news": {
+            "1.4.2": {
+                "en": "Fixed: set Theme state type to string instead of text",
+                "de": "Behoben: Setzen Sie den Theme-Statustyp auf String anstelle von Text",
+                "ru": "Исправлено: установить тип состояния темы на строку вместо текста.",
+                "pt": "Fixo: definir o tipo de estado do tema para string em vez de texto",
+                "nl": "Opgelost: stel het thema staatstype in op string in plaats van op tekst",
+                "fr": "Correction: définissez le type d'état du thème sur chaîne au lieu de texte",
+                "it": "Risolto: imposta il tipo di stato del tema su stringa anziché testo",
+                "es": "Corregido: establezca el tipo de estado del tema en una cadena en lugar de texto",
+                "pl": "Naprawiono: ustaw typ stanu motywu na ciąg zamiast tekstu",
+                "zh-cn": "固定：将主题状态类型设置为字符串而不是文本"
+            },
             "1.4.1": {
                 "en": "Support of new Let's Encrypt (only with js-controller 3.2.x)",
                 "de": "Unterstützung des neuen Let's Encrypt (nur mit js-controller 3.2.x)",
@@ -230,18 +242,6 @@
                 "es": "La traducción se corrigió en la configuración personalizada",
                 "pl": "Tłumaczenie zostało poprawione w ustawieniach niestandardowych",
                 "zh-cn": "翻译已在自定义设置中更正"
-            },
-            "1.0.12": {
-                "en": "Added option to restrict auto entity creation to alias.0.*",
-                "de": "Option hinzugefügt, um die automatische Entitätserstellung auf Alias.0 zu beschränken. *",
-                "ru": "Добавлена возможность ограничить автоматическое создание сущности псевдонимом 0. *",
-                "pt": "Adicionada opção para restringir a criação automática de entidades ao alias.0. *",
-                "nl": "Optie toegevoegd om het automatisch maken van entiteiten te beperken tot alias.0. *",
-                "fr": "Ajout d'une option pour restreindre la création automatique d'entités à alias.0. *",
-                "it": "Aggiunta opzione per limitare la creazione automatica di entità ad alias.0. *",
-                "es": "Opción agregada para restringir la creación automática de entidades a alias.0. *",
-                "pl": "Dodano opcję ograniczenia automatycznego tworzenia encji do aliasu.0. *",
-                "zh-cn": "添加了将自动实体创建限制为alias.0。*的选项"
             }
         },
         "title": "Visualization with Lovelace-UI",
