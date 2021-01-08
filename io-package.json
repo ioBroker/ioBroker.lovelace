@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.3.3",
+        "version": "1.3.4",
         "news": {
+            "1.3.4": {
+                "en": "Support of new Let's Encrypt (only with js-controller 3.2.x)",
+                "de": "Unterstützung des neuen Let's Encrypt (nur mit js-controller 3.2.x)",
+                "ru": "Поддержка нового Let's Encrypt (только с js-controller 3.2.x)",
+                "pt": "Suporte do novo Let's Encrypt (apenas com js-controller 3.2.x)",
+                "nl": "Ondersteuning van nieuwe Let's Encrypt (alleen met js-controller 3.2.x)",
+                "fr": "Prise en charge du nouveau Let's Encrypt (uniquement avec js-controller 3.2.x)",
+                "it": "Supporto del nuovo Let's Encrypt (solo con js-controller 3.2.x)",
+                "es": "Soporte del nuevo Let's Encrypt (solo con js-controller 3.2.x)",
+                "pl": "Obsługa nowego Let's Encrypt (tylko z js-controller 3.2.x)",
+                "zh-cn": "支持新的Let's Encrypt（仅适用于js-controller 3.2.x）"
+            },
             "1.3.3": {
                 "en": "Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.",
                 "de": "Hinzugefügt / Behoben: Abonnieren Sie auch Status für benutzerdefinierte: Mini-Grafikkarte und möglicherweise andere.",
@@ -230,18 +242,6 @@
                 "es": "Manejo fijo de cadenas RGB malformadas / nulas\nSensor binario agregado\nregulador manual fijo\narreglado para estados duplicados a través de websockets\nmanejo fijo de objetos eliminados",
                 "pl": "Naprawiono obsługę źle zniekształconego / zerowego ciągu RGB\nDodano czujnik binarny\nnaprawiony ręczny ściemniacz\nnaprawiono dla zduplikowanych stanów poprzez websockets\npoprawiona obsługa usuniętych obiektów",
                 "zh-cn": "修复了格式错误/无效的RGB字符串的处理\n增加了二进制传感器\n固定式手动调光器\n通过websocket修复了重复状态\n修复删除对象的处理"
-            },
-            "1.0.9": {
-                "en": "Dimmer control was fixed",
-                "de": "Dimmer Kontrolle wurde behoben",
-                "ru": "Управление диммером было исправлено",
-                "pt": "O controle do dimmer foi corrigido",
-                "nl": "Dimmerregeling was opgelost",
-                "fr": "Le contrôle du gradateur a été corrigé",
-                "it": "Il controllo del dimmer è stato corretto",
-                "es": "El control del atenuador fue reparado",
-                "pl": "Kontrola przyciemnienia została naprawiona",
-                "zh-cn": "调光器控制是固定的"
             }
         },
         "title": "Visualization with Lovelace-UI",
