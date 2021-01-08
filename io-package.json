@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.4.0",
+        "version": "1.4.1",
         "news": {
+            "1.4.1": {
+                "en": "Support of new Let's Encrypt (only with js-controller 3.2.x)",
+                "de": "Unterstützung des neuen Let's Encrypt (nur mit js-controller 3.2.x)",
+                "ru": "Поддержка нового Let's Encrypt (только с js-controller 3.2.x)",
+                "pt": "Suporte do novo Let's Encrypt (apenas com js-controller 3.2.x)",
+                "nl": "Ondersteuning van nieuwe Let's Encrypt (alleen met js-controller 3.2.x)",
+                "fr": "Prise en charge du nouveau Let's Encrypt (uniquement avec js-controller 3.2.x)",
+                "it": "Supporto del nuovo Let's Encrypt (solo con js-controller 3.2.x)",
+                "es": "Soporte del nuevo Let's Encrypt (solo con js-controller 3.2.x)",
+                "pl": "Obsługa nowego Let's Encrypt (tylko z js-controller 3.2.x)",
+                "zh-cn": "支持新的Let's Encrypt（仅适用于js-controller 3.2.x）"
+            },
             "1.3.6": {
                 "en": "Fixed: do not ignore devices deleted from iot / without smartName\nAdded: Support location devices with one GPS state in string form\nAdded: Support for log service, logs frontend errors in server log\nAdded: Support for service calls with multiple ids, i.e. header switch of elements card\nFixed: unique check for manual entities only checked instance 0. Made them a bit more userfriendly, too.\nAdded: Possibility to select theme during runtime / select default dark theme\nFixed: hideToolbar did hide tab bar, too\nAdded: Support for iobroker_say service call (allows tts in mini-mediaplayer card using platform iobroker)",
                 "de": "Behoben: Geräte, die aus iot / ohne smartName gelöscht wurden, nicht ignorieren\nHinzugefügt: Unterstützt Ortungsgeräte mit einem GPS-Status in Zeichenfolgenform\nHinzugefügt: Unterstützung für Protokolldienst, Protokollierung von Frontend-Fehlern im Serverprotokoll\nHinzugefügt: Unterstützung für Serviceanrufe mit mehreren IDs, d. H. Header-Schalter der Elementkarte\nBehoben: eindeutige Prüfung für manuelle Entitäten nur Instanz 0 geprüft. Auch etwas benutzerfreundlicher gemacht.\nHinzugefügt: Möglichkeit zur Auswahl eines Themas zur Laufzeit / Auswahl eines dunklen Standardthemas\nBehoben: hideToolbar hat auch die Tab-Leiste ausgeblendet\nHinzugefügt: Unterstützung für den Serviceabruf iobroker_say (ermöglicht tts in Mini-Mediaplayer-Karten über die Plattform iobroker)",
