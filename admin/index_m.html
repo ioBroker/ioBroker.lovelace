@@ -379,6 +379,7 @@
 
                             if (id === 'defaultTheme') {
                                 defaultTheme = $(this).val();
+                                socket.emit('setState', 'lovelace.' + instance + '.control.theme', defaultTheme); //set state to new default
                             }
                             if (id === 'defaultThemeDark') {
                                 defaultThemeDark = $(this).val();
