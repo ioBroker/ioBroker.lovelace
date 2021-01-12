@@ -4,6 +4,8 @@
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
+## __WORK IN PROGRESS__
+* (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
 
 ## 1.4.3 (2021-02-01)
 * (bluefox) Support of lovelace via ioBroker.pro
