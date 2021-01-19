@@ -383,6 +383,7 @@
                             }
                             if (id === 'defaultThemeDark') {
                                 defaultThemeDark = $(this).val();
+                                socket.emit('setState', 'lovelace.' + instance + '.control.themeDark', defaultThemeDark); //set state to new default
                             }
 
                             onChange();

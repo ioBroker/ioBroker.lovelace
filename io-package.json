@@ -515,8 +515,22 @@
                 "name": "theme",
                 "type": "string",
                 "write": true,
-                "read": false,
+                "read": true,
                 "desc": "Change default theme during runtime",
+                "states": {
+                    "default": "default"
+                }
+            }
+        },
+        {
+            "_id": "control.themeDark",
+            "type": "state",
+            "common": {
+                "name": "theme",
+                "type": "string",
+                "write": true,
+                "read": true,
+                "desc": "Change default dark theme during runtime",
                 "states": {
                     "default": "default"
                 }
