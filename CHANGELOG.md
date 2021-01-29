@@ -6,6 +6,11 @@
 -->
 ## __WORK IN PROGRESS__
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
+* (Garfonso) Added: control.themeDark to control devices in dark mode, too.
+* (Garfonso) Fixed: Device Icons with authentication now work
+* (Garfonso) Changed: previously only admin user could change lovelace config. Now also the owner of the configuration object and members of the owner groupd are allowed to change UI.
+* (Garfonso) Internal code cleanup / breaking dependency update.
+* (Garfonso) Added: Support for pure humidity sensors.
 
 ## 1.4.3 (2021-02-01)
 * (bluefox) Support of lovelace via ioBroker.pro
