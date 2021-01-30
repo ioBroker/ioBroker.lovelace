@@ -297,7 +297,7 @@
             "link": "",
             "name": "Lovelace",
             "img": "lovelace/icons/favicon-192x192.png",
-            "color": "#53C1F2",
+            "color": "#03a9f4",
             "order": 2,
             "localLink": true
         },
@@ -308,7 +308,15 @@
             {
                 "js-controller": ">=2.0.0"
             }
-        ]
+        ],
+        "welcomeScreenPro": {
+            "link": "lovelace/",
+            "name": "Lovelace",
+            "img": "lovelace.admin/lovelace.png",
+            "color": "#03a9f4",
+            "order": 6,
+            "localLink": true
+        }
     },
     "native": {
         "history": "",

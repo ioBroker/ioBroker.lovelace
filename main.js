@@ -1,12 +1,9 @@
 'use strict';
-const express = require('express');
-
-// The adapter-core module gives you access to the core ioBroker functions
-// you need to create an adapter
-const utils = require('@iobroker/adapter-core');
-const LE = require(utils.controllerDir + '/lib/letsencrypt');
+const express   = require('express');
+const utils     = require('@iobroker/adapter-core');
+const LE        = require(utils.controllerDir + '/lib/letsencrypt');
 const ApiServer = require('./lib/server');
-const words = require('./admin/words');
+const words     = require('./admin/words');
 
 /**
  * The adapter instance
@@ -151,7 +148,7 @@ async function initWebServer(settings) {
 
         adapter.getPort(server.settings.port, port => {
             if (port !== server.settings.port && !adapter.config.findNextPort) {
-                adapter.log.error('port ' + server.settings.port + ' already in use');
+                adapter.log.error(`port ${server.settings.port} already in use`);
                 if (adapter.terminate) {
                     adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
                 } else {
@@ -160,10 +157,9 @@ async function initWebServer(settings) {
             }
             serverPort = port;
 
-            server.server.listen(port, () => {
-                serverListening = true;
-            });
-            adapter.log.info('http' + (server.settings.secure ? 's' : '') + ' server listening on port ' + port);
+            server.server.listen(port, () =>
+                serverListening = true);
+            adapter.log.info(`http${server.settings.secure ? 's' : ''} server listening on port ${port}`);
         });
     }
 
