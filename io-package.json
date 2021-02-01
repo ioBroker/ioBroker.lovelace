@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.4.2",
+        "version": "1.4.3",
         "news": {
+            "1.4.3": {
+                "en": "Support of lovelace via ioBroker.pro",
+                "de": "Unterstützung von Lovelace über ioBroker.pro",
+                "ru": "Поддержка ловеласа через ioBroker.pro",
+                "pt": "Suporte de lovelace via ioBroker.pro",
+                "nl": "Ondersteuning van lovelace via ioBroker.pro",
+                "fr": "Prise en charge de lovelace via ioBroker.pro",
+                "it": "Supporto di lovelace tramite ioBroker.pro",
+                "es": "Soporte de lovelace a través de ioBroker.pro",
+                "pl": "Wsparcie lovelace przez ioBroker.pro",
+                "zh-cn": "通过ioBroker.pro支持lovelace"
+            },
             "1.4.2": {
                 "en": "Fixed: set Theme state type to string instead of text",
                 "de": "Behoben: Setzen Sie den Theme-Statustyp auf String anstelle von Text",
@@ -230,18 +242,6 @@
                 "es": "Llamada de getObjectView actualizada para js-controller v3",
                 "pl": "Zaktualizowano wywołanie getObjectView dla js-controller v3",
                 "zh-cn": "为js-controller v3更新的getObjectView调用"
-            },
-            "1.0.13": {
-                "en": "The translation was corrected in the custom settings",
-                "de": "Die Übersetzung wurde in den benutzerdefinierten Einstellungen korrigiert",
-                "ru": "Перевод был исправлен в пользовательских настройках",
-                "pt": "A tradução foi corrigida nas configurações personalizadas",
-                "nl": "De vertaling is gecorrigeerd in de aangepaste instellingen",
-                "fr": "La traduction a été corrigée dans les paramètres personnalisés",
-                "it": "La traduzione è stata corretta nelle impostazioni personalizzate",
-                "es": "La traducción se corrigió en la configuración personalizada",
-                "pl": "Tłumaczenie zostało poprawione w ustawieniach niestandardowych",
-                "zh-cn": "翻译已在自定义设置中更正"
             }
         },
         "title": "Visualization with Lovelace-UI",

@@ -5,7 +5,7 @@
 	## __WORK IN PROGRESS__
 -->
 
-## __WORK IN PROGRESS__
+## 1.4.3 (2021-02-01)
 * (bluefox) Support of lovelace via ioBroker.pro
 
 ## 1.4.2 (2021-01-08)
