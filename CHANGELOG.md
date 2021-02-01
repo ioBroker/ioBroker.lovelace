@@ -5,13 +5,14 @@
 	## __WORK IN PROGRESS__
 -->
 
+## __WORK IN PROGRESS__
+* (bluefox) Support of lovelace via ioBroker.pro
 
 ## 1.4.2 (2021-01-08)
 * (thost96) Fixed: set Theme state type to string instead of text
 
 ## 1.4.1 (2021-01-08)
 * (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
-
 
 ## 1.3.6 (2021-01-08)
 * (Garfonso) Fixed: do not ignore devices deleted from iot / without smartName
