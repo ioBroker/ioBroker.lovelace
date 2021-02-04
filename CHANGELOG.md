@@ -12,6 +12,7 @@
 * (Garfonso) Internal code cleanup / breaking dependency update.
 * (Garfonso) Added: Support for pure humidity sensors.
 * (Garfonso) Added: Support for URL as entity_image
+* (Garfonso) Fixed: Adjust user-name/user-id handlig to changes in js-controller
 
 ## 1.4.3 (2021-02-01)
 * (bluefox) Support of lovelace via ioBroker.pro
