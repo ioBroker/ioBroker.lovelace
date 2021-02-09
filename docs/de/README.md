@@ -6,7 +6,7 @@ Mit diesem Adapter kann die HomeAssistant UI Lovelace für ioBroker genutzt werd
 Wichtige Features:
 * Lovelace ist responsive, passt sich also an das Display an (PC, Tablet, Smartphone, ...)
 * Es lassen sich schnell hübsche UIs erstellen mit Hilf der `Cards`
-* Das UI lässt sich einfach durch aktivieren des Editiermodus verändern, ggf. auch auf dem Handy
+* Das UI lässt sich einfach durch Aktivieren des Editiermodus verändern, ggf. auch auf dem Handy
 
 Damit Lovelace funktioniert muss dieser Adapter allerdings eine HomeAssistant Umgebung emulieren mit den Geräten, 
 die in ioBroker vorhanden sind. In HomeAssistant wird mit `entities` gearbeitet. Diese entsprechen meist einem Gerät,
