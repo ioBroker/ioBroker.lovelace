@@ -32,6 +32,15 @@
             bind: '0.0.0.0'
         };
 
+        function rebuildThemeSelects(_themes) {
+            var text = '<option value="default">' + _('default') + '</option>';
+            for (var i = 0; i < _themes.length; i++) {
+                text += '<option value="' + _themes[i] + '">' + _themes[i] + '</option>';
+            }
+            $('#defaultTheme').html(defaultTheme ? text.replace('>' + defaultTheme, 'selected>' + defaultTheme) : text).select().val(defaultTheme);
+            $('#defaultThemeDark').html(defaultThemeDark ? text.replace('>' + defaultThemeDark, 'selected>' + defaultThemeDark) : text).select().val(defaultThemeDark);
+        }
+
         function parseYaml() {
             parseYamlTimer && clearTimeout(parseYamlTimer);
             parseYamlTimer = setTimeout(function () {
@@ -48,8 +57,7 @@
                     doc = jsyaml.load(yaml);
                 } catch (e) {
                     !editor && $themes.addClass('error');
-                    $('#defaultTheme').html('<option value="default">' + _('default') + '</option>').select();
-                    $('#defaultThemeDark').html('<option value="default">' + _('default') + '</option>').select();
+                    rebuildThemeSelects([]); //could not load themes, empty select boxes.
                     return;
                 }
                 !editor && $themes.removeClass('error');
@@ -57,13 +65,9 @@
                 var _themes = doc ? Object.keys(doc) : [];
                 if (!_themes.length || JSON.stringify(_themes) !== JSON.stringify(themes)) {
                     themes = _themes;
-                    var text = '<option value="default">' + _('default') + '</option>';
-                    for (var i = 0; i < _themes.length; i++) {
-                        text += '<option value="' + _themes[i] + '">' + _themes[i] + '</option>';
-                    }
-                    $('#defaultTheme').html(text).select().val(defaultTheme);
-                    $('#defaultThemeDark').html(text).select().val(defaultThemeDark);
+                    rebuildThemeSelects(themes);
                 }
+
             });
         }
 
