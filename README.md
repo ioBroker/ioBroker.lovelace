@@ -464,7 +464,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
-### __WORK IN PROGRESS__
+### 1.5.0 (2021-02-15)
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
 * (Garfonso) Added: control.themeDark to control devices in dark mode, too.
 * (Garfonso) Fixed: Device Icons with authentication now work
@@ -494,10 +494,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Added: Possibility to select theme during runtime / select default dark theme
 * (Garfonso) Fixed: hideToolbar did hide tab bar, too
 * (Garfonso) Added: Support for iobroker_say service call (allows tts in mini-mediaplayer card using platform iobroker)
-
-### 1.3.3 (2020-11-19)
-* (Garfonso) Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.
-
 
 ## License
 
