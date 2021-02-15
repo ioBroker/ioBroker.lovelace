@@ -468,11 +468,11 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
 * (Garfonso) Added: control.themeDark to control devices in dark mode, too.
 * (Garfonso) Fixed: Device Icons with authentication now work
-* (Garfonso) Changed: previously only admin user could change lovelace config. Now also the owner of the configuration object and members of the owner groupd are allowed to change UI.
+* (Garfonso) Changed: previously only admin user could change the UI. Now also the owner of the configuration object and members of the owner group are allowed to change the UI.
 * (Garfonso) Internal code cleanup / breaking dependency update.
 * (Garfonso) Added: Support for pure humidity sensors.
 * (Garfonso) Added: Support for URL as entity_image
-* (Garfonso) Fixed: Adjust user-name/user-id handlig to changes in js-controller
+* (Garfonso) Fixed: Adjust user-name/user-id handling to changes in js-controller 3.2.*
 * (Garfonso) Fixed: default themes do not show as selected
 * (Garfonso) Fixed: Loading themes / custom cards / image-proxy
 
