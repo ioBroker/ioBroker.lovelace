@@ -196,3 +196,25 @@ Das Ergebnis sieht dann so etwa aus:
 ## Uhrzeit
 
 Die Uhrzeit lässt sich z.B. mit der [Clockwork-Card](custom_cards.md#clockwork-card) einbinden.
+Einen Zeit-Sensor gibt es nicht. Vielleicht kann man sich einen mit einem Javascript zusammen bauen, allerdings wird 
+dann jede Minute relativ viel Aufwand getrieben. Die Uhrzeit hat der Browser selber und die wird mit folgender Konfiguration 
+verwendet:
+````yaml
+type: 'custom:clockwork-card'
+title: Zeit
+locale: de-de
+other_time:
+  - Europe/Berlin
+````
+Wenn man den Block rechts nicht mag, kann man ihn, zusammen mit der `card mod card` ausblenden:
+````yaml
+type: 'custom:clockwork-card'
+title: Zeit
+style: |
+    .other_clocks {
+      display: none
+    }
+locale: de-de
+other_time:
+    - Europe/Berlin
+````
