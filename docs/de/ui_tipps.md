@@ -1,6 +1,6 @@
-## Tipps für die Gestaltung der Oberfläche
+# Tipps für die Gestaltung der Oberfläche
 
-### Titelleiste vollständig verbergen
+## Titelleiste vollständig verbergen
 
 Um einen Kioskmodus oder ähnliches zu erreichen und auch die Auswahl der Taps verschwinden zu lassen, kann der folgende YAML 
 Code zum eigenen Theme hinzugefügt werden:
@@ -133,3 +133,60 @@ synthwave:
 ```
 
 </details>
+
+
+## Mini-Media-Card mit Text2Speech (TTS) und Musik-Shortcuts
+
+Die Mini-Media-Card unterstützt für Smarte-Lautsprecher (Echo, Google Home, ...) eine Text to Speech (TTS) Eingabe. Zusätzlich kann
+man Shortcut Knöpfe für Musikstücke / Sender o.ä. anlegen. Leider wird für TTS ein Service verwendet, den ioBroker so nicht
+ohne weiteres unterstützt, also ist hier eine ioBroker spezifische Konfiguration notwendig, tts geht so:
+
+````yaml
+tts:
+  platform: iobroker
+  entity_id: input_text.multimedia_Alexa_Arbeitszimmer_Commands_speak
+````
+
+`platform` muss dabei auf `iobroker` gesetzt werden. Die `entity_id` muss auf ein (existierendes) `entity` zeigen, 
+was dann mit dem Text gefüllt wird. Damit lässt sich also in ioBroker jedes beliebige System zur Sprachausgabe nutzen.
+
+Die Knöpfe können mit jedem beliebigem Service-Call gefüllt werden, gut klappt für ioBroker so etwas:
+````yaml
+shortcuts:
+  columns: 4
+  buttons:
+    - icon: 'mdi:pirate'
+      type: service
+      id: input_text.set_value
+      data:
+        entity_id: input_text.multimedia_Alexa_Arbeitszimmer_Player_playSongAmazon
+        value: Piraten von Karsten Glück
+    - icon: 'mdi:cake'
+      type: service
+      id: input_text.set_value
+      data:
+        entity_id: input_text.multimedia_Alexa_Arbeitszimmer_Player_playSongAmazon
+        value: Wie schön dass du geboren bist
+    - icon: 'mdi:waves'
+      type: service
+      id: input_text.set_value
+      data:
+        entity_id: input_text.multimedia_Alexa_Arbeitszimmer_Player_playSongAmazon
+        value: Wellerman von Wellermen
+    - icon: 'mdi:chess-queen'
+      type: service
+      id: input_text.set_value
+      data:
+        entity_id: input_text.multimedia_Alexa_Arbeitszimmer_Player_playSongAmazon
+        value: Let it go von Idina Menzel
+````
+
+Dabei wird mit `input_text.set_value` angegeben, dass ein Text in einen Datenpunkt geschrieben werden soll. Im `data` Teil
+wird dann mit `entity_id` wieder die Text `entity` angegeben und mit `value` der Text, der eingetragen werden soll.
+
+Das Ergebnis sieht dann so etwa aus:
+![mini media player mit TTS und Shortcuts](media/mini-media-player.JPG)
+
+## Uhrzeit
+
+Die Uhrzeit lässt sich z.B. mit der [Clockwork-Card](/custom_cards.md#Clockwork Card) einbinden.

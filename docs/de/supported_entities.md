@@ -1,12 +1,15 @@
 # Unterstützte Entities
 
+
+
 Die folgenden Entities werden vom Adapter angelegt oder können manuell konfiguriert werden.
 Angegeben ist jeweils die `Domain`, also der Teil mit der der entity in Lovelace anfangen wird (z.B. `light` bei 
 entity `light.kueche`), die ioBroker Geräte, die bei automatischer Erkennung zu diesem entity führen. 
 
-| Name | Domain | ioBroker Geräte | Besonderheiten |
------- | ------ | --------------- | --------------- |
-| Licht | `light` |  , , ,  | Je nach  | 
+## Inhalt
+
+[Licht](supported_entities.md#licht)
+[Sensoren](supported_entities.md#sensoren)
 
 ## Licht
 
@@ -40,6 +43,24 @@ ioBroker Geräte:
 * Fensterkippung (`windowTilt`)
 * Feuchtigkeit (`humidity`)
 * Temperatur (`temperature`)
+
+Obwohl Sensoren meist nur aus einem ioBroker-State bestehen und daher grundsätzlich auch die manuelle Konfiguration in Frage
+kommt, empfiehlt sich trotzdem die automatische Erkennung zu nutzen, da dann das Attribut `device_class` (Geräteklasse) 
+richtig gefüllt werden kann und Lovelace so z.B. das richtige Icon und die richtige Einheit setzt.
+
+## Sensoren
+
+Domain: `sensor`
+
+ioBroker Geräte:
+* Fensterkippung (`window`)
+* Feuchtigkeit (`humidity`)
+* Temperatur (`temperature`)
+
+Obwohl Sensoren meist nur aus einem ioBroker-State bestehen und daher grundsätzlich auch die manuelle Konfiguration in Frage
+kommt, empfiehlt sich trotzdem die automatische Erkennung zu nutzen, da dann das Attribut `device_class` (Geräteklasse)
+richtig gefüllt werden kann und Lovelace so z.B. das richtige Icon und die richtige Einheit setzt.
+
 
 
 [Types.socket]:                 processSocket.bind(this),
