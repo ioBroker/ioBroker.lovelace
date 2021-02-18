@@ -19,6 +19,9 @@ Um `entities` aus ioBroker Objekten zu erstellen gibt es zwei Wege:
 1. [Automatische Erkennung](automatic_entities.md) von Geräten (bevorzugt)
 2. [Manuelle Konfiguration](manual_entities.md) (funktioniert nur für `entities`, die sich mit nur einem Datenpunkt darstellen/steuern lassen)
 
+Die Oberfläche kann durch eigene Karten erweitert / individualisiert werden. Dort gibt es von der HomeAssistant Community
+schon eine ganze Reihe Karten. [Mehr dazu und welche funktionieren](custom_cards.md).
+
 Andere Themen:
 * [Unterstütze entities](supported_entities.md) (inklusive ggf. ioBroker Besonderheiten) 
 * [Tipps für die Gestaltung der Oberfläche](ui_tipps.md)
