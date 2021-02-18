@@ -195,4 +195,4 @@ Das Ergebnis sieht dann so etwa aus:
 
 ## Uhrzeit
 
-Die Uhrzeit lässt sich z.B. mit der [Clockwork-Card](custom_cards.md#Clockwork Card) einbinden.
+Die Uhrzeit lässt sich z.B. mit der [Clockwork-Card](custom_cards.md#clockwork-card) einbinden.
