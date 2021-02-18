@@ -8,8 +8,8 @@ entity `light.kueche`), die ioBroker Geräte, die bei automatischer Erkennung zu
 
 ## Inhalt
 
-[Licht](supported_entities.md#licht)
-[Sensoren](supported_entities.md#sensoren)
+* [Licht](supported_entities.md#licht)
+* [Sensoren](supported_entities.md#sensoren)
 
 ## Licht
 

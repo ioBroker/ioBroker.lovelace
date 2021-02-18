@@ -11,12 +11,15 @@ allermeisten Karten funktionieren. Wenn es Probleme gibt, kann es auch an einer 
 Lovelace Version und der Karte liegen. Ich versuche den Apter im Moment relativ aktuell zu halten, von daher sollte man
 versuchen die möglichst neuesten Kartenversionen zu nehmen.
 
+* [Clockork Card](custom_cards.md#clockwork-card)
+
+
 ### Clockwork Card
 
 Repository: https://github.com/barleybobs/ha-clockwork-card (es handelt sich um einen aktuell funktionierenden Fork, die ursprüngliche
 Version wird nicht mehr gepflegt). 
 
-Besonderheiten zur Konfiguration, [siehe hier](/ui_tipps.md#Uhrzeit).
+Besonderheiten zur Konfiguration, [siehe hier](ui_tipps.md#Uhrzeit).
 
 <!-- Einen `sensor` für die Zeit kann man sich mit einem Skript selber bauen, z.B. so:
 `````javascript

@@ -1,5 +1,11 @@
 # Tipps für die Gestaltung der Oberfläche
 
+## Inhalt 
+
+* [Titelleiste verbergen](ui_tipps.md#titelleiste-vollständig-verbergen)
+* [Mini Media Card mit TTS und Shortcuts](ui_tipps.md#mini-media-card-mit-text2speech-tts-und-musik-shortcuts)
+* [Uhrzeit](ui_tipps.md#uhrzeit)
+
 ## Titelleiste vollständig verbergen
 
 Um einen Kioskmodus oder ähnliches zu erreichen und auch die Auswahl der Taps verschwinden zu lassen, kann der folgende YAML 
@@ -189,4 +195,4 @@ Das Ergebnis sieht dann so etwa aus:
 
 ## Uhrzeit
 
-Die Uhrzeit lässt sich z.B. mit der [Clockwork-Card](/custom_cards.md#Clockwork Card) einbinden.
+Die Uhrzeit lässt sich z.B. mit der [Clockwork-Card](custom_cards.md#Clockwork Card) einbinden.
