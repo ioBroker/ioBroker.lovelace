@@ -22,6 +22,7 @@ Um `entities` aus ioBroker Objekten zu erstellen gibt es zwei Wege:
 Die Oberfläche kann durch eigene Karten erweitert / individualisiert werden. Dort gibt es von der HomeAssistant Community
 schon eine ganze Reihe Karten. [Mehr dazu und welche funktionieren](custom_cards.md).
 
-Andere Themen:
-* [Unterstütze entities](supported_entities.md) (inklusive ggf. ioBroker Besonderheiten) 
+Andere Themen (inklusive Hinweisen zu ioBroker Besonderheiten):
+* [Unterstütze entities](supported_entities.md) 
+* [Eigene Karten](custom_cards.md)
 * [Tipps für die Gestaltung der Oberfläche](ui_tipps.md)
