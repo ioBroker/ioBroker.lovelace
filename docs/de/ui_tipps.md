@@ -5,6 +5,7 @@
 * [Titelleiste verbergen](ui_tipps.md#titelleiste-vollständig-verbergen)
 * [Mini Media Card mit TTS und Shortcuts](ui_tipps.md#mini-media-card-mit-text2speech-tts-und-musik-shortcuts)
 * [Uhrzeit](ui_tipps.md#uhrzeit)
+* [Bindings](ui_tipps.md#bindings)
 
 ## Titelleiste vollständig verbergen
 
@@ -218,3 +219,9 @@ locale: de-de
 other_time:
     - Europe/Berlin
 ````
+
+## Bindings
+
+Die Markdown-Karte kann mit Bindings verwendet werden. Dabei ist die Konfiguration, wie in [ioBroker.vis](https://github.com/ioBroker/ioBroker.vis#bindings-of-objects) üblich.
+
+Zum Beispiel erzeugt der Text `Admin läuft{a:system.adapter.admin.0.alive;a === true || a === 'true' ? '' : ' nicht'}.` den text `Admin läuft` in der Markdown-Karte.

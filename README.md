@@ -15,6 +15,8 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/ioBroke
 
 With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI.
 
+[Deutsche Dokumentation](docs/de/README.md)
+
 ## Configuration
 There are two arts how the entities could be configured:
 - auto

@@ -11,8 +11,20 @@ allermeisten Karten funktionieren. Wenn es Probleme gibt, kann es auch an einer 
 Lovelace Version und der Karte liegen. Ich versuche den Apter im Moment relativ aktuell zu halten, von daher sollte man
 versuchen die möglichst neuesten Kartenversionen zu nehmen.
 
+* [Installation](custom_cards.md#installation)
 * [Clockork Card](custom_cards.md#clockwork-card)
+* [Mini Media Player](custom_cards.md#mini-media-player)
 
+### Installation
+
+Um eine Karte installieren zu können, muss die dazu gehörende Javascript (*.js) Datei heruntergeladen werden. Diese gibt
+es meist in einem Github Repository. Oft findet man in diesen Repositories definierte Releases, diese sollten bevorzugt 
+genommen werden, siehe im Bild.
+![Release Link](media/card-releases.JPG)
+
+Diese Javascript Datei muss per Drag & Drop in die Dateiliste in den Instanzeinstellungen im Reiter "Eigene Karten" gezogen werden,
+siehe Screenshot.
+![Install Card](media/card-install.JPG)
 
 ### Clockwork Card
 
@@ -31,3 +43,15 @@ Die Konfiguration muss ohne entity_id und dafür mit Zeitzonen sein. Die Zeit ko
 `````yaml
 
 `````
+
+### Mini Media Player
+
+Repository: https://github.com/kalkih/mini-media-player
+
+Ein sehr konfigurierbarer Mediaplayer, der auch [Text to Speech und Shortknöpfe unterstützt](ui_tipps.md#mini-media-card-mit-text2speech-tts-und-musik-shortcuts).
+
+### Mini Graph Card
+
+Repository: https://github.com/kalkih/mini-graph-card
+
+Eine sehr konfigurierbare Karte für Sensordaten, die mehrere `entities` mit Graphen oder Balkendiagrammen anzeigen kann.
