@@ -510,6 +510,22 @@
             }
         },
         {
+            "_id": "control.alarm.arm_state",
+            "type": "state",
+            "common": {
+                "name": "arm status",
+                "type": "string",
+                "desc": "Alarm arm status",
+                "states": {
+                    "alarm_arm_home": "alarm_arm_home",
+                    "alarm_arm_away": "alarm_arm_away",
+                    "alarm_arm_night": "alarm_arm_night",
+                    "alarm_arm_custom_bypass": "alarm_arm_custom_bypass",
+                    "alarm_disarm": "alarm_disarm"
+                }
+            }
+        },
+        {
             "_id": "control.theme",
             "type": "state",
             "common": {
