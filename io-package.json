@@ -500,7 +500,7 @@
             "common": {
                 "name": "alarm",
                 "type": "boolean",
-                "write": true,
+                "write": false,
                 "read": true,
                 "desc": "Arm or disarm with code",
                 "def": false
@@ -515,6 +515,8 @@
             "common": {
                 "name": "arm status",
                 "type": "string",
+                "write": false,
+                "read": true,
                 "desc": "Alarm arm status",
                 "states": {
                     "alarm_arm_home": "alarm_arm_home",
