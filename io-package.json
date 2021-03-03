@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.4.3",
+        "version": "1.5.0",
         "news": {
+            "1.5.0": {
+                "en": "* (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.\n* (Garfonso) Added: control.themeDark to control devices in dark mode, too.\n* (Garfonso) Fixed: Device Icons with authentication now work\n* (Garfonso) Changed: previously only admin user could change the UI. Now also the owner of the configuration object and members of the owner group are allowed to change the UI.\n* (Garfonso) Internal code cleanup / breaking dependency update.\n* (Garfonso) Added: Support for pure humidity sensors.\n* (Garfonso) Added: Support for URL as entity_image\n* (Garfonso) Fixed: Adjust user-name/user-id handling to changes in js-controller 3.2.*\n* (Garfonso) Fixed: default themes do not show as selected\n* (Garfonso) Fixed: Loading themes / custom cards / image-proxy",
+                "de": "* (Garfonso) Geändert: defaultTheme und control.theme standen in Konflikt. Jetzt wird control.theme festgelegt, wenn ein neues Standardthema ausgewählt wird.\n* (Garfonso) Hinzugefügt: control.themeDark, um Geräte auch im dunklen Modus zu steuern.\n* (Garfonso) Behoben: Gerätesymbole funktionieren jetzt auch wenn Authentifizierung aktiviert ist\n* (Garfonso) Geändert: Bisher konnte nur der Administrator die Benutzeroberfläche ändern. Jetzt dürfen auch der Eigentümer des Konfigurationsobjekts und Mitglieder der Eigentümergruppe die Benutzeroberfläche ändern.\n* (Garfonso) Interne Codebereinigung / Aktualisierung der Abhängigkeiten.\n* (Garfonso) Hinzugefügt: Unterstützung für rein Feuchtigkeitssensoren.\n* (Garfonso) Hinzugefügt: Unterstützung für URL als entity_image\n*(Garfonso) Behoben: Behandlung von Benutzername / Benutzer-ID an Änderungen in js-controller 3.2.* angepasst\n* (Garfonso) Behoben: Standardthemen werden nicht als ausgewählt angezeigt\n* (Garfonso) Behoben: Laden von Themes / benutzerdefinierten Karten / Image-Proxy",
+                "ru": "* (Garfonso) Изменено: defaultTheme и control.theme конфликтовали. Теперь control.theme устанавливается при выборе новой темы по умолчанию.\n* (Garfonso) Добавлено: control.themeDark для управления устройствами в темном режиме.\n* (Garfonso) Исправлено: значки устройств с аутентификацией теперь работают\n* (Garfonso) Изменено: ранее только администратор мог изменять интерфейс. Теперь владелец объекта конфигурации и члены группы владельцев могут изменять пользовательский интерфейс.\n* (Garfonso) Очистка внутреннего кода / обновление зависимостей.\n* (Garfonso) Добавлено: Поддержка датчиков чистой влажности.\n* (Garfonso) Добавлено: поддержка URL как entity_image\n*(Garfonso) Исправлено: корректировка обработки имени пользователя / идентификатора пользователя в соответствии с изменениями в js-controller 3.2.*\n* (Garfonso) Исправлено: темы по умолчанию не отображаются как выбранные.\n* (Garfonso) Исправлено: загрузка тем / пользовательских карточек / прокси-изображения.",
+                "pt": "* (Garfonso) Alterado: defaultTheme e control.theme estavam em conflito. Agora control.theme é definido ao selecionar um novo tema padrão.\n* (Garfonso) Adicionado: control.themeDark para controlar dispositivos no modo escuro também.\n* (Garfonso) Corrigido: ícones de dispositivos com autenticação agora funcionam\n* (Garfonso) Alterado: anteriormente, apenas o usuário administrador podia alterar a IU. Agora, também o proprietário do objeto de configuração e os membros do grupo proprietário têm permissão para alterar a IU.\n* (Garfonso) Limpeza de código interno / atualização de dependência de quebra.\n* (Garfonso) Adicionado: Suporte para sensores de umidade pura.\n* (Garfonso) Adicionado: Suporte para URL como entity_image\n*(Garfonso) Corrigido: ajuste o manuseio de nome de usuário / id de usuário para alterações no js-controller 3.2.*\n* (Garfonso) Fixo: temas padrão não aparecem como selecionados\n* (Garfonso) Corrigido: Carregando temas / cartões personalizados / proxy de imagem",
+                "nl": "* (Garfonso) Veranderd: defaultTheme en control.theme waren in conflict. Nu wordt control.theme ingesteld bij het selecteren van een nieuw standaardthema.\n* (Garfonso) Toegevoegd: control.themeDark om ook apparaten in de donkere modus te bedienen.\n* (Garfonso) Opgelost: apparaatpictogrammen met authenticatie werken nu\n* (Garfonso) Veranderd: voorheen kon alleen de admin-gebruiker de gebruikersinterface wijzigen. Nu mogen ook de eigenaar van het configuratieobject en leden van de eigenaarsgroep de gebruikersinterface wijzigen.\n* (Garfonso) Update van interne code opschonen / verbreken van afhankelijkheid.\n* (Garfonso) Toegevoegd: ondersteuning voor zuivere vochtigheidssensoren.\n* (Garfonso) Toegevoegd: ondersteuning voor URL als entity_image\n*(Garfonso) Opgelost: pas gebruikersnaam / gebruiker-id afhandeling aan aan veranderingen in js-controller 3.2.*\n* (Garfonso) Opgelost: standaardthema's worden niet weergegeven zoals geselecteerd\n* (Garfonso) Opgelost: thema's / aangepaste kaarten / afbeeldingsproxy laden",
+                "fr": "* (Garfonso) Changé: defaultTheme et control.theme étaient en conflit. Maintenant, control.theme est défini lors de la sélection d'un nouveau thème par défaut.\n* (Garfonso) Ajouté: control.themeDark pour contrôler également les appareils en mode sombre.\n* (Garfonso) Correction: les icônes de périphérique avec authentification fonctionnent maintenant\n* (Garfonso) Changé: auparavant, seul l'administrateur pouvait changer l'interface utilisateur. Désormais, le propriétaire de l'objet de configuration et les membres du groupe de propriétaires sont également autorisés à modifier l'interface utilisateur.\n* (Garfonso) Nettoyage du code interne / mise à jour des dépendances.\n* (Garfonso) Ajouté: Prise en charge des capteurs d'humidité pure.\n* (Garfonso) Ajouté: Prise en charge de l'URL en tant que entity_image\n*(Garfonso) Correction: Ajustez la gestion du nom d'utilisateur / de l'ID utilisateur aux changements dans js-controller 3.2.*\n* (Garfonso) Correction: les thèmes par défaut ne s'affichent pas comme sélectionnés\n* (Garfonso) Correction: Chargement de thèmes / cartes personnalisées / image-proxy",
+                "it": "* (Garfonso) Cambiato: defaultTheme e control.theme erano in conflitto. Ora control.theme è impostato quando si seleziona un nuovo tema predefinito.\n* (Garfonso) Aggiunto: control.themeDark anche per controllare i dispositivi in modalità oscura.\n* (Garfonso) Risolto: le icone dei dispositivi con autenticazione ora funzionano\n* (Garfonso) Modificato: in precedenza solo l'utente amministratore poteva modificare l'interfaccia utente. Ora anche il proprietario dell'oggetto di configurazione e i membri del gruppo di proprietari possono modificare l'interfaccia utente.\n* (Garfonso) Aggiornamento della pulizia del codice interno / interruzione delle dipendenze.\n* (Garfonso) Aggiunto: supporto per sensori di umidità pura.\n* (Garfonso) Aggiunto: supporto per URL come entity_image\n*(Garfonso) Risolto: regola la gestione del nome utente / id utente alle modifiche in js-controller 3.2.*\n* (Garfonso) Risolto: i temi predefiniti non vengono visualizzati come selezionati\n* (Garfonso) Risolto: caricamento di temi / carte personalizzate / proxy di immagini",
+                "es": "* (Garfonso) Cambiado: defaultTheme y control.theme estaban en conflicto. Ahora control.theme se establece al seleccionar un nuevo tema predeterminado.\n* (Garfonso) Añadido: control.themeDark para controlar dispositivos en modo oscuro también.\n* (Garfonso) Corregido: los íconos de dispositivos con autenticación ahora funcionan\n* (Garfonso) Modificado: anteriormente solo el usuario administrador podía cambiar la interfaz de usuario. Ahora también el propietario del objeto de configuración y los miembros del grupo propietario pueden cambiar la interfaz de usuario.\n* (Garfonso) Limpieza de código interno / actualización de dependencia de ruptura.\n* (Garfonso) Agregado: Soporte para sensores de humedad pura.\n* (Garfonso) Agregado: Soporte para URL como entity_image\n*(Garfonso) Corregido: Ajuste el manejo de nombre de usuario / ID de usuario a los cambios en js-controller 3.2.*\n* (Garfonso) Corregido: los temas predeterminados no se muestran como seleccionados\n* (Garfonso) Corregido: carga de temas / tarjetas personalizadas / proxy de imagen",
+                "pl": "* (Garfonso) Zmieniono: defaultTheme i control.theme były w konflikcie. Teraz control.theme jest ustawiana przy wyborze nowego domyślnego motywu.\n* (Garfonso) Dodano: control.themeDark do sterowania urządzeniami w trybie ciemnym.\n* (Garfonso) Naprawiono: ikony urządzeń z uwierzytelnianiem działają teraz\n* (Garfonso) Zmieniono: poprzednio tylko administrator mógł zmienić interfejs użytkownika. Teraz również właściciel obiektu konfiguracyjnego i członkowie grupy właścicieli mogą zmieniać interfejs użytkownika.\n* (Garfonso) Wewnętrzne czyszczenie kodu / aktualizacja zależności.\n* (Garfonso) Dodano: Wsparcie dla czystych czujników wilgotności.\n* (Garfonso) Dodano: Wsparcie dla adresu URL jako entity_image\n*(Garfonso) Naprawiono: Dostosuj obsługę nazwy użytkownika / identyfikatora użytkownika do zmian w js-controller 3.2.*\n* (Garfonso) Naprawiono: domyślne motywy nie są wyświetlane jako wybrane\n* (Garfonso) Naprawiono: ładowanie motywów / niestandardowych kart / proxy obrazu",
+                "zh-cn": "*（Garfonso）已更改：defaultTheme和control.theme发生冲突。现在，在选择新的默认主题时将设置control.theme。\n*（Garfonso）已添加：control.themeDark也可以在黑暗模式下控制设备。\n*（Garfonso）修复：带有身份验证的设备图标现在可以使用\n*（Garfonso）已更改：以前只有管理员用户可以更改UI。现在，还允许配置对象的所有者和所有者组的成员更改UI。\n*（Garfonso）内部代码清除/破坏依赖关系更新。\n*（Garfonso）已添加：支持纯湿度传感器。\n*（Garfonso）已添加：支持URL作为entity_image\n*（Garfonso）固定：调整用户名/用户ID处理以适应js-controller 3.2中的更改。*\n*（Garfonso）固定：默认主题不会显示为选中状态\n*（Garfonso）固定：加载主题/自定义卡片/图像代理"
+            },
             "1.4.3": {
                 "en": "Support of lovelace via ioBroker.pro",
                 "de": "Unterstützung von Lovelace über ioBroker.pro",
@@ -230,18 +242,6 @@
                 "es": "los errores en la inicialización del servidor web se manejan correctamente",
                 "pl": "błędy przy inicjalizacji serwera są obsługiwane poprawnie",
                 "zh-cn": "网站服务器初始化错误得到正确处理"
-            },
-            "1.0.14": {
-                "en": "Call of getObjectView updated for js-controller v3",
-                "de": "Aufruf von getObjectView für js-controller v3 aktualisiert",
-                "ru": "Обновлен вызов getObjectView для js-controller v3",
-                "pt": "Chamada de getObjectView atualizada para js-controller v3",
-                "nl": "Aanroep van getObjectView bijgewerkt voor js-controller v3",
-                "fr": "Appel de getObjectView mis à jour pour js-controller v3",
-                "it": "Chiamata di getObjectView aggiornata per js-controller v3",
-                "es": "Llamada de getObjectView actualizada para js-controller v3",
-                "pl": "Zaktualizowano wywołanie getObjectView dla js-controller v3",
-                "zh-cn": "为js-controller v3更新的getObjectView调用"
             }
         },
         "title": "Visualization with Lovelace-UI",
@@ -515,8 +515,22 @@
                 "name": "theme",
                 "type": "string",
                 "write": true,
-                "read": false,
+                "read": true,
                 "desc": "Change default theme during runtime",
+                "states": {
+                    "default": "default"
+                }
+            }
+        },
+        {
+            "_id": "control.themeDark",
+            "type": "state",
+            "common": {
+                "name": "theme",
+                "type": "string",
+                "write": true,
+                "read": true,
+                "desc": "Change default dark theme during runtime",
                 "states": {
                     "default": "default"
                 }
