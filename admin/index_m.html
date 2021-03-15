@@ -409,7 +409,7 @@
             getAllHistoryInstances(settings.history);
 
             var $dropZone = $('#tab-custom');
-            installFileUpload($dropZone, 2000000, function (err) {
+            installFileUpload($dropZone, 5242880, function (err) {
                 if (err) {
                     showError(_('Cannot uplpad file: ') + err);
                 } else {
