@@ -1,5 +1,6 @@
 .git
 .idea
+.dev-server
 node_modules
 nbproject
 build/home-assistant-polymer/
