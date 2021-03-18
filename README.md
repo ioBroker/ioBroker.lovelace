@@ -466,6 +466,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	## __WORK IN PROGRESS__
 -->
+## __WORK IN PROGRESS__
+* (Garfonso) Changed: increased file size limit to 5 MB during upload in config.
+
 ### 1.5.0 (2021-02-15)
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
 * (Garfonso) Added: control.themeDark to control devices in dark mode, too.
