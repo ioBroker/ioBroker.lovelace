@@ -1,0 +1,1 @@
+{"ui.panel.error.go_back":"返回","ui.panel.error.supervisor.title":"无法加载 Supervisor 面板！","ui.panel.error.supervisor.wait":"如果系统刚刚启动，请确保已等候足够的时间以便 Supervisor 启动完成。","ui.panel.error.supervisor.ask":"寻求帮助","ui.panel.error.supervisor.reboot":"请尝试重启主机","ui.panel.error.supervisor.observer":"检查 Observer","ui.panel.error.supervisor.system_health":"检查系统状态"}

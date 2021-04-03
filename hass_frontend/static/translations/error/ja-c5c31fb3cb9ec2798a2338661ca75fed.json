@@ -1,0 +1,1 @@
+{"ui.panel.error.go_back":"戻る","ui.panel.error.supervisor.title":"Supervisorパネルを読み込めませんでした。","ui.panel.error.supervisor.wait":"開始したばかりの場合は、開始するのに十分な時間をsupervisorに与えていることを確認してください。","ui.panel.error.supervisor.ask":"助けを求める","ui.panel.error.supervisor.reboot":"ホストの再起動を試みる","ui.panel.error.supervisor.observer":"オブザーバーの確認","ui.panel.error.supervisor.system_health":"システムの状態の確認"}

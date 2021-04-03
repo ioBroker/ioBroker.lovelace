@@ -467,6 +467,7 @@ After that checkout modified version in `./build` folder. Then.
 	## __WORK IN PROGRESS__
 -->
 ## __WORK IN PROGRESS__
+* (Garfonso) Updated frontend to 20210402.1
 * (Garfonso) Changed: increased file size limit to 5 MB during upload in config.
 
 ### 1.5.0 (2021-02-15)
