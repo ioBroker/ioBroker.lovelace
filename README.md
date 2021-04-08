@@ -469,6 +469,8 @@ After that checkout modified version in `./build` folder. Then.
 ## __WORK IN PROGRESS__
 * (Garfonso) Updated frontend to 20210402.1
 * (Garfonso) Changed: increased file size limit to 5 MB during upload in config.
+* (Garfonso) Added: Support for input_datetime
+* (Garfonso) Added: (currently inofficial) support for manual complex light entities
 
 ### 1.5.0 (2021-02-15)
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
