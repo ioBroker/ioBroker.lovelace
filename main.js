@@ -44,13 +44,7 @@ function startAdapter(options) {
 
         // is called if a subscribed object changes
         objectChange: (id, obj) => {
-            if (obj) {
-                // The object was changed
-                adapter.apiServer.onObjectChange(id, obj);
-            } else {
-                // The object was deleted
-                adapter.log.info(`object ${id} deleted`);
-            }
+            adapter.apiServer.onObjectChange(id, obj);
         },
 
         // is called if a subscribed state changes
