@@ -510,20 +510,26 @@
             }
         },
         {
-            "_id": "control.alarm.arm_state",
+            "_id": "control.alarm_arm_state",
             "type": "state",
             "common": {
                 "name": "arm status",
-                "type": "string",
-                "write": false,
+                "type": "number",
+                "write": true,
                 "read": true,
                 "desc": "Alarm arm status",
+                "def": 0,
                 "states": {
-                    "alarm_arm_home": "alarm_arm_home",
-                    "alarm_arm_away": "alarm_arm_away",
-                    "alarm_arm_night": "alarm_arm_night",
-                    "alarm_arm_custom_bypass": "alarm_arm_custom_bypass",
-                    "alarm_disarm": "alarm_disarm"
+                    "0": "disarmed",
+                    "1": "armed",
+                    "2": "armed_home",
+                    "3": "armed_away",
+                    "4": "armed_night",
+                    "5": "armed_custom_bypass",
+                    "6": "pending",
+                    "7": "arming",
+                    "8": "disarming",
+                    "9": "triggered"
                 }
             }
         },
