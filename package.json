@@ -24,12 +24,13 @@
     "express": "^4.17.1",
     "iobroker.type-detector": "^1.0.8",
     "js-yaml": "^4.1.0",
-    "mime": "^2.5.2",
     "axios": "^0.21.1",
+    "mime": "^2.5.2",
     "multer": "^1.4.2",
     "pinyin": "^2.10.2",
     "ws": "^7.4.6",
-    "jstimezonedetect": "^1.0.7"
+    "jstimezonedetect": "^1.0.7",
+    "nyc": "^15.1.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^1.10.0",
