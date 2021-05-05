@@ -500,7 +500,7 @@
             "common": {
                 "name": "alarm",
                 "type": "boolean",
-                "write": false,
+                "write": true,
                 "read": true,
                 "desc": "Arm or disarm with code",
                 "def": false
