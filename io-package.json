@@ -292,6 +292,8 @@
         "materialize": true,
         "supportCustoms": true,
         "messagebox": true,
+        "connectionType": "local",
+        "dataSource": "push",
         "localLink": "%protocol%://%ip%:%port%/",
         "welcomeScreen1": {
             "link": "",
