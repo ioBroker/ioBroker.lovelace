@@ -471,6 +471,9 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Changed: increased file size limit to 5 MB during upload in config.
 * (Garfonso) Added: Support for input_datetime
 * (Garfonso) Added: (currently inofficial) support for manual complex light entities
+* (Garfonso) Added: Support for images from base64 data in iobroker states 
+* (Garfonso) Added: Support for additional alarm states.
+* (Garfonso) Added: Parameter to only enter code when disarming alarm
 
 ### 1.5.0 (2021-02-15)
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
