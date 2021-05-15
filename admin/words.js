@@ -102,6 +102,18 @@ var lovelace_systemDictionary = {
         "es": "Persianas 100 %s ignifica que la persiana está cerrada. Si es falso, 100% significa que la persiana está abierta.",
         "pl": "100% w ciemno oznacza, że ciemna jest zamknięta. Jeśli false, 100% oznacza, że blind jest otwarty.",
         "zh-cn": "百叶窗表示百叶窗关闭。如果为假，则100％表示百叶窗已打开。"
+    },
+    "alarmCheckCodeOnDisarmOnly": {
+        "en": "Check alarm code only while disarming",
+        "de": "Überprüfen Sie den Alarmcode nur beim Deaktivieren",
+        "ru": "Проверяйте код тревоги только при снятии с охраны",
+        "pt": "Verifique o código de alarme apenas ao desarmar",
+        "nl": "Controleer de alarmcode alleen tijdens het uitschakelen",
+        "fr": "Vérifiez le code d'alarme uniquement lors du désarmement",
+        "it": "Controllare il codice di allarme solo durante il disinserimento",
+        "es": "Verifique el código de alarma solo mientras se desarma",
+        "pl": "Sprawdź kod alarmu tylko podczas rozbrajania",
+        "zh-cn": "仅在撤防时检查警报代码"
     }
 
 };

@@ -339,7 +339,8 @@
         "leUpdate": false,
         "leCheckPort": 80,
         "aliayOnly": false,
-        "blindsInvert": false
+        "blindsInvert": false,
+        "alarmCheckCodeOnDisarmOnly": false
     },
     "objects": [
         {
