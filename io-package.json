@@ -280,7 +280,7 @@
         ],
         "license": "Apache-2.0",
         "platform": "Javascript/Node.js",
-        "main": "main.js",
+        "tier": 3,
         "icon": "lovelace.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
