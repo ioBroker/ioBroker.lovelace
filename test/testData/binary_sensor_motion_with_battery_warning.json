@@ -1,0 +1,153 @@
+{
+  "javascript.0.motions.WithBatteryWarning": {
+    "type": "device",
+    "common": {
+      "name": "Motion With Battery"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616053,
+    "_id": "javascript.0.motions.WithBatteryWarning",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "javascript.0.motions.WithBatteryWarning.battery": {
+    "type": "state",
+    "common": {
+      "name": "Motion With Battery battery",
+      "read": true,
+      "write": false,
+      "role": "value.battery",
+      "type": "number",
+      "unit": "%",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "javascript.0.motions.WithBatteryWarning.battery",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589781299,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "javascript.0.motions.WithBatteryWarning.batteryWarning": {
+    "type": "state",
+    "common": {
+      "name": "Motion With Battery batteryWarning",
+      "read": true,
+      "write": false,
+      "role": "indicator.lowbat",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "javascript.0.motions.WithBatteryWarning.batteryWarning",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589781200,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "javascript.0.motions.WithBatteryWarning.illuminance": {
+    "type": "state",
+    "common": {
+      "name": "Motion With Battery illuminance",
+      "read": true,
+      "write": false,
+      "role": "brightness",
+      "type": "number",
+      "unit": "lux",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "javascript.0.motions.WithBatteryWarning.illuminance",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589781600,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "javascript.0.motions.WithBatteryWarning.motion": {
+    "type": "state",
+    "common": {
+      "name": "Motion With Battery",
+      "read": true,
+      "write": false,
+      "role": "sensor.motion",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "javascript.0.motions.WithBatteryWarning.motion",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589781701,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "javascript.0.motions.WithBatteryWarning.no_motion": {
+    "type": "state",
+    "common": {
+      "name": "Motion With Battery no motion",
+      "read": true,
+      "write": false,
+      "role": "value.interval",
+      "type": "number",
+      "unit": "seconds",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "javascript.0.motions.WithBatteryWarning.no_motion",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589781500,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "javascript.0.motions.WithBatteryWarning.offline": {
+    "type": "state",
+    "common": {
+      "name": "Motion With Battery offline",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "javascript.0.motions.WithBatteryWarning.offline",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589781399,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
