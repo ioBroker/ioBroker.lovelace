@@ -92,7 +92,7 @@ exports.runTests = function (getHarness) {
 
         const lamp = entities.find(e => e.context.id === deviceId);
         expect(lamp).to.be.ok;
-        expect(lamp).to.have.nested.property('context.iobType', 'rgpSingle');
+        expect(lamp).to.have.nested.property('context.iobType', 'rgbSingle');
 
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
         await harness._objects.delObjectAsync(deviceId + '.color');
