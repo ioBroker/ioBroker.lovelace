@@ -1,0 +1,141 @@
+{
+  "linkeddevices.0.Room.Motion": {
+    "_id": "linkeddevices.0.Room.Motion",
+    "type": "channel",
+    "common": {
+      "name": "Room Motion",
+      "desc": "Created by linkeddevices"
+    },
+    "native": {},
+    "from": "system.adapter.linkeddevices.0",
+    "user": "system.user.admin",
+    "ts": 1606903522040,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "linkeddevices.0.Room.Motion.ILLUMINATION": {
+    "type": "state",
+    "common": {
+      "name": "Room Motion",
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "min": 0,
+      "max": 163830,
+      "role": "value.brightness",
+      "icon": "linkeddevices_small.png",
+      "desc": "Created by linkeddevices"
+    },
+    "native": {},
+    "from": "system.adapter.linkeddevices.0",
+    "user": "system.user.admin",
+    "ts": 1622116508450,
+    "_id": "linkeddevices.0.Room.Motion.ILLUMINATION",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "linkeddevices.0.Room.Motion.LOW_BAT": {
+    "type": "state",
+    "common": {
+      "name": "Room Motion",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator.lowbat",
+      "icon": "linkeddevices_small.png",
+      "desc": "Created by linkeddevices"
+    },
+    "native": {},
+    "from": "system.adapter.linkeddevices.0",
+    "user": "system.user.admin",
+    "ts": 1622116508410,
+    "_id": "linkeddevices.0.Room.Motion.LOW_BAT",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "linkeddevices.0.Room.Motion.MOTION": {
+    "type": "state",
+    "common": {
+      "name": "Room Motion",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "sensor.motion",
+      "icon": "linkeddevices_small.png",
+      "desc": "Created by linkeddevices"
+    },
+    "native": {},
+    "from": "system.adapter.linkeddevices.0",
+    "user": "system.user.admin",
+    "ts": 1622116508468,
+    "_id": "linkeddevices.0.Room.Motion.MOTION",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "linkeddevices.0.Room.Motion.MOTION_DETECTION_ACTIVE": {
+    "type": "state",
+    "common": {
+      "name": "Room Motion",
+      "def": true,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "switch.enable",
+      "icon": "linkeddevices_small.png",
+      "desc": "Created by linkeddevices"
+    },
+    "native": {},
+    "from": "system.adapter.linkeddevices.0",
+    "user": "system.user.admin",
+    "ts": 1622116508485,
+    "_id": "linkeddevices.0.Room.Motion.MOTION_DETECTION_ACTIVE",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "linkeddevices.0.Room.Motion.SABOTAGE": {
+    "type": "state",
+    "common": {
+      "name": "Room Motion",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "icon": "linkeddevices_small.png",
+      "desc": "Created by linkeddevices"
+    },
+    "native": {},
+    "from": "system.adapter.linkeddevices.0",
+    "user": "system.user.admin",
+    "ts": 1622116508426,
+    "_id": "linkeddevices.0.Room.Motion.SABOTAGE",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
