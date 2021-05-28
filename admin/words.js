@@ -114,6 +114,18 @@ var lovelace_systemDictionary = {
         "es": "Verifique el código de alarma solo mientras se desarma",
         "pl": "Sprawdź kod alarmu tylko podczas rozbrajania",
         "zh-cn": "仅在撤防时检查警报代码"
+    },
+    "binary sensor": {
+        "en": "binary sensor",
+        "de": "binärer Sensor",
+        "ru": "двоичный датчик",
+        "pt": "sensor binário",
+        "nl": "binaire sensor",
+        "fr": "capteur binaire",
+        "it": "sensore binario",
+        "es": "sensor binario",
+        "pl": "czujnik binarny",
+        "zh-cn": "二进制传感器"
     }
 
 };
