@@ -320,6 +320,7 @@
     },
     "native": {
         "history": "",
+        "historyMaxCount": 2000,
         "port": 8091,
         "auth": false,
         "secure": false,

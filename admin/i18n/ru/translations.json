@@ -17,6 +17,7 @@
     "File": "файл",
     "Hide toolbar": "Скрыть панель инструментов",
     "Historical instance": "Исторический экземпляр",
+    "Maximum history points to fetch": "Макс. количество точек истории для извлечения",
     "IP": "IP",
     "Let's Encrypt settings": "Настройкт Let's Encrypt",
     "Listen on all IPs": "Открыть для всех IP адресов",

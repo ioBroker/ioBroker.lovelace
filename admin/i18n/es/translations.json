@@ -18,6 +18,7 @@
     "Hide toolbar": "Esconder barra de herramientas",
     "Historical instance": "Instancia histórica",
     "IP": "IP",
+    "Maximum history points to fetch": "Puntos de historial máximos para recuperar",
     "Let's Encrypt settings": "Cifremos la configuración",
     "Listen on all IPs": "Escuche en todas las IP",
     "Login timeout(sec)": "Tiempo de espera de inicio de sesión (seg.)",
