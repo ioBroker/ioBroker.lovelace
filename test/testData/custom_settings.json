@@ -1,0 +1,31 @@
+{
+  "adapter.0.binary_sensor_with_custom": {
+    "type": "state",
+    "common": {
+      "name": "Binary sensor with custom",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean",
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "binary_sensor",
+          "name": "binary_sensor_with_custom",
+          "attr_binary_device_class": "connectivity"
+        }
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.binary_sensor_with_custom",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}

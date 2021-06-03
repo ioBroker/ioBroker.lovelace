@@ -1,3 +1,5 @@
+const expect = require('chai').expect;
+
 /**
  * returns number of entities that are always added to entities array.
  * @returns {number}
@@ -87,4 +89,20 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds) {
 
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
     return entities;
+};
+
+exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, values) {
+    expect(entity).to.have.property('attributes');
+    expect(entity).to.have.nested.property('attributes.friendly_name', name);
+    expect(entity).to.have.nested.property('context.STATE');
+    expect(entity).to.have.nested.property('context.id', ioBrokerDeviceId);
+    expect(entity).to.have.nested.property('context.type', entityType);
+    if (values.getId) {
+        expect(entity).to.have.nested.property('context.STATE.getId', values.getId);
+    }
+    if (values.setId) {
+        expect(entity).to.have.nested.property('context.STATE.setId', values.setId);
+    }
+    expect(entity).to.have.property('entity_id');
+    expect(entity.entity_id.startsWith(entityType + '.')).to.be.true;
 };

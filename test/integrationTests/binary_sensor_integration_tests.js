@@ -1,20 +1,8 @@
 const tools  = require('./testTools');
 const expect = require('chai').expect;
-const utils  = require('util');
 
 function expectBinarySensor(entity, id, name, getId) {
-    expect(entity).to.have.property('attributes');
-    expect(entity).to.have.nested.property('attributes.friendly_name', name);
-    expect(entity).to.have.nested.property('context.STATE');
-    expect(entity).to.have.nested.property('context.id', id);
-    expect(entity).to.have.nested.property('context.type', 'binary_sensor');
-    if (getId) {
-        expect(entity).to.have.nested.property('context.STATE.getId', getId);
-    } else {
-        expect(entity).to.have.nested.property('context.STATE.getId', id);
-    }
-    expect(entity).to.have.property('entity_id');
-    expect(entity.entity_id.startsWith('binary_sensor.')).to.be.true;
+    tools.expectEntity(entity, 'binary_sensor', id, name, {getId});
 }
 
 function expectMotion(entity, id, name, getId) {
@@ -45,7 +33,7 @@ async function motion_sensor_zigbee(getHarness) {
     expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.occupancy');
 }
 
-async function motion_sensor_with_battry_warning(getHarness) {
+async function motion_sensor_with_battery_warning(getHarness) {
     // Create a fresh harness instance each test!
     const harness = getHarness();
 
@@ -76,19 +64,19 @@ async function motion_sensor_linkeddevices_id_clash(getHarness) {
     expect(binarySensor).to.be.ok;
     expect(battery).to.be.ok;
     expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.MOTION');
-    expectBattery(battery, deviceId + '.LOW_BAT', objects[deviceId + '.LOW_BAT'].common.name);
+    expectBattery(battery, deviceId + '.LOW_BAT', objects[deviceId + '.LOW_BAT'].common.name, deviceId + '.LOW_BAT');
 }
 
 exports.runTests = function (getHarness) {
     describe('Test motion sensors', () => {
-        it('Zigbee', async () => {
+        it('detects zigbee motion detector', async () => {
             await motion_sensor_zigbee(getHarness);
         });
-        it('Motion Sensor with battery', async () => {
-            await motion_sensor_with_battry_warning(getHarness);
+        it('detects Motion Sensor with battery', async () => {
+            await motion_sensor_with_battery_warning(getHarness);
         });
-        it('Motion Sensor with battery and id clash', async () => {
-            //await motion_sensor_linkeddevices_id_clash(getHarness);
+        it('detects Motion Sensor with battery and prevents id clash', async () => {
+            await motion_sensor_linkeddevices_id_clash(getHarness);
         });
     });
 };

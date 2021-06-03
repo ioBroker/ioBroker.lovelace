@@ -1,0 +1,369 @@
+{
+  "zigbee.0.0123456789abcdef": {
+    "comment": "file contains two zigbee temperature sensors with temperature and humidity. Using name for entity id leads to id clash in humidity / temperature and issue 153",
+    "type": "device",
+    "common": {
+      "name": "Zigbee Temp 1",
+      "type": "WSDCGQ11LM",
+      "icon": "img/aqara_temperature_sensor.png"
+    },
+    "native": {
+      "id": "0123456789abcdef"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1622123618685,
+    "_id": "zigbee.0.0123456789abcdef",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.0123456789abcdef.available": {
+    "type": "state",
+    "common": {
+      "name": "Available",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "state"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789276,
+    "_id": "zigbee.0.0123456789abcdef.available",
+    "native": {},
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.0123456789abcdef.battery": {
+    "type": "state",
+    "common": {
+      "name": "Battery percent",
+      "type": "number",
+      "unit": "%",
+      "read": true,
+      "write": false,
+      "role": "battery.percent",
+      "min": 0,
+      "max": 100,
+      "icon": "img/battery_p.png"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789350,
+    "_id": "zigbee.0.0123456789abcdef.battery",
+    "native": {},
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.0123456789abcdef.humidity": {
+    "type": "state",
+    "common": {
+      "name": "Humidity",
+      "type": "number",
+      "unit": "%",
+      "read": true,
+      "write": false,
+      "role": "value.humidity",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789339,
+    "_id": "zigbee.0.0123456789abcdef.humidity",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.0123456789abcdef.link_quality": {
+    "type": "state",
+    "common": {
+      "name": "Link quality",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "state",
+      "min": 0,
+      "max": 254
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789339,
+    "_id": "zigbee.0.0123456789abcdef.link_quality",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.0123456789abcdef.pressure": {
+    "type": "state",
+    "common": {
+      "name": "Pressure",
+      "type": "number",
+      "unit": "hPa",
+      "read": true,
+      "write": false,
+      "role": "value.pressure",
+      "min": 0,
+      "max": 10000
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1621593364979,
+    "_id": "zigbee.0.0123456789abcdef.pressure",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.0123456789abcdef.temperature": {
+    "type": "state",
+    "common": {
+      "name": "Temperature",
+      "type": "number",
+      "unit": "°C",
+      "read": true,
+      "write": false,
+      "role": "value.temperature"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789339,
+    "_id": "zigbee.0.0123456789abcdef.temperature",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.0123456789abcdef.voltage": {
+    "type": "state",
+    "common": {
+      "name": "Battery voltage",
+      "type": "number",
+      "unit": "V",
+      "read": true,
+      "write": false,
+      "role": "battery.voltage",
+      "icon": "img/battery_v.png"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789347,
+    "_id": "zigbee.0.0123456789abcdef.voltage",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+
+
+  "zigbee.0.123456789abcdef0": {
+    "type": "device",
+    "common": {
+      "name": "Zigbee Temp 2",
+      "type": "WSDCGQ11LM",
+      "icon": "img/aqara_temperature_sensor.png"
+    },
+    "native": {
+      "id": "123456789abcdef0"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1622123618685,
+    "_id": "zigbee.0.123456789abcdef0",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.123456789abcdef0.available": {
+    "type": "state",
+    "common": {
+      "name": "Available",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "state"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789276,
+    "_id": "zigbee.0.123456789abcdef0.available",
+    "native": {},
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.123456789abcdef0.battery": {
+    "type": "state",
+    "common": {
+      "name": "Battery percent",
+      "type": "number",
+      "unit": "%",
+      "read": true,
+      "write": false,
+      "role": "battery.percent",
+      "min": 0,
+      "max": 100,
+      "icon": "img/battery_p.png"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789350,
+    "_id": "zigbee.0.123456789abcdef0.battery",
+    "native": {},
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.123456789abcdef0.humidity": {
+    "type": "state",
+    "common": {
+      "name": "Humidity",
+      "type": "number",
+      "unit": "%",
+      "read": true,
+      "write": false,
+      "role": "value.humidity",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789339,
+    "_id": "zigbee.0.123456789abcdef0.humidity",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.123456789abcdef0.link_quality": {
+    "type": "state",
+    "common": {
+      "name": "Link quality",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "state",
+      "min": 0,
+      "max": 254
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789339,
+    "_id": "zigbee.0.123456789abcdef0.link_quality",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.123456789abcdef0.pressure": {
+    "type": "state",
+    "common": {
+      "name": "Pressure",
+      "type": "number",
+      "unit": "hPa",
+      "read": true,
+      "write": false,
+      "role": "value.pressure",
+      "min": 0,
+      "max": 10000
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1621593364979,
+    "_id": "zigbee.0.123456789abcdef0.pressure",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.123456789abcdef0.temperature": {
+    "type": "state",
+    "common": {
+      "name": "Temperature",
+      "type": "number",
+      "unit": "°C",
+      "read": true,
+      "write": false,
+      "role": "value.temperature"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789339,
+    "_id": "zigbee.0.123456789abcdef0.temperature",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.123456789abcdef0.voltage": {
+    "type": "state",
+    "common": {
+      "name": "Battery voltage",
+      "type": "number",
+      "unit": "V",
+      "read": true,
+      "write": false,
+      "role": "battery.voltage",
+      "icon": "img/battery_v.png"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1578180789347,
+    "_id": "zigbee.0.123456789abcdef0.voltage",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
