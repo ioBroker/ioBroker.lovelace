@@ -65,6 +65,31 @@ function startAdapter(options) {
             } else if (obj.command === 'send') {
                 adapter.apiServer.addNotification(obj.message).then(list =>
                     obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
+            } else if (obj.command === 'checkIdForDuplicates') {
+                if (obj.callback) {
+                    if (obj.message) {
+                        const entities = adapter.apiServer.getHassStates();
+                        const params = obj.message;
+                        const entityId = params.entity + '.' + params.name;
+                        const objectId = params.objectId;
+                        const entity = entities.find(e => e.entity_id === entityId);
+                        if (entity) {
+                            if (entity.isManual) {
+                                if (entity.context.id === objectId) {
+                                    adapter.sendTo(obj.from, obj.command, '', obj.callback);
+                                } else {
+                                    adapter.sendTo(obj.from, obj.command, 'labelDuplicateId', obj.callback);
+                                }
+                            } else {
+                                adapter.sendTo(obj.from, obj.command, 'labelOverwriteAutoEntity', obj.callback);
+                            }
+                        } else {
+                            adapter.sendTo(obj.from, obj.command, '', obj.callback);
+                        }
+                    } else {
+                        adapter.sendTo(obj.from, obj.command, 'Internal error - Message null', obj.callback);
+                    }
+                }
             }
         }
 
