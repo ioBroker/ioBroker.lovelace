@@ -33,13 +33,13 @@ exports.runTests = function (getHarness) {
             tools.expectEntity(entity, 'binary_sensor', deviceId, objects[deviceId].common.name, {getId: deviceId});
             expect(entity).to.have.nested.property('attributes.device_class', 'connectivity');
 
-            objects[deviceId].common.custom['lovelace.0'].attr_binary_device_class = 'motion';
+            objects[deviceId].common.custom['lovelace.0'].attr_device_class = 'motion';
             await harness._objects.setObjectAsync(deviceId, objects[deviceId]);
             const newEntities = await tools.waitForEntitiesUpdate(harness);
             const newEntity = newEntities.find(e => e.context.id === deviceId);
             expect(newEntity).to.be.ok;
-            tools.expectEntity(entity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
-            expect(entity).to.have.nested.property('attributes.device_class', 'motion');
+            tools.expectEntity(newEntity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
+            expect(newEntity).to.have.nested.property('attributes.device_class', 'motion');
         });
         it('entity should vanish', async () => {
             const harness = getHarness();

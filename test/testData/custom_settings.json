@@ -12,7 +12,7 @@
           "enabled": true,
           "entity": "binary_sensor",
           "name": "binary_sensor_with_custom",
-          "attr_binary_device_class": "connectivity"
+          "attr_device_class": "connectivity"
         }
       }
     },
