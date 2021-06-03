@@ -49,8 +49,11 @@ function lang2data(lang, isFlat) {
     }
 }
 
-const NODE_JS_EXPORT = `if (typeof module !== 'undefined' && module.parent) { module.exports = lovelace_systemDictionary; }\n`;
+const NODE_JS_EXPORT = `if (typeof module !== 'undefined' && module.parent) { module.exports = lovelace_systemDictionary; }`;
 function readWordJs(src) {
+    if (!src) {
+        src = 'admin/';
+    }
     try {
         let words;
         if (fs.existsSync(src + 'js/' + fileName)) {
