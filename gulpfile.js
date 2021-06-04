@@ -580,3 +580,29 @@ gulp.task('rename', done => {
 gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages'));
 
 gulp.task('default', gulp.series('updatePackages', 'updateReadme'));
+
+gulp.task('prepareDevserver', done => {
+    const promises = [];
+    const spawn = require('child_process').spawn;
+    const devserverIoBrokerPath = __dirname + '/.dev-server/default/node_modules/iobroker.js-controller/iobroker.js';
+    filesWalk(__dirname + '/test/testData', (fileName) => {
+        if (fileName && fileName.toLowerCase().endsWith('.json')) {
+            const objects = JSON.parse(fs.readFileSync(fileName));
+            for (const id of Object.keys(objects)) {
+                //const newId = '0_userdata.0.' + id.split('.').slice(2).join('.');
+                promises.push(new Promise(resolve => {
+                    console.log('Writing ' + id);
+                    const child = spawn('node', [devserverIoBrokerPath, 'object', 'set', id, JSON.stringify(objects[id])], {stdio: 'inherit'});
+                    child.on('exit', resolve);
+                }));
+            }
+        }
+    });
+
+    Promise.all(promises).then(() => {
+        done();
+    }, (e) => {
+        console.error(e);
+        done();
+    });
+});
