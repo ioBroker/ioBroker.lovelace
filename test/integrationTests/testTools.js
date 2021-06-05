@@ -68,7 +68,7 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums) {
  * @returns {Promise<Entities>}
  */
 exports.waitForEntitiesUpdate = async function (harness) {
-    //await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false); //may create race condition... hm? :-(
+    await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
     let haveUpdate = false;
     while (!haveUpdate) {
         const state = await harness.states.getStateAsync('lovelace.0.info.entitiesUpdated');

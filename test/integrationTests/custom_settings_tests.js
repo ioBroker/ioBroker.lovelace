@@ -33,15 +33,24 @@ exports.runTests = function (getHarness) {
             tools.expectEntity(entity, 'binary_sensor', deviceId, objects[deviceId].common.name, {getId: deviceId});
             expect(entity).to.have.nested.property('attributes.device_class', 'connectivity');
 
-            objects[deviceId].common.custom['lovelace.0'].attr_device_class = 'motion';
-            await harness._objects.setObjectAsync(deviceId, objects[deviceId]);
+            await harness._objects.delObjectAsync(deviceId);
+            const obj = objects[deviceId];
+            obj.common.custom = {
+                'lovelace.0': {
+                    'enabled': true,
+                    'entity': 'binary_sensor',
+                    'name': 'binary_sensor_with_custom',
+                    'attr_device_class': 'motion'
+                }
+            };
+            await harness._objects.setObjectAsync(deviceId, obj);
             const newEntities = await tools.waitForEntitiesUpdate(harness);
             const newEntity = newEntities.find(e => e.context.id === deviceId);
             expect(newEntity).to.be.ok;
             tools.expectEntity(newEntity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
             expect(newEntity).to.have.nested.property('attributes.device_class', 'motion');
         });
-        it('entity should vanish', async () => {
+        it('entity should vanish if custom disabled', async () => {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
             const deviceId = 'adapter.0.binary_sensor_with_custom';
@@ -51,8 +60,24 @@ exports.runTests = function (getHarness) {
             tools.expectEntity(entity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
             expect(entity).to.have.nested.property('attributes.device_class', 'connectivity');
 
-            objects[deviceId].common.custom = null;
-            await harness._objects.setObjectAsync(deviceId, objects[deviceId]);
+            const obj = objects[deviceId];
+            obj.common.custom = {};
+            await harness._objects.setObjectAsync(deviceId, obj);
+            const newEntities = await tools.waitForEntitiesUpdate(harness);
+            const newEntity = newEntities.find(e => e.context.id === deviceId);
+            expect(newEntity).to.be.not.ok;
+        });
+        it('entity should vanish if object deleted', async () => {
+            const harness = getHarness();
+            const objects = JSON.parse(JSON.stringify(testObjects));
+            const deviceId = 'adapter.0.binary_sensor_with_custom';
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            tools.expectEntity(entity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
+            expect(entity).to.have.nested.property('attributes.device_class', 'connectivity');
+
+            await harness._objects.delObjectAsync(deviceId);
             const newEntities = await tools.waitForEntitiesUpdate(harness);
             const newEntity = newEntities.find(e => e.context.id === deviceId);
             expect(newEntity).to.be.not.ok;

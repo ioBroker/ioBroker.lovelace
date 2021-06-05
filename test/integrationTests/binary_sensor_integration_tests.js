@@ -27,7 +27,7 @@ async function motion_sensor_zigbee(getHarness) {
     const deviceId = 'zigbee.0.0123456789abcdef';
     const entities = await startAndGetEntities(harness, objects, deviceId);
 
-    expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities());
+    expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities() + 1); //for device query switch.
     const binarySensor = entities.find(e => e.context.id === deviceId);
     expect(binarySensor).to.be.ok;
     expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.occupancy');
