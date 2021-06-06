@@ -60,8 +60,8 @@ exports.runTests = function (getHarness) {
             tools.expectEntity(entity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
             expect(entity).to.have.nested.property('attributes.device_class', 'connectivity');
 
-            const obj = objects[deviceId];
-            obj.common.custom = {};
+            const obj = JSON.parse(JSON.stringify(objects[deviceId]));
+            obj.common.custom['lovelace.0'] = null;
             await harness._objects.setObjectAsync(deviceId, obj);
             const newEntities = await tools.waitForEntitiesUpdate(harness);
             const newEntity = newEntities.find(e => e.context.id === deviceId);
