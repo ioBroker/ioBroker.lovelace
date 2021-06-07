@@ -17,6 +17,7 @@
     "File": "文件",
     "Hide toolbar": "隐瞒工具条",
     "Historical instance": "历史实例",
+    "Maximum history points to fetch": "要提取的最大历史记录点",
     "IP": "IP",
     "Let's Encrypt settings": "让我们加密设置",
     "Listen on all IPs": "听上的所有IPs",

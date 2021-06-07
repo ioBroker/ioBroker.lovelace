@@ -17,6 +17,7 @@
     "File": "Fichier",
     "Hide toolbar": "Masquer la barre de tâches",
     "Historical instance": "Instance historique",
+    "Maximum history points to fetch": "Nombre max. de points d'historique à récupérer",
     "IP": "IP",
     "Let's Encrypt settings": "Encodons les paramètres",
     "Listen on all IPs": "Écoutez sur toutes les IP",

@@ -17,6 +17,7 @@
     "File": "Arquivo",
     "Hide toolbar": "Ocultar barra de ferramentas",
     "Historical instance": "Instância histórica",
+    "Maximum history points to fetch": "Máximo de pontos históricos para buscar",
     "IP": "IP",
     "Let's Encrypt settings": "Vamos criptografar configurações",
     "Listen on all IPs": "Ouça em todos os IPs",
