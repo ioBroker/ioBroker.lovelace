@@ -149,15 +149,36 @@ exports.addEntityToConfiguration = async function (harness, entity_id) {
     await exports.waitForEntitiesUpdate(harness);
 };
 
+let currentClient;
+let id = 0;
+exports.clearClient = function () { currentClient && currentClient.close(); currentClient = undefined; };
 
-function listenTillSubscribed(resolve, id, m) {
-    if (m.id === id) {
-        resolve();
-    }
+async function setupClient() {
+    currentClient = new WebSocket('ws://localhost:38091');
+    const promise = new Promise(resolve => {
+        let subscribeId = 0;
+        function subscribeListener(message) {
+            const m = JSON.parse(message);
+            if (m.id === subscribeId && m.type === 'result') {
+                console.log('Successfully subscribed to state_changed events.');
+                currentClient.removeEventListener('message', subscribeListener);
+                resolve();
+            }
+        }
+        currentClient.on('message', subscribeListener);
+        currentClient.on('open', () => {
+            id += 1;
+            currentClient.send(JSON.stringify({id: id, type: 'auth', access_token: 'no_token'}));
+            id += 1;
+            subscribeId = id;
+            currentClient.send(JSON.stringify({id: id, type: 'subscribe_events', event_type: 'state_changed'}));
+        });
+    });
+    currentClient.on('close', () => currentClient = undefined);
+    currentClient.on('error', () => currentClient = undefined);
+    return promise;
 }
 
-let currentClient;
-exports.clearClient = function () { currentClient && currentClient.close(); currentClient = undefined; };
 /**
  * initiate websocket connection to lovelace, subscribe to state changes, then change state in iobroker and validate reaction from lovelace
  * @param harness
@@ -168,24 +189,7 @@ exports.clearClient = function () { currentClient && currentClient.close(); curr
  */
 exports.validateStateChange = async function (harness, entity_id, changeState, validator) {
     if (!currentClient) {
-        currentClient = new WebSocket('ws://localhost:38091');
-        await new Promise(resolve => {
-            function subscribeListener(message) {
-                const m = JSON.parse(message);
-                if (m.id === 1 && m.type === 'result') {
-                    console.log('Successfully subscribed to state_changed events.');
-                    currentClient.removeEventListener('message', subscribeListener);
-                    resolve();
-                }
-            }
-            currentClient.on('message', subscribeListener);
-            currentClient.on('open', () => {
-                currentClient.send(JSON.stringify({id: 0, type: 'auth', access_token: 'no_token'}));
-                currentClient.send(JSON.stringify({id: 1, type: 'subscribe_events', event_type: 'state_changed'}));
-            });
-        });
-        currentClient.on('close', () => currentClient = undefined);
-        currentClient.on('error', () => currentClient = undefined);
+        await setupClient();
     }
     const resultPromise = new Promise(resolve => {
         function eventListener(message) {
@@ -193,6 +197,7 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
             if (m.type === 'event' && m.event && m.event.event_type === 'state_changed') {
                 const data = m.event.data;
                 if (data.entity_id === entity_id) {
+                    console.dir(data.new_state);
                     validator(data.new_state); //pass new entity to validator.
                     currentClient.removeEventListener('message', eventListener);
                     resolve();
@@ -203,4 +208,52 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
     });
     await changeState();
     return resultPromise;
+};
+
+/**
+ * Send a service call to adapter, emulating UI interaction
+ * @param harness
+ * @param {function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
+ * @param {string} [ioBrokerId] - id of state to check for changes.
+ * @returns {Promise<ioBroker.State|null>}
+ */
+exports.validateUIInput = async function (harness, entity, prepareMessageFunc, ioBrokerId, validator) {
+    if (!currentClient) {
+        await setupClient();
+    }
+
+    await new Promise(resolve => {
+        function receiver(message) {
+            const m = JSON.parse(message);
+            if (m.id === service_call_id) {
+                currentClient.removeEventListener('message', receiver);
+                resolve();
+            }
+        }
+
+        function stateChanged(id, state) {
+            console.log(id, 'changed');
+            if (id === ioBrokerId) {
+                if (validator) {
+                    validator(state);
+                }
+                harness.removeListener('stateChange', stateChanged);
+                resolve(state);
+            }
+        }
+
+        id += 1;
+        const service_call_id = id;
+        if (ioBrokerId) {
+            console.log('Subscribed to iob stateChange');
+            harness.on('stateChange', stateChanged);
+        } else {
+            console.log('Subscribed to lovelace stateChange');
+            currentClient.subscribe('message', receiver);
+        }
+        const message = {id, type: 'call_service'};
+        prepareMessageFunc(message);
+        message.service_data.entity_id = entity.entity_id;
+        currentClient.send(JSON.stringify(message));
+    });
 };
