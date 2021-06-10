@@ -146,7 +146,15 @@ exports.addEntityToConfiguration = async function (harness, entity_id) {
         'entity': entity_id
     });
     await harness._objects.setObjectAsync('lovelace.0.configuration', configObj);
+    await exports.waitForEntitiesUpdate(harness);
 };
+
+
+function listenTillSubscribed(resolve, id, m) {
+    if (m.id === id) {
+        resolve();
+    }
+}
 
 let currentClient;
 exports.clearClient = function () { currentClient && currentClient.close(); currentClient = undefined; };
@@ -162,26 +170,36 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
     if (!currentClient) {
         currentClient = new WebSocket('ws://localhost:38091');
         await new Promise(resolve => {
+            function subscribeListener(message) {
+                const m = JSON.parse(message);
+                if (m.id === 1 && m.type === 'result') {
+                    console.log('Successfully subscribed to state_changed events.');
+                    currentClient.removeEventListener('message', subscribeListener);
+                    resolve();
+                }
+            }
+            currentClient.on('message', subscribeListener);
             currentClient.on('open', () => {
-                currentClient.send(JSON.stringify({type: 'auth', access_token: 'no_token'}));
-                currentClient.send(JSON.stringify({type: 'subscribe_events', event_type: 'state_changed'}));
-                resolve();
+                currentClient.send(JSON.stringify({id: 0, type: 'auth', access_token: 'no_token'}));
+                currentClient.send(JSON.stringify({id: 1, type: 'subscribe_events', event_type: 'state_changed'}));
             });
         });
         currentClient.on('close', () => currentClient = undefined);
         currentClient.on('error', () => currentClient = undefined);
     }
     const resultPromise = new Promise(resolve => {
-        currentClient.on('message', message => {
+        function eventListener(message) {
             const m = JSON.parse(message);
             if (m.type === 'event' && m.event && m.event.event_type === 'state_changed') {
                 const data = m.event.data;
                 if (data.entity_id === entity_id) {
                     validator(data.new_state); //pass new entity to validator.
+                    currentClient.removeEventListener('message', eventListener);
                     resolve();
                 }
             }
-        });
+        }
+        currentClient.on('message', eventListener);
     });
     await changeState();
     return resultPromise;

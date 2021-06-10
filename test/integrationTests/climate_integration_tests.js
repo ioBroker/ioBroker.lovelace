@@ -38,7 +38,8 @@ exports.runTests = function (getHarness) {
             expect(entity).to.have.nested.property('attributes.unit_of_measurement', '°C');
             //default values:
             expect(entity).to.have.nested.property('attributes.target_temp_step', 1);
-            expect(entity).to.have.nested.property('attributes.hvac_modes', ['off', 'heat']); //let's you control power.
+            expect(entity).to.have.nested.property('attributes.hvac_modes'); //let's you control power.
+            expect(entity.attributes.hvac_modes).to.have.members(['off', 'heat']);
             expect(entity).to.have.nested.property('attributes.min_humidity', 30);
             expect(entity).to.have.nested.property('attributes.max_humidity', 99);
         });
@@ -107,7 +108,21 @@ exports.runTests = function (getHarness) {
             expect(setTempCommand).to.be.ok;
             expect(setTempCommand).to.have.property('setId', deviceId + '.target');
 
-            expect(entity).to.have.property('state', 'off');
+            expect(entity).to.have.property('state', 'heat');
+            expect(entity).to.have.nested.property('attributes.hvac_mode', 'heat');
+            await tools.addEntityToConfiguration(harness, entity.entity_id);
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.power', false, true),
+                entity => {
+                    expect(entity).to.have.nested.property('attributes.hvac_mode', 'off');
+                    expect(entity).to.have.property('state', 'off');
+                });
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.power', true, true),
+                entity => {
+                    expect(entity).to.have.nested.property('attributes.hvac_mode', 'heat');
+                    expect(entity).to.have.property('state', 'heat');
+                });
         });
 
         it('should create climate, temperature sensor and humidity', async () => {
@@ -142,20 +157,20 @@ exports.runTests = function (getHarness) {
             expect(setTempCommand).to.be.ok;
             expect(setTempCommand).to.have.property('setId', deviceId + '.target');
 
-            expect(entity).to.have.property('state', 'on');
+            expect(entity).to.have.property('state', 'heat');
             await tools.addEntityToConfiguration(harness, entity.entity_id);
             await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.setStateAsync(deviceId + '.target', 30, true),
+                async () => await harness.states.setStateAsync(deviceId + '.target', 30, true),
                 entity => expect(entity).to.have.nested.property('attributes.temperature', 30));
             await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.setStateAsync(deviceId + '.current', 35, true),
+                async () => await harness.states.setStateAsync(deviceId + '.current', 35, true),
                 entity => expect(entity).to.have.nested.property('attributes.current_temperature', 35));
             await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.setStateAsync(deviceId + '.humidity', 70, true),
+                async () => await harness.states.setStateAsync(deviceId + '.humidity', 70, true),
                 entity => expect(entity).to.have.nested.property('attributes.current_humidity', 70));
         });
 
-        it('should create climate with only target temp', async () => {
+        it('should create climate with only target temp and check if reacting to target changes', async () => {
             // Create a fresh harness instance each test!
             const harness = getHarness();
 
@@ -210,7 +225,9 @@ exports.runTests = function (getHarness) {
             const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'hvac_mode');
             expect(modeAttribute).to.be.ok;
             expect(modeAttribute).to.have.property('getId', deviceId + '.mode');
-            expect(modeAttribute).to.have.property('iobToLovelace', {0: 'auto', 1: 'manual'});
+            expect(modeAttribute).to.have.property('iobToLovelace');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.0', 'auto');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.1', 'manual');
 
             expect(entity).to.have.nested.property('context.COMMANDS');
             expect(entity.context.COMMANDS).to.have.lengthOf(2);
@@ -255,7 +272,15 @@ exports.runTests = function (getHarness) {
             expect(modeAttribute.lovelaceToIob).to.have.property('dry', 5);
             expect(modeAttribute.lovelaceToIob).to.have.property('fan_only', 6);
             expect(modeAttribute.lovelaceToIob).to.have.property('iobroker_mode', 7);
-            expect(modeAttribute).to.have.property('iobToLovelace', {0: 'off', 1: 'auto', 2: 'heat', 3: 'cool', 4: 'heat_cool', 5: 'dry', 6: 'fan_only', 7: 'iobroker_mode'});
+            expect(modeAttribute).to.have.property('iobToLovelace');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.0', 'off');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.1', 'auto');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.2', 'heat');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.3', 'cool');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.4', 'heat_cool');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.5', 'dry');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.6', 'fan_only');
+            expect(modeAttribute).to.have.nested.property('iobToLovelace.7', 'iobroker_mode');
             expect(entity.attributes.hvac_modes).to.have.lengthOf(8);
 
             expect(entity).to.have.nested.property('context.COMMANDS');
@@ -275,7 +300,7 @@ exports.runTests = function (getHarness) {
         });
 
 
-        it('should create cliamte with combined mode and power attribute', async () => {
+        it('should create climate with combined mode and power attribute', async () => {
             // Create a fresh harness instance each test!
             const harness = getHarness();
 
@@ -306,7 +331,8 @@ exports.runTests = function (getHarness) {
             expect(setHVAC).to.have.property('setId', deviceId + '.mode');
 
             expect(entity).to.have.property('state', 'off');
-            expect(entity).to.have.nested.property('attributes.hvac_modes', ['off', 'auto', 'heat', 'cool']);
+            expect(entity).to.have.nested.property('attributes.hvac_modes');
+            expect(entity.attributes.hvac_modes).to.have.members(['off', 'auto', 'heat', 'cool']);
             expect(entity).to.have.nested.property('attributes.hvac_mode', 'off');
             await tools.addEntityToConfiguration(harness, entity.entity_id);
             await tools.validateStateChange(harness, entity.entity_id,
@@ -329,7 +355,7 @@ exports.runTests = function (getHarness) {
                 entity => expect(entity).to.have.property('state', 'cool'));
         });
 
-        it('should create cliamte with boost and party presets', async () => {
+        it('should create climate with boost and party presets', async () => {
             // Create a fresh harness instance each test!
             const harness = getHarness();
 
@@ -349,12 +375,13 @@ exports.runTests = function (getHarness) {
             expect(modeAttribute).to.not.have.property('getId');
 
             expect(entity).to.have.nested.property('context.COMMANDS');
-            expect(entity.context.COMMANDS).to.have.lengthOf(2);
+            expect(entity.context.COMMANDS).to.have.lengthOf(3);
             const setHVAC = entity.context.COMMANDS.find(c => c.service === 'set_preset_mode');
             expect(setHVAC).to.be.ok;
 
             expect(entity).to.have.nested.property('attributes.preset_mode', 'party');
-            expect(entity).to.have.nested.property('attributes.preset_modes', ['none', 'boost', 'party']);
+            expect(entity).to.have.nested.property('attributes.preset_modes');
+            expect(entity.attributes.preset_modes).to.have.members(['none', 'boost', 'party']);
             await tools.addEntityToConfiguration(harness, entity.entity_id);
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.boost', true, true),
