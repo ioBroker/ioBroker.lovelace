@@ -1,0 +1,86 @@
+{
+  "adapter.0.aircondition.ModeAndFan": {
+    "type": "device",
+    "common": {
+      "name": "Mode And Fan"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.aircondition.ModeAndFan",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.ModeAndFan.mode": {
+    "type": "state",
+    "common": {
+      "name": "Mode And Fan Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.thermostat",
+      "type": "number",
+      "states": {"0": "Off", "1":  "Auto", "2": "Heat", "3":  "Cool", "4": "Heat_Cool", "5": "dry", "6": "fan_only", "7": "iobroker_mode"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.ModeAndFan.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.ModeAndFan.fan": {
+    "type": "state",
+    "common": {
+      "name": "Mode And Fan Fan",
+      "read": true,
+      "write": true,
+      "role": "speed.fan",
+      "type": "number",
+      "states": {"0": "AUTO", "1":  "HIGH", "2": "LOW", "3":  "MEDIUM", "4": "QUIET", "5": "TURBO"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.ModeAndFan.fan",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.ModeAndFan.target": {
+    "type": "state",
+    "common": {
+      "name": "Mode And Fan Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.ModeAndFan.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

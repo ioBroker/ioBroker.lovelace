@@ -1,0 +1,86 @@
+{
+  "adapter.0.aircondition.ModeAndSwing": {
+    "type": "device",
+    "common": {
+      "name": "Mode And Swing"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.aircondition.ModeAndSwing",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.ModeAndSwing.mode": {
+    "type": "state",
+    "common": {
+      "name": "Mode And Swing Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.thermostat",
+      "type": "number",
+      "states": {"0": "Off", "1":  "Auto", "2": "Heat", "3":  "Cool", "4": "Heat_Cool", "5": "dry", "6": "fan_only", "7": "iobroker_mode"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.ModeAndSwing.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.ModeAndSwing.swing": {
+    "type": "state",
+    "common": {
+      "name": "Mode And Swing",
+      "read": true,
+      "write": true,
+      "role": "level.mode.swing",
+      "type": "number",
+      "states": {"0": "AUTO", "1": "HORIZONTAL", "2": "STATIONARY", "3": "VERTICAL"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.ModeAndSwing.swing",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.ModeAndSwing.target": {
+    "type": "state",
+    "common": {
+      "name": "Mode And Swing Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.ModeAndSwing.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

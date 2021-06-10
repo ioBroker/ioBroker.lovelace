@@ -201,6 +201,10 @@ exports.runTests = function (getHarness) {
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.target', 30, true),
                 entity => expect(entity).to.have.nested.property('attributes.temperature', 30));
+
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_temperature'; m.service_data = {temperature: 35};
+            }, deviceId + '.target', state => expect(state.val).to.be.equal(35));
         });
 
         it('should create climate supporting mode but no power', async () => {
@@ -298,6 +302,16 @@ exports.runTests = function (getHarness) {
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.mode', 7, true),
                 entity => expect(entity).to.have.property('state', 'iobroker_mode'));
+
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_hvac_mode'; m.service_data = {hvac_mode: 'off'};
+            }, deviceId + '.mode', state => expect(state.val).to.be.equal(0));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_hvac_mode'; m.service_data = {hvac_mode: 'fan_only'};
+            }, deviceId + '.mode', state => expect(state.val).to.be.equal(6));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_hvac_mode'; m.service_data = {hvac_mode: 'iobroker_mode'};
+            }, deviceId + '.mode', state => expect(state.val).to.be.equal(7));
         });
 
 
@@ -354,6 +368,22 @@ exports.runTests = function (getHarness) {
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.power', true, true),
                 entity => expect(entity).to.have.property('state', 'cool'));
+
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_hvac_mode'; m.service_data = {hvac_mode: 'heat'};
+            }, deviceId + '.mode', state => expect(state.val).to.equal(1));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_hvac_mode'; m.service_data = {hvac_mode: 'cool'};
+            }, deviceId + '.mode', state => expect(state.val).to.equal(2));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_hvac_mode'; m.service_data = {hvac_mode: 'auto'};
+            }, deviceId + '.mode', state => expect(state.val).to.equal(0));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_hvac_mode'; m.service_data = {hvac_mode: 'off'};
+            }, deviceId + '.power', state => expect(state.val).to.be.false);
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_hvac_mode'; m.service_data = {hvac_mode: 'heat'};
+            }, deviceId + '.power', state => expect(state.val).to.be.true);
         });
 
         it('should create climate with boost and party presets', async () => {
@@ -406,9 +436,121 @@ exports.runTests = function (getHarness) {
                 async () => await harness.states.setStateAsync(deviceId + '.party', false, true),
                 entity => expect(entity).to.have.nested.property('attributes.preset_mode', 'none'));
 
+
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_preset_mode'; m.service_data = {preset_mode: 'boost'};
+            }, deviceId + '.boost', state => expect(state.val).to.be.true);
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_preset_mode'; m.service_data = {preset_mode: 'party'};
+            }, deviceId + '.boost', state => expect(state.val).to.be.false);
+            expect(await harness.states.getStateAsync(deviceId + '.party')).to.have.property('val', true);
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_preset_mode'; m.service_data = {preset_mode: 'none'};
+            }, deviceId + '.party', state => expect(state.val).to.be.false);
+            expect(await harness.states.getStateAsync(deviceId + '.boost')).to.have.property('val', false);
         });
 
     });
 
+    describe('AirConditioning Tests', async () => {
+        it('should create climate with mode and fan', async () => {
+            // Create a fresh harness instance each test!
+            const harness = getHarness();
 
+            const objects = JSON.parse(JSON.stringify(require('../testData/climate_aircondition_mode_full_and_fan.json')));
+            const deviceId = 'adapter.0.aircondition.ModeAndFan';
+            const deviceObj = objects[deviceId];
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 1}, {id: deviceId + '.fan', val: 0}]);
+
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
+
+            expect(entity).to.have.nested.property('context.ATTRIBUTES');
+            expect(entity.context.ATTRIBUTES).to.have.lengthOf(3);
+            const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'fan_mode');
+            expect(modeAttribute).to.be.ok;
+            expect(modeAttribute).to.have.property('getId', deviceId + '.fan');
+
+            expect(entity).to.have.nested.property('context.COMMANDS');
+            expect(entity.context.COMMANDS).to.have.lengthOf(3);
+            const setHVAC = entity.context.COMMANDS.find(c => c.service === 'set_fan_mode');
+            expect(setHVAC).to.be.ok;
+
+            expect(entity).to.have.nested.property('attributes.fan_mode', 'AUTO');
+            expect(entity).to.have.nested.property('attributes.fan_modes');
+            expect(entity.attributes.fan_modes).to.have.members(['AUTO', 'HIGH', 'LOW', 'MEDIUM', 'QUIET', 'TURBO']);
+            await tools.addEntityToConfiguration(harness, entity.entity_id);
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.fan', 1, true),
+                entity => expect(entity).to.have.nested.property('attributes.fan_mode', 'HIGH'));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.fan', 2, true),
+                entity => expect(entity).to.have.nested.property('attributes.fan_mode', 'LOW'));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.fan', 10, true),
+                entity => expect(entity).to.have.nested.property('attributes.fan_mode', 10));
+
+            console.log('Sending UI commands.');
+            await tools.validateUIInput(harness, entity,m => {
+                m.domain = 'climate'; m.service = 'set_fan_mode'; m.service_data = {fan_mode: 'AUTO'};
+            }, deviceId + '.fan', state => expect(state.val).to.equal(0));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_fan_mode'; m.service_data = {fan_mode: 'HIGH'};
+            }, deviceId + '.fan', state => expect(state.val).to.equal(1));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_fan_mode'; m.service_data = {fan_mode: '10'};
+            }, deviceId + '.fan', state => expect(state.val).to.equal(10));
+        });
+
+        it('should create climate with mode and swing, test swing control', async () => {
+            // Create a fresh harness instance each test!
+            const harness = getHarness();
+
+            const objects = JSON.parse(JSON.stringify(require('../testData/climate_aircondition_mode_full_and_swing.json')));
+            const deviceId = 'adapter.0.aircondition.ModeAndSwing';
+            const deviceObj = objects[deviceId];
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 1}, {id: deviceId + '.swing', val: 0}]);
+
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
+
+            expect(entity).to.have.nested.property('context.ATTRIBUTES');
+            expect(entity.context.ATTRIBUTES).to.have.lengthOf(3);
+            const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'swing_mode');
+            expect(modeAttribute).to.be.ok;
+            expect(modeAttribute).to.have.property('getId', deviceId + '.swing');
+
+            expect(entity).to.have.nested.property('context.COMMANDS');
+            expect(entity.context.COMMANDS).to.have.lengthOf(3);
+            const setHVAC = entity.context.COMMANDS.find(c => c.service === 'set_swing_mode');
+            expect(setHVAC).to.be.ok;
+
+            expect(entity).to.have.nested.property('attributes.swing_mode', 'AUTO');
+            expect(entity).to.have.nested.property('attributes.swing_modes');
+            expect(entity.attributes.swing_modes).to.have.members(['AUTO', 'HORIZONTAL', 'STATIONARY', 'VERTICAL']);
+            await tools.addEntityToConfiguration(harness, entity.entity_id);
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.swing', 1, true),
+                entity => expect(entity).to.have.nested.property('attributes.swing_mode', 'VERTICAL'));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.swing', 2, true),
+                entity => expect(entity).to.have.nested.property('attributes.swing_mode', 'HORIZONTAL'));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.swing', 10, true),
+                entity => expect(entity).to.have.nested.property('attributes.swing_mode', 10));
+
+            console.log('Sending UI commands.');
+            await tools.validateUIInput(harness, entity,m => {
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {fan_mode: 'AUTO'};
+            }, deviceId + '.swing', state => expect(state.val).to.equal(0));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {fan_mode: 'HORIZONTAL'};
+            }, deviceId + '.swing', state => expect(state.val).to.equal(1));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {fan_mode: '10'};
+            }, deviceId + '.swing', state => expect(state.val).to.equal(10));
+        });
+    });
 };
