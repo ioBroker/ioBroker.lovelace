@@ -63,13 +63,13 @@ richtig gefüllt werden kann und Lovelace so z.B. das richtige Icon und die rich
 
 
 
-[Types.socket]:                 processSocket.bind(this),
+<!-- [Types.socket]:                 processSocket.bind(this),
             [Types.motion]:                 processBinarySensors.processMotion.bind(this),
             [Types.window]:                 processBinarySensors.processWindow.bind(this),
             [Types.door]:                   processBinarySensors.processDoor.bind(this),
             [Types.button]:                 processSocket.bind(this),
             [Types.lock]:                   processLock.bind(this),
-            [Types.thermostat]:             processThermostat.bind(this),
+            [Types.thermostat]:             processThermostatOrAirConditioning.bind(this),
             [Types.blind]:                  processBlind.bind(this),
             [Types.blindButtons]:           processBlind.bind(this),
             [Types.weatherForecast]:        converterWeather.processWeather.bind(this),
@@ -78,3 +78,4 @@ richtig gefüllt werden kann und Lovelace so z.B. das richtige Icon und die rich
             [Types.location_one]:           processLocation.bind(this),
             [Types.media]:                  processMediaPlayer.bind(this),
             [Types.image]:                  processImage.bind(this),
+-->
