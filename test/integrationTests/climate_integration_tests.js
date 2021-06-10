@@ -236,7 +236,8 @@ exports.runTests = function (getHarness) {
             expect(setHVAC).to.have.property('setId', deviceId + '.mode');
 
             expect(entity).to.have.property('state', 'auto');
-            expect(entity.attributes).to.have.property('hvac_modes', ['auto', 'manual']);
+            expect(entity.attributes).to.have.property('hvac_modes');
+            expect(entity.attributes.hvac_modes).to.have.members(['auto', 'manual']);
             await tools.addEntityToConfiguration(harness, entity.entity_id);
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.mode', 1, true),
@@ -390,7 +391,7 @@ exports.runTests = function (getHarness) {
                 async () => await harness.states.setStateAsync(deviceId + '.party', false, true),
                 entity => expect(entity).to.have.nested.property('attributes.preset_mode', 'boost'));
             await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.states.setStateAsync(deviceId + '.party', false, true),
+                async () => await harness.states.setStateAsync(deviceId + '.boost', false, true),
                 entity => expect(entity).to.have.nested.property('attributes.preset_mode', 'none'));
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.boost', true, true),
