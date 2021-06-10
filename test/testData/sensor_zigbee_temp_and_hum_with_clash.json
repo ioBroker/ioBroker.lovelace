@@ -1,5 +1,5 @@
 {
-  "zigbee.0.0123456789abcdef": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first": {
     "comment": "file contains two zigbee temperature sensors with temperature and humidity. Using name for entity id leads to id clash in humidity / temperature and issue 153",
     "type": "device",
     "common": {
@@ -13,14 +13,14 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1622123618685,
-    "_id": "zigbee.0.0123456789abcdef",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first",
     "acl": {
       "object": 1636,
       "owner": "system.user.admin",
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.0123456789abcdef.available": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.available": {
     "type": "state",
     "common": {
       "name": "Available",
@@ -32,7 +32,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789276,
-    "_id": "zigbee.0.0123456789abcdef.available",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.available",
     "native": {},
     "acl": {
       "object": 1636,
@@ -41,7 +41,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.0123456789abcdef.battery": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.battery": {
     "type": "state",
     "common": {
       "name": "Battery percent",
@@ -57,7 +57,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789350,
-    "_id": "zigbee.0.0123456789abcdef.battery",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.battery",
     "native": {},
     "acl": {
       "object": 1636,
@@ -66,7 +66,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.0123456789abcdef.humidity": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.humidity": {
     "type": "state",
     "common": {
       "name": "Humidity",
@@ -82,7 +82,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789339,
-    "_id": "zigbee.0.0123456789abcdef.humidity",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.humidity",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -90,7 +90,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.0123456789abcdef.link_quality": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.link_quality": {
     "type": "state",
     "common": {
       "name": "Link quality",
@@ -105,7 +105,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789339,
-    "_id": "zigbee.0.0123456789abcdef.link_quality",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.link_quality",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -113,7 +113,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.0123456789abcdef.pressure": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.pressure": {
     "type": "state",
     "common": {
       "name": "Pressure",
@@ -129,7 +129,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1621593364979,
-    "_id": "zigbee.0.0123456789abcdef.pressure",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.pressure",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -137,7 +137,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.0123456789abcdef.temperature": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.temperature": {
     "type": "state",
     "common": {
       "name": "Temperature",
@@ -151,7 +151,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789339,
-    "_id": "zigbee.0.0123456789abcdef.temperature",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.temperature",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -159,7 +159,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.0123456789abcdef.voltage": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.voltage": {
     "type": "state",
     "common": {
       "name": "Battery voltage",
@@ -174,7 +174,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789347,
-    "_id": "zigbee.0.0123456789abcdef.voltage",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first.voltage",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -184,7 +184,7 @@
   },
 
 
-  "zigbee.0.123456789abcdef0": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second": {
     "type": "device",
     "common": {
       "name": "Zigbee Temp 2",
@@ -197,14 +197,14 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1622123618685,
-    "_id": "zigbee.0.123456789abcdef0",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second",
     "acl": {
       "object": 1636,
       "owner": "system.user.admin",
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.123456789abcdef0.available": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.available": {
     "type": "state",
     "common": {
       "name": "Available",
@@ -216,7 +216,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789276,
-    "_id": "zigbee.0.123456789abcdef0.available",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.available",
     "native": {},
     "acl": {
       "object": 1636,
@@ -225,7 +225,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.123456789abcdef0.battery": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.battery": {
     "type": "state",
     "common": {
       "name": "Battery percent",
@@ -241,7 +241,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789350,
-    "_id": "zigbee.0.123456789abcdef0.battery",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.battery",
     "native": {},
     "acl": {
       "object": 1636,
@@ -250,7 +250,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.123456789abcdef0.humidity": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.humidity": {
     "type": "state",
     "common": {
       "name": "Humidity",
@@ -266,7 +266,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789339,
-    "_id": "zigbee.0.123456789abcdef0.humidity",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.humidity",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -274,7 +274,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.123456789abcdef0.link_quality": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.link_quality": {
     "type": "state",
     "common": {
       "name": "Link quality",
@@ -289,7 +289,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789339,
-    "_id": "zigbee.0.123456789abcdef0.link_quality",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.link_quality",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -297,7 +297,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.123456789abcdef0.pressure": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.pressure": {
     "type": "state",
     "common": {
       "name": "Pressure",
@@ -313,7 +313,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1621593364979,
-    "_id": "zigbee.0.123456789abcdef0.pressure",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.pressure",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -321,7 +321,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.123456789abcdef0.temperature": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.temperature": {
     "type": "state",
     "common": {
       "name": "Temperature",
@@ -335,7 +335,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789339,
-    "_id": "zigbee.0.123456789abcdef0.temperature",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.temperature",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -343,7 +343,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "zigbee.0.123456789abcdef0.voltage": {
+  "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.voltage": {
     "type": "state",
     "common": {
       "name": "Battery voltage",
@@ -358,7 +358,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1578180789347,
-    "_id": "zigbee.0.123456789abcdef0.voltage",
+    "_id": "adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second.voltage",
     "acl": {
       "object": 1636,
       "state": 1636,

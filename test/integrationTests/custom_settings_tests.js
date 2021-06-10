@@ -1,13 +1,13 @@
 const tools  = require('./testTools');
 const expect = require('chai').expect;
-const testObjects = require('../testData/custom_settings.json');
+const testObjects = require('../testData/binary_sensor_custom_settings.json');
 
 exports.runTests = function (getHarness) {
     describe('Test custom settings', () => {
         it('entity should be created', async () => {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
-            const deviceId = 'adapter.0.binary_sensor_with_custom';
+            const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -17,7 +17,7 @@ exports.runTests = function (getHarness) {
         it('entity should not be created', async () => {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
-            const deviceId = 'adapter.0.binary_sensor_with_custom';
+            const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             delete objects[deviceId].common.custom;
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
             const entity = entities.find(e => e.context.id === deviceId);
@@ -26,7 +26,7 @@ exports.runTests = function (getHarness) {
         it('entity should update', async () => {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
-            const deviceId = 'adapter.0.binary_sensor_with_custom';
+            const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -53,7 +53,7 @@ exports.runTests = function (getHarness) {
         it('entity should vanish if custom disabled', async () => {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
-            const deviceId = 'adapter.0.binary_sensor_with_custom';
+            const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -70,7 +70,7 @@ exports.runTests = function (getHarness) {
         it('entity should vanish if object deleted', async () => {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
-            const deviceId = 'adapter.0.binary_sensor_with_custom';
+            const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;

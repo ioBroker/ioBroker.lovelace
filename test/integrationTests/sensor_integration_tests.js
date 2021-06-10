@@ -6,8 +6,8 @@ async function sensor_zigbee(getHarness) {
     const harness = getHarness();
 
     const objects = require('../testData/sensor_zigbee_temp_and_hum_with_clash.json');
-    const deviceId1 = 'zigbee.0.0123456789abcdef';
-    const deviceId2 = 'zigbee.0.123456789abcdef0';
+    const deviceId1 = 'adapter.0.sensor.zigbee_with_temp_and_humidity_clash_first';
+    const deviceId2 = 'adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second';
     const entities = await tools.startAndGetEntities(harness, objects, [deviceId1, deviceId2]);
 
     expect(entities).to.have.lengthOf(4 + tools.getNumConstEntities());

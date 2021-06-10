@@ -1,4 +1,7 @@
 const expect = require('chai').expect;
+const WebSocket = require('ws');
+
+const lovelacePort = 38091;
 
 /**
  * returns number of entities that are always added to entities array.
@@ -43,8 +46,8 @@ exports.sendToAsync = function (harness, instance, command, message) {
 exports.insertObjectsToDB = async function (harness, objects, idsWithEnums) {
     //modify port here:
     const instanceObj = await harness._objects.getObjectAsync('system.adapter.lovelace.0');
-    if (instanceObj.native.port !== 38091) {
-        instanceObj.native.port = 38091;
+    if (instanceObj.native.port !== lovelacePort) {
+        instanceObj.native.port = lovelacePort;
         await harness._objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
     }
     await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
@@ -81,8 +84,15 @@ exports.waitForEntitiesUpdate = async function (harness) {
     }
 };
 
-exports.startAndGetEntities = async function (harness, objects, deviceIds) {
+exports.startAndGetEntities = async function (harness, objects, deviceIds, initialStates) {
     await exports.insertObjectsToDB(harness, objects, deviceIds);
+    if (initialStates && initialStates.length) {
+        const promises = [];
+        for (const keyValue of initialStates) {
+            promises.push(harness.states.setStateAsync(keyValue.id, keyValue.val));
+        }
+        await Promise.all(promises);
+    }
     // Start the adapter and wait until it has started
     await harness.startAdapterAndWait();
     await exports.waitForEntitiesUpdate(harness);
@@ -91,18 +101,88 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds) {
     return entities;
 };
 
+/**
+ * Expects one entity
+ * @param {Entity} entity
+ * @param {string} entityType (for example light or sensor)
+ * @param {string} ioBrokerDeviceId expected id of context.id
+ * @param {string} name expected friendly name
+ * @param {Record<string,string>} values additional values, for example getId/setId of context.STATE.
+ */
 exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, values) {
     expect(entity).to.have.property('attributes');
-    expect(entity).to.have.nested.property('attributes.friendly_name', name);
+    if (name) {
+        expect(entity).to.have.nested.property('attributes.friendly_name', name);
+    }
     expect(entity).to.have.nested.property('context.STATE');
     expect(entity).to.have.nested.property('context.id', ioBrokerDeviceId);
     expect(entity).to.have.nested.property('context.type', entityType);
-    if (values.getId) {
+    if (values && values.getId) {
         expect(entity).to.have.nested.property('context.STATE.getId', values.getId);
     }
-    if (values.setId) {
+    if (values && values.setId) {
         expect(entity).to.have.nested.property('context.STATE.setId', values.setId);
     }
     expect(entity).to.have.property('entity_id');
     expect(entity.entity_id.startsWith(entityType + '.')).to.be.true;
+};
+
+/**
+ * Adds entity to configuration, which should make adapter subscribe to state changes
+ * @param harness
+ * @param {string} entity_id
+ * @returns {Promise<void>}
+ */
+exports.addEntityToConfiguration = async function (harness, entity_id) {
+    const configObj = await harness._objects.getObjectAsync('lovelace.0.configuration');
+    let currentConfig = configObj.native;
+    if (!currentConfig.views) {
+        currentConfig = JSON.parse(JSON.stringify(require('../../lib/defaultConfig.json')));
+        configObj.native = currentConfig;
+    }
+    //should look like lib\defaultConfig.json -> i.e. just fill views[0].cards
+    currentConfig.views[0].cards.push({ //just add entity card
+        'type': 'entity',
+        'entity': entity_id
+    });
+    await harness._objects.setObjectAsync('lovelace.0.configuration', configObj);
+};
+
+let currentClient;
+exports.clearClient = function () { currentClient && currentClient.close(); currentClient = undefined; };
+/**
+ * initiate websocket connection to lovelace, subscribe to state changes, then change state in iobroker and validate reaction from lovelace
+ * @param harness
+ * @param {string} entity_id id of entity that should be watched for changes.
+ * @param {function} changeState function that changes iobroker state -> must return promise / be async!
+ * @param {function} validator function that validates changed state, will get complete new entity.
+ * @returns {Promise<unknown>}
+ */
+exports.validateStateChange = async function (harness, entity_id, changeState, validator) {
+    if (!currentClient) {
+        currentClient = new WebSocket('ws://localhost:38091');
+        await new Promise(resolve => {
+            currentClient.on('open', () => {
+                currentClient.send(JSON.stringify({type: 'auth', access_token: 'no_token'}));
+                currentClient.send(JSON.stringify({type: 'subscribe_events', event_type: 'state_changed'}));
+                resolve();
+            });
+        });
+        currentClient.on('close', () => currentClient = undefined);
+        currentClient.on('error', () => currentClient = undefined);
+    }
+    const resultPromise = new Promise(resolve => {
+        currentClient.on('message', message => {
+            const m = JSON.parse(message);
+            if (m.type === 'event' && m.event && m.event.event_type === 'state_changed') {
+                const data = m.event.data;
+                if (data.entity_id === entity_id) {
+                    validator(data.new_state); //pass new entity to validator.
+                    resolve();
+                }
+            }
+        });
+    });
+    await changeState();
+    return resultPromise;
 };

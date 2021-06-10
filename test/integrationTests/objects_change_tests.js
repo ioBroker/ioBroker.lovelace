@@ -2,14 +2,30 @@ const tools  = require('./testTools');
 const expect = require('chai').expect;
 
 async function prepareDevices(harness) {
-    const objects = require('../testData/objects_change_tests.json');
+    const objects = {};
+    const colorLamp = require('../testData/light_rgbSingle_with_hue.json');
+    for (const id of Object.keys(colorLamp)) {
+        objects[id] = colorLamp[id];
+    }
+
     const deviceIds = [
-        'adapter.0.lamps.Color_Lamp',
-        'adapter.0.lamps.OnOffLamp',
-        'zigbee.0.0123456789abcdef'
+        'adapter.0.light.rgbSingleWithHue',
+        'adapter.0.light.OnlyOnOff',
+        'adapter.0.binary_sensor.motions.zigbee'
     ];
+
+    const onOffLamp = require('../testData/light_onOff.json');
+    for (const id of Object.keys(onOffLamp)) {
+        objects[id] = onOffLamp[id];
+    }
+
+    const motionDetector = require('../testData/binary_sensor_motion_zigbee.json');
+    for (const id of Object.keys(motionDetector)) {
+        objects[id] = motionDetector[id];
+    }
+
     const entities = await tools.startAndGetEntities(harness, objects, deviceIds);
-    expect(entities).to.have.lengthOf(3 + tools.getNumConstEntities() + 1); //+1 for zigbee device query switch
+    expect(entities.length).to.be.at.least(4 + tools.getNumConstEntities()); // 3 + device query switch
 
     return {
         objects,
@@ -24,7 +40,7 @@ exports.runTests = function (getHarness) {
         const harness = getHarness();
 
         const {entities, objects} = await prepareDevices(harness);
-        const deviceId = 'adapter.0.lamps.OnOffLamp'; //working on onOffLamp.
+        const deviceId = 'adapter.0.light.OnlyOnOff'; //working on onOffLamp.
         const deviceObj = objects[deviceId];
 
         const onOffLamp = entities.find(e => e.context.id === deviceId);
@@ -46,7 +62,7 @@ exports.runTests = function (getHarness) {
         const harness = getHarness();
 
         const {entities, objects} = await prepareDevices(harness);
-        const deviceId = 'adapter.0.lamps.OnOffLamp'; //working on onOffLamp.
+        const deviceId = 'adapter.0.light.OnlyOnOff'; //working on onOffLamp.
         const deviceObj = objects[deviceId];
 
         const onOffLamp = entities.find(e => e.context.id === deviceId);
@@ -67,7 +83,7 @@ exports.runTests = function (getHarness) {
         const harness = getHarness();
 
         const {entities, objects} = await prepareDevices(harness);
-        const deviceId = 'zigbee.0.0123456789abcdef'; //working on sensor.
+        const deviceId = 'adapter.0.binary_sensor.motions.zigbee'; //working on sensor.
         const deviceObj = objects[deviceId];
 
         const sensor = entities.find(e => e.context.id === deviceId);
@@ -87,7 +103,7 @@ exports.runTests = function (getHarness) {
         const harness = getHarness();
 
         const {entities} = await prepareDevices(harness);
-        const deviceId = 'adapter.0.lamps.Color_Lamp'; //working on color lamp
+        const deviceId = 'adapter.0.light.rgbSingleWithHue'; //working on color lamp
 
         const lamp = entities.find(e => e.context.id === deviceId);
         expect(lamp).to.be.ok;
@@ -105,7 +121,7 @@ exports.runTests = function (getHarness) {
         const harness = getHarness();
 
         const {entities, objects} = await prepareDevices(harness);
-        const deviceId = 'zigbee.0.0123456789abcdef';
+        const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
         const shouldBeThere = entities.find(e => e.context.id === deviceId);
         expect(shouldBeThere).to.be.ok;
 
@@ -124,7 +140,7 @@ exports.runTests = function (getHarness) {
         const harness = getHarness();
 
         const {entities} = await prepareDevices(harness);
-        const deviceId = 'zigbee.0.0123456789abcdef';
+        const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
         const shouldBeThere = entities.find(e => e.context.id === deviceId);
         expect(shouldBeThere).to.be.ok;
 
@@ -142,7 +158,7 @@ exports.runTests = function (getHarness) {
         const harness = getHarness();
 
         const {entities} = await prepareDevices(harness);
-        const deviceId = 'zigbee.0.0123456789abcdef';
+        const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
         const shouldBeThere = entities.find(e => e.context.id === deviceId);
         expect(shouldBeThere).to.be.ok;
 
@@ -160,8 +176,8 @@ exports.runTests = function (getHarness) {
         const harness = getHarness();
 
         const {entities} = await prepareDevices(harness);
-        const deviceId = 'zigbee.0.0123456789abcdef';
-        const deviceId2 = 'adapter.0.lamps.OnOffLamp';
+        const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
+        const deviceId2 = 'adapter.0.light.OnlyOnOff';
         const shouldBeThere = entities.find(e => e.context.id === deviceId);
         expect(shouldBeThere).to.be.ok;
         expect(entities.find(e => e.context.id === deviceId2)).to.be.ok;

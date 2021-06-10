@@ -1,5 +1,5 @@
 {
-  "javascript.0.motions.WithBatteryWarning": {
+  "adapter.0.binary_sensor.motions.WithBatteryWarning": {
     "type": "device",
     "common": {
       "name": "Motion With Battery"
@@ -8,14 +8,14 @@
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1592055616053,
-    "_id": "javascript.0.motions.WithBatteryWarning",
+    "_id": "adapter.0.binary_sensor.motions.WithBatteryWarning",
     "acl": {
       "object": 1636,
       "owner": "system.user.admin",
       "ownerGroup": "system.group.administrator"
     }
   },
-  "javascript.0.motions.WithBatteryWarning.battery": {
+  "adapter.0.binary_sensor.motions.WithBatteryWarning.battery": {
     "type": "state",
     "common": {
       "name": "Motion With Battery battery",
@@ -27,7 +27,7 @@
       "smartName": false
     },
     "native": {},
-    "_id": "javascript.0.motions.WithBatteryWarning.battery",
+    "_id": "adapter.0.binary_sensor.motions.WithBatteryWarning.battery",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1611589781299,
@@ -38,7 +38,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "javascript.0.motions.WithBatteryWarning.batteryWarning": {
+  "adapter.0.binary_sensor.motions.WithBatteryWarning.batteryWarning": {
     "type": "state",
     "common": {
       "name": "Motion With Battery batteryWarning",
@@ -49,7 +49,7 @@
       "smartName": false
     },
     "native": {},
-    "_id": "javascript.0.motions.WithBatteryWarning.batteryWarning",
+    "_id": "adapter.0.binary_sensor.motions.WithBatteryWarning.batteryWarning",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1611589781200,
@@ -60,7 +60,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "javascript.0.motions.WithBatteryWarning.illuminance": {
+  "adapter.0.binary_sensor.motions.WithBatteryWarning.illuminance": {
     "type": "state",
     "common": {
       "name": "Motion With Battery illuminance",
@@ -72,7 +72,7 @@
       "smartName": false
     },
     "native": {},
-    "_id": "javascript.0.motions.WithBatteryWarning.illuminance",
+    "_id": "adapter.0.binary_sensor.motions.WithBatteryWarning.illuminance",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1611589781600,
@@ -83,7 +83,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "javascript.0.motions.WithBatteryWarning.motion": {
+  "adapter.0.binary_sensor.motions.WithBatteryWarning.motion": {
     "type": "state",
     "common": {
       "name": "Motion With Battery",
@@ -94,7 +94,7 @@
       "smartName": false
     },
     "native": {},
-    "_id": "javascript.0.motions.WithBatteryWarning.motion",
+    "_id": "adapter.0.binary_sensor.motions.WithBatteryWarning.motion",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1611589781701,
@@ -105,7 +105,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "javascript.0.motions.WithBatteryWarning.no_motion": {
+  "adapter.0.binary_sensor.motions.WithBatteryWarning.no_motion": {
     "type": "state",
     "common": {
       "name": "Motion With Battery no motion",
@@ -117,7 +117,7 @@
       "smartName": false
     },
     "native": {},
-    "_id": "javascript.0.motions.WithBatteryWarning.no_motion",
+    "_id": "adapter.0.binary_sensor.motions.WithBatteryWarning.no_motion",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1611589781500,
@@ -128,7 +128,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "javascript.0.motions.WithBatteryWarning.offline": {
+  "adapter.0.binary_sensor.motions.WithBatteryWarning.offline": {
     "type": "state",
     "common": {
       "name": "Motion With Battery offline",
@@ -139,7 +139,7 @@
       "smartName": false
     },
     "native": {},
-    "_id": "javascript.0.motions.WithBatteryWarning.offline",
+    "_id": "adapter.0.binary_sensor.motions.WithBatteryWarning.offline",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1611589781399,

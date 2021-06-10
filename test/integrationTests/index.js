@@ -1,11 +1,20 @@
 const binary_sensor_tests   = require('./binary_sensor_integration_tests');
+const climate               = require('./climate_integration_tests');
 const sensor_tests          = require('./sensor_integration_tests');
 const object_change_tests   = require('./objects_change_tests');
 const custom_settings_tests = require('./custom_settings_tests');
 
+const tools                 = require('./testTools');
+
 exports.runTests = function (getHarness) {
+    afterEach(tools.clearClient);
+
     describe('Test binary_sensors', async () => {
         await binary_sensor_tests.runTests(getHarness);
+    });
+
+    describe('Test climate', async () => {
+        await climate.runTests(getHarness);
     });
 
     describe('Test sensors', async () => {

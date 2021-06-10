@@ -24,7 +24,7 @@ async function motion_sensor_zigbee(getHarness) {
     const harness = getHarness();
 
     const objects = require('../testData/binary_sensor_motion_zigbee.json');
-    const deviceId = 'zigbee.0.0123456789abcdef';
+    const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
     const entities = await startAndGetEntities(harness, objects, deviceId);
 
     expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities() + 1); //for device query switch.
@@ -38,7 +38,7 @@ async function motion_sensor_with_battery_warning(getHarness) {
     const harness = getHarness();
 
     const objects = require('../testData/binary_sensor_motion_with_battery_warning.json');
-    const deviceId = 'javascript.0.motions.WithBatteryWarning';
+    const deviceId = 'adapter.0.binary_sensor.motions.WithBatteryWarning';
     const entities = await startAndGetEntities(harness, objects, deviceId);
 
     expect(entities).to.have.lengthOf(2 + tools.getNumConstEntities());
@@ -50,12 +50,12 @@ async function motion_sensor_with_battery_warning(getHarness) {
     expectBattery(battery, deviceId + '.batteryWarning', objects[deviceId + '.batteryWarning'].common.name);
 }
 
-async function motion_sensor_linkeddevices_id_clash(getHarness) {
+async function motion_sensor_with_id_clash(getHarness) {
     // Create a fresh harness instance each test!
     const harness = getHarness();
 
-    const objects = require('../testData/binary_sensor_motion_linkeddevices_id_clash.json');
-    const deviceId = 'linkeddevices.0.Room.Motion';
+    const objects = require('../testData/binary_sensor_motion_with_id_clash.json');
+    const deviceId = 'adapter.0.binary_sensor.motions.withIdClash';
     const entities = await startAndGetEntities(harness, objects, deviceId);
 
     expect(entities).to.have.lengthOf(2 + tools.getNumConstEntities());
@@ -76,7 +76,7 @@ exports.runTests = function (getHarness) {
             await motion_sensor_with_battery_warning(getHarness);
         });
         it('detects Motion Sensor with battery and prevents id clash', async () => {
-            await motion_sensor_linkeddevices_id_clash(getHarness);
+            await motion_sensor_with_id_clash(getHarness);
         });
     });
 };
