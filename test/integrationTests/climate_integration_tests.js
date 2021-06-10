@@ -532,10 +532,10 @@ exports.runTests = function (getHarness) {
             expect(entity.attributes.swing_modes).to.have.members(['AUTO', 'HORIZONTAL', 'STATIONARY', 'VERTICAL']);
             await tools.addEntityToConfiguration(harness, entity.entity_id);
             await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.states.setStateAsync(deviceId + '.swing', 1, true),
+                async () => await harness.states.setStateAsync(deviceId + '.swing', 3, true),
                 entity => expect(entity).to.have.nested.property('attributes.swing_mode', 'VERTICAL'));
             await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.states.setStateAsync(deviceId + '.swing', 2, true),
+                async () => await harness.states.setStateAsync(deviceId + '.swing', 1, true),
                 entity => expect(entity).to.have.nested.property('attributes.swing_mode', 'HORIZONTAL'));
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.swing', 10, true),
