@@ -543,13 +543,13 @@ exports.runTests = function (getHarness) {
 
             console.log('Sending UI commands.');
             await tools.validateUIInput(harness, entity,m => {
-                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {fan_mode: 'AUTO'};
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: 'AUTO'};
             }, deviceId + '.swing', state => expect(state.val).to.equal(0));
             await tools.validateUIInput(harness, entity, m => {
-                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {fan_mode: 'HORIZONTAL'};
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: 'HORIZONTAL'};
             }, deviceId + '.swing', state => expect(state.val).to.equal(1));
             await tools.validateUIInput(harness, entity, m => {
-                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {fan_mode: '10'};
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: '10'};
             }, deviceId + '.swing', state => expect(state.val).to.equal(10));
         });
     });
