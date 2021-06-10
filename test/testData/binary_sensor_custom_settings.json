@@ -1,5 +1,5 @@
 {
-  "adapter.0.binary_sensor_with_custom": {
+  "adapter.0.binary_sensor.motions.withCustom": {
     "type": "state",
     "common": {
       "name": "Binary sensor with custom",
@@ -17,7 +17,7 @@
       }
     },
     "native": {},
-    "_id": "adapter.0.binary_sensor_with_custom",
+    "_id": "adapter.0.binary_sensor.motions.withCustom",
     "acl": {
       "object": 1636,
       "state": 1636,

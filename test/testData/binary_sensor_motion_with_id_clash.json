@@ -1,6 +1,6 @@
 {
-  "linkeddevices.0.Room.Motion": {
-    "_id": "linkeddevices.0.Room.Motion",
+  "adapter.0.binary_sensor.motions.withIdClash": {
+    "_id": "adapter.0.binary_sensor.motions.withIdClash",
     "type": "channel",
     "common": {
       "name": "Room Motion",
@@ -16,7 +16,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "linkeddevices.0.Room.Motion.ILLUMINATION": {
+  "adapter.0.binary_sensor.motions.withIdClash.ILLUMINATION": {
     "type": "state",
     "common": {
       "name": "Room Motion",
@@ -34,7 +34,7 @@
     "from": "system.adapter.linkeddevices.0",
     "user": "system.user.admin",
     "ts": 1622116508450,
-    "_id": "linkeddevices.0.Room.Motion.ILLUMINATION",
+    "_id": "adapter.0.binary_sensor.motions.withIdClash.ILLUMINATION",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -42,7 +42,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "linkeddevices.0.Room.Motion.LOW_BAT": {
+  "adapter.0.binary_sensor.motions.withIdClash.LOW_BAT": {
     "type": "state",
     "common": {
       "name": "Room Motion",
@@ -58,7 +58,7 @@
     "from": "system.adapter.linkeddevices.0",
     "user": "system.user.admin",
     "ts": 1622116508410,
-    "_id": "linkeddevices.0.Room.Motion.LOW_BAT",
+    "_id": "adapter.0.binary_sensor.motions.withIdClash.LOW_BAT",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -66,7 +66,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "linkeddevices.0.Room.Motion.MOTION": {
+  "adapter.0.binary_sensor.motions.withIdClash.MOTION": {
     "type": "state",
     "common": {
       "name": "Room Motion",
@@ -82,7 +82,7 @@
     "from": "system.adapter.linkeddevices.0",
     "user": "system.user.admin",
     "ts": 1622116508468,
-    "_id": "linkeddevices.0.Room.Motion.MOTION",
+    "_id": "adapter.0.binary_sensor.motions.withIdClash.MOTION",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -90,7 +90,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "linkeddevices.0.Room.Motion.MOTION_DETECTION_ACTIVE": {
+  "adapter.0.binary_sensor.motions.withIdClash.MOTION_DETECTION_ACTIVE": {
     "type": "state",
     "common": {
       "name": "Room Motion",
@@ -106,7 +106,7 @@
     "from": "system.adapter.linkeddevices.0",
     "user": "system.user.admin",
     "ts": 1622116508485,
-    "_id": "linkeddevices.0.Room.Motion.MOTION_DETECTION_ACTIVE",
+    "_id": "adapter.0.binary_sensor.motions.withIdClash.MOTION_DETECTION_ACTIVE",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -114,7 +114,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "linkeddevices.0.Room.Motion.SABOTAGE": {
+  "adapter.0.binary_sensor.motions.withIdClash.SABOTAGE": {
     "type": "state",
     "common": {
       "name": "Room Motion",
@@ -130,7 +130,7 @@
     "from": "system.adapter.linkeddevices.0",
     "user": "system.user.admin",
     "ts": 1622116508426,
-    "_id": "linkeddevices.0.Room.Motion.SABOTAGE",
+    "_id": "adapter.0.binary_sensor.motions.withIdClash.SABOTAGE",
     "acl": {
       "object": 1636,
       "state": 1636,

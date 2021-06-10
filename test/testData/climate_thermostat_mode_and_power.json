@@ -1,0 +1,85 @@
+{
+  "adapter.0.climate.thermostat.ModeAndPower": {
+    "type": "device",
+    "common": {
+      "name": "HeatingModeAndPower"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.climate.thermostat.ModeAndPower",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.ModeAndPower.mode": {
+    "type": "state",
+    "common": {
+      "name": "HeatingModeAndPower Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.thermostat",
+      "type": "number",
+      "states": {"0":  "Auto", "1": "Heat", "2":  "Cool"}
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.ModeAndPower.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.ModeAndPower.target": {
+    "type": "state",
+    "common": {
+      "name": "HeatingModeAndPower Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.ModeAndPower.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.ModeAndPower.power": {
+    "type": "state",
+    "common": {
+      "name": "HeatingModeAndPower Mode",
+      "read": true,
+      "write": true,
+      "role": "switch.power",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.ModeAndPower.power",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

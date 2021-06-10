@@ -1,0 +1,46 @@
+{
+  "adapter.0.light.OnlyOnOff": {
+    "type": "device",
+    "common": {
+      "name": "On Off Lamp",
+      "smartName": "On Off Smart Name"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055615999,
+    "_id": "adapter.0.light.rgbSingleWithHue",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.OnlyOnOff.state": {
+    "type": "state",
+    "common": {
+      "name": "On Off Lamp Switch",
+      "read": true,
+      "write": true,
+      "role": "switch.light",
+      "type": "boolean",
+      "min": false,
+      "max": true,
+      "smartName": {
+        "de": "On Off Lamp Smartname",
+        "smartType": "LIGHT"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.OnlyOnOff.state",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
