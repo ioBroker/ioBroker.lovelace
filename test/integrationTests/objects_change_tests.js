@@ -49,7 +49,7 @@ exports.runTests = function (getHarness) {
 
         deviceObj.common.smartName = 'Name changed';
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
-        await harness._objects.setObjectAsync(deviceId, deviceObj);
+        await harness.objects.setObjectAsync(deviceId, deviceObj);
         const newEntities = await tools.waitForEntitiesUpdate(harness);
         const newOnOffLamp = newEntities.find(e => e.context.id === deviceId);
         expect(newOnOffLamp).to.be.ok;
@@ -71,7 +71,7 @@ exports.runTests = function (getHarness) {
 
         deviceObj.common.name = 'Name changed';
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
-        await harness._objects.setObjectAsync(deviceId, deviceObj);
+        await harness.objects.setObjectAsync(deviceId, deviceObj);
         const newEntities = await tools.waitForEntitiesUpdate(harness);
         const newOnOffLamp = newEntities.find(e => e.context.id === deviceId);
         expect(newOnOffLamp).to.be.ok;
@@ -91,7 +91,7 @@ exports.runTests = function (getHarness) {
         expect(sensor).has.nested.property('attributes.friendly_name', deviceObj.common.name);
 
         deviceObj.common.name = 'Name changed';
-        await harness._objects.setObjectAsync(deviceId, deviceObj);
+        await harness.objects.setObjectAsync(deviceId, deviceObj);
         const newEntities = await tools.waitForEntitiesUpdate(harness);
         const newSensor = newEntities.find(e => e.context.id === deviceId);
         expect(newSensor).to.be.ok;
@@ -110,7 +110,7 @@ exports.runTests = function (getHarness) {
         expect(lamp).to.have.nested.property('context.iobType', 'rgbSingle');
 
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
-        await harness._objects.delObjectAsync(deviceId + '.color');
+        await harness.objects.delObjectAsync(deviceId + '.color');
         const newEntities = await tools.waitForEntitiesUpdate(harness);
         const newLamp = newEntities.find(e => e.context.id === deviceId);
         expect(newLamp).to.be.ok;
@@ -127,7 +127,7 @@ exports.runTests = function (getHarness) {
 
         for (const id of Object.keys(objects)) {
             if (id.startsWith(deviceId)) {
-                await harness._objects.delObjectAsync(id);
+                await harness.objects.delObjectAsync(id);
             }
         }
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
@@ -144,10 +144,10 @@ exports.runTests = function (getHarness) {
         const shouldBeThere = entities.find(e => e.context.id === deviceId);
         expect(shouldBeThere).to.be.ok;
 
-        const funcEnum = await harness._objects.getObjectAsync('enum.functions.testfunc');
+        const funcEnum = await harness.objects.getObjectAsync('enum.functions.testfunc');
         const foundIndex = funcEnum.common.members.indexOf(deviceId);
         funcEnum.common.members.splice(foundIndex, 1);
-        await harness._objects.setObjectAsync(funcEnum._id, funcEnum);
+        await harness.objects.setObjectAsync(funcEnum._id, funcEnum);
 
         const newEntities = await tools.waitForEntitiesUpdate(harness);
         const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
@@ -162,10 +162,10 @@ exports.runTests = function (getHarness) {
         const shouldBeThere = entities.find(e => e.context.id === deviceId);
         expect(shouldBeThere).to.be.ok;
 
-        const roomEnum = await harness._objects.getObjectAsync('enum.rooms.testroom');
+        const roomEnum = await harness.objects.getObjectAsync('enum.rooms.testroom');
         const foundIndex = roomEnum.common.members.indexOf(deviceId);
         roomEnum.common.members.splice(foundIndex, 1);
-        await harness._objects.setObjectAsync(roomEnum._id, roomEnum);
+        await harness.objects.setObjectAsync(roomEnum._id, roomEnum);
 
         const newEntities = await tools.waitForEntitiesUpdate(harness);
         const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
@@ -183,7 +183,7 @@ exports.runTests = function (getHarness) {
         expect(entities.find(e => e.context.id === deviceId2)).to.be.ok;
 
         //move deviceId from test room to new created room:
-        const roomEnum = await harness._objects.getObjectAsync('enum.rooms.testroom');
+        const roomEnum = await harness.objects.getObjectAsync('enum.rooms.testroom');
         const secondEnum = JSON.parse(JSON.stringify(roomEnum));
         let foundIndex = roomEnum.common.members.indexOf(deviceId);
         roomEnum.common.members.splice(foundIndex, 1);
@@ -192,7 +192,7 @@ exports.runTests = function (getHarness) {
         secondEnum._id = 'enum.rooms.newroom';
 
         //move deviceId2 from test func to new created func:
-        const funcEnum = await harness._objects.getObjectAsync('enum.functions.testfunc');
+        const funcEnum = await harness.objects.getObjectAsync('enum.functions.testfunc');
         const secondFuncEnum = JSON.parse(JSON.stringify(funcEnum));
         foundIndex = funcEnum.common.members.indexOf(deviceId2);
         funcEnum.common.members.splice(foundIndex, 1);
@@ -200,10 +200,10 @@ exports.runTests = function (getHarness) {
         secondFuncEnum.common.name = 'New function enum';
         secondFuncEnum._id = 'enum.functions.newFunc';
 
-        await harness._objects.setObjectAsync(roomEnum._id, roomEnum);
-        await harness._objects.setObjectAsync(secondEnum._id, secondEnum);
-        await harness._objects.setObjectAsync(funcEnum._id, funcEnum);
-        await harness._objects.setObjectAsync(secondFuncEnum._id, secondFuncEnum);
+        await harness.objects.setObjectAsync(roomEnum._id, roomEnum);
+        await harness.objects.setObjectAsync(secondEnum._id, secondEnum);
+        await harness.objects.setObjectAsync(funcEnum._id, funcEnum);
+        await harness.objects.setObjectAsync(secondFuncEnum._id, secondFuncEnum);
 
         const newEntities = await tools.waitForEntitiesUpdate(harness);
         expect(newEntities.find(e => e.context.id === deviceId)).to.be.ok;

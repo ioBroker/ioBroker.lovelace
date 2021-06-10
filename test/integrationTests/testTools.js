@@ -45,23 +45,23 @@ exports.sendToAsync = function (harness, instance, command, message) {
  */
 exports.insertObjectsToDB = async function (harness, objects, idsWithEnums) {
     //modify port here:
-    const instanceObj = await harness._objects.getObjectAsync('system.adapter.lovelace.0');
+    const instanceObj = await harness.objects.getObjectAsync('system.adapter.lovelace.0');
     if (instanceObj.native.port !== lovelacePort) {
         instanceObj.native.port = lovelacePort;
-        await harness._objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
+        await harness.objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
     }
     await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
     if (idsWithEnums) {
         const enums = require('../testData/enums.json');
         enums['enum.rooms.testroom'].common.members = idsWithEnums;
         enums['enum.functions.testfunc'].common.members = idsWithEnums;
-        await harness._objects.setObjectAsync('enum.rooms.testroom', enums['enum.rooms.testroom']);
-        await harness._objects.setObjectAsync('enum.functions.testfunc', enums['enum.functions.testfunc']);
+        await harness.objects.setObjectAsync('enum.rooms.testroom', enums['enum.rooms.testroom']);
+        await harness.objects.setObjectAsync('enum.functions.testfunc', enums['enum.functions.testfunc']);
     }
 
     for (const id of Object.keys(objects)) {
         const obj = objects[id];
-        await harness._objects.setObjectAsync(id, obj);
+        await harness.objects.setObjectAsync(id, obj);
     }
 };
 
@@ -134,7 +134,7 @@ exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, val
  * @returns {Promise<void>}
  */
 exports.addEntityToConfiguration = async function (harness, entity_id) {
-    const configObj = await harness._objects.getObjectAsync('lovelace.0.configuration');
+    const configObj = await harness.objects.getObjectAsync('lovelace.0.configuration');
     let currentConfig = configObj.native;
     if (!currentConfig.views) {
         currentConfig = JSON.parse(JSON.stringify(require('../../lib/defaultConfig.json')));
@@ -145,7 +145,7 @@ exports.addEntityToConfiguration = async function (harness, entity_id) {
         'type': 'entity',
         'entity': entity_id
     });
-    await harness._objects.setObjectAsync('lovelace.0.configuration', configObj);
+    await harness.objects.setObjectAsync('lovelace.0.configuration', configObj);
     await exports.waitForEntitiesUpdate(harness);
 };
 
