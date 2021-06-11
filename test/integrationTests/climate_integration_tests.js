@@ -688,7 +688,7 @@ exports.runTests = function (getHarness) {
                 climate.supportedFlags.CLIMATE_SUPPORT_FAN_MODE |
                 climate.supportedFlags.CLIMATE_SUPPORT_PRESET_MODE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
-            expect(entity.context.ATTRIBUTES).to.have.lengthOf(7);
+            expect(entity.context.ATTRIBUTES).to.have.lengthOf(8);
 
             expect(entity).to.have.nested.property('context.COMMANDS');
             expect(entity.context.COMMANDS).to.have.lengthOf(5);
