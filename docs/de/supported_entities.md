@@ -10,6 +10,7 @@ entity `light.kueche`), die ioBroker Geräte, die bei automatischer Erkennung zu
 
 * [Licht](supported_entities.md#licht)
 * [Sensoren](supported_entities.md#sensoren)
+* [Thermostat/AirCondition](supported_entities.md#klima)
 
 ## Licht
 
@@ -48,19 +49,31 @@ Obwohl Sensoren meist nur aus einem ioBroker-State bestehen und daher grundsätz
 kommt, empfiehlt sich trotzdem die automatische Erkennung zu nutzen, da dann das Attribut `device_class` (Geräteklasse) 
 richtig gefüllt werden kann und Lovelace so z.B. das richtige Icon und die richtige Einheit setzt.
 
-## Sensoren
+## Klima
 
-Domain: `sensor`
+Domain: `climate`
 
 ioBroker Geräte:
-* Fensterkippung (`window`)
-* Feuchtigkeit (`humidity`)
-* Temperatur (`temperature`)
+* Thermostat (`thermostat`)
+* AirCondition (`airCondition`)
 
-Obwohl Sensoren meist nur aus einem ioBroker-State bestehen und daher grundsätzlich auch die manuelle Konfiguration in Frage
-kommt, empfiehlt sich trotzdem die automatische Erkennung zu nutzen, da dann das Attribut `device_class` (Geräteklasse)
-richtig gefüllt werden kann und Lovelace so z.B. das richtige Icon und die richtige Einheit setzt.
+Thermostate und Klimaanlagen unterstützt Lovelace mit dem entity `climate`. Die Geräte `thermostat` und `airCondition` werden
+beide erkannt und in ein `climate` Gerät übersetzt. Dabei unterscheiden sich die Geräte zwischen ioBroker und Lovelace zum 
+Teil deutlich. 
 
+![Clima Karte](media/climate-entity-full.JPG)
+
+Die Kontrolle der Temperatur erfolgt in Lovelace über einen runden Slider. Darunter gibt es Knöpfe zur Wahl 
+des Modus (geht nur bei bekannten Modi). Die Modi werden mittels `states` im ioBroker state auf Zahlen umgebogen. Lovelace kennt 
+`auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` und `off`. Diese werden als Schaltflächen angezeigt und übersetzt. Davon
+abweichende States werden im more-info Fenster als Dropdown angezeigt. Dort gibt es auch dropdowns für Presets (falls `boost` oder `party` 
+im ioBroker Gerät vorhanden ist) oder Ventilator / Swing, falls das im ioBroker Gerät erkannt wurde. Bei Ventilator und Swing werden
+die States 1:1 in Lovelace angezeigt.
+
+![Clima More Info](media/climate-entity-full-moreinfo.JPG)
+
+Wie man an den Attributen sieht, sind da sehr viele ioBroker states an einer "vollausgestateten" Klimakarte beteiligt:
+![Clima Attributes](media/climate-entity-full-attributes.JPG)
 
 
 <!-- [Types.socket]:                 processSocket.bind(this),
