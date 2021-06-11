@@ -1,5 +1,6 @@
-const tools  = require('./testTools');
-const expect = require('chai').expect;
+const tools   = require('./testTools');
+const expect  = require('chai').expect;
+const climate = require('../../lib/converters/climate');
 
 exports.runTests = function (getHarness) {
     describe('thermostats', async () =>{
@@ -19,6 +20,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name, {getId: deviceId + '.power', setId: deviceId + '.power'});
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(3); //temperature + boost + preset_mode
             const temperatureAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
@@ -60,6 +62,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name, {getId: deviceId + '.power', setId: deviceId + '.power'});
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(4); //+boost
             const temperatureAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
@@ -93,6 +96,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name, {getId: deviceId + '.power', setId: deviceId + '.power'});
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(4); //+boost
             const temperatureAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
@@ -139,6 +143,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name, {getId: deviceId + '.power', setId: deviceId + '.power'});
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(5); //+boost
             const temperatureAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
@@ -184,6 +189,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(1);
             const temperatureAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
@@ -221,6 +227,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(2);
             const temperatureAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
@@ -263,6 +270,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(2);
             const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'hvac_mode');
@@ -329,6 +337,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(2);
             const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'hvac_mode');
@@ -399,6 +408,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE | climate.supportedFlags.CLIMATE_SUPPORT_PRESET_MODE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(4);
             const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'preset_mode');
@@ -466,6 +476,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE | climate.supportedFlags.CLIMATE_SUPPORT_FAN_MODE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(3);
             const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'fan_mode');
@@ -516,6 +527,7 @@ exports.runTests = function (getHarness) {
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE | climate.supportedFlags.CLIMATE_SUPPORT_SWING_MODE);
             expect(entity).to.have.nested.property('context.ATTRIBUTES');
             expect(entity.context.ATTRIBUTES).to.have.lengthOf(3);
             const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'swing_mode');
@@ -551,6 +563,135 @@ exports.runTests = function (getHarness) {
             await tools.validateUIInput(harness, entity, m => {
                 m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: '10'};
             }, deviceId + '.swing', state => expect(state.val).to.equal(10));
+        });
+
+        it('should create climate with mode and fan and no states', async () => {
+            // Create a fresh harness instance each test!
+            const harness = getHarness();
+
+            const objects = JSON.parse(JSON.stringify(require('../testData/climate_aircondition_mode_full_and_fan.json')));
+            const deviceId = 'adapter.0.aircondition.ModeAndFan';
+            const deviceObj = objects[deviceId];
+            delete objects[deviceId + '.fan'].common.states; //remove states.
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 1}, {id: deviceId + '.fan', val: 0}]);
+
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
+
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE | climate.supportedFlags.CLIMATE_SUPPORT_FAN_MODE);
+            expect(entity).to.have.nested.property('context.ATTRIBUTES');
+            expect(entity.context.ATTRIBUTES).to.have.lengthOf(3);
+            const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'fan_mode');
+            expect(modeAttribute).to.be.ok;
+            expect(modeAttribute).to.have.property('getId', deviceId + '.fan');
+
+            expect(entity).to.have.nested.property('context.COMMANDS');
+            expect(entity.context.COMMANDS).to.have.lengthOf(3);
+            const setFan = entity.context.COMMANDS.find(c => c.service === 'set_fan_mode');
+            expect(setFan).to.be.ok;
+
+            expect(entity).to.have.nested.property('attributes.fan_mode', 0);
+            expect(entity).to.have.nested.property('attributes.fan_modes');
+            expect(entity.attributes.fan_modes).to.have.members([0, 1, 2, 3, 4, 5, 6, 7]);
+            await tools.addEntityToConfiguration(harness, entity.entity_id);
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.fan', 1, true),
+                entity => expect(entity).to.have.nested.property('attributes.fan_mode', 1));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.fan', 2, true),
+                entity => expect(entity).to.have.nested.property('attributes.fan_mode', 2));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.fan', 10, true),
+                entity => expect(entity).to.have.nested.property('attributes.fan_mode', 10));
+
+            console.log('Sending UI commands.');
+            await tools.validateUIInput(harness, entity,m => {
+                m.domain = 'climate'; m.service = 'set_fan_mode'; m.service_data = {fan_mode: 0};
+            }, deviceId + '.fan', state => expect(state.val).to.equal(0));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_fan_mode'; m.service_data = {fan_mode: '1'};
+            }, deviceId + '.fan', state => expect(state.val).to.equal(1));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_fan_mode'; m.service_data = {fan_mode: '10'};
+            }, deviceId + '.fan', state => expect(state.val).to.equal(10));
+        });
+
+        it('should create climate with mode and swing and no states', async () => {
+            // Create a fresh harness instance each test!
+            const harness = getHarness();
+
+            const objects = JSON.parse(JSON.stringify(require('../testData/climate_aircondition_mode_full_and_swing.json')));
+            const deviceId = 'adapter.0.aircondition.ModeAndSwing';
+            const deviceObj = objects[deviceId];
+            delete objects[deviceId + '.swing'].common.states;
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 1}, {id: deviceId + '.swing', val: 0}]);
+
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
+
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE | climate.supportedFlags.CLIMATE_SUPPORT_SWING_MODE);
+            expect(entity).to.have.nested.property('context.ATTRIBUTES');
+            expect(entity.context.ATTRIBUTES).to.have.lengthOf(3);
+            const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'swing_mode');
+            expect(modeAttribute).to.be.ok;
+            expect(modeAttribute).to.have.property('getId', deviceId + '.swing');
+
+            expect(entity).to.have.nested.property('context.COMMANDS');
+            expect(entity.context.COMMANDS).to.have.lengthOf(3);
+            const setSwing = entity.context.COMMANDS.find(c => c.service === 'set_swing_mode');
+            expect(setSwing).to.be.ok;
+
+            expect(entity).to.have.nested.property('attributes.swing_mode', 0);
+            expect(entity).to.have.nested.property('attributes.swing_modes');
+            expect(entity.attributes.swing_modes).to.have.members([0, 1, 2, 3, 4, 5, 6, 7]);
+            await tools.addEntityToConfiguration(harness, entity.entity_id);
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.swing', 3, true),
+                entity => expect(entity).to.have.nested.property('attributes.swing_mode', 3));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.swing', 1, true),
+                entity => expect(entity).to.have.nested.property('attributes.swing_mode', 1));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.swing', 10, true),
+                entity => expect(entity).to.have.nested.property('attributes.swing_mode', 10));
+
+            console.log('Sending UI commands.');
+            await tools.validateUIInput(harness, entity,m => {
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: '0'};
+            }, deviceId + '.swing', state => expect(state.val).to.equal(0));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: 1};
+            }, deviceId + '.swing', state => expect(state.val).to.equal(1));
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: '10'};
+            }, deviceId + '.swing', state => expect(state.val).to.equal(10));
+        });
+
+        it('should create climate with mode and swing and fan and power', async () => {
+            // Create a fresh harness instance each test!
+            const harness = getHarness();
+
+            const objects = JSON.parse(JSON.stringify(require('../testData/climate_aircondition_full.json')));
+            const deviceId = 'adapter.0.aircondition.ModeAndSwing';
+            const deviceObj = objects[deviceId];
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 1}, {id: deviceId + '.swing', val: 0}]);
+
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
+
+            expect(entity).to.have.nested.property('attributes.supported_features',
+                climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE |
+                climate.supportedFlags.CLIMATE_SUPPORT_SWING_MODE |
+                climate.supportedFlags.CLIMATE_SUPPORT_FAN_MODE |
+                climate.supportedFlags.CLIMATE_SUPPORT_PRESET_MODE);
+            expect(entity).to.have.nested.property('context.ATTRIBUTES');
+            expect(entity.context.ATTRIBUTES).to.have.lengthOf(7);
+
+            expect(entity).to.have.nested.property('context.COMMANDS');
+            expect(entity.context.COMMANDS).to.have.lengthOf(5);
         });
     });
 };
