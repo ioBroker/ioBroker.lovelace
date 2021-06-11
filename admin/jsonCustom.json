@@ -396,9 +396,69 @@
               "value": "window",
               "label": "Window",
               "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "awning",
+              "label": "Awning",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "blind",
+              "label": "Blind",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "curtain",
+              "label": "Curtain",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "damper",
+              "label": "Damper",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "door",
+              "label": "Door",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "garage",
+              "label": "Garage",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "gate",
+              "label": "Gate",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "shade",
+              "label": "Shade",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "shutter",
+              "label": "Shutter",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "window",
+              "label": "Window",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "outlet",
+              "label": "Outlet",
+              "hidden": "data.entity !== 'switch'"
+            },
+            {
+              "value": "switch",
+              "label": "Switch",
+              "hidden": "data.entity !== 'switch'"
             }
           ],
-          "hidden": "!['sensor', 'binary_sensor'].includes(data.entity)",
+          "hidden": "!['sensor', 'binary_sensor', 'cover', 'switch'].includes(data.entity)",
           "xs": 12,
           "sm": 6,
           "md": 4,
