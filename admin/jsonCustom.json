@@ -478,6 +478,44 @@
           "sm": 6,
           "md": 4,
           "lg": 3
+        },
+        "attr_mode": {
+          "type": "select",
+          "label": "Modus",
+          "options": [
+            {
+              "value": "box",
+              "label": "labelModeBox",
+              "hidden": "data.entity !== 'input_number'"
+            },
+            {
+              "value": "slider",
+              "label": "Slider",
+              "hidden": "data.entity !== 'input_number'"
+            },
+            {
+              "value": "text",
+              "label": "Text",
+              "hidden": "data.entity !== 'input_text'"
+            },
+            {
+              "value": "password",
+              "label": "Password",
+              "hidden": "data.entity !== 'input_text'"
+            }
+          ],
+          "defaultFunc": "data.entity === 'input_number' ? (customObj.common && (customObj.common.min || customObj.common.max)) ? 'slider' : 'box' : data.entity === 'input_text' ? 'text' : undefined",
+          "hidden": "!['input_number'].includes(data.entity)"
+        },
+        "attr_has_time": {
+          "type": "checkbox",
+          "label": "labelHasTime",
+          "hidden": "data.entity !== 'input_datetime'"
+        },
+        "attr_has_date": {
+          "type": "checkbox",
+          "label": "labelHasDate",
+          "hidden": "data.entity !== 'input_datetime'"
         }
       }
     }
