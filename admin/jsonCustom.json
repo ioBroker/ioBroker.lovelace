@@ -398,6 +398,7 @@
               "hidden": "data.entity !== 'sensor'"
             }
           ],
+          "hidden": "!['sensor', 'binary_sensor'].includes(data.entity)",
           "xs": 12,
           "sm": 6,
           "md": 4,
