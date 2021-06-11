@@ -41,16 +41,19 @@ exports.sendToAsync = function (harness, instance, command, message) {
  * @param harness
  * @param {Record<string, ioBroker.Object>} objects
  * @param {Array<string>} [idsWithEnums] ids to add to enums.
+ * @param {boolean} [startingUp] prevent setting entitiesUpdated to false on startup
  * @returns {Promise<void>}
  */
-exports.insertObjectsToDB = async function (harness, objects, idsWithEnums) {
+exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, startingUp) {
     //modify port here:
     const instanceObj = await harness.objects.getObjectAsync('system.adapter.lovelace.0');
     if (instanceObj.native.port !== lovelacePort) {
         instanceObj.native.port = lovelacePort;
         await harness.objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
     }
-    await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
+    if (!startingUp) {
+        await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
+    }
     if (idsWithEnums) {
         const enums = require('../testData/enums.json');
         enums['enum.rooms.testroom'].common.members = idsWithEnums;
@@ -68,10 +71,13 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums) {
 /**
  * Waits until lovelace.0.info.entitiesUpdated is set to true by lovelace.
  * @param harness
+ * @param {boolean} [startingUp] prevent setting entitiesUpdated to false on startup
  * @returns {Promise<Entities>}
  */
-exports.waitForEntitiesUpdate = async function (harness) {
-    await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
+exports.waitForEntitiesUpdate = async function (harness, startingUp) {
+    if (!startingUp) {
+        await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
+    }
     let haveUpdate = false;
     while (!haveUpdate) {
         const state = await harness.states.getStateAsync('lovelace.0.info.entitiesUpdated');
@@ -85,7 +91,7 @@ exports.waitForEntitiesUpdate = async function (harness) {
 };
 
 exports.startAndGetEntities = async function (harness, objects, deviceIds, initialStates) {
-    await exports.insertObjectsToDB(harness, objects, deviceIds);
+    await exports.insertObjectsToDB(harness, objects, deviceIds, true);
     if (initialStates && initialStates.length) {
         const promises = [];
         for (const keyValue of initialStates) {
@@ -95,7 +101,7 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
     }
     // Start the adapter and wait until it has started
     await harness.startAdapterAndWait();
-    await exports.waitForEntitiesUpdate(harness);
+    await exports.waitForEntitiesUpdate(harness, true);
 
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
     return entities;
