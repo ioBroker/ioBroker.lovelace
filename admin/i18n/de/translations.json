@@ -120,6 +120,7 @@
     "labelDuplicateId": "Doppelte Entitäts-ID - bitte umbenennen oder Typ ändern.",
     "labelHasDate": "Datumseingabe zulassen",
     "labelHasTime": "Zeiteingabe zulassen",
+    "labelModeAttribute": "Modus",
     "labelModeBox": "Feld zum Eingeben von Zahlen",
     "labelOverwriteAutoEntity": "Die Entität überschreibt eine automatisch erstellte Entität. Bitte verwenden Sie, wenn möglich, die automatisch erstellte Entität.",
     "light": "Licht",

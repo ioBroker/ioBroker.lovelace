@@ -120,6 +120,7 @@
     "labelDuplicateId": "Dubbele entiteits-ID - hernoem of wijzig het type.",
     "labelHasDate": "Datuminvoer toestaan",
     "labelHasTime": "Tijdinvoer toestaan",
+    "labelModeAttribute": "Modus",
     "labelModeBox": "Vak om cijfers in te voeren",
     "labelOverwriteAutoEntity": "Entiteit overschrijft automatisch aangemaakte entiteit. Overweeg om in plaats daarvan automatisch aangemaakte entiteit te gebruiken of wijzig de naam.",
     "light": "licht",

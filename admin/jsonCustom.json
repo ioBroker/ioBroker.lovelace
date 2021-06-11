@@ -183,7 +183,7 @@
     "_attribtes": {
       "newLine": true,
       "type": "panel",
-      "hidden": "!['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater', 'binary_sensor', 'sensor'].includes(data.entity)",
+      "hidden": "!['binary_sensor', 'climate', 'cover', 'fan', 'group', 'humidifier', 'input_datetime', 'input_number', 'input_text', 'light', 'sensor', 'switch', 'water_heater'].includes(data.entity)",
       "items": {
         "_heading": {
           "type": "header",
@@ -194,10 +194,10 @@
         "attr_assumed_state": {
           "type": "checkbox",
           "label": "Assumed state (creates two buttons instead of slider)",
-          "defaultFunc": "data.entity === 'switch' ? (customObj.common && customObj.common.read) : undefined",
+          "defaultFunc": "['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity) ? (customObj.common && customObj.common.read) : undefined",
           "onChange": {
             "alsoDependsOn": ["entity"],
-            "calculateFunc": "data.entity === 'switch' ? (customObj.common && customObj.common.read) : undefined",
+            "calculateFunc": "['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity) ? (customObj.common && customObj.common.read) : undefined",
             "ignoreOwnChanges": false
           },
           "hidden": "!['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity)"
@@ -481,7 +481,7 @@
         },
         "attr_mode": {
           "type": "select",
-          "label": "Modus",
+          "label": "labelModeAttribute",
           "options": [
             {
               "value": "box",
@@ -505,17 +505,34 @@
             }
           ],
           "defaultFunc": "data.entity === 'input_number' ? (customObj.common && (customObj.common.min || customObj.common.max)) ? 'slider' : 'box' : data.entity === 'input_text' ? 'text' : undefined",
-          "hidden": "!['input_number'].includes(data.entity)"
+          "onChange": {
+            "alsoDependsOn": ["entity"],
+            "calculateFunc": "data.entity === 'input_number' ? (customObj.common && (customObj.common.min || customObj.common.max)) ? 'slider' : 'box' : data.entity === 'input_text' ? 'text' : undefined",
+            "ignoreOwnChanges": false
+          },
+          "hidden": "!['input_number', 'input_text'].includes(data.entity)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
         },
         "attr_has_time": {
           "type": "checkbox",
           "label": "labelHasTime",
-          "hidden": "data.entity !== 'input_datetime'"
+          "hidden": "data.entity !== 'input_datetime'",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
         },
         "attr_has_date": {
           "type": "checkbox",
           "label": "labelHasDate",
-          "hidden": "data.entity !== 'input_datetime'"
+          "hidden": "data.entity !== 'input_datetime'",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
         }
       }
     }

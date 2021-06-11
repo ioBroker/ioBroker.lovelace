@@ -120,6 +120,7 @@
     "labelDuplicateId": "Zduplikowany identyfikator jednostki — zmień nazwę lub typ.",
     "labelHasDate": "Zezwalaj na wprowadzanie daty",
     "labelHasTime": "Zezwól na wprowadzenie czasu",
+    "labelModeAttribute": "Tryb",
     "labelModeBox": "Pole do wpisywania cyfr",
     "labelOverwriteAutoEntity": "Jednostka nadpisze automatycznie utworzoną jednostkę, rozważ użycie automatycznie utworzonej jednostki lub zmień nazwę.",
     "light": "światło",

@@ -120,6 +120,7 @@
     "labelDuplicateId": "Identificación de entidad duplicada: cambie el nombre o el tipo.",
     "labelHasDate": "Permitir entrada de fecha",
     "labelHasTime": "Permitir entrada de tiempo",
+    "labelModeAttribute": "Modo",
     "labelModeBox": "Cuadro para ingresar números",
     "labelOverwriteAutoEntity": "La entidad sobrescribirá la entidad creada automáticamente, considere usar la entidad creada automáticamente en su lugar o cambie el nombre.",
     "light": "ligero",

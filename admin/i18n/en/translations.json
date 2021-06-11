@@ -120,6 +120,7 @@
     "labelDuplicateId": "Duplicate entity id - please rename or change type.",
     "labelHasDate": "Allow date input",
     "labelHasTime": "Allow time input",
+    "labelModeAttribute": "Mode",
     "labelModeBox": "Box to enter numbers",
     "labelOverwriteAutoEntity": "Entity will overwrite automatically created entity, please consider using automatically created entity instead or change name.",
     "light": "light",

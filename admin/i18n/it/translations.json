@@ -120,6 +120,7 @@
     "labelDuplicateId": "ID entità duplicato: rinomina o cambia tipo.",
     "labelHasDate": "Consenti inserimento data",
     "labelHasTime": "Consenti immissione del tempo",
+    "labelModeAttribute": "Modalità",
     "labelModeBox": "Casella per inserire i numeri",
     "labelOverwriteAutoEntity": "L'entità sovrascriverà l'entità creata automaticamente, considera l'utilizzo dell'entità creata automaticamente o cambia il nome.",
     "light": "luce",
