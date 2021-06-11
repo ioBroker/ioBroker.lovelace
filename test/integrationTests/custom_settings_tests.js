@@ -8,7 +8,7 @@ exports.runTests = function (getHarness) {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
-            const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
+            const entities = await tools.startAndGetEntities(harness, objects);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'binary_sensor', deviceId, objects[deviceId].common.name, {getId: deviceId});
@@ -19,7 +19,7 @@ exports.runTests = function (getHarness) {
             const objects = JSON.parse(JSON.stringify(testObjects));
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             delete objects[deviceId].common.custom;
-            const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
+            const entities = await tools.startAndGetEntities(harness, objects);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.not.ok;
         });
@@ -29,7 +29,7 @@ exports.runTests = function (getHarness) {
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             const custom = objects[deviceId].common.custom;
             delete objects[deviceId].common.custom;
-            const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
+            const entities = await tools.startAndGetEntities(harness, objects);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.not.ok;
 
@@ -43,7 +43,7 @@ exports.runTests = function (getHarness) {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
-            const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
+            const entities = await tools.startAndGetEntities(harness, objects);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'binary_sensor', deviceId, objects[deviceId].common.name, {getId: deviceId});
@@ -70,7 +70,7 @@ exports.runTests = function (getHarness) {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
-            const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
+            const entities = await tools.startAndGetEntities(harness, objects);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
@@ -87,7 +87,7 @@ exports.runTests = function (getHarness) {
             const harness = getHarness();
             const objects = JSON.parse(JSON.stringify(testObjects));
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
-            const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
+            const entities = await tools.startAndGetEntities(harness, objects);
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
@@ -97,6 +97,17 @@ exports.runTests = function (getHarness) {
             const newEntities = await tools.waitForEntitiesUpdate(harness);
             const newEntity = newEntities.find(e => e.context.id === deviceId);
             expect(newEntity).to.be.not.ok;
+        });
+
+        it('manual entity should overwrite automatic entity', async () => {
+            const harness = getHarness();
+            const objects = JSON.parse(JSON.stringify(testObjects));
+            const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            expect(entity).to.have.nested.property('attributes.device_class', 'connectivity'); //should not be window as auto detected!!
+            expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities());
         });
     });
 };

@@ -2,10 +2,10 @@
   "adapter.0.binary_sensor.motions.withCustom": {
     "type": "state",
     "common": {
-      "name": "Binary sensor with custom",
+      "name": "binary sensor with custom",
       "read": true,
       "write": false,
-      "role": "indicator.unreach",
+      "role": "sensor.window",
       "type": "boolean",
       "custom": {
         "lovelace.0": {
