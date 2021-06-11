@@ -131,7 +131,6 @@
 
                         if (list[i].attributes) {
                             for (var key in list[i].attributes) {
-                                let attribute = '<b>' + key + '</b>: ' + list[i].attributes[key];
                                 if (!keysList.includes(key)) {
                                     attrs.push('<b>' + key + '</b>: ' + list[i].attributes[key]);
                                 }
