@@ -194,10 +194,10 @@
         "attr_assumed_state": {
           "type": "checkbox",
           "label": "Assumed state (creates two buttons instead of slider)",
-          "defaultFunc": "['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity) ? (customObj.common && customObj.common.read) : undefined",
+          "defaultFunc": "['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity) ? (customObj.common ? !customObj.common.read : undefined) : undefined",
           "onChange": {
             "alsoDependsOn": ["entity"],
-            "calculateFunc": "['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity) ? (customObj.common && customObj.common.read) : undefined",
+            "calculateFunc": "['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity) ? (customObj.common ? !customObj.common.read : undefined) : undefined",
             "ignoreOwnChanges": false
           },
           "hidden": "!['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity)"
@@ -504,10 +504,10 @@
               "hidden": "data.entity !== 'input_text'"
             }
           ],
-          "defaultFunc": "data.entity === 'input_number' ? ((customObj.common && (customObj.common.min || customObj.common.max)) ? 'slider' : 'box') : (data.entity === 'input_text' ? 'text' : undefined)",
+          "defaultFunc": "data.entity === 'input_number' ? (customObj.common ? ((customObj.common.min || customObj.common.max) ? 'slider' : 'box') : undefined) : data.entity === 'input_text' ? 'text' : undefined",
           "onChange": {
             "alsoDependsOn": ["entity"],
-            "calculateFunc": "data.entity === 'input_number' ? ((customObj.common && (customObj.common.min || customObj.common.max)) ? 'slider' : 'box') : (data.entity === 'input_text' ? 'text' : undefined)",
+            "calculateFunc": "data.entity === 'input_number' ? (customObj.common ? ((customObj.common.min || customObj.common.max) ? 'slider' : 'box') : undefined) : data.entity === 'input_text' ? 'text' : undefined",
             "ignoreOwnChanges": false
           },
           "hidden": "!['input_number', 'input_text'].includes(data.entity)",
