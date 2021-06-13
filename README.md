@@ -447,6 +447,7 @@ For now (20201021.4) following files were modified:
 - `src/data/weather.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
+- `package.json` - remove husky commit hook
 
 
 After that checkout modified version in `./build` folder. Then.
@@ -469,7 +470,7 @@ After that checkout modified version in `./build` folder. Then.
 ## **WORK IN PROGRESS**
 * (Garfonso) Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)
 * (Garfonso) Fixed:   !Breaking! entity_id conflict for low_bat / humidity when part of another device
-* (Garfonso) Updated frontend to 20210402.1
+* (Garfonso) Updated frontend to 20210603.0 (changed light entity to not convert color anymore)
 * (Garfonso) Changed: increased file size limit to 5 MB during upload in config.
 * (Garfonso) Added: Support for input_datetime
 * (Garfonso) Added: Support for manual complex light entities
@@ -478,6 +479,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Added: Parameter to only enter code when disarming alarm
 * (Garfonso) Added: Support for admin 5 (jsonCustom)
 * (Garfonso) Added: Support for airCondition / rework thermostat
+* (Garfonso) Added: manual entities can be more complex now (needs documentation)
 
 ### 1.5.0 (2021-02-15)
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
