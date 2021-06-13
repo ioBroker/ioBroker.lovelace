@@ -90,12 +90,15 @@ exports.runTests = function (getHarness) {
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'light'; m.service = 'turn_on'; m.service_data = { brightness_pct: 100 };
         }, deviceId + '.brightness', state => expect(state.val).to.equal(100));
+        await tools.delay(500); //wait a little, because brightness will be set two times in this case!
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'light'; m.service = 'turn_off'; m.service_data = { brightness_pct: 0 };
         }, deviceId + '.brightness', state => expect(state.val).to.equal(0));
+        await tools.delay(500); //wait a little, because brightness will be set two times in this case!
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'light'; m.service = 'turn_on'; m.service_data = { brightness_pct: 50 };
         }, deviceId + '.brightness', state => expect(state.val).to.greaterThanOrEqual(50));
+        await tools.delay(500); //wait a little, because brightness will be set two times in this case!
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'light'; m.service = 'turn_off'; m.service_data = {};
         }, deviceId + '.brightness', state => expect(state.val).to.equal(0));
