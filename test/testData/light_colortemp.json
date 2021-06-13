@@ -1,0 +1,88 @@
+{
+  "adapter.0.light.ColorTemp": {
+    "type": "device",
+    "common": {
+      "name": "Lamp"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055615999,
+    "_id": "adapter.0.light.ColorTemp",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.ColorTemp.brightness": {
+    "type": "state",
+    "common": {
+      "name": "Lamp Brightness",
+      "read": true,
+      "write": true,
+      "role": "level.brightness",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "_id": "adapter.0.light.ColorTemp.brightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.ColorTemp.state": {
+    "type": "state",
+    "common": {
+      "name": "Lamp Switch",
+      "read": true,
+      "write": true,
+      "role": "switch.light",
+      "type": "boolean",
+      "min": false,
+      "max": true
+    },
+    "native": {},
+    "_id": "adapter.0.light.ColorTemp.state",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.ColorTemp.ct": {
+    "type": "state",
+    "common": {
+      "name": "Lamp Switch",
+      "read": true,
+      "write": true,
+      "role": "level.color.temperature",
+      "type": "number",
+      "unit": "°K",
+      "min": 2200,
+      "max": 6500
+    },
+    "native": {},
+    "_id": "adapter.0.light.ColorTemp.ct",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

@@ -104,6 +104,8 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
     await exports.waitForEntitiesUpdate(harness, true);
 
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
+    const promises = [];
+    await exports.addEntitiesToConfiguration(harness, entities);
     return entities;
 };
 
@@ -133,24 +135,27 @@ exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, val
     expect(entity.entity_id.startsWith(entityType + '.')).to.be.true;
 };
 
+
 /**
  * Adds entity to configuration, which should make adapter subscribe to state changes
  * @param harness
- * @param {string} entity_id
+ * @param {Array<Entity>} entities
  * @returns {Promise<void>}
  */
-exports.addEntityToConfiguration = async function (harness, entity_id) {
+exports.addEntitiesToConfiguration = async function (harness, entities) {
     const configObj = await harness.objects.getObjectAsync('lovelace.0.configuration');
     let currentConfig = configObj.native;
     if (!currentConfig.views) {
         currentConfig = JSON.parse(JSON.stringify(require('../../lib/defaultConfig.json')));
         configObj.native = currentConfig;
     }
-    //should look like lib\defaultConfig.json -> i.e. just fill views[0].cards
-    currentConfig.views[0].cards.push({ //just add entity card
-        'type': 'entity',
-        'entity': entity_id
-    });
+    for (const entity of entities) {
+        //should look like lib\defaultConfig.json -> i.e. just fill views[0].cards
+        currentConfig.views[0].cards.push({ //just add entity card
+            'type': 'entity',
+            'entity': entity.entity_id
+        });
+    }
     await harness.objects.setObjectAsync('lovelace.0.configuration', configObj);
     await exports.waitForEntitiesUpdate(harness);
 };
@@ -220,10 +225,29 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
  * Send a service call to adapter, emulating UI interaction
  * @param harness
  * @param {function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
- * @param {string} [ioBrokerId] - id of state to check for changes.
+ * @param {string} [ioBrokerId] - set of ids of state to check for changes.
  * @returns {Promise<ioBroker.State|null>}
  */
 exports.validateUIInput = async function (harness, entity, prepareMessageFunc, ioBrokerId, validator) {
+    if (ioBrokerId) {
+        await exports.validateMultiUIInput(harness, entity, prepareMessageFunc, [ioBrokerId], (states) => {
+            if (validator) {
+                validator(states[ioBrokerId]);
+            }
+        });
+    } else {
+        await exports.validateMultiUIInput(harness, entity, prepareMessageFunc);
+    }
+};
+
+/**
+ * Send a service call to adapter, emulating UI interaction
+ * @param harness
+ * @param {function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
+ * @param {Array<string>} [ioBrokerIds] - set of ids of state to check for changes.
+ * @returns {Promise<ioBroker.State|null>}
+ */
+exports.validateMultiUIInput = async function (harness, entity, prepareMessageFunc, ioBrokerIds, validator) {
     if (!currentClient) {
         await setupClient();
     }
@@ -237,20 +261,27 @@ exports.validateUIInput = async function (harness, entity, prepareMessageFunc, i
             }
         }
 
+        const results = {};
         function stateChanged(id, state) {
             console.log(id, 'changed');
-            if (id === ioBrokerId) {
+            if (ioBrokerIds.includes(id)) {
+                results[id] = state;
+                const foundIndex = ioBrokerIds.indexOf(id);
+                ioBrokerIds.splice(foundIndex, 1);
+            }
+            if (!ioBrokerIds.length) {
                 if (validator) {
-                    validator(state);
+                    validator(results);
                 }
                 harness.removeListener('stateChange', stateChanged);
+                console.log('resolving and removing iobState change listener');
                 resolve(state);
             }
         }
 
         id += 1;
         const service_call_id = id;
-        if (ioBrokerId) {
+        if (ioBrokerIds && ioBrokerIds.length) {
             console.log('Subscribed to iob stateChange');
             harness.on('stateChange', stateChanged);
         } else {

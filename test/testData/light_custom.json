@@ -1,0 +1,29 @@
+{
+  "adapter.0.light.Custom": {
+    "type": "state",
+    "common": {
+      "name": "Lamp Brightness",
+      "read": true,
+      "write": true,
+      "role": "switch",
+      "type": "boolean",
+      "custom": {
+        "lovelace.0": {
+          "entity": "light",
+          "name": "custom_light"
+        }
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.Custom",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
