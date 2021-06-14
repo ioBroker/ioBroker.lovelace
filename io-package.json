@@ -567,6 +567,17 @@
             }
         },
         {
+            "_id": "control.darkMode",
+            "type": "state",
+            "common": {
+                "name": "Dark Mode",
+                "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
+                "write": true,
+                "read": true,
+                "def": false
+            }
+        },
+        {
             "_id": "notifications",
             "type": "channel",
             "common": {
