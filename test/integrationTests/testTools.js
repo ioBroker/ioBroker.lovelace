@@ -46,10 +46,12 @@ exports.sendToAsync = function (harness, instance, command, message) {
  */
 exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, startingUp) {
     //modify port here:
-    const instanceObj = await harness.objects.getObjectAsync('system.adapter.lovelace.0');
-    if (instanceObj.native.port !== lovelacePort) {
-        instanceObj.native.port = lovelacePort;
-        await harness.objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
+    if (startingUp) {
+        const instanceObj = await harness.objects.getObjectAsync('system.adapter.lovelace.0');
+        if (instanceObj.native.port !== lovelacePort) {
+            instanceObj.native.port = lovelacePort;
+            await harness.objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
+        }
     }
     if (!startingUp) {
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
@@ -74,9 +76,12 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
  * @param {boolean} [startingUp] prevent setting entitiesUpdated to false on startup
  * @returns {Promise<Entities>}
  */
-exports.waitForEntitiesUpdate = async function (harness, startingUp) {
+exports.waitForEntitiesUpdate = async function (harness, objects, startingUp) {
     if (!startingUp) {
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
+    }
+    for (const obj of objects) {
+        await harness.objects.setObjectAsync(obj._id, obj);
     }
     let haveUpdate = false;
     while (!haveUpdate) {
@@ -101,10 +106,10 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
     }
     // Start the adapter and wait until it has started
     await harness.startAdapterAndWait();
-    await exports.waitForEntitiesUpdate(harness, true);
+    await exports.waitForEntitiesUpdate(harness, [], true);
 
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
-    await exports.addEntitiesToConfiguration(harness, entities);
+    await exports.addEntitiesToConfiguration(harness, entities, true);
     return entities;
 };
 
@@ -155,8 +160,7 @@ exports.addEntitiesToConfiguration = async function (harness, entities) {
             'entity': entity.entity_id
         });
     }
-    await harness.objects.setObjectAsync('lovelace.0.configuration', configObj);
-    await exports.waitForEntitiesUpdate(harness);
+    await exports.waitForEntitiesUpdate(harness, [configObj]);
 };
 
 let currentClient;

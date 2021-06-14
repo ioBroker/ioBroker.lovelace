@@ -48,9 +48,7 @@ exports.runTests = function (getHarness) {
         expect(onOffLamp).has.nested.property('attributes.friendly_name', deviceObj.common.smartName);
 
         deviceObj.common.smartName = 'Name changed';
-        await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
-        await harness.objects.setObjectAsync(deviceId, deviceObj);
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
         const newOnOffLamp = newEntities.find(e => e.context.id === deviceId);
         expect(newOnOffLamp).to.be.ok;
         expect(newOnOffLamp).has.nested.property('attributes.friendly_name',deviceObj.common.smartName);
@@ -70,9 +68,7 @@ exports.runTests = function (getHarness) {
         expect(onOffLamp).has.nested.property('attributes.friendly_name', deviceObj.common.smartName);
 
         deviceObj.common.name = 'Name changed';
-        await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
-        await harness.objects.setObjectAsync(deviceId, deviceObj);
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
         const newOnOffLamp = newEntities.find(e => e.context.id === deviceId);
         expect(newOnOffLamp).to.be.ok;
         expect(newOnOffLamp).has.nested.property('attributes.friendly_name',deviceObj.common.smartName);
@@ -91,8 +87,7 @@ exports.runTests = function (getHarness) {
         expect(sensor).has.nested.property('attributes.friendly_name', deviceObj.common.name);
 
         deviceObj.common.name = 'Name changed';
-        await harness.objects.setObjectAsync(deviceId, deviceObj);
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
         const newSensor = newEntities.find(e => e.context.id === deviceId);
         expect(newSensor).to.be.ok;
         expect(newSensor).has.nested.property('attributes.friendly_name',deviceObj.common.name);
@@ -111,7 +106,7 @@ exports.runTests = function (getHarness) {
 
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
         await harness.objects.delObjectAsync(deviceId + '.color');
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [], true);
         const newLamp = newEntities.find(e => e.context.id === deviceId);
         expect(newLamp).to.be.ok;
         expect(newLamp).to.have.nested.property('context.iobType', 'hue');
@@ -125,13 +120,13 @@ exports.runTests = function (getHarness) {
         const shouldBeThere = entities.find(e => e.context.id === deviceId);
         expect(shouldBeThere).to.be.ok;
 
+        await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
         for (const id of Object.keys(objects)) {
             if (id.startsWith(deviceId)) {
                 await harness.objects.delObjectAsync(id);
             }
         }
-        await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [], true);
         const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
         expect(shouldNotBeThere).to.not.be.ok;
     });
@@ -147,9 +142,8 @@ exports.runTests = function (getHarness) {
         const funcEnum = await harness.objects.getObjectAsync('enum.functions.testfunc');
         const foundIndex = funcEnum.common.members.indexOf(deviceId);
         funcEnum.common.members.splice(foundIndex, 1);
-        await harness.objects.setObjectAsync(funcEnum._id, funcEnum);
 
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [funcEnum]);
         const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
         expect(shouldNotBeThere).to.not.be.ok;
     });
@@ -167,7 +161,7 @@ exports.runTests = function (getHarness) {
         roomEnum.common.members.splice(foundIndex, 1);
         await harness.objects.setObjectAsync(roomEnum._id, roomEnum);
 
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [roomEnum]);
         const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
         expect(shouldNotBeThere).to.not.be.ok;
     });
@@ -200,12 +194,7 @@ exports.runTests = function (getHarness) {
         secondFuncEnum.common.name = 'New function enum';
         secondFuncEnum._id = 'enum.functions.newFunc';
 
-        await harness.objects.setObjectAsync(roomEnum._id, roomEnum);
-        await harness.objects.setObjectAsync(secondEnum._id, secondEnum);
-        await harness.objects.setObjectAsync(funcEnum._id, funcEnum);
-        await harness.objects.setObjectAsync(secondFuncEnum._id, secondFuncEnum);
-
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [roomEnum, secondEnum, funcEnum, secondFuncEnum]);
         expect(newEntities.find(e => e.context.id === deviceId)).to.be.ok;
         expect(newEntities.find(e => e.context.id === deviceId2)).to.be.ok;
     });

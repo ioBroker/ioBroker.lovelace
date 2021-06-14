@@ -33,8 +33,7 @@ exports.runTests = function (getHarness) {
         expect(entity).to.be.not.ok;
 
         objects[deviceId].common.custom = custom;
-        await harness.objects.setObjectAsync(deviceId, objects[deviceId]);
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [objects[deviceId]]);
         const newEntity = newEntities.find(e => e.context.id === deviceId);
         expect(newEntity).to.be.ok;
     });
@@ -58,8 +57,7 @@ exports.runTests = function (getHarness) {
                 'attr_device_class': 'motion'
             }
         };
-        await harness.objects.setObjectAsync(deviceId, obj);
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [obj]);
         const newEntity = newEntities.find(e => e.context.id === deviceId);
         expect(newEntity).to.be.ok;
         tools.expectEntity(newEntity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
@@ -77,8 +75,7 @@ exports.runTests = function (getHarness) {
 
         const obj = JSON.parse(JSON.stringify(objects[deviceId]));
         obj.common.custom['lovelace.0'] = null;
-        await harness.objects.setObjectAsync(deviceId, obj);
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [obj]);
         const newEntity = newEntities.find(e => e.context.id === deviceId);
         expect(newEntity).to.be.not.ok;
     });
@@ -92,8 +89,9 @@ exports.runTests = function (getHarness) {
         tools.expectEntity(entity, 'binary_sensor', deviceId,objects[deviceId].common.name, {getId: deviceId});
         expect(entity).to.have.nested.property('attributes.device_class', 'connectivity');
 
+        await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
         await harness.objects.delObjectAsync(deviceId);
-        const newEntities = await tools.waitForEntitiesUpdate(harness);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [], true);
         const newEntity = newEntities.find(e => e.context.id === deviceId);
         expect(newEntity).to.be.not.ok;
     });
