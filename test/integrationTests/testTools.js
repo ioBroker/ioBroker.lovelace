@@ -104,7 +104,6 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
     await exports.waitForEntitiesUpdate(harness, true);
 
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
-    const promises = [];
     await exports.addEntitiesToConfiguration(harness, entities);
     return entities;
 };
@@ -114,8 +113,8 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
  * @param {Entity} entity
  * @param {string} entityType (for example light or sensor)
  * @param {string} ioBrokerDeviceId expected id of context.id
- * @param {string} name expected friendly name
- * @param {Record<string,string>} values additional values, for example getId/setId of context.STATE.
+ * @param {string} [name] expected friendly name
+ * @param {Record<string,string>} [values] additional values, for example getId/setId of context.STATE.
  */
 exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, values) {
     expect(entity).to.have.property('attributes');
