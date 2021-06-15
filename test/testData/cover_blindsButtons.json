@@ -1,0 +1,129 @@
+{
+  "adapter.0.cover.blindsButton": {
+    "type": "device",
+    "common": {
+      "name": "Blinds Buttons"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616034,
+    "_id": "adapter.0.cover.blindsButton",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsButton.direction": {
+    "type": "state",
+    "common": {
+      "name": "Blinds Buttons direction",
+      "read": true,
+      "write": false,
+      "role": "indicator.direction",
+      "min": false,
+      "max": true,
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsButton.direction",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049819294,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsButton.down": {
+    "type": "state",
+    "common": {
+      "name": "Blinds Buttons down",
+      "read": true,
+      "write": true,
+      "role": "button.close.blind",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsButton.down",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592656258791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsButton.stop": {
+    "type": "state",
+    "common": {
+      "name": "Blinds Buttons stop",
+      "read": true,
+      "write": true,
+      "role": "button.stop.blind",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsButton.stop",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1606520221622,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsButton.up": {
+    "type": "state",
+    "common": {
+      "name": "Blinds Buttons up",
+      "read": true,
+      "write": true,
+      "role": "button.open.blind",
+      "type": "boolean",
+      "min": false,
+      "max": true
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsButton.up",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592656258891,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsButton.working": {
+    "type": "state",
+    "common": {
+      "name": "Blinds Buttons working",
+      "read": true,
+      "write": false,
+      "role": "indicator.working",
+      "min": false,
+      "max": true,
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsButton.working",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049819392,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
