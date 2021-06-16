@@ -611,11 +611,12 @@ gulp.task('prepareDevserver', async done => {
 });
 
 gulp.task('updateDevserver', async done => {
-    await spawnChild('C:\\Program Files\\nodejs\\npm.CMD', ['install', 'iobroker.admin@latest'], 'Updating admin');
-    await spawnChild('C:\\Program Files\\nodejs\\npm.CMD', ['install', 'iobroker.devices@latest'], 'Updating devices');
-    await spawnChild('C:\\Program Files\\nodejs\\npm.CMD', ['install', 'iobroker.history@latest'], 'Updating history');
-    await spawnChild('C:\\Program Files\\nodejs\\npm.CMD', ['install', 'iobroker.type-detector@latest'], 'Updating type-detector');
-    await spawnChild('C:\\Program Files\\nodejs\\npm.CMD', ['link', 'iobroker.lovelace'], 'Linking lovelace');
-    await spawnChild('C:\\Program Files\\nodejs\\npm.CMD', ['install'], 'Reparing dependencies in lovelace', true);
+    const npmCmd = 'npm' + (process.platform.startsWith('win') ? '.CMD' : '');
+    await spawnChild(npmCmd, ['install', 'iobroker.admin@latest'], 'Updating admin');
+    await spawnChild(npmCmd, ['install', 'iobroker.devices@latest'], 'Updating devices');
+    await spawnChild(npmCmd, ['install', 'iobroker.history@latest'], 'Updating history');
+    await spawnChild(npmCmd, ['install', 'iobroker.type-detector@latest'], 'Updating type-detector');
+    await spawnChild(npmCmd, ['link', 'iobroker.lovelace'], 'Linking lovelace');
+    await spawnChild(npmCmd, ['install'], 'Reparing dependencies in lovelace', true);
     done();
 });
