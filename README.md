@@ -480,6 +480,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Added: Support for admin 5 (jsonCustom)
 * (Garfonso) Added: Support for airCondition / rework thermostat
 * (Garfonso) Added: manual entities can be more complex now (needs documentation)
+* (Garfonso) Added: darkMode control (but seems to be overriden by frontend?)
 
 ### 1.5.0 (2021-02-15)
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
