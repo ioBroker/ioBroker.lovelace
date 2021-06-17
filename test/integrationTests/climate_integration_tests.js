@@ -681,5 +681,49 @@ exports.runTests = function (getHarness) {
             expect(entity).to.have.nested.property('context.COMMANDS');
             expect(entity.context.COMMANDS).to.have.lengthOf(5);
         });
+
+        it('should create climate with binary swing, test swing control', async () => {
+            // Create a fresh harness instance each test!
+            const harness = getHarness();
+
+            const objects = JSON.parse(JSON.stringify(require('../testData/climate_aircondition_mode_full_and_binary_swing.json')));
+            const deviceId = 'adapter.0.aircondition.BinarySwing';
+            const deviceObj = objects[deviceId];
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 1}, {id: deviceId + '.swing', val: false}]);
+
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
+
+            expect(entity).to.have.nested.property('attributes.supported_features', climate.supportedFlags.CLIMATE_SUPPORT_TARGET_TEMPERATURE | climate.supportedFlags.CLIMATE_SUPPORT_SWING_MODE);
+            expect(entity).to.have.nested.property('context.ATTRIBUTES');
+            expect(entity.context.ATTRIBUTES).to.have.lengthOf(3);
+            const modeAttribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'swing_mode');
+            expect(modeAttribute).to.be.ok;
+            expect(modeAttribute).to.have.property('getId', deviceId + '.swing');
+
+            expect(entity).to.have.nested.property('context.COMMANDS');
+            expect(entity.context.COMMANDS).to.have.lengthOf(3);
+            const setHVAC = entity.context.COMMANDS.find(c => c.service === 'set_swing_mode');
+            expect(setHVAC).to.be.ok;
+
+            expect(entity).to.have.nested.property('attributes.swing_mode', 'off');
+            expect(entity).to.have.nested.property('attributes.swing_modes');
+            expect(entity.attributes.swing_modes).to.have.members(['on', 'off']);
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.swing', true, true),
+                entity => expect(entity).to.have.nested.property('attributes.swing_mode', 'on'));
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.swing', false, true),
+                entity => expect(entity).to.have.nested.property('attributes.swing_mode', 'off'));
+
+            console.log('Sending UI commands.');
+            await tools.validateUIInput(harness, entity,m => {
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: 'on'};
+            }, deviceId + '.swing', state => expect(state.val).to.be.true);
+            await tools.validateUIInput(harness, entity, m => {
+                m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: 'off'};
+            }, deviceId + '.swing', state => expect(state.val).to.be.false);
+        });
     });
 };

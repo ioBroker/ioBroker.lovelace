@@ -21,7 +21,7 @@
       "name": "Mode And Swing Mode",
       "read": true,
       "write": true,
-      "role": "level.mode.thermostat",
+      "role": "level.mode.airconditioner",
       "type": "number",
       "states": {"0": "Off", "1":  "Auto", "2": "Heat", "3":  "Cool", "4": "Heat_Cool", "5": "dry", "6": "fan_only", "7": "iobroker_mode"}
     },

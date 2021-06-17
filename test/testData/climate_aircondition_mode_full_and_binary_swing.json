@@ -1,24 +1,24 @@
 {
-  "adapter.0.aircondition.ModeAndFan": {
+  "adapter.0.aircondition.BinarySwing": {
     "type": "device",
     "common": {
-      "name": "Mode And Fan"
+      "name": "Binary Swing"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1592055616031,
-    "_id": "adapter.0.aircondition.ModeAndFan",
+    "_id": "adapter.0.aircondition.BinarySwing",
     "acl": {
       "object": 1636,
       "owner": "system.user.admin",
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.aircondition.ModeAndFan.mode": {
+  "adapter.0.aircondition.BinarySwing.mode": {
     "type": "state",
     "common": {
-      "name": "Mode And Fan Mode",
+      "name": "Binary Swing Mode",
       "read": true,
       "write": true,
       "role": "level.mode.airconditioner",
@@ -26,7 +26,7 @@
       "states": {"0": "Off", "1":  "Auto", "2": "Heat", "3":  "Cool", "4": "Heat_Cool", "5": "dry", "6": "fan_only", "7": "iobroker_mode"}
     },
     "native": {},
-    "_id": "adapter.0.aircondition.ModeAndFan.mode",
+    "_id": "adapter.0.aircondition.BinarySwing.mode",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1592049829108,
@@ -37,18 +37,17 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.aircondition.ModeAndFan.fan": {
+  "adapter.0.aircondition.BinarySwing.swing": {
     "type": "state",
     "common": {
-      "name": "Mode And Fan Fan",
+      "name": "Binary Swing",
       "read": true,
       "write": true,
-      "role": "speed.fan",
-      "type": "number",
-      "states": {"0": "AUTO", "1":  "HIGH", "2": "LOW", "3":  "MEDIUM", "4": "QUIET", "5": "TURBO"}
+      "role": "level.mode.swing",
+      "type": "boolean"
     },
     "native": {},
-    "_id": "adapter.0.aircondition.ModeAndFan.fan",
+    "_id": "adapter.0.aircondition.BinarySwing.swing",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1592049829108,
@@ -59,10 +58,10 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.aircondition.ModeAndFan.target": {
+  "adapter.0.aircondition.BinarySwing.target": {
     "type": "state",
     "common": {
-      "name": "Mode And Fan Target",
+      "name": "Binary Swing Target",
       "read": true,
       "write": true,
       "role": "level.temperature",
@@ -72,7 +71,7 @@
       "max": 35
     },
     "native": {},
-    "_id": "adapter.0.aircondition.ModeAndFan.target",
+    "_id": "adapter.0.aircondition.BinarySwing.target",
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1592049829108,
