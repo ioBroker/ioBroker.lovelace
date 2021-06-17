@@ -1,6 +1,6 @@
 {
   "name": "iobroker.lovelace",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
   "author": {
     "name": "bluefox",

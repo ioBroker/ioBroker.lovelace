@@ -467,7 +467,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.0 (2021-06-17)
 * (Garfonso) Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)
 * (Garfonso) Fixed:   !Breaking! entity_id conflict for low_bat / humidity when part of another device
 * (Garfonso) Updated frontend to 20210603.0 (changed light entity to not convert color anymore)
@@ -502,16 +502,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 1.4.1 (2021-01-08)
 * (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
-
-### 1.3.6 (2021-01-08)
-* (Garfonso) Fixed: do not ignore devices deleted from iot / without smartName
-* (Garfosno) Added: Support location devices with one GPS state in string form
-* (Garfonso) Added: Support for log service, logs frontend errors in server log
-* (Garfonso) Added: Support for service calls with multiple ids, i.e. header switch of elements card
-* (Garfonso) Fixed: unique check for manual entities only checked instance 0. Made them a bit more userfriendly, too.
-* (Garfonso) Added: Possibility to select theme during runtime / select default dark theme
-* (Garfonso) Fixed: hideToolbar did hide tab bar, too
-* (Garfonso) Added: Support for iobroker_say service call (allows tts in mini-mediaplayer card using platform iobroker)
 
 ## License
 
