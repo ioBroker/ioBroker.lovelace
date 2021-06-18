@@ -434,19 +434,20 @@ First of all the actual https://github.com/home-assistant/frontend (dev branch) 
 
 All changes for ioBroker are marked with comment `// IoB`.
 For now (20201021.4) following files were modified:
-- `.gitignore` - add `.idea` ignore
 - `build-scripts/gulp/app.js` - Add new gulp task
 - `build-scripts/gulp/webpack.js` - Add new gulp task
 - `src/data/lovelace.ts` - add hide toolbar option
+- `src/data/weather.ts` - add support to display weather icon from url.
 - `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and remove weather state & history
+- `src/dialogs/more-info/controls/more-info-climate.ts` - print mode name for unsupported modes
+- `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
 - `src/entrypoints/core.ts` - modified authentication process
 - `src/layouts/home-assistant-main.ts` - remove app sidebar
-- `src/panels/lovelace/hui-root.ts` - added notifications and voice control
-- `src/util/documentation-url.ts` - for link to iobroker help instead of homeassistant.
-- `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
-- `src/data/weather.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
+- `src/panels/lovelace/hui-root.ts` - added notifications and voice control
+- `src/util/documentation-url.ts` - for link to iobroker help instead of homeassistant.
+- `.gitignore` - add `.idea` ignore
 - `package.json` - remove husky commit hook
 
 

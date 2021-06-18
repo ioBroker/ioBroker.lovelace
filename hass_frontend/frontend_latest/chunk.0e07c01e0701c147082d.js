@@ -123,7 +123,7 @@
               >
                 ${t.attributes.hvac_modes.concat().sort(p.ZS).map((t=>i.dy`
                       <paper-item item-name=${t}>
-                        ${e.localize(`component.climate.state._.${t}`)}
+                        ${e.localize(`component.climate.state._.${t}`)||t} <!--iob: Add unsupported modes in clear text -->
                       </paper-item>
                     `))}
               </paper-listbox>
@@ -259,4 +259,4 @@
         padding: 8px 0;
       }
     `}}]}}),i.oi);customElements.define("more-info-climate",x)}}]);
-//# sourceMappingURL=chunk.e5ce303ed659cc765390.js.map
+//# sourceMappingURL=chunk.0e07c01e0701c147082d.js.map
