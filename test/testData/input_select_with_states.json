@@ -1,0 +1,31 @@
+{
+  "adapter.0.input_select.with_states": {
+    "type": "state",
+    "common": {
+      "name": "with_states",
+      "type": "number",
+      "min": 0,
+      "max": 5,
+      "states": {"0": "state0", "1": "state1", "2": "state2", "3": "state3", "4": "state4", "5": "state5"},
+      "read": true,
+      "write": true,
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "input_select",
+          "name": "input_select_with_states"
+        }
+      }
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616034,
+    "_id": "adapter.0.cover.blindsButton",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
