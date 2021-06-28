@@ -1,0 +1,208 @@
+{
+  "adapter.0.light.rgbSingleWithHue": {
+    "type": "device",
+    "common": {
+      "name": "Color Lamp"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055615999,
+    "_id": "adapter.0.light.rgbSingleWithHue",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingleWithHue.brightness": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp brightness",
+      "read": true,
+      "write": true,
+      "role": "level.dimmer",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingleWithHue.brightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860449,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingleWithHue.color": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp color",
+      "read": true,
+      "write": true,
+      "role": "level.color.rgb",
+      "type": "string",
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingleWithHue.color",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860349,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingleWithHue.colortemp": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp colortemp",
+      "read": true,
+      "write": true,
+      "role": "level.color.temperature",
+      "type": "number",
+      "min": 2200,
+      "max": 6500,
+      "unit": "K",
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingleWithHue.colortemp",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860049,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingleWithHue.hue": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp Hue",
+      "read": true,
+      "write": true,
+      "role": "level.color.hue",
+      "min": 0,
+      "max": 360,
+      "type": "number",
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingleWithHue.hue",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860249,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingleWithHue.offline": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp offline",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingleWithHue.offline",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589788918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingleWithHue.saturation": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp saturation",
+      "read": true,
+      "write": true,
+      "role": "level.color.saturation",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "type": "number",
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingleWithHue.saturation",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860149,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingleWithHue.state": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp",
+      "read": true,
+      "write": true,
+      "role": "switch.light",
+      "type": "boolean",
+      "min": false,
+      "max": true,
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingleWithHue.state",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860549,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

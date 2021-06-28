@@ -28,3 +28,7 @@ admin/i18n
 
 # maintenance scripts
 maintenance/**
+
+# devserver
+.dev-server
+

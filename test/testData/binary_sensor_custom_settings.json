@@ -1,0 +1,31 @@
+{
+  "adapter.0.binary_sensor.motions.withCustom": {
+    "type": "state",
+    "common": {
+      "name": "binary sensor with custom",
+      "read": true,
+      "write": false,
+      "role": "sensor.window",
+      "type": "boolean",
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "binary_sensor",
+          "name": "binary_sensor_with_custom",
+          "attr_device_class": "connectivity"
+        }
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.binary_sensor.motions.withCustom",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}

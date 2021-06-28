@@ -1,0 +1,64 @@
+{
+  "adapter.0.climate.thermostat.ModeFull": {
+    "type": "device",
+    "common": {
+      "name": "HeatingModeExtended"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.climate.thermostat.ModeFull",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.ModeFull.mode": {
+    "type": "state",
+    "common": {
+      "name": "HeatingModeExtended Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.thermostat",
+      "type": "number",
+      "states": {"0": "Off", "1":  "Auto", "2": "Heat", "3":  "Cool", "4": "Heat_Cool", "5": "dry", "6": "fan_only", "7": "iobroker_mode"}
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.ModeFull.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.ModeFull.target": {
+    "type": "state",
+    "common": {
+      "name": "HeatingModeExtended Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.ModeFull.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

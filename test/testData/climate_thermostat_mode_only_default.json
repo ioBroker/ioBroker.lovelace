@@ -1,0 +1,64 @@
+{
+  "adapter.0.climate.thermostat.ModeDefault": {
+    "type": "device",
+    "common": {
+      "name": "HeatingMode"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.climate.thermostat.ModeDefault",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.ModeDefault.mode": {
+    "type": "state",
+    "common": {
+      "name": "HeatingMode Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.thermostat",
+      "type": "number",
+      "states": {"0": "Auto", "1":  "Manual"}
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.ModeDefault.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.ModeDefault.target": {
+    "type": "state",
+    "common": {
+      "name": "HeatingMode Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.ModeDefault.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

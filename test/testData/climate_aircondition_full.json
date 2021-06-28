@@ -1,0 +1,197 @@
+{
+  "adapter.0.aircondition.Full": {
+    "type": "device",
+    "common": {
+      "name": "AirConditionFull"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.aircondition.Full",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.Full.mode": {
+    "type": "state",
+    "common": {
+      "name": "AirConditionFull Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.airconditioner",
+      "type": "number",
+      "states": {"0": "Off", "1":  "Auto", "2": "Heat", "3":  "Cool", "4": "Heat_Cool", "5": "dry", "6": "fan_only", "7": "iobroker_mode"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.Full.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.Full.fan": {
+    "type": "state",
+    "common": {
+      "name": "AirConditionFull Fan",
+      "read": true,
+      "write": true,
+      "role": "speed.fan",
+      "type": "number",
+      "states": {"0": "AUTO", "1":  "HIGH", "2": "LOW", "3":  "MEDIUM", "4": "QUIET", "5": "TURBO"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.Full.fan",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.Full.swing": {
+    "type": "state",
+    "common": {
+      "name": "AirConditionFull Swing",
+      "read": true,
+      "write": true,
+      "role": "level.mode.swing",
+      "type": "number",
+      "states": {"0": "AUTO", "1": "HORIZONTAL", "2": "STATIONARY", "3": "VERTICAL"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.Full.swing",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.Full.target": {
+    "type": "state",
+    "common": {
+      "name": "AirConditionFull Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.Full.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.Full.power": {
+    "type": "state",
+    "common": {
+      "name": "AirConditionFull power",
+      "read": true,
+      "write": true,
+      "role": "switch.power",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.Full.power",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021718,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.Full.humidity": {
+    "type": "state",
+    "common": {
+      "name": "AirConditionFull Humidity",
+      "read": true,
+      "write": false,
+      "role": "value.humidity",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.Full.humidity",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.Full.temperature": {
+    "type": "state",
+    "common": {
+      "name": "AirConditionFull Temperature",
+      "read": true,
+      "write": false,
+      "role": "value.temperature",
+      "type": "number",
+      "unit": "°C"
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.Full.temperature",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.Full.boost": {
+    "type": "state",
+    "common": {
+      "name": "AirConditionFull boost",
+      "read": false,
+      "write": true,
+      "role": "switch.boost",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.Full.boost",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021818,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

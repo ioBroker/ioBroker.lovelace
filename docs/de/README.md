@@ -26,3 +26,18 @@ Andere Themen (inklusive Hinweisen zu ioBroker Besonderheiten):
 * [Unterstütze entities](supported_entities.md) 
 * [Eigene Karten](custom_cards.md)
 * [Tipps für die Gestaltung der Oberfläche](ui_tipps.md)
+
+## Fernzugriff über ioBroker Cloud
+
+Neben den Optionen VPN zu nutzen oder den Port der Lovelace Instanz nach außen frei zu geben und die eingebaute 
+Autorisierung und SSL zu nutzen gibt es auch die Möglichkeit Lovelace über die ioBroker-Cloud zu nutzen. Der Vorteil ist, dass
+dann keine Verbindung von außen in euer Netz aufgebaut wird, sondern die Verbindung wird vom Cloud Adapter von eurem
+System aus initiiert. Das hiflt, neben dem "guten Gefühl", dass nix offen steht, insbesondere bei Dual Stack Lite oder anderen
+kompleren Netzwerklösungen, auf die man nicht den vollen Zugriff hat. 
+
+Um den Fernzugriff so zu erlauben muss sich auf iobroker.pro Registrieren und den Cloud Adapter installieren. In der Konfiguration 
+vom Cloud-Adapter muss man noch die gewünschte lovelace-Instanz auswählen. Danach taucht Lovelace in der Oberfläche 
+iobroker.pro bei "Anwendungen" auf und ist, nach Einloggen unter der URL `https://iobroker.pro:4443/lovelace/` erreichbar.
+
+In der Lovelace Instanz sollte dann SSL ausgeschaltet sein. Autorisierung ist ebenfalls nicht notwendig, da die über 
+das ioBroker-Konto gemacht wird.

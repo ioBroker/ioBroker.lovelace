@@ -1,0 +1,41 @@
+{
+  "adapter.0.light.BrightnessNoState": {
+    "type": "device",
+    "common": {
+      "name": "Lamp"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055615999,
+    "_id": "adapter.0.light.BrightnessNoState",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.BrightnessNoState.brightness": {
+    "type": "state",
+    "common": {
+      "name": "Lamp Brightness",
+      "read": true,
+      "write": true,
+      "role": "level.dimmer",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "_id": "adapter.0.light.BrightnessNoState.brightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

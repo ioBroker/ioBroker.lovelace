@@ -1,0 +1,31 @@
+{
+  "adapter.0.light.CustomBrightness": {
+    "type": "state",
+    "common": {
+      "name": "Lamp Brightness",
+      "read": true,
+      "write": true,
+      "role": "level.dimmer",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "custom": {
+        "lovelace.0": {
+          "entity": "light",
+          "name": "custom_brightness"
+        }
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.CustomBrightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

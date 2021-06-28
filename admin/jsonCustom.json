@@ -1,0 +1,540 @@
+{
+  "i18n": true,
+  "type": "panel",
+  "items": {
+    "entity": {
+      "newLine": true,
+      "type": "select",
+      "label": "Entity type",
+      "options": [
+        {
+          "value": "sensor",
+          "label": "sensor"
+        },
+        {
+          "value": "binary_sensor",
+          "label": "binary_sensor"
+        },
+        {
+          "value": "light",
+          "label": "light"
+        },
+        {
+          "value": "input_boolean",
+          "label": "input_boolean"
+        },
+        {
+          "value": "input_select",
+          "label": "input_select"
+        },
+        {
+          "value": "input_number",
+          "label": "input_number"
+        },
+        {
+          "value": "input_text",
+          "label": "input_text"
+        },
+        {
+          "value": "input_datetime",
+          "label": "input_datetime"
+        },
+        {
+          "value": "switch",
+          "label": "switch"
+        },
+        {
+          "value": "camera",
+          "label": "camera"
+        },
+        {
+          "value": "climate",
+          "label": "climate"
+        },
+        {
+          "value": "plant",
+          "label": "plant"
+        },
+        {
+          "value": "alarm_control_panel",
+          "label": "alarm"
+        },
+        {
+          "value": "fan",
+          "label": "fan"
+        },
+        {
+          "value": "group",
+          "label": "group"
+        },
+        {
+          "value": "automation",
+          "label": "automation"
+        },
+        {
+          "value": "cover",
+          "label": "cover"
+        },
+        {
+          "value": "lock",
+          "label": "lock"
+        },
+        {
+          "value": "media_player",
+          "label": "media_player"
+        },
+        {
+          "value": "scene",
+          "label": "scene"
+        },
+        {
+          "value": "script",
+          "label": "script"
+        },
+        {
+          "value": "timer",
+          "label": "timer"
+        },
+        {
+          "value": "vacuum",
+          "label": "vacuum"
+        },
+        {
+          "value": "water_heater",
+          "label": "water_heater"
+        },
+        {
+          "value": "weblink",
+          "label": "weblink"
+        },
+        {
+          "value": "history_graph",
+          "label": "history_graph"
+        },
+        {
+          "value": "sun",
+          "label": "sun"
+        },
+        {
+          "value": "weather",
+          "label": "weather"
+        }
+      ],
+      "defaultFunc": "!customObj.common ? 'sensor' : customObj.common.write ? (customObj.common.states ? 'input_select' : customObj.common.role === 'date' ? 'input_datetime' : customObj.common.type === 'boolean' ? 'input_boolean' : customObj.common.type === 'number' ? 'input_number' : 'input_text') : (customObj.common.type === 'boolean' ? 'binary_sensor' : 'sensor');",
+      "xs": 12,
+      "sm": 6,
+      "md": 4,
+      "lg": 3
+    },
+    "name": {
+      "type": "text",
+      "label": "Entity name",
+      "help": "(unique for one entity type)",
+      "defaultFunc": "(customObj && customObj._id) ? customObj._id.split('.').slice(2).join('_').replace(/Ü/g, 'UE').replace(/Ä/g, 'AE').replace(/Ö/g, 'OE').replace(/ü/g, 'ue').replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ß/g, 'ss').replace(/[^a-zA-Z0-9А-Яа-я_]/g, '_') : ''",
+      "xs": 12,
+      "sm": 12,
+      "md": 8,
+      "lg": 9
+    },
+    "_entityId": {
+      "newLine": true,
+      "type": "pattern",
+      "pattern": "${data.entity}.${data.name}",
+      "copyToClipboard": true,
+      "disabled": "true",
+      "label": "labelCompleteEntity",
+      "xs": 12,
+      "sm": 12,
+      "md": 12,
+      "lg": 12
+    },
+    "_entityIdError": {
+      "newLine": true,
+      "type": "staticText",
+      "text": "errorLabelEntityChars",
+      "style": {
+        "color": "red"
+      },
+      "hidden": "!/[^a-zA-Z0-9А-Яа-я_]/.test(data.name)",
+      "sm": 12
+    },
+    "_entityIdEmptyError": {
+      "newLine": true,
+      "type": "staticText",
+      "text": "errorLabelEntityEmpty",
+      "style": {
+        "color": "red"
+      },
+      "hidden": "data.name",
+      "sm": 12
+    },
+    "_entityDuplicateError": {
+      "newLine": true,
+      "container": "div",
+      "type": "textSendTo",
+      "alsoDependsOn": ["entity", "name"],
+      "command": "checkIdForDuplicates",
+      "style": {
+        "color": "red"
+      },
+      "jsonData": "{\"entity\": \"${data.entity}\", \"name\": \"${data.name}\", \"objectId\": \"${customObj._id}\"}",
+      "hidden": "data._entityDuplicateError"
+    },
+    "_attribtes": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "!['binary_sensor', 'climate', 'cover', 'fan', 'group', 'humidifier', 'input_datetime', 'input_number', 'input_text', 'light', 'sensor', 'switch', 'water_heater'].includes(data.entity)",
+      "items": {
+        "_heading": {
+          "type": "header",
+          "size": 1,
+          "text": "Additional Attributes",
+          "help": "define additional attributes for certain entity types"
+        },
+        "attr_assumed_state": {
+          "type": "checkbox",
+          "label": "Assumed state (creates two buttons instead of slider)",
+          "defaultFunc": "['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity) ? (customObj.common ? !customObj.common.read : undefined) : undefined",
+          "onChange": {
+            "alsoDependsOn": ["entity"],
+            "calculateFunc": "['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity) ? (customObj.common ? !customObj.common.read : undefined) : undefined",
+            "ignoreOwnChanges": false
+          },
+          "hidden": "!['switch', 'light', 'cover', 'climate', 'fan', 'humidifier', 'group', 'water_heater'].includes(data.entity)"
+        },
+        "attr_device_class": {
+          "newLine": true,
+          "type": "select",
+          "label": "Device class",
+          "options": [
+            {
+              "value": "battery",
+              "label": "Battery warning",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "battery_charging",
+              "label": "Battery charging",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "cold",
+              "label": "Cold",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "connectivity",
+              "label": "Connectivity",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "door",
+              "label": "Door",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "garage_door",
+              "label": "Garage door",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "gas",
+              "label": "Gas",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "heat",
+              "label": "Heat",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "light",
+              "label": "Light",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "lock",
+              "label": "Lock",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "moisture",
+              "label": "Moisture",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "motion",
+              "label": "Motion detector",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "moving",
+              "label": "Moving",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "occupancy",
+              "label": "Occupancy",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "opening",
+              "label": "Opening",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "plug",
+              "label": "Plug",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "power",
+              "label": "Powered",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "presence",
+              "label": "Presence",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "problem",
+              "label": "Problem",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "safety",
+              "label": "Safety",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "smoke",
+              "label": "Smoke",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "sound",
+              "label": "Sound",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "vibration",
+              "label": "Vibration",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "window",
+              "label": "Window",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "battery",
+              "label": "Battery percent",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "carbon_dioxide",
+              "label": "Carbon dioxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "carbon_monoxide",
+              "label": "Carbon monoxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "humidity",
+              "label": "Humidity",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "illuminance",
+              "label": "Illuminance",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "signal_strength",
+              "label": "Signal Strength",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "temperature",
+              "label": "Temperature",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "timestamp",
+              "label": "Timestamp",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "power",
+              "label": "Power",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "pressure",
+              "label": "Pressure",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "current",
+              "label": "Current",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "energy",
+              "label": "Energy",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "power_factor",
+              "label": "Power Factor",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "window",
+              "label": "Window",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "awning",
+              "label": "Awning",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "blind",
+              "label": "Blind",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "curtain",
+              "label": "Curtain",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "damper",
+              "label": "Damper",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "door",
+              "label": "Door",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "garage",
+              "label": "Garage",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "gate",
+              "label": "Gate",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "shade",
+              "label": "Shade",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "shutter",
+              "label": "Shutter",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "window",
+              "label": "Window",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "outlet",
+              "label": "Outlet",
+              "hidden": "data.entity !== 'switch'"
+            },
+            {
+              "value": "switch",
+              "label": "Switch",
+              "hidden": "data.entity !== 'switch'"
+            }
+          ],
+          "hidden": "!['sensor', 'binary_sensor', 'cover', 'switch'].includes(data.entity)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
+        },
+        "attr_unit_of_measurement": {
+          "type": "text",
+          "label": "Unit of measurement",
+          "defaultFunc": "data.entity === 'sensor' ? (customObj.common && customObj.common.unit) ? customObj.common.unit : {'battery': '%', 'carbon_dioxide':'ppm', 'carbon_monoxide':'ppm', 'humidity': '%', 'illuminance': 'lux', 'signal_strength': 'db', 'temperature': '°C', 'timestamp':'', 'power':'W', 'pressure':'hPa', 'current':'A', 'energy':'Wh', 'power_factor':'%', 'voltage':'V' }[data.attr_device_class] : undefined",
+          "onChange": {
+            "alsoDependsOn": ["attr_device_class"],
+            "calculateFunc": "data.entity === 'sensor' ? (customObj.common && customObj.common.unit) ? customObj.common.unit : {'battery': '%', 'carbon_dioxide':'ppm', 'carbon_monoxide':'ppm', 'humidity': '%', 'illuminance': 'lux', 'signal_strength': 'db', 'temperature': '°C', 'timestamp':'', 'power':'W', 'pressure':'hPa', 'current':'A', 'energy':'Wh', 'power_factor':'%', 'voltage':'V' }[data.attr_device_class] : undefined",
+            "ignoreOwnChanges": false
+          },
+          "hidden": "data.entity !== 'sensor'",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
+        },
+        "attr_mode": {
+          "type": "select",
+          "label": "labelModeAttribute",
+          "options": [
+            {
+              "value": "box",
+              "label": "labelModeBox",
+              "hidden": "data.entity !== 'input_number'"
+            },
+            {
+              "value": "slider",
+              "label": "Slider",
+              "hidden": "data.entity !== 'input_number'"
+            },
+            {
+              "value": "text",
+              "label": "Text",
+              "hidden": "data.entity !== 'input_text'"
+            },
+            {
+              "value": "password",
+              "label": "Password",
+              "hidden": "data.entity !== 'input_text'"
+            }
+          ],
+          "defaultFunc": "data.entity === 'input_number' ? (customObj.common ? ((customObj.common.min || customObj.common.max) ? 'slider' : 'box') : undefined) : data.entity === 'input_text' ? 'text' : undefined",
+          "onChange": {
+            "alsoDependsOn": ["entity"],
+            "calculateFunc": "data.entity === 'input_number' ? (customObj.common ? ((customObj.common.min || customObj.common.max) ? 'slider' : 'box') : undefined) : data.entity === 'input_text' ? 'text' : undefined",
+            "ignoreOwnChanges": false
+          },
+          "hidden": "!['input_number', 'input_text'].includes(data.entity)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
+        },
+        "attr_has_time": {
+          "type": "checkbox",
+          "label": "labelHasTime",
+          "hidden": "data.entity !== 'input_datetime'",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
+        },
+        "attr_has_date": {
+          "type": "checkbox",
+          "label": "labelHasDate",
+          "hidden": "data.entity !== 'input_datetime'",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
+        }
+      }
+    }
+  }
+}

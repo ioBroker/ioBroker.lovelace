@@ -131,7 +131,6 @@
 
                         if (list[i].attributes) {
                             for (var key in list[i].attributes) {
-                                let attribute = '<b>' + key + '</b>: ' + list[i].attributes[key];
                                 if (!keysList.includes(key)) {
                                     attrs.push('<b>' + key + '</b>: ' + list[i].attributes[key]);
                                 }
@@ -409,7 +408,7 @@
             getAllHistoryInstances(settings.history);
 
             var $dropZone = $('#tab-custom');
-            installFileUpload($dropZone, 2000000, function (err) {
+            installFileUpload($dropZone, 5242880, function (err) {
                 if (err) {
                     showError(_('Cannot uplpad file: ') + err);
                 } else {
@@ -698,6 +697,12 @@
                 <div class="input-field col s8 m10 l10">
                     <input class="value" id="blindsInvert" type="checkbox" />
                     <label class="translate" for="blindsInvert">blindsInvert</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s8 m10 l10">
+                    <input class="value" id="alarmCheckCodeOnDisarmOnly" type="checkbox" />
+                    <label class="translate" for="alarmCheckCodeOnDisarmOnly">alarmCheckCodeOnDisarmOnly</label>
                 </div>
             </div>
         </div>

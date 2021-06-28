@@ -1,0 +1,217 @@
+{
+  "adapter.0.light.rgbw": {
+    "type": "device",
+    "common": {
+      "name": "Color Lamp"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055615999,
+    "_id": "adapter.0.light.rgbw",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbw.brightness": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp brightness",
+      "read": true,
+      "write": true,
+      "role": "level.dimmer",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbw.brightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860449,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbw.colortemp": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp colortemp",
+      "read": true,
+      "write": true,
+      "role": "level.color.temperature",
+      "type": "number",
+      "min": 2200,
+      "max": 6500,
+      "unit": "K",
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbw.colortemp",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860049,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbw.offline": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp offline",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbw.offline",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589788918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbw.state": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp",
+      "read": true,
+      "write": true,
+      "role": "switch.light",
+      "type": "boolean",
+      "min": false,
+      "max": true,
+      "smartName": {
+        "de": "Color Lamp",
+        "smartType": "LIGHT"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbw.state",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860549,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbw.red": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp",
+      "read": true,
+      "write": true,
+      "role": "level.color.red",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbw.red",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860549,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbw.green": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp",
+      "read": true,
+      "write": true,
+      "role": "level.color.green",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbw.green",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860549,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbw.blue": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp",
+      "read": true,
+      "write": true,
+      "role": "level.color.blue",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbw.blue",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860549,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbw.white": {
+    "type": "state",
+    "common": {
+      "name": "Color Lamp",
+      "read": true,
+      "write": true,
+      "role": "level.color.white",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbw.white",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860549,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

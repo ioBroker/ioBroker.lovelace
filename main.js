@@ -44,19 +44,14 @@ function startAdapter(options) {
 
         // is called if a subscribed object changes
         objectChange: (id, obj) => {
-            if (obj) {
-                // The object was changed
-                adapter.apiServer.onObjectChange(id, obj);
-            } else {
-                // The object was deleted
-                adapter.log.info(`object ${id} deleted`);
-            }
+            adapter.apiServer.onObjectChange(id, obj);
         },
 
         // is called if a subscribed state changes
         stateChange: (id, state) => {
             if (state) {
                 // The state was changed
+                //TODO: shouldn't deleted states change state / attribute to unknown?
                 adapter.apiServer.onStateChange(id, state);
             } else {
                 // The state was deleted
@@ -70,6 +65,31 @@ function startAdapter(options) {
             } else if (obj.command === 'send') {
                 adapter.apiServer.addNotification(obj.message).then(list =>
                     obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
+            } else if (obj.command === 'checkIdForDuplicates') {
+                if (obj.callback) {
+                    if (obj.message) {
+                        const entities = adapter.apiServer.getHassStates();
+                        const params = obj.message;
+                        const entityId = params.entity + '.' + params.name;
+                        const objectId = params.objectId;
+                        const entity = entities.find(e => e.entity_id === entityId);
+                        if (entity) {
+                            if (entity.isManual) {
+                                if (entity.context.id === objectId) {
+                                    adapter.sendTo(obj.from, obj.command, '', obj.callback);
+                                } else {
+                                    adapter.sendTo(obj.from, obj.command, 'labelDuplicateId', obj.callback);
+                                }
+                            } else {
+                                adapter.sendTo(obj.from, obj.command, 'labelOverwriteAutoEntity', obj.callback);
+                            }
+                        } else {
+                            adapter.sendTo(obj.from, obj.command, '', obj.callback);
+                        }
+                    } else {
+                        adapter.sendTo(obj.from, obj.command, 'Internal error - Message null', obj.callback);
+                    }
+                }
             }
         }
 

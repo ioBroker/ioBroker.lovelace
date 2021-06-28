@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "1.5.0",
+        "version": "2.0.0",
         "news": {
+            "2.0.0": {
+                "en": "Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)\nFixed:   !Breaking! entity_id conflict for low_bat / humidity when part of another device\nUpdated frontend to 20210603.0 (changed light entity to not convert color anymore)\nChanged: increased file size limit to 5 MB during upload in config.\nAdded: Support for input_datetime\nAdded: Support for manual complex light entities\nAdded: Support for images from base64 data in iobroker states \nAdded: Support for additional alarm states.\nAdded: Parameter to only enter code when disarming alarm\nAdded: Support for admin 5 (jsonCustom)\nAdded: Support for airCondition / rework thermostat\nAdded: manual entities can be more complex now (needs documentation)\nAdded: darkMode control",
+                "de": "Geändert: !Inkompatibel! Batteriewarnung ist jetzt binary_sensor anstelle von sensor (jetzt setzt ui das Symbol und übersetzt ok)\nBehoben: !Inkompatibel! Entity_id-Konflikt für Low_bat / Feuchtigkeit, wenn Teil eines anderen Geräts\nAktualisiertes Frontend auf 20210603.0 (Licht entity hat sich verändert, Farbe werden nicht mehr konvertieren)\nGeändert: Dateigrößenbeschränkung auf 5 MB während des Uploads in config.\nHinzugefügt: Unterstützung für input_datetime\nHinzugefügt: Unterstützung für manuelle komplexe Lichtobjekte\nHinzugefügt: Unterstützung für Bilder aus base64-Daten in iobroker-Zuständen\nHinzugefügt: Unterstützung für zusätzliche Alarmzustände.\nHinzugefügt: Parameter, um nur Code einzugeben, wenn der Alarm deaktiviert wird\nHinzugefügt: Unterstützung für Admin 5 (jsonCustom)\nHinzugefügt: Unterstützung für AirCondition / Rework Thermostat\nHinzugefügt: Manuelle Entitäten können jetzt komplexer sein (benötigt Dokumentation)\nHinzugefügt: DarkMode-Steuerung",
+                "ru": "Изменено:! Ломать! Предупреждение о батарее теперь является binary_sensor вместо датчика (теперь пользовательский интерфейс устанавливает значок и переводит нормально)\nИсправлено:! Нарушение! Entity_id конфликт для low_bat / влажность, когда часть другого устройства...............................................................................................................................................................................................................................\nОбновлен интерфейс до 20210603.0 (изменен световой объект, чтобы больше не преобразовывать цвет)\nИзменено: увеличен лимит размера файла до 5 МБ при загрузке в config.\nДобавлено: поддержка input_datetime.\nДобавлено: поддержка ручных сложных световых объектов.\nДобавлено: поддержка изображений из данных base64 в состояниях iobroker.\nДобавлено: Поддержка дополнительных аварийных состояний.\nДобавлено: параметр для ввода кода только при снятии тревоги.\nДобавлено: поддержка admin 5 (jsonCustom).\nДобавлено: поддержка термостата кондиционирования / доработки.\nДобавлено: ручные объекты теперь могут быть более сложными (требуется документация).\nДобавлено: управление darkMode.",
+                "pt": "Alterado:! Quebrando! Aviso de bateria agora é binary_sensor em vez de sensor (agora ui define ícone e traduz ok)\nCorrigido:! Quebrando! conflito de entity_id para baixo_bat / umidade quando parte de outro dispositivo\nInterface atualizada para 20210603.0 (entidade de luz alterada para não converter mais a cor)\nAlterado: aumento do limite de tamanho do arquivo para 5 MB durante o upload na configuração.\nAdicionado: Suporte para input_datetime\nAdicionado: Suporte para entidades de luz complexas manuais\nAdicionado: suporte para imagens de dados base64 em estados iobroker\nAdicionado: suporte para estados de alarme adicionais.\nAdicionado: Parâmetro para inserir o código apenas ao desarmar o alarme\nAdicionado: Suporte para admin 5 (jsonCustom)\nAdicionado: suporte para termostato de ar condicionado / retrabalho\nAdicionado: entidades manuais podem ser mais complexas agora (documentação necessária)\nAdicionado: controle darkMode",
+                "nl": "Gewijzigd: !Breekt! Batterijwaarschuwing is nu binary_sensor in plaats van sensor (nu stelt ui het pictogram in en vertaalt het ok)\nOpgelost: !Breekt! entiteit_id conflict voor low_bat / vochtigheid wanneer onderdeel van een ander apparaat\nFrontend bijgewerkt naar 20210603.0 (lichteenheid gewijzigd om kleur niet meer te converteren)\nGewijzigd: maximale bestandsgrootte verhoogd naar 5 MB tijdens uploaden in config.\nToegevoegd: ondersteuning voor input_datetime\nToegevoegd: Ondersteuning voor handmatige complexe lichte entiteiten\nToegevoegd: ondersteuning voor afbeeldingen van base64-gegevens in iobroker-statussen\nToegevoegd: Ondersteuning voor extra alarmstatussen.\nToegevoegd: Parameter om alleen code in te voeren bij het uitschakelen van alarm\nToegevoegd: Ondersteuning voor admin 5 (jsonCustom)\nToegevoegd: Ondersteuning voor airCondition / rework-thermostaat\nToegevoegd: handmatige entiteiten kunnen nu complexer zijn (documentatie vereist)\nToegevoegd: darkMode-besturing",
+                "fr": "Modifié : !Casse ! L'avertissement de batterie est maintenant binary_sensor au lieu de capteur (maintenant l'interface utilisateur définit l'icône et se traduit correctement)\nCorrigé : !Casse ! conflit entity_id pour low_bat / humidité lorsqu'il fait partie d'un autre appareil\nFrontend mis à jour vers 20210603.0 (entité lumineuse modifiée pour ne plus convertir la couleur)\nModifié : augmentation de la limite de taille de fichier à 5 Mo lors du téléchargement dans la configuration.\nAjout : Prise en charge de input_datetime\nAjouté: Prise en charge des entités légères complexes manuelles\nAjouté: Prise en charge des images à partir de données base64 dans les états iobroker\nAjout : Prise en charge d'états d'alarme supplémentaires.\nAjouté: Paramètre pour entrer le code uniquement lors du désarmement de l'alarme\nAjouté: Prise en charge de l'administrateur 5 (jsonCustom)\nAjouté: Prise en charge du thermostat airCondition/rework\nAjouté : les entités manuelles peuvent être plus complexes maintenant (nécessite une documentation)\nAjouté: contrôle darkMode",
+                "it": "Modificato: !Rottura! L'avviso della batteria ora è binary_sensor invece del sensore (ora l'interfaccia utente imposta l'icona e traduce ok)\nRisolto: !Rottura! conflitto entità_id per low_bat/umidità quando fa parte di un altro dispositivo\nFrontend aggiornato a 20210603.0 (entità luce modificata per non convertire più il colore)\nModificato: limite di dimensione del file aumentato a 5 MB durante il caricamento in config.\nAggiunto: supporto per input_datetime\nAggiunto: supporto per entità luce complesse manuali\nAggiunto: supporto per immagini da dati base64 negli stati iobroker\nAggiunto: supporto per ulteriori stati di allarme.\nAggiunto: Parametro per inserire il codice solo quando si disattiva l'allarme\nAggiunto: supporto per admin 5 (jsonCustom)\nAggiunto: supporto per aria condizionata/termostato di rilavorazione\nAggiunto: le entità manuali possono essere più complesse ora (è necessaria la documentazione)\nAggiunto: controllo darkMode",
+                "es": "Cambiado:! Rompiendo! La advertencia de la batería ahora es binary_sensor en lugar de sensor (ahora la interfaz de usuario establece el ícono y se traduce bien)\nCorregido:! Rompiendo! Entidad_id conflicto para low_bat / humedad cuando forma parte de otro dispositivo\nInterfaz actualizada a 20210603.0 (entidad de luz cambiada para no convertir más el color)\nModificado: límite de tamaño de archivo aumentado a 5 MB durante la carga en config.\nAgregado: Soporte para input_datetime\nAgregado: soporte para entidades de luz complejas manuales\nAgregado: soporte para imágenes de datos base64 en estados de iobroker\nAgregado: Soporte para estados de alarma adicionales.\nAgregado: parámetro para ingresar código solo al desarmar la alarma\nAgregado: Soporte para admin 5 (jsonCustom)\nAgregado: Soporte para termostato de aire acondicionado / retrabajo\nAgregado: las entidades manuales pueden ser más complejas ahora (necesita documentación)\nAgregado: control darkMode",
+                "pl": "Zmieniono: !Łamanie! Ostrzeżenie o baterii to teraz binary_sensor zamiast czujnika (teraz interfejs użytkownika ustawia ikonę i tłumaczy się dobrze)\nNaprawiono: !Zepsucie! konflikt entity_id dla low_bat / wilgotność, gdy jest częścią innego urządzenia\nZaktualizowano interfejs do 20210603.0 (zmieniono element światła, aby nie konwertował już kolorów)\nZmieniono: zwiększono limit rozmiaru pliku do 5 MB podczas przesyłania w konfiguracji.\nDodano: wsparcie dla input_datetime\nDodano: Wsparcie dla ręcznych złożonych elementów świetlnych\nDodano: Wsparcie dla obrazów z danych base64 w stanach iobroker\nDodano: Wsparcie dla dodatkowych stanów alarmowych.\nDodano: parametr do wprowadzania kodu tylko podczas rozbrajania alarmu\nDodano: Wsparcie dla administratora 5 (jsonCustom)\nDodano: Wsparcie dla klimatyzacji / termostatu naprawczego\nDodano: ręczne encje mogą być teraz bardziej złożone (wymaga dokumentacji)\nDodano: sterowanie darkMode",
+                "zh-cn": "改变：！打破！电池警告现在是 binary_sensor 而不是传感器（现在 ui 设置图标并翻译正常）\n固定：！打破！当作为另一个设备的一部分时，低蝙蝠 / 湿度的 entity_id 冲突\n将前端更新为 20210603.0（将灯光实体更改为不再转换颜色）\n更改：在配置中上传期间将文件大小限制增加到 5 MB。\n补充：支持 input_datetime\n补充：支持手动复杂光实体\n补充：支持来自 iobroker 状态的 base64 数据的图像\n补充：支持额外的警报状态。\n新增：仅在解除警报时输入密码的参数\n补充：支持 admin 5 (jsonCustom)\n补充：支持空调/返工恒温器\n补充：手动实体现在可能更复杂（需要文档）\n添加：darkMode 控制"
+            },
             "1.5.0": {
                 "en": "* (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.\n* (Garfonso) Added: control.themeDark to control devices in dark mode, too.\n* (Garfonso) Fixed: Device Icons with authentication now work\n* (Garfonso) Changed: previously only admin user could change the UI. Now also the owner of the configuration object and members of the owner group are allowed to change the UI.\n* (Garfonso) Internal code cleanup / breaking dependency update.\n* (Garfonso) Added: Support for pure humidity sensors.\n* (Garfonso) Added: Support for URL as entity_image\n* (Garfonso) Fixed: Adjust user-name/user-id handling to changes in js-controller 3.2.*\n* (Garfonso) Fixed: default themes do not show as selected\n* (Garfonso) Fixed: Loading themes / custom cards / image-proxy",
                 "de": "* (Garfonso) Geändert: defaultTheme und control.theme standen in Konflikt. Jetzt wird control.theme festgelegt, wenn ein neues Standardthema ausgewählt wird.\n* (Garfonso) Hinzugefügt: control.themeDark, um Geräte auch im dunklen Modus zu steuern.\n* (Garfonso) Behoben: Gerätesymbole funktionieren jetzt auch wenn Authentifizierung aktiviert ist\n* (Garfonso) Geändert: Bisher konnte nur der Administrator die Benutzeroberfläche ändern. Jetzt dürfen auch der Eigentümer des Konfigurationsobjekts und Mitglieder der Eigentümergruppe die Benutzeroberfläche ändern.\n* (Garfonso) Interne Codebereinigung / Aktualisierung der Abhängigkeiten.\n* (Garfonso) Hinzugefügt: Unterstützung für rein Feuchtigkeitssensoren.\n* (Garfonso) Hinzugefügt: Unterstützung für URL als entity_image\n*(Garfonso) Behoben: Behandlung von Benutzername / Benutzer-ID an Änderungen in js-controller 3.2.* angepasst\n* (Garfonso) Behoben: Standardthemen werden nicht als ausgewählt angezeigt\n* (Garfonso) Behoben: Laden von Themes / benutzerdefinierten Karten / Image-Proxy",
@@ -230,18 +242,6 @@
                 "es": "La inicialización del servidor web se optimizó nuevamente para evitar errores con certificados no válidos",
                 "pl": "inicjalizacja serwera WWW została ponownie zoptymalizowana, aby zapobiec błędom z nieprawidłowymi certyfikatami",
                 "zh-cn": "再次优化了Web服务器的初始化，以防止证书无效而出错"
-            },
-            "1.0.15": {
-                "en": "errors on webserver initialization are handled properly",
-                "de": "Fehler bei der Webserver-Initialisierung werden ordnungsgemäß behandelt",
-                "ru": "ошибки при инициализации веб-сервера обрабатываются правильно",
-                "pt": "erros na inicialização do servidor da web são tratados adequadamente",
-                "nl": "fouten bij het initialiseren van de webserver worden correct afgehandeld",
-                "fr": "les erreurs lors de l'initialisation du serveur Web sont gérées correctement",
-                "it": "gli errori sull'inizializzazione del server web sono gestiti correttamente",
-                "es": "los errores en la inicialización del servidor web se manejan correctamente",
-                "pl": "błędy przy inicjalizacji serwera są obsługiwane poprawnie",
-                "zh-cn": "网站服务器初始化错误得到正确处理"
             }
         },
         "title": "Visualization with Lovelace-UI",
@@ -280,8 +280,9 @@
         ],
         "license": "Apache-2.0",
         "platform": "Javascript/Node.js",
-        "main": "main.js",
+        "tier": 3,
         "icon": "lovelace.png",
+        "main": "main.js",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
         "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
@@ -292,6 +293,8 @@
         "materialize": true,
         "supportCustoms": true,
         "messagebox": true,
+        "connectionType": "local",
+        "dataSource": "push",
         "localLink": "%protocol%://%ip%:%port%/",
         "welcomeScreen1": {
             "link": "",
@@ -339,7 +342,8 @@
         "leUpdate": false,
         "leCheckPort": 80,
         "aliayOnly": false,
-        "blindsInvert": false
+        "blindsInvert": false,
+        "alarmCheckCodeOnDisarmOnly": false
     },
     "objects": [
         {
@@ -380,7 +384,8 @@
                 "type": "boolean",
                 "read": true,
                 "write": false,
-                "role": "state"
+                "role": "state",
+                "def": false
             }
         },
         {
@@ -510,6 +515,30 @@
             }
         },
         {
+            "_id": "control.alarm_arm_state",
+            "type": "state",
+            "common": {
+                "name": "arm status",
+                "type": "number",
+                "write": true,
+                "read": true,
+                "desc": "Alarm arm status",
+                "def": 0,
+                "states": {
+                    "0": "disarmed",
+                    "1": "armed",
+                    "2": "armed_home",
+                    "3": "armed_away",
+                    "4": "armed_night",
+                    "5": "armed_custom_bypass",
+                    "6": "pending",
+                    "7": "arming",
+                    "8": "disarming",
+                    "9": "triggered"
+                }
+            }
+        },
+        {
             "_id": "control.theme",
             "type": "state",
             "common": {
@@ -535,6 +564,17 @@
                 "states": {
                     "default": "default"
                 }
+            }
+        },
+        {
+            "_id": "control.darkMode",
+            "type": "state",
+            "common": {
+                "name": "Dark Mode",
+                "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
+                "write": true,
+                "read": true,
+                "def": false
             }
         },
         {

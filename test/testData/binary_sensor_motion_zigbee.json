@@ -1,0 +1,214 @@
+{
+  "adapter.0.binary_sensor.motions.zigbee": {
+    "type": "device",
+    "common": {
+      "name": "Motion Detector Zigbee",
+      "type": "RTCGQ11LM",
+      "icon": "img/aqara_numan_body_sensor.png"
+    },
+    "native": {
+      "id": "0123456789abcdef"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1621956370203,
+    "_id": "adapter.0.binary_sensor.motions.zigbee",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.available": {
+    "type": "state",
+    "common": {
+      "name": "Motion Detector Zigbee Available",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "state"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1582930922354,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.available",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.battery": {
+    "type": "state",
+    "common": {
+      "name": "Motion Detector Zigbee Battery percent",
+      "type": "number",
+      "unit": "%",
+      "read": true,
+      "write": false,
+      "role": "battery.percent",
+      "min": 0,
+      "max": 100,
+      "icon": "img/battery_p.png"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1582497342480,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.battery",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.device_query": {
+    "type": "state",
+    "common": {
+      "name": "Trigger device query",
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1614369670662,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.device_query",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.illuminance": {
+    "type": "state",
+    "common": {
+      "name": "Motion Detector Zigbee Illuminance",
+      "type": "number",
+      "unit": "lux",
+      "read": true,
+      "write": false,
+      "role": "value.brightness"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1582495222222,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.illuminance",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.link_quality": {
+    "type": "state",
+    "common": {
+      "name": "Motion Detector Zigbee Link quality",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "state",
+      "min": 0,
+      "max": 254
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1582495222221,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.link_quality",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.no_motion": {
+    "type": "state",
+    "common": {
+      "name": "Motion Detector Zigbee Time from last motion",
+      "type": "number",
+      "unit": "seconds",
+      "read": true,
+      "write": false,
+      "role": "state"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1582496538608,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.no_motion",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.occupancy": {
+    "type": "state",
+    "common": {
+      "name": "Motion Detector Zigbee Occupancy",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "sensor.motion"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1582496538601,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.occupancy",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.occupancy_timeout": {
+    "type": "state",
+    "common": {
+      "name": "Motion Detector Zigbee Occupancy timeout",
+      "type": "number",
+      "unit": "sec",
+      "read": false,
+      "write": true,
+      "role": "state"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1582930922361,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.occupancy_timeout",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.zigbee.voltage": {
+    "type": "state",
+    "common": {
+      "name": "Motion Detector Zigbee Battery voltage",
+      "type": "number",
+      "unit": "V",
+      "read": true,
+      "write": false,
+      "role": "battery.voltage",
+      "icon": "img/battery_v.png"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1582497342480,
+    "_id": "adapter.0.binary_sensor.motions.zigbee.voltage",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

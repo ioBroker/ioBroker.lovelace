@@ -1,0 +1,105 @@
+{
+  "adapter.0.climate.thermostat.WithBoostAndParty": {
+    "type": "device",
+    "common": {
+      "name": "Heating"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.climate.thermostat.WithBoostAndParty",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.WithBoostAndParty.boost": {
+    "type": "state",
+    "common": {
+      "name": "Heating boost",
+      "read": false,
+      "write": true,
+      "role": "switch.boost",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.WithBoostAndParty.boost",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021818,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.WithBoostAndParty.party": {
+    "type": "state",
+    "common": {
+      "name": "Heating Party",
+      "read": true,
+      "write": true,
+      "role": "switch.mode.party",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.WithBoostAndParty.party",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021818,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.WithBoostAndParty.power": {
+    "type": "state",
+    "common": {
+      "name": "Heating power",
+      "read": true,
+      "write": true,
+      "role": "switch.power",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.WithBoostAndParty.power",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021718,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.WithBoostAndParty.target": {
+    "type": "state",
+    "common": {
+      "name": "Heating",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.WithBoostAndParty.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

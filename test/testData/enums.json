@@ -1,0 +1,40 @@
+{
+  "enum.rooms.testroom": {
+    "_id": "enum.rooms.testroom",
+    "common": {
+      "name": "Test room",
+      "members": [],
+      "icon": "",
+      "color": false,
+      "smartName": false
+    },
+    "type": "enum",
+    "from": "system.adapter.admin.0",
+    "ts": 1540210057558,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "enum.functions.testfunc": {
+    "_id": "enum.functions.testfunc",
+    "common": {
+      "name": "Test func",
+      "members": [],
+      "icon": "",
+      "color": false,
+      "smartName": false
+    },
+    "type": "enum",
+    "from": "system.adapter.admin.0",
+    "ts": 1540210057558,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  }
+}

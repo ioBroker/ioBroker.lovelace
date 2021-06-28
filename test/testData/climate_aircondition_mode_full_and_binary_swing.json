@@ -1,0 +1,85 @@
+{
+  "adapter.0.aircondition.BinarySwing": {
+    "type": "device",
+    "common": {
+      "name": "Binary Swing"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.aircondition.BinarySwing",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.BinarySwing.mode": {
+    "type": "state",
+    "common": {
+      "name": "Binary Swing Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.airconditioner",
+      "type": "number",
+      "states": {"0": "Off", "1":  "Auto", "2": "Heat", "3":  "Cool", "4": "Heat_Cool", "5": "dry", "6": "fan_only", "7": "iobroker_mode"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.BinarySwing.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.BinarySwing.swing": {
+    "type": "state",
+    "common": {
+      "name": "Binary Swing",
+      "read": true,
+      "write": true,
+      "role": "level.mode.swing",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.BinarySwing.swing",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.BinarySwing.target": {
+    "type": "state",
+    "common": {
+      "name": "Binary Swing Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.BinarySwing.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

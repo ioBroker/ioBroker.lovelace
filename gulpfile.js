@@ -49,8 +49,11 @@ function lang2data(lang, isFlat) {
     }
 }
 
-const NODE_JS_EXPORT = `if (typeof module !== 'undefined' && module.parent) { module.exports = lovelace_systemDictionary; }\n`;
+const NODE_JS_EXPORT = `if (typeof module !== 'undefined' && module.parent) { module.exports = lovelace_systemDictionary; }`;
 function readWordJs(src) {
+    if (!src) {
+        src = 'admin/';
+    }
     try {
         let words;
         if (fs.existsSync(src + 'js/' + fileName)) {
@@ -577,3 +580,43 @@ gulp.task('rename', done => {
 gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages'));
 
 gulp.task('default', gulp.series('updatePackages', 'updateReadme'));
+
+const devServerPath = __dirname + '/.dev-server/default/';
+const spawn = require('child_process').spawn;
+async function spawnChild(command, params, logmsg, local) {
+    if (logmsg) {
+        console.log(logmsg);
+    }
+    return new Promise(resolve => {
+        const child = spawn(command, params, {stdio: 'inherit', cwd: local ? __dirname : devServerPath});
+        child.on('exit', resolve);
+    });
+}
+gulp.task('prepareDevserver', async done => {
+    const promises = [];
+    const devserverIoBrokerPath = devServerPath + 'node_modules/iobroker.js-controller/iobroker.js';
+    filesWalk(__dirname + '/test/testData', (fileName) => {
+        if (fileName && fileName.toLowerCase().endsWith('.json')) {
+            const objects = JSON.parse(fs.readFileSync(fileName));
+            for (const id of Object.keys(objects)) {
+                //const newId = '0_userdata.0.' + id.split('.').slice(2).join('.');
+                promises.push(spawnChild('node', [devserverIoBrokerPath, 'object', 'set', id, JSON.stringify(objects[id])], 'Writing ' + id));
+            }
+        }
+    });
+    await Promise.all(promises);
+    await spawnChild('node', [devserverIoBrokerPath, 'add', 'devices']);
+    await spawnChild('node', [devserverIoBrokerPath, 'add', 'history']);
+    done();
+});
+
+gulp.task('updateDevserver', async done => {
+    const npmCmd = 'npm' + (process.platform.startsWith('win') ? '.CMD' : '');
+    await spawnChild(npmCmd, ['install', 'iobroker.admin@latest'], 'Updating admin');
+    await spawnChild(npmCmd, ['install', 'iobroker.devices@latest'], 'Updating devices');
+    await spawnChild(npmCmd, ['install', 'iobroker.history@latest'], 'Updating history');
+    await spawnChild(npmCmd, ['install', 'iobroker.type-detector@latest'], 'Updating type-detector');
+    await spawnChild(npmCmd, ['link', 'iobroker.lovelace'], 'Linking lovelace');
+    await spawnChild(npmCmd, ['install'], 'Reparing dependencies in lovelace', true);
+    done();
+});
