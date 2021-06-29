@@ -468,6 +468,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fixed: Zigbee lights (issue 222).
+
 ### 2.0.0 (2021-06-17)
 * (Garfonso) Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)
 * (Garfonso) Fixed:   !Breaking! entity_id conflict for low_bat / humidity when part of another device
