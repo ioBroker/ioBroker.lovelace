@@ -573,7 +573,7 @@ exports.runTests = function (getHarness) {
     it('zigbee rgbSingle should be controllable', async () => {
         const harness = getHarness();
         const objects = JSON.parse(JSON.stringify(require('../testData/light_zigbee_color.json')));
-        const deviceId = 'zigbee.0.zigbeeColor';
+        const deviceId = 'adapter.0.light.zigbeeColor';
         const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.state', val: true}, {id: deviceId + '.color', val: '#FF0080'}]);
         const entity = entities.find(e => e.context.id === deviceId);
         expect(entity).to.be.ok;
