@@ -468,7 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.1 (2021-07-01)
 * (Garfonso) fixed: Zigbee lights (issue 222).
 
 ### 2.0.0 (2021-06-17)
@@ -503,9 +503,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 1.4.2 (2021-01-08)
 * (thost96) Fixed: set Theme state type to string instead of text
-
-### 1.4.1 (2021-01-08)
-* (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
 
 ## License
 

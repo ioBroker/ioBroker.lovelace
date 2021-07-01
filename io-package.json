@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "news": {
+            "2.0.1": {
+                "en": "fixed: Zigbee lights (issue 222).",
+                "de": "behoben: Zigbee-Lichter (Ausgabe 222).",
+                "ru": "исправлено: огни Zigbee (проблема 222).",
+                "pt": "consertado: luzes Zigbee (problema 222).",
+                "nl": "opgelost: Zigbee-lampen (nummer 222).",
+                "fr": "corrigé: lumières Zigbee (numéro 222).",
+                "it": "risolto: luci Zigbee (edizione 222).",
+                "es": "arreglado: luces Zigbee (problema 222).",
+                "pl": "naprawiono: światła Zigbee (wydanie 222).",
+                "zh-cn": "固定：Zigbee 灯（问题 222）。"
+            },
             "2.0.0": {
                 "en": "Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)\nFixed:   !Breaking! entity_id conflict for low_bat / humidity when part of another device\nUpdated frontend to 20210603.0 (changed light entity to not convert color anymore)\nChanged: increased file size limit to 5 MB during upload in config.\nAdded: Support for input_datetime\nAdded: Support for manual complex light entities\nAdded: Support for images from base64 data in iobroker states \nAdded: Support for additional alarm states.\nAdded: Parameter to only enter code when disarming alarm\nAdded: Support for admin 5 (jsonCustom)\nAdded: Support for airCondition / rework thermostat\nAdded: manual entities can be more complex now (needs documentation)\nAdded: darkMode control",
                 "de": "Geändert: !Inkompatibel! Batteriewarnung ist jetzt binary_sensor anstelle von sensor (jetzt setzt ui das Symbol und übersetzt ok)\nBehoben: !Inkompatibel! Entity_id-Konflikt für Low_bat / Feuchtigkeit, wenn Teil eines anderen Geräts\nAktualisiertes Frontend auf 20210603.0 (Licht entity hat sich verändert, Farbe werden nicht mehr konvertieren)\nGeändert: Dateigrößenbeschränkung auf 5 MB während des Uploads in config.\nHinzugefügt: Unterstützung für input_datetime\nHinzugefügt: Unterstützung für manuelle komplexe Lichtobjekte\nHinzugefügt: Unterstützung für Bilder aus base64-Daten in iobroker-Zuständen\nHinzugefügt: Unterstützung für zusätzliche Alarmzustände.\nHinzugefügt: Parameter, um nur Code einzugeben, wenn der Alarm deaktiviert wird\nHinzugefügt: Unterstützung für Admin 5 (jsonCustom)\nHinzugefügt: Unterstützung für AirCondition / Rework Thermostat\nHinzugefügt: Manuelle Entitäten können jetzt komplexer sein (benötigt Dokumentation)\nHinzugefügt: DarkMode-Steuerung",
@@ -230,18 +242,6 @@
                 "es": "* (Garfonso) BREAKING: se solucionó el problema con la generación entity_id que ahora permite que las diéresis sean reemplazadas por ue / ae / oe.\n* (Garfonso) agregó el tipo de dispositivo windowsTilt\n* (Garfonso) reelaborado el nombre descriptivo para las entidades generadas automáticamente, deje espacio en el nombre.\n* (Garfonso) usa la función device_class para los sensores (cuando corresponde) -> da como resultado que se usen las funciones de traducción de lovelace.\n* (Garfonso) múltiples correcciones / adiciones al reproductor multimedia (como escala de volumen, soporte de encendido / apagado, soporte aleatorio, detener soporte)\n",
                 "pl": "* (Garfonso) ŁAMANIE: naprawiono problem z generowaniem bytu_id, który teraz pozwala na zastąpienie umlautów przez ue / ae / oe.\n* (Garfonso) dodano typ urządzenia WindowsTilt\n* (Garfonso) przerobiono przyjazną nazwę dla automatycznie generowanych encji, pozostaw miejsce w nazwie.\n* (Garfonso) użyj funkcji device_class dla czujników (w stosownych przypadkach) -> powoduje użycie funkcji tłumaczenia lovelace.\n* (Garfonso) wiele poprawek / dodatków do odtwarzacza multimedialnego (takich jak skalowanie głośności, obsługa włączania / wyłączania, obsługa odtwarzania losowego, obsługa zatrzymywania)\n",
                 "zh-cn": "*（Garfonso）BREAKING：修复了Entity_id生成的问题，该问题现在允许将变音符号替换为ue / ae / oe。\n*（Garfonso）添加了WindowsTilt设备类型\n*（Garfonso）重命名了自动生成的实体的友好名称，名称中留有空格。\n*（Garfonso）对传感器使用device_class功能（如果适用）->导致使用lovelace的翻译功能。\n*（Garfonso）对媒体播放器的多项修复/添加（例如音量缩放，开/关支持，随机播放支持，停止支持）\n"
-            },
-            "1.0.16": {
-                "en": "webserver initialization optimized again to prevent errors with invalid certificates",
-                "de": "Die Webserver-Initialisierung wurde erneut optimiert, um Fehler mit ungültigen Zertifikaten zu vermeiden",
-                "ru": "Инициализация веб-сервера снова оптимизирована для предотвращения ошибок с недействительными сертификатами",
-                "pt": "inicialização do servidor da web otimizada novamente para evitar erros com certificados inválidos",
-                "nl": "de initialisatie van de webserver is opnieuw geoptimaliseerd om fouten met ongeldige certificaten te voorkomen",
-                "fr": "initialisation du serveur Web optimisée à nouveau pour éviter les erreurs avec des certificats invalides",
-                "it": "inizializzazione del server web nuovamente ottimizzata per prevenire errori con certificati non validi",
-                "es": "La inicialización del servidor web se optimizó nuevamente para evitar errores con certificados no válidos",
-                "pl": "inicjalizacja serwera WWW została ponownie zoptymalizowana, aby zapobiec błędom z nieprawidłowymi certyfikatami",
-                "zh-cn": "再次优化了Web服务器的初始化，以防止证书无效而出错"
             }
         },
         "title": "Visualization with Lovelace-UI",
