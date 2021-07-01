@@ -1,5 +1,5 @@
 {
-  "adapter.0.light.zigbeeColor": {
+  "zigbee.0.zigbeeColor": {
     "type": "device",
     "common": {
       "name": "Zigbee Color",
@@ -12,14 +12,14 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1624840690574,
-    "_id": "adapter.0.light.zigbeeColor",
+    "_id": "zigbee.0.zigbeeColor",
     "acl": {
       "object": 1636,
       "owner": "system.user.admin",
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.available": {
+  "zigbee.0.zigbeeColor.available": {
     "type": "state",
     "common": {
       "name": "Available",
@@ -32,7 +32,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1605542604598,
-    "_id": "adapter.0.light.zigbeeColor.available",
+    "_id": "zigbee.0.zigbeeColor.available",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -40,7 +40,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.brightness": {
+  "zigbee.0.zigbeeColor.brightness": {
     "type": "state",
     "common": {
       "name": "Brightness",
@@ -56,7 +56,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1605542604599,
-    "_id": "adapter.0.light.zigbeeColor.brightness",
+    "_id": "zigbee.0.zigbeeColor.brightness",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -64,7 +64,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.brightness_move": {
+  "zigbee.0.zigbeeColor.brightness_move": {
     "type": "state",
     "common": {
       "name": "Dimming",
@@ -79,7 +79,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1618922883523,
-    "_id": "adapter.0.light.zigbeeColor.brightness_move",
+    "_id": "zigbee.0.zigbeeColor.brightness_move",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -87,7 +87,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.color": {
+  "zigbee.0.zigbeeColor.color": {
     "type": "state",
     "common": {
       "name": "Color",
@@ -100,7 +100,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1605542604602,
-    "_id": "adapter.0.light.zigbeeColor.color",
+    "_id": "zigbee.0.zigbeeColor.color",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -108,7 +108,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.device_query": {
+  "zigbee.0.zigbeeColor.device_query": {
     "type": "state",
     "common": {
       "name": "Trigger device query",
@@ -121,7 +121,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1613405434530,
-    "_id": "adapter.0.light.zigbeeColor.device_query",
+    "_id": "zigbee.0.zigbeeColor.device_query",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -129,7 +129,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.groups": {
+  "zigbee.0.zigbeeColor.groups": {
     "type": "state",
     "common": {
       "name": "Groups",
@@ -142,7 +142,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1605542604603,
-    "_id": "adapter.0.light.zigbeeColor.groups",
+    "_id": "zigbee.0.zigbeeColor.groups",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -150,7 +150,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.link_quality": {
+  "zigbee.0.zigbeeColor.link_quality": {
     "type": "state",
     "common": {
       "name": "Link quality",
@@ -165,7 +165,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1605542604596,
-    "_id": "adapter.0.light.zigbeeColor.link_quality",
+    "_id": "zigbee.0.zigbeeColor.link_quality",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -173,7 +173,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.state": {
+  "zigbee.0.zigbeeColor.state": {
     "type": "state",
     "common": {
       "name": "Switch state",
@@ -186,7 +186,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1605542604599,
-    "_id": "adapter.0.light.zigbeeColor.state",
+    "_id": "zigbee.0.zigbeeColor.state",
     "acl": {
       "object": 1636,
       "state": 1636,
@@ -194,7 +194,7 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "adapter.0.light.zigbeeColor.transition_time": {
+  "zigbee.0.zigbeeColor.transition_time": {
     "type": "state",
     "common": {
       "name": "Transition time",
@@ -208,7 +208,7 @@
     "from": "system.adapter.zigbee.0",
     "user": "system.user.admin",
     "ts": 1605542604603,
-    "_id": "adapter.0.light.zigbeeColor.transition_time",
+    "_id": "zigbee.0.zigbeeColor.transition_time",
     "acl": {
       "object": 1636,
       "state": 1636,
