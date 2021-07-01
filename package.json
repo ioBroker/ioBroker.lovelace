@@ -30,7 +30,7 @@
     "multer": "^1.4.2",
     "nyc": "^15.1.0",
     "pinyin": "^2.10.2",
-    "ws": "^7.5.0"
+    "ws": "^7.5.1"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^1.10.0",
