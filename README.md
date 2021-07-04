@@ -468,6 +468,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fix typo.
+
 ### 2.0.2 (2021-07-04)
 * (Garfonso) fixed: Date shift for weather forecast without date state.
 
