@@ -468,7 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.2 (2021-07-04)
 * (Garfonso) fixed: Date shift for weather forecast without date state.
 
 ### 2.0.1 (2021-07-01)
@@ -503,9 +503,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 1.4.3 (2021-02-01)
 * (bluefox) Support of lovelace via ioBroker.pro
-
-### 1.4.2 (2021-01-08)
-* (thost96) Fixed: set Theme state type to string instead of text
 
 ## License
 
