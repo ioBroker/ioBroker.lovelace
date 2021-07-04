@@ -468,7 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.3 (2021-07-04)
 * (Garfonso) fix typo.
 
 ### 2.0.2 (2021-07-04)
@@ -503,9 +503,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Fixed: Adjust user-name/user-id handling to changes in js-controller 3.2.*
 * (Garfonso) Fixed: default themes do not show as selected
 * (Garfonso) Fixed: Loading themes / custom cards / image-proxy
-
-### 1.4.3 (2021-02-01)
-* (bluefox) Support of lovelace via ioBroker.pro
 
 ## License
 

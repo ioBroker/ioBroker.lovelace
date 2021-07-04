@@ -1,5 +1,8 @@
 # Older Changes
 
+## 1.4.3 (2021-02-01)
+* (bluefox) Support of lovelace via ioBroker.pro
+
 ## 1.4.2 (2021-01-08)
 * (thost96) Fixed: set Theme state type to string instead of text
 
