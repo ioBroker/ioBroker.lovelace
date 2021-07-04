@@ -2573,29 +2573,6 @@
       "ownerGroup": "system.group.administrator"
     }
   },
-  "weatherunderground.0.forecast.current.observationTime": {
-    "type": "state",
-    "common": {
-      "name": "Observation time (rfc822)",
-      "role": "date",
-      "type": "string",
-      "read": true,
-      "write": false
-    },
-    "native": {
-      "id": "current_observation.local_epoch"
-    },
-    "from": "system.adapter.weatherunderground.0",
-    "user": "system.user.admin",
-    "ts": 1625152451311,
-    "_id": "weatherunderground.0.forecast.current.observationTime",
-    "acl": {
-      "object": 1636,
-      "state": 1636,
-      "owner": "system.user.admin",
-      "ownerGroup": "system.group.administrator"
-    }
-  },
   "weatherunderground.0.forecast.current.observationTimeRFC822": {
     "type": "state",
     "common": {
