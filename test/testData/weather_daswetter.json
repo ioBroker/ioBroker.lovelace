@@ -1,0 +1,2124 @@
+{
+  "daswetter.0.NextDays.Location_1": {
+    "type": "device",
+    "common": {
+      "name": "Location Name",
+      "role": "weather"
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424672,
+    "_id": "daswetter.0.NextDays.Location_1",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1": {
+    "type": "channel",
+    "common": {
+      "name": "Day 1",
+      "role": "weather"
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424673,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Maximale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Maximal day temperature",
+      "type": "number",
+      "role": "value.temperature.max.forecast.0",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424677,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Maximale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Minimale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Minimal day temperature",
+      "type": "number",
+      "role": "value.temperature.min.forecast.0",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424675,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Minimale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Tag_value": {
+    "type": "state",
+    "common": {
+      "name": "Day name",
+      "type": "string",
+      "role": "dayofweek.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424695,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Tag_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wetter_Symbol_id": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424692,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wetter_Symbol_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wetter_Symbol_id2": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424691,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wetter_Symbol_id2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wetter_Symbol_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424689,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wetter_Symbol_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wetter_Symbol_value2": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424688,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wetter_Symbol_value2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wetterbedingungen_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather description",
+      "type": "string",
+      "role": "weather.state.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424697,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wetterbedingungen_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wind_id": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424684,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wind_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wind_idB": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424682,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wind_idB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wind_value": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424680,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wind_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.Wind_valueB": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424679,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.Wind_valueB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon URL",
+      "type": "string",
+      "role": "weather.icon.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424694,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_1.windIconURL": {
+    "type": "state",
+    "common": {
+      "name": "Wind icon URL",
+      "type": "string",
+      "role": "weather.icon.wind.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424686,
+    "_id": "daswetter.0.NextDays.Location_1.Day_1.windIconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2": {
+    "type": "channel",
+    "common": {
+      "name": "Day 2",
+      "role": "weather"
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424698,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Maximale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Maximal day temperature",
+      "type": "number",
+      "role": "value.temperature.max.forecast.1",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424700,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Maximale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Minimale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Minimal day temperature",
+      "type": "number",
+      "role": "value.temperature.min.forecast.1",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424698,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Minimale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Tag_value": {
+    "type": "state",
+    "common": {
+      "name": "Day name",
+      "type": "string",
+      "role": "dayofweek.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424718,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Tag_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wetter_Symbol_id": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424715,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wetter_Symbol_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wetter_Symbol_id2": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424713,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wetter_Symbol_id2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wetter_Symbol_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424712,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wetter_Symbol_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wetter_Symbol_value2": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424710,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wetter_Symbol_value2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wetterbedingungen_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather description",
+      "type": "string",
+      "role": "weather.state.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424720,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wetterbedingungen_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wind_id": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424707,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wind_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wind_idB": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424705,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wind_idB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wind_value": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424704,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wind_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.Wind_valueB": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424702,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.Wind_valueB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon URL",
+      "type": "string",
+      "role": "weather.icon.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424717,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_2.windIconURL": {
+    "type": "state",
+    "common": {
+      "name": "Wind icon URL",
+      "type": "string",
+      "role": "weather.icon.wind.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424709,
+    "_id": "daswetter.0.NextDays.Location_1.Day_2.windIconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3": {
+    "type": "channel",
+    "common": {
+      "name": "Day 3",
+      "role": "weather"
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424721,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Maximale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Maximal day temperature",
+      "type": "number",
+      "role": "value.temperature.max.forecast.2",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424725,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Maximale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Minimale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Minimal day temperature",
+      "type": "number",
+      "role": "value.temperature.min.forecast.2",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424722,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Minimale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Tag_value": {
+    "type": "state",
+    "common": {
+      "name": "Day name",
+      "type": "string",
+      "role": "dayofweek.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424745,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Tag_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wetter_Symbol_id": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424742,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wetter_Symbol_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wetter_Symbol_id2": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424741,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wetter_Symbol_id2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wetter_Symbol_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424739,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wetter_Symbol_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wetter_Symbol_value2": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424737,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wetter_Symbol_value2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wetterbedingungen_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather description",
+      "type": "string",
+      "role": "weather.state.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424746,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wetterbedingungen_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wind_id": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424732,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wind_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wind_idB": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424730,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wind_idB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wind_value": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424728,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wind_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.Wind_valueB": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424726,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.Wind_valueB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon URL",
+      "type": "string",
+      "role": "weather.icon.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424743,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_3.windIconURL": {
+    "type": "state",
+    "common": {
+      "name": "Wind icon URL",
+      "type": "string",
+      "role": "weather.icon.wind.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424735,
+    "_id": "daswetter.0.NextDays.Location_1.Day_3.windIconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4": {
+    "type": "channel",
+    "common": {
+      "name": "Day 4",
+      "role": "weather"
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424747,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Maximale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Maximal day temperature",
+      "type": "number",
+      "role": "value.temperature.max.forecast.3",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424750,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Maximale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Minimale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Minimal day temperature",
+      "type": "number",
+      "role": "value.temperature.min.forecast.3",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424748,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Minimale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Tag_value": {
+    "type": "state",
+    "common": {
+      "name": "Day name",
+      "type": "string",
+      "role": "dayofweek.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424768,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Tag_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wetter_Symbol_id": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424765,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wetter_Symbol_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wetter_Symbol_id2": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424764,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wetter_Symbol_id2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wetter_Symbol_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424762,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wetter_Symbol_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wetter_Symbol_value2": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424761,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wetter_Symbol_value2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wetterbedingungen_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather description",
+      "type": "string",
+      "role": "weather.state.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424772,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wetterbedingungen_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wind_id": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424759,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wind_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wind_idB": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424757,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wind_idB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wind_value": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424753,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wind_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.Wind_valueB": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424751,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.Wind_valueB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon URL",
+      "type": "string",
+      "role": "weather.icon.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424766,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_4.windIconURL": {
+    "type": "state",
+    "common": {
+      "name": "Wind icon URL",
+      "type": "string",
+      "role": "weather.icon.wind.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424760,
+    "_id": "daswetter.0.NextDays.Location_1.Day_4.windIconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5": {
+    "type": "channel",
+    "common": {
+      "name": "Day 5",
+      "role": "weather"
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424773,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Maximale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Maximal day temperature",
+      "type": "number",
+      "role": "value.temperature.max.forecast.4",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424777,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Maximale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Minimale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Minimal day temperature",
+      "type": "number",
+      "role": "value.temperature.min.forecast.4",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424774,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Minimale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Tag_value": {
+    "type": "state",
+    "common": {
+      "name": "Day name",
+      "type": "string",
+      "role": "dayofweek.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424795,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Tag_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wetter_Symbol_id": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424791,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wetter_Symbol_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wetter_Symbol_id2": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424789,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wetter_Symbol_id2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wetter_Symbol_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424787,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wetter_Symbol_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wetter_Symbol_value2": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424785,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wetter_Symbol_value2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wetterbedingungen_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather description",
+      "type": "string",
+      "role": "weather.state.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424797,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wetterbedingungen_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wind_id": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424782,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wind_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wind_idB": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424781,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wind_idB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wind_value": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424779,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wind_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.Wind_valueB": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424778,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.Wind_valueB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon URL",
+      "type": "string",
+      "role": "weather.icon.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424794,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_5.windIconURL": {
+    "type": "state",
+    "common": {
+      "name": "Wind icon URL",
+      "type": "string",
+      "role": "weather.icon.wind.forecast.4",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424784,
+    "_id": "daswetter.0.NextDays.Location_1.Day_5.windIconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6": {
+    "type": "channel",
+    "common": {
+      "name": "Day 6",
+      "role": "weather"
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424799,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Maximale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Maximal day temperature",
+      "type": "number",
+      "role": "value.temperature.max.forecast.5",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424802,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Maximale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Minimale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Minimal day temperature",
+      "type": "number",
+      "role": "value.temperature.min.forecast.5",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424800,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Minimale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Tag_value": {
+    "type": "state",
+    "common": {
+      "name": "Day name",
+      "type": "string",
+      "role": "dayofweek.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424820,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Tag_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wetter_Symbol_id": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424815,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wetter_Symbol_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wetter_Symbol_id2": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424814,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wetter_Symbol_id2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wetter_Symbol_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424812,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wetter_Symbol_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wetter_Symbol_value2": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424810,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wetter_Symbol_value2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wetterbedingungen_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather description",
+      "type": "string",
+      "role": "weather.state.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424822,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wetterbedingungen_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wind_id": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424807,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wind_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wind_idB": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424806,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wind_idB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wind_value": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424804,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wind_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.Wind_valueB": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424803,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.Wind_valueB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon URL",
+      "type": "string",
+      "role": "weather.icon.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424817,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_6.windIconURL": {
+    "type": "state",
+    "common": {
+      "name": "Wind icon URL",
+      "type": "string",
+      "role": "weather.icon.wind.forecast.5",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424809,
+    "_id": "daswetter.0.NextDays.Location_1.Day_6.windIconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7": {
+    "type": "channel",
+    "common": {
+      "name": "Day 7",
+      "role": "weather"
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424824,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Maximale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Maximal day temperature",
+      "type": "number",
+      "role": "value.temperature.max.forecast.6",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424826,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Maximale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Minimale_Temperatur_value": {
+    "type": "state",
+    "common": {
+      "name": "Minimal day temperature",
+      "type": "number",
+      "role": "value.temperature.min.forecast.6",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424824,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Minimale_Temperatur_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Tag_value": {
+    "type": "state",
+    "common": {
+      "name": "Day name",
+      "type": "string",
+      "role": "dayofweek.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424844,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Tag_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wetter_Symbol_id": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424841,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wetter_Symbol_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wetter_Symbol_id2": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon name",
+      "type": "number",
+      "role": "weather.icon.name.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424840,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wetter_Symbol_id2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wetter_Symbol_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424837,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wetter_Symbol_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wetter_Symbol_value2": {
+    "type": "state",
+    "common": {
+      "name": "Weather state URL",
+      "type": "string",
+      "role": "weather.title.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424835,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wetter_Symbol_value2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wetterbedingungen_value": {
+    "type": "state",
+    "common": {
+      "name": "Weather description",
+      "type": "string",
+      "role": "weather.state.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424846,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wetterbedingungen_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wind_id": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424833,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wind_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wind_idB": {
+    "type": "state",
+    "common": {
+      "name": "Wind id",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424831,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wind_idB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wind_value": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424830,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wind_value",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.Wind_valueB": {
+    "type": "state",
+    "common": {
+      "name": "Wind description",
+      "type": "string",
+      "role": "weather.direction.wind.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424828,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.Wind_valueB",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "Weather icon URL",
+      "type": "string",
+      "role": "weather.icon.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424843,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Day_7.windIconURL": {
+    "type": "state",
+    "common": {
+      "name": "Wind icon URL",
+      "type": "string",
+      "role": "weather.icon.wind.forecast.6",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424834,
+    "_id": "daswetter.0.NextDays.Location_1.Day_7.windIconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "daswetter.0.NextDays.Location_1.Location": {
+    "type": "state",
+    "common": {
+      "name": "Location",
+      "type": "string",
+      "role": "location",
+      "read": true,
+      "write": false
+    },
+    "from": "system.adapter.daswetter.0",
+    "user": "system.user.admin",
+    "ts": 1625142424669,
+    "_id": "daswetter.0.NextDays.Location_1.Location",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

@@ -1,0 +1,1126 @@
+{
+  "accuweather.0.Summary": {
+    "type": "channel",
+    "common": {
+      "name": "Weather Summary"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222154033,
+    "_id": "accuweather.0.Summary"
+  },
+  "accuweather.0.Summary.CurrentDateTime": {
+    "type": "state",
+    "common": {
+      "name": "Forecast date",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "date.forecast.0"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155034,
+    "_id": "accuweather.0.Summary.CurrentDateTime"
+  },
+  "accuweather.0.Summary.DateTime_d1": {
+    "type": "state",
+    "common": {
+      "name": "Forecast date day 1",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "date.forecast.0"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155036,
+    "_id": "accuweather.0.Summary.DateTime_d1"
+  },
+  "accuweather.0.Summary.DateTime_d2": {
+    "type": "state",
+    "common": {
+      "name": "Forecast date day 2",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "date.forecast.1"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.DateTime_d2"
+  },
+  "accuweather.0.Summary.DateTime_d3": {
+    "type": "state",
+    "common": {
+      "name": "Forecast date day 3",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "date.forecast.2"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.DateTime_d3"
+  },
+  "accuweather.0.Summary.DateTime_d4": {
+    "type": "state",
+    "common": {
+      "name": "Forecast date day 4",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "date.forecast.3"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.DateTime_d4"
+  },
+  "accuweather.0.Summary.DateTime_d5": {
+    "type": "state",
+    "common": {
+      "name": "Forecast date day 5",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "date.forecast.4"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.DateTime_d5"
+  },
+  "accuweather.0.Summary.DayOfWeek": {
+    "type": "state",
+    "common": {
+      "name": "Day of week",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "dayofweek.forecast.0",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155035,
+    "_id": "accuweather.0.Summary.DayOfWeek"
+  },
+  "accuweather.0.Summary.DayOfWeek_d1": {
+    "type": "state",
+    "common": {
+      "name": "Day of week day 1",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "dayofweek.forecast.0",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.DayOfWeek_d1"
+  },
+  "accuweather.0.Summary.DayOfWeek_d2": {
+    "type": "state",
+    "common": {
+      "name": "Day of week day 2",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "dayofweek.forecast.1",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.DayOfWeek_d2"
+  },
+  "accuweather.0.Summary.DayOfWeek_d3": {
+    "type": "state",
+    "common": {
+      "name": "Day of week day 3",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "dayofweek.forecast.2",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.DayOfWeek_d3"
+  },
+  "accuweather.0.Summary.DayOfWeek_d4": {
+    "type": "state",
+    "common": {
+      "name": "Day of week day 4",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "dayofweek.forecast.3",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.DayOfWeek_d4"
+  },
+  "accuweather.0.Summary.DayOfWeek_d5": {
+    "type": "state",
+    "common": {
+      "name": "Day of week day 5",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "dayofweek.forecast.4",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.DayOfWeek_d5"
+  },
+  "accuweather.0.Summary.PrecipitationProbability_d1": {
+    "type": "state",
+    "common": {
+      "name": "Precipitation Probability day 1",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.0",
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.PrecipitationProbability_d1"
+  },
+  "accuweather.0.Summary.PrecipitationProbability_d2": {
+    "type": "state",
+    "common": {
+      "name": "Precipitation Probability day 2",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.1",
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.PrecipitationProbability_d2"
+  },
+  "accuweather.0.Summary.PrecipitationProbability_d3": {
+    "type": "state",
+    "common": {
+      "name": "Precipitation Probability day 3",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.2",
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.PrecipitationProbability_d3"
+  },
+  "accuweather.0.Summary.PrecipitationProbability_d4": {
+    "type": "state",
+    "common": {
+      "name": "Precipitation Probability day 4",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.3",
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.PrecipitationProbability_d4"
+  },
+  "accuweather.0.Summary.PrecipitationProbability_d5": {
+    "type": "state",
+    "common": {
+      "name": "Precipitation Probability day 5",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.4",
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.PrecipitationProbability_d5"
+  },
+  "accuweather.0.Summary.Pressure": {
+    "type": "state",
+    "common": {
+      "name": "Pressure",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.pressure",
+      "unit": "mmHg"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155035,
+    "_id": "accuweather.0.Summary.Pressure"
+  },
+  "accuweather.0.Summary.RealFeelTemperature": {
+    "type": "state",
+    "common": {
+      "name": "Feels Like Temperature",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.feelslike.forecast.0",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155035,
+    "_id": "accuweather.0.Summary.RealFeelTemperature"
+  },
+  "accuweather.0.Summary.RelativeHumidity": {
+    "type": "state",
+    "common": {
+      "name": "Humidity",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.humidity.forecast.0",
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155035,
+    "_id": "accuweather.0.Summary.RelativeHumidity"
+  },
+  "accuweather.0.Summary.Sunrise": {
+    "type": "state",
+    "common": {
+      "name": "Sunrise time",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "time.sunrise",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155036,
+    "_id": "accuweather.0.Summary.Sunrise"
+  },
+  "accuweather.0.Summary.Sunset": {
+    "type": "state",
+    "common": {
+      "name": "Sunset time",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "time.sunset",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155036,
+    "_id": "accuweather.0.Summary.Sunset"
+  },
+  "accuweather.0.Summary.TempMax_d1": {
+    "type": "state",
+    "common": {
+      "name": "Max Temperature day 1",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.max.forecast.0",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155036,
+    "_id": "accuweather.0.Summary.TempMax_d1"
+  },
+  "accuweather.0.Summary.TempMax_d2": {
+    "type": "state",
+    "common": {
+      "name": "Max Temperature day 2",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.max.forecast.1",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.TempMax_d2"
+  },
+  "accuweather.0.Summary.TempMax_d3": {
+    "type": "state",
+    "common": {
+      "name": "Max Temperature day 3",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.max.forecast.2",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.TempMax_d3"
+  },
+  "accuweather.0.Summary.TempMax_d4": {
+    "type": "state",
+    "common": {
+      "name": "Max Temperature day 4",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.max.forecast.3",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.TempMax_d4"
+  },
+  "accuweather.0.Summary.TempMax_d5": {
+    "type": "state",
+    "common": {
+      "name": "Max Temperature day 5",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.max.forecast.4",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.TempMax_d5"
+  },
+  "accuweather.0.Summary.TempMin_d1": {
+    "type": "state",
+    "common": {
+      "name": "Min Temperature day 1",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.min.forecast.0",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155036,
+    "_id": "accuweather.0.Summary.TempMin_d1"
+  },
+  "accuweather.0.Summary.TempMin_d2": {
+    "type": "state",
+    "common": {
+      "name": "Min Temperature day 2",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.min.forecast.1",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.TempMin_d2"
+  },
+  "accuweather.0.Summary.TempMin_d3": {
+    "type": "state",
+    "common": {
+      "name": "Min Temperature day 3",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.min.forecast.2",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.TempMin_d3"
+  },
+  "accuweather.0.Summary.TempMin_d4": {
+    "type": "state",
+    "common": {
+      "name": "Min Temperature day 4",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.min.forecast.3",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.TempMin_d4"
+  },
+  "accuweather.0.Summary.TempMin_d5": {
+    "type": "state",
+    "common": {
+      "name": "Min Temperature day 5",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.min.forecast.4",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.TempMin_d5"
+  },
+  "accuweather.0.Summary.Temperature": {
+    "type": "state",
+    "common": {
+      "name": "Temperature",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.temperature.forecast.0",
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155034,
+    "_id": "accuweather.0.Summary.Temperature"
+  },
+  "accuweather.0.Summary.TotalLiquidVolume_d1": {
+    "type": "state",
+    "common": {
+      "name": "Total Precipitation Amount day 1",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.0",
+      "unit": "mm"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.TotalLiquidVolume_d1"
+  },
+  "accuweather.0.Summary.TotalLiquidVolume_d2": {
+    "type": "state",
+    "common": {
+      "name": "Total Precipitation Amount day 2",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.1",
+      "unit": "mm"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.TotalLiquidVolume_d2"
+  },
+  "accuweather.0.Summary.TotalLiquidVolume_d3": {
+    "type": "state",
+    "common": {
+      "name": "Total Precipitation Amount day 3",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.2",
+      "unit": "mm"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.TotalLiquidVolume_d3"
+  },
+  "accuweather.0.Summary.TotalLiquidVolume_d4": {
+    "type": "state",
+    "common": {
+      "name": "Total Precipitation Amount day 4",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.3",
+      "unit": "mm"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.TotalLiquidVolume_d4"
+  },
+  "accuweather.0.Summary.TotalLiquidVolume_d5": {
+    "type": "state",
+    "common": {
+      "name": "Total Precipitation Amount day 5",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.precipitation.forecast.4",
+      "unit": "mm"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155042,
+    "_id": "accuweather.0.Summary.TotalLiquidVolume_d5"
+  },
+  "accuweather.0.Summary.WeatherIcon": {
+    "type": "state",
+    "common": {
+      "name": "Weather Icon",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.name.forecast.0"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155034,
+    "_id": "accuweather.0.Summary.WeatherIcon"
+  },
+  "accuweather.0.Summary.WeatherIconURL": {
+    "type": "state",
+    "common": {
+      "name": "SVG Weather Icon URL",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.forecast.0"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155034,
+    "_id": "accuweather.0.Summary.WeatherIconURL"
+  },
+  "accuweather.0.Summary.WeatherIconURL_d2": {
+    "type": "state",
+    "common": {
+      "name": "SVG Weather Icon URL day 2",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.forecast.1"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.WeatherIconURL_d2"
+  },
+  "accuweather.0.Summary.WeatherIconURL_d3": {
+    "type": "state",
+    "common": {
+      "name": "SVG Weather Icon URL day 3",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.forecast.2"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.WeatherIconURL_d3"
+  },
+  "accuweather.0.Summary.WeatherIconURL_d4": {
+    "type": "state",
+    "common": {
+      "name": "SVG Weather Icon URL day 4",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.forecast.3"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.WeatherIconURL_d4"
+  },
+  "accuweather.0.Summary.WeatherIconURL_d5": {
+    "type": "state",
+    "common": {
+      "name": "SVG Weather Icon URL day 5",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.forecast.4"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.WeatherIconURL_d5"
+  },
+  "accuweather.0.Summary.WeatherIcon_d1": {
+    "type": "state",
+    "common": {
+      "name": "Weather Icon day 1",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.name.forecast.0"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155036,
+    "_id": "accuweather.0.Summary.WeatherIcon_d1"
+  },
+  "accuweather.0.Summary.WeatherIcon_d2": {
+    "type": "state",
+    "common": {
+      "name": "Weather Icon day 2",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.name.forecast.1"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.WeatherIcon_d2"
+  },
+  "accuweather.0.Summary.WeatherIcon_d3": {
+    "type": "state",
+    "common": {
+      "name": "Weather Icon day 3",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.name.forecast.2"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.WeatherIcon_d3"
+  },
+  "accuweather.0.Summary.WeatherIcon_d4": {
+    "type": "state",
+    "common": {
+      "name": "Weather Icon day 4",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.name.forecast.3"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.WeatherIcon_d4"
+  },
+  "accuweather.0.Summary.WeatherIcon_d5": {
+    "type": "state",
+    "common": {
+      "name": "Weather Icon day 5",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.icon.name.forecast.4"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.WeatherIcon_d5"
+  },
+  "accuweather.0.Summary.WeatherText": {
+    "type": "state",
+    "common": {
+      "name": "Weather Description",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.state.forecast.0"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155034,
+    "_id": "accuweather.0.Summary.WeatherText"
+  },
+  "accuweather.0.Summary.WeatherText_d1": {
+    "type": "state",
+    "common": {
+      "name": "Weather Description day 1",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.state.forecast.0"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155036,
+    "_id": "accuweather.0.Summary.WeatherText_d1"
+  },
+  "accuweather.0.Summary.WeatherText_d2": {
+    "type": "state",
+    "common": {
+      "name": "Weather Description day 2",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.state.forecast.1"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.WeatherText_d2"
+  },
+  "accuweather.0.Summary.WeatherText_d3": {
+    "type": "state",
+    "common": {
+      "name": "Weather Description day 3",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.state.forecast.2"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.WeatherText_d3"
+  },
+  "accuweather.0.Summary.WeatherText_d4": {
+    "type": "state",
+    "common": {
+      "name": "Weather Description day 4",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.state.forecast.3"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.WeatherText_d4"
+  },
+  "accuweather.0.Summary.WeatherText_d5": {
+    "type": "state",
+    "common": {
+      "name": "Weather Description day 5",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.state.forecast.4"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.WeatherText_d5"
+  },
+  "accuweather.0.Summary.WindDirection": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.direction.wind.forecast.0",
+      "unit": "°"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155035,
+    "_id": "accuweather.0.Summary.WindDirection"
+  },
+  "accuweather.0.Summary.WindDirectionStr": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.direction.wind.forecast.0",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155035,
+    "_id": "accuweather.0.Summary.WindDirectionStr"
+  },
+  "accuweather.0.Summary.WindDirectionStr_d1": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 1",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.direction.wind.forecast.0",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155037,
+    "_id": "accuweather.0.Summary.WindDirectionStr_d1"
+  },
+  "accuweather.0.Summary.WindDirectionStr_d2": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 2",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.direction.wind.forecast.1",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.WindDirectionStr_d2"
+  },
+  "accuweather.0.Summary.WindDirectionStr_d3": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 3",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.direction.wind.forecast.2",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.WindDirectionStr_d3"
+  },
+  "accuweather.0.Summary.WindDirectionStr_d4": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 4",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.direction.wind.forecast.3",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.WindDirectionStr_d4"
+  },
+  "accuweather.0.Summary.WindDirectionStr_d5": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 5",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "weather.direction.wind.forecast.4",
+      "unit": ""
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.WindDirectionStr_d5"
+  },
+  "accuweather.0.Summary.WindDirection_d2": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 2",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.direction.wind.forecast.1",
+      "unit": "°"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.WindDirection_d2"
+  },
+  "accuweather.0.Summary.WindDirection_d3": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 3",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.direction.wind.forecast.2",
+      "unit": "°"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.WindDirection_d3"
+  },
+  "accuweather.0.Summary.WindDirection_d4": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 4",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.direction.wind.forecast.3",
+      "unit": "°"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.WindDirection_d4"
+  },
+  "accuweather.0.Summary.WindDirection_d5": {
+    "type": "state",
+    "common": {
+      "name": "Wind Direction day 5",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.direction.wind.forecast.4",
+      "unit": "°"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.WindDirection_d5"
+  },
+  "accuweather.0.Summary.WindSpeed": {
+    "type": "state",
+    "common": {
+      "name": "Wind Speed",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.speed.wind.forecast.0",
+      "unit": "km/h"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155035,
+    "_id": "accuweather.0.Summary.WindSpeed"
+  },
+  "accuweather.0.Summary.WindSpeed_d2": {
+    "type": "state",
+    "common": {
+      "name": "Wind Speed day 2",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.speed.wind.forecast.1",
+      "unit": "km/h"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155038,
+    "_id": "accuweather.0.Summary.WindSpeed_d2"
+  },
+  "accuweather.0.Summary.WindSpeed_d3": {
+    "type": "state",
+    "common": {
+      "name": "Wind Speed day 3",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.speed.wind.forecast.2",
+      "unit": "km/h"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155039,
+    "_id": "accuweather.0.Summary.WindSpeed_d3"
+  },
+  "accuweather.0.Summary.WindSpeed_d4": {
+    "type": "state",
+    "common": {
+      "name": "Wind Speed day 4",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.speed.wind.forecast.3",
+      "unit": "km/h"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155040,
+    "_id": "accuweather.0.Summary.WindSpeed_d4"
+  },
+  "accuweather.0.Summary.WindSpeed_d5": {
+    "type": "state",
+    "common": {
+      "name": "Wind Speed day 5",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value.speed.wind.forecast.4",
+      "unit": "km/h"
+    },
+    "native": {},
+    "from": "system.adapter.accuweather.0",
+    "user": "system.user.admin",
+    "ts": 1625222155041,
+    "_id": "accuweather.0.Summary.WindSpeed_d5"
+  }
+}
