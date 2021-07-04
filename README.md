@@ -468,6 +468,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fixed: Date shift for weather forecast without date state.
+
 ### 2.0.1 (2021-07-01)
 * (Garfonso) fixed: Zigbee lights (issue 222).
 
