@@ -366,7 +366,8 @@ exports.runTests = function (getHarness) {
             entity => {
                 const date = new Date(entity.attributes.forecast[6].datetime);
                 const controlDate = new Date(newTS);
-                expect(date.getDate()).to.equal(controlDate.getDate() +6);
+                controlDate.setDate(controlDate.getDate() + 6);
+                expect(date.getDate()).to.equal(controlDate.getDate());
             });
     });
 
