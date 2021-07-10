@@ -582,6 +582,7 @@ gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2
 gulp.task('default', gulp.series('updatePackages', 'updateReadme'));
 
 const devServerPath = __dirname + '/.dev-server/default/';
+const devserverIoBrokerPath = devServerPath + 'node_modules/iobroker.js-controller/iobroker.js';
 const spawn = require('child_process').spawn;
 async function spawnChild(command, params, logmsg, local) {
     if (logmsg) {
@@ -594,7 +595,6 @@ async function spawnChild(command, params, logmsg, local) {
 }
 gulp.task('prepareDevserver', async done => {
     const promises = [];
-    const devserverIoBrokerPath = devServerPath + 'node_modules/iobroker.js-controller/iobroker.js';
     filesWalk(__dirname + '/test/testData', (fileName) => {
         if (fileName && fileName.toLowerCase().endsWith('.json')) {
             const objects = JSON.parse(fs.readFileSync(fileName));
@@ -616,7 +616,11 @@ gulp.task('updateDevserver', async done => {
     await spawnChild(npmCmd, ['install', 'iobroker.devices@latest'], 'Updating devices');
     await spawnChild(npmCmd, ['install', 'iobroker.history@latest'], 'Updating history');
     await spawnChild(npmCmd, ['install', 'iobroker.type-detector@latest'], 'Updating type-detector');
+    await spawnChild('node', [devserverIoBrokerPath, 'upload', 'devices'], 'Uploading devices');
+    await spawnChild('node', [devserverIoBrokerPath, 'upload', 'history'], 'Uploading history');
+    await spawnChild('node', [devserverIoBrokerPath, 'upload', 'admin'], 'Uploading admin');
     await spawnChild(npmCmd, ['link', 'iobroker.lovelace'], 'Linking lovelace');
-    await spawnChild(npmCmd, ['install'], 'Reparing dependencies in lovelace', true);
+    await spawnChild('node', [devserverIoBrokerPath, 'upload', 'lovelace'], 'Uploading lovelace');
+    await spawnChild(npmCmd, ['install'], 'Repairing dependencies in lovelace', true);
     done();
 });

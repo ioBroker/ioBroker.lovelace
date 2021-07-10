@@ -211,7 +211,7 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
             if (m.type === 'event' && m.event && m.event.event_type === 'state_changed') {
                 const data = m.event.data;
                 if (data.entity_id === entity_id) {
-                    console.dir(data.new_state);
+                    console.dir(data.new_state, {depth: null});
                     validator(data.new_state); //pass new entity to validator.
                     currentClient.removeEventListener('message', eventListener);
                     resolve();

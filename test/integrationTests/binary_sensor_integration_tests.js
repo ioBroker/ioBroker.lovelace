@@ -78,5 +78,22 @@ exports.runTests = function (getHarness) {
         it('detects Motion Sensor with battery and prevents id clash', async () => {
             await motion_sensor_with_id_clash(getHarness);
         });
+
+        it('detect fire alarm with battery', async () => {
+            const harness = getHarness();
+
+            const objects = require('../testData/binary_sensor_fireAlarm_Homematic.json');
+            const deviceId = 'adapter.0.binary_sensor.firealarms.homematic';
+            const alarmId = 'adapter.0.binary_sensor.firealarms.homematic.1.STATE';
+            const batteryId = 'adapter.0.binary_sensor.firealarms.homematic.1.LOWBAT';
+            const entities = await startAndGetEntities(harness, objects, deviceId);
+            const binarySensor = entities.find(e => e.context.id === deviceId);
+            const battery = entities.find(e => e.context.id === batteryId);
+            expect(binarySensor).to.be.ok;
+            expect(battery).to.be.ok;
+            expectBattery(battery, batteryId, objects[batteryId].common.name, batteryId);
+            expect(binarySensor).to.have.nested.property('attributes.device_class', 'smoke');
+            expectBinarySensor(binarySensor, deviceId, objects[deviceId].common.name, alarmId);
+        });
     });
 };
