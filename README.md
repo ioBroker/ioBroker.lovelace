@@ -468,6 +468,10 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Add support for fan entity (makes fan card working).
+* (Garfonso) fix backwards compatibility for input_datetime attributes.
+
 ### 2.0.3 (2021-07-04)
 * (Garfonso) fix typo.
 
