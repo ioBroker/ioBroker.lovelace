@@ -471,6 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso) Add support for fan entity (makes fan card working).
 * (Garfonso) fix backwards compatibility for input_datetime attributes.
+* (Garfonso) fix airconditioner with power mode on mode update
 
 ### 2.0.3 (2021-07-04)
 * (Garfonso) fix typo.
