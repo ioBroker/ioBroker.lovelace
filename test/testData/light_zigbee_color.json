@@ -1,0 +1,219 @@
+{
+  "zigbee.0.zigbeeColor": {
+    "type": "device",
+    "common": {
+      "name": "Zigbee Color",
+      "type": "LED1624G9",
+      "icon": "img/ikea_e14_bulb.png"
+    },
+    "native": {
+      "id": "zigbeeColor"
+    },
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1624840690574,
+    "_id": "zigbee.0.zigbeeColor",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.available": {
+    "type": "state",
+    "common": {
+      "name": "Available",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "state"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1605542604598,
+    "_id": "zigbee.0.zigbeeColor.available",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.brightness": {
+    "type": "state",
+    "common": {
+      "name": "Brightness",
+      "type": "number",
+      "unit": "",
+      "read": true,
+      "write": true,
+      "role": "level.dimmer",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1605542604599,
+    "_id": "zigbee.0.zigbeeColor.brightness",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.brightness_move": {
+    "type": "state",
+    "common": {
+      "name": "Dimming",
+      "type": "number",
+      "read": false,
+      "write": true,
+      "role": "state",
+      "min": -50,
+      "max": 50
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1618922883523,
+    "_id": "zigbee.0.zigbeeColor.brightness_move",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.color": {
+    "type": "state",
+    "common": {
+      "name": "Color",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "role": "level.color.rgb"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1605542604602,
+    "_id": "zigbee.0.zigbeeColor.color",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.device_query": {
+    "type": "state",
+    "common": {
+      "name": "Trigger device query",
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1613405434530,
+    "_id": "zigbee.0.zigbeeColor.device_query",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.groups": {
+    "type": "state",
+    "common": {
+      "name": "Groups",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "state"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1605542604603,
+    "_id": "zigbee.0.zigbeeColor.groups",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.link_quality": {
+    "type": "state",
+    "common": {
+      "name": "Link quality",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "state",
+      "min": 0,
+      "max": 254
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1605542604596,
+    "_id": "zigbee.0.zigbeeColor.link_quality",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.state": {
+    "type": "state",
+    "common": {
+      "name": "Switch state",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "switch"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1605542604599,
+    "_id": "zigbee.0.zigbeeColor.state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "zigbee.0.zigbeeColor.transition_time": {
+    "type": "state",
+    "common": {
+      "name": "Transition time",
+      "type": "number",
+      "unit": "sec",
+      "read": false,
+      "write": true,
+      "role": "state"
+    },
+    "native": {},
+    "from": "system.adapter.zigbee.0",
+    "user": "system.user.admin",
+    "ts": 1605542604603,
+    "_id": "zigbee.0.zigbeeColor.transition_time",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

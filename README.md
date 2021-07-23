@@ -468,6 +468,20 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Add support for fan entity (makes fan card working).
+* (Garfonso) fix backwards compatibility for input_datetime attributes.
+* (Garfonso) fix airconditioner with power mode on mode update
+
+### 2.0.3 (2021-07-04)
+* (Garfonso) fix typo.
+
+### 2.0.2 (2021-07-04)
+* (Garfonso) fixed: Date shift for weather forecast without date state.
+
+### 2.0.1 (2021-07-01)
+* (Garfonso) fixed: Zigbee lights (issue 222).
+
 ### 2.0.0 (2021-06-17)
 * (Garfonso) Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)
 * (Garfonso) Fixed:   !Breaking! entity_id conflict for low_bat / humidity when part of another device
@@ -494,15 +508,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Fixed: Adjust user-name/user-id handling to changes in js-controller 3.2.*
 * (Garfonso) Fixed: default themes do not show as selected
 * (Garfonso) Fixed: Loading themes / custom cards / image-proxy
-
-### 1.4.3 (2021-02-01)
-* (bluefox) Support of lovelace via ioBroker.pro
-
-### 1.4.2 (2021-01-08)
-* (thost96) Fixed: set Theme state type to string instead of text
-
-### 1.4.1 (2021-01-08)
-* (bluefox) Support of new Let's Encrypt (only with js-controller 3.2.x)
 
 ## License
 

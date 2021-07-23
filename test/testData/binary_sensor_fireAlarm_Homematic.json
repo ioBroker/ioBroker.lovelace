@@ -1,0 +1,546 @@
+{
+  "adapter.0.binary_sensor.firealarms.homematic": {
+    "_id": "adapter.0.binary_sensor.firealarms.homematic",
+    "type": "device",
+    "common": {
+      "name": "FireAlarm - HomeMatic"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1624785228951,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0": {
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0",
+    "type": "channel",
+    "common": {
+      "name": "FireAlarm - HomeMatic:0",
+      "role": "sensor.alarm.fire"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1624785228958,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.AES_KEY": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "min": 0,
+      "max": 127,
+      "role": "value",
+      "name": "FireAlarm - HomeMatic:0.AES_KEY"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785228971,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.AES_KEY",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.CONFIG_PENDING": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "name": "FireAlarm - HomeMatic:0.CONFIG_PENDING"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785228985,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.CONFIG_PENDING",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.CONFIG_PENDING_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "FireAlarm - HomeMatic:0.CONFIG_PENDING_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1561648198547,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.CONFIG_PENDING_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.DUTYCYCLE": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "value",
+      "name": "FireAlarm - HomeMatic:0.DUTYCYCLE"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229007,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.DUTYCYCLE",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.DUTYCYCLE_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "FireAlarm - HomeMatic:0.DUTYCYCLE_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1561648198541,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.DUTYCYCLE_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.LOWBAT": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator.lowbat",
+      "name": "FireAlarm - HomeMatic:0.LOWBAT"
+    },
+    "native": {},
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.LOWBAT",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1624960813369
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.LOWBAT_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "FireAlarm - HomeMatic:0.LOWBAT_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1561648198533,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.LOWBAT_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.RSSI_DEVICE": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "min": -2147483648,
+      "max": 2147483647,
+      "role": "value.rssi",
+      "name": "FireAlarm - HomeMatic:0.RSSI_DEVICE",
+      "unit": "dBm"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229042,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.RSSI_DEVICE",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.RSSI_PEER": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "min": -2147483648,
+      "max": 2147483647,
+      "role": "value.rssi",
+      "name": "FireAlarm - HomeMatic:0.RSSI_PEER",
+      "unit": "dBm"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229056,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.RSSI_PEER",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.STICKY_UNREACH": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "indicator.unreach",
+      "name": "FireAlarm - HomeMatic:0.STICKY_UNREACH"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229074,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.STICKY_UNREACH",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.STICKY_UNREACH_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "FireAlarm - HomeMatic:0.STICKY_UNREACH_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1561648198526,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.STICKY_UNREACH_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.UNREACH": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "name": "FireAlarm - HomeMatic:0.UNREACH"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229086,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.UNREACH",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.0.UNREACH_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "FireAlarm - HomeMatic:0.UNREACH_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1561648198518,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.0.UNREACH_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.1": {
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.1",
+    "type": "channel",
+    "common": {
+      "name": "FireAlarm - HomeMatic",
+      "role": "sensor.alarm.fire"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1624785229100,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.1.ERROR_ALARM_TEST": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "min": 0,
+      "max": 1,
+      "states": {
+        "0": "NO_ERROR",
+        "1": "ALARM_TEST_FAILED"
+      },
+      "name": "FireAlarm - HomeMatic.ERROR_ALARM_TEST"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229119,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.1.ERROR_ALARM_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.1.ERROR_ALARM_TEST-1_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "FireAlarm - HomeMatic.ERROR_ALARM_TEST-1_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1561648198467,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.1.ERROR_ALARM_TEST-1_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.1.ERROR_SMOKE_CHAMBER": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "min": 0,
+      "max": 1,
+      "states": {
+        "0": "NO_ERROR",
+        "1": "DEGRADED_SMOKE_CHAMBER"
+      },
+      "name": "FireAlarm - HomeMatic.ERROR_SMOKE_CHAMBER"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229154,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.1.ERROR_SMOKE_CHAMBER",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.1.ERROR_SMOKE_CHAMBER-1_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "FireAlarm - HomeMatic.ERROR_SMOKE_CHAMBER-1_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1561648198459,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.1.ERROR_SMOKE_CHAMBER-1_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.1.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": false,
+      "role": "indicator",
+      "name": "FireAlarm - HomeMatic.INSTALL_TEST"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229169,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.1.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.1.LOWBAT": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator.lowbat",
+      "name": "FireAlarm - HomeMatic.LOWBAT"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229251,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.1.LOWBAT",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "user": "system.user.admin"
+  },
+  "adapter.0.binary_sensor.firealarms.homematic.1.STATE": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "sensor.alarm.fire",
+      "name": "FireAlarm - HomeMatic.STATE"
+    },
+    "native": {},
+    "from": "system.adapter.hm-rega.0",
+    "ts": 1624785229260,
+    "_id": "adapter.0.binary_sensor.firealarms.homematic.1.STATE",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "children": [],
+    "user": "system.user.admin"
+  }
+}

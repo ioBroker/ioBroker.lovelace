@@ -1,0 +1,2838 @@
+{
+  "weatherunderground.0.forecast": {
+    "type": "device",
+    "role": "forecast",
+    "common": {
+      "name": "Forecast for next 4 days days and current conditions"
+    },
+    "native": {
+      "location": "Bonn"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451296,
+    "_id": "weatherunderground.0.forecast",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d": {
+    "type": "channel",
+    "role": "forecast",
+    "common": {
+      "name": "in 0days"
+    },
+    "native": {
+      "location": "Bonn"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451333,
+    "_id": "weatherunderground.0.forecast.0d",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.date": {
+    "type": "state",
+    "common": {
+      "name": "forecast for",
+      "type": "string",
+      "role": "date.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.date"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451333,
+    "_id": "weatherunderground.0.forecast.0d.date",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.humidity": {
+    "type": "state",
+    "common": {
+      "name": "average humidity",
+      "role": "value.humidity.forecast.0",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.avehumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451351,
+    "_id": "weatherunderground.0.forecast.0d.humidity",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.humidityMax": {
+    "type": "state",
+    "common": {
+      "name": "maximum humidity",
+      "role": "value.humidity.max.forecast.0",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.maxhumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451352,
+    "_id": "weatherunderground.0.forecast.0d.humidityMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.humidityMin": {
+    "type": "state",
+    "common": {
+      "name": "minimum humidity",
+      "role": "value.humidity.min.forecast.0",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.minhumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451353,
+    "_id": "weatherunderground.0.forecast.0d.humidityMin",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.icon": {
+    "type": "state",
+    "common": {
+      "name": "forecast icon",
+      "type": "number",
+      "role": "weather.icon.name.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.icon"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451342,
+    "_id": "weatherunderground.0.forecast.0d.icon",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "forecast icon url",
+      "type": "string",
+      "role": "weather.icon.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.icon_url"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451344,
+    "_id": "weatherunderground.0.forecast.0d.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.precipitationAllDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation all day forecast",
+      "role": "value.precipitation.today.forecast.0",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.qpf_allday.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451336,
+    "_id": "weatherunderground.0.forecast.0d.precipitationAllDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.precipitationChance": {
+    "type": "state",
+    "common": {
+      "name": "Percentage of precipitation",
+      "type": "number",
+      "role": "value.precipitation.forecast.0",
+      "unit": "%",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.pop"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451345,
+    "_id": "weatherunderground.0.forecast.0d.precipitationChance",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.precipitationDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation day forecast",
+      "role": "value.precipitation.day.forecast.0",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.qpf_day.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451337,
+    "_id": "weatherunderground.0.forecast.0d.precipitationDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.precipitationNight": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation night forecast",
+      "role": "value.precipitation.night.forecast.0",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.qpf_night.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451338,
+    "_id": "weatherunderground.0.forecast.0d.precipitationNight",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.snowAllDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow all day forecast",
+      "type": "number",
+      "role": "value.snow.forecast.0",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.snow_allday.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451338,
+    "_id": "weatherunderground.0.forecast.0d.snowAllDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.snowDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow day forecast",
+      "role": "value.snow.day.forecast.0",
+      "type": "number",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.snow_day.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451339,
+    "_id": "weatherunderground.0.forecast.0d.snowDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.snowNight": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow night forecast",
+      "role": "value.snow.night.forecast.0",
+      "type": "number",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.snow_night.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451340,
+    "_id": "weatherunderground.0.forecast.0d.snowNight",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.state": {
+    "type": "state",
+    "common": {
+      "name": "forecast state",
+      "type": "string",
+      "role": "weather.state.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.state"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451344,
+    "_id": "weatherunderground.0.forecast.0d.state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.tempMax": {
+    "type": "state",
+    "common": {
+      "name": "high temperature",
+      "type": "number",
+      "unit": "°C",
+      "role": "value.temperature.max.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.high.celsius"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451334,
+    "_id": "weatherunderground.0.forecast.0d.tempMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.tempMin": {
+    "type": "state",
+    "common": {
+      "name": "low temperature",
+      "type": "number",
+      "unit": "°C",
+      "role": "value.temperature.min.forecast.0",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.low.celsius"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451335,
+    "_id": "weatherunderground.0.forecast.0d.tempMin",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.windDegrees": {
+    "type": "state",
+    "common": {
+      "name": "average wind direction degrees",
+      "role": "value.direction.wind.forecast.0",
+      "unit": "°",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.avewind.degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451350,
+    "_id": "weatherunderground.0.forecast.0d.windDegrees",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.windDegreesMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind direction",
+      "role": "value.direction.max.wind.forecast.0",
+      "unit": "°",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.maxwind.degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451348,
+    "_id": "weatherunderground.0.forecast.0d.windDegreesMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.windDirection": {
+    "type": "state",
+    "common": {
+      "name": "average wind direction",
+      "role": "weather.direction.wind.forecast.0",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.avewind.dir"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451349,
+    "_id": "weatherunderground.0.forecast.0d.windDirection",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.windDirectionMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind direction",
+      "role": "weather.direction.max.wind.forecast.0",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.maxwind.dir"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451346,
+    "_id": "weatherunderground.0.forecast.0d.windDirectionMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.windSpeed": {
+    "type": "state",
+    "common": {
+      "name": "average wind speed",
+      "role": "value.speed.wind.forecast.0",
+      "unit": "km/h",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.avewind.kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451341,
+    "_id": "weatherunderground.0.forecast.0d.windSpeed",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.0d.windSpeedMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind speed",
+      "role": "value.speed.max.wind.forecast.0",
+      "unit": "km/h",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.0d.maxwind.kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451341,
+    "_id": "weatherunderground.0.forecast.0d.windSpeedMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d": {
+    "type": "channel",
+    "role": "forecast",
+    "common": {
+      "name": "in 1days"
+    },
+    "native": {
+      "location": "Bonn"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451354,
+    "_id": "weatherunderground.0.forecast.1d",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.date": {
+    "type": "state",
+    "common": {
+      "name": "forecast for",
+      "type": "string",
+      "role": "date.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.date"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451355,
+    "_id": "weatherunderground.0.forecast.1d.date",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.humidity": {
+    "type": "state",
+    "common": {
+      "name": "average humidity",
+      "role": "value.humidity.forecast.1",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.avehumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451372,
+    "_id": "weatherunderground.0.forecast.1d.humidity",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.humidityMax": {
+    "type": "state",
+    "common": {
+      "name": "maximum humidity",
+      "role": "value.humidity.max.forecast.1",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.maxhumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451373,
+    "_id": "weatherunderground.0.forecast.1d.humidityMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.humidityMin": {
+    "type": "state",
+    "common": {
+      "name": "minimum humidity",
+      "role": "value.humidity.min.forecast.1",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.minhumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451373,
+    "_id": "weatherunderground.0.forecast.1d.humidityMin",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.icon": {
+    "type": "state",
+    "common": {
+      "name": "forecast icon",
+      "type": "number",
+      "role": "weather.icon.name.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.icon"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451364,
+    "_id": "weatherunderground.0.forecast.1d.icon",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "forecast icon url",
+      "type": "string",
+      "role": "weather.icon.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.icon_url"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451366,
+    "_id": "weatherunderground.0.forecast.1d.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.precipitationAllDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation all day forecast",
+      "role": "value.precipitation.today.forecast.1",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.qpf_allday.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451357,
+    "_id": "weatherunderground.0.forecast.1d.precipitationAllDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.precipitationChance": {
+    "type": "state",
+    "common": {
+      "name": "Percentage of precipitation",
+      "type": "number",
+      "role": "value.precipitation.forecast.1",
+      "unit": "%",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.pop"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451367,
+    "_id": "weatherunderground.0.forecast.1d.precipitationChance",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.precipitationDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation day forecast",
+      "role": "value.precipitation.day.forecast.1",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.qpf_day.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451357,
+    "_id": "weatherunderground.0.forecast.1d.precipitationDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.precipitationNight": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation night forecast",
+      "role": "value.precipitation.night.forecast.1",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.qpf_night.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451358,
+    "_id": "weatherunderground.0.forecast.1d.precipitationNight",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.snowAllDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow all day forecast",
+      "type": "number",
+      "role": "value.snow.forecast.1",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.snow_allday.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451359,
+    "_id": "weatherunderground.0.forecast.1d.snowAllDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.snowDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow day forecast",
+      "role": "value.snow.day.forecast.1",
+      "type": "number",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.snow_day.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451359,
+    "_id": "weatherunderground.0.forecast.1d.snowDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.snowNight": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow night forecast",
+      "role": "value.snow.night.forecast.1",
+      "type": "number",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.snow_night.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451360,
+    "_id": "weatherunderground.0.forecast.1d.snowNight",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.state": {
+    "type": "state",
+    "common": {
+      "name": "forecast state",
+      "type": "string",
+      "role": "weather.state.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.state"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451365,
+    "_id": "weatherunderground.0.forecast.1d.state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.tempMax": {
+    "type": "state",
+    "common": {
+      "name": "high temperature",
+      "type": "number",
+      "unit": "°C",
+      "role": "value.temperature.max.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.high.celsius"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451356,
+    "_id": "weatherunderground.0.forecast.1d.tempMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.tempMin": {
+    "type": "state",
+    "common": {
+      "name": "low temperature",
+      "type": "number",
+      "unit": "°C",
+      "role": "value.temperature.min.forecast.1",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.low.celsius"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451356,
+    "_id": "weatherunderground.0.forecast.1d.tempMin",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.windDegrees": {
+    "type": "state",
+    "common": {
+      "name": "average wind direction degrees",
+      "role": "value.direction.wind.forecast.1",
+      "unit": "°",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.avewind.degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451371,
+    "_id": "weatherunderground.0.forecast.1d.windDegrees",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.windDegreesMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind direction",
+      "role": "value.direction.max.wind.forecast.1",
+      "unit": "°",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.maxwind.degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451369,
+    "_id": "weatherunderground.0.forecast.1d.windDegreesMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.windDirection": {
+    "type": "state",
+    "common": {
+      "name": "average wind direction",
+      "role": "weather.direction.wind.forecast.1",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.avewind.dir"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451370,
+    "_id": "weatherunderground.0.forecast.1d.windDirection",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.windDirectionMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind direction",
+      "role": "weather.direction.max.wind.forecast.1",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.maxwind.dir"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451368,
+    "_id": "weatherunderground.0.forecast.1d.windDirectionMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.windSpeed": {
+    "type": "state",
+    "common": {
+      "name": "average wind speed",
+      "role": "value.speed.wind.forecast.1",
+      "unit": "km/h",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.avewind.kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451362,
+    "_id": "weatherunderground.0.forecast.1d.windSpeed",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.1d.windSpeedMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind speed",
+      "role": "value.speed.max.wind.forecast.1",
+      "unit": "km/h",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.1d.maxwind.kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451360,
+    "_id": "weatherunderground.0.forecast.1d.windSpeedMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d": {
+    "type": "channel",
+    "role": "forecast",
+    "common": {
+      "name": "in 2days"
+    },
+    "native": {
+      "location": "Bonn"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451374,
+    "_id": "weatherunderground.0.forecast.2d",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.date": {
+    "type": "state",
+    "common": {
+      "name": "forecast for",
+      "type": "string",
+      "role": "date.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.date"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451375,
+    "_id": "weatherunderground.0.forecast.2d.date",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.humidity": {
+    "type": "state",
+    "common": {
+      "name": "average humidity",
+      "role": "value.humidity.forecast.2",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.avehumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451396,
+    "_id": "weatherunderground.0.forecast.2d.humidity",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.humidityMax": {
+    "type": "state",
+    "common": {
+      "name": "maximum humidity",
+      "role": "value.humidity.max.forecast.2",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.maxhumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451397,
+    "_id": "weatherunderground.0.forecast.2d.humidityMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.humidityMin": {
+    "type": "state",
+    "common": {
+      "name": "minimum humidity",
+      "role": "value.humidity.min.forecast.2",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.minhumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451398,
+    "_id": "weatherunderground.0.forecast.2d.humidityMin",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.icon": {
+    "type": "state",
+    "common": {
+      "name": "forecast icon",
+      "type": "number",
+      "role": "weather.icon.name.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.icon"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451387,
+    "_id": "weatherunderground.0.forecast.2d.icon",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "forecast icon url",
+      "type": "string",
+      "role": "weather.icon.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.icon_url"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451389,
+    "_id": "weatherunderground.0.forecast.2d.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.precipitationAllDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation all day forecast",
+      "role": "value.precipitation.today.forecast.2",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.qpf_allday.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451378,
+    "_id": "weatherunderground.0.forecast.2d.precipitationAllDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.precipitationChance": {
+    "type": "state",
+    "common": {
+      "name": "Percentage of precipitation",
+      "type": "number",
+      "role": "value.precipitation.forecast.2",
+      "unit": "%",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.pop"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451390,
+    "_id": "weatherunderground.0.forecast.2d.precipitationChance",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.precipitationDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation day forecast",
+      "role": "value.precipitation.day.forecast.2",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.qpf_day.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451379,
+    "_id": "weatherunderground.0.forecast.2d.precipitationDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.precipitationNight": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation night forecast",
+      "role": "value.precipitation.night.forecast.2",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.qpf_night.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451380,
+    "_id": "weatherunderground.0.forecast.2d.precipitationNight",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.snowAllDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow all day forecast",
+      "type": "number",
+      "role": "value.snow.forecast.2",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.snow_allday.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451381,
+    "_id": "weatherunderground.0.forecast.2d.snowAllDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.snowDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow day forecast",
+      "role": "value.snow.day.forecast.2",
+      "type": "number",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.snow_day.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451382,
+    "_id": "weatherunderground.0.forecast.2d.snowDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.snowNight": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow night forecast",
+      "role": "value.snow.night.forecast.2",
+      "type": "number",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.snow_night.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451384,
+    "_id": "weatherunderground.0.forecast.2d.snowNight",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.state": {
+    "type": "state",
+    "common": {
+      "name": "forecast state",
+      "type": "string",
+      "role": "weather.state.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.state"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451388,
+    "_id": "weatherunderground.0.forecast.2d.state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.tempMax": {
+    "type": "state",
+    "common": {
+      "name": "high temperature",
+      "type": "number",
+      "unit": "°C",
+      "role": "value.temperature.max.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.high.celsius"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451375,
+    "_id": "weatherunderground.0.forecast.2d.tempMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.tempMin": {
+    "type": "state",
+    "common": {
+      "name": "low temperature",
+      "type": "number",
+      "unit": "°C",
+      "role": "value.temperature.min.forecast.2",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.low.celsius"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451376,
+    "_id": "weatherunderground.0.forecast.2d.tempMin",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.windDegrees": {
+    "type": "state",
+    "common": {
+      "name": "average wind direction degrees",
+      "role": "value.direction.wind.forecast.2",
+      "unit": "°",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.avewind.degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451394,
+    "_id": "weatherunderground.0.forecast.2d.windDegrees",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.windDegreesMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind direction",
+      "role": "value.direction.max.wind.forecast.2",
+      "unit": "°",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.maxwind.degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451392,
+    "_id": "weatherunderground.0.forecast.2d.windDegreesMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.windDirection": {
+    "type": "state",
+    "common": {
+      "name": "average wind direction",
+      "role": "weather.direction.wind.forecast.2",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.avewind.dir"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451393,
+    "_id": "weatherunderground.0.forecast.2d.windDirection",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.windDirectionMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind direction",
+      "role": "weather.direction.max.wind.forecast.2",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.maxwind.dir"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451391,
+    "_id": "weatherunderground.0.forecast.2d.windDirectionMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.windSpeed": {
+    "type": "state",
+    "common": {
+      "name": "average wind speed",
+      "role": "value.speed.wind.forecast.2",
+      "unit": "km/h",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.avewind.kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451386,
+    "_id": "weatherunderground.0.forecast.2d.windSpeed",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.2d.windSpeedMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind speed",
+      "role": "value.speed.max.wind.forecast.2",
+      "unit": "km/h",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.2d.maxwind.kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451384,
+    "_id": "weatherunderground.0.forecast.2d.windSpeedMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d": {
+    "type": "channel",
+    "role": "forecast",
+    "common": {
+      "name": "in 3days"
+    },
+    "native": {
+      "location": "Bonn"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451399,
+    "_id": "weatherunderground.0.forecast.3d",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.date": {
+    "type": "state",
+    "common": {
+      "name": "forecast for",
+      "type": "string",
+      "role": "date.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.date"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451400,
+    "_id": "weatherunderground.0.forecast.3d.date",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.humidity": {
+    "type": "state",
+    "common": {
+      "name": "average humidity",
+      "role": "value.humidity.forecast.3",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.avehumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451416,
+    "_id": "weatherunderground.0.forecast.3d.humidity",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.humidityMax": {
+    "type": "state",
+    "common": {
+      "name": "maximum humidity",
+      "role": "value.humidity.max.forecast.3",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.maxhumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451417,
+    "_id": "weatherunderground.0.forecast.3d.humidityMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.humidityMin": {
+    "type": "state",
+    "common": {
+      "name": "minimum humidity",
+      "role": "value.humidity.min.forecast.3",
+      "unit": "%",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.minhumidity"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451417,
+    "_id": "weatherunderground.0.forecast.3d.humidityMin",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.icon": {
+    "type": "state",
+    "common": {
+      "name": "forecast icon",
+      "type": "number",
+      "role": "weather.icon.name.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.icon"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451409,
+    "_id": "weatherunderground.0.forecast.3d.icon",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "forecast icon url",
+      "type": "string",
+      "role": "weather.icon.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.icon_url"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451411,
+    "_id": "weatherunderground.0.forecast.3d.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.precipitationAllDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation all day forecast",
+      "role": "value.precipitation.today.forecast.3",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.qpf_allday.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451403,
+    "_id": "weatherunderground.0.forecast.3d.precipitationAllDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.precipitationChance": {
+    "type": "state",
+    "common": {
+      "name": "Percentage of precipitation",
+      "type": "number",
+      "role": "value.precipitation.forecast.3",
+      "unit": "%",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.pop"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451412,
+    "_id": "weatherunderground.0.forecast.3d.precipitationChance",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.precipitationDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation day forecast",
+      "role": "value.precipitation.day.forecast.3",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.qpf_day.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451404,
+    "_id": "weatherunderground.0.forecast.3d.precipitationDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.precipitationNight": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative precipitation night forecast",
+      "role": "value.precipitation.night.forecast.3",
+      "unit": "mm",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.qpf_night.mm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451405,
+    "_id": "weatherunderground.0.forecast.3d.precipitationNight",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.snowAllDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow all day forecast",
+      "type": "number",
+      "role": "value.snow.forecast.3",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.snow_allday.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451406,
+    "_id": "weatherunderground.0.forecast.3d.snowAllDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.snowDay": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow day forecast",
+      "role": "value.snow.day.forecast.3",
+      "type": "number",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.snow_day.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451406,
+    "_id": "weatherunderground.0.forecast.3d.snowDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.snowNight": {
+    "type": "state",
+    "common": {
+      "name": "Quantitative snow night forecast",
+      "role": "value.snow.night.forecast.3",
+      "type": "number",
+      "unit": "cm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.snow_night.cm"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451407,
+    "_id": "weatherunderground.0.forecast.3d.snowNight",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.state": {
+    "type": "state",
+    "common": {
+      "name": "forecast state",
+      "type": "string",
+      "role": "weather.state.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.state"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451410,
+    "_id": "weatherunderground.0.forecast.3d.state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.tempMax": {
+    "type": "state",
+    "common": {
+      "name": "high temperature",
+      "type": "number",
+      "unit": "°C",
+      "role": "value.temperature.max.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.high.celsius"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451401,
+    "_id": "weatherunderground.0.forecast.3d.tempMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.tempMin": {
+    "type": "state",
+    "common": {
+      "name": "low temperature",
+      "type": "number",
+      "unit": "°C",
+      "role": "value.temperature.min.forecast.3",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.low.celsius"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451402,
+    "_id": "weatherunderground.0.forecast.3d.tempMin",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.windDegrees": {
+    "type": "state",
+    "common": {
+      "name": "average wind direction degrees",
+      "role": "value.direction.wind.forecast.3",
+      "unit": "°",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.avewind.degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451415,
+    "_id": "weatherunderground.0.forecast.3d.windDegrees",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.windDegreesMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind direction",
+      "role": "value.direction.max.wind.forecast.3",
+      "unit": "°",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.maxwind.degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451413,
+    "_id": "weatherunderground.0.forecast.3d.windDegreesMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.windDirection": {
+    "type": "state",
+    "common": {
+      "name": "average wind direction",
+      "role": "weather.direction.wind.forecast.3",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.avewind.dir"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451414,
+    "_id": "weatherunderground.0.forecast.3d.windDirection",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.windDirectionMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind direction",
+      "role": "weather.direction.max.wind.forecast.3",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.maxwind.dir"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451412,
+    "_id": "weatherunderground.0.forecast.3d.windDirectionMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.windSpeed": {
+    "type": "state",
+    "common": {
+      "name": "average wind speed",
+      "role": "value.speed.wind.forecast.3",
+      "unit": "km/h",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.avewind.kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451409,
+    "_id": "weatherunderground.0.forecast.3d.windSpeed",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.3d.windSpeedMax": {
+    "type": "state",
+    "common": {
+      "name": "max. wind speed",
+      "role": "value.speed.max.wind.forecast.3",
+      "unit": "km/h",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "forecast.3d.maxwind.kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451408,
+    "_id": "weatherunderground.0.forecast.3d.windSpeedMax",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current": {
+    "type": "channel",
+    "common": {
+      "name": "Current conditions",
+      "role": "weather"
+    },
+    "native": {
+      "location": "Bonn"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451299,
+    "_id": "weatherunderground.0.forecast.current",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.UV": {
+    "type": "state",
+    "common": {
+      "name": "UV-Index",
+      "role": "value.uv",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current.UV"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451321,
+    "_id": "weatherunderground.0.forecast.current.UV",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.dewPoint": {
+    "type": "state",
+    "common": {
+      "name": "Dewpoint",
+      "role": "value.temperature.dewpoint",
+      "type": "number",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.dewpoint_c"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451313,
+    "_id": "weatherunderground.0.forecast.current.dewPoint",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.displayLocationElevation": {
+    "type": "state",
+    "common": {
+      "name": "Display location elevation",
+      "role": "value.gps.elevation",
+      "type": "number",
+      "unit": "m",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.display_location.elevation"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451303,
+    "_id": "weatherunderground.0.forecast.current.displayLocationElevation",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.displayLocationFull": {
+    "type": "state",
+    "common": {
+      "name": "Display location full name",
+      "role": "location",
+      "type": "string"
+    },
+    "native": {
+      "id": "current_observation.display_location.full"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451301,
+    "_id": "weatherunderground.0.forecast.current.displayLocationFull",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.displayLocationLatitude": {
+    "type": "state",
+    "common": {
+      "name": "Display location latitude",
+      "role": "value.gps.latitude",
+      "type": "number",
+      "unit": "°",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.display_location.latitude"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451301,
+    "_id": "weatherunderground.0.forecast.current.displayLocationLatitude",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.displayLocationLongitude": {
+    "type": "state",
+    "common": {
+      "name": "Display location longitude",
+      "role": "value.gps.longitude",
+      "type": "number",
+      "unit": "°",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.display_location.longitude"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451302,
+    "_id": "weatherunderground.0.forecast.current.displayLocationLongitude",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.feelsLike": {
+    "type": "state",
+    "common": {
+      "name": "Temperature feels like",
+      "role": "value.temperature.feelslike",
+      "type": "number",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.feelslike_c"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451315,
+    "_id": "weatherunderground.0.forecast.current.feelsLike",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.forecastURL": {
+    "type": "state",
+    "common": {
+      "name": "URL to wu-forecast page",
+      "role": "weather.chart.url.forecast",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.forecast_url"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451324,
+    "_id": "weatherunderground.0.forecast.current.forecastURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.historyURL": {
+    "type": "state",
+    "common": {
+      "name": "URL to wu-history page",
+      "role": "weather.chart.url",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.history_url"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451325,
+    "_id": "weatherunderground.0.forecast.current.historyURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.iconURL": {
+    "type": "state",
+    "common": {
+      "name": "URL to current weather icon",
+      "role": "weather.icon",
+      "type": "number",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.icon_url"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451323,
+    "_id": "weatherunderground.0.forecast.current.iconURL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.localTimeRFC822": {
+    "type": "state",
+    "common": {
+      "name": "Local time (rfc822)",
+      "role": "state",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.local_time_rfc822"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451309,
+    "_id": "weatherunderground.0.forecast.current.localTimeRFC822",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.observationLocationElevation": {
+    "type": "state",
+    "common": {
+      "name": "Observation location elevation",
+      "role": "value.gps.elevation",
+      "type": "number",
+      "unit": "m",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.observation_location.elevation"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451307,
+    "_id": "weatherunderground.0.forecast.current.observationLocationElevation",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.observationLocationFull": {
+    "type": "state",
+    "common": {
+      "name": "Observation location full name",
+      "role": "location",
+      "type": "string"
+    },
+    "native": {
+      "id": "current_observation.observation_location.full"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451304,
+    "_id": "weatherunderground.0.forecast.current.observationLocationFull",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.observationLocationLatitude": {
+    "type": "state",
+    "common": {
+      "name": "Observation location latitude",
+      "role": "value.gps.latitude",
+      "type": "number",
+      "unit": "°",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.observation_location.latitude"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451305,
+    "_id": "weatherunderground.0.forecast.current.observationLocationLatitude",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.observationLocationLongitude": {
+    "type": "state",
+    "common": {
+      "name": "Observation location longitude",
+      "role": "value.gps.longitude",
+      "type": "number",
+      "unit": "°",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.observation_location.longitude"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451306,
+    "_id": "weatherunderground.0.forecast.current.observationLocationLongitude",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.observationLocationStationID": {
+    "type": "state",
+    "common": {
+      "name": "WU station ID",
+      "role": "state",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.observation_location.station_id"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451308,
+    "_id": "weatherunderground.0.forecast.current.observationLocationStationID",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.observationTimeRFC822": {
+    "type": "state",
+    "common": {
+      "name": "Observation time (rfc822)",
+      "role": "state",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.observation_time_rfc822"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451310,
+    "_id": "weatherunderground.0.forecast.current.observationTimeRFC822",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.precipitationDay": {
+    "type": "state",
+    "common": {
+      "name": "Precipitation (today)",
+      "role": "value.precipitation.today",
+      "type": "number",
+      "unit": "mm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.precip_today_metric"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451323,
+    "_id": "weatherunderground.0.forecast.current.precipitationDay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.precipitationHour": {
+    "type": "state",
+    "common": {
+      "name": "Precipitation (last 1h)",
+      "role": "value.precipitation.hour",
+      "type": "number",
+      "unit": "mm",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.precip_1hr_metric"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451322,
+    "_id": "weatherunderground.0.forecast.current.precipitationHour",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.pressure": {
+    "type": "state",
+    "common": {
+      "name": "Air pressure (mbar)",
+      "role": "value.pressure",
+      "type": "number",
+      "unit": "mbar",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.pressure_mb"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451320,
+    "_id": "weatherunderground.0.forecast.current.pressure",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.solarRadiation": {
+    "type": "state",
+    "common": {
+      "name": "Solar radiation",
+      "role": "value.radiation",
+      "type": "number",
+      "unit": "w/m2",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.solarradiation"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451321,
+    "_id": "weatherunderground.0.forecast.current.solarRadiation",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.temp": {
+    "type": "state",
+    "common": {
+      "name": "Temperature",
+      "role": "value.temperature",
+      "type": "number",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.temp_c"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451312,
+    "_id": "weatherunderground.0.forecast.current.temp",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.visibility": {
+    "type": "state",
+    "common": {
+      "name": "Visibility",
+      "role": "value.distance.visibility",
+      "type": "number",
+      "unit": "km",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.visibility_km"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451315,
+    "_id": "weatherunderground.0.forecast.current.visibility",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.weather": {
+    "type": "state",
+    "common": {
+      "name": "Weather (engl.)",
+      "role": "weather.state",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.weather"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451311,
+    "_id": "weatherunderground.0.forecast.current.weather",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.windChill": {
+    "type": "state",
+    "common": {
+      "name": "Windchill",
+      "role": "value.temperature.windchill",
+      "type": "number",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.windchill_c"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451314,
+    "_id": "weatherunderground.0.forecast.current.windChill",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.windDirection": {
+    "type": "state",
+    "common": {
+      "name": "Wind direction",
+      "role": "value.direction.wind",
+      "type": "string",
+      "unit": "",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.wind_degrees"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451318,
+    "_id": "weatherunderground.0.forecast.current.windDirection",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "weatherunderground.0.forecast.current.windGust": {
+    "type": "state",
+    "common": {
+      "name": "Wind gust",
+      "role": "value.speed.wind.gust",
+      "type": "number",
+      "unit": "km/h",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "id": "current_observation.wind_gust_kph"
+    },
+    "from": "system.adapter.weatherunderground.0",
+    "user": "system.user.admin",
+    "ts": 1625152451319,
+    "_id": "weatherunderground.0.forecast.current.windGust",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
