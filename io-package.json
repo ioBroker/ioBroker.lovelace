@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "lovelace",
-        "version": "2.0.3",
+        "version": "2.0.4",
         "news": {
+            "2.0.4": {
+                "en": "Add support for fan entity (makes fan card working).\nfix backwards compatibility for input_datetime attributes.\nfix airconditioner with power mode on mode update",
+                "de": "Füge Unterstützung für Fan-Entität hinzu (macht Fan-Karte funktionsfähig).\nAbwärtskompatibilität für input_datetime-Attribute behoben.\nKlimaanlage mit Power-Modus-On-Modus-Update reparieren",
+                "ru": "Добавить поддержку фанатской сущности (заставляет фанатскую карту работать).\nисправить обратную совместимость для атрибутов input_datetime.\nисправить кондиционер с режимом питания при обновлении режима",
+                "pt": "Adicionar suporte para entidade de fã (faz o cartão de fã funcionar).\ncorrigir compatibilidade com versões anteriores para atributos input_datetime.\nconsertar o condicionador de ar com modo de energia na atualização de modo",
+                "nl": "Ondersteuning toevoegen voor fan-entiteit (maakt de fan-kaart werkend).\nachterwaartse compatibiliteit voor input_datetime-attributen herstellen.\nfix airconditioner met power-modus aan-modus update",
+                "fr": "Ajout de la prise en charge de l'entité de ventilateur (fait fonctionner la carte de ventilateur).\ncorrection de la rétrocompatibilité pour les attributs input_datetime.\nréparer le climatiseur avec le mode d'alimentation sur la mise à jour du mode",
+                "it": "Aggiungi il supporto per l'entità fan (fa funzionare la carta fan).\ncorrezione della compatibilità con le versioni precedenti per gli attributi input_datetime.\nriparare il condizionatore con la modalità di alimentazione in modalità aggiornamento",
+                "es": "Agregue soporte para la entidad de fan (hace que la tarjeta de fan funcione).\ncorrige la compatibilidad con versiones anteriores para los atributos input_datetime.\narreglar el aire acondicionado con el modo de energía en la actualización del modo",
+                "pl": "Dodaj wsparcie dla encji fanów (sprawia, że karta kibica działa).\npoprawiono kompatybilność wsteczną atrybutów input_datetime.\nnapraw klimatyzator z trybem zasilania w trybie aktualizacji",
+                "zh-cn": "添加对风扇实体的支持（使风扇卡工作）。\n修复 input_datetime 属性的向后兼容性。\n用电源模式修复空调模式更新"
+            },
             "2.0.3": {
                 "en": "fix typo.",
                 "de": "Tippfehler beheben.",
@@ -230,18 +242,6 @@
                 "es": "* (Garfonso) Corregido: el cajón de notificaciones era demasiado ancho en pantallas estrechas\n* (Garfonso) Corregido: el botón Borrar todas las notificaciones ahora tiene su icono nuevamente\n* (Garfonso) Corregido: el botón de notificación podía moverse de manera impredecible en la barra de herramientas\n* (Garfonso) Corregido: el estado de bloqueo ahora se muestra en el icono (abrir / cerrar)\n* (Garfonso) Corregido: el estado de bloqueo ahora se recibe si no existe un getId dedicado (suscribiendo setId como con otras entidades)\n* (Garfonso) Agregado: Soporte para llamadas de servicio abierto (que aún no es compatible con el propio lovelace ...)",
                 "pl": "* (Garfonso) Naprawiono: Szuflada powiadomień była zbyt szeroka na wąskich ekranach\n* (Garfonso) Naprawiono: przycisk Wyczyść wszystkie powiadomienia ma teraz swoją ikonę ponownie\n* (Garfonso) Naprawiono: Przycisk powiadomień mógł się poruszać nieprzewidywalnie na pasku narzędzi\n* (Garfonso) Naprawiono: Status blokady jest teraz wyświetlany w ikonie (otwieranie / zamykanie)\n* (Garfonso) Naprawiono: Status blokady jest teraz odbierany, jeśli nie istnieje dedykowany getId (subskrybując setId jak w przypadku innych podmiotów)\n* (Garfonso) Dodano: Obsługa połączeń otwartych (które nie są jeszcze obsługiwane w samym Lovelace ...)",
                 "zh-cn": "*（Garfonso）固定：通知抽屉在狭窄的屏幕上太宽\n*（Garfonso）固定：清除所有通知按钮现在再次具有其图标\n*（Garfonso）修复：通知按钮在工具栏中的移动可能无法预测\n*（Garfonso）固定：锁定状态现在显示在图标中（打开/关闭）\n*（Garfonso）修复：如果不存在专用的getId，则现在将收到锁定状态（通过像其他实体一样订阅setId）\n*（Garfonso）已添加：支持开放服务呼叫（尚不支持？lovelace本身支持...）"
-            },
-            "1.2.1": {
-                "en": "* (Garfonso) Updated Hass Lovelace. Which fixes weather-card, no weather icons with authorization and (maybe?) store credentials\n* (Garfonso) Fix: yaml editor goes missing on Firefox \n* (Garfonso) Added: Support for new type of blinds (needs type-detector update)",
-                "de": "* (Garfonso) Hass Lovelace wurde aktualisiert. Was behebt Wetterkarte, keine Wettersymbole mit Autorisierung und (vielleicht?) Anmeldeinformationen speichern\n* (Garfonso) Fix: Der Yaml-Editor geht in Firefox verloren\n* (Garfonso) Hinzugefügt: Unterstützung für neue Arten von Jalousien (Aktualisierung des Typdetektors erforderlich)",
-                "ru": "* (Гарфонсо) Обновлен Хасс Ловелас. Что исправляет карту погоды, нет значков погоды с авторизацией и (возможно?) Учетными данными магазина\n* (Гарфонсо) Исправлено: редактор yaml пропадает в Firefox\n* (Гарфонсо) Добавлено: Поддержка нового типа жалюзи (требуется обновление детектора типа)",
-                "pt": "* (Garfonso) Atualizado Hass Lovelace. Que corrige o cartão climático, sem ícones climáticos com autorização e (talvez?) Credenciais de loja\n* (Garfonso) Correção: o editor yaml desaparece no Firefox\n* (Garfonso) Adicionado: Suporte para novo tipo de persianas (precisa de atualização do detector de tipo)",
-                "nl": "* (Garfonso) Hass Lovelace bijgewerkt. Welke repareert weerkaart, geen weerpictogrammen met autorisatie en (misschien?) Bewaarreferenties\n* (Garfonso) Fix: yaml-editor ontbreekt in Firefox\n* (Garfonso) Toegevoegd: Ondersteuning voor nieuw type jaloezieën (update van type-detector vereist)",
-                "fr": "* (Garfonso) Mise à jour de Hass Lovelace. Qui corrige la carte météo, pas d'icônes météo avec autorisation et (peut-être?) Stocker les informations d'identification\n* (Garfonso) Correction: l'éditeur yaml disparaît sur Firefox\n* (Garfonso) Ajouté: Prise en charge d'un nouveau type de stores (nécessite une mise à jour du détecteur de type)",
-                "it": "* (Garfonso) Aggiornato Hass Lovelace. Che risolve la scheda meteorologica, nessuna icona del tempo con autorizzazione e (forse?) Memorizza le credenziali\n* (Garfonso) Correzione: l'editor yaml scompare su Firefox\n* (Garfonso) Aggiunto: supporto per nuovo tipo di persiane (necessita di aggiornamento del rilevatore di tipo)",
-                "es": "* (Garfonso) Actualizado Hass Lovelace. Lo que repara la tarjeta meteorológica, sin iconos meteorológicos con autorización y (¿tal vez?) Credenciales de la tienda\n* (Garfonso) Corrección: el editor yaml desaparece en Firefox\n* (Garfonso) Agregado: Soporte para nuevos tipos de persianas (necesita actualización de detector de tipo)",
-                "pl": "* (Garfonso) Zaktualizowano Hass Lovelace. Który naprawia kartę pogody, brak ikon pogody z autoryzacją i (może?) Dane logowania\n* (Garfonso) Poprawka: w przeglądarce Firefox brakuje edytora yaml\n* (Garfonso) Dodano: Wsparcie dla nowego rodzaju żaluzji (wymaga aktualizacji detektora typu)",
-                "zh-cn": "*（Garfonso）更新了Hass Lovelace。哪个可以修复天气卡，没有授权的天气图标和（也许？）存储凭据\n*（Garfonso）修复：Firefox上缺少yaml编辑器\n*（Garfonso）已添加：支持新型百叶窗（需要更新类型检测器）"
             }
         },
         "title": "Visualization with Lovelace-UI",
