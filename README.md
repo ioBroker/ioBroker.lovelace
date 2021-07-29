@@ -468,6 +468,10 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Add manual entity support for geo_location (inofficial currently)
+* (Garfonso) Fix binding for other things than val (like ts or lc).
+
 ### 2.0.4 (2021-07-23)
 * (Garfonso) Add support for fan entity (makes fan card working).
 * (Garfonso) fix backwards compatibility for input_datetime attributes.
