@@ -19,7 +19,7 @@
     "url": "https://github.com/ioBroker/ioBroker.lovelace"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.5.0",
+    "@iobroker/adapter-core": "^2.5.1",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
