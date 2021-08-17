@@ -1,8 +1,10 @@
 const binary_sensor_tests   = require('./binary_sensor_integration_tests');
 const climate_tests         = require('./climate_integration_tests');
+const input_datetime_tests  = require('./input_datetime_tests');
 const input_select_tests    = require('./input_select_tests');
 const light_tests           = require('./light_integration_tests');
 const sensor_tests          = require('./sensor_integration_tests');
+const weather_tests         = require('./weather_integration_tests');
 
 const object_change_tests   = require('./objects_change_tests');
 const custom_settings_tests = require('./custom_settings_tests');
@@ -20,6 +22,10 @@ exports.runTests = function (getHarness) {
         await climate_tests.runTests(getHarness);
     });
 
+    describe('Test input_datetime', async () => {
+        await input_datetime_tests.runTests(getHarness);
+    });
+
     describe('Test input_select', async () => {
         await input_select_tests.runTests(getHarness);
     });
@@ -32,6 +38,10 @@ exports.runTests = function (getHarness) {
         await sensor_tests.runTests(getHarness);
     });
 
+    describe('Test weather', async () => {
+        await weather_tests.runTests(getHarness);
+    })
+
     describe('Test object changes', async () => {
         await object_change_tests.runTests(getHarness);
     });
@@ -39,4 +49,5 @@ exports.runTests = function (getHarness) {
     describe('Test custom settings', async () => {
         await custom_settings_tests.runTests(getHarness);
     });
+
 };

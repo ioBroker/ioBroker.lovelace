@@ -569,4 +569,53 @@ exports.runTests = function (getHarness) {
         }, deviceId, state => expect(state.val).to.equal(false));
         expect(entity).to.have.nested.property('attributes.color_mode', 'onoff');
     });
+
+    it('zigbee rgbSingle should be controllable', async () => {
+        const harness = getHarness();
+        const objects = JSON.parse(JSON.stringify(require('../testData/light_zigbee_color.json')));
+        const deviceId = 'zigbee.0.zigbeeColor'; //MUST start with zigbee in order to have working zigbee workaroung.
+        const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.state', val: true}, {id: deviceId + '.color', val: '#FF0080'}]);
+        const entity = entities.find(e => e.context.id === deviceId && e.entity_id.startsWith('light')); //prevent device_query.
+        expect(entity).to.be.ok;
+        tools.expectEntity(entity, 'light', deviceId);
+        const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'rgb_color');
+        expect(ctAttr).to.be.ok;
+
+        expect(entity).to.have.property('state', 'on'); //this fails if workaround ot ignore zigbee.xyz.available test is missing.
+        expect(entity).to.have.nested.property('attributes.rgb_color');
+        expect(entity.attributes.rgb_color).to.have.members([255, 0, 128]);
+        await tools.validateStateChange(harness, entity.entity_id,
+            async () => await harness.states.setStateAsync(deviceId + '.color', '00FF00', true), //expect to work with # and without.
+            entity => {
+                expect(entity.attributes.rgb_color).to.have.members([0, 255, 0]);
+            });
+        //test HSV edge cases:
+        await tools.validateStateChange(harness, entity.entity_id,
+            async () => await harness.states.setStateAsync(deviceId + '.color', '#000000', true),
+            entity => {
+                expect(entity.attributes.rgb_color).to.have.members([0, 0, 0]);
+            });
+        await tools.validateStateChange(harness, entity.entity_id,
+            async () => await harness.states.setStateAsync(deviceId + '.color', '#FFFFFF', true),
+            entity => {
+                expect(entity.attributes.rgb_color).to.have.members([255, 255, 255]);
+            });
+        await tools.validateStateChange(harness, entity.entity_id,
+            async () => await harness.states.setStateAsync(deviceId + '.color', '#FFFF80', true),
+            entity => {
+                expect(entity.attributes.rgb_color).to.have.members([255, 255, 128]);
+            });
+        expect(entity).to.have.nested.property('attributes.color_mode', 'rgb');
+
+        await tools.validateUIInput(harness, entity,m => {
+            m.domain = 'light'; m.service = 'turn_on'; m.service_data = { rgb_color: [0, 255, 0] };
+        }, deviceId + '.color', state => expect(state.val).to.equal('#00FF00'));
+        await tools.validateUIInput(harness, entity,m => {
+            m.domain = 'light'; m.service = 'turn_on'; m.service_data = { rgb_color: [255, 128, 128] };
+        }, deviceId + '.color', state => expect(state.val).to.equal('#FF8080'));
+        await tools.validateUIInput(harness, entity,m => {
+            m.domain = 'light'; m.service = 'turn_on'; m.service_data = { rgb_color: [255, 255, 255] };
+        }, deviceId + '.color', state => expect(state.val).to.equal('#FFFFFF'));
+        expect(entity).to.have.nested.property('attributes.color_mode', 'rgb');
+    });
 };

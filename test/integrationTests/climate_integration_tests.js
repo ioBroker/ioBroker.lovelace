@@ -725,5 +725,36 @@ exports.runTests = function (getHarness) {
                 m.domain = 'climate'; m.service = 'set_swing_mode'; m.service_data = {swing_mode: 'off'};
             }, deviceId + '.swing', state => expect(state.val).to.be.false);
         });
+
+        it('should stay off if power is off and mode changes but should set right mode if power comes on', async () => {
+            // Create a fresh harness instance each test!
+            const harness = getHarness();
+
+            const objects = JSON.parse(JSON.stringify(require('../testData/climate_aircondition_full.json')));
+            const deviceId = 'adapter.0.aircondition.Full';
+            const deviceObj = objects[deviceId];
+            const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 1}, {id: deviceId + '.power', val: false}]);
+
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
+
+            expect(entity).to.have.property('state', 'off');
+            expect(entity).to.have.nested.property('attributes.hvac_mode', 'off');
+            //stay off!
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.mode', 2, true),
+                entity => {
+                    expect(entity).to.have.property('state', 'off');
+                    expect(entity).to.have.nested.property('attributes.hvac_mode', 'off');
+                });
+            //set right mode, if on again.
+            await tools.validateStateChange(harness, entity.entity_id,
+                async () => await harness.states.setStateAsync(deviceId + '.power', true, true),
+                entity =>
+                {
+                    expect(entity).to.have.nested.property('attributes.hvac_mode', 'heat');
+                });
+        });
     });
 };

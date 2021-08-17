@@ -1,0 +1,28 @@
+{
+  "adapter.0.input_datetime.custom_test": {
+    "common": {
+      "name": "Input Date Time",
+      "role": "time",
+      "type": "number",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "input_datetime",
+          "name": "input_datetime_custom_test",
+          "has_date": true,
+          "has_time": true,
+          "attr_has_date": true,
+          "attr_has_time": true
+        }
+      }
+    },
+    "type": "state",
+    "_id": "adapter.0.input_datetime.custom_test",
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1626687061052
+  }
+}
