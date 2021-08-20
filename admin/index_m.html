@@ -276,7 +276,14 @@
 
             // Closure to capture the file information.
             reader.onload = function (e) {
-                socket.emit('writeFile', 'lovelace.' + instance, '/cards/' + file.name, e.target.result, function () {
+                //convert to base64 String here, because it fails for too big files in socket.io.js otherwise
+                var binary = '';
+                var bytes = new Uint8Array(e.target.result);
+                for (var i = 0; i < bytes.length; i += 1) {
+                    binary += String.fromCharCode(bytes [i]);
+                }
+
+                socket.emit('writeFile', 'lovelace.' + instance, '/cards/' + file.name, btoa(binary), function () {
                     callback && callback(file.name);
                 });
             };
@@ -288,6 +295,12 @@
         function fileHandler(event) {
             event.preventDefault();
             var files = event.dataTransfer ? event.dataTransfer.files : event.target.files;
+
+            if (!files) {
+                callback(_('No file received'));
+                dz.hide();
+                return false;
+            }
 
             var $dz      = $(this).find('.drop-zone');
             var callback = $(this).data('drop-zone-cb');
