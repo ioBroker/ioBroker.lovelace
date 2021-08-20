@@ -471,6 +471,10 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso) Add manual entity support for geo_location (inofficial currently)
 * (Garfonso) Fix binding for other things than val (like ts or lc).
+* (algar42) Add additional field for accuweather weather (and custom card)
+* (algar42) translate russian characters to allowed charset in ids
+* (Garfonso) Add workaround for custom card upload issue with admin 5.
+* (Garfonso) fix history attribues with state and multiple attributes
 
 ### 2.0.4 (2021-07-23)
 * (Garfonso) Add support for fan entity (makes fan card working).
