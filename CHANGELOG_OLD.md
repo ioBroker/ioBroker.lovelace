@@ -1,5 +1,20 @@
 # Older Changes
 
+## 2.0.0 (2021-06-17)
+* (Garfonso) Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)
+* (Garfonso) Fixed:   !Breaking! entity_id conflict for low_bat / humidity when part of another device
+* (Garfonso) Updated frontend to 20210603.0 (changed light entity to not convert color anymore)
+* (Garfonso) Changed: increased file size limit to 5 MB during upload in config.
+* (Garfonso) Added: Support for input_datetime
+* (Garfonso) Added: Support for manual complex light entities
+* (Garfonso) Added: Support for images from base64 data in iobroker states 
+* (Garfonso) Added: Support for additional alarm states.
+* (Garfonso) Added: Parameter to only enter code when disarming alarm
+* (Garfonso) Added: Support for admin 5 (jsonCustom)
+* (Garfonso) Added: Support for airCondition / rework thermostat
+* (Garfonso) Added: manual entities can be more complex now (needs documentation)
+* (Garfonso) Added: darkMode control
+
 ## 1.5.0 (2021-02-15)
 * (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.
 * (Garfonso) Added: control.themeDark to control devices in dark mode, too.
