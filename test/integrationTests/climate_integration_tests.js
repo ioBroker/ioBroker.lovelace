@@ -116,15 +116,15 @@ exports.runTests = function (getHarness) {
             expect(entity).to.have.nested.property('attributes.hvac_mode', 'heat');
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.power', false, true),
-                entity => {
-                    expect(entity).to.have.nested.property('attributes.hvac_mode', 'off');
-                    expect(entity).to.have.property('state', 'off');
+                entityNew => {
+                    expect(entityNew).to.have.nested.property('attributes.hvac_mode', 'off');
+                    expect(entityNew).to.have.property('state', 'off');
                 });
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.power', true, true),
-                entity => {
-                    expect(entity).to.have.nested.property('attributes.hvac_mode', 'heat');
-                    expect(entity).to.have.property('state', 'heat');
+                entityNew => {
+                    expect(entityNew).to.have.nested.property('attributes.hvac_mode', 'heat');
+                    expect(entityNew).to.have.property('state', 'heat');
                 });
         });
 
