@@ -1,0 +1,42 @@
+{
+  "adapter.0.geo_location.singleState": {
+    "_id": "adapter.0.geo_location.singleState",
+    "type": "device",
+    "common": {
+      "name": "Single State GPS",
+      "role": "location",
+      "icon": "",
+      "desc": "Manually created"
+    },
+    "native": {},
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1608998328661,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.geo_location.singleState.GPS": {
+    "_id": "adapter.0.geo_location.singleState.GPS",
+    "type": "state",
+    "common": {
+      "name": "GPS",
+      "role": "value.gps",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1608998352941,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

@@ -355,7 +355,8 @@ exports.runTests = function (getHarness) {
             const date = new Date(forecast.datetime);
             expect(date).to.be.ok;
             const now = new Date();
-            expect(date.getDate()).to.equal(now.getDate() + day);
+            now.setDate(now.getDate() + day);
+            expect(date.getDate()).to.equal(now.getDate());
         }
 
         await testUpdates(harness, states, entity);

@@ -1,0 +1,166 @@
+{
+  "adapter.0.geo_location.twoStates": {
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592062243878,
+    "common": {
+      "name": "Two States GPS"
+    },
+    "native": {},
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "_id": "adapter.0.geo_location.twoStates",
+    "type": "channel"
+  },
+  "adapter.0.geo_location.twoStates.accuracy": {
+    "type": "state",
+    "common": {
+      "name": "Two States GPS accuracy",
+      "read": true,
+      "write": false,
+      "role": "value.gps.accuracy",
+      "type": "number"
+    },
+    "native": {},
+    "_id": "adapter.0.geo_location.twoStates.accuracy",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592062036522,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.geo_location.twoStates.battery": {
+    "type": "state",
+    "common": {
+      "name": "Two States GPS battery",
+      "read": true,
+      "write": false,
+      "role": "value.battery",
+      "type": "number",
+      "unit": "%"
+    },
+    "native": {},
+    "_id": "adapter.0.geo_location.twoStates.battery",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592062036120,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.geo_location.twoStates.batteryWarning": {
+    "type": "state",
+    "common": {
+      "name": "Two States GPS batteryWarning",
+      "read": true,
+      "write": false,
+      "role": "indicator.lowbat",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.geo_location.twoStates.batteryWarning",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592062036021,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.geo_location.twoStates.latitude": {
+    "type": "state",
+    "common": {
+      "name": "Two States GPS latitude",
+      "read": true,
+      "write": false,
+      "role": "value.gps.latitude",
+      "type": "number"
+    },
+    "native": {},
+    "_id": "adapter.0.geo_location.twoStates.latitude",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592062036622,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.geo_location.twoStates.longitude": {
+    "type": "state",
+    "common": {
+      "name": "Two States GPS longitude",
+      "read": true,
+      "write": false,
+      "role": "value.gps.longitude",
+      "type": "number"
+    },
+    "native": {},
+    "_id": "adapter.0.geo_location.twoStates.longitude",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592062036723,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.geo_location.twoStates.offline": {
+    "type": "state",
+    "common": {
+      "name": "Two States GPS offline",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.geo_location.twoStates.offline",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589776897,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.geo_location.twoStates.place": {
+    "type": "state",
+    "common": {
+      "name": "Two States GPS place",
+      "read": true,
+      "write": false,
+      "role": "value.location.name",
+      "type": "string"
+    },
+    "native": {},
+    "_id": "adapter.0.geo_location.twoStates.place",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592062036421,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

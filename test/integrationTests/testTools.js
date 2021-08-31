@@ -202,15 +202,22 @@ async function setupClient() {
  * @returns {Promise<unknown>}
  */
 exports.validateStateChange = async function (harness, entity_id, changeState, validator) {
+    let fired = false;
+
     if (!currentClient) {
         await setupClient();
     }
     const resultPromise = new Promise(resolve => {
         function eventListener(message) {
+            if (fired) {
+                currentClient.removeEventListener('message', eventListener);
+                return;
+            }
             const m = JSON.parse(message);
             if (m.type === 'event' && m.event && m.event.event_type === 'state_changed') {
                 const data = m.event.data;
                 if (data.entity_id === entity_id) {
+                    fired = true;
                     console.dir(data.new_state, {depth: null});
                     validator(data.new_state); //pass new entity to validator.
                     currentClient.removeEventListener('message', eventListener);

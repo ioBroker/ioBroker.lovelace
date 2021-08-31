@@ -1,5 +1,6 @@
 const binary_sensor_tests   = require('./binary_sensor_integration_tests');
 const climate_tests         = require('./climate_integration_tests');
+const geo_location_tests    = require ('./geo_location_tests');
 const input_datetime_tests  = require('./input_datetime_tests');
 const input_select_tests    = require('./input_select_tests');
 const light_tests           = require('./light_integration_tests');
@@ -20,6 +21,10 @@ exports.runTests = function (getHarness) {
 
     describe('Test climate', async () => {
         await climate_tests.runTests(getHarness);
+    });
+
+    describe('Test geo_location', async () => {
+        await geo_location_tests.runTests(getHarness);
     });
 
     describe('Test input_datetime', async () => {
