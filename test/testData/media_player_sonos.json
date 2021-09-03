@@ -1,0 +1,864 @@
+{
+  "adapter.0.media_player.sonos": {
+    "type": "channel",
+    "common": {
+      "role": "media.music",
+      "name": "Sonos Media Player"
+    },
+    "native": {
+      "ip": "192.168.0.163"
+    },
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768047,
+    "_id": "adapter.0.media_player.sonos",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.add_to_group": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true,
+      "role": "media",
+      "desc": "Add a Player to a Group (Player to remove, Coordinator)",
+      "name": "add_to_group"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.add_to_group",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.alive": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator.reachable",
+      "desc": "If sonos alive or not",
+      "name": "Connection status"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.alive",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.coordinator": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "role": "media.coordinator",
+      "desc": "Indicates coordinator of group",
+      "name": "coordinator"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.coordinator",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.cover_png": {
+    "_id": "adapter.0.media_player.sonos.cover_png",
+    "common": {
+      "name": "Cover URL",
+      "type": "file",
+      "read": true,
+      "write": true,
+      "role": "media.current.cover",
+      "desc": "Cover image of current played song as binary"
+    },
+    "native": {},
+    "type": "state",
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768025,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "binary": true
+  },
+  "adapter.0.media_player.sonos.crossfade": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "media.mode.crossfade",
+      "desc": "Crossfade mode",
+      "name": "Crossfade"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.crossfade",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_album": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "media.album",
+      "desc": "Album of current played song",
+      "name": "Current album"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768056,
+    "_id": "adapter.0.media_player.sonos.current_album",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_artist": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "media.artist",
+      "desc": "Artist of current played song",
+      "name": "Current artist"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768055,
+    "_id": "adapter.0.media_player.sonos.current_artist",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_cover": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "media.cover",
+      "desc": "Cover image of current played song",
+      "name": "Current cover URL"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.current_cover",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_duration": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "unit": "seconds",
+      "role": "media.duration",
+      "desc": "Duration of current played song in seconds",
+      "name": "Current song duration"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.current_duration",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_duration_s": {
+    "type": "state",
+    "common": {
+      "def": "00:00",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "unit": "interval",
+      "role": "media.duration.text",
+      "desc": "Duration of current played song as HH:MM:SS",
+      "name": "Current duration"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.current_duration_s",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_elapsed": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": true,
+      "unit": "seconds",
+      "role": "media.elapsed",
+      "desc": "Elapsed time of current played song in seconds",
+      "name": "Elapsed time in seconds"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.current_elapsed",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_elapsed_s": {
+    "type": "state",
+    "common": {
+      "def": "00:00",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "unit": "interval",
+      "role": "media.elapsed.text",
+      "desc": "Elapsed time of current played song as HH:MM:SS",
+      "name": "Elapsed time as text"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.current_elapsed_s",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_station": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "media.station",
+      "desc": "Radio station currently played",
+      "name": "Current radio station"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.current_station",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_title": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "media.title",
+      "desc": "Title of current played song",
+      "name": "Current title"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768054,
+    "_id": "adapter.0.media_player.sonos.current_title",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.current_type": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "media.type",
+      "states": {
+        "0": "track",
+        "1": "radio",
+        "2": "line_in"
+      },
+      "desc": "Type of Stream (0 = track, 1 = radio, 2 = line_in)",
+      "name": "Current stream type"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.current_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.favorites_list": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "media.favorites.list",
+      "desc": "List of favorites song or stations, divided by comma",
+      "name": "Favorites list"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.favorites_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.favorites_list_array": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "object",
+      "read": true,
+      "write": false,
+      "role": "media.favorites.array",
+      "desc": "Array of favorites song or stations",
+      "name": "Favorites Array"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.favorites_list_array",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.favorites_set": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true,
+      "role": "media.favorites.set",
+      "desc": "Set favorite from the list to play",
+      "name": "Favorites set"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.favorites_set",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.group_muted": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "media.mute.group",
+      "min": false,
+      "max": true,
+      "desc": "Group is muted",
+      "name": "group_muted"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.group_muted",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.group_volume": {
+    "type": "state",
+    "common": {
+      "type": "number",
+      "read": true,
+      "write": true,
+      "role": "level.volume.group",
+      "min": 0,
+      "max": 100,
+      "desc": "State and control of group volume",
+      "name": "group_volume"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.group_volume",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.members": {
+    "type": "state",
+    "common": {
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator.members",
+      "desc": "Group members",
+      "name": "members"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.members",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.membersChannels": {
+    "type": "state",
+    "common": {
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator.members",
+      "desc": "Group members Channels",
+      "name": "membersChannels"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.membersChannels",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.muted": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "media.mute",
+      "min": false,
+      "max": true,
+      "desc": "Is muted",
+      "name": "Player mute"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768054,
+    "_id": "adapter.0.media_player.sonos.muted",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.next": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button.next",
+      "desc": "next",
+      "name": "Next button"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768051,
+    "_id": "adapter.0.media_player.sonos.next",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.pause": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button.pause",
+      "desc": "pause",
+      "name": "Pause button"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768050,
+    "_id": "adapter.0.media_player.sonos.pause",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.play": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button.play",
+      "desc": "play",
+      "name": "Play button"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768049,
+    "_id": "adapter.0.media_player.sonos.play",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.prev": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button.prev",
+      "desc": "prev",
+      "name": "Previous button"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768050,
+    "_id": "adapter.0.media_player.sonos.prev",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.remove_from_group": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true,
+      "role": "media",
+      "desc": "Remove a Player to a Group (Player to remove, Coordinator)",
+      "name": "remove_from_group"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.remove_from_group",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.repeat": {
+    "type": "state",
+    "common": {
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": true,
+      "role": "media.mode.repeat",
+      "states": {
+        "0": "none",
+        "1": "all",
+        "2": "one"
+      },
+      "desc": "Repeat mode",
+      "name": "Repeat"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.repeat",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.seek": {
+    "type": "state",
+    "common": {
+      "type": "number",
+      "read": true,
+      "write": true,
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "role": "media.seek",
+      "desc": "Seek position in percent",
+      "name": "Seek position"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768051,
+    "_id": "adapter.0.media_player.sonos.seek",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.shuffle": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "media.mode.shuffle",
+      "desc": "Shuffle mode",
+      "name": "Shuffle"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.shuffle",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.state": {
+    "type": "state",
+    "common": {
+      "def": "stop",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": "stop,play,pause,next,previous,mute,unmute",
+      "role": "media.state",
+      "desc": "Play, stop, or pause, next, previous, mute, unmute",
+      "name": "String state"
+    },
+    "native": {},
+    "_id": "adapter.0.media_player.sonos.state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1630318813278
+  },
+  "adapter.0.media_player.sonos.state_simple": {
+    "type": "state",
+    "common": {
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "media.state",
+      "desc": "Play or pause",
+      "name": "Binary play/pause state"
+    },
+    "native": {},
+    "_id": "adapter.0.media_player.sonos.state_simple",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1630319728232
+  },
+  "adapter.0.media_player.sonos.stop": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button.stop",
+      "desc": "stop",
+      "name": "Stop button"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768049,
+    "_id": "adapter.0.media_player.sonos.stop",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.tts": {
+    "type": "state",
+    "common": {
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true,
+      "role": "media.tts",
+      "desc": "Set text2speech mp3 file to play",
+      "name": "Text to speech"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768065,
+    "_id": "adapter.0.media_player.sonos.tts",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.media_player.sonos.volume": {
+    "type": "state",
+    "common": {
+      "type": "number",
+      "read": true,
+      "write": true,
+      "role": "level.volume",
+      "min": 0,
+      "max": 100,
+      "desc": "State and control of volume",
+      "name": "Player volume"
+    },
+    "native": {},
+    "from": "system.adapter.sonos.0",
+    "user": "system.user.admin",
+    "ts": 1626721768053,
+    "_id": "adapter.0.media_player.sonos.volume",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
