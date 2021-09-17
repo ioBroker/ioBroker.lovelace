@@ -472,6 +472,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Fix /state/ handler for files (repairs for example Sonos cover image)
 * (Garfonso) Prevent crash while creating light entity
 * (Garfonso) Prevent crashes in binding support
+* (Garfonso) Fix: tilt command was not correctly processed in ioBroker
 
 ### 2.0.6 (2021-08-31)
 * (Garfonso) Add manual entity support for geo_location (inofficial currently)
