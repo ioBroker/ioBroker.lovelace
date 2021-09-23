@@ -473,6 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Prevent crash while creating light entity
 * (Garfonso) Prevent crashes in binding support
 * (Garfonso) Fix: tilt command was not correctly processed in ioBroker
+* (Garfonso) Fix: conversion issues in alarm control panel
 
 ### 2.0.6 (2021-08-31)
 * (Garfonso) Add manual entity support for geo_location (inofficial currently)

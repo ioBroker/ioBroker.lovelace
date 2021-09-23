@@ -1,0 +1,45 @@
+{
+  "adapter.0.alarm_control_panel.noArmState": {
+    "_id": "adapter.0.alarm_control_panel.noArmState",
+    "type": "state",
+    "common": {
+      "name": "arm status",
+      "type": "number",
+      "read": true,
+      "write": true,
+      "desc": "Alarm arm status",
+      "def": 0,
+      "states": {
+        "0": "disarmed",
+        "1": "armed",
+        "2": "armed_home",
+        "3": "armed_away",
+        "4": "armed_night",
+        "5": "armed_custom_bypass",
+        "6": "pending",
+        "7": "arming",
+        "8": "disarming",
+        "9": "triggered"
+      },
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "alarm_control_panel",
+          "name": "central"
+        }
+      }
+    },
+    "native": {
+      "alarm_code": 2704
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1632048858446,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
