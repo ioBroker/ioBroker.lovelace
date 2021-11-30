@@ -26,12 +26,12 @@
     "iobroker.type-detector": "^1.0.15",
     "js-yaml": "^4.1.0",
     "jstimezonedetect": "^1.0.7",
-    "mime": "^2.5.2",
+    "mime": "^2.6.0",
     "multer": "^1.4.3",
     "nyc": "^15.1.0",
     "pinyin": "^2.10.2",
     "translit-rus-eng": "^1.0.8",
-    "ws": "^8.2.3"
+    "ws": "^8.3.0"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^2.2.1",
@@ -40,10 +40,10 @@
     "@types/chai-as-promised": "^7.1.4",
     "@types/gulp": "^4.0.9",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.11.6",
+    "@types/node": "^16.11.11",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^10.0.6",
-    "@types/sinon-chai": "^3.2.5",
+    "@types/sinon-chai": "^3.2.6",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "eslint": "^7.32.0",
