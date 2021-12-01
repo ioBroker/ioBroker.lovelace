@@ -40,6 +40,8 @@ exports.runTests = function (getHarness) {
         //wrong code -> do not disarm:
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'alarm_control_panel'; m.service = 'alarm_disarm'; m.service_data = {code: 1234};
-        }, deviceId, state => expect(state.val).to.equal(3));
+        });
+        const state = await harness.states.getStateAsync(deviceId);
+        expect(state).to.have.property('val', 3);
     });
 };

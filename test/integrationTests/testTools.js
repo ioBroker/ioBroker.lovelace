@@ -296,7 +296,7 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
             harness.on('stateChange', stateChanged);
         } else {
             console.log('Subscribed to lovelace stateChange');
-            currentClient.subscribe('message', receiver);
+            currentClient.on('message', receiver);
         }
         const message = {id, type: 'call_service'};
         prepareMessageFunc(message);
