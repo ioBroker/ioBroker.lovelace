@@ -14,7 +14,6 @@ exports.runTests = function (getHarness) {
             delete objects[deviceId + '.current'];
             const deviceObj = objects[deviceId];
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
-            expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities());
 
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -56,7 +55,6 @@ exports.runTests = function (getHarness) {
             const deviceObj = objects[deviceId];
             objects[deviceId + '.target'].common.step = 7;
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
-            expect(entities).to.have.lengthOf(2 + tools.getNumConstEntities()); //create entity for temperature sensor!
 
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -79,6 +77,12 @@ exports.runTests = function (getHarness) {
             expect(setTempCommand).to.have.property('setId', deviceId + '.target');
 
             expect(entity).to.have.nested.property('attributes.target_temp_step', 7); //set above.
+
+            //create entity for temperature sensor!
+            const tempSensor = entities.find(e => e.entity_id === 'sensor.Heating_Temperature');
+            tools.expectEntity(tempSensor, 'sensor', deviceId);
+            expect(tempSensor).to.have.nested.property('context.STATE.getId', deviceId + '.current');
+            expect(tempSensor).to.have.nested.property('attributes.device_class', 'temperature');
         });
 
         it('should create climate and humidity', async () => {
@@ -90,7 +94,6 @@ exports.runTests = function (getHarness) {
             delete objects[deviceId + '.current'];
             const deviceObj = objects[deviceId];
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.power', val: true}]);
-            expect(entities).to.have.lengthOf(2 + tools.getNumConstEntities());
 
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -126,6 +129,12 @@ exports.runTests = function (getHarness) {
                     expect(entityNew).to.have.nested.property('attributes.hvac_mode', 'heat');
                     expect(entityNew).to.have.property('state', 'heat');
                 });
+
+            //create entity for humidity sensor!
+            const humiditySensor = entities.find(e => e.entity_id === 'sensor.Heating_Humidity');
+            tools.expectEntity(humiditySensor, 'sensor', deviceId);
+            expect(humiditySensor).to.have.nested.property('context.STATE.getId', deviceId + '.humidity');
+            expect(humiditySensor).to.have.nested.property('attributes.device_class', 'humidity');
         });
 
         it('should create climate, temperature sensor and humidity', async () => {
@@ -136,7 +145,6 @@ exports.runTests = function (getHarness) {
             const deviceId = 'adapter.0.climate.thermostat.WithTempAndHumiditySensor';
             const deviceObj = objects[deviceId];
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.power', val: true}]);
-            expect(entities).to.have.lengthOf(3 + tools.getNumConstEntities());
 
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -171,6 +179,17 @@ exports.runTests = function (getHarness) {
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId + '.humidity', 70, true),
                 entity => expect(entity).to.have.nested.property('attributes.current_humidity', 70));
+
+            //create entity for humidity sensor!
+            const humiditySensor = entities.find(e => e.entity_id === 'sensor.Heating_Humidity');
+            tools.expectEntity(humiditySensor, 'sensor', deviceId);
+            expect(humiditySensor).to.have.nested.property('context.STATE.getId', deviceId + '.humidity');
+            expect(humiditySensor).to.have.nested.property('attributes.device_class', 'humidity');
+            //create entity for temperature sensor!
+            const tempSensor = entities.find(e => e.entity_id === 'sensor.Heating_Temperature');
+            tools.expectEntity(tempSensor, 'sensor', deviceId);
+            expect(tempSensor).to.have.nested.property('context.STATE.getId', deviceId + '.current');
+            expect(tempSensor).to.have.nested.property('attributes.device_class', 'temperature');
         });
 
         it('should create climate with only target temp and check if reacting to target changes', async () => {
@@ -181,7 +200,6 @@ exports.runTests = function (getHarness) {
             const deviceId = 'adapter.0.climate.thermostat.Minimal';
             const deviceObj = objects[deviceId];
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId]);
-            expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities());
 
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -218,7 +236,6 @@ exports.runTests = function (getHarness) {
             const deviceId = 'adapter.0.climate.thermostat.ModeDefault';
             const deviceObj = objects[deviceId];
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 0}]);
-            expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities());
 
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -260,7 +277,6 @@ exports.runTests = function (getHarness) {
             const deviceId = 'adapter.0.climate.thermostat.ModeFull';
             const deviceObj = objects[deviceId];
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 1}]);
-            expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities());
 
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
@@ -326,7 +342,6 @@ exports.runTests = function (getHarness) {
             const deviceId = 'adapter.0.climate.thermostat.ModeAndPower';
             const deviceObj = objects[deviceId];
             const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [{id: deviceId + '.mode', val: 0}, {id: deviceId + '.power', val: false}]);
-            expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities());
 
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
