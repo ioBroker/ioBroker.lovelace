@@ -469,13 +469,15 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso) Fix /state/ handler for files (repairs for example Sonos cover image)
-* (Garfonso) Prevent crash while creating light entity
-* (Garfonso) Prevent crashes in binding support
+* (Garfonso) Fix: possible crash while creating light entity
+* (Garfonso) Fix: possible crashes in binding support
+* (Garfonso) Fix: /state/ handler for files (repairs for example Sonos cover image)
 * (Garfonso) Fix: tilt command was not correctly processed in ioBroker
 * (Garfonso) Fix: conversion issues in alarm control panel
 * (Garfonso) Fix: missed update if auto and manual entity were created from same ioBroker device
 * (Garfonso) Change: Subscribe ids for all config elements contain valid entity_ids (fixes tankerkoenig card and secondary-entity-row)
+* (Garfonso) Added: support for offline indicator (auto & manual) and online indicator
+* (Garfonso) Added: support for error indicator
 
 ### 2.0.6 (2021-08-31)
 * (Garfonso) Add manual entity support for geo_location (inofficial currently)
