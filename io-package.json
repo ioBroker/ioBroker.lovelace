@@ -309,7 +309,7 @@
                 "admin": ">=3.0.0"
             },
             {
-                "js-controller": ">=2.0.0"
+                "js-controller": ">=3.3.0"
             }
         ],
         "welcomeScreenPro": {
