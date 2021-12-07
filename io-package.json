@@ -525,6 +525,9 @@
                     "8": "disarming",
                     "9": "triggered"
                 }
+            },
+            "native": {
+                "alarm_code": 1234
             }
         },
         {
