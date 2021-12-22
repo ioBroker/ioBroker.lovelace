@@ -477,7 +477,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Fix: missed update if auto and manual entity were created from same ioBroker device
 * (Garfonso) Change: Subscribe ids for all config elements contain valid entity_ids (fixes tankerkoenig card and secondary-entity-row)
 * (Garfonso) Added: support for offline indicator (auto & manual) and online indicator
-* (Garfonso) Added: support for error indicator
+* (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)
+* (Garfonso) Added: more devices classes with custom settings
 
 ### 2.0.6 (2021-08-31)
 * (Garfonso) Add manual entity support for geo_location (inofficial currently)
