@@ -118,6 +118,10 @@
         {
           "value": "weather",
           "label": "weather"
+        },
+        {
+          "value": "calendar",
+          "label": "calendar"
         }
       ],
       "defaultFunc": "!customObj.common ? 'sensor' : customObj.common.write ? (customObj.common.states ? 'input_select' : customObj.common.role === 'date' ? 'input_datetime' : customObj.common.type === 'boolean' ? 'input_boolean' : customObj.common.type === 'number' ? 'input_number' : 'input_text') : (customObj.common.type === 'boolean' ? 'binary_sensor' : 'sensor');",
