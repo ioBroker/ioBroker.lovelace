@@ -612,6 +612,7 @@ gulp.task('prepareDevserver', async done => {
 
 gulp.task('updateDevserver', async done => {
     const npmCmd = 'npm' + (process.platform.startsWith('win') ? '.CMD' : '');
+    await spawnChild(npmCmd, ['install', 'iobroker.js-controller@latest'], 'Updating js-controller');
     await spawnChild(npmCmd, ['install', 'iobroker.admin@latest'], 'Updating admin');
     await spawnChild(npmCmd, ['install', 'iobroker.devices@latest'], 'Updating devices');
     await spawnChild(npmCmd, ['install', 'iobroker.history@latest'], 'Updating history');
