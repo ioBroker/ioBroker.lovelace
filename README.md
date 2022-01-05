@@ -479,6 +479,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Added: support for offline indicator (auto & manual) and online indicator
 * (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)
 * (Garfonso) Added: more devices classes with custom settings
+* (Garfonso) Added: Support for calendar (only ical, use custom settings to create calendar entity on ical.*.data.table).
 
 ### 2.0.6 (2021-08-31)
 * (Garfonso) Add manual entity support for geo_location (inofficial currently)
