@@ -595,7 +595,7 @@
             "type": "state",
             "common": {
                 "name": "Add notification",
-                "type": "json",
+                "type": "string",
                 "write": true,
                 "read": false,
                 "desc": "Add notification"
