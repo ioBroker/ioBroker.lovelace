@@ -1,618 +1,462 @@
 {
-    "common": {
-        "name": "lovelace",
-        "version": "2.1.0",
-        "news": {
-            "2.1.0": {
-                "en": "* (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).\n* (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)",
-                "de": "* (Garfonso) Hinzugefügt: Unterstützung für neue Dinge im Frontend (wie arm_vacation Zustand, Währung, ...).\n* (Garfonso) Änderung: Frontent auf 20211229.0 aktualisiert (benötigt möglicherweise Update von browser_mod, card_mod)",
-                "ru": "* (Garfonso) Добавлено: поддержка новых вещей во внешнем интерфейсе (например, состояние arm_vacation, валюта, ...).\n* (Garfonso) Изменение: обновлен фронт до 20211229.0 (требуется обновление browser_mod, card_mod)",
-                "pt": "* (Garfonso) Adicionado: suporte para coisas novas no frontend (como arm_vacation state, currency, ...).\n* (Garfonso) Alteração: frontent atualizado para 20211229.0 (precisa de atualização de browser_mod, card_mod)",
-                "nl": "* (Garfonso) Toegevoegd: ondersteuning voor nieuwe dingen in frontend (zoals arm_vacation state, valuta, ...).\n* (Garfonso) Wijziging: frontent bijgewerkt naar 20211229.0 (update nodig van browser_mod, card_mod)",
-                "fr": "* (Garfonso) Ajout : prise en charge de nouvelles choses en frontend (comme l'état arm_vacation, la devise, ...).\n* (Garfonso) Changement : frontent mis à jour vers 20211229.0 (nécessite une mise à jour de browser_mod, card_mod)",
-                "it": "* (Garfonso) Aggiunto: supporto per nuove cose nel frontend (come arm_vacation state, currency, ...).\n* (Garfonso) Modifica: Frontent aggiornato a 20211229.0 (necessita di aggiornamento di browser_mod, card_mod)",
-                "es": "* (Garfonso) Agregado: soporte para cosas nuevas en la interfaz (como estado arm_vacation, moneda, ...).\n* (Garfonso) Cambio: Interfaz actualizada a 20211229.0 (necesita actualización de browser_mod, card_mod)",
-                "pl": "* (Garfonso) Dodano: wsparcie dla nowych rzeczy w interfejsie (takich jak stan arm_vacation, waluta, ...).\n* (Garfonso) Zmiana: Zaktualizowano frontent do 20211229.0 (wymaga aktualizacji browser_mod, card_mod)",
-                "zh-cn": "* (Garfonso) 添加：支持前端的新事物（如 arm_vacation 状态、货币等）。\n* (Garfonso) 更改：将前端更新为 20211229.0（需要更新 browser_mod、card_mod）"
-            },
-            "2.0.7": {
-                "en": "* (Garfonso) Fix: possible crash while creating light entity\n* (Garfonso) Fix: possible crashes in binding support\n* (Garfonso) Fix: /state/ handler for files (repairs for example Sonos cover image)\n* (Garfonso) Fix: tilt command was not correctly processed in ioBroker\n* (Garfonso) Fix: conversion issues in alarm control panel\n* (Garfonso) Fix: missed update if auto and manual entity were created from same ioBroker device\n* (Garfonso) Fixed: Warning on object change of manual entites\n* (Garfonso) Change: Subscribe ids for all config elements contain valid entity_ids (fixes tankerkoenig card and secondary-entity-row)\n* (Garfonso) Added: support for offline indicator (auto & manual) and online indicator\n* (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)\n* (Garfonso) Added: more devices classes with custom settings\n* (Garfonso) Added: Support for calendar (only ical, use custom settings to create calendar entity on ical.*.data.table).",
-                "de": "* (Garfonso) Fix: möglicher Absturz beim Erstellen von Lichtobjekten\n* (Garfonso) Fix: mögliche Abstürze bei binding support\n* (Garfonso) Fix: /state/ Handler für Dateien (repariert zB Sonos-Coverbild)\n* (Garfonso) Fix: Neigungsbefehl wurde in ioBroker nicht korrekt verarbeitet\n* (Garfonso) Fix: Konvertierungsprobleme in der Alarm-Karte\n* (Garfonso) Fix: verpasstes entity Update, wenn automatische und manuelle Entität vom selben ioBroker-Gerät erstellt wurden\n* (Garfonso) Behoben: Warnung bei Objektänderung von manuellen Entitäten\n* (Garfonso) Änderung: abonniere States für alle Konfigurationselemente, die gültige Entity_IDs enthalten (behebt nicht mehr aktuelle Tankerkoenig-Karte und Secondary-Entity-Zeile)\n* (Garfonso) Hinzugefügt: Unterstützung für Offline-Indiaktor (automatisch & manuell) und Online-Indikator\n* (Garfonso) Hinzugefügt: Unterstützung für Fehler-, Wartungs- und Arbeitsanzeige (binäre Sensoren)\n* (Garfonso) Hinzugefügt: mehr Geräteklassen mit benutzerdefinierten Einstellungen\n* (Garfonso) Hinzugefügt: Unterstützung für Kalender (nur ical, verwenden Sie benutzerdefinierte Einstellungen, um Kalenderentität auf ical.*.data.table zu erstellen).",
-                "ru": "* (Garfonso) Исправление: возможный сбой при создании светового объекта\n* (Garfonso) Исправление: возможные сбои в поддержке привязки\n* (Garfonso) Исправление: / state / handler для файлов (восстановление например обложки Sonos)\n* (Garfonso) Исправление: команда наклона некорректно обрабатывалась в ioBroker\n* (Garfonso) Исправление: проблемы с преобразованием в панели управления сигнализацией.\n* (Garfonso) Исправление: пропущено обновление, если автоматическая и ручная сущность были созданы с одного и того же устройства ioBroker\n* (Garfonso) Исправлено: Предупреждение о смене объекта вручную.\n* (Garfonso) Изменение: идентификаторы подписки для всех элементов конфигурации содержат действительные идентификаторы entity_ids (исправлены карты tankerkoenig и строка второстепенного объекта)\n* (Garfonso) Добавлено: поддержка автономного индикатора (автоматический и ручной) и онлайн-индикатора.\n* (Garfonso) Добавлено: поддержка индикатора ошибок, обслуживания и работы (бинарные датчики)\n* (Garfonso) Добавлено: больше классов устройств с пользовательскими настройками\n* (Garfonso) Добавлено: Поддержка календаря (только ical, используйте пользовательские настройки для создания объекта календаря на ical. *. Data.table).",
-                "pt": "* (Garfonso) Correção: possível travamento durante a criação de entidade leve\n* (Garfonso) Correção: possíveis falhas no suporte de ligação\n* (Garfonso) Correção: / state / handler para arquivos (reparos, por exemplo, imagem da capa do Sonos)\n* (Garfonso) Correção: o comando de inclinação não foi processado corretamente no ioBroker\n* (Garfonso) Correção: problemas de conversão no painel de controle de alarme\n* (Garfonso) Correção: atualização perdida se a entidade automática e manual foram criadas a partir do mesmo dispositivo ioBroker\n* (Garfonso) Corrigido: Aviso sobre mudança de objeto de entidades manuais\n* (Garfonso) Alteração: Os ids de inscrição para todos os elementos de configuração contêm entity_ids válidos (corrige o cartão tankerkoenig e a linha de entidade secundária)\n* (Garfonso) Adicionado: suporte para indicador offline (automático e manual) e indicador online\n* (Garfonso) Adicionado: suporte para indicador de erro, manutenção e funcionamento (sensores binários)\n* (Garfonso) Adicionado: mais classes de dispositivos com configurações personalizadas\n* (Garfonso) Adicionado: Suporte para calendário (apenas ical, use configurações personalizadas para criar entidade de calendário em ical. *. Data.table).",
-                "nl": "* (Garfonso) Fix: mogelijke crash tijdens het maken van een lichte entiteit\n* (Garfonso) Fix: mogelijke crashes in bindingsondersteuning\n* (Garfonso) Fix: /state/ handler voor bestanden (reparaties bijvoorbeeld Sonos omslagafbeelding)\n* (Garfonso) Fix: kantelopdracht is niet correct verwerkt in ioBroker\n* (Garfonso) Oplossing: conversieproblemen in alarmcentrale\n* (Garfonso) Fix: gemiste update als automatische en handmatige entiteit zijn gemaakt vanaf hetzelfde ioBroker-apparaat\n* (Garfonso) Opgelost: waarschuwing bij objectwijziging van handmatige entiteiten\n* (Garfonso) Wijziging: Abonneer-ID's voor alle configuratie-elementen bevatten geldige entiteits-ID's (fixt tankerkoenig-kaart en secundaire entiteit-rij)\n* (Garfonso) Toegevoegd: ondersteuning voor offline indicator (auto & handmatig) en online indicator\n* (Garfonso) Toegevoegd: ondersteuning voor fout-, onderhouds- en werkindicator (binaire sensoren)\n* (Garfonso) Toegevoegd: meer apparaatklassen met aangepaste instellingen\n* (Garfonso) Toegevoegd: Ondersteuning voor kalender (alleen ical, gebruik aangepaste instellingen om kalenderentiteit te creëren op ical.*.data.table).",
-                "fr": "* (Garfonso) Correction : crash possible lors de la création de l'entité lumineuse\n* (Garfonso) Correction : plantages possibles dans le support de liaison\n* (Garfonso) Correction : /state/ handler pour les fichiers (répare par exemple l'image de couverture de Sonos)\n* (Garfonso) Correction : la commande d'inclinaison n'était pas correctement traitée dans ioBroker\n* (Garfonso) Correction : problèmes de conversion dans le panneau de contrôle d'alarme\n* (Garfonso) Correction : mise à jour manquée si les entités automatique et manuelle ont été créées à partir du même appareil ioBroker\n* (Garfonso) Corrigé : Avertissement sur le changement d'objet des entités manuelles\n* (Garfonso) Changement : les identifiants d'abonnement pour tous les éléments de configuration contiennent des entity_ids valides (corrige la carte tankerkoenig et la ligne secondaire d'entité)\n* (Garfonso) Ajout : prise en charge de l'indicateur hors ligne (auto et manuel) et de l'indicateur en ligne\n* (Garfonso) Ajout : prise en charge des indicateurs d'erreur, de maintenance et de fonctionnement (capteurs binaires)\n* (Garfonso) Ajouté : plus de classes d'appareils avec des paramètres personnalisés\n* (Garfonso) Ajout : Prise en charge du calendrier (uniquement ical, utilisez des paramètres personnalisés pour créer une entité de calendrier sur ical.*.data.table).",
-                "it": "* (Garfonso) Fix: possibile crash durante la creazione di entità luce\n* (Garfonso) Fix: possibili crash nel supporto del binding\n* (Garfonso) Fix: /state/ gestore per i file (ripara ad esempio l'immagine di copertina di Sonos)\n* (Garfonso) Fix: il comando tilt non è stato elaborato correttamente in ioBroker\n* (Garfonso) Fix: problemi di conversione nel pannello di controllo degli allarmi\n* (Garfonso) Fix: mancato aggiornamento se l'entità automatica e manuale sono state create dallo stesso dispositivo ioBroker\n* (Garfonso) Risolto: avviso sul cambio oggetto delle entità manuali\n* (Garfonso) Modifica: gli ID di sottoscrizione per tutti gli elementi di configurazione contengono entità_id validi (corregge la carta tankerkoenig e la riga di entità secondaria)\n* (Garfonso) Aggiunto: supporto per indicatore offline (automatico e manuale) e indicatore online\n* (Garfonso) Aggiunto: supporto per errore, manutenzione e indicatore di funzionamento (sensori binari)\n* (Garfonso) Aggiunto: più classi di dispositivi con impostazioni personalizzate\n* (Garfonso) Aggiunto: supporto per il calendario (solo ical, usa le impostazioni personalizzate per creare l'entità del calendario su ical.*.data.table).",
-                "es": "* (Garfonso) Solución: posible bloqueo al crear una entidad de luz\n* (Garfonso) Solución: posibles bloqueos en el soporte de encuadernación\n* (Garfonso) Arreglo: / state / handler for files (reparaciones, por ejemplo, la imagen de portada de Sonos)\n* (Garfonso) Solución: el comando de inclinación no se procesó correctamente en ioBroker\n* (Garfonso) Solución: problemas de conversión en el panel de control de alarmas\n* (Garfonso) Solución: actualización perdida si la entidad automática y manual se crearon desde el mismo dispositivo ioBroker\n* (Garfonso) Corregido: Advertencia sobre el cambio de objeto de las entradas manuales\n* (Garfonso) Cambio: Los identificadores de suscripción para todos los elementos de configuración contienen entity_ids válidos (corrige la tarjeta de tankerkoenig y la fila de entidad secundaria)\n* (Garfonso) Agregado: soporte para indicador fuera de línea (automático y manual) e indicador en línea\n* (Garfonso) Agregado: soporte para indicador de error, mantenimiento y funcionamiento (sensores binarios)\n* (Garfonso) Agregado: más clases de dispositivos con configuraciones personalizadas\n* (Garfonso) Agregado: Soporte para calendario (solo ical, use configuraciones personalizadas para crear una entidad de calendario en ical. *. Data.table).",
-                "pl": "* (Garfonso) Poprawka: możliwa awaria podczas tworzenia lekkiej jednostki\n* (Garfonso) Poprawka: możliwe awarie w obsłudze wiązania\n* (Garfonso) Poprawka: /state/ handler dla plików (naprawia np. okładkę Sonos)\n* (Garfonso) Poprawka: polecenie przechyłu nie zostało poprawnie przetworzone w ioBroker\n* (Garfonso) Poprawka: problemy z konwersją w panelu sterowania alarmami\n* (Garfonso) Poprawka: pominięta aktualizacja, jeśli encja automatyczna i ręczna została utworzona z tego samego urządzenia ioBroker\n* (Garfonso) Naprawiono: Ostrzeżenie o zmianie obiektu obiektów ręcznych\n* (Garfonso) Zmiana: Identyfikatory subskrypcji dla wszystkich elementów konfiguracyjnych zawierają prawidłowe entity_ids (naprawia kartę tankerkoenig i drugorzędny wiersz encji)\n* (Garfonso) Dodano: wsparcie dla wskaźnika offline (automatycznego i ręcznego) oraz wskaźnika online\n* (Garfonso) Dodano: wsparcie dla wskaźnika błędu, konserwacji i pracy (czujniki binarne)\n* (Garfonso) Dodano: więcej klas urządzeń z niestandardowymi ustawieniami\n* (Garfonso) Dodano: Wsparcie dla kalendarza (tylko ical, użyj ustawień niestandardowych, aby utworzyć encję kalendarza na ical.*.data.table).",
-                "zh-cn": "* (Garfonso) 修复：创建光实体时可能崩溃\n* (Garfonso) 修复：绑定支持可能崩溃\n* (Garfonso) 修复：/state/ 文件处理程序（修复例如 Sonos 封面图片）\n* (Garfonso) 修复：倾斜命令在 ioBroker 中没有正确处理\n* (Garfonso) 修复：警报控制面板中的转换问题\n* (Garfonso) 修复：如果自动和手动实体是从同一个 ioBroker 设备创建的，则会错过更新\n* (Garfonso) 修正：手动实体的对象变化警告\n* (Garfonso) 更改：所有配置元素的订阅 ID 都包含有效的 entity_ids（修复 tankerkoenig 卡和辅助实体行）\n* (Garfonso) 添加：支持离线指示器（自动和手动）和在线指示器\n* (Garfonso) 添加：支持错误、维护和工作指示器（二进制传感器）\n* (Garfonso) 添加：更多带有自定义设置的设备类\n* (Garfonso) 添加：支持日历（仅 ical，使用自定义设置在 ical.*.data.table 上创建日历实体）。"
-            },
-            "2.0.6": {
-                "en": "Add manual entity support for geo_location (inofficial currently)\nFix binding for other things than val (like ts or lc).\nAdd additional field for accuweather weather (and custom card)\ntranslate russian characters to allowed charset in ids\nAdd workaround for custom card upload issue with admin 5.\nfix history attribues with state and multiple attributes",
-                "de": "Manuelle Entitätsunterstützung für geo_location hinzufügen (derzeit inoffiziell)\nFixe Bindung für andere Dinge als val (wie ts oder lc).\nZusätzliches Feld für Accuweather-Wetter (und benutzerdefinierte Karte) hinzufügen\nÜbersetzen Sie russische Zeichen in den zulässigen Zeichensatz in IDs\nProblemumgehung für Problem beim Hochladen von benutzerdefinierten Karten mit Administrator 5 hinzufügen.\nVerlaufsattribute mit Status und mehreren Attributen korrigieren",
-                "ru": "Добавить ручную поддержку объекта для geo_location (в настоящее время неофициально)\nИсправьте привязку для других вещей, кроме val (например, ts или lc).\nДобавить дополнительное поле для погоды accuweather (и настраиваемую карту)\nперевести русские символы в разрешенную кодировку в идентификаторах\nДобавьте обходной путь для проблемы с загрузкой пользовательской карты с помощью администратора 5.\nисправить атрибуты истории с состоянием и несколькими атрибутами",
-                "pt": "Adicionar suporte de entidade manual para geo_location (atualmente não oficial)\nCorrija a vinculação para outras coisas além de val (como ts ou lc).\nAdicionar campo adicional para o clima exato (e cartão personalizado)\ntraduzir caracteres russos para conjunto de caracteres permitido em ids\nAdicione uma solução alternativa para o problema de upload de cartão personalizado com o administrador 5.\ncorrigir atributos de histórico com estado e atributos múltiplos",
-                "nl": "Voeg handmatige entiteitsondersteuning toe voor geo_location (momenteel niet-officieel)\nFix binding voor andere dingen dan val (zoals ts of lc).\nExtra veld toevoegen voor accuweerweer (en aangepaste kaart)\nvertaal Russische karakters naar toegestane karakterset in ids\nVoeg een tijdelijke oplossing toe voor een probleem met het uploaden van aangepaste kaarten met beheerder 5.\nrepareer geschiedenisattributen met staat en meerdere attributen",
-                "fr": "Ajout de la prise en charge manuelle des entités pour la géo_location (inofficiel actuellement)\nCorrection de la liaison pour d'autres choses que val (comme ts ou lc).\nAjouter un champ supplémentaire pour la météo accuweather (et une carte personnalisée)\ntraduire les caractères russes en jeu de caractères autorisé dans les identifiants\nAjoutez une solution de contournement pour le problème de téléchargement de carte personnalisée avec admin 5.\ncorriger les attributs de l'historique avec l'état et plusieurs attributs",
-                "it": "Aggiungi il supporto dell'entità manuale per geo_location (attualmente non ufficiale)\nCorreggi l'associazione per cose diverse da val (come ts o lc).\nAggiungi un campo aggiuntivo per accuweather meteo (e scheda personalizzata)\ntraduci i caratteri russi nel set di caratteri consentito negli ID\nAggiungi una soluzione alternativa per il problema di caricamento della carta personalizzata con l'amministratore 5.\ncorreggi gli attributi della cronologia con stato e attributi multipli",
-                "es": "Agregar soporte de entidad manual para geo_location (no oficial actualmente)\nSe corrigió el enlace para otras cosas además de val (como ts o lc).\nAgregue un campo adicional para el clima accuweather (y tarjeta personalizada)\ntraducir caracteres rusos al juego de caracteres permitido en los identificadores\nAgregue una solución para el problema de carga de tarjetas personalizadas con el administrador 5.\narreglar atributos de historial con estado y atributos múltiples",
-                "pl": "Dodaj ręczną obsługę encji dla geo_location (obecnie nieoficjalna)\nNapraw wiązanie dla innych rzeczy niż val (takich jak ts lub lc).\nDodaj dodatkowe pole na prognozę pogody Accuweather (i kartę niestandardową)\nprzetłumacz rosyjskie znaki na dozwolony zestaw znaków w identyfikatorach\nDodaj obejście problemu z przesyłaniem niestandardowej karty u administratora 5.\nnapraw atrybuty historii ze stanem i wieloma atrybutami",
-                "zh-cn": "为 geo_location 添加手动实体支持（目前是非官方的）\n修复 val 以外的其他事物的绑定（如 ts 或 lc）。\n为 accuweather 天气（和自定义卡）添加附加字段\n将俄语字符转换为 ids 中允许的字符集\n使用 admin 5 添加自定义卡上传问题的解决方法。\n使用状态和多个属性修复历史属性"
-            },
-            "2.0.5": {
-                "en": "Add manual entity support for geo_location (inofficial currently)\nFix binding for other things than val (like ts or lc).\nAdd additional field for accuweather weather (and custom card)\ntranslate russian characters to allowed charset in ids\nAdd workaround for custom card upload issue with admin 5.\nfix history attribues with state and multiple attributes",
-                "de": "Manuelle Entitätsunterstützung für geo_location hinzufügen (derzeit inoffiziell)\nFixe Bindung für andere Dinge als val (wie ts oder lc).\nZusätzliches Feld für Accuweather-Wetter (und benutzerdefinierte Karte) hinzufügen\nÜbersetzen Sie russische Zeichen in den zulässigen Zeichensatz in IDs\nFügen Sie eine Problemumgehung für das Problem beim Hochladen von benutzerdefinierten Karten mit Administrator 5 hinzu.\nBeheben Sie Verlaufsattribute mit Status und mehreren Attributen",
-                "ru": "Добавить ручную поддержку объекта для geo_location (в настоящее время неофициально)\nИсправьте привязку для других вещей, кроме val (например, ts или lc).\nДобавить дополнительное поле для погоды accuweather (и настраиваемую карту)\nперевести русские символы в разрешенную кодировку в идентификаторах\nДобавьте обходной путь для проблемы с загрузкой пользовательской карты с помощью администратора 5.\nисправить атрибуты истории с состоянием и несколькими атрибутами",
-                "pt": "Adicionar suporte de entidade manual para geo_location (atualmente não oficial)\nCorrija a vinculação para outras coisas além de val (como ts ou lc).\nAdicionar campo adicional para o clima exato (e cartão personalizado)\ntraduzir caracteres russos para conjunto de caracteres permitido em ids\nAdicione uma solução alternativa para o problema de upload de cartão personalizado com o administrador 5.\ncorrigir atributos de histórico com estado e atributos múltiplos",
-                "nl": "Voeg handmatige entiteitsondersteuning toe voor geo_location (momenteel niet-officieel)\nFix binding voor andere dingen dan val (zoals ts of lc).\nExtra veld toevoegen voor accuweerweer (en aangepaste kaart)\nvertaal Russische karakters naar toegestane karakterset in ids\nVoeg een tijdelijke oplossing toe voor een probleem met het uploaden van aangepaste kaarten met beheerder 5.\nrepareer geschiedenisattributen met staat en meerdere attributen",
-                "fr": "Ajout de la prise en charge manuelle des entités pour la géo_location (inofficiel actuellement)\nCorrection de la liaison pour d'autres choses que val (comme ts ou lc).\nAjouter un champ supplémentaire pour la météo accuweather (et une carte personnalisée)\ntraduire les caractères russes en jeu de caractères autorisé dans les identifiants\nAjoutez une solution de contournement pour le problème de téléchargement de carte personnalisée avec admin 5.\ncorriger les attributs de l'historique avec l'état et plusieurs attributs",
-                "it": "Aggiungi il supporto dell'entità manuale per geo_location (attualmente non ufficiale)\nCorreggi l'associazione per cose diverse da val (come ts o lc).\nAggiungi un campo aggiuntivo per accuweather meteo (e scheda personalizzata)\ntraduci i caratteri russi nel set di caratteri consentito negli ID\nAggiungi una soluzione alternativa per il problema di caricamento della carta personalizzata con l'amministratore 5.\ncorreggi gli attributi della cronologia con stato e attributi multipli",
-                "es": "Agregar soporte de entidad manual para geo_location (no oficial actualmente)\nSe corrigió el enlace para otras cosas además de val (como ts o lc).\nAgregue un campo adicional para el clima accuweather (y tarjeta personalizada)\ntraducir caracteres rusos al juego de caracteres permitido en los identificadores\nAgregue una solución para el problema de carga de tarjetas personalizadas con el administrador 5.\narreglar atributos de historial con estado y atributos múltiples",
-                "pl": "Dodaj ręczną obsługę encji dla geo_location (obecnie nieoficjalna)\nNapraw wiązanie dla innych rzeczy niż val (takich jak ts lub lc).\nDodaj dodatkowe pole na prognozę pogody Accuweather (i kartę niestandardową)\nprzetłumacz rosyjskie znaki na dozwolony zestaw znaków w identyfikatorach\nDodaj obejście problemu z przesyłaniem niestandardowej karty u administratora 5.\nnapraw atrybuty historii ze stanem i wieloma atrybutami",
-                "zh-cn": "为 geo_location 添加手动实体支持（目前是非官方的）\n修复 val 以外的其他事物的绑定（如 ts 或 lc）。\n为 accuweather 天气（和自定义卡）添加附加字段\n将俄语字符转换为 ids 中允许的字符集\n使用 admin 5 添加自定义卡上传问题的解决方法。\n使用状态和多个属性修复历史属性"
-            },
-            "2.0.4": {
-                "en": "Add support for fan entity (makes fan card working).\nfix backwards compatibility for input_datetime attributes.\nfix airconditioner with power mode on mode update",
-                "de": "Füge Unterstützung für Fan-Entität hinzu (macht Fan-Karte funktionsfähig).\nAbwärtskompatibilität für input_datetime-Attribute behoben.\nKlimaanlage mit Power-Modus-On-Modus-Update reparieren",
-                "ru": "Добавить поддержку фанатской сущности (заставляет фанатскую карту работать).\nисправить обратную совместимость для атрибутов input_datetime.\nисправить кондиционер с режимом питания при обновлении режима",
-                "pt": "Adicionar suporte para entidade de fã (faz o cartão de fã funcionar).\ncorrigir compatibilidade com versões anteriores para atributos input_datetime.\nconsertar o condicionador de ar com modo de energia na atualização de modo",
-                "nl": "Ondersteuning toevoegen voor fan-entiteit (maakt de fan-kaart werkend).\nachterwaartse compatibiliteit voor input_datetime-attributen herstellen.\nfix airconditioner met power-modus aan-modus update",
-                "fr": "Ajout de la prise en charge de l'entité de ventilateur (fait fonctionner la carte de ventilateur).\ncorrection de la rétrocompatibilité pour les attributs input_datetime.\nréparer le climatiseur avec le mode d'alimentation sur la mise à jour du mode",
-                "it": "Aggiungi il supporto per l'entità fan (fa funzionare la carta fan).\ncorrezione della compatibilità con le versioni precedenti per gli attributi input_datetime.\nriparare il condizionatore con la modalità di alimentazione in modalità aggiornamento",
-                "es": "Agregue soporte para la entidad de fan (hace que la tarjeta de fan funcione).\ncorrige la compatibilidad con versiones anteriores para los atributos input_datetime.\narreglar el aire acondicionado con el modo de energía en la actualización del modo",
-                "pl": "Dodaj wsparcie dla encji fanów (sprawia, że karta kibica działa).\npoprawiono kompatybilność wsteczną atrybutów input_datetime.\nnapraw klimatyzator z trybem zasilania w trybie aktualizacji",
-                "zh-cn": "添加对风扇实体的支持（使风扇卡工作）。\n修复 input_datetime 属性的向后兼容性。\n用电源模式修复空调模式更新"
-            },
-            "2.0.3": {
-                "en": "fix typo.",
-                "de": "Tippfehler beheben.",
-                "ru": "исправить опечатку.",
-                "pt": "corrigir erro de digitação.",
-                "nl": "typfout herstellen.",
-                "fr": "corriger une faute de frappe.",
-                "it": "correggere l'errore di battitura.",
-                "es": "corregir error tipográfico.",
-                "pl": "naprawić literówkę.",
-                "zh-cn": "修复错字。"
-            },
-            "2.0.2": {
-                "en": "fixed: Date shift for weather forecast without date state.",
-                "de": "behoben: Datumsverschiebung für Wettervorhersage ohne Datumsstatus.",
-                "ru": "исправлено: сдвиг даты для прогноза погоды без состояния даты.",
-                "pt": "fixo: Mudança de data para previsão do tempo sem estado de data.",
-                "nl": "vast: Datumverschuiving voor weersvoorspelling zonder datumstaat.",
-                "fr": "fixe : décalage de date pour les prévisions météorologiques sans état de date.",
-                "it": "risolto: spostamento della data per le previsioni del tempo senza stato della data.",
-                "es": "fijo: Cambio de fecha para el pronóstico del tiempo sin estado de fecha.",
-                "pl": "naprawiono: Przesunięcie daty dla prognozy pogody bez podania daty.",
-                "zh-cn": "固定：没有日期状态的天气预报的日期偏移。"
-            },
-            "2.0.1": {
-                "en": "fixed: Zigbee lights (issue 222).",
-                "de": "behoben: Zigbee-Lichter (Ausgabe 222).",
-                "ru": "исправлено: огни Zigbee (проблема 222).",
-                "pt": "consertado: luzes Zigbee (problema 222).",
-                "nl": "opgelost: Zigbee-lampen (nummer 222).",
-                "fr": "corrigé: lumières Zigbee (numéro 222).",
-                "it": "risolto: luci Zigbee (edizione 222).",
-                "es": "arreglado: luces Zigbee (problema 222).",
-                "pl": "naprawiono: światła Zigbee (wydanie 222).",
-                "zh-cn": "固定：Zigbee 灯（问题 222）。"
-            },
-            "2.0.0": {
-                "en": "Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)\nFixed:   !Breaking! entity_id conflict for low_bat / humidity when part of another device\nUpdated frontend to 20210603.0 (changed light entity to not convert color anymore)\nChanged: increased file size limit to 5 MB during upload in config.\nAdded: Support for input_datetime\nAdded: Support for manual complex light entities\nAdded: Support for images from base64 data in iobroker states \nAdded: Support for additional alarm states.\nAdded: Parameter to only enter code when disarming alarm\nAdded: Support for admin 5 (jsonCustom)\nAdded: Support for airCondition / rework thermostat\nAdded: manual entities can be more complex now (needs documentation)\nAdded: darkMode control",
-                "de": "Geändert: !Inkompatibel! Batteriewarnung ist jetzt binary_sensor anstelle von sensor (jetzt setzt ui das Symbol und übersetzt ok)\nBehoben: !Inkompatibel! Entity_id-Konflikt für Low_bat / Feuchtigkeit, wenn Teil eines anderen Geräts\nAktualisiertes Frontend auf 20210603.0 (Licht entity hat sich verändert, Farbe werden nicht mehr konvertieren)\nGeändert: Dateigrößenbeschränkung auf 5 MB während des Uploads in config.\nHinzugefügt: Unterstützung für input_datetime\nHinzugefügt: Unterstützung für manuelle komplexe Lichtobjekte\nHinzugefügt: Unterstützung für Bilder aus base64-Daten in iobroker-Zuständen\nHinzugefügt: Unterstützung für zusätzliche Alarmzustände.\nHinzugefügt: Parameter, um nur Code einzugeben, wenn der Alarm deaktiviert wird\nHinzugefügt: Unterstützung für Admin 5 (jsonCustom)\nHinzugefügt: Unterstützung für AirCondition / Rework Thermostat\nHinzugefügt: Manuelle Entitäten können jetzt komplexer sein (benötigt Dokumentation)\nHinzugefügt: DarkMode-Steuerung",
-                "ru": "Изменено:! Ломать! Предупреждение о батарее теперь является binary_sensor вместо датчика (теперь пользовательский интерфейс устанавливает значок и переводит нормально)\nИсправлено:! Нарушение! Entity_id конфликт для low_bat / влажность, когда часть другого устройства...............................................................................................................................................................................................................................\nОбновлен интерфейс до 20210603.0 (изменен световой объект, чтобы больше не преобразовывать цвет)\nИзменено: увеличен лимит размера файла до 5 МБ при загрузке в config.\nДобавлено: поддержка input_datetime.\nДобавлено: поддержка ручных сложных световых объектов.\nДобавлено: поддержка изображений из данных base64 в состояниях iobroker.\nДобавлено: Поддержка дополнительных аварийных состояний.\nДобавлено: параметр для ввода кода только при снятии тревоги.\nДобавлено: поддержка admin 5 (jsonCustom).\nДобавлено: поддержка термостата кондиционирования / доработки.\nДобавлено: ручные объекты теперь могут быть более сложными (требуется документация).\nДобавлено: управление darkMode.",
-                "pt": "Alterado:! Quebrando! Aviso de bateria agora é binary_sensor em vez de sensor (agora ui define ícone e traduz ok)\nCorrigido:! Quebrando! conflito de entity_id para baixo_bat / umidade quando parte de outro dispositivo\nInterface atualizada para 20210603.0 (entidade de luz alterada para não converter mais a cor)\nAlterado: aumento do limite de tamanho do arquivo para 5 MB durante o upload na configuração.\nAdicionado: Suporte para input_datetime\nAdicionado: Suporte para entidades de luz complexas manuais\nAdicionado: suporte para imagens de dados base64 em estados iobroker\nAdicionado: suporte para estados de alarme adicionais.\nAdicionado: Parâmetro para inserir o código apenas ao desarmar o alarme\nAdicionado: Suporte para admin 5 (jsonCustom)\nAdicionado: suporte para termostato de ar condicionado / retrabalho\nAdicionado: entidades manuais podem ser mais complexas agora (documentação necessária)\nAdicionado: controle darkMode",
-                "nl": "Gewijzigd: !Breekt! Batterijwaarschuwing is nu binary_sensor in plaats van sensor (nu stelt ui het pictogram in en vertaalt het ok)\nOpgelost: !Breekt! entiteit_id conflict voor low_bat / vochtigheid wanneer onderdeel van een ander apparaat\nFrontend bijgewerkt naar 20210603.0 (lichteenheid gewijzigd om kleur niet meer te converteren)\nGewijzigd: maximale bestandsgrootte verhoogd naar 5 MB tijdens uploaden in config.\nToegevoegd: ondersteuning voor input_datetime\nToegevoegd: Ondersteuning voor handmatige complexe lichte entiteiten\nToegevoegd: ondersteuning voor afbeeldingen van base64-gegevens in iobroker-statussen\nToegevoegd: Ondersteuning voor extra alarmstatussen.\nToegevoegd: Parameter om alleen code in te voeren bij het uitschakelen van alarm\nToegevoegd: Ondersteuning voor admin 5 (jsonCustom)\nToegevoegd: Ondersteuning voor airCondition / rework-thermostaat\nToegevoegd: handmatige entiteiten kunnen nu complexer zijn (documentatie vereist)\nToegevoegd: darkMode-besturing",
-                "fr": "Modifié : !Casse ! L'avertissement de batterie est maintenant binary_sensor au lieu de capteur (maintenant l'interface utilisateur définit l'icône et se traduit correctement)\nCorrigé : !Casse ! conflit entity_id pour low_bat / humidité lorsqu'il fait partie d'un autre appareil\nFrontend mis à jour vers 20210603.0 (entité lumineuse modifiée pour ne plus convertir la couleur)\nModifié : augmentation de la limite de taille de fichier à 5 Mo lors du téléchargement dans la configuration.\nAjout : Prise en charge de input_datetime\nAjouté: Prise en charge des entités légères complexes manuelles\nAjouté: Prise en charge des images à partir de données base64 dans les états iobroker\nAjout : Prise en charge d'états d'alarme supplémentaires.\nAjouté: Paramètre pour entrer le code uniquement lors du désarmement de l'alarme\nAjouté: Prise en charge de l'administrateur 5 (jsonCustom)\nAjouté: Prise en charge du thermostat airCondition/rework\nAjouté : les entités manuelles peuvent être plus complexes maintenant (nécessite une documentation)\nAjouté: contrôle darkMode",
-                "it": "Modificato: !Rottura! L'avviso della batteria ora è binary_sensor invece del sensore (ora l'interfaccia utente imposta l'icona e traduce ok)\nRisolto: !Rottura! conflitto entità_id per low_bat/umidità quando fa parte di un altro dispositivo\nFrontend aggiornato a 20210603.0 (entità luce modificata per non convertire più il colore)\nModificato: limite di dimensione del file aumentato a 5 MB durante il caricamento in config.\nAggiunto: supporto per input_datetime\nAggiunto: supporto per entità luce complesse manuali\nAggiunto: supporto per immagini da dati base64 negli stati iobroker\nAggiunto: supporto per ulteriori stati di allarme.\nAggiunto: Parametro per inserire il codice solo quando si disattiva l'allarme\nAggiunto: supporto per admin 5 (jsonCustom)\nAggiunto: supporto per aria condizionata/termostato di rilavorazione\nAggiunto: le entità manuali possono essere più complesse ora (è necessaria la documentazione)\nAggiunto: controllo darkMode",
-                "es": "Cambiado:! Rompiendo! La advertencia de la batería ahora es binary_sensor en lugar de sensor (ahora la interfaz de usuario establece el ícono y se traduce bien)\nCorregido:! Rompiendo! Entidad_id conflicto para low_bat / humedad cuando forma parte de otro dispositivo\nInterfaz actualizada a 20210603.0 (entidad de luz cambiada para no convertir más el color)\nModificado: límite de tamaño de archivo aumentado a 5 MB durante la carga en config.\nAgregado: Soporte para input_datetime\nAgregado: soporte para entidades de luz complejas manuales\nAgregado: soporte para imágenes de datos base64 en estados de iobroker\nAgregado: Soporte para estados de alarma adicionales.\nAgregado: parámetro para ingresar código solo al desarmar la alarma\nAgregado: Soporte para admin 5 (jsonCustom)\nAgregado: Soporte para termostato de aire acondicionado / retrabajo\nAgregado: las entidades manuales pueden ser más complejas ahora (necesita documentación)\nAgregado: control darkMode",
-                "pl": "Zmieniono: !Łamanie! Ostrzeżenie o baterii to teraz binary_sensor zamiast czujnika (teraz interfejs użytkownika ustawia ikonę i tłumaczy się dobrze)\nNaprawiono: !Zepsucie! konflikt entity_id dla low_bat / wilgotność, gdy jest częścią innego urządzenia\nZaktualizowano interfejs do 20210603.0 (zmieniono element światła, aby nie konwertował już kolorów)\nZmieniono: zwiększono limit rozmiaru pliku do 5 MB podczas przesyłania w konfiguracji.\nDodano: wsparcie dla input_datetime\nDodano: Wsparcie dla ręcznych złożonych elementów świetlnych\nDodano: Wsparcie dla obrazów z danych base64 w stanach iobroker\nDodano: Wsparcie dla dodatkowych stanów alarmowych.\nDodano: parametr do wprowadzania kodu tylko podczas rozbrajania alarmu\nDodano: Wsparcie dla administratora 5 (jsonCustom)\nDodano: Wsparcie dla klimatyzacji / termostatu naprawczego\nDodano: ręczne encje mogą być teraz bardziej złożone (wymaga dokumentacji)\nDodano: sterowanie darkMode",
-                "zh-cn": "改变：！打破！电池警告现在是 binary_sensor 而不是传感器（现在 ui 设置图标并翻译正常）\n固定：！打破！当作为另一个设备的一部分时，低蝙蝠 / 湿度的 entity_id 冲突\n将前端更新为 20210603.0（将灯光实体更改为不再转换颜色）\n更改：在配置中上传期间将文件大小限制增加到 5 MB。\n补充：支持 input_datetime\n补充：支持手动复杂光实体\n补充：支持来自 iobroker 状态的 base64 数据的图像\n补充：支持额外的警报状态。\n新增：仅在解除警报时输入密码的参数\n补充：支持 admin 5 (jsonCustom)\n补充：支持空调/返工恒温器\n补充：手动实体现在可能更复杂（需要文档）\n添加：darkMode 控制"
-            },
-            "1.5.0": {
-                "en": "* (Garfonso) Changed: defaultTheme and control.theme were in conflict. Now control.theme is set when selecting a new default theme.\n* (Garfonso) Added: control.themeDark to control devices in dark mode, too.\n* (Garfonso) Fixed: Device Icons with authentication now work\n* (Garfonso) Changed: previously only admin user could change the UI. Now also the owner of the configuration object and members of the owner group are allowed to change the UI.\n* (Garfonso) Internal code cleanup / breaking dependency update.\n* (Garfonso) Added: Support for pure humidity sensors.\n* (Garfonso) Added: Support for URL as entity_image\n* (Garfonso) Fixed: Adjust user-name/user-id handling to changes in js-controller 3.2.*\n* (Garfonso) Fixed: default themes do not show as selected\n* (Garfonso) Fixed: Loading themes / custom cards / image-proxy",
-                "de": "* (Garfonso) Geändert: defaultTheme und control.theme standen in Konflikt. Jetzt wird control.theme festgelegt, wenn ein neues Standardthema ausgewählt wird.\n* (Garfonso) Hinzugefügt: control.themeDark, um Geräte auch im dunklen Modus zu steuern.\n* (Garfonso) Behoben: Gerätesymbole funktionieren jetzt auch wenn Authentifizierung aktiviert ist\n* (Garfonso) Geändert: Bisher konnte nur der Administrator die Benutzeroberfläche ändern. Jetzt dürfen auch der Eigentümer des Konfigurationsobjekts und Mitglieder der Eigentümergruppe die Benutzeroberfläche ändern.\n* (Garfonso) Interne Codebereinigung / Aktualisierung der Abhängigkeiten.\n* (Garfonso) Hinzugefügt: Unterstützung für rein Feuchtigkeitssensoren.\n* (Garfonso) Hinzugefügt: Unterstützung für URL als entity_image\n*(Garfonso) Behoben: Behandlung von Benutzername / Benutzer-ID an Änderungen in js-controller 3.2.* angepasst\n* (Garfonso) Behoben: Standardthemen werden nicht als ausgewählt angezeigt\n* (Garfonso) Behoben: Laden von Themes / benutzerdefinierten Karten / Image-Proxy",
-                "ru": "* (Garfonso) Изменено: defaultTheme и control.theme конфликтовали. Теперь control.theme устанавливается при выборе новой темы по умолчанию.\n* (Garfonso) Добавлено: control.themeDark для управления устройствами в темном режиме.\n* (Garfonso) Исправлено: значки устройств с аутентификацией теперь работают\n* (Garfonso) Изменено: ранее только администратор мог изменять интерфейс. Теперь владелец объекта конфигурации и члены группы владельцев могут изменять пользовательский интерфейс.\n* (Garfonso) Очистка внутреннего кода / обновление зависимостей.\n* (Garfonso) Добавлено: Поддержка датчиков чистой влажности.\n* (Garfonso) Добавлено: поддержка URL как entity_image\n*(Garfonso) Исправлено: корректировка обработки имени пользователя / идентификатора пользователя в соответствии с изменениями в js-controller 3.2.*\n* (Garfonso) Исправлено: темы по умолчанию не отображаются как выбранные.\n* (Garfonso) Исправлено: загрузка тем / пользовательских карточек / прокси-изображения.",
-                "pt": "* (Garfonso) Alterado: defaultTheme e control.theme estavam em conflito. Agora control.theme é definido ao selecionar um novo tema padrão.\n* (Garfonso) Adicionado: control.themeDark para controlar dispositivos no modo escuro também.\n* (Garfonso) Corrigido: ícones de dispositivos com autenticação agora funcionam\n* (Garfonso) Alterado: anteriormente, apenas o usuário administrador podia alterar a IU. Agora, também o proprietário do objeto de configuração e os membros do grupo proprietário têm permissão para alterar a IU.\n* (Garfonso) Limpeza de código interno / atualização de dependência de quebra.\n* (Garfonso) Adicionado: Suporte para sensores de umidade pura.\n* (Garfonso) Adicionado: Suporte para URL como entity_image\n*(Garfonso) Corrigido: ajuste o manuseio de nome de usuário / id de usuário para alterações no js-controller 3.2.*\n* (Garfonso) Fixo: temas padrão não aparecem como selecionados\n* (Garfonso) Corrigido: Carregando temas / cartões personalizados / proxy de imagem",
-                "nl": "* (Garfonso) Veranderd: defaultTheme en control.theme waren in conflict. Nu wordt control.theme ingesteld bij het selecteren van een nieuw standaardthema.\n* (Garfonso) Toegevoegd: control.themeDark om ook apparaten in de donkere modus te bedienen.\n* (Garfonso) Opgelost: apparaatpictogrammen met authenticatie werken nu\n* (Garfonso) Veranderd: voorheen kon alleen de admin-gebruiker de gebruikersinterface wijzigen. Nu mogen ook de eigenaar van het configuratieobject en leden van de eigenaarsgroep de gebruikersinterface wijzigen.\n* (Garfonso) Update van interne code opschonen / verbreken van afhankelijkheid.\n* (Garfonso) Toegevoegd: ondersteuning voor zuivere vochtigheidssensoren.\n* (Garfonso) Toegevoegd: ondersteuning voor URL als entity_image\n*(Garfonso) Opgelost: pas gebruikersnaam / gebruiker-id afhandeling aan aan veranderingen in js-controller 3.2.*\n* (Garfonso) Opgelost: standaardthema's worden niet weergegeven zoals geselecteerd\n* (Garfonso) Opgelost: thema's / aangepaste kaarten / afbeeldingsproxy laden",
-                "fr": "* (Garfonso) Changé: defaultTheme et control.theme étaient en conflit. Maintenant, control.theme est défini lors de la sélection d'un nouveau thème par défaut.\n* (Garfonso) Ajouté: control.themeDark pour contrôler également les appareils en mode sombre.\n* (Garfonso) Correction: les icônes de périphérique avec authentification fonctionnent maintenant\n* (Garfonso) Changé: auparavant, seul l'administrateur pouvait changer l'interface utilisateur. Désormais, le propriétaire de l'objet de configuration et les membres du groupe de propriétaires sont également autorisés à modifier l'interface utilisateur.\n* (Garfonso) Nettoyage du code interne / mise à jour des dépendances.\n* (Garfonso) Ajouté: Prise en charge des capteurs d'humidité pure.\n* (Garfonso) Ajouté: Prise en charge de l'URL en tant que entity_image\n*(Garfonso) Correction: Ajustez la gestion du nom d'utilisateur / de l'ID utilisateur aux changements dans js-controller 3.2.*\n* (Garfonso) Correction: les thèmes par défaut ne s'affichent pas comme sélectionnés\n* (Garfonso) Correction: Chargement de thèmes / cartes personnalisées / image-proxy",
-                "it": "* (Garfonso) Cambiato: defaultTheme e control.theme erano in conflitto. Ora control.theme è impostato quando si seleziona un nuovo tema predefinito.\n* (Garfonso) Aggiunto: control.themeDark anche per controllare i dispositivi in modalità oscura.\n* (Garfonso) Risolto: le icone dei dispositivi con autenticazione ora funzionano\n* (Garfonso) Modificato: in precedenza solo l'utente amministratore poteva modificare l'interfaccia utente. Ora anche il proprietario dell'oggetto di configurazione e i membri del gruppo di proprietari possono modificare l'interfaccia utente.\n* (Garfonso) Aggiornamento della pulizia del codice interno / interruzione delle dipendenze.\n* (Garfonso) Aggiunto: supporto per sensori di umidità pura.\n* (Garfonso) Aggiunto: supporto per URL come entity_image\n*(Garfonso) Risolto: regola la gestione del nome utente / id utente alle modifiche in js-controller 3.2.*\n* (Garfonso) Risolto: i temi predefiniti non vengono visualizzati come selezionati\n* (Garfonso) Risolto: caricamento di temi / carte personalizzate / proxy di immagini",
-                "es": "* (Garfonso) Cambiado: defaultTheme y control.theme estaban en conflicto. Ahora control.theme se establece al seleccionar un nuevo tema predeterminado.\n* (Garfonso) Añadido: control.themeDark para controlar dispositivos en modo oscuro también.\n* (Garfonso) Corregido: los íconos de dispositivos con autenticación ahora funcionan\n* (Garfonso) Modificado: anteriormente solo el usuario administrador podía cambiar la interfaz de usuario. Ahora también el propietario del objeto de configuración y los miembros del grupo propietario pueden cambiar la interfaz de usuario.\n* (Garfonso) Limpieza de código interno / actualización de dependencia de ruptura.\n* (Garfonso) Agregado: Soporte para sensores de humedad pura.\n* (Garfonso) Agregado: Soporte para URL como entity_image\n*(Garfonso) Corregido: Ajuste el manejo de nombre de usuario / ID de usuario a los cambios en js-controller 3.2.*\n* (Garfonso) Corregido: los temas predeterminados no se muestran como seleccionados\n* (Garfonso) Corregido: carga de temas / tarjetas personalizadas / proxy de imagen",
-                "pl": "* (Garfonso) Zmieniono: defaultTheme i control.theme były w konflikcie. Teraz control.theme jest ustawiana przy wyborze nowego domyślnego motywu.\n* (Garfonso) Dodano: control.themeDark do sterowania urządzeniami w trybie ciemnym.\n* (Garfonso) Naprawiono: ikony urządzeń z uwierzytelnianiem działają teraz\n* (Garfonso) Zmieniono: poprzednio tylko administrator mógł zmienić interfejs użytkownika. Teraz również właściciel obiektu konfiguracyjnego i członkowie grupy właścicieli mogą zmieniać interfejs użytkownika.\n* (Garfonso) Wewnętrzne czyszczenie kodu / aktualizacja zależności.\n* (Garfonso) Dodano: Wsparcie dla czystych czujników wilgotności.\n* (Garfonso) Dodano: Wsparcie dla adresu URL jako entity_image\n*(Garfonso) Naprawiono: Dostosuj obsługę nazwy użytkownika / identyfikatora użytkownika do zmian w js-controller 3.2.*\n* (Garfonso) Naprawiono: domyślne motywy nie są wyświetlane jako wybrane\n* (Garfonso) Naprawiono: ładowanie motywów / niestandardowych kart / proxy obrazu",
-                "zh-cn": "*（Garfonso）已更改：defaultTheme和control.theme发生冲突。现在，在选择新的默认主题时将设置control.theme。\n*（Garfonso）已添加：control.themeDark也可以在黑暗模式下控制设备。\n*（Garfonso）修复：带有身份验证的设备图标现在可以使用\n*（Garfonso）已更改：以前只有管理员用户可以更改UI。现在，还允许配置对象的所有者和所有者组的成员更改UI。\n*（Garfonso）内部代码清除/破坏依赖关系更新。\n*（Garfonso）已添加：支持纯湿度传感器。\n*（Garfonso）已添加：支持URL作为entity_image\n*（Garfonso）固定：调整用户名/用户ID处理以适应js-controller 3.2中的更改。*\n*（Garfonso）固定：默认主题不会显示为选中状态\n*（Garfonso）固定：加载主题/自定义卡片/图像代理"
-            },
-            "1.4.3": {
-                "en": "Support of lovelace via ioBroker.pro",
-                "de": "Unterstützung von Lovelace über ioBroker.pro",
-                "ru": "Поддержка ловеласа через ioBroker.pro",
-                "pt": "Suporte de lovelace via ioBroker.pro",
-                "nl": "Ondersteuning van lovelace via ioBroker.pro",
-                "fr": "Prise en charge de lovelace via ioBroker.pro",
-                "it": "Supporto di lovelace tramite ioBroker.pro",
-                "es": "Soporte de lovelace a través de ioBroker.pro",
-                "pl": "Wsparcie lovelace przez ioBroker.pro",
-                "zh-cn": "通过ioBroker.pro支持lovelace"
-            },
-            "1.4.2": {
-                "en": "Fixed: set Theme state type to string instead of text",
-                "de": "Behoben: Setzen Sie den Theme-Statustyp auf String anstelle von Text",
-                "ru": "Исправлено: установить тип состояния темы на строку вместо текста.",
-                "pt": "Fixo: definir o tipo de estado do tema para string em vez de texto",
-                "nl": "Opgelost: stel het thema staatstype in op string in plaats van op tekst",
-                "fr": "Correction: définissez le type d'état du thème sur chaîne au lieu de texte",
-                "it": "Risolto: imposta il tipo di stato del tema su stringa anziché testo",
-                "es": "Corregido: establezca el tipo de estado del tema en una cadena en lugar de texto",
-                "pl": "Naprawiono: ustaw typ stanu motywu na ciąg zamiast tekstu",
-                "zh-cn": "固定：将主题状态类型设置为字符串而不是文本"
-            },
-            "1.4.1": {
-                "en": "Support of new Let's Encrypt (only with js-controller 3.2.x)",
-                "de": "Unterstützung des neuen Let's Encrypt (nur mit js-controller 3.2.x)",
-                "ru": "Поддержка нового Let's Encrypt (только с js-controller 3.2.x)",
-                "pt": "Suporte do novo Let's Encrypt (apenas com js-controller 3.2.x)",
-                "nl": "Ondersteuning van nieuwe Let's Encrypt (alleen met js-controller 3.2.x)",
-                "fr": "Prise en charge du nouveau Let's Encrypt (uniquement avec js-controller 3.2.x)",
-                "it": "Supporto del nuovo Let's Encrypt (solo con js-controller 3.2.x)",
-                "es": "Soporte del nuevo Let's Encrypt (solo con js-controller 3.2.x)",
-                "pl": "Obsługa nowego Let's Encrypt (tylko z js-controller 3.2.x)",
-                "zh-cn": "支持新的Let's Encrypt（仅适用于js-controller 3.2.x）"
-            },
-            "1.3.6": {
-                "en": "Fixed: do not ignore devices deleted from iot / without smartName\nAdded: Support location devices with one GPS state in string form\nAdded: Support for log service, logs frontend errors in server log\nAdded: Support for service calls with multiple ids, i.e. header switch of elements card\nFixed: unique check for manual entities only checked instance 0. Made them a bit more userfriendly, too.\nAdded: Possibility to select theme during runtime / select default dark theme\nFixed: hideToolbar did hide tab bar, too\nAdded: Support for iobroker_say service call (allows tts in mini-mediaplayer card using platform iobroker)",
-                "de": "Behoben: Geräte, die aus iot / ohne smartName gelöscht wurden, nicht ignorieren\nHinzugefügt: Unterstützt Ortungsgeräte mit einem GPS-Status in Zeichenfolgenform\nHinzugefügt: Unterstützung für Protokolldienst, Protokollierung von Frontend-Fehlern im Serverprotokoll\nHinzugefügt: Unterstützung für Serviceanrufe mit mehreren IDs, d. H. Header-Schalter der Elementkarte\nBehoben: eindeutige Prüfung für manuelle Entitäten nur Instanz 0 geprüft. Auch etwas benutzerfreundlicher gemacht.\nHinzugefügt: Möglichkeit zur Auswahl eines Themas zur Laufzeit / Auswahl eines dunklen Standardthemas\nBehoben: hideToolbar hat auch die Tab-Leiste ausgeblendet\nHinzugefügt: Unterstützung für den Serviceabruf iobroker_say (ermöglicht tts in Mini-Mediaplayer-Karten über die Plattform iobroker)",
-                "ru": "Исправлено: не игнорировать устройства, удаленные из iot / без smartName\nДобавлено: поддержка устройств определения местоположения с одним состоянием GPS в строковой форме.\nДобавлено: поддержка службы журналов, журналы ошибок внешнего интерфейса в журнале сервера.\nДобавлено: поддержка сервисных вызовов с несколькими идентификаторами, т.е. переключение заголовка карточки элементов.\nИсправлено: уникальная проверка для ручных сущностей проверена только на экземпляре 0. Также они стали немного удобнее для пользователя.\nДобавлено: возможность выбрать тему во время выполнения / выбрать темную тему по умолчанию.\nИсправлено: hideToolbar также скрывал панель вкладок\nДобавлено: Поддержка вызова службы iobroker_say (позволяет использовать tts в карте mini-mediaplayer с использованием платформы iobroker).",
-                "pt": "Fixo: não ignorar dispositivos excluídos do iot / sem smartName\nAdicionado: suporte a dispositivos de localização com um estado de GPS em forma de string\nAdicionado: suporte para serviço de log, registra erros de front-end no log do servidor\nAdicionado: suporte para chamadas de serviço com vários ids, ou seja, troca de cabeçalho do cartão de elementos\nCorrigido: verificação única para entidades manuais verificadas apenas na instância 0. Tornou-as um pouco mais fáceis de usar também.\nAdicionado: Possibilidade de selecionar o tema durante a execução / selecionar o tema escuro padrão\nCorrigido: hideToolbar também ocultava a barra de guias\nAdicionado: suporte para chamada de serviço iobroker_say (permite tts no cartão mini-mediaplayer usando a plataforma iobroker)",
-                "nl": "Opgelost: negeer apparaten die zijn verwijderd uit iot / zonder smartName niet\nToegevoegd: ondersteuning van locatieapparaten met één GPS-status in stringvorm\nToegevoegd: ondersteuning voor logboekservice, registreert frontend-fouten in het serverlogboek\nToegevoegd: ondersteuning voor serviceaanroepen met meerdere id's, d.w.z. header-switch van elementenkaart\nOpgelost: unieke controle voor handmatige entiteiten heeft alleen instantie 0 aangevinkt. Maakte ze ook wat gebruiksvriendelijker.\nToegevoegd: mogelijkheid om thema te selecteren tijdens runtime / standaard donker thema te selecteren\nOpgelost: hideToolbar verbergde de tabbalk ook\nToegevoegd: ondersteuning voor iobroker_say servicecall (staat tts toe in mini-mediaplayer-kaart met behulp van platform iobroker)",
-                "fr": "Corrigé: n'ignorez pas les appareils supprimés de l'iot / sans smartName\nAjouté: Prise en charge des périphériques de localisation avec un état GPS sous forme de chaîne\nAjouté: Prise en charge du service de journalisation, enregistre les erreurs de frontend dans le journal du serveur\nAjouté: Prise en charge des appels de service avec plusieurs identifiants, c'est-à-dire le commutateur d'en-tête de la carte d'éléments\nCorrection: la vérification unique des entités manuelles ne vérifiait que l'instance 0. Les rendait également un peu plus conviviales.\nAjouté: Possibilité de sélectionner le thème pendant l'exécution / sélectionner le thème sombre par défaut\nCorrection: hideToolbar masquait également la barre d'onglets\nAjouté: Prise en charge de l'appel de service iobroker_say (permet tts dans la carte mini-mediaplayer en utilisant la plate-forme iobroker)",
-                "it": "Risolto: non ignorare i dispositivi cancellati da iot / senza smartName\nAggiunto: supporta dispositivi di localizzazione con uno stato GPS in forma di stringa\nAggiunto: supporto per il servizio di registro, registra gli errori di frontend nel registro del server\nAggiunto: supporto per chiamate di servizio con più ID, ad es. Cambio intestazione della scheda elementi\nRisolto: il controllo univoco per le entità manuali controllava solo l'istanza 0. Le rendeva anche un po 'più user friendly.\nAggiunto: possibilità di selezionare il tema durante il runtime / selezionare il tema scuro predefinito\nRisolto: hideToolbar nascondeva anche la barra delle schede\nAggiunto: supporto per la chiamata di servizio iobroker_say (consente tts nella scheda mini-mediaplayer utilizzando la piattaforma iobroker)",
-                "es": "Corregido: no ignore los dispositivos eliminados de iot / sin smartName\nAgregado: admite dispositivos de ubicación con un estado de GPS en forma de cadena\nAgregado: soporte para el servicio de registro, registra errores de frontend en el registro del servidor\nAgregado: soporte para llamadas de servicio con múltiples identificadores, es decir, interruptor de encabezado de la tarjeta de elementos\nCorregido: la verificación única para entidades manuales solo verificó la instancia 0. También las hizo un poco más fáciles de usar.\nAgregado: posibilidad de seleccionar el tema durante el tiempo de ejecución / seleccionar el tema oscuro predeterminado\nCorregido: hideToolbar también ocultaba la barra de pestañas\nAgregado: Soporte para la llamada de servicio iobroker_say (permite tts en la tarjeta mini-mediaplayer usando la plataforma iobroker)",
-                "pl": "Naprawiono: nie ignoruj urządzeń usuniętych z iot / bez smartName\nDodano: Obsługa urządzeń lokalizacyjnych z jednym stanem GPS w postaci ciągu\nDodano: Wsparcie dla usługi logów, loguje błędy frontendu w logu serwera\nDodano: Wsparcie dla zgłoszeń serwisowych z wieloma identyfikatorami, tj. Przełączanie nagłówka karty elementów\nNaprawiono: unikalne sprawdzanie jednostek ręcznych sprawdzało tylko instancję 0. Uczyniło je również nieco bardziej przyjaznymi dla użytkownika.\nDodano: Możliwość wyboru motywu podczas działania / wybierz domyślny ciemny motyw\nNaprawiono: hideToolbar ukrył również pasek zakładek\nDodano: Wsparcie dla wezwania serwisu iobroker_say (umożliwia tts na karcie mini-mediaplayer przy użyciu platformy iobroker)",
-                "zh-cn": "修正：不要忽略从物联网中删除的设备/没有smartName的设备\n补充：支持具有字符串形式的一个GPS状态的定位设备\n补充：支持日志服务，在服务器日志中记录前端错误\n补充：支持具有多个ID的服务呼叫，即元素卡的标题开关\n修复：手动实体的唯一检查仅检查实例0。也使它们更加易于使用。\n补充：可以在运行时选择主题/选择默认的深色主题\n修复：hideToolbar也隐藏了标签栏\n补充：支持iobroker_say服务调用（允许使用iobroker平台在mini-mediaplayer卡中进行tts）"
-            },
-            "1.3.3": {
-                "en": "Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.",
-                "de": "Hinzugefügt / Behoben: Abonnieren Sie auch Status für benutzerdefinierte: Mini-Grafikkarte und möglicherweise andere.",
-                "ru": "Добавлено / исправлено: Также подписывайтесь на состояния для custom: mini-graph-card и, возможно, других.",
-                "pt": "Adicionado / corrigido: também subscrever estados para custom: mini-placa gráfica e talvez outros.",
-                "nl": "Toegevoegd / opgelost: abonneer ook staten voor aangepast: minigrafiekkaart en misschien andere.",
-                "fr": "Ajouté / Corrigé: Abonnez-vous également aux états personnalisés: mini-graph-card et peut-être d'autres.",
-                "it": "Aggiunto / Risolto: sottoscrivi anche gli stati per personalizzato: mini-grafico-card e forse altri.",
-                "es": "Agregado / solucionado: también suscríbase a estados personalizados: tarjeta de mini-gráfico y tal vez otros.",
-                "pl": "Dodano / naprawiono: również subskrybuj stany dla niestandardowych: karta mini-grafu i być może inne.",
-                "zh-cn": "已添加/已修复：还为custom：mini-graph-card以及其他订阅状态。"
-            },
-            "1.3.2": {
-                "en": "Fixed: Possible crash during device creation.",
-                "de": "Behoben: Möglicher Absturz während der Geräteerstellung.",
-                "ru": "Исправлено: возможный сбой при создании устройства.",
-                "pt": "Corrigido: possível travamento durante a criação do dispositivo.",
-                "nl": "Opgelost: mogelijke crash tijdens het maken van een apparaat.",
-                "fr": "Correction: plantage possible lors de la création de l'appareil.",
-                "it": "Risolto: possibile crash durante la creazione del dispositivo.",
-                "es": "Corregido: posible bloqueo durante la creación del dispositivo.",
-                "pl": "Naprawiono: możliwa awaria podczas tworzenia urządzenia.",
-                "zh-cn": "修正：在设备创建过程中可能崩溃。"
-            },
-            "1.3.1": {
-                "en": "Fixed: Issue with manually genereadte entity IDs (changed and could contain illegal characters)",
-                "de": "Behoben: Problem mit manuell generierten Entitäts-IDs (geändert und kann unzulässige Zeichen enthalten)",
-                "ru": "Исправлено: проблема с созданием идентификаторов объектов вручную (изменено и могло содержать недопустимые символы)",
-                "pt": "Corrigido: problema com IDs de entidade gerados manualmente (alterados e podem conter caracteres ilegais)",
-                "nl": "Opgelost: probleem met handmatig gegenereerde entiteits-ID's (gewijzigd en kan illegale tekens bevatten)",
-                "fr": "Correction: problème avec les ID d'entité générés manuellement (modifiés et pourraient contenir des caractères illégaux)",
-                "it": "Risolto: problema con gli ID entità generati manualmente (modificati e potrebbero contenere caratteri illegali)",
-                "es": "Solucionado: problema con las ID de entidad generadas manualmente (cambiado y podría contener caracteres ilegales)",
-                "pl": "Naprawiono: problem z ręcznymi identyfikatorami jednostek przypisanych do gatunku (zmieniony i może zawierać niedozwolone znaki)",
-                "zh-cn": "修正：手动基因重新读取实体ID的问题（已更改，可能包含非法字符）"
-            },
-            "1.3.0": {
-                "en": "Fixed: Revert changes in thermostat to make it working again\nFixed: Prevent crash on invalid call-service action\nFixed: Object changes are now reflected in entities and UI updated.\nAdded: Support for RGB Arrays (hue-extended).\nEnhancement: started refactoring of server.js - will take time, but make maintenance easier.\nChange: Notifications are now cached in adapter, makes responses a bit faster\nEnhancement: Updated to lovelace 20201021.4",
-                "de": "Behoben: Änderungen am Thermostat rückgängig machen, damit er wieder funktioniert\nBehoben: Absturz bei ungültiger Call-Service-Aktion verhindern\nBehoben: Objektänderungen werden jetzt in Entitäten und aktualisierten Benutzeroberflächen wiedergegeben.\nHinzugefügt: Unterstützung für RGB-Arrays (Farbton erweitert).\nVerbesserung: Das Refactoring von server.js wurde gestartet. Dies dauert einige Zeit, erleichtert jedoch die Wartung.\nÄnderung: Benachrichtigungen werden jetzt im Adapter zwischengespeichert, wodurch die Antworten etwas schneller werden\nVerbesserung: Aktualisiert auf Lovelace 20201021.4",
-                "ru": "Исправлено: отменить изменения в термостате, чтобы он снова заработал.\nИсправлено: предотвращение сбоя при недопустимом действии службы вызова.\nИсправлено: изменения объектов теперь отражаются в объектах, а пользовательский интерфейс обновлен.\nДобавлено: поддержка массивов RGB (расширенный оттенок).\nУлучшение: начат рефакторинг server.js - займет время, но упростит обслуживание.\nИзменение: уведомления теперь кешируются в адаптере, что делает ответы немного быстрее.\nУлучшение: Обновлено до lovelace 20201021.4",
-                "pt": "Corrigido: reverter alterações no termostato para fazê-lo funcionar novamente\nCorrigido: evita falha em ação de serviço de chamada inválida\nCorrigido: as alterações do objeto agora são refletidas nas entidades e na IU atualizada.\nAdicionado: suporte para matrizes RGB (hue-extended).\nAprimoramento: refatoração iniciada de server.js - levará tempo, mas tornará a manutenção mais fácil.\nAlteração: as notificações agora são armazenadas em cache no adaptador, tornando as respostas um pouco mais rápidas\nAprimoramento: Atualizado para lovelace 20201021.4",
-                "nl": "Opgelost: zet wijzigingen in de thermostaat terug om hem weer te laten werken\nOpgelost: voorkom crash bij ongeldige call-service-actie\nOpgelost: objectwijzigingen worden nu weerspiegeld in entiteiten en de gebruikersinterface is bijgewerkt.\nToegevoegd: ondersteuning voor RGB-arrays (hue-extended).\nVerbetering: begonnen met het herstructureren van server.js - kost tijd, maar maakt onderhoud eenvoudiger.\nVerandering: meldingen worden nu in de adapter opgeslagen, waardoor reacties iets sneller zijn\nVerbetering: bijgewerkt naar lovelace 20201021.4",
-                "fr": "Correction: annulez les modifications du thermostat pour le faire fonctionner à nouveau\nCorrigé: Empêcher le crash sur une action de service d'appel invalide\nCorrigé: les modifications d'objets sont désormais reflétées dans les entités et l'interface utilisateur mise à jour.\nAjouté: Prise en charge des tableaux RVB (extension de la teinte).\nAmélioration: a commencé la refactorisation de server.js - prendra du temps, mais facilitera la maintenance.\nModification: les notifications sont maintenant mises en cache dans l'adaptateur, accélère les réponses un peu\nAmélioration: mise à jour vers lovelace 20201021.4",
-                "it": "Risolto: ripristina le modifiche al termostato per farlo funzionare di nuovo\nRisolto: impedisce l'arresto anomalo su un'azione di servizio di chiamata non valida\nRisolto: le modifiche agli oggetti ora si riflettono nelle entità e nell'interfaccia utente aggiornata.\nAggiunto: supporto per array RGB (tonalità estesa).\nMiglioramento: avviato il refactoring di server.js - richiederà tempo, ma renderà più facile la manutenzione.\nModifica: le notifiche sono ora memorizzate nella cache dell'adattatore, rendendo le risposte un po 'più veloci\nMiglioramento: aggiornato a lovelace 20201021.4",
-                "es": "Corregido: revertir los cambios en el termostato para que vuelva a funcionar\nCorregido: evitar fallas en una acción de servicio de llamada no válida\nCorregido: los cambios de objetos ahora se reflejan en las entidades y la interfaz de usuario actualizada.\nAgregado: Soporte para matrices RGB (tono extendido).\nMejora: se inició la refactorización de server.js; llevará tiempo, pero facilitará el mantenimiento.\nCambio: las notificaciones ahora se almacenan en caché en el adaptador, hace que las respuestas sean un poco más rápidas\nMejora: actualizado a lovelace 20201021.4",
-                "pl": "Naprawiono: Cofnij zmiany w termostacie, aby znów działał\nNaprawiono: Zapobiegaj awariom przy nieprawidłowej akcji wezwania pomocy\nNaprawiono: zmiany obiektów są teraz odzwierciedlane w jednostkach i zaktualizowanym interfejsie użytkownika.\nDodano: Wsparcie dla tablic RGB (rozszerzony odcień).\nUlepszenie: rozpoczęta refaktoryzacja server.js - zajmie trochę czasu, ale ułatwi konserwację.\nZmiana: powiadomienia są teraz zapisywane w pamięci podręcznej adaptera, dzięki czemu odpowiedzi są nieco szybsze\nUlepszenie: zaktualizowano do lovelace 20201021.4",
-                "zh-cn": "固定：恢复恒温器的更改以使其再次工作\n固定：防止无效的呼叫服务操作崩溃\n修正：对象更改现在反映在实体和更新的用户界面中。\n补充：支持RGB阵列（色相扩展）。\n增强功能：开始重构server.js-需要时间，但使维护更容易。\n更改：通知现在缓存在适配器中，使响应速度更快\n增强功能：已更新为lovelace 20201021.4"
-            },
-            "1.2.7": {
-                "en": "Fixed: manual dimmer lighTs did not work in some cases due to missing initialization of entity.state\nFixed/Changed: Testing infrastructure and dev-dependencies (work in progress)\nFixed: set default mode of thermostat to \"auto\". Should allow setting of temperature.\nFixed: Up/Down button on covers\nFixed: Issue with play/pause on media player and improve history\nAdded: Allow automatically generated dimmers without on/off state.\nFixed: In some occasions names of manually generated entities could crash the adapter\n",
-                "de": "Behoben: Manuelle Dimmerleuchten funktionierten in einigen Fällen aufgrund fehlender Initialisierung von entity.state nicht\nBehoben / Geändert: Testen der Infrastruktur und der Entwicklungsabhängigkeiten (in Arbeit)\nBehoben: Standardmodus des Thermostats auf \"auto\" setzen. Sollte die Einstellung der Temperatur ermöglichen.\nBehoben: Auf / Ab-Taste auf den Deckblättern\nBehoben: Problem mit Wiedergabe / Pause auf dem Media Player und Verbesserung des Verlaufs\nHinzugefügt: Ermöglicht automatisch generierte Dimmer ohne Ein / Aus-Status.\nBehoben: In einigen Fällen konnten Namen von manuell generierten Entitäten den Adapter zum Absturz bringen\n",
-                "ru": "Исправлено: ручные диммеры не работали в некоторых случаях из-за отсутствия инициализации entity.state\nИсправлено / Изменено: Тестирование инфраструктуры и зависимостей от разработчиков (в стадии разработки)\nИсправлено: установить режим термостата по умолчанию на «авто». Должен позволить установить температуру.\nИсправлено: кнопка вверх / вниз на обложках\nИсправлено: проблема с воспроизведением / паузой в медиаплеере и улучшением истории\nДобавлено: Разрешить автоматически генерируемые диммеры без состояния включения / выключения.\nИсправлено: в некоторых случаях имена созданных вручную объектов могли вызвать сбой адаптера.\n",
-                "pt": "Corrigido: luzes dimmer manuais não funcionavam em alguns casos devido à falta de inicialização de entity.state\nCorrigido / alterado: infraestrutura de teste e dependências de desenvolvimento (trabalho em andamento)\nFixo: defina o modo padrão do termostato para \"automático\". Deve permitir o ajuste de temperatura.\nFixo: botão para cima / para baixo nas tampas\nCorrigido: problema com reproduzir / pausar no reprodutor de mídia e melhorar o histórico\nAdicionado: Permitir dimmers gerados automaticamente sem estado ligado / desligado.\nCorrigido: em algumas ocasiões, nomes de entidades geradas manualmente podem travar o adaptador\n",
-                "nl": "Opgelost: handmatige dimmerlampen werkten in sommige gevallen niet vanwege een ontbrekende initialisatie van entity.state\nFixed / Changed: testen van infrastructuur en dev-afhankelijkheden (werk in uitvoering)\nOpgelost: stel de standaardmodus van de thermostaat in op \"auto\". Moet temperatuurinstelling mogelijk maken.\nOpgelost: knop Omhoog / Omlaag op covers\nOpgelost: probleem met afspelen / pauzeren op mediaspeler en geschiedenis verbeteren\nToegevoegd: Sta automatisch gegenereerde dimmers toe zonder aan / uit-status.\nOpgelost: in sommige gevallen konden namen van handmatig gegenereerde entiteiten de adapter doen crashen\n",
-                "fr": "Correction: les lumières du gradateur manuel ne fonctionnaient pas dans certains cas en raison d'une initialisation manquante de entity.state\nCorrigé / modifié: test de l'infrastructure et des dépendances de développement (travail en cours)\nCorrection: réglez le mode par défaut du thermostat sur \"auto\". Devrait permettre le réglage de la température.\nCorrection: bouton Haut / Bas sur les couvertures\nCorrection: problème de lecture / pause sur le lecteur multimédia et amélioration de l'historique\nAjouté: autorise les gradateurs générés automatiquement sans état marche / arrêt.\nCorrection: dans certaines occasions, les noms d'entités générées manuellement pouvaient planter l'adaptateur\n",
-                "it": "Risolto: le luci dimmer manuali non funzionavano in alcuni casi a causa della mancata inizializzazione di entity.state\nRisolto / Modificato: test dell'infrastruttura e delle dipendenze dello sviluppo (lavori in corso)\nRisolto: imposta la modalità predefinita del termostato su \"auto\". Dovrebbe consentire l'impostazione della temperatura.\nRisolto: pulsante su / giù sulle copertine\nRisolto: problema con la riproduzione / pausa sul lettore multimediale e miglioramento della cronologia\nAggiunto: Consenti dimmer generati automaticamente senza stato on / off.\nRisolto: in alcune occasioni i nomi di entità generate manualmente potevano causare il crash dell'adattatore\n",
-                "es": "Corregido: las luces de atenuación manuales no funcionaban en algunos casos debido a que faltaba la inicialización de entity.state\nCorregido / modificado: prueba de infraestructura y dependencias de desarrollo (trabajo en curso)\nCorregido: establece el modo predeterminado del termostato en \"automático\". Debe permitir el ajuste de la temperatura.\nCorregido: botón arriba / abajo en las cubiertas\nSolucionado: problema con la reproducción / pausa en el reproductor multimedia y mejorar el historial\nAgregado: Permitir atenuadores generados automáticamente sin estado de encendido / apagado.\nCorregido: en algunas ocasiones, los nombres de entidades generadas manualmente podrían bloquear el adaptador\n",
-                "pl": "Naprawiono: ręczne przyciemnianie świateł nie działało w niektórych przypadkach z powodu braku inicjalizacji entity.state\nNaprawiono / zmieniono: testowanie infrastruktury i zależności deweloperskich (praca w toku)\nNaprawiono: ustaw domyślny tryb termostatu na „auto”. Powinien pozwolić na ustawienie temperatury.\nNaprawiono: przycisk Góra / Dół na okładkach\nNaprawiono: problem z odtwarzaniem / wstrzymywaniem w odtwarzaczu multimedialnym i poprawianiem historii\nDodano: Zezwalaj na automatycznie generowane ściemniacze bez stanu włączenia / wyłączenia.\nNaprawiono: w niektórych przypadkach nazwy ręcznie generowanych obiektów mogły spowodować awarię adaptera\n",
-                "zh-cn": "修正：手动调光器在某些情况下由于缺少对object.state的初始化而无法正常工作\n固定/更改：测试基础结构和开发依赖性（正在进行的工作）\n固定：将恒温器的默认模式设置为“自动”。应该允许设定温度。\n固定：封面上的向上/向下按钮\n固定：媒体播放器上播放/暂停的问题并改善历史记录\n补充：允许自动生成的调光器没有开/关状态。\n修复：在某些情况下，手动生成的实体的名称可能会使适配器崩溃\n"
-            },
-            "1.2.6": {
-                "en": "* (Garfonso) Fixed: invalid date in weather cards\n* (Garfonso) Fixed: issues with space in manual entity names.\n",
-                "de": "* (Garfonso) Behoben: Ungültiges Datum in Wetterkarten\n* (Garfonso) Behoben: Probleme mit dem Leerzeichen in manuellen Entitätsnamen.\n",
-                "ru": "* (Garfonso) Исправлено: неверная дата в погодных картах\n* (Garfonso) Исправлено: проблемы с пробелом в ручных именах объектов.\n",
-                "pt": "* (Garfonso) Fixo: data inválida nos cartões meteorológicos\n* (Garfonso) Corrigido: problemas com espaço em nomes de entidades manuais.\n",
-                "nl": "* (Garfonso) Opgelost: ongeldige datum in weerkaarten\n* (Garfonso) Opgelost: problemen met ruimte in handmatige entiteitsnamen.\n",
-                "fr": "* (Garfonso) Correction: date invalide dans les cartes météo\n* (Garfonso) Correction: problèmes d'espace dans les noms d'entités manuelles.\n",
-                "it": "* (Garfonso) Risolto: data non valida nelle carte meteo\n* (Garfonso) Risolto: problemi con lo spazio nei nomi delle entità manuali.\n",
-                "es": "* (Garfonso) Corregido: fecha no válida en tarjetas meteorológicas\n* (Garfonso) Solucionado: problemas con el espacio en los nombres de entidades manuales.\n",
-                "pl": "* (Garfonso) Naprawiono: nieprawidłowa data w kartach pogody\n* (Garfonso) Naprawiono: problemy ze spacjami w ręcznych nazwach jednostek.\n",
-                "zh-cn": "*（Garfonso）修正：天气卡中的日期无效\n*（Garfonso）已修复：手动实体名称中的空格存在问题。\n"
-            }
-        },
-        "title": "Visualization with Lovelace-UI",
-        "titleLang": {
-            "en": "Visualization with Lovelace-UI",
-            "de": "Visualisierung mit Lovelace-UI",
-            "ru": "Визуализация с помощью Lovelace-UI",
-            "pt": "Visualização com Lovelace-UI",
-            "nl": "Visualisatie met Lovelace-UI",
-            "fr": "Visualisation avec Lovelace-UI",
-            "it": "Visualizzazione con Lovelace-UI",
-            "es": "Visualización con Lovelace-UI",
-            "pl": "Wizualizacja za pomocą Lovelace-UI",
-            "zh-cn": "使用Lovelace-UI进行可视化"
-        },
-        "desc": {
-            "en": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
-            "de": "Mit diesem Adapter können Sie eine Visualisierung für ioBroker mit der Home Assistant Lovelace-Benutzeroberfläche erstellen",
-            "ru": "С помощью этого адаптера вы можете создавать визуализацию для ioBroker с Home Assistant Lovelace UI",
-            "pt": "Com este adaptador você pode construir visualização para o ioBroker com o Home Assistant Lovelace UI",
-            "nl": "Met deze adapter kunt u visualisatie bouwen voor ioBroker met Home Assistant Lovelace UI",
-            "fr": "Avec cet adaptateur, vous pouvez créer une visualisation pour ioBroker avec Home Assistant Lovelace UI",
-            "it": "Con questo adattatore puoi costruire la visualizzazione per ioBroker con l'interfaccia utente di Home Assistant Lovelace",
-            "es": "Con este adaptador puede crear visualización para ioBroker con Home Assistant Lovelace UI",
-            "pl": "Za pomocą tego adaptera możesz zbudować wizualizację dla ioBroker z interfejsem Home Assistant Lovelace",
-            "zh-cn": "使用此适配器，您可以使用Home Assistant Lovelace UI为ioBroker构建可视化"
-        },
-        "authors": [
-            "bluefox <dogafox@gmail.com>"
-        ],
-        "keywords": [
-            "ioBroker",
-            "template",
-            "Smart Home",
-            "home automation"
-        ],
-        "license": "Apache-2.0",
-        "platform": "Javascript/Node.js",
-        "tier": 3,
-        "icon": "lovelace.png",
-        "main": "main.js",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
-        "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "visualization",
-        "compact": true,
-        "materialize": true,
-        "supportCustoms": true,
-        "messagebox": true,
-        "connectionType": "local",
-        "dataSource": "push",
-        "localLink": "%protocol%://%ip%:%port%/",
-        "welcomeScreen1": {
-            "link": "",
-            "name": "Lovelace",
-            "img": "lovelace/icons/favicon-192x192.png",
-            "color": "#03a9f4",
-            "order": 2,
-            "localLink": true
-        },
-        "dependencies": [
-            {
-                "admin": ">=3.0.0"
-            },
-            {
-                "js-controller": ">=3.3.0"
-            }
-        ],
-        "welcomeScreenPro": {
-            "link": "lovelace/",
-            "name": "Lovelace",
-            "img": "lovelace.admin/lovelace.png",
-            "color": "#03a9f4",
-            "order": 6,
-            "localLink": true
-        }
+  "common": {
+    "name": "lovelace",
+    "version": "2.1.1",
+    "news": {
+      "2.1.1": {
+        "en": "Fixed: Entity update in some cases.",
+        "de": "Behoben: Entity-Update in einigen Fällen.",
+        "ru": "Исправлено: обновление сущности в некоторых случаях.",
+        "pt": "Fixo: atualização da entidade em alguns casos.",
+        "nl": "Opgelost: Entiteitsupdate in sommige gevallen.",
+        "fr": "Corrigé : mise à jour de l'entité dans certains cas.",
+        "it": "Risolto: aggiornamento dell'entità in alcuni casi.",
+        "es": "Corregido: actualización de la entidad en algunos casos.",
+        "pl": "Naprawiono: Aktualizacja Entity w niektórych przypadkach.",
+        "zh-cn": "修正：在某些情况下实体更新。"
+      },
+      "2.1.0": {
+        "en": "* (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).\n* (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)",
+        "de": "* (Garfonso) Hinzugefügt: Unterstützung für neue Dinge im Frontend (wie arm_vacation Zustand, Währung, ...).\n* (Garfonso) Änderung: Frontent auf 20211229.0 aktualisiert (benötigt möglicherweise Update von browser_mod, card_mod)",
+        "ru": "* (Garfonso) Добавлено: поддержка новых вещей во внешнем интерфейсе (например, состояние arm_vacation, валюта, ...).\n* (Garfonso) Изменение: обновлен фронт до 20211229.0 (требуется обновление browser_mod, card_mod)",
+        "pt": "* (Garfonso) Adicionado: suporte para coisas novas no frontend (como arm_vacation state, currency, ...).\n* (Garfonso) Alteração: frontent atualizado para 20211229.0 (precisa de atualização de browser_mod, card_mod)",
+        "nl": "* (Garfonso) Toegevoegd: ondersteuning voor nieuwe dingen in frontend (zoals arm_vacation state, valuta, ...).\n* (Garfonso) Wijziging: frontent bijgewerkt naar 20211229.0 (update nodig van browser_mod, card_mod)",
+        "fr": "* (Garfonso) Ajout : prise en charge de nouvelles choses en frontend (comme l'état arm_vacation, la devise, ...).\n* (Garfonso) Changement : frontent mis à jour vers 20211229.0 (nécessite une mise à jour de browser_mod, card_mod)",
+        "it": "* (Garfonso) Aggiunto: supporto per nuove cose nel frontend (come arm_vacation state, currency, ...).\n* (Garfonso) Modifica: Frontent aggiornato a 20211229.0 (necessita di aggiornamento di browser_mod, card_mod)",
+        "es": "* (Garfonso) Agregado: soporte para cosas nuevas en la interfaz (como estado arm_vacation, moneda, ...).\n* (Garfonso) Cambio: Interfaz actualizada a 20211229.0 (necesita actualización de browser_mod, card_mod)",
+        "pl": "* (Garfonso) Dodano: wsparcie dla nowych rzeczy w interfejsie (takich jak stan arm_vacation, waluta, ...).\n* (Garfonso) Zmiana: Zaktualizowano frontent do 20211229.0 (wymaga aktualizacji browser_mod, card_mod)",
+        "zh-cn": "* (Garfonso) 添加：支持前端的新事物（如 arm_vacation 状态、货币等）。\n* (Garfonso) 更改：将前端更新为 20211229.0（需要更新 browser_mod、card_mod）"
+      },
+      "2.0.7": {
+        "en": "* (Garfonso) Fix: possible crash while creating light entity\n* (Garfonso) Fix: possible crashes in binding support\n* (Garfonso) Fix: /state/ handler for files (repairs for example Sonos cover image)\n* (Garfonso) Fix: tilt command was not correctly processed in ioBroker\n* (Garfonso) Fix: conversion issues in alarm control panel\n* (Garfonso) Fix: missed update if auto and manual entity were created from same ioBroker device\n* (Garfonso) Fixed: Warning on object change of manual entites\n* (Garfonso) Change: Subscribe ids for all config elements contain valid entity_ids (fixes tankerkoenig card and secondary-entity-row)\n* (Garfonso) Added: support for offline indicator (auto & manual) and online indicator\n* (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)\n* (Garfonso) Added: more devices classes with custom settings\n* (Garfonso) Added: Support for calendar (only ical, use custom settings to create calendar entity on ical.*.data.table).",
+        "de": "* (Garfonso) Fix: möglicher Absturz beim Erstellen von Lichtobjekten\n* (Garfonso) Fix: mögliche Abstürze bei binding support\n* (Garfonso) Fix: /state/ Handler für Dateien (repariert zB Sonos-Coverbild)\n* (Garfonso) Fix: Neigungsbefehl wurde in ioBroker nicht korrekt verarbeitet\n* (Garfonso) Fix: Konvertierungsprobleme in der Alarm-Karte\n* (Garfonso) Fix: verpasstes entity Update, wenn automatische und manuelle Entität vom selben ioBroker-Gerät erstellt wurden\n* (Garfonso) Behoben: Warnung bei Objektänderung von manuellen Entitäten\n* (Garfonso) Änderung: abonniere States für alle Konfigurationselemente, die gültige Entity_IDs enthalten (behebt nicht mehr aktuelle Tankerkoenig-Karte und Secondary-Entity-Zeile)\n* (Garfonso) Hinzugefügt: Unterstützung für Offline-Indiaktor (automatisch & manuell) und Online-Indikator\n* (Garfonso) Hinzugefügt: Unterstützung für Fehler-, Wartungs- und Arbeitsanzeige (binäre Sensoren)\n* (Garfonso) Hinzugefügt: mehr Geräteklassen mit benutzerdefinierten Einstellungen\n* (Garfonso) Hinzugefügt: Unterstützung für Kalender (nur ical, verwenden Sie benutzerdefinierte Einstellungen, um Kalenderentität auf ical.*.data.table zu erstellen).",
+        "ru": "* (Garfonso) Исправление: возможный сбой при создании светового объекта\n* (Garfonso) Исправление: возможные сбои в поддержке привязки\n* (Garfonso) Исправление: / state / handler для файлов (восстановление например обложки Sonos)\n* (Garfonso) Исправление: команда наклона некорректно обрабатывалась в ioBroker\n* (Garfonso) Исправление: проблемы с преобразованием в панели управления сигнализацией.\n* (Garfonso) Исправление: пропущено обновление, если автоматическая и ручная сущность были созданы с одного и того же устройства ioBroker\n* (Garfonso) Исправлено: Предупреждение о смене объекта вручную.\n* (Garfonso) Изменение: идентификаторы подписки для всех элементов конфигурации содержат действительные идентификаторы entity_ids (исправлены карты tankerkoenig и строка второстепенного объекта)\n* (Garfonso) Добавлено: поддержка автономного индикатора (автоматический и ручной) и онлайн-индикатора.\n* (Garfonso) Добавлено: поддержка индикатора ошибок, обслуживания и работы (бинарные датчики)\n* (Garfonso) Добавлено: больше классов устройств с пользовательскими настройками\n* (Garfonso) Добавлено: Поддержка календаря (только ical, используйте пользовательские настройки для создания объекта календаря на ical. *. Data.table).",
+        "pt": "* (Garfonso) Correção: possível travamento durante a criação de entidade leve\n* (Garfonso) Correção: possíveis falhas no suporte de ligação\n* (Garfonso) Correção: / state / handler para arquivos (reparos, por exemplo, imagem da capa do Sonos)\n* (Garfonso) Correção: o comando de inclinação não foi processado corretamente no ioBroker\n* (Garfonso) Correção: problemas de conversão no painel de controle de alarme\n* (Garfonso) Correção: atualização perdida se a entidade automática e manual foram criadas a partir do mesmo dispositivo ioBroker\n* (Garfonso) Corrigido: Aviso sobre mudança de objeto de entidades manuais\n* (Garfonso) Alteração: Os ids de inscrição para todos os elementos de configuração contêm entity_ids válidos (corrige o cartão tankerkoenig e a linha de entidade secundária)\n* (Garfonso) Adicionado: suporte para indicador offline (automático e manual) e indicador online\n* (Garfonso) Adicionado: suporte para indicador de erro, manutenção e funcionamento (sensores binários)\n* (Garfonso) Adicionado: mais classes de dispositivos com configurações personalizadas\n* (Garfonso) Adicionado: Suporte para calendário (apenas ical, use configurações personalizadas para criar entidade de calendário em ical. *. Data.table).",
+        "nl": "* (Garfonso) Fix: mogelijke crash tijdens het maken van een lichte entiteit\n* (Garfonso) Fix: mogelijke crashes in bindingsondersteuning\n* (Garfonso) Fix: /state/ handler voor bestanden (reparaties bijvoorbeeld Sonos omslagafbeelding)\n* (Garfonso) Fix: kantelopdracht is niet correct verwerkt in ioBroker\n* (Garfonso) Oplossing: conversieproblemen in alarmcentrale\n* (Garfonso) Fix: gemiste update als automatische en handmatige entiteit zijn gemaakt vanaf hetzelfde ioBroker-apparaat\n* (Garfonso) Opgelost: waarschuwing bij objectwijziging van handmatige entiteiten\n* (Garfonso) Wijziging: Abonneer-ID's voor alle configuratie-elementen bevatten geldige entiteits-ID's (fixt tankerkoenig-kaart en secundaire entiteit-rij)\n* (Garfonso) Toegevoegd: ondersteuning voor offline indicator (auto & handmatig) en online indicator\n* (Garfonso) Toegevoegd: ondersteuning voor fout-, onderhouds- en werkindicator (binaire sensoren)\n* (Garfonso) Toegevoegd: meer apparaatklassen met aangepaste instellingen\n* (Garfonso) Toegevoegd: Ondersteuning voor kalender (alleen ical, gebruik aangepaste instellingen om kalenderentiteit te creëren op ical.*.data.table).",
+        "fr": "* (Garfonso) Correction : crash possible lors de la création de l'entité lumineuse\n* (Garfonso) Correction : plantages possibles dans le support de liaison\n* (Garfonso) Correction : /state/ handler pour les fichiers (répare par exemple l'image de couverture de Sonos)\n* (Garfonso) Correction : la commande d'inclinaison n'était pas correctement traitée dans ioBroker\n* (Garfonso) Correction : problèmes de conversion dans le panneau de contrôle d'alarme\n* (Garfonso) Correction : mise à jour manquée si les entités automatique et manuelle ont été créées à partir du même appareil ioBroker\n* (Garfonso) Corrigé : Avertissement sur le changement d'objet des entités manuelles\n* (Garfonso) Changement : les identifiants d'abonnement pour tous les éléments de configuration contiennent des entity_ids valides (corrige la carte tankerkoenig et la ligne secondaire d'entité)\n* (Garfonso) Ajout : prise en charge de l'indicateur hors ligne (auto et manuel) et de l'indicateur en ligne\n* (Garfonso) Ajout : prise en charge des indicateurs d'erreur, de maintenance et de fonctionnement (capteurs binaires)\n* (Garfonso) Ajouté : plus de classes d'appareils avec des paramètres personnalisés\n* (Garfonso) Ajout : Prise en charge du calendrier (uniquement ical, utilisez des paramètres personnalisés pour créer une entité de calendrier sur ical.*.data.table).",
+        "it": "* (Garfonso) Fix: possibile crash durante la creazione di entità luce\n* (Garfonso) Fix: possibili crash nel supporto del binding\n* (Garfonso) Fix: /state/ gestore per i file (ripara ad esempio l'immagine di copertina di Sonos)\n* (Garfonso) Fix: il comando tilt non è stato elaborato correttamente in ioBroker\n* (Garfonso) Fix: problemi di conversione nel pannello di controllo degli allarmi\n* (Garfonso) Fix: mancato aggiornamento se l'entità automatica e manuale sono state create dallo stesso dispositivo ioBroker\n* (Garfonso) Risolto: avviso sul cambio oggetto delle entità manuali\n* (Garfonso) Modifica: gli ID di sottoscrizione per tutti gli elementi di configurazione contengono entità_id validi (corregge la carta tankerkoenig e la riga di entità secondaria)\n* (Garfonso) Aggiunto: supporto per indicatore offline (automatico e manuale) e indicatore online\n* (Garfonso) Aggiunto: supporto per errore, manutenzione e indicatore di funzionamento (sensori binari)\n* (Garfonso) Aggiunto: più classi di dispositivi con impostazioni personalizzate\n* (Garfonso) Aggiunto: supporto per il calendario (solo ical, usa le impostazioni personalizzate per creare l'entità del calendario su ical.*.data.table).",
+        "es": "* (Garfonso) Solución: posible bloqueo al crear una entidad de luz\n* (Garfonso) Solución: posibles bloqueos en el soporte de encuadernación\n* (Garfonso) Arreglo: / state / handler for files (reparaciones, por ejemplo, la imagen de portada de Sonos)\n* (Garfonso) Solución: el comando de inclinación no se procesó correctamente en ioBroker\n* (Garfonso) Solución: problemas de conversión en el panel de control de alarmas\n* (Garfonso) Solución: actualización perdida si la entidad automática y manual se crearon desde el mismo dispositivo ioBroker\n* (Garfonso) Corregido: Advertencia sobre el cambio de objeto de las entradas manuales\n* (Garfonso) Cambio: Los identificadores de suscripción para todos los elementos de configuración contienen entity_ids válidos (corrige la tarjeta de tankerkoenig y la fila de entidad secundaria)\n* (Garfonso) Agregado: soporte para indicador fuera de línea (automático y manual) e indicador en línea\n* (Garfonso) Agregado: soporte para indicador de error, mantenimiento y funcionamiento (sensores binarios)\n* (Garfonso) Agregado: más clases de dispositivos con configuraciones personalizadas\n* (Garfonso) Agregado: Soporte para calendario (solo ical, use configuraciones personalizadas para crear una entidad de calendario en ical. *. Data.table).",
+        "pl": "* (Garfonso) Poprawka: możliwa awaria podczas tworzenia lekkiej jednostki\n* (Garfonso) Poprawka: możliwe awarie w obsłudze wiązania\n* (Garfonso) Poprawka: /state/ handler dla plików (naprawia np. okładkę Sonos)\n* (Garfonso) Poprawka: polecenie przechyłu nie zostało poprawnie przetworzone w ioBroker\n* (Garfonso) Poprawka: problemy z konwersją w panelu sterowania alarmami\n* (Garfonso) Poprawka: pominięta aktualizacja, jeśli encja automatyczna i ręczna została utworzona z tego samego urządzenia ioBroker\n* (Garfonso) Naprawiono: Ostrzeżenie o zmianie obiektu obiektów ręcznych\n* (Garfonso) Zmiana: Identyfikatory subskrypcji dla wszystkich elementów konfiguracyjnych zawierają prawidłowe entity_ids (naprawia kartę tankerkoenig i drugorzędny wiersz encji)\n* (Garfonso) Dodano: wsparcie dla wskaźnika offline (automatycznego i ręcznego) oraz wskaźnika online\n* (Garfonso) Dodano: wsparcie dla wskaźnika błędu, konserwacji i pracy (czujniki binarne)\n* (Garfonso) Dodano: więcej klas urządzeń z niestandardowymi ustawieniami\n* (Garfonso) Dodano: Wsparcie dla kalendarza (tylko ical, użyj ustawień niestandardowych, aby utworzyć encję kalendarza na ical.*.data.table).",
+        "zh-cn": "* (Garfonso) 修复：创建光实体时可能崩溃\n* (Garfonso) 修复：绑定支持可能崩溃\n* (Garfonso) 修复：/state/ 文件处理程序（修复例如 Sonos 封面图片）\n* (Garfonso) 修复：倾斜命令在 ioBroker 中没有正确处理\n* (Garfonso) 修复：警报控制面板中的转换问题\n* (Garfonso) 修复：如果自动和手动实体是从同一个 ioBroker 设备创建的，则会错过更新\n* (Garfonso) 修正：手动实体的对象变化警告\n* (Garfonso) 更改：所有配置元素的订阅 ID 都包含有效的 entity_ids（修复 tankerkoenig 卡和辅助实体行）\n* (Garfonso) 添加：支持离线指示器（自动和手动）和在线指示器\n* (Garfonso) 添加：支持错误、维护和工作指示器（二进制传感器）\n* (Garfonso) 添加：更多带有自定义设置的设备类\n* (Garfonso) 添加：支持日历（仅 ical，使用自定义设置在 ical.*.data.table 上创建日历实体）。"
+      },
+      "2.0.6": {
+        "en": "Add manual entity support for geo_location (inofficial currently)\nFix binding for other things than val (like ts or lc).\nAdd additional field for accuweather weather (and custom card)\ntranslate russian characters to allowed charset in ids\nAdd workaround for custom card upload issue with admin 5.\nfix history attribues with state and multiple attributes",
+        "de": "Manuelle Entitätsunterstützung für geo_location hinzufügen (derzeit inoffiziell)\nFixe Bindung für andere Dinge als val (wie ts oder lc).\nZusätzliches Feld für Accuweather-Wetter (und benutzerdefinierte Karte) hinzufügen\nÜbersetzen Sie russische Zeichen in den zulässigen Zeichensatz in IDs\nProblemumgehung für Problem beim Hochladen von benutzerdefinierten Karten mit Administrator 5 hinzufügen.\nVerlaufsattribute mit Status und mehreren Attributen korrigieren",
+        "ru": "Добавить ручную поддержку объекта для geo_location (в настоящее время неофициально)\nИсправьте привязку для других вещей, кроме val (например, ts или lc).\nДобавить дополнительное поле для погоды accuweather (и настраиваемую карту)\nперевести русские символы в разрешенную кодировку в идентификаторах\nДобавьте обходной путь для проблемы с загрузкой пользовательской карты с помощью администратора 5.\nисправить атрибуты истории с состоянием и несколькими атрибутами",
+        "pt": "Adicionar suporte de entidade manual para geo_location (atualmente não oficial)\nCorrija a vinculação para outras coisas além de val (como ts ou lc).\nAdicionar campo adicional para o clima exato (e cartão personalizado)\ntraduzir caracteres russos para conjunto de caracteres permitido em ids\nAdicione uma solução alternativa para o problema de upload de cartão personalizado com o administrador 5.\ncorrigir atributos de histórico com estado e atributos múltiplos",
+        "nl": "Voeg handmatige entiteitsondersteuning toe voor geo_location (momenteel niet-officieel)\nFix binding voor andere dingen dan val (zoals ts of lc).\nExtra veld toevoegen voor accuweerweer (en aangepaste kaart)\nvertaal Russische karakters naar toegestane karakterset in ids\nVoeg een tijdelijke oplossing toe voor een probleem met het uploaden van aangepaste kaarten met beheerder 5.\nrepareer geschiedenisattributen met staat en meerdere attributen",
+        "fr": "Ajout de la prise en charge manuelle des entités pour la géo_location (inofficiel actuellement)\nCorrection de la liaison pour d'autres choses que val (comme ts ou lc).\nAjouter un champ supplémentaire pour la météo accuweather (et une carte personnalisée)\ntraduire les caractères russes en jeu de caractères autorisé dans les identifiants\nAjoutez une solution de contournement pour le problème de téléchargement de carte personnalisée avec admin 5.\ncorriger les attributs de l'historique avec l'état et plusieurs attributs",
+        "it": "Aggiungi il supporto dell'entità manuale per geo_location (attualmente non ufficiale)\nCorreggi l'associazione per cose diverse da val (come ts o lc).\nAggiungi un campo aggiuntivo per accuweather meteo (e scheda personalizzata)\ntraduci i caratteri russi nel set di caratteri consentito negli ID\nAggiungi una soluzione alternativa per il problema di caricamento della carta personalizzata con l'amministratore 5.\ncorreggi gli attributi della cronologia con stato e attributi multipli",
+        "es": "Agregar soporte de entidad manual para geo_location (no oficial actualmente)\nSe corrigió el enlace para otras cosas además de val (como ts o lc).\nAgregue un campo adicional para el clima accuweather (y tarjeta personalizada)\ntraducir caracteres rusos al juego de caracteres permitido en los identificadores\nAgregue una solución para el problema de carga de tarjetas personalizadas con el administrador 5.\narreglar atributos de historial con estado y atributos múltiples",
+        "pl": "Dodaj ręczną obsługę encji dla geo_location (obecnie nieoficjalna)\nNapraw wiązanie dla innych rzeczy niż val (takich jak ts lub lc).\nDodaj dodatkowe pole na prognozę pogody Accuweather (i kartę niestandardową)\nprzetłumacz rosyjskie znaki na dozwolony zestaw znaków w identyfikatorach\nDodaj obejście problemu z przesyłaniem niestandardowej karty u administratora 5.\nnapraw atrybuty historii ze stanem i wieloma atrybutami",
+        "zh-cn": "为 geo_location 添加手动实体支持（目前是非官方的）\n修复 val 以外的其他事物的绑定（如 ts 或 lc）。\n为 accuweather 天气（和自定义卡）添加附加字段\n将俄语字符转换为 ids 中允许的字符集\n使用 admin 5 添加自定义卡上传问题的解决方法。\n使用状态和多个属性修复历史属性"
+      },
+      "2.0.5": {
+        "en": "Add manual entity support for geo_location (inofficial currently)\nFix binding for other things than val (like ts or lc).\nAdd additional field for accuweather weather (and custom card)\ntranslate russian characters to allowed charset in ids\nAdd workaround for custom card upload issue with admin 5.\nfix history attribues with state and multiple attributes",
+        "de": "Manuelle Entitätsunterstützung für geo_location hinzufügen (derzeit inoffiziell)\nFixe Bindung für andere Dinge als val (wie ts oder lc).\nZusätzliches Feld für Accuweather-Wetter (und benutzerdefinierte Karte) hinzufügen\nÜbersetzen Sie russische Zeichen in den zulässigen Zeichensatz in IDs\nFügen Sie eine Problemumgehung für das Problem beim Hochladen von benutzerdefinierten Karten mit Administrator 5 hinzu.\nBeheben Sie Verlaufsattribute mit Status und mehreren Attributen",
+        "ru": "Добавить ручную поддержку объекта для geo_location (в настоящее время неофициально)\nИсправьте привязку для других вещей, кроме val (например, ts или lc).\nДобавить дополнительное поле для погоды accuweather (и настраиваемую карту)\nперевести русские символы в разрешенную кодировку в идентификаторах\nДобавьте обходной путь для проблемы с загрузкой пользовательской карты с помощью администратора 5.\nисправить атрибуты истории с состоянием и несколькими атрибутами",
+        "pt": "Adicionar suporte de entidade manual para geo_location (atualmente não oficial)\nCorrija a vinculação para outras coisas além de val (como ts ou lc).\nAdicionar campo adicional para o clima exato (e cartão personalizado)\ntraduzir caracteres russos para conjunto de caracteres permitido em ids\nAdicione uma solução alternativa para o problema de upload de cartão personalizado com o administrador 5.\ncorrigir atributos de histórico com estado e atributos múltiplos",
+        "nl": "Voeg handmatige entiteitsondersteuning toe voor geo_location (momenteel niet-officieel)\nFix binding voor andere dingen dan val (zoals ts of lc).\nExtra veld toevoegen voor accuweerweer (en aangepaste kaart)\nvertaal Russische karakters naar toegestane karakterset in ids\nVoeg een tijdelijke oplossing toe voor een probleem met het uploaden van aangepaste kaarten met beheerder 5.\nrepareer geschiedenisattributen met staat en meerdere attributen",
+        "fr": "Ajout de la prise en charge manuelle des entités pour la géo_location (inofficiel actuellement)\nCorrection de la liaison pour d'autres choses que val (comme ts ou lc).\nAjouter un champ supplémentaire pour la météo accuweather (et une carte personnalisée)\ntraduire les caractères russes en jeu de caractères autorisé dans les identifiants\nAjoutez une solution de contournement pour le problème de téléchargement de carte personnalisée avec admin 5.\ncorriger les attributs de l'historique avec l'état et plusieurs attributs",
+        "it": "Aggiungi il supporto dell'entità manuale per geo_location (attualmente non ufficiale)\nCorreggi l'associazione per cose diverse da val (come ts o lc).\nAggiungi un campo aggiuntivo per accuweather meteo (e scheda personalizzata)\ntraduci i caratteri russi nel set di caratteri consentito negli ID\nAggiungi una soluzione alternativa per il problema di caricamento della carta personalizzata con l'amministratore 5.\ncorreggi gli attributi della cronologia con stato e attributi multipli",
+        "es": "Agregar soporte de entidad manual para geo_location (no oficial actualmente)\nSe corrigió el enlace para otras cosas además de val (como ts o lc).\nAgregue un campo adicional para el clima accuweather (y tarjeta personalizada)\ntraducir caracteres rusos al juego de caracteres permitido en los identificadores\nAgregue una solución para el problema de carga de tarjetas personalizadas con el administrador 5.\narreglar atributos de historial con estado y atributos múltiples",
+        "pl": "Dodaj ręczną obsługę encji dla geo_location (obecnie nieoficjalna)\nNapraw wiązanie dla innych rzeczy niż val (takich jak ts lub lc).\nDodaj dodatkowe pole na prognozę pogody Accuweather (i kartę niestandardową)\nprzetłumacz rosyjskie znaki na dozwolony zestaw znaków w identyfikatorach\nDodaj obejście problemu z przesyłaniem niestandardowej karty u administratora 5.\nnapraw atrybuty historii ze stanem i wieloma atrybutami",
+        "zh-cn": "为 geo_location 添加手动实体支持（目前是非官方的）\n修复 val 以外的其他事物的绑定（如 ts 或 lc）。\n为 accuweather 天气（和自定义卡）添加附加字段\n将俄语字符转换为 ids 中允许的字符集\n使用 admin 5 添加自定义卡上传问题的解决方法。\n使用状态和多个属性修复历史属性"
+      },
+      "2.0.4": {
+        "en": "Add support for fan entity (makes fan card working).\nfix backwards compatibility for input_datetime attributes.\nfix airconditioner with power mode on mode update",
+        "de": "Füge Unterstützung für Fan-Entität hinzu (macht Fan-Karte funktionsfähig).\nAbwärtskompatibilität für input_datetime-Attribute behoben.\nKlimaanlage mit Power-Modus-On-Modus-Update reparieren",
+        "ru": "Добавить поддержку фанатской сущности (заставляет фанатскую карту работать).\nисправить обратную совместимость для атрибутов input_datetime.\nисправить кондиционер с режимом питания при обновлении режима",
+        "pt": "Adicionar suporte para entidade de fã (faz o cartão de fã funcionar).\ncorrigir compatibilidade com versões anteriores para atributos input_datetime.\nconsertar o condicionador de ar com modo de energia na atualização de modo",
+        "nl": "Ondersteuning toevoegen voor fan-entiteit (maakt de fan-kaart werkend).\nachterwaartse compatibiliteit voor input_datetime-attributen herstellen.\nfix airconditioner met power-modus aan-modus update",
+        "fr": "Ajout de la prise en charge de l'entité de ventilateur (fait fonctionner la carte de ventilateur).\ncorrection de la rétrocompatibilité pour les attributs input_datetime.\nréparer le climatiseur avec le mode d'alimentation sur la mise à jour du mode",
+        "it": "Aggiungi il supporto per l'entità fan (fa funzionare la carta fan).\ncorrezione della compatibilità con le versioni precedenti per gli attributi input_datetime.\nriparare il condizionatore con la modalità di alimentazione in modalità aggiornamento",
+        "es": "Agregue soporte para la entidad de fan (hace que la tarjeta de fan funcione).\ncorrige la compatibilidad con versiones anteriores para los atributos input_datetime.\narreglar el aire acondicionado con el modo de energía en la actualización del modo",
+        "pl": "Dodaj wsparcie dla encji fanów (sprawia, że karta kibica działa).\npoprawiono kompatybilność wsteczną atrybutów input_datetime.\nnapraw klimatyzator z trybem zasilania w trybie aktualizacji",
+        "zh-cn": "添加对风扇实体的支持（使风扇卡工作）。\n修复 input_datetime 属性的向后兼容性。\n用电源模式修复空调模式更新"
+      },
+      "2.0.3": {
+        "en": "fix typo.",
+        "de": "Tippfehler beheben.",
+        "ru": "исправить опечатку.",
+        "pt": "corrigir erro de digitação.",
+        "nl": "typfout herstellen.",
+        "fr": "corriger une faute de frappe.",
+        "it": "correggere l'errore di battitura.",
+        "es": "corregir error tipográfico.",
+        "pl": "naprawić literówkę.",
+        "zh-cn": "修复错字。"
+      }
     },
-    "native": {
-        "history": "",
-        "historyMaxCount": 2000,
-        "port": 8091,
-        "auth": false,
-        "secure": false,
-        "bind": "0.0.0.0",
-        "certPublic": "",
-        "certPrivate": "",
-        "certChained": "",
-        "defaultUser": "admin",
-        "onlyAllowWhenUserIsOwner": false,
-        "ttl": 3600,
-        "themes": "",
-        "defaultTheme": "default",
-        "defaultThemeDark": "default",
-        "hideHeader": false,
-        "leEnabled": false,
-        "leUpdate": false,
-        "leCheckPort": 80,
-        "aliayOnly": false,
-        "blindsInvert": false,
-        "alarmCheckCodeOnDisarmOnly": false
+    "title": "Visualization with Lovelace-UI",
+    "titleLang": {
+      "en": "Visualization with Lovelace-UI",
+      "de": "Visualisierung mit Lovelace-UI",
+      "ru": "Визуализация с помощью Lovelace-UI",
+      "pt": "Visualização com Lovelace-UI",
+      "nl": "Visualisatie met Lovelace-UI",
+      "fr": "Visualisation avec Lovelace-UI",
+      "it": "Visualizzazione con Lovelace-UI",
+      "es": "Visualización con Lovelace-UI",
+      "pl": "Wizualizacja za pomocą Lovelace-UI",
+      "zh-cn": "使用Lovelace-UI进行可视化"
     },
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
+    "desc": {
+      "en": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
+      "de": "Mit diesem Adapter können Sie eine Visualisierung für ioBroker mit der Home Assistant Lovelace-Benutzeroberfläche erstellen",
+      "ru": "С помощью этого адаптера вы можете создавать визуализацию для ioBroker с Home Assistant Lovelace UI",
+      "pt": "Com este adaptador você pode construir visualização para o ioBroker com o Home Assistant Lovelace UI",
+      "nl": "Met deze adapter kunt u visualisatie bouwen voor ioBroker met Home Assistant Lovelace UI",
+      "fr": "Avec cet adaptateur, vous pouvez créer une visualisation pour ioBroker avec Home Assistant Lovelace UI",
+      "it": "Con questo adattatore puoi costruire la visualizzazione per ioBroker con l'interfaccia utente di Home Assistant Lovelace",
+      "es": "Con este adaptador puede crear visualización para ioBroker con Home Assistant Lovelace UI",
+      "pl": "Za pomocą tego adaptera możesz zbudować wizualizację dla ioBroker z interfejsem Home Assistant Lovelace",
+      "zh-cn": "使用此适配器，您可以使用Home Assistant Lovelace UI为ioBroker构建可视化"
+    },
+    "authors": [
+      "bluefox <dogafox@gmail.com>"
+    ],
+    "keywords": [
+      "ioBroker",
+      "template",
+      "Smart Home",
+      "home automation"
+    ],
+    "license": "Apache-2.0",
+    "platform": "Javascript/Node.js",
+    "tier": 3,
+    "icon": "lovelace.png",
+    "main": "main.js",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
+    "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "visualization",
+    "compact": true,
+    "materialize": true,
+    "supportCustoms": true,
+    "messagebox": true,
+    "connectionType": "local",
+    "dataSource": "push",
+    "localLink": "%protocol%://%ip%:%port%/",
+    "welcomeScreen1": {
+      "link": "",
+      "name": "Lovelace",
+      "img": "lovelace/icons/favicon-192x192.png",
+      "color": "#03a9f4",
+      "order": 2,
+      "localLink": true
+    },
+    "dependencies": [
+      {
+        "admin": ">=3.0.0"
+      },
+      {
+        "js-controller": ">=3.3.0"
+      }
+    ],
+    "welcomeScreenPro": {
+      "link": "lovelace/",
+      "name": "Lovelace",
+      "img": "lovelace.admin/lovelace.png",
+      "color": "#03a9f4",
+      "order": 6,
+      "localLink": true
+    }
+  },
+  "native": {
+    "history": "",
+    "historyMaxCount": 2000,
+    "port": 8091,
+    "auth": false,
+    "secure": false,
+    "bind": "0.0.0.0",
+    "certPublic": "",
+    "certPrivate": "",
+    "certChained": "",
+    "defaultUser": "admin",
+    "onlyAllowWhenUserIsOwner": false,
+    "ttl": 3600,
+    "themes": "",
+    "defaultTheme": "default",
+    "defaultThemeDark": "default",
+    "hideHeader": false,
+    "leEnabled": false,
+    "leUpdate": false,
+    "leCheckPort": 80,
+    "aliayOnly": false,
+    "blindsInvert": false,
+    "alarmCheckCodeOnDisarmOnly": false
+  },
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "connected",
+      "type": "state",
+      "common": {
+        "name": "Info about connected socket clients",
+        "type": "string",
+        "read": true,
+        "write": false,
+        "role": "text"
+      }
+    },
+    {
+      "_id": "info.entitiesUpdated",
+      "type": "state",
+      "common": {
+        "name": "If the list of entities was updated",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "role": "state",
+        "def": false
+      }
+    },
+    {
+      "_id": "",
+      "type": "meta",
+      "common": {
+        "name": "user files and images for lovelace",
+        "type": "meta.user"
+      },
+      "native": {}
+    },
+    {
+      "_id": "configuration",
+      "type": "channel",
+      "common": {
+        "name": "Storage"
+      },
+      "native": {}
+    },
+    {
+      "_id": "session",
+      "type": "state",
+      "common": {
+        "name": "Oauth2 Session",
+        "type": "json",
+        "role": "state"
+      },
+      "native": {}
+    },
+    {
+      "_id": "conversation",
+      "type": "state",
+      "common": {
+        "name": "Question and answer for conversation ",
+        "desc": "Question and answer for conversation dialog. See readme for how to use.",
+        "desc1": {
+          "en": "Question and answer for conversation dialog. See readme for how to use.",
+          "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
+          "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
+          "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
+          "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
+          "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
+          "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
+          "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
+          "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
+          "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
         },
-        {
-            "_id": "connected",
-            "type": "state",
-            "common": {
-                "name": "Info about connected socket clients",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "role": "text"
-            }
-        },
-        {
-            "_id": "info.entitiesUpdated",
-            "type": "state",
-            "common": {
-                "name": "If the list of entities was updated",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "role": "state",
-                "def": false
-            }
-        },
-        {
-            "_id": "",
-            "type": "meta",
-            "common": {
-                "name": "user files and images for lovelace",
-                "type": "meta.user"
-            },
-            "native": {}
-        },
-        {
-            "_id": "configuration",
-            "type": "channel",
-            "common": {
-                "name": "Storage"
-            },
-            "native": {}
-        },
-        {
-            "_id": "session",
-            "type": "state",
-            "common": {
-                "name": "Oauth2 Session",
-                "type": "json",
-                "role": "state"
-            },
-            "native": {}
-        },
-        {
-            "_id": "conversation",
-            "type": "state",
-            "common": {
-                "name": "Question and answer for conversation ",
-                "desc": "Question and answer for conversation dialog. See readme for how to use.",
-                "desc1": {
-                    "en": "Question and answer for conversation dialog. See readme for how to use.",
-                    "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
-                    "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
-                    "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
-                    "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
-                    "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
-                    "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
-                    "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
-                    "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
-                    "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
-                },
-                "type": "string",
-                "role": "state"
-            },
-            "native": {}
-        },
-        {
-            "_id": "control",
-            "type": "channel",
-            "common": {
-                "name": "Control lovelace"
-            },
-            "native": {}
-        },
-        {
-            "_id": "control.instance",
-            "type": "state",
-            "common": {
-                "name": "Control lovelace",
-                "type": "string",
-                "desc": "Write here browser instance ID to control or 'FFFFFFFF' to control all instances"
-            },
-            "native": {}
-        },
-        {
-            "_id": "control.command",
-            "type": "state",
-            "common": {
-                "name": "Command for lovelace",
-                "type": "string",
-                "desc": "Writing this variable act as the trigger. Instance and data must be preset before 'command' will be written. 'changedView' will be signalled too",
-                "states": {
-                    "alert": "alert",
-                    "changeView": "changeView",
-                    "refresh": "refresh",
-                    "reload": "reload",
-                    "dialog": "dialog",
-                    "popup": "popup",
-                    "playSound": "playSound",
-                    "changedView": "changedView",
-                    "tts": "tts"
-                }
-            },
-            "native": {}
-        },
-        {
-            "_id": "control.data",
-            "type": "state",
-            "common": {
-                "name": "Data for control lovelace",
-                "type": "string",
-                "desc": "Used for: alert, changeView, dialog, popup, playSound, changedView"
-            },
-            "native": {}
-        },
-        {
-            "_id": "control.shopping_list",
-            "type": "state",
-            "common": {
-                "name": "Shopping list as json",
-                "type": "json",
-                "write": true,
-                "read": true,
-                "desc": "Used for shopping list card"
-            },
-            "native": {}
-        },
-        {
-            "_id": "control.alarm",
-            "type": "state",
-            "common": {
-                "name": "alarm",
-                "type": "boolean",
-                "write": true,
-                "read": true,
-                "desc": "Arm or disarm with code",
-                "def": false
-            },
-            "native": {
-                "alarm_code": 1234
-            }
-        },
-        {
-            "_id": "control.alarm_arm_state",
-            "type": "state",
-            "common": {
-                "name": "arm status",
-                "type": "number",
-                "write": true,
-                "read": true,
-                "desc": "Alarm arm status",
-                "def": 0,
-                "states": {
-                    "0": "disarmed",
-                    "1": "armed",
-                    "2": "armed_home",
-                    "3": "armed_away",
-                    "4": "armed_night",
-                    "10": "arm_vacation",
-                    "5": "armed_custom_bypass",
-                    "6": "pending",
-                    "7": "arming",
-                    "8": "disarming",
-                    "9": "triggered"
-                }
-            },
-            "native": {
-                "alarm_code": 1234
-            }
-        },
-        {
-            "_id": "control.theme",
-            "type": "state",
-            "common": {
-                "name": "theme",
-                "type": "string",
-                "write": true,
-                "read": true,
-                "desc": "Change default theme during runtime",
-                "states": {
-                    "default": "default"
-                }
-            }
-        },
-        {
-            "_id": "control.themeDark",
-            "type": "state",
-            "common": {
-                "name": "theme",
-                "type": "string",
-                "write": true,
-                "read": true,
-                "desc": "Change default dark theme during runtime",
-                "states": {
-                    "default": "default"
-                }
-            }
-        },
-        {
-            "_id": "control.darkMode",
-            "type": "state",
-            "common": {
-                "name": "Dark Mode",
-                "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
-                "write": true,
-                "read": true,
-                "def": false
-            }
-        },
-        {
-            "_id": "notifications",
-            "type": "channel",
-            "common": {
-                "name": "notifications"
-            },
-            "native": {}
-        },
-        {
-            "_id": "notifications.list",
-            "type": "state",
-            "common": {
-                "name": "alarm",
-                "type": "json",
-                "write": true,
-                "read": true,
-                "desc": "List of notifications"
-            },
-            "native": {}
-        },
-        {
-            "_id": "notifications.add",
-            "type": "state",
-            "common": {
-                "name": "Add notification",
-                "type": "string",
-                "write": true,
-                "read": false,
-                "desc": "Add notification"
-            },
-            "native": {}
-        },
-        {
-            "_id": "notifications.clear",
-            "type": "state",
-            "common": {
-                "name": "Clear notification",
-                "type": "number",
-                "write": true,
-                "read": false,
-                "desc": "Clear notification by id or all if no id"
-            },
-            "native": {}
+        "type": "string",
+        "role": "state"
+      },
+      "native": {}
+    },
+    {
+      "_id": "control",
+      "type": "channel",
+      "common": {
+        "name": "Control lovelace"
+      },
+      "native": {}
+    },
+    {
+      "_id": "control.instance",
+      "type": "state",
+      "common": {
+        "name": "Control lovelace",
+        "type": "string",
+        "desc": "Write here browser instance ID to control or 'FFFFFFFF' to control all instances"
+      },
+      "native": {}
+    },
+    {
+      "_id": "control.command",
+      "type": "state",
+      "common": {
+        "name": "Command for lovelace",
+        "type": "string",
+        "desc": "Writing this variable act as the trigger. Instance and data must be preset before 'command' will be written. 'changedView' will be signalled too",
+        "states": {
+          "alert": "alert",
+          "changeView": "changeView",
+          "refresh": "refresh",
+          "reload": "reload",
+          "dialog": "dialog",
+          "popup": "popup",
+          "playSound": "playSound",
+          "changedView": "changedView",
+          "tts": "tts"
         }
-    ]
+      },
+      "native": {}
+    },
+    {
+      "_id": "control.data",
+      "type": "state",
+      "common": {
+        "name": "Data for control lovelace",
+        "type": "string",
+        "desc": "Used for: alert, changeView, dialog, popup, playSound, changedView"
+      },
+      "native": {}
+    },
+    {
+      "_id": "control.shopping_list",
+      "type": "state",
+      "common": {
+        "name": "Shopping list as json",
+        "type": "json",
+        "write": true,
+        "read": true,
+        "desc": "Used for shopping list card"
+      },
+      "native": {}
+    },
+    {
+      "_id": "control.alarm",
+      "type": "state",
+      "common": {
+        "name": "alarm",
+        "type": "boolean",
+        "write": true,
+        "read": true,
+        "desc": "Arm or disarm with code",
+        "def": false
+      },
+      "native": {
+        "alarm_code": 1234
+      }
+    },
+    {
+      "_id": "control.alarm_arm_state",
+      "type": "state",
+      "common": {
+        "name": "arm status",
+        "type": "number",
+        "write": true,
+        "read": true,
+        "desc": "Alarm arm status",
+        "def": 0,
+        "states": {
+          "0": "disarmed",
+          "1": "armed",
+          "2": "armed_home",
+          "3": "armed_away",
+          "4": "armed_night",
+          "5": "armed_custom_bypass",
+          "6": "pending",
+          "7": "arming",
+          "8": "disarming",
+          "9": "triggered",
+          "10": "arm_vacation"
+        }
+      },
+      "native": {
+        "alarm_code": 1234
+      }
+    },
+    {
+      "_id": "control.theme",
+      "type": "state",
+      "common": {
+        "name": "theme",
+        "type": "string",
+        "write": true,
+        "read": true,
+        "desc": "Change default theme during runtime",
+        "states": {
+          "default": "default"
+        }
+      }
+    },
+    {
+      "_id": "control.themeDark",
+      "type": "state",
+      "common": {
+        "name": "theme",
+        "type": "string",
+        "write": true,
+        "read": true,
+        "desc": "Change default dark theme during runtime",
+        "states": {
+          "default": "default"
+        }
+      }
+    },
+    {
+      "_id": "control.darkMode",
+      "type": "state",
+      "common": {
+        "name": "Dark Mode",
+        "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
+        "write": true,
+        "read": true,
+        "def": false
+      }
+    },
+    {
+      "_id": "notifications",
+      "type": "channel",
+      "common": {
+        "name": "notifications"
+      },
+      "native": {}
+    },
+    {
+      "_id": "notifications.list",
+      "type": "state",
+      "common": {
+        "name": "alarm",
+        "type": "json",
+        "write": true,
+        "read": true,
+        "desc": "List of notifications"
+      },
+      "native": {}
+    },
+    {
+      "_id": "notifications.add",
+      "type": "state",
+      "common": {
+        "name": "Add notification",
+        "type": "string",
+        "write": true,
+        "read": false,
+        "desc": "Add notification"
+      },
+      "native": {}
+    },
+    {
+      "_id": "notifications.clear",
+      "type": "state",
+      "common": {
+        "name": "Clear notification",
+        "type": "number",
+        "write": true,
+        "read": false,
+        "desc": "Clear notification by id or all if no id"
+      },
+      "native": {}
+    }
+  ]
 }

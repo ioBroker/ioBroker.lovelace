@@ -468,7 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.1 (2022-01-06)
 * (Garfonso) Fixed: Entity update in some cases.
 
 ### 2.1.0 (2022-01-06)
@@ -501,9 +501,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Add support for fan entity (makes fan card working).
 * (Garfonso) fix backwards compatibility for input_datetime attributes.
 * (Garfonso) fix airconditioner with power mode on mode update
-
-### 2.0.3 (2021-07-04)
-* (Garfonso) fix typo.
 
 ## License
 

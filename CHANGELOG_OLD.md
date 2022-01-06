@@ -1,4 +1,7 @@
 # Older Changes
+## 2.0.3 (2021-07-04)
+* (Garfonso) fix typo.
+
 ## 2.0.2 (2021-07-04)
 * (Garfonso) fixed: Date shift for weather forecast without date state.
 
