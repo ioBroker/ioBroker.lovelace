@@ -468,6 +468,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Added: support for new arm_vacation state.
+
 ### 2.0.7 (2022-01-06)
 * (Garfonso) Fix: possible crash while creating light entity
 * (Garfonso) Fix: possible crashes in binding support

@@ -519,6 +519,7 @@
                     "2": "armed_home",
                     "3": "armed_away",
                     "4": "armed_night",
+                    "10": "arm_vacation",
                     "5": "armed_custom_bypass",
                     "6": "pending",
                     "7": "arming",
