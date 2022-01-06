@@ -468,6 +468,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Fixed: Menu was broken in frontend.
+
 ### 2.1.1 (2022-01-06)
 * (Garfonso) Fixed: Entity update in some cases.
 
