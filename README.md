@@ -469,6 +469,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (Garfonso) Fixed: Entity update in some cases.
 
 ### 2.1.0 (2022-01-06)
 * (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).
