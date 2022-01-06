@@ -63,7 +63,7 @@
     "test:integration": "mocha test/integration --timeout 15000 --exit",
     "test": "npm run test:js && npm run test:package",
     "lint": "eslint",
-    "release": "release-script --addPlaceholder"
+    "release": "release-script"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.lovelace/issues"
