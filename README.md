@@ -475,6 +475,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Fix: tilt command was not correctly processed in ioBroker
 * (Garfonso) Fix: conversion issues in alarm control panel
 * (Garfonso) Fix: missed update if auto and manual entity were created from same ioBroker device
+* (Garfonso) Fixed: Warning on object change of manual entites
 * (Garfonso) Change: Subscribe ids for all config elements contain valid entity_ids (fixes tankerkoenig card and secondary-entity-row)
 * (Garfonso) Added: support for offline indicator (auto & manual) and online indicator
 * (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)
