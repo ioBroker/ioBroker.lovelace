@@ -468,7 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.0 (2022-01-06)
 * (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).
 * (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)
 
@@ -501,9 +501,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 2.0.3 (2021-07-04)
 * (Garfonso) fix typo.
-
-### 2.0.2 (2021-07-04)
-* (Garfonso) fixed: Date shift for weather forecast without date state.
 
 ## License
 
