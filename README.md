@@ -468,6 +468,8 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
 ### 2.1.0 (2022-01-06)
 * (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).
 * (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)
@@ -504,7 +506,7 @@ After that checkout modified version in `./build` folder. Then.
 
 ## License
 
-Copyright 2019-2021, bluefox <dogafox@gmail.com>
+Copyright 2019-2022, bluefox <dogafox@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
