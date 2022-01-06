@@ -457,7 +457,7 @@ After that checkout modified version in `./build` folder. Then.
 2. `git clone https://github.com/GermanBluefox/home-assistant-polymer.git` it is a fork of https://github.com/home-assistant/frontend.git, but some things are modified (see the file list earlier).
 3. `cd home-assistant-polymer`
 4. `git checkout master`
-5. `npm install`
+5. `yarn install`
 6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
 7. copy all files from `./build/home-assistant-polymer/hass_frontend` into `./hass_frontend` in this repo
 8. Start `gulp rename` task.
@@ -469,7 +469,8 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso) Added: support for new arm_vacation state.
+* (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).
+* (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)
 
 ### 2.0.7 (2022-01-06)
 * (Garfonso) Fix: possible crash while creating light entity
