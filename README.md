@@ -468,7 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.2 (2022-01-06)
 * (Garfonso) Fixed: Menu was broken in frontend.
 
 ### 2.1.1 (2022-01-06)
@@ -499,11 +499,6 @@ After that checkout modified version in `./build` folder. Then.
 * (algar42) translate russian characters to allowed charset in ids
 * (Garfonso) Add workaround for custom card upload issue with admin 5.
 * (Garfonso) fix history attributes with state and multiple attributes
-
-### 2.0.4 (2021-07-23)
-* (Garfonso) Add support for fan entity (makes fan card working).
-* (Garfonso) fix backwards compatibility for input_datetime attributes.
-* (Garfonso) fix airconditioner with power mode on mode update
 
 ## License
 

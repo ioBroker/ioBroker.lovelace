@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "news": {
+      "2.1.2": {
+        "en": "Fixed: Menu was broken in frontend.",
+        "de": "Behoben: Menü war im Frontend defekt.",
+        "ru": "Исправлено: меню было сломано во внешнем интерфейсе.",
+        "pt": "Corrigido: o menu estava quebrado no frontend.",
+        "nl": "Opgelost: menu was gebroken in frontend.",
+        "fr": "Corrigé : le menu était cassé dans le frontend.",
+        "it": "Risolto: il menu era rotto nel frontend.",
+        "es": "Corregido: el menú estaba roto en la interfaz.",
+        "pl": "Naprawiono: Menu było zepsute we frontendzie.",
+        "zh-cn": "修正：菜单在前端坏了。"
+      },
       "2.1.1": {
         "en": "Fixed: Entity update in some cases.",
         "de": "Behoben: Entity-Update in einigen Fällen.",
@@ -74,18 +86,6 @@
         "es": "Agregue soporte para la entidad de fan (hace que la tarjeta de fan funcione).\ncorrige la compatibilidad con versiones anteriores para los atributos input_datetime.\narreglar el aire acondicionado con el modo de energía en la actualización del modo",
         "pl": "Dodaj wsparcie dla encji fanów (sprawia, że karta kibica działa).\npoprawiono kompatybilność wsteczną atrybutów input_datetime.\nnapraw klimatyzator z trybem zasilania w trybie aktualizacji",
         "zh-cn": "添加对风扇实体的支持（使风扇卡工作）。\n修复 input_datetime 属性的向后兼容性。\n用电源模式修复空调模式更新"
-      },
-      "2.0.3": {
-        "en": "fix typo.",
-        "de": "Tippfehler beheben.",
-        "ru": "исправить опечатку.",
-        "pt": "corrigir erro de digitação.",
-        "nl": "typfout herstellen.",
-        "fr": "corriger une faute de frappe.",
-        "it": "correggere l'errore di battitura.",
-        "es": "corregir error tipográfico.",
-        "pl": "naprawić literówkę.",
-        "zh-cn": "修复错字。"
       }
     },
     "title": "Visualization with Lovelace-UI",
