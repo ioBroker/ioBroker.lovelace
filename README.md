@@ -468,7 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.7 (2022-01-06)
 * (Garfonso) Fix: possible crash while creating light entity
 * (Garfonso) Fix: possible crashes in binding support
 * (Garfonso) Fix: /state/ handler for files (repairs for example Sonos cover image)
@@ -500,9 +500,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 2.0.2 (2021-07-04)
 * (Garfonso) fixed: Date shift for weather forecast without date state.
-
-### 2.0.1 (2021-07-01)
-* (Garfonso) fixed: Zigbee lights (issue 222).
 
 ## License
 
