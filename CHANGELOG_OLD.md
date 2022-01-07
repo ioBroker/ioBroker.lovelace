@@ -1,4 +1,25 @@
 # Older Changes
+## 2.0.6 (2021-08-31)
+* (Garfonso) Add manual entity support for geo_location (inofficial currently)
+* (Garfonso) Fix binding for other things than val (like ts or lc).
+* (algar42) Add additional field for accuweather weather (and custom card)
+* (algar42) translate russian characters to allowed charset in ids
+* (Garfonso) Add workaround for custom card upload issue with admin 5.
+* (Garfonso) fix history attributes with state and multiple attributes
+
+## 2.0.4 (2021-07-23)
+* (Garfonso) Add support for fan entity (makes fan card working).
+* (Garfonso) fix backwards compatibility for input_datetime attributes.
+* (Garfonso) fix airconditioner with power mode on mode update
+
+## 2.0.3 (2021-07-04)
+* (Garfonso) fix typo.
+
+## 2.0.2 (2021-07-04)
+* (Garfonso) fixed: Date shift for weather forecast without date state.
+
+## 2.0.1 (2021-07-01)
+* (Garfonso) fixed: Zigbee lights (issue 222).
 
 ## 2.0.0 (2021-06-17)
 * (Garfonso) Changed: !Breaking! Battery warning is now binary_sensor instead of sensor (now ui sets icon and  translates ok)
@@ -48,7 +69,6 @@
 
 ## 1.3.3 (2020-11-19)
 * (Garfonso) Added/Fixed: Also subscribe states for custom:mini-graph-card and maybe others.
-
 
 ## 1.3.2 (2020-11-19)
 * (Garfonso) Fixed: Possible crash during device creation.
@@ -122,10 +142,10 @@
 * (Garfonso) added windowsTilt device type
 * (Garfonso) reworked friendly name for auto generated entities, allow space in name.
 * (Garfonso) use device_class feature for sensors (where applicable) -> results in translation features of lovelace being used.
-* (Garfonso) multiple fixes/additions to media player (like volume scaling, on/off support, shuffle support, stop support) 
+* (Garfonso) multiple fixes/additions to media player (like volume scaling, on/off support, shuffle support, stop support)
 
 ## 1.0.16 (2020-05-04)
-* (Apollon77) webserver initialization optimized again to prevent errors with invalid certificates 
+* (Apollon77) webserver initialization optimized again to prevent errors with invalid certificates
 
 ## 1.0.15 (2020-04-30)
 * (Apollon77) errors on webserver initialization are handled properly
@@ -144,7 +164,7 @@
 * (algar42)  Binary sensor added
 * (Garfonso) fixed manual dimmer 
 * (algar42)  fixed for duplicated states via websockets
-* (Garfonso) fixed handling of deleted objects 
+* (Garfonso) fixed handling of deleted objects
 
 ## 1.0.9 (2020-01-29)
 * (bluefox) Dimmer control was fixed

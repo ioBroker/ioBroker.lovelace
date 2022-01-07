@@ -457,7 +457,7 @@ After that checkout modified version in `./build` folder. Then.
 2. `git clone https://github.com/GermanBluefox/home-assistant-polymer.git` it is a fork of https://github.com/home-assistant/frontend.git, but some things are modified (see the file list earlier).
 3. `cd home-assistant-polymer`
 4. `git checkout master`
-5. `npm install`
+5. `yarn install`
 6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
 7. copy all files from `./build/home-assistant-polymer/hass_frontend` into `./hass_frontend` in this repo
 8. Start `gulp rename` task.
@@ -468,31 +468,36 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### 2.0.6 (2021-08-31)
-* (Garfonso) Add manual entity support for geo_location (inofficial currently)
-* (Garfonso) Fix binding for other things than val (like ts or lc).
-* (algar42) Add additional field for accuweather weather (and custom card)
-* (algar42) translate russian characters to allowed charset in ids
-* (Garfonso) Add workaround for custom card upload issue with admin 5.
-* (Garfonso) fix history attribues with state and multiple attributes
+### 2.1.3 (2022-01-07)
+* (Garfonso) Fixed: remove backup of old frontend (sorry)
 
-### 2.0.4 (2021-07-23)
-* (Garfonso) Add support for fan entity (makes fan card working).
-* (Garfonso) fix backwards compatibility for input_datetime attributes.
-* (Garfonso) fix airconditioner with power mode on mode update
+### 2.1.2 (2022-01-06)
+* (Garfonso) Fixed: Menu was broken in frontend.
 
-### 2.0.3 (2021-07-04)
-* (Garfonso) fix typo.
+### 2.1.1 (2022-01-06)
+* (Garfonso) Fixed: Entity update in some cases.
 
-### 2.0.2 (2021-07-04)
-* (Garfonso) fixed: Date shift for weather forecast without date state.
+### 2.1.0 (2022-01-06)
+* (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).
+* (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)
 
-### 2.0.1 (2021-07-01)
-* (Garfonso) fixed: Zigbee lights (issue 222).
+### 2.0.7 (2022-01-06)
+* (Garfonso) Fix: possible crash while creating light entity
+* (Garfonso) Fix: possible crashes in binding support
+* (Garfonso) Fix: /state/ handler for files (repairs for example Sonos cover image)
+* (Garfonso) Fix: tilt command was not correctly processed in ioBroker
+* (Garfonso) Fix: conversion issues in alarm control panel
+* (Garfonso) Fix: missed update if auto and manual entity were created from same ioBroker device
+* (Garfonso) Fixed: Warning on object change of manual entites
+* (Garfonso) Change: Subscribe ids for all config elements contain valid entity_ids (fixes tankerkoenig card and secondary-entity-row)
+* (Garfonso) Added: support for offline indicator (auto & manual) and online indicator
+* (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)
+* (Garfonso) Added: more devices classes with custom settings
+* (Garfonso) Added: Support for calendar (only ical, use custom settings to create calendar entity on ical.*.data.table).
 
 ## License
 
-Copyright 2019-2021, bluefox <dogafox@gmail.com>
+Copyright 2019-2022, bluefox <dogafox@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,0 +1,4608 @@
+{
+  "musiccast.0.RX-V585_06CBF7D3": {
+    "type": "device",
+    "common": {
+      "name": "MusicCast RX-V585 Wohnzimmer",
+      "role": "device"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652848,
+    "_id": "musiccast.0.RX-V585_06CBF7D3",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main": {
+    "type": "channel",
+    "common": {
+      "name": "MusicCast Zone RX-V585",
+      "role": "sensor",
+      "enums": [
+        {
+          "_id": "enum.functions.receiver",
+          "common": {
+            "name": {
+              "en": "Receiver",
+              "ru": "Приставка",
+              "de": "Receiver",
+              "fr": "Destinataire",
+              "it": "Ricevitore",
+              "nl": "Ontvanger",
+              "pl": "Odbiorca",
+              "pt": "Recebedor",
+              "es": "Receptor",
+              "zh-cn": "接收者"
+            },
+            "enabled": true,
+            "color": false,
+            "desc": "",
+            "icon": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTI4IDEyOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9ImN1cnJlbnRDb2xvciI+CiAgICAgICAgPHBhdGggZD0ibTk0LjcyNyA3My43MDhhNi43NSA2Ljc1IDAgMSAwIDYuNzUgNi43NSA2Ljc1NiA2Ljc1NiAwIDAgMCAtNi43NS02Ljc1em0wIDEwYTMuMjUgMy4yNSAwIDEgMSAzLjI1LTMuMjUgMy4yNTQgMy4yNTQgMCAwIDEgLTMuMjUgMy4yNXoiLz4KICAgICAgICA8cGF0aCBkPSJtNzMuMDgxIDczLjcwOGE2Ljc1IDYuNzUgMCAxIDAgNi43NSA2Ljc1IDYuNzU3IDYuNzU3IDAgMCAwIC02Ljc1LTYuNzV6bTAgMTBhMy4yNSAzLjI1IDAgMSAxIDMuMjUtMy4yNSAzLjI1NCAzLjI1NCAwIDAgMSAtMy4yNSAzLjI1eiIvPgogICAgICAgIDxjaXJjbGUgY3g9IjY0Ljk2NiIgY3k9IjQ4LjAyMSIgcj0iMyIvPgogICAgICAgIDxjaXJjbGUgY3g9Ijc3LjU5MSIgY3k9IjQ4LjAyMSIgcj0iMyIvPgogICAgICAgIDxjaXJjbGUgY3g9IjkwLjIxNiIgY3k9IjQ4LjAyMSIgcj0iMyIvPgogICAgICAgIDxjaXJjbGUgY3g9IjEwMi44NDEiIGN5PSI0OC4wMjEiIHI9IjMiLz4KICAgICAgICA8cGF0aCBkPSJtMTIxLjUgMzMuNWgtMTE1YTEuNzUxIDEuNzUxIDAgMCAwIC0xLjc1IDEuNzV2NTcuNWExLjc1MSAxLjc1MSAwIDAgMCAxLjc1IDEuNzVoMTUuOTQydjguMjVhMS43NTEgMS43NTEgMCAwIDAgMS43NSAxLjc1aDEwYTEuNzUgMS43NSAwIDAgMCAxLjc1LTEuNzV2LTguMjVoNTYuMTE2djguMjVhMS43NSAxLjc1IDAgMCAwIDEuNzUgMS43NWgxMGExLjc1MSAxLjc1MSAwIDAgMCAxLjc1LTEuNzV2LTguMjVoMTUuOTQyYTEuNzUxIDEuNzUxIDAgMCAwIDEuNzUtMS43NXYtNTcuNWExLjc1MSAxLjc1MSAwIDAgMCAtMS43NS0xLjc1em0tODkuMDU4IDY3LjVoLTYuNXYtNi41aDYuNXptNjkuNjE2IDBoLTYuNXYtNi41aDYuNXptMTcuNjkyLTEwaC0xMTEuNXYtNTRoMTExLjV6Ii8+CiAgICAgICAgPHBhdGggZD0ibTMyLjY5MiA3NC4yNWExMC4yNSAxMC4yNSAwIDEgMCAtMTAuMjUtMTAuMjUgMTAuMjYxIDEwLjI2MSAwIDAgMCAxMC4yNSAxMC4yNXptLTEuNzUtMTYuNzYydjQuMDEyYTEuNzUgMS43NSAwIDAgMCAzLjUgMHYtNC4wMTJhNi43NSA2Ljc1IDAgMSAxIC0zLjUgMHoiLz4KICAgICAgICA8cGF0aCBkPSJtMzIuNjkyIDQ5Ljk1OGExLjc0OSAxLjc0OSAwIDAgMCAxLjc1LTEuNzV2LTNhMS43NSAxLjc1IDAgMCAwIC0zLjUgMHYzYTEuNzUgMS43NSAwIDAgMCAxLjc1IDEuNzV6Ii8+CiAgICAgICAgPHBhdGggZD0ibTM4Ljc5MiA1MS4zNTNhMS43NSAxLjc1IDAgMCAwIDIuMzM3LS44MTZsMS4zLTIuN2ExLjc1IDEuNzUgMCAwIDAgLTMuMTUyLTEuNTJsLTEuMyAyLjdhMS43NSAxLjc1IDAgMCAwIC44MTUgMi4zMzZ6Ii8+CiAgICAgICAgPHBhdGggZD0ibTQ1LjA1MiA1NS45MTlhMS43NDggMS43NDggMCAwIDAgMS4wODgtLjM4bDIuMzQ4LTEuODY4YTEuNzUgMS43NSAwIDAgMCAtMi4xNzktMi43MzlsLTIuMzQ4IDEuODY4YTEuNzUgMS43NSAwIDAgMCAxLjA5MSAzLjEyeiIvPgogICAgICAgIDxwYXRoIGQ9Im0yNC4yNTYgNTAuNTM3YTEuNzUgMS43NSAwIDEgMCAzLjE1Mi0xLjUyMWwtMS4zLTIuN2ExLjc1IDEuNzUgMCAwIDAgLTMuMTUyIDEuNTJ6Ii8+CiAgICAgICAgPHBhdGggZD0ibTE2LjkgNTMuNjcxIDIuMzQ5IDEuODY4YTEuNzUgMS43NSAwIDAgMCAyLjE3OC0yLjc0bC0yLjM0OC0xLjg2N2ExLjc1IDEuNzUgMCAxIDAgLTIuMTc5IDIuNzM5eiIvPgogICAgICAgIDxwYXRoIGQ9Im01OC44MDggNzAuMjkyaDUwLjE5MmExLjc1MSAxLjc1MSAwIDAgMCAxLjc1LTEuNzV2LTEwYTEuNzUgMS43NSAwIDAgMCAtMS43NS0xLjc1aC01MC4xOTJhMS43NDkgMS43NDkgMCAwIDAgLTEuNzUgMS43NXYxMGExLjc1IDEuNzUgMCAwIDAgMS43NSAxLjc1em0xLjc1LTEwaDQ2LjY5MnY2LjVoLTQ2LjY5MnoiLz4KICAgICAgICA8cGF0aCBkPSJtMTYuMTM1IDg3LjIwOGgzMy4xMTVhMS43NSAxLjc1IDAgMCAwIDAtMy41aC0zMy4xMTVhMS43NSAxLjc1IDAgMCAwIDAgMy41eiIvPgogICAgPC9nPgo8L3N2Zz4="
+          },
+          "native": {},
+          "type": "enum"
+        },
+        {
+          "_id": "enum.rooms.ground_floor.living_area",
+          "common": {
+            "name": {
+              "en": "Living Area",
+              "ru": "Жилая Площадь",
+              "de": "Wohnbereich",
+              "fr": "Salon",
+              "it": "Zona Giorno",
+              "nl": "Living Area",
+              "pl": "Powierzchnia Mieszkalna",
+              "pt": "Sala-De-Estar",
+              "es": "Sala De Estar",
+              "zh-cn": "生活区域"
+            },
+            "enabled": true,
+            "color": false,
+            "desc": "",
+            "icon": "data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHdpZHRoPSI1MTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZyBmaWxsPSJjdXJyZW50Q29sb3IiPgogICAgICAgIDxwYXRoIGQ9Im00OTQuNSAyNzcuNjY3aC01LjV2LTM2LjVjMC0xNS4xNjQtMTIuMzM2LTI3LjUtMjcuNS0yNy41aC0xMTBjLTcuODc1IDAtMTQuOTgyIDMuMzMyLTIwIDguNjU1LTUuMDE4LTUuMzIyLTEyLjEyNS04LjY1NS0yMC04LjY1NWgtMTEwYy03Ljg3NSAwLTE0Ljk4MiAzLjMzMi0yMCA4LjY1NS01LjAxOC01LjMyMi0xMi4xMjUtOC42NTUtMjAtOC42NTVoLTQwLjVjLTQuMTQyIDAtNy41IDMuMzU4LTcuNSA3LjVzMy4zNTggNy41IDcuNSA3LjVoNDAuNWM2Ljg5MyAwIDEyLjUgNS42MDcgMTIuNSAxMi41djc3LjAxOGMtMy43NTMtMS45MjQtOC0zLjAxOC0xMi41LTMuMDE4aC0xMDEuNXYtMjBjMC05LjY0OS03Ljg1MS0xNy41LTE3LjUtMTcuNWgtMy41di0zNi41YzAtNi44OTMgNS42MDctMTIuNSAxMi41LTEyLjVoMzQuNWM0LjE0MiAwIDcuNS0zLjM1OCA3LjUtNy41cy0zLjM1OC03LjUtNy41LTcuNWgtMzQuNWMtMTUuMTY0IDAtMjcuNSAxMi4zMzYtMjcuNSAyNy41djM2LjVoLTYuNWMtOS42NDkgMC0xNy41IDcuODUxLTE3LjUgMTcuNXY0Mi41YzAgNC4xNDIgMy4zNTggNy41IDcuNSA3LjVzNy41LTMuMzU4IDcuNS03LjV2LTQyLjVjMC0xLjM3OCAxLjEyMi0yLjUgMi41LTIuNWgyNWMxLjM3OCAwIDIuNSAxLjEyMiAyLjUgMi41djE0MC41aC0yNy41Yy0xLjM3OCAwLTIuNS0xLjEyMi0yLjUtMi41di02MC41YzAtNC4xNDItMy4zNTgtNy41LTcuNS03LjVzLTcuNSAzLjM1OC03LjUgNy41djYwLjVjMCA5LjY0OSA3Ljg1MSAxNy41IDE3LjUgMTcuNWgyNy41djE0LjY2N2MwIDYuODkzIDUuNjA3IDEyLjUgMTIuNSAxMi41aDI1YzYuODkzIDAgMTIuNS01LjYwNyAxMi41LTEyLjV2LTE0LjY2N2gzMjJ2MTQuNjY3YzAgNi44OTMgNS42MDcgMTIuNSAxMi41IDEyLjVoMjVjNi44OTMgMCAxMi41LTUuNjA3IDEyLjUtMTIuNXYtMTQuNjY3aDI3LjVjOS42NDkgMCAxNy41LTcuODUxIDE3LjUtMTcuNXYtMTM4YzAtOS42NS03Ljg1MS0xNy41LTE3LjUtMTcuNXptLTE0My00OWgxMTBjNi44OTMgMCAxMi41IDUuNjA3IDEyLjUgMTIuNXYzNi41aC00LjVjLTkuNjQ5IDAtMTcuNSA3Ljg1MS0xNy41IDE3LjV2MjBoLTEwMC41Yy00LjUgMC04Ljc0NyAxLjA5My0xMi41IDMuMDE4di03Ny4wMThjMC02Ljg5MyA1LjYwNy0xMi41IDEyLjUtMTIuNXptLTI5MS41IDIwN3YtMTVoMzI2YzQuMTQyIDAgNy41LTMuMzU4IDcuNS03LjVzLTMuMzU4LTcuNS03LjUtNy41aC0zMjZ2LTE1LjVoMTAxLjVjNy44NzUgMCAxNC45ODItMy4zMzIgMjAtOC42NTUgNS4wMTggNS4zMjIgMTIuMTI1IDguNjU1IDIwIDguNjU1aDExMGM3Ljg3NSAwIDE0Ljk4Mi0zLjMzMiAyMC04LjY1NSA1LjAxOCA1LjMyMiAxMi4xMjUgOC42NTUgMjAgOC42NTVoMTAwLjV2MTUuNWgtMzFjLTQuMTQyIDAtNy41IDMuMzU4LTcuNSA3LjVzMy4zNTggNy41IDcuNSA3LjVoMzF2MTV6bTM5Mi02MC41aC0xMDAuNWMtNi44OTMgMC0xMi41LTUuNjA3LTEyLjUtMTIuNXYtMjBjMC02Ljg5MyA1LjYwNy0xMi41IDEyLjUtMTIuNWgxMDAuNXptLTEyOC0xMi41YzAgNi44OTMtNS42MDcgMTIuNS0xMi41IDEyLjVoLTExMGMtNi44OTMgMC0xMi41LTUuNjA3LTEyLjUtMTIuNXYtMjBjMC02Ljg5MyA1LjYwNy0xMi41IDEyLjUtMTIuNWgxMTBjNi44OTMgMCAxMi41IDUuNjA3IDEyLjUgMTIuNXptLTEyMi41LTEzNGgxMTBjNi44OTMgMCAxMi41IDUuNjA3IDEyLjUgMTIuNXY3Ny4wMThjLTMuNzUzLTEuOTI0LTgtMy4wMTgtMTIuNS0zLjAxOGgtMTEwYy00LjUgMC04Ljc0NyAxLjA5My0xMi41IDMuMDE4di03Ny4wMThjMC02Ljg5MyA1LjYwNy0xMi41IDEyLjUtMTIuNXptLTQwIDEwMS41YzYuODkzIDAgMTIuNSA1LjYwNyAxMi41IDEyLjV2MjBjMCA2Ljg5My01LjYwNyAxMi41LTEyLjUgMTIuNWgtMTAxLjV2LTQ1em0tODEuNSAxMzIuNjY2aC0yMHYtMTIuMTY3aDIwem0zNTIgMHYtMTIuMTY3aDIwdjEyLjE2N3ptNjUtMjkuNjY2YzAgMS4zNzgtMS4xMjIgMi41LTIuNSAyLjVoLTI3LjV2LTE0MC41YzAtMS4zNzggMS4xMjItMi41IDIuNS0yLjVoMjVjMS4zNzggMCAyLjUgMS4xMjIgMi41IDIuNXoiLz4KICAgICAgICA8cGF0aCBkPSJtNjIgMTczLjY2N2g4OWM2Ljg5MyAwIDEyLjUtNS42MDcgMTIuNS0xMi41di01NmMwLTYuODkzLTUuNjA3LTEyLjUtMTIuNS0xMi41aC04OWMtNi44OTMgMC0xMi41IDUuNjA3LTEyLjUgMTIuNXY1NmMwIDYuODkyIDUuNjA3IDEyLjUgMTIuNSAxMi41em0yLjUtNjZoODR2NTFoLTg0eiIvPgogICAgICAgIDxwYXRoIGQ9Im0zNjIgMTczLjY2N2g4OWM2Ljg5MyAwIDEyLjUtNS42MDcgMTIuNS0xMi41di01NmMwLTYuODkzLTUuNjA3LTEyLjUtMTIuNS0xMi41aC04OWMtNi44OTMgMC0xMi41IDUuNjA3LTEyLjUgMTIuNXY1NmMwIDYuODkyIDUuNjA3IDEyLjUgMTIuNSAxMi41em0yLjUtNjZoODR2NTFoLTg0eiIvPgogICAgICAgIDxwYXRoIGQ9Im0yMDAuNDkgMTMwLjE2N2gxMTIuMDJjNi44ODcgMCAxMi40OS01LjYwMyAxMi40OS0xMi40OXYtMTYuNTQ5YzAtNC4xNDItMy4zNTgtNy41LTcuNS03LjVzLTcuNSAzLjM1OC03LjUgNy41djE0LjAzOWgtMTA3di02NmgxMDd2MTYuOTYxYzAgNC4xNDIgMy4zNTggNy41IDcuNSA3LjVzNy41LTMuMzU4IDcuNS03LjV2LTE5LjQ3MmMwLTYuODg3LTUuNjAzLTEyLjQ5LTEyLjQ5LTEyLjQ5aC0xMTIuMDJjLTYuODg3IDAtMTIuNDkgNS42MDMtMTIuNDkgMTIuNDl2NzEuMDIxYzAgNi44ODYgNS42MDMgMTIuNDkgMTIuNDkgMTIuNDl6Ii8+CiAgICAgICAgPHBhdGggZD0ibTIzMS44ODEgMjc4LjEwMmM3LjM0OSA0LjgyOCAxMy41MjIgMTEuMDAyIDE4LjM1MSAxOC4zNTEgMS4zODcgMi4xMSAzLjc0MyAzLjM4MSA2LjI2OCAzLjM4MXM0Ljg4MS0xLjI3MSA2LjI2OC0zLjM4MWM0LjgyOC03LjM0OSAxMS4wMDItMTMuNTIyIDE4LjM1MS0xOC4zNTEgMi4xMS0xLjM4NyAzLjM4MS0zLjc0MyAzLjM4MS02LjI2OHMtMS4yNzEtNC44ODEtMy4zODEtNi4yNjhjLTcuMzQ5LTQuODI4LTEzLjUyMi0xMS4wMDItMTguMzUxLTE4LjM1MS0xLjM4Ny0yLjExLTMuNzQzLTMuMzgxLTYuMjY4LTMuMzgxcy00Ljg4MSAxLjI3MS02LjI2OCAzLjM4MWMtNC44MjggNy4zNDktMTEuMDAyIDEzLjUyMi0xOC4zNTEgMTguMzUxLTIuMTEgMS4zODctMy4zODEgMy43NDMtMy4zODEgNi4yNjhzMS4yNzEgNC44ODEgMy4zODEgNi4yNjh6bTI0LjYxOS0xNC4zNDVjMi40OTQgMi44ODcgNS4xODkgNS41ODMgOC4wNzYgOC4wNzYtMi44ODcgMi40OTQtNS41ODMgNS4xODktOC4wNzYgOC4wNzYtMi40OTQtMi44ODctNS4xODktNS41ODMtOC4wNzYtOC4wNzYgMi44ODctMi40OTMgNS41ODItNS4xODggOC4wNzYtOC4wNzZ6Ii8+CiAgICAgICAgPHBhdGggZD0ibTM4MS44ODEgMjc4LjEwMmM3LjM0OSA0LjgyOCAxMy41MjIgMTEuMDAyIDE4LjM1MSAxOC4zNTEgMS4zODcgMi4xMSAzLjc0MyAzLjM4MSA2LjI2OCAzLjM4MXM0Ljg4MS0xLjI3MSA2LjI2OC0zLjM4MWM0LjgyOC03LjM0OSAxMS4wMDItMTMuNTIyIDE4LjM1MS0xOC4zNTEgMi4xMS0xLjM4NyAzLjM4MS0zLjc0MyAzLjM4MS02LjI2OHMtMS4yNzEtNC44ODEtMy4zODEtNi4yNjhjLTcuMzQ5LTQuODI4LTEzLjUyMi0xMS4wMDItMTguMzUxLTE4LjM1MS0xLjM4Ny0yLjExLTMuNzQzLTMuMzgxLTYuMjY4LTMuMzgxcy00Ljg4MSAxLjI3MS02LjI2OCAzLjM4MWMtNC44MjggNy4zNDktMTEuMDAyIDEzLjUyMi0xOC4zNTEgMTguMzUxLTIuMTEgMS4zODctMy4zODEgMy43NDMtMy4zODEgNi4yNjhzMS4yNzEgNC44ODEgMy4zODEgNi4yNjh6bTI0LjYxOS0xNC4zNDVjMi40OTQgMi44ODcgNS4xODkgNS41ODMgOC4wNzYgOC4wNzYtMi44ODcgMi40OTQtNS41ODMgNS4xODktOC4wNzYgOC4wNzYtMi40OTQtMi44ODctNS4xODktNS41ODMtOC4wNzYtOC4wNzYgMi44ODctMi40OTMgNS41ODItNS4xODggOC4wNzYtOC4wNzZ6Ii8+CiAgICAgICAgPHBhdGggZD0ibTEwMC4yMzIgMjQ3LjIxNWMtNC44MjggNy4zNDktMTEuMDAyIDEzLjUyMi0xOC4zNTEgMTguMzUxLTIuMTEgMS4zODctMy4zODEgMy43NDMtMy4zODEgNi4yNjhzMS4yNzEgNC44ODEgMy4zODEgNi4yNjhjNy4zNDkgNC44MjggMTMuNTIyIDExLjAwMiAxOC4zNTEgMTguMzUxIDEuMzg3IDIuMTEgMy43NDMgMy4zODEgNi4yNjggMy4zODFzNC44ODEtMS4yNzEgNi4yNjgtMy4zODFjNC44MjgtNy4zNDkgMTEuMDAyLTEzLjUyMiAxOC4zNTEtMTguMzUxIDIuMTEtMS4zODcgMy4zODEtMy43NDMgMy4zODEtNi4yNjhzLTEuMjcxLTQuODgxLTMuMzgxLTYuMjY4Yy03LjM0OS00LjgyOC0xMy41MjItMTEuMDAyLTE4LjM1MS0xOC4zNTEtMS4zODctMi4xMS0zLjc0My0zLjM4MS02LjI2OC0zLjM4MXMtNC44ODEgMS4yNy02LjI2OCAzLjM4MXptMTQuMzQ0IDI0LjYxOGMtMi44ODcgMi40OTQtNS41ODMgNS4xODktOC4wNzYgOC4wNzYtMi40OTQtMi44ODctNS4xODktNS41ODMtOC4wNzYtOC4wNzYgMi44ODctMi40OTQgNS41ODMtNS4xODkgOC4wNzYtOC4wNzYgMi40OTQgMi44ODggNS4xODkgNS41ODMgOC4wNzYgOC4wNzZ6Ii8+CiAgICA8L2c+Cjwvc3ZnPg=="
+          },
+          "native": {},
+          "type": "enum"
+        }
+      ]
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653876,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.act_vol_mode": {
+    "type": "state",
+    "common": {
+      "name": "Actual Volume Mode",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": [
+        "db",
+        "numeric"
+      ],
+      "role": "text",
+      "desc": "Actual Volume Mode"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653884,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.act_vol_mode",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.act_vol_unit": {
+    "type": "state",
+    "common": {
+      "name": "Actual Volume Unit",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "Actual Volume Unit"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653884,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.act_vol_unit",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.act_vol_val": {
+    "type": "state",
+    "common": {
+      "name": "Actual Volume db",
+      "type": "number",
+      "min": -80.5,
+      "max": 16.5,
+      "read": true,
+      "write": true,
+      "role": "level.volume",
+      "desc": "State and Control of Volume db"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653884,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.act_vol_val",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.actual_volume_mode_list": {
+    "type": "state",
+    "common": {
+      "name": "Actual volume mode options",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Actual volume mode options"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653883,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.actual_volume_mode_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.add_to_group": {
+    "type": "state",
+    "common": {
+      "name": "MC Link add client",
+      "type": "string",
+      "read": false,
+      "write": true,
+      "role": "text",
+      "desc": "Add a Zone to MClink distribution"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653881,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.add_to_group",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.bass": {
+    "type": "state",
+    "common": {
+      "name": "bass",
+      "type": "number",
+      "min": -12,
+      "max": 12,
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "bass"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653878,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.bass",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.client_list": {
+    "type": "state",
+    "common": {
+      "name": "MC Link client list",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "MC Link client list"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653881,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.client_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.contents_display": {
+    "type": "state",
+    "common": {
+      "name": "contents_display",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "contents_display"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653879,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.contents_display",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.dialogue_level": {
+    "type": "state",
+    "common": {
+      "name": "dialogue_level",
+      "type": "number",
+      "min": 0,
+      "max": 3,
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "dialogue_level"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653878,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.dialogue_level",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.dialogue_lift": {
+    "type": "state",
+    "common": {
+      "name": "dialogue_lift",
+      "type": "number",
+      "min": 0,
+      "max": 5,
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "dialogue_lift"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653878,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.dialogue_lift",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.direct": {
+    "type": "state",
+    "common": {
+      "name": "direct",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "button",
+      "desc": "direct"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653877,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.direct",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.disable_flags": {
+    "type": "state",
+    "common": {
+      "name": "disable_flags",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "level",
+      "desc": "disable_flags"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653876,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.disable_flags",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.distr_state": {
+    "type": "state",
+    "common": {
+      "name": "MC Link distribution start/stop",
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "switch",
+      "desc": "Start/stop MC Link distribution"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653882,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.distr_state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enable",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enable"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653880,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.enhancer": {
+    "type": "state",
+    "common": {
+      "name": "enhancer",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "button",
+      "desc": "enhancer"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653877,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.enhancer",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.getStatus": {
+    "type": "state",
+    "common": {
+      "name": "Feedback of getStatus",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Feedback of getStatus"
+    },
+    "native": {},
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.getStatus",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1630615122219
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.group_id": {
+    "type": "state",
+    "common": {
+      "name": "MC Link group ID",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "MC Link group ID"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653880,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.group_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.group_name": {
+    "type": "state",
+    "common": {
+      "name": "MC Link group name",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "MC Link group name"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653880,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.group_name",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.input": {
+    "type": "state",
+    "common": {
+      "name": "Input selection",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": [
+        "napster",
+        "spotify",
+        "qobuz",
+        "tidal",
+        "deezer",
+        "amazon_music",
+        "alexa",
+        "airplay",
+        "mc_link",
+        "server",
+        "net_radio",
+        "bluetooth",
+        "usb",
+        "tuner",
+        "hdmi1",
+        "hdmi2",
+        "hdmi3",
+        "hdmi4",
+        "av1",
+        "av2",
+        "av3",
+        "audio1",
+        "audio2",
+        "audio3",
+        "aux"
+      ],
+      "role": "text",
+      "desc": "Input selection"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653879,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.input",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.input_list": {
+    "type": "state",
+    "common": {
+      "name": "list of inputs",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "list of inputs"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653879,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.input_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.link_audio_delay": {
+    "type": "state",
+    "common": {
+      "name": "link_audio_delay",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": [
+        "audio_sync",
+        "balanced",
+        "lip_sync"
+      ],
+      "role": "text",
+      "desc": "link_audio_delay"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653882,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.link_audio_delay",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.link_audio_delay_list": {
+    "type": "state",
+    "common": {
+      "name": "link_audio_delay_list",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "link_audio_delay_list"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653882,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.link_audio_delay_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.link_control": {
+    "type": "state",
+    "common": {
+      "name": "link control selection",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": [
+        "speed",
+        "standard",
+        "stability"
+      ],
+      "role": "text",
+      "desc": "link control selection"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653879,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.link_control",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.link_control_list": {
+    "type": "state",
+    "common": {
+      "name": "link control options",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "link control options"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653879,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.link_control_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.max_volume": {
+    "type": "state",
+    "common": {
+      "name": "max Volume",
+      "type": "number",
+      "max": 161,
+      "read": true,
+      "write": false,
+      "role": "level",
+      "desc": "max Volume"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653877,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.max_volume",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.mute": {
+    "type": "state",
+    "common": {
+      "name": "Mute",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "media.mute",
+      "desc": "Mute"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653877,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.mute",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.power": {
+    "type": "state",
+    "common": {
+      "name": "Power ON/OFF(Standby)",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "value",
+      "desc": "Power ON/OFF(Standby)"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653877,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.power",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.remove_from_group": {
+    "type": "state",
+    "common": {
+      "name": "MC Link remove client",
+      "type": "string",
+      "read": false,
+      "write": true,
+      "role": "text",
+      "desc": "Remove a Zone from MClink distribution"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653881,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.remove_from_group",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.role": {
+    "type": "state",
+    "common": {
+      "name": "MC Link group role",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "MC Link group role"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653880,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.role",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.scene_num": {
+    "type": "state",
+    "common": {
+      "name": "scene #",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "scene #"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653879,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.scene_num",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.server_zone": {
+    "type": "state",
+    "common": {
+      "name": "MC Link server zone",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "MC Link server zone"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653881,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.server_zone",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.sleep": {
+    "type": "state",
+    "common": {
+      "name": "Sleep Timer",
+      "type": "number",
+      "read": true,
+      "write": true,
+      "min": 0,
+      "max": 120,
+      "role": "level",
+      "desc": "Sleep Timer"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653877,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.sleep",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.sound_program": {
+    "type": "state",
+    "common": {
+      "name": "Sound Program selection",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": [
+        "munich",
+        "vienna",
+        "chamber",
+        "cellar_club",
+        "roxy_theatre",
+        "bottom_line",
+        "sports",
+        "action_game",
+        "roleplaying_game",
+        "music_video",
+        "standard",
+        "spectacle",
+        "sci-fi",
+        "adventure",
+        "drama",
+        "mono_movie",
+        "2ch_stereo",
+        "7ch_stereo",
+        "surr_decoder",
+        "straight"
+      ],
+      "role": "text",
+      "desc": "Sound Program selection"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653883,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.sound_program",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.sound_program_list": {
+    "type": "state",
+    "common": {
+      "name": "Sound Program options",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Sound Program"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653882,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.sound_program_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.subwoofer_volume": {
+    "type": "state",
+    "common": {
+      "name": "subwoofer_volume",
+      "type": "number",
+      "min": -12,
+      "max": 12,
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "subwoofer_volume"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653879,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.subwoofer_volume",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.surr_decoder_type": {
+    "type": "state",
+    "common": {
+      "name": "Surround selection",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": [
+        "toggle",
+        "auto",
+        "dolby_surround",
+        "dts_neural_x",
+        "dts_neo6_cinema",
+        "dts_neo6_music"
+      ],
+      "role": "text",
+      "desc": "Surround selection"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653883,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.surr_decoder_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.surr_decoder_type_list": {
+    "type": "state",
+    "common": {
+      "name": "Surround options",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Surround options"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653883,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.surr_decoder_type_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.tone_control_mode_list": {
+    "type": "state",
+    "common": {
+      "name": "Tone Control Mode options",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Tone Control Mode options"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653878,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.tone_control_mode_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.tone_mode": {
+    "type": "state",
+    "common": {
+      "name": "Tone control mode",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "value": [
+        "manual"
+      ],
+      "role": "text",
+      "desc": "Tone control mode"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653878,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.tone_mode",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.treble": {
+    "type": "state",
+    "common": {
+      "name": "treble",
+      "type": "number",
+      "min": -12,
+      "max": 12,
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "treble"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653878,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.treble",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.main.volume": {
+    "type": "state",
+    "common": {
+      "name": "Volume",
+      "type": "number",
+      "min": 0,
+      "max": 161,
+      "read": true,
+      "write": true,
+      "role": "level.volume",
+      "desc": "State and Control of Volume"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653876,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.main.volume",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb": {
+    "type": "channel",
+    "common": {
+      "name": "MusicCast NetUSB RX-V585",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652850,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.album": {
+    "type": "state",
+    "common": {
+      "name": "album",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "album"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652853,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.album",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.albumart_url": {
+    "type": "state",
+    "common": {
+      "name": "albumart url",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "albumart url"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652854,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.albumart_url",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.artist": {
+    "type": "state",
+    "common": {
+      "name": "artist",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "artist"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652853,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.artist",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.attribute": {
+    "type": "state",
+    "common": {
+      "name": "service attribute",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value",
+      "desc": "service attribute"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652856,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.attribute",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.auto_stopped": {
+    "type": "state",
+    "common": {
+      "name": "automatically stopped",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "value",
+      "desc": "automatically stopped"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652856,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.auto_stopped",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.getPlayInfo": {
+    "type": "state",
+    "common": {
+      "name": "Feedback of getPlayInfo",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Feedback of getPlayInfo"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652850,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.getPlayInfo",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.input": {
+    "type": "state",
+    "common": {
+      "name": "active input netusb",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "active input on netusb"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652854,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.input",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.next": {
+    "type": "state",
+    "common": {
+      "name": "next",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "button.next",
+      "desc": "next"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652851,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.next",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.playPause": {
+    "type": "state",
+    "common": {
+      "name": "play",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "button.play",
+      "desc": "play"
+    },
+    "native": {},
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.playPause",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1630653423422
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.play_queue_type": {
+    "type": "state",
+    "common": {
+      "name": "queue type netusb",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "queue type netusb"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652854,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.play_queue_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.play_time": {
+    "type": "state",
+    "common": {
+      "name": "played  time",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "unit": "s",
+      "role": "value",
+      "desc": "played time"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652854,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.play_time",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.playback": {
+    "type": "state",
+    "common": {
+      "name": "playback status",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "playback status"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652851,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.playback",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.preset_info": {
+    "type": "state",
+    "common": {
+      "name": "netusb favourites",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "netusb favourites"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652855,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.preset_info",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.presetrecallnumber": {
+    "type": "state",
+    "common": {
+      "name": "recall preset number",
+      "type": "number",
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "recall preset number"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652855,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.presetrecallnumber",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.prev": {
+    "type": "state",
+    "common": {
+      "name": "prev",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "button.prev",
+      "desc": "next"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652852,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.prev",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.recent_info": {
+    "type": "state",
+    "common": {
+      "name": "netusb playback history",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "netusb playback history"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652855,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.recent_info",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.repeat": {
+    "type": "state",
+    "common": {
+      "name": "repeat toggle button",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "button",
+      "desc": "repeat toggle button"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652852,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.repeat",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.repeat_available": {
+    "type": "state",
+    "common": {
+      "name": "netusb array repeat",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "netusb array repeat"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652906,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.repeat_available",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.repeat_stat": {
+    "type": "state",
+    "common": {
+      "name": "repeat status",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "repeat status"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652853,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.repeat_stat",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.shuffle": {
+    "type": "state",
+    "common": {
+      "name": "shuffle toggle button",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "button",
+      "desc": "shuffle toggle button"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652852,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.shuffle",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.shuffle_available": {
+    "type": "state",
+    "common": {
+      "name": "netusb array shuffle",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "netusb array shuffle"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652906,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.shuffle_available",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.shuffle_stat": {
+    "type": "state",
+    "common": {
+      "name": "shuffle status",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "shuffle status"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652852,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.shuffle_stat",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.stop": {
+    "type": "state",
+    "common": {
+      "name": "Stop",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "button.stop",
+      "desc": "Stop"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652851,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.stop",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.total_time": {
+    "type": "state",
+    "common": {
+      "name": "total time played",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "unit": "s",
+      "role": "value",
+      "desc": "total time played"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652855,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.total_time",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.track": {
+    "type": "state",
+    "common": {
+      "name": "track",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "track"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652853,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.track",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.netusb.usb_devicetype": {
+    "type": "state",
+    "common": {
+      "name": "type of USB device",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "type of USB device"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652855,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.netusb.usb_devicetype",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system": {
+    "type": "channel",
+    "common": {
+      "name": "MusicCast System Info",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652849,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.api_version": {
+    "type": "state",
+    "common": {
+      "name": "API Version",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value",
+      "desc": "API Version"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652849,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.api_version",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.device_id": {
+    "type": "state",
+    "common": {
+      "name": "Device ID",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "Device ID"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652849,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.device_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.getDeviceInfo": {
+    "type": "state",
+    "common": {
+      "name": "Feedback of getDeviceInfo",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Feedback of getDeviceInfo"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652850,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.getDeviceInfo",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.getFeatures": {
+    "type": "state",
+    "common": {
+      "name": "Feedback of getFeatures",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Feedback of getFeatures"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652850,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.getFeatures",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.airplay": {
+    "type": "channel",
+    "common": {
+      "name": "Input airplay",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653898,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.airplay",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.airplay.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653898,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.airplay.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.airplay.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653898,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.airplay.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.airplay.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653898,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.airplay.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.alexa": {
+    "type": "channel",
+    "common": {
+      "name": "Input alexa",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653896,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.alexa",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.alexa.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653897,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.alexa.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.alexa.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653897,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.alexa.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.alexa.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653897,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.alexa.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.amazon_music": {
+    "type": "channel",
+    "common": {
+      "name": "Input amazon_music",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653893,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.amazon_music",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.amazon_music.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653895,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.amazon_music.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.amazon_music.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653895,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.amazon_music.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.amazon_music.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653896,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.amazon_music.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio1": {
+    "type": "channel",
+    "common": {
+      "name": "Input audio1",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653910,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio1",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio1.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653911,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio1.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio1.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653911,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio1.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio1.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653911,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio1.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio2": {
+    "type": "channel",
+    "common": {
+      "name": "Input audio2",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653911,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio2",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio2.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653912,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio2.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio2.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653911,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio2.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio2.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653912,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio2.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio3": {
+    "type": "channel",
+    "common": {
+      "name": "Input audio3",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653912,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio3",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio3.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653913,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio3.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio3.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653912,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio3.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio3.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653913,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.audio3.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.aux": {
+    "type": "channel",
+    "common": {
+      "name": "Input aux",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653913,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.aux",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.aux.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653914,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.aux.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.aux.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653914,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.aux.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.aux.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653914,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.aux.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av1": {
+    "type": "channel",
+    "common": {
+      "name": "Input av1",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653908,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av1",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av1.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653908,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av1.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av1.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653908,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av1.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av1.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653908,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av1.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av2": {
+    "type": "channel",
+    "common": {
+      "name": "Input av2",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653909,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av2",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av2.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653909,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av2.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av2.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653909,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av2.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av2.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653909,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av2.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av3": {
+    "type": "channel",
+    "common": {
+      "name": "Input av3",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653909,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av3",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av3.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653910,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av3.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av3.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653910,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av3.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.av3.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653910,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.av3.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.bluetooth": {
+    "type": "channel",
+    "common": {
+      "name": "Input bluetooth",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653901,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.bluetooth",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.bluetooth.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653901,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.bluetooth.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.bluetooth.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653901,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.bluetooth.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.bluetooth.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653901,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.bluetooth.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.deezer": {
+    "type": "channel",
+    "common": {
+      "name": "Input deezer",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653891,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.deezer",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.deezer.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653892,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.deezer.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.deezer.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653892,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.deezer.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.deezer.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653893,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.deezer.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi1": {
+    "type": "channel",
+    "common": {
+      "name": "Input hdmi1",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653905,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi1",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi1.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653905,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi1.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi1.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653905,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi1.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi1.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653905,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi1.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi2": {
+    "type": "channel",
+    "common": {
+      "name": "Input hdmi2",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653905,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi2",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi2.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653906,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi2.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi2.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653906,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi2.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi2.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653906,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi2.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi3": {
+    "type": "channel",
+    "common": {
+      "name": "Input hdmi3",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653906,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi3",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi3.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653907,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi3.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi3.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653906,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi3.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi3.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653907,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi3.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi4": {
+    "type": "channel",
+    "common": {
+      "name": "Input hdmi4",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653907,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi4",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi4.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653907,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi4.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi4.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653907,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi4.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi4.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653908,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.hdmi4.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.mc_link": {
+    "type": "channel",
+    "common": {
+      "name": "Input mc_link",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653899,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.mc_link",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.mc_link.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653899,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.mc_link.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.mc_link.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653899,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.mc_link.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.mc_link.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653899,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.mc_link.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.napster": {
+    "type": "channel",
+    "common": {
+      "name": "Input napster",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653887,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.napster",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.napster.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653888,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.napster.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.napster.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653888,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.napster.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.napster.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653888,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.napster.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.net_radio": {
+    "type": "channel",
+    "common": {
+      "name": "Input net_radio",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653900,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.net_radio",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.net_radio.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653900,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.net_radio.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.net_radio.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653900,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.net_radio.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.net_radio.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653900,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.net_radio.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.qobuz": {
+    "type": "channel",
+    "common": {
+      "name": "Input qobuz",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653889,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.qobuz",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.qobuz.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653889,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.qobuz.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.qobuz.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653889,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.qobuz.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.qobuz.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653889,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.qobuz.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.server": {
+    "type": "channel",
+    "common": {
+      "name": "Input server",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653899,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.server",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.server.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653900,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.server.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.server.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653900,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.server.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.server.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653900,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.server.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.spotify": {
+    "type": "channel",
+    "common": {
+      "name": "Input spotify",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653888,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.spotify",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.spotify.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653888,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.spotify.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.spotify.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653888,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.spotify.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.spotify.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653889,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.spotify.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.tidal": {
+    "type": "channel",
+    "common": {
+      "name": "Input tidal",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653890,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.tidal",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.tidal.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653890,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.tidal.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.tidal.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653890,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.tidal.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.tidal.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653890,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.tidal.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.tuner": {
+    "type": "channel",
+    "common": {
+      "name": "Input tuner",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653904,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.tuner",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.tuner.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653904,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.tuner.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.tuner.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653904,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.tuner.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.tuner.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653905,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.tuner.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.usb": {
+    "type": "channel",
+    "common": {
+      "name": "Input usb",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653901,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.usb",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.usb.account_enable": {
+    "type": "state",
+    "common": {
+      "name": "account to be enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "account to be enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653903,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.usb.account_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.usb.distribution_enable": {
+    "type": "state",
+    "common": {
+      "name": "distribution enabled",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "distribution enabled"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653902,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.usb.distribution_enable",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.inputs.usb.play_info_type": {
+    "type": "state",
+    "common": {
+      "name": "play info type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "indicator",
+      "desc": "play info type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653904,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.inputs.usb.play_info_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.system_id": {
+    "type": "state",
+    "common": {
+      "name": "System ID",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "System ID"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652849,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.system_id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.system.system_version": {
+    "type": "state",
+    "common": {
+      "name": "System Version",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "value",
+      "desc": "System Version"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712652849,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.system.system_version",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner": {
+    "type": "channel",
+    "common": {
+      "name": "MusicCast Tuner RX-V585",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653914,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.am.freq": {
+    "type": "state",
+    "common": {
+      "name": "AM Frequency",
+      "type": "number",
+      "min": 531,
+      "max": 1611,
+      "step": 9,
+      "unit": "kHz",
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "AM Frequency"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653915,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.am.freq",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.am.preset": {
+    "type": "state",
+    "common": {
+      "name": "AM Preset number",
+      "type": "number",
+      "min": 0,
+      "max": 40,
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "AM preset number"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653915,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.am.preset",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.am.preset_info": {
+    "type": "state",
+    "common": {
+      "name": "Tuner AM favourites",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Tuner AM favourites"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653915,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.am.preset_info",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.am.tuned": {
+    "type": "state",
+    "common": {
+      "name": "AM tuned",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "switch",
+      "desc": "AM tuned"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653916,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.am.tuned",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.common_preset_info": {
+    "type": "state",
+    "common": {
+      "name": "Tuner Common favourites",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Tuner Common favourites"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653915,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.common_preset_info",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.fm.freq": {
+    "type": "state",
+    "common": {
+      "name": "FM Frequency",
+      "type": "number",
+      "min": 87500,
+      "max": 108000,
+      "step": 50,
+      "unit": "kHz",
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "FM Frequency"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653916,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.fm.freq",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.fm.preset": {
+    "type": "state",
+    "common": {
+      "name": "FM Preset number",
+      "type": "number",
+      "min": 0,
+      "max": 40,
+      "read": true,
+      "write": true,
+      "role": "level",
+      "desc": "FM preset number"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653916,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.fm.preset",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.fm.preset_info": {
+    "type": "state",
+    "common": {
+      "name": "Tuner FM favourites",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Tuner FM favourites"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653916,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.fm.preset_info",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.fm.tuned": {
+    "type": "state",
+    "common": {
+      "name": "FM tuned",
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "switch",
+      "desc": "FM tuned"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653917,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.fm.tuned",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.getPlayInfo": {
+    "type": "state",
+    "common": {
+      "name": "Feedback of getPlayInfo",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Feedback of getPlayInfo"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653914,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.getPlayInfo",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.rds.program_service": {
+    "type": "state",
+    "common": {
+      "name": "RDS program_service",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "RDS program_service"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653917,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.rds.program_service",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.rds.program_type": {
+    "type": "state",
+    "common": {
+      "name": "RDS program type",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "RDS program type"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653917,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.rds.program_type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.rds.radio_text_a": {
+    "type": "state",
+    "common": {
+      "name": "RDS Radio Text A",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "RDS Radio Text A"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653918,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.rds.radio_text_a",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.tuner.rds.radio_text_b": {
+    "type": "state",
+    "common": {
+      "name": "RDS Radio Text B",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "RDS Radio Text B"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653918,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.tuner.rds.radio_text_b",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2": {
+    "type": "channel",
+    "common": {
+      "name": "MusicCast Zone RX-V585",
+      "role": "sensor"
+    },
+    "native": {
+      "addr": "06CBF7D3"
+    },
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653885,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.act_vol_mode": {
+    "type": "state",
+    "common": {
+      "name": "Actual Volume Mode",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": [
+        "db",
+        "numeric"
+      ],
+      "role": "text",
+      "desc": "Actual Volume Mode"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653887,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.act_vol_mode",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.act_vol_unit": {
+    "type": "state",
+    "common": {
+      "name": "Actual Volume Unit",
+      "type": "string",
+      "read": true,
+      "write": false,
+      "role": "text",
+      "desc": "Actual Volume Unit"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653887,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.act_vol_unit",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.act_vol_val": {
+    "type": "state",
+    "common": {
+      "name": "Actual Volume db",
+      "type": "number",
+      "min": -80.5,
+      "max": 16.5,
+      "read": true,
+      "write": true,
+      "role": "level.volume",
+      "desc": "State and Control of Volume db"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653887,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.act_vol_val",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.actual_volume_mode_list": {
+    "type": "state",
+    "common": {
+      "name": "Actual volume mode options",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Actual volume mode options"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653887,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.actual_volume_mode_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.disable_flags": {
+    "type": "state",
+    "common": {
+      "name": "disable_flags",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "role": "level",
+      "desc": "disable_flags"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653885,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.disable_flags",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.getStatus": {
+    "type": "state",
+    "common": {
+      "name": "Feedback of getStatus",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "Feedback of getStatus"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653885,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.getStatus",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.input": {
+    "type": "state",
+    "common": {
+      "name": "Input selection",
+      "type": "string",
+      "read": true,
+      "write": true,
+      "values": [
+        "napster",
+        "spotify",
+        "qobuz",
+        "tidal",
+        "deezer",
+        "amazon_music",
+        "alexa",
+        "airplay",
+        "mc_link",
+        "server",
+        "net_radio",
+        "bluetooth",
+        "usb",
+        "tuner",
+        "hdmi1",
+        "hdmi2",
+        "hdmi3",
+        "hdmi4",
+        "av1",
+        "av2",
+        "av3",
+        "audio1",
+        "audio2",
+        "audio3",
+        "aux"
+      ],
+      "role": "text",
+      "desc": "Input selection"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653886,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.input",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.input_list": {
+    "type": "state",
+    "common": {
+      "name": "list of inputs",
+      "type": "array",
+      "read": true,
+      "write": false,
+      "role": "list",
+      "desc": "list of inputs"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653886,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.input_list",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.max_volume": {
+    "type": "state",
+    "common": {
+      "name": "max Volume",
+      "type": "number",
+      "max": 161,
+      "read": true,
+      "write": false,
+      "role": "level",
+      "desc": "max Volume"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653886,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.max_volume",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.mute": {
+    "type": "state",
+    "common": {
+      "name": "Mute",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "media.mute",
+      "desc": "Mute"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653886,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.mute",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.power": {
+    "type": "state",
+    "common": {
+      "name": "Power ON/OFF(Standby)",
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "value",
+      "desc": "Power ON/OFF(Standby)"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653886,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.power",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "musiccast.0.RX-V585_06CBF7D3.zone2.volume": {
+    "type": "state",
+    "common": {
+      "name": "Volume",
+      "type": "number",
+      "min": 0,
+      "max": 161,
+      "read": true,
+      "write": true,
+      "role": "level.volume",
+      "desc": "State and Control of Volume"
+    },
+    "native": {},
+    "from": "system.adapter.musiccast.0",
+    "user": "system.user.admin",
+    "ts": 1591712653885,
+    "_id": "musiccast.0.RX-V585_06CBF7D3.zone2.volume",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

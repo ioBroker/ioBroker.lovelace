@@ -118,6 +118,10 @@
         {
           "value": "weather",
           "label": "weather"
+        },
+        {
+          "value": "calendar",
+          "label": "calendar"
         }
       ],
       "defaultFunc": "!customObj.common ? 'sensor' : customObj.common.write ? (customObj.common.states ? 'input_select' : customObj.common.role === 'date' ? 'input_datetime' : customObj.common.type === 'boolean' ? 'input_boolean' : customObj.common.type === 'number' ? 'input_number' : 'input_text') : (customObj.common.type === 'boolean' ? 'binary_sensor' : 'sensor');",
@@ -303,6 +307,11 @@
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
+              "value": "running",
+              "label": "Running",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
               "value": "safety",
               "label": "Safety",
               "hidden": "data.entity !== 'binary_sensor'"
@@ -318,6 +327,16 @@
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
+              "value": "tamper",
+              "label": "Tampering",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "update",
+              "label": "Update",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
               "value": "vibration",
               "label": "Vibration",
               "hidden": "data.entity !== 'binary_sensor'"
@@ -326,6 +345,11 @@
               "value": "window",
               "label": "Window",
               "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "aqi",
+              "label": "Air Quality Index",
+              "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "battery",
@@ -343,6 +367,31 @@
               "hidden": "data.entity !== 'sensor'"
             },
             {
+              "value": "current",
+              "label": "Current",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "date",
+              "label": "Datum",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "energy",
+              "label": "Energy",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "frequency",
+              "label": "Frequency",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "gas",
+              "label": "Volume of Gas",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "humidity",
               "label": "Humidity",
               "hidden": "data.entity !== 'sensor'"
@@ -353,8 +402,68 @@
               "hidden": "data.entity !== 'sensor'"
             },
             {
+              "value": "monetary",
+              "label": "Monetary value",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "nitrogen_dioxide",
+              "label": "Nitrogen Dioxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "nitrogen_monoxide",
+              "label": "Nitrogen Monoxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "nitrous_oxide",
+              "label": "Nitrous Oxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "ozone",
+              "label": "Ozone",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "pm1",
+              "label": "Particular matter less than 1 micrometer",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "pm25",
+              "label": "Particular matter less than 2.5 micrometer",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "pm10",
+              "label": "Particular matter less than 10 micrometer",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "power",
+              "label": "Power",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "power_factor",
+              "label": "Power Factor",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "pressure",
+              "label": "Pressure",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "signal_strength",
               "label": "Signal Strength",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "sulphur_dioxide",
+              "label": "Sulphure Dioxide",
               "hidden": "data.entity !== 'sensor'"
             },
             {
@@ -368,28 +477,13 @@
               "hidden": "data.entity !== 'sensor'"
             },
             {
-              "value": "power",
-              "label": "Power",
+              "value": "volatile_organic_compounds",
+              "label": "Volatile organic compounds",
               "hidden": "data.entity !== 'sensor'"
             },
             {
-              "value": "pressure",
-              "label": "Pressure",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "current",
-              "label": "Current",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "energy",
-              "label": "Energy",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "power_factor",
-              "label": "Power Factor",
+              "value": "voltage",
+              "label": "Voltage",
               "hidden": "data.entity !== 'sensor'"
             },
             {

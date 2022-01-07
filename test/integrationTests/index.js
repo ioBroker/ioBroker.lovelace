@@ -1,3 +1,4 @@
+const alarm_control_tests   = require('./alarm_control_panel_integration_tests');
 const binary_sensor_tests   = require('./binary_sensor_integration_tests');
 const climate_tests         = require('./climate_integration_tests');
 const geo_location_tests    = require ('./geo_location_tests');
@@ -14,6 +15,10 @@ const tools                 = require('./testTools');
 
 exports.runTests = function (getHarness) {
     afterEach(tools.clearClient);
+
+    describe('Test alarm control panel', async () => {
+        await alarm_control_tests.runTests(getHarness);
+    });
 
     describe('Test binary_sensors', async () => {
         await binary_sensor_tests.runTests(getHarness);
