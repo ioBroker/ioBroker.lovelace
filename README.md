@@ -468,7 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.3 (2022-01-07)
 * (Garfonso) Fixed: remove backup of old frontend (sorry)
 
 ### 2.1.2 (2022-01-06)
@@ -494,14 +494,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)
 * (Garfonso) Added: more devices classes with custom settings
 * (Garfonso) Added: Support for calendar (only ical, use custom settings to create calendar entity on ical.*.data.table).
-
-### 2.0.6 (2021-08-31)
-* (Garfonso) Add manual entity support for geo_location (inofficial currently)
-* (Garfonso) Fix binding for other things than val (like ts or lc).
-* (algar42) Add additional field for accuweather weather (and custom card)
-* (algar42) translate russian characters to allowed charset in ids
-* (Garfonso) Add workaround for custom card upload issue with admin 5.
-* (Garfonso) fix history attributes with state and multiple attributes
 
 ## License
 

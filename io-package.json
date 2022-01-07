@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "2.1.2",
+    "version": "2.1.3",
     "news": {
+      "2.1.3": {
+        "en": "Fixed: remove backup of old frontend (sorry)",
+        "de": "Behoben: Backup des alten Frontends entfernen (sorry)",
+        "ru": "Исправлено: удалить резервную копию старого интерфейса (извините)",
+        "pt": "Corrigido: remover backup de front-end antigo (desculpe)",
+        "nl": "Opgelost: verwijder back-up van oude frontend (sorry)",
+        "fr": "Corrigé : supprimer la sauvegarde de l'ancienne interface (désolé)",
+        "it": "Risolto: rimuovere il backup del vecchio frontend (scusate)",
+        "es": "Corregido: eliminar la copia de seguridad de la interfaz anterior (lo siento)",
+        "pl": "Naprawiono: usuń kopię zapasową starego frontendu (przepraszam)",
+        "zh-cn": "修正：删除旧前端的备份（抱歉）"
+      },
       "2.1.2": {
         "en": "Fixed: Menu was broken in frontend.",
         "de": "Behoben: Menü war im Frontend defekt.",
@@ -74,18 +86,6 @@
         "es": "Agregar soporte de entidad manual para geo_location (no oficial actualmente)\nSe corrigió el enlace para otras cosas además de val (como ts o lc).\nAgregue un campo adicional para el clima accuweather (y tarjeta personalizada)\ntraducir caracteres rusos al juego de caracteres permitido en los identificadores\nAgregue una solución para el problema de carga de tarjetas personalizadas con el administrador 5.\narreglar atributos de historial con estado y atributos múltiples",
         "pl": "Dodaj ręczną obsługę encji dla geo_location (obecnie nieoficjalna)\nNapraw wiązanie dla innych rzeczy niż val (takich jak ts lub lc).\nDodaj dodatkowe pole na prognozę pogody Accuweather (i kartę niestandardową)\nprzetłumacz rosyjskie znaki na dozwolony zestaw znaków w identyfikatorach\nDodaj obejście problemu z przesyłaniem niestandardowej karty u administratora 5.\nnapraw atrybuty historii ze stanem i wieloma atrybutami",
         "zh-cn": "为 geo_location 添加手动实体支持（目前是非官方的）\n修复 val 以外的其他事物的绑定（如 ts 或 lc）。\n为 accuweather 天气（和自定义卡）添加附加字段\n将俄语字符转换为 ids 中允许的字符集\n使用 admin 5 添加自定义卡上传问题的解决方法。\n使用状态和多个属性修复历史属性"
-      },
-      "2.0.4": {
-        "en": "Add support for fan entity (makes fan card working).\nfix backwards compatibility for input_datetime attributes.\nfix airconditioner with power mode on mode update",
-        "de": "Füge Unterstützung für Fan-Entität hinzu (macht Fan-Karte funktionsfähig).\nAbwärtskompatibilität für input_datetime-Attribute behoben.\nKlimaanlage mit Power-Modus-On-Modus-Update reparieren",
-        "ru": "Добавить поддержку фанатской сущности (заставляет фанатскую карту работать).\nисправить обратную совместимость для атрибутов input_datetime.\nисправить кондиционер с режимом питания при обновлении режима",
-        "pt": "Adicionar suporte para entidade de fã (faz o cartão de fã funcionar).\ncorrigir compatibilidade com versões anteriores para atributos input_datetime.\nconsertar o condicionador de ar com modo de energia na atualização de modo",
-        "nl": "Ondersteuning toevoegen voor fan-entiteit (maakt de fan-kaart werkend).\nachterwaartse compatibiliteit voor input_datetime-attributen herstellen.\nfix airconditioner met power-modus aan-modus update",
-        "fr": "Ajout de la prise en charge de l'entité de ventilateur (fait fonctionner la carte de ventilateur).\ncorrection de la rétrocompatibilité pour les attributs input_datetime.\nréparer le climatiseur avec le mode d'alimentation sur la mise à jour du mode",
-        "it": "Aggiungi il supporto per l'entità fan (fa funzionare la carta fan).\ncorrezione della compatibilità con le versioni precedenti per gli attributi input_datetime.\nriparare il condizionatore con la modalità di alimentazione in modalità aggiornamento",
-        "es": "Agregue soporte para la entidad de fan (hace que la tarjeta de fan funcione).\ncorrige la compatibilidad con versiones anteriores para los atributos input_datetime.\narreglar el aire acondicionado con el modo de energía en la actualización del modo",
-        "pl": "Dodaj wsparcie dla encji fanów (sprawia, że karta kibica działa).\npoprawiono kompatybilność wsteczną atrybutów input_datetime.\nnapraw klimatyzator z trybem zasilania w trybie aktualizacji",
-        "zh-cn": "添加对风扇实体的支持（使风扇卡工作）。\n修复 input_datetime 属性的向后兼容性。\n用电源模式修复空调模式更新"
       }
     },
     "title": "Visualization with Lovelace-UI",
