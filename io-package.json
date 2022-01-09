@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "news": {
+      "2.1.4": {
+        "en": "Dependency update",
+        "de": "Abhängigkeits-Update",
+        "ru": "Обновление зависимости",
+        "pt": "Atualização de dependência",
+        "nl": "Afhankelijkheidsupdate",
+        "fr": "Mise à jour des dépendances",
+        "it": "Aggiornamento delle dipendenze",
+        "es": "Actualización de dependencia",
+        "pl": "Aktualizacja zależności",
+        "zh-cn": "依赖更新"
+      },
       "2.1.3": {
         "en": "Fixed: remove backup of old frontend (sorry)",
         "de": "Behoben: Backup des alten Frontends entfernen (sorry)",
@@ -66,18 +78,6 @@
       "2.0.6": {
         "en": "Add manual entity support for geo_location (inofficial currently)\nFix binding for other things than val (like ts or lc).\nAdd additional field for accuweather weather (and custom card)\ntranslate russian characters to allowed charset in ids\nAdd workaround for custom card upload issue with admin 5.\nfix history attribues with state and multiple attributes",
         "de": "Manuelle Entitätsunterstützung für geo_location hinzufügen (derzeit inoffiziell)\nFixe Bindung für andere Dinge als val (wie ts oder lc).\nZusätzliches Feld für Accuweather-Wetter (und benutzerdefinierte Karte) hinzufügen\nÜbersetzen Sie russische Zeichen in den zulässigen Zeichensatz in IDs\nProblemumgehung für Problem beim Hochladen von benutzerdefinierten Karten mit Administrator 5 hinzufügen.\nVerlaufsattribute mit Status und mehreren Attributen korrigieren",
-        "ru": "Добавить ручную поддержку объекта для geo_location (в настоящее время неофициально)\nИсправьте привязку для других вещей, кроме val (например, ts или lc).\nДобавить дополнительное поле для погоды accuweather (и настраиваемую карту)\nперевести русские символы в разрешенную кодировку в идентификаторах\nДобавьте обходной путь для проблемы с загрузкой пользовательской карты с помощью администратора 5.\nисправить атрибуты истории с состоянием и несколькими атрибутами",
-        "pt": "Adicionar suporte de entidade manual para geo_location (atualmente não oficial)\nCorrija a vinculação para outras coisas além de val (como ts ou lc).\nAdicionar campo adicional para o clima exato (e cartão personalizado)\ntraduzir caracteres russos para conjunto de caracteres permitido em ids\nAdicione uma solução alternativa para o problema de upload de cartão personalizado com o administrador 5.\ncorrigir atributos de histórico com estado e atributos múltiplos",
-        "nl": "Voeg handmatige entiteitsondersteuning toe voor geo_location (momenteel niet-officieel)\nFix binding voor andere dingen dan val (zoals ts of lc).\nExtra veld toevoegen voor accuweerweer (en aangepaste kaart)\nvertaal Russische karakters naar toegestane karakterset in ids\nVoeg een tijdelijke oplossing toe voor een probleem met het uploaden van aangepaste kaarten met beheerder 5.\nrepareer geschiedenisattributen met staat en meerdere attributen",
-        "fr": "Ajout de la prise en charge manuelle des entités pour la géo_location (inofficiel actuellement)\nCorrection de la liaison pour d'autres choses que val (comme ts ou lc).\nAjouter un champ supplémentaire pour la météo accuweather (et une carte personnalisée)\ntraduire les caractères russes en jeu de caractères autorisé dans les identifiants\nAjoutez une solution de contournement pour le problème de téléchargement de carte personnalisée avec admin 5.\ncorriger les attributs de l'historique avec l'état et plusieurs attributs",
-        "it": "Aggiungi il supporto dell'entità manuale per geo_location (attualmente non ufficiale)\nCorreggi l'associazione per cose diverse da val (come ts o lc).\nAggiungi un campo aggiuntivo per accuweather meteo (e scheda personalizzata)\ntraduci i caratteri russi nel set di caratteri consentito negli ID\nAggiungi una soluzione alternativa per il problema di caricamento della carta personalizzata con l'amministratore 5.\ncorreggi gli attributi della cronologia con stato e attributi multipli",
-        "es": "Agregar soporte de entidad manual para geo_location (no oficial actualmente)\nSe corrigió el enlace para otras cosas además de val (como ts o lc).\nAgregue un campo adicional para el clima accuweather (y tarjeta personalizada)\ntraducir caracteres rusos al juego de caracteres permitido en los identificadores\nAgregue una solución para el problema de carga de tarjetas personalizadas con el administrador 5.\narreglar atributos de historial con estado y atributos múltiples",
-        "pl": "Dodaj ręczną obsługę encji dla geo_location (obecnie nieoficjalna)\nNapraw wiązanie dla innych rzeczy niż val (takich jak ts lub lc).\nDodaj dodatkowe pole na prognozę pogody Accuweather (i kartę niestandardową)\nprzetłumacz rosyjskie znaki na dozwolony zestaw znaków w identyfikatorach\nDodaj obejście problemu z przesyłaniem niestandardowej karty u administratora 5.\nnapraw atrybuty historii ze stanem i wieloma atrybutami",
-        "zh-cn": "为 geo_location 添加手动实体支持（目前是非官方的）\n修复 val 以外的其他事物的绑定（如 ts 或 lc）。\n为 accuweather 天气（和自定义卡）添加附加字段\n将俄语字符转换为 ids 中允许的字符集\n使用 admin 5 添加自定义卡上传问题的解决方法。\n使用状态和多个属性修复历史属性"
-      },
-      "2.0.5": {
-        "en": "Add manual entity support for geo_location (inofficial currently)\nFix binding for other things than val (like ts or lc).\nAdd additional field for accuweather weather (and custom card)\ntranslate russian characters to allowed charset in ids\nAdd workaround for custom card upload issue with admin 5.\nfix history attribues with state and multiple attributes",
-        "de": "Manuelle Entitätsunterstützung für geo_location hinzufügen (derzeit inoffiziell)\nFixe Bindung für andere Dinge als val (wie ts oder lc).\nZusätzliches Feld für Accuweather-Wetter (und benutzerdefinierte Karte) hinzufügen\nÜbersetzen Sie russische Zeichen in den zulässigen Zeichensatz in IDs\nFügen Sie eine Problemumgehung für das Problem beim Hochladen von benutzerdefinierten Karten mit Administrator 5 hinzu.\nBeheben Sie Verlaufsattribute mit Status und mehreren Attributen",
         "ru": "Добавить ручную поддержку объекта для geo_location (в настоящее время неофициально)\nИсправьте привязку для других вещей, кроме val (например, ts или lc).\nДобавить дополнительное поле для погоды accuweather (и настраиваемую карту)\nперевести русские символы в разрешенную кодировку в идентификаторах\nДобавьте обходной путь для проблемы с загрузкой пользовательской карты с помощью администратора 5.\nисправить атрибуты истории с состоянием и несколькими атрибутами",
         "pt": "Adicionar suporte de entidade manual para geo_location (atualmente não oficial)\nCorrija a vinculação para outras coisas além de val (como ts ou lc).\nAdicionar campo adicional para o clima exato (e cartão personalizado)\ntraduzir caracteres russos para conjunto de caracteres permitido em ids\nAdicione uma solução alternativa para o problema de upload de cartão personalizado com o administrador 5.\ncorrigir atributos de histórico com estado e atributos múltiplos",
         "nl": "Voeg handmatige entiteitsondersteuning toe voor geo_location (momenteel niet-officieel)\nFix binding voor andere dingen dan val (zoals ts of lc).\nExtra veld toevoegen voor accuweerweer (en aangepaste kaart)\nvertaal Russische karakters naar toegestane karakterset in ids\nVoeg een tijdelijke oplossing toe voor een probleem met het uploaden van aangepaste kaarten met beheerder 5.\nrepareer geschiedenisattributen met staat en meerdere attributen",

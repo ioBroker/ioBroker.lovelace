@@ -1,4 +1,18 @@
 # Older Changes
+## 2.0.7 (2022-01-06)
+* (Garfonso) Fix: possible crash while creating light entity
+* (Garfonso) Fix: possible crashes in binding support
+* (Garfonso) Fix: /state/ handler for files (repairs for example Sonos cover image)
+* (Garfonso) Fix: tilt command was not correctly processed in ioBroker
+* (Garfonso) Fix: conversion issues in alarm control panel
+* (Garfonso) Fix: missed update if auto and manual entity were created from same ioBroker device
+* (Garfonso) Fixed: Warning on object change of manual entites
+* (Garfonso) Change: Subscribe ids for all config elements contain valid entity_ids (fixes tankerkoenig card and secondary-entity-row)
+* (Garfonso) Added: support for offline indicator (auto & manual) and online indicator
+* (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)
+* (Garfonso) Added: more devices classes with custom settings
+* (Garfonso) Added: Support for calendar (only ical, use custom settings to create calendar entity on ical.*.data.table).
+
 ## 2.0.6 (2021-08-31)
 * (Garfonso) Add manual entity support for geo_location (inofficial currently)
 * (Garfonso) Fix binding for other things than val (like ts or lc).
