@@ -1,4 +1,4 @@
 {
   "plugins": ["iobroker", "license"],
-  "addPlaceholder": true
+  "addPlaceholder": false
 }
