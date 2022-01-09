@@ -468,6 +468,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Dependency update
+
 ### 2.1.3 (2022-01-07)
 * (Garfonso) Fixed: remove backup of old frontend (sorry)
 
