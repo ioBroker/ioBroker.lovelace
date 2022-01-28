@@ -466,6 +466,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
+
 ### 2.1.4 (2022-01-09)
 * (Garfonso) Dependency update
 
