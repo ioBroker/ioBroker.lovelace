@@ -23,7 +23,7 @@
     "axios": "^0.24.0",
     "body-parser": "^1.19.1",
     "express": "^4.17.3",
-    "iobroker.type-detector": "^1.0.15",
+    "iobroker.type-detector": "^1.0.17",
     "js-yaml": "^4.1.0",
     "jstimezonedetect": "^1.0.7",
     "mime": "^3.0.0",
