@@ -150,10 +150,12 @@
     },
     "dependencies": [
       {
-        "admin": ">=3.0.0"
-      },
-      {
         "js-controller": ">=3.3.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=3.0.0"
       }
     ],
     "welcomeScreenPro": {
