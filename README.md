@@ -468,7 +468,9 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
+* (Garfonso) fixed: input_datetime did not work if time was enabled and did vanish if date and time were enabled.
 * (Garfonso) added: support auto entities card and subscription.
+
 
 ### 2.1.4 (2022-01-09)
 * (Garfonso) Dependency update
