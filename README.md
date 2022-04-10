@@ -472,6 +472,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) fixed: RGB hex string got broken on not rounded numbers (problem with mushroom ligth card).
 * (Garfonso) fixed: state of cover entity if not 0 or 100% (fixes problem with sliter-button-card).
 * (Garfonso) added: support auto entities card and subscription.
+* (Garfonso) added: improve support for input_datetime & string states.
 
 
 ### 2.1.4 (2022-01-09)
