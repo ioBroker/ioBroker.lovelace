@@ -470,6 +470,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
 * (Garfonso) fixed: input_datetime did not work if time was enabled and did vanish if date and time were enabled.
 * (Garfonso) fixed: RGB hex string got broken on not rounded numbers (problem with mushroom ligth card).
+* (Garfonso) fixed: state of cover entity if not 0 or 100% (fixes problem with sliter-button-card).
 * (Garfonso) added: support auto entities card and subscription.
 
 
