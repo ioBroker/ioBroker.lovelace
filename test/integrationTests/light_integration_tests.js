@@ -195,6 +195,54 @@ exports.runTests = function (getHarness) {
         expect(state.val).to.equal(true); //turn on should also turn state!
     });
 
+    it('entity subscribe and read dimmer brightness actual and on actual', async () => {
+        const harness = getHarness();
+        const objects = JSON.parse(JSON.stringify(require('../testData/light_brightness_actual.json')));
+        const deviceId = 'adapter.0.light.BrightnessWithActual';
+        const entities = await tools.startAndGetEntities(harness, objects, [deviceId], [
+            {id: deviceId + '.brightness_actual', val: 50},
+            {id: deviceId + '.brightness', val: 0},
+            {id: deviceId + '.state_actual', val: true},
+            {id: deviceId + '.state', val: false}]
+        );
+        const entity = entities.find(e => e.context.id === deviceId);
+        expect(entity).to.be.ok;
+        tools.expectEntity(entity, 'light', deviceId);
+
+        //should be correct initial values!
+        expect(entity).to.have.property('state', 'on');
+        expect(entity).to.have.nested.property('attributes.brightness', 50);
+
+        await tools.validateUIInput(harness, entity,m => {
+            m.domain = 'light'; m.service = 'turn_on'; m.service_data = { brightness: 255 };
+        }, deviceId + '.brightness', state => expect(state.val).to.equal(100));
+        let state = await harness.states.getStateAsync(deviceId + '.state');
+        expect(state.val).to.equal(true); //turn on should also turn state!
+
+        await tools.validateUIInput(harness, entity,m => {
+            m.domain = 'light'; m.service = 'turn_off'; m.service_data = {};
+        }, deviceId + '.state', state => expect(state.val).to.equal(false));
+        state = await harness.states.getStateAsync(deviceId + '.brightness');
+        expect(state.val).to.equal(100); //turn off should leave brightness alone
+
+        await tools.validateUIInput(harness, entity,m => {
+            m.domain = 'light'; m.service = 'turn_on'; m.service_data = { brightness_pct: 100 };
+        }, deviceId + '.brightness', state => expect(state.val).to.equal(100));
+        state = await harness.states.getStateAsync(deviceId + '.state');
+        expect(state.val).to.equal(true); //turn on should also turn state!
+
+        await tools.validateStateChange(harness, entity.entity_id,
+            async () => await harness.states.setStateAsync(deviceId + '.brightness_actual', 60, true),
+            entity => {
+                expect(entity.attributes.brightness).to.be.equal(60);
+            });
+        await tools.validateStateChange(harness, entity.entity_id,
+            async () => await harness.states.setStateAsync(deviceId + '.state_actual', false, true),
+            entity => {
+                expect(entity.state).to.be.equal('off');
+            });
+    });
+
     it('colortemp kelvin', async () => {
         const harness = getHarness();
         const objects = JSON.parse(JSON.stringify(require('../testData/light_colortemp.json')));

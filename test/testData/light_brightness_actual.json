@@ -1,0 +1,110 @@
+{
+  "adapter.0.light.BrightnessWithActual": {
+    "type": "device",
+    "common": {
+      "name": "BrightnessWithActual"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055615999,
+    "_id": "adapter.0.light.BrightnessWithActual",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.BrightnessWithActual.brightness": {
+    "type": "state",
+    "common": {
+      "name": "BrightnessWithActual Brightness",
+      "read": false,
+      "write": true,
+      "role": "level.dimmer",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "_id": "adapter.0.light.BrightnessWithActual.brightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.BrightnessWithActual.brightness_actual": {
+    "type": "state",
+    "common": {
+      "name": "BrightnessWithActual Brightness Actual",
+      "read": true,
+      "write": false,
+      "role": "value.dimmer",
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "_id": "adapter.0.light.BrightnessWithActual.brightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.BrightnessWithActual.state": {
+    "type": "state",
+    "common": {
+      "name": "Lamp Switch",
+      "read": false,
+      "write": true,
+      "role": "switch.light",
+      "type": "boolean",
+      "min": false,
+      "max": true
+    },
+    "native": {},
+    "_id": "adapter.0.light.BrightnessWithActual.state",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.BrightnessWithActual.state_actual": {
+    "type": "state",
+    "common": {
+      "name": "Lamp Switch",
+      "read": true,
+      "write": false,
+      "role": "switch.light",
+      "type": "boolean",
+      "min": false,
+      "max": true
+    },
+    "native": {},
+    "_id": "adapter.0.light.BrightnessWithActual.state",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1590882251791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
