@@ -21,7 +21,7 @@ exports.runTests = function (getHarness) {
         expect(entity).to.have.nested.property('attributes.year', date0.getFullYear());
         expect(entity).to.have.nested.property('attributes.month', date0.getMonth() + 1);
         expect(entity).to.have.nested.property('attributes.day', date0.getDate());
-        expect(entity).to.have.nested.property('attributes.hour', date0.getHours());
+        expect(entity).to.have.nested.property('attributes.hour', (date0.getHours() < 10 ? '0' : '') + date0.getHours());
         expect(entity).to.have.nested.property('attributes.minute', (date0.getMinutes() < 10 ? '0' : '') + date0.getMinutes());
         const now = new Date();
         await tools.validateStateChange(harness, entity.entity_id,
@@ -30,7 +30,7 @@ exports.runTests = function (getHarness) {
                 expect(entity).to.have.nested.property('attributes.year', now.getFullYear());
                 expect(entity).to.have.nested.property('attributes.month', now.getMonth() + 1);
                 expect(entity).to.have.nested.property('attributes.day', now.getDate());
-                expect(entity).to.have.nested.property('attributes.hour', now.getHours());
+                expect(entity).to.have.nested.property('attributes.hour', (now.getHours() < 10 ? '0' : '') + now.getHours());
                 expect(entity).to.have.nested.property('attributes.minute', (now.getMinutes() < 10 ? '0' : '') + now.getMinutes());
             });
 
@@ -173,13 +173,13 @@ exports.runTests = function (getHarness) {
         expect(entity).to.not.have.nested.property('attributes.year');
         expect(entity).to.not.have.nested.property('attributes.month');
         expect(entity).to.not.have.nested.property('attributes.day');
-        expect(entity).to.have.nested.property('attributes.hour', date0.getHours());
+        expect(entity).to.have.nested.property('attributes.hour', (date0.getHours() < 10 ? '0' : '') + date0.getHours());
         expect(entity).to.have.nested.property('attributes.minute', (date0.getMinutes() < 10 ? '0' : '') + date0.getMinutes());
         const now = new Date();
         await tools.validateStateChange(harness, entity.entity_id,
             async () => await harness.states.setStateAsync(deviceId, now.getTime(), true),
             entity => {
-                expect(entity).to.have.nested.property('attributes.hour', now.getHours());
+                expect(entity).to.have.nested.property('attributes.hour', (now.getHours() < 10 ? '0' : '') + now.getHours());
                 expect(entity).to.have.nested.property('attributes.minute', (now.getMinutes() < 10 ? '0' : '') + now.getMinutes());
             });
 
