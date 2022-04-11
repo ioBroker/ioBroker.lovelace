@@ -211,7 +211,7 @@ exports.runTests = function (getHarness) {
 
         //should be correct initial values!
         expect(entity).to.have.property('state', 'on');
-        expect(entity).to.have.nested.property('attributes.brightness', 50);
+        expect(entity).to.have.nested.property('attributes.brightness', 127.5);
 
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'light'; m.service = 'turn_on'; m.service_data = { brightness: 255 };
@@ -234,7 +234,8 @@ exports.runTests = function (getHarness) {
         await tools.validateStateChange(harness, entity.entity_id,
             async () => await harness.states.setStateAsync(deviceId + '.brightness_actual', 60, true),
             entity => {
-                expect(entity.attributes.brightness).to.be.equal(60);
+                expect(entity.attributes.brightness).to.be.greaterThan(254*0.6);
+                expect(entity.attributes.brightness).to.be.lessThanOrEqual(255*0.6);
             });
         await tools.validateStateChange(harness, entity.entity_id,
             async () => await harness.states.setStateAsync(deviceId + '.state_actual', false, true),
