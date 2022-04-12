@@ -216,20 +216,16 @@ exports.runTests = function (getHarness) {
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'light'; m.service = 'turn_on'; m.service_data = { brightness: 255 };
         }, deviceId + '.brightness', state => expect(state.val).to.equal(100));
-        let state = await harness.states.getStateAsync(deviceId + '.state');
-        expect(state.val).to.equal(true); //turn on should also turn state!
 
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'light'; m.service = 'turn_off'; m.service_data = {};
         }, deviceId + '.state', state => expect(state.val).to.equal(false));
-        state = await harness.states.getStateAsync(deviceId + '.brightness');
+        let state = await harness.states.getStateAsync(deviceId + '.brightness');
         expect(state.val).to.equal(100); //turn off should leave brightness alone
 
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'light'; m.service = 'turn_on'; m.service_data = { brightness_pct: 100 };
         }, deviceId + '.brightness', state => expect(state.val).to.equal(100));
-        state = await harness.states.getStateAsync(deviceId + '.state');
-        expect(state.val).to.equal(true); //turn on should also turn state!
 
         await tools.validateStateChange(harness, entity.entity_id,
             async () => await harness.states.setStateAsync(deviceId + '.brightness_actual', 60, true),
