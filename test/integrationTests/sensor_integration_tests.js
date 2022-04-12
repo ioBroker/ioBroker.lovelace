@@ -10,6 +10,7 @@ async function sensor_zigbee(getHarness) {
     const deviceId2 = 'adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second';
     const entities = await tools.startAndGetEntities(harness, objects, [deviceId1, deviceId2]);
 
+    console.log(entities);
     expect(entities).to.have.lengthOf(4 + tools.getNumConstEntities());
     const t1 = entities.find(e => e.context.id === deviceId1 && e.attributes.device_class === 'temperature');
     const t2 = entities.find(e => e.context.id === deviceId2 && e.attributes.device_class === 'temperature');
