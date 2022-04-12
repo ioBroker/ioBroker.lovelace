@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const WebSocket = require('ws');
+const enums = require("../testData/enums.json");
 
 const lovelacePort = 38091;
 
@@ -56,13 +57,13 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
     if (!startingUp) {
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
     }
-    if (idsWithEnums) {
-        const enums = require('../testData/enums.json');
-        enums['enum.rooms.testroom'].common.members = idsWithEnums;
-        enums['enum.functions.testfunc'].common.members = idsWithEnums;
-        await harness.objects.setObjectAsync('enum.rooms.testroom', enums['enum.rooms.testroom']);
-        await harness.objects.setObjectAsync('enum.functions.testfunc', enums['enum.functions.testfunc']);
+    if (!idsWithEnums) {
+        idsWithEnums = [];
     }
+    enums['enum.rooms.testroom'].common.members = idsWithEnums;
+    enums['enum.functions.testfunc'].common.members = idsWithEnums;
+    await harness.objects.setObjectAsync('enum.rooms.testroom', enums['enum.rooms.testroom']);
+    await harness.objects.setObjectAsync('enum.functions.testfunc', enums['enum.functions.testfunc']);
 
     for (const id of Object.keys(objects)) {
         const obj = objects[id];
