@@ -474,6 +474,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) fixed: light did not read brightness ACTUAL in dimmer devices.
 * (Garfonso) added: support auto entities card and subscription.
 * (Garfonso) added: improve support for input_datetime & string states.
+* (Garfonso) added: support for browser_mod (i.e. crontrol frontend from iobroker).
 
 ### 2.1.4 (2022-01-09)
 * (Garfonso) Dependency update
