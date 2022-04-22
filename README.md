@@ -474,8 +474,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) fixed: light did not read brightness ACTUAL in dimmer devices.
 * (Garfonso) added: support auto entities card and subscription.
 * (Garfonso) added: improve support for input_datetime & string states.
-* (Garfonso) Fix /state/ handler for files (repairs for example Sonos cover image)
-* (Garfonso) Prevent crash while creating light entity
 
 ### 2.1.4 (2022-01-09)
 * (Garfonso) Dependency update
