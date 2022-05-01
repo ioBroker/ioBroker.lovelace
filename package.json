@@ -22,7 +22,7 @@
     "@iobroker/adapter-core": "^2.6.0",
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
-    "express": "^4.17.3",
+    "express": "^4.18.1",
     "iobroker.type-detector": "^1.0.17",
     "js-yaml": "^4.1.0",
     "jstimezonedetect": "^1.0.7",
