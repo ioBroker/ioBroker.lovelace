@@ -51,7 +51,6 @@ function startAdapter(options) {
         stateChange: (id, state) => {
             if (state) {
                 // The state was changed
-                //TODO: shouldn't deleted states change state / attribute to unknown?
                 adapter.apiServer.onStateChange(id, state);
             } else {
                 // The state was deleted
