@@ -52,6 +52,7 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
         if (instanceObj.native.port !== lovelacePort) {
             instanceObj.native.port = lovelacePort;
             await harness.objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
+            console.log('Updated lovelace port to ' + lovelacePort);
         }
     }
     if (!startingUp) {
@@ -69,6 +70,7 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
         const obj = objects[id];
         await harness.objects.setObjectAsync(id, obj);
     }
+    console.log('Added objects to db.');
 };
 
 /**
@@ -79,16 +81,19 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
  */
 exports.waitForEntitiesUpdate = async function (harness, objects, startingUp) {
     if (!startingUp) {
+        console.log('Reset entities updated.');
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
     }
     for (const obj of objects) {
         await harness.objects.setObjectAsync(obj._id, obj);
     }
+    console.log('Updated objects, now wait for lovelace to process them.');
     let haveUpdate = false;
     while (!haveUpdate) {
         const state = await harness.states.getStateAsync('lovelace.0.info.entitiesUpdated');
         if (state && state.val) {
             haveUpdate = true;
+            console.log('Lovelace created new entities. Testing can continue.');
             return await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
         }
         console.log('No new entities, yet. Wait some more...');
@@ -107,10 +112,13 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
     }
     // Start the adapter and wait until it has started
     await harness.startAdapterAndWait();
+    console.log('lovelace started.');
     await exports.waitForEntitiesUpdate(harness, [], true);
 
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
+    console.log('Got entities after first start.');
     await exports.addEntitiesToConfiguration(harness, entities, true);
+    console.log('Startup done.');
     return entities;
 };
 
@@ -162,6 +170,7 @@ exports.addEntitiesToConfiguration = async function (harness, entities) {
         });
     }
     await exports.waitForEntitiesUpdate(harness, [configObj]);
+    console.log('Updated lovelace UI config.');
 };
 
 let currentClient;
@@ -169,6 +178,7 @@ let id = 0;
 exports.clearClient = function () { currentClient && currentClient.close(); currentClient = undefined; };
 
 async function setupClient() {
+    console.log('Setting up websocket client for UI input emulation.');
     currentClient = new WebSocket('ws://localhost:38091');
     const promise = new Promise(resolve => {
         let subscribeId = 0;
@@ -204,6 +214,7 @@ async function setupClient() {
  */
 exports.validateStateChange = async function (harness, entity_id, changeState, validator) {
     let fired = false;
+    console.log('Change state in iob and see that ' + entity_id + ' changes.');
 
     if (!currentClient) {
         await setupClient();
@@ -219,6 +230,7 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
                 const data = m.event.data;
                 if (data.entity_id === entity_id) {
                     fired = true;
+                    console.log('Got message from adapter to UI:');
                     console.dir(data.new_state, {depth: null});
                     validator(data.new_state); //pass new entity to validator.
                     currentClient.removeEventListener('message', eventListener);
@@ -227,8 +239,10 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
             }
         }
         currentClient.on('message', eventListener);
+        console.log('added message listener.');
     });
     await changeState();
+    console.log('iob state changed.');
     return resultPromise;
 };
 
@@ -263,11 +277,13 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
         await setupClient();
     }
 
+    console.log('Emulate UI input for ' + entity.entity + ' and see if iob states change.');
     await new Promise(resolve => {
         function receiver(message) {
             const m = JSON.parse(message);
             if (m.id === service_call_id) {
                 currentClient.removeEventListener('message', receiver);
+                console.log('Got response from adapter to UI message.');
                 resolve();
             }
         }
@@ -280,12 +296,12 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
                 const foundIndex = ioBrokerIds.indexOf(id);
                 ioBrokerIds.splice(foundIndex, 1);
             }
-            if (!ioBrokerIds.length) {
+            if (ioBrokerIds.length === 0) { //all received.
                 if (validator) {
                     validator(results);
                 }
                 harness.removeListener('stateChange', stateChanged);
-                console.log('resolving and removing iobState change listener');
+                console.log('All iob states changed after UI input. Done.');
                 resolve(state);
             }
         }
@@ -302,6 +318,12 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
         const message = {id, type: 'call_service'};
         prepareMessageFunc(message);
         message.service_data.entity_id = entity.entity_id;
-        currentClient.send(JSON.stringify(message));
+        //TODO: no one waits for this callback... can this cause issues? *Should* not, because listeners can not resolve before this is sent, right?
+        currentClient.send(JSON.stringify(message), (err) => {
+            if (err) {
+                console.log('Error sending: ', err);
+            }
+            console.log('Did send emulated UI message');
+        });
     });
 };
