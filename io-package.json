@@ -305,7 +305,7 @@
         "type": "number",
         "write": true,
         "read": true,
-        "desc": "Alarm arm status",
+        "desc": "Set/Read alarm arm status",
         "def": 0,
         "states": {
           "0": "disarmed",
