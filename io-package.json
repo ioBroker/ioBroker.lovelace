@@ -213,6 +213,18 @@
       }
     },
     {
+      "_id": "info.readyForClients",
+      "type": "state",
+      "common": {
+        "name": "Lovelace is ready to interact with UI and ioBroker.",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "role": "indicator.reachable",
+        "def": false
+      }
+    },
+    {
       "_id": "",
       "type": "meta",
       "common": {

@@ -73,32 +73,42 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
     console.log('Added objects to db.');
 };
 
+async function waitForStateChange(targetId, harness) {
+    return new Promise(resolve => {
+        function stateChangedListener(id, state) {
+            if (id === targetId) {
+                if (state.val === true) {
+                    console.log('Entities updated! -> resolve');
+                    harness.removeListener('stateChange', stateChangedListener);
+                    resolve();
+                }
+            } else {
+                console.log('Ignore change for', id);
+            }
+        }
+        harness.on('stateChange', stateChangedListener);
+    });
+}
+
 /**
  * Waits until lovelace.0.info.entitiesUpdated is set to true by lovelace.
  * @param harness
+ * @param {Array<IOBObject>} objects to add.
  * @param {boolean} [startingUp] prevent setting entitiesUpdated to false on startup
- * @returns {Promise<Entities>}
+ * @returns {Promise<Array<Entity>>}
  */
-exports.waitForEntitiesUpdate = async function (harness, objects, startingUp) {
-    if (!startingUp) {
-        console.log('Reset entities updated.');
-        await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
-    }
+exports.waitForEntitiesUpdate = async function (harness, objects) {
+    console.log('Adding new Objects - reset entities updated flag.');
+    await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
+
+    const promise = waitForStateChange('lovelace.0.info.entitiesUpdated', harness);
     for (const obj of objects) {
         await harness.objects.setObjectAsync(obj._id, obj);
     }
     console.log('Updated objects, now wait for lovelace to process them.');
-    let haveUpdate = false;
-    while (!haveUpdate) {
-        const state = await harness.states.getStateAsync('lovelace.0.info.entitiesUpdated');
-        if (state && state.val) {
-            haveUpdate = true;
-            console.log('Lovelace created new entities. Testing can continue.');
-            return await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
-        }
-        console.log('No new entities, yet. Wait some more...');
-        await exports.delay(1000);
-    }
+    await promise;
+    console.log('Lovelace created new entities. Testing can continue.');
+    return exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
 };
 
 exports.startAndGetEntities = async function (harness, objects, deviceIds, initialStates) {
@@ -109,15 +119,18 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
             promises.push(harness.states.setStateAsync(keyValue.id, keyValue.val));
         }
         await Promise.all(promises);
+        console.log('Updated states.');
     }
     // Start the adapter and wait until it has started
-    await harness.startAdapterAndWait();
-    console.log('lovelace started.');
-    await exports.waitForEntitiesUpdate(harness, [], true);
-
+    const promises = [
+        harness.startAdapterAndWait(),
+        waitForStateChange('lovelace.0.info.readyForClients', harness)
+    ];
+    await Promise.all(promises);
+    console.log('Lovelace started and ready for action.');
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
-    console.log('Got entities after first start.');
-    await exports.addEntitiesToConfiguration(harness, entities, true);
+    console.log('got entities after first start, add them to configuration.');
+    await exports.addEntitiesToConfiguration(harness, entities);
     console.log('Startup done.');
     return entities;
 };
@@ -153,9 +166,10 @@ exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, val
  * Adds entity to configuration, which should make adapter subscribe to state changes
  * @param harness
  * @param {Array<Entity>} entities
- * @returns {Promise<void>}
+ * @returns {Promise<Array<Entity>>}
  */
 exports.addEntitiesToConfiguration = async function (harness, entities) {
+    console.log('Updating UI config -> ignore update messages. :-)');
     const configObj = await harness.objects.getObjectAsync('lovelace.0.configuration');
     let currentConfig = configObj.native;
     if (!currentConfig.views) {
@@ -169,8 +183,9 @@ exports.addEntitiesToConfiguration = async function (harness, entities) {
             'entity': entity.entity_id
         });
     }
-    await exports.waitForEntitiesUpdate(harness, [configObj]);
+    const newEntities = await exports.waitForEntitiesUpdate(harness, [configObj]);
     console.log('Updated lovelace UI config.');
+    return newEntities;
 };
 
 let currentClient;
@@ -199,8 +214,8 @@ async function setupClient() {
             currentClient.send(JSON.stringify({id: id, type: 'subscribe_events', event_type: 'state_changed'}));
         });
     });
-    currentClient.on('close', () => currentClient = undefined);
-    currentClient.on('error', () => currentClient = undefined);
+    currentClient.on('close', () => {currentClient = undefined; console.log('UI client closed.');});
+    currentClient.on('error', () => {currentClient = undefined; console.log('UI client error.');});
     return promise;
 }
 
@@ -243,6 +258,7 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
     });
     await changeState();
     console.log('iob state changed.');
+    await resultPromise;
     return resultPromise;
 };
 
@@ -277,7 +293,7 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
         await setupClient();
     }
 
-    console.log('Emulate UI input for ' + entity.entity + ' and see if iob states change.');
+    console.log('Emulate UI input for ' + entity.entity_id + ' and see if iob states change.');
     await new Promise(resolve => {
         function receiver(message) {
             const m = JSON.parse(message);
@@ -290,19 +306,23 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
 
         const results = {};
         function stateChanged(id, state) {
-            console.log(id, 'changed');
+            console.log(id, 'changed to', state ? state.val : 'null');
+            if (state.from !== 'system.adapter.lovelace.0') {
+                console.log('State change not from lovelace -> ignore.', state);
+                return;
+            }
             if (ioBrokerIds.includes(id)) {
                 results[id] = state;
                 const foundIndex = ioBrokerIds.indexOf(id);
                 ioBrokerIds.splice(foundIndex, 1);
             }
             if (ioBrokerIds.length === 0) { //all received.
+                harness.removeListener('stateChange', stateChanged);
+                console.log('All iob states changed after UI input. Done.');
                 if (validator) {
                     validator(results);
                 }
-                harness.removeListener('stateChange', stateChanged);
-                console.log('All iob states changed after UI input. Done.');
-                resolve(state);
+                resolve();
             }
         }
 
