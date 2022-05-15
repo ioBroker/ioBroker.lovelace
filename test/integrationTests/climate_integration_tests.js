@@ -264,7 +264,7 @@ exports.runTests = function (getHarness) {
             expect(entity.attributes).to.have.property('hvac_modes');
             expect(entity.attributes.hvac_modes).to.have.members(['auto', 'manual']);
             await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.states.setStateAsync(deviceId + '.mode', 1, true),
+                async () => await harness.states.setStateAsync(deviceId + '.mode', 1),
                 entity => expect(entity).to.have.property('state', 'manual'));
         });
 
