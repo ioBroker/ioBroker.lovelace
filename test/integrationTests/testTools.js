@@ -236,11 +236,13 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
     }
     const resultPromise = new Promise(resolve => {
         function eventListener(message) {
+            console.log('.');
             if (fired) {
                 currentClient.removeEventListener('message', eventListener);
                 return;
             }
             const m = JSON.parse(message);
+            console.log('Got message ', m);
             if (m.type === 'event' && m.event && m.event.event_type === 'state_changed') {
                 const data = m.event.data;
                 if (data.entity_id === entity_id) {
