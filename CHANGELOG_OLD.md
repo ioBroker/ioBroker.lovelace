@@ -1,4 +1,8 @@
 # Older Changes
+## 2.1.0 (2022-01-06)
+* (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).
+* (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)
+
 ## 2.0.7 (2022-01-06)
 * (Garfonso) Fix: possible crash while creating light entity
 * (Garfonso) Fix: possible crashes in binding support

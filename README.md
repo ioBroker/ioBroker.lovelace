@@ -466,7 +466,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
 * (Garfonso) fixed: input_datetime did not work if time was enabled and did vanish if date and time were enabled.
 * (Garfonso) fixed: RGB hex string got broken on not rounded numbers (problem with mushroom ligth card).
@@ -487,10 +487,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 2.1.1 (2022-01-06)
 * (Garfonso) Fixed: Entity update in some cases.
-
-### 2.1.0 (2022-01-06)
-* (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).
-* (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)
 
 ## License
 
