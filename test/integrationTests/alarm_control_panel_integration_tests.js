@@ -33,7 +33,7 @@ exports.runTests = function (getHarness) {
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'alarm_control_panel'; m.service = 'alarm_disarm'; m.service_data = {code: 2704};
         }, deviceId, state => expect(state.val).to.equal(0));
-        //aram again:
+        //arm again:
         await tools.validateUIInput(harness, entity,m => {
             m.domain = 'alarm_control_panel'; m.service = 'alarm_arm_away'; m.service_data = {code: 2704};
         }, deviceId, state => expect(state.val).to.equal(3));

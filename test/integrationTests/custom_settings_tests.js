@@ -91,7 +91,7 @@ exports.runTests = function (getHarness) {
 
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
         await harness.objects.delObjectAsync(deviceId);
-        const newEntities = await tools.waitForEntitiesUpdate(harness, [], true);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, []);
         const newEntity = newEntities.find(e => e.context.id === deviceId);
         expect(newEntity).to.be.not.ok;
     });
@@ -107,7 +107,7 @@ exports.runTests = function (getHarness) {
 
         const obj = objects[deviceId];
         obj.common.name = 'New Name';
-        const newEntities = await tools.waitForEntitiesUpdate(harness, [obj], false);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, [obj]);
         const newEntity = newEntities.find(e => e.context.id === deviceId);
         expect(newEntity).to.be.ok;
         expect(newEntity).to.have.nested.property('attributes.friendly_name', 'New Name');

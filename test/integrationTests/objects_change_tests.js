@@ -106,7 +106,7 @@ exports.runTests = function (getHarness) {
 
         await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
         await harness.objects.delObjectAsync(deviceId + '.color');
-        const newEntities = await tools.waitForEntitiesUpdate(harness, [], true);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, []);
         const newLamp = newEntities.find(e => e.context.id === deviceId);
         expect(newLamp).to.be.ok;
         expect(newLamp).to.have.nested.property('context.iobType', 'hue');
@@ -126,7 +126,7 @@ exports.runTests = function (getHarness) {
                 await harness.objects.delObjectAsync(id);
             }
         }
-        const newEntities = await tools.waitForEntitiesUpdate(harness, [], true);
+        const newEntities = await tools.waitForEntitiesUpdate(harness, []);
         const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
         expect(shouldNotBeThere).to.not.be.ok;
     });
