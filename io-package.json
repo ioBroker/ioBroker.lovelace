@@ -189,7 +189,8 @@
     "leCheckPort": 80,
     "aliayOnly": false,
     "blindsInvert": false,
-    "alarmCheckCodeOnDisarmOnly": false
+    "alarmCheckCodeOnDisarmOnly": false,
+    "language": ""
   },
   "instanceObjects": [
     {

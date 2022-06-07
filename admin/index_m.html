@@ -417,7 +417,7 @@
             var $dropZone = $('#tab-custom');
             installFileUpload($dropZone, 5242880, function (err) {
                 if (err) {
-                    showError(_('Cannot uplpad file: ') + err);
+                    showError(_('Cannot upload file: ') + err);
                 } else {
                     readFiles();
                 }
@@ -692,6 +692,24 @@
                 <div class="input-field col s12 m6 l2 col-defaultUser">
                     <select class="value" id="defaultUser"></select>
                     <label class="translate" for="defaultUser">Run as</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l2 col-language">
+                    <select class="value" id="language">
+                        <option class="translate" value>Same as ioBroker</option>
+                        <option value="en">English</option>
+                        <option value="de">Deutsch</option>
+                        <option value="ru">русский</option>
+                        <option value="pt">Portugues</option>
+                        <option value="nl">Nederlands</option>
+                        <option value="fr">Français</option>
+                        <option value="it">Italiano</option>
+                        <option value="es">Espanol</option>
+                        <option value="pl">Polski</option>
+                        <option value="zh-cn">简体中文</option>
+                    </select>
+                    <label class="translate" for="language">Language</label>
                 </div>
             </div>
             <div class="row">
