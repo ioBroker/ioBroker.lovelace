@@ -425,13 +425,13 @@ Security must be taken from current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20201021.4
+Used version of home-assistant-frontend@20220706.0
 
 ### How to build the new Lovelace version
 First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20201021.4) following files were modified:
+For now (20220706.0) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task
 - `build-scripts/gulp/webpack.js` - Add new gulp task
 - `src/data/lovelace.ts` - add hide toolbar option
@@ -448,7 +448,6 @@ For now (20201021.4) following files were modified:
 - `.gitignore` - add `.idea` ignore
 - `package.json` - remove husky commit hook
 
-
 After that checkout modified version in `./build` folder. Then.
 
 1. go to ./build directory.
@@ -458,7 +457,7 @@ After that checkout modified version in `./build` folder. Then.
 5. `yarn install`
 6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
 7. copy all files from `./build/home-assistant-polymer/hass_frontend` into `./hass_frontend` in this repo
-8. Start `gulp rename` task.
+8. Run `gulp rename` task multiple times (until no changes happen).
 
 ## Changelog
 
@@ -466,6 +465,10 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (agross) added: per instance language support
+* (Garfonso) changed: updated frontent to 20220706.0.
+
 ### 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
 * (Garfonso) fixed: input_datetime did not work if time was enabled and did vanish if date and time were enabled.
