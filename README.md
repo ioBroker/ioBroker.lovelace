@@ -425,13 +425,13 @@ Security must be taken from current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20220706.0
+Used version of home-assistant-frontend@20220707.0
 
 ### How to build the new Lovelace version
 First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20220706.0) following files were modified:
+For now (20220707.0) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task
 - `build-scripts/gulp/webpack.js` - Add new gulp task
 - `src/data/lovelace.ts` - add hide toolbar option
@@ -468,6 +468,7 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (agross) added: per instance language support
 * (Garfonso) changed: updated frontent to 20220706.0.
+* (Garfonso) fixed: entity_id for devices with only one non english name should be ok again.
 
 ### 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
