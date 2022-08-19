@@ -286,6 +286,10 @@
                 socket.emit('writeFile', 'lovelace.' + instance, '/cards/' + file.name, btoa(binary), function () {
                     callback && callback(file.name);
                 });
+                //if admin 6.2.16 is default or dependency, we can skip the whole block and do this instead:
+                //socket.emit('writeFile', 'lovelace.' + instance, '/cards/' + file.name, e.target.result, function () {
+                //    callback && callback(file.name);
+                //});
             };
 
             // Read in the image file as a data URL.
