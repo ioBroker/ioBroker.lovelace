@@ -458,6 +458,7 @@ After that checkout modified version in `./build` folder. Then.
 6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
 7. copy all files from `./build/home-assistant-polymer/hass_frontend` into `./hass_frontend` in this repo
 8. Run `gulp rename` task multiple times (until no changes happen).
+9. Update Version in Readme and also in server.js VERSION constant.
 
 ## Changelog
 
@@ -467,8 +468,9 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (agross) added: per instance language support
-* (Garfonso) changed: updated frontent to 20220706.0.
+* (Garfonso) changed: updated frontent to 20220706.0. Needs theme adjustment (add code-editor-background-color)
 * (Garfonso) fixed: entity_id for devices with only one non english name should be ok again.
+* (Garfonso) added: add browser_mod (1.5.3), will be installed by default now.
 
 ### 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
