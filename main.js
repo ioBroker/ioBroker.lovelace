@@ -165,7 +165,7 @@ async function initWebServer(settings) {
             }
         });
 
-        adapter.getPort(server.settings.port, port => {
+        adapter.getPort(server.settings.port, (!server.settings.bind || server.settings.bind === '0.0.0.0') ? undefined : server.settings.bind || undefined, port => {
             if (port !== server.settings.port && !adapter.config.findNextPort) {
                 adapter.log.error(`port ${server.settings.port} already in use`);
                 if (adapter.terminate) {
@@ -176,7 +176,7 @@ async function initWebServer(settings) {
             }
             serverPort = port;
 
-            server.server.listen(port, () =>
+            server.server.listen(port, (!server.settings.bind || server.settings.bind === '0.0.0.0') ? undefined : server.settings.bind || undefined, () =>
                 serverListening = true);
             adapter.log.info(`http${server.settings.secure ? 's' : ''} server listening on port ${port}`);
         });
