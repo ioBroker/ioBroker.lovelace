@@ -227,10 +227,13 @@ exports.runTests = function (suite) {
                 promises.push(harness.states.setStateAsync(stateSet.iobId, stateSet.initialValue, true));
             }
             await Promise.all(promises); //set initial states here.
+            await tools.delay(1000); //fails online -> wait a little more for state updates to be processed.
             const entities = await tools.sendToAsync(harness, 'lovelace.0', 'browse'); //Get updated entities.
 
             const entity = entities.find(e => e.context.id === deviceId && e.entity_id.startsWith('weather.'));
             expect(entity).to.be.ok;
+            console.log('Got entity:');
+            console.dir(entity, {depth: null});
 
             expect(entity).to.have.property('state', 'iconURL');
             for (const state of states) {
@@ -367,6 +370,7 @@ exports.runTests = function (suite) {
                 promises.push(harness.states.setStateAsync(stateSet.iobId, stateSet.initialValue, true));
             }
             await Promise.all(promises); //set initial states here.
+            await tools.delay(1000); //fails online -> wait a little more for state updates to be processed.
             const entities = await tools.sendToAsync(harness, 'lovelace.0', 'browse'); //Get updated entities.
 
             const entity = entities.find(e => e.context.id === deviceId && e.entity_id.startsWith('weather.'));
@@ -567,6 +571,7 @@ exports.runTests = function (suite) {
                 promises.push(harness.states.setStateAsync(stateSet.iobId, stateSet.initialValue, true));
             }
             await Promise.all(promises); //set initial states here.
+            await tools.delay(1000); //fails online -> wait a little more for state updates to be processed.
             const entities = await tools.sendToAsync(harness, 'lovelace.0', 'browse'); //Get updated entities.
 
             const entity = entities.find(e => e.context.id === deviceId && e.entity_id.startsWith('weather.'));

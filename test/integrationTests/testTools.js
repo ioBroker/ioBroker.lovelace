@@ -118,7 +118,7 @@ exports.waitForEntitiesUpdate = async function (harness, objects) {
     await promise;
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
     console.log('Lovelace created new entities. Testing can continue.');
-    console.dir(entities);
+    console.dir(entities, {depth: null});
     return entities;
 };
 
