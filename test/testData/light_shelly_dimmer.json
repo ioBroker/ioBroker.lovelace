@@ -1,0 +1,957 @@
+{
+  "adapter.0.light.shelly_dimmer": {
+    "type": "device",
+    "common": {
+      "name": "Shelly Dimmer"
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953936583,
+    "_id": "adapter.0.light.shelly_dimmer",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.Sys": {
+    "type": "channel",
+    "common": {
+      "name": "Channel Sys"
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953937535,
+    "_id": "adapter.0.light.shelly_dimmer.Sys",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.Sys.eco": {
+    "type": "state",
+    "common": {
+      "name": "Eco Mode",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953937536,
+    "_id": "adapter.0.light.shelly_dimmer.Sys.eco",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.Sys.lat": {
+    "type": "state",
+    "common": {
+      "name": "Latitude",
+      "type": "number",
+      "role": "value.gps.latitude",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939236,
+    "_id": "adapter.0.light.shelly_dimmer.Sys.lat",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.Sys.lon": {
+    "type": "state",
+    "common": {
+      "name": "Longitude",
+      "type": "number",
+      "role": "value.gps.longitude",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939268,
+    "_id": "adapter.0.light.shelly_dimmer.Sys.lon",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.Sys.sntp": {
+    "type": "state",
+    "common": {
+      "name": "SNTP Server",
+      "type": "string",
+      "role": "url",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939213,
+    "_id": "adapter.0.light.shelly_dimmer.Sys.sntp",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.Sys.timezone": {
+    "type": "state",
+    "common": {
+      "name": "Timezone",
+      "type": "string",
+      "role": "text",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939230,
+    "_id": "adapter.0.light.shelly_dimmer.Sys.timezone",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.factoryResetFromSwitch": {
+    "type": "state",
+    "common": {
+      "name": "Factory reset from switch",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939178,
+    "_id": "adapter.0.light.shelly_dimmer.factoryResetFromSwitch",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.firmware": {
+    "type": "state",
+    "common": {
+      "name": "New firmware available",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939281,
+    "_id": "adapter.0.light.shelly_dimmer.firmware",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.firmwareupdate": {
+    "type": "state",
+    "common": {
+      "name": "Update Firmware",
+      "type": "boolean",
+      "role": "button",
+      "read": false,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953937239,
+    "_id": "adapter.0.light.shelly_dimmer.firmwareupdate",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.gen": {
+    "type": "state",
+    "common": {
+      "name": "Device generation",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939272,
+    "_id": "adapter.0.light.shelly_dimmer.gen",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.hostname": {
+    "type": "state",
+    "common": {
+      "name": "Device Hostname",
+      "type": "string",
+      "role": "info.ip",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953937325,
+    "_id": "adapter.0.light.shelly_dimmer.hostname",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.id": {
+    "type": "state",
+    "common": {
+      "name": "Device Id",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939310,
+    "_id": "adapter.0.light.shelly_dimmer.id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights": {
+    "type": "channel",
+    "common": {
+      "name": "Channel lights",
+      "read": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953936679,
+    "_id": "adapter.0.light.shelly_dimmer.lights",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.AutoTimerOff": {
+    "type": "state",
+    "common": {
+      "name": "AutoTimerOff",
+      "type": "number",
+      "role": "level.timer",
+      "def": 0,
+      "unit": "s",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939136,
+    "_id": "adapter.0.light.shelly_dimmer.lights.AutoTimerOff",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.AutoTimerOn": {
+    "type": "state",
+    "common": {
+      "name": "AutoTimerOn",
+      "type": "number",
+      "role": "level.timer",
+      "def": 0,
+      "unit": "s",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939141,
+    "_id": "adapter.0.light.shelly_dimmer.lights.AutoTimerOn",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.ButtonType": {
+    "type": "state",
+    "common": {
+      "name": "ButtonType",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": true,
+      "states": {
+        "one_button": "one_button",
+        "dual_button": "dual_button",
+        "toggle": "toggle",
+        "edge": "edge",
+        "detached": "detached",
+        "action": "action"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939149,
+    "_id": "adapter.0.light.shelly_dimmer.lights.ButtonType",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.ChannelName": {
+    "type": "state",
+    "common": {
+      "name": "ChannelName",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939104,
+    "_id": "adapter.0.light.shelly_dimmer.lights.ChannelName",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.Energy": {
+    "type": "state",
+    "common": {
+      "name": "Energy",
+      "type": "number",
+      "role": "value.power",
+      "read": true,
+      "write": false,
+      "def": 0,
+      "unit": "Wh"
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953936902,
+    "_id": "adapter.0.light.shelly_dimmer.lights.Energy",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.Event1": {
+    "type": "state",
+    "common": {
+      "name": "Event",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "states": {
+        "S": "1xShort",
+        "L": "Long"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953938958,
+    "_id": "adapter.0.light.shelly_dimmer.lights.Event1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.Event2": {
+    "type": "state",
+    "common": {
+      "name": "Event",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "states": {
+        "S": "1xShort",
+        "L": "Long"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939010,
+    "_id": "adapter.0.light.shelly_dimmer.lights.Event2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.EventCount1": {
+    "type": "state",
+    "common": {
+      "name": "Event Counter",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953938958,
+    "_id": "adapter.0.light.shelly_dimmer.lights.EventCount1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.EventCount2": {
+    "type": "state",
+    "common": {
+      "name": "Event Counter",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939038,
+    "_id": "adapter.0.light.shelly_dimmer.lights.EventCount2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.FadeRate": {
+    "type": "state",
+    "common": {
+      "name": "Fade Rate",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939170,
+    "_id": "adapter.0.light.shelly_dimmer.lights.FadeRate",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.Input1": {
+    "type": "state",
+    "common": {
+      "name": "Input / Detach",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "def": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953938958,
+    "_id": "adapter.0.light.shelly_dimmer.lights.Input1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.Input2": {
+    "type": "state",
+    "common": {
+      "name": "Input / Detach",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "def": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953938998,
+    "_id": "adapter.0.light.shelly_dimmer.lights.Input2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.Power": {
+    "type": "state",
+    "common": {
+      "name": "Power",
+      "type": "number",
+      "role": "value.power",
+      "read": true,
+      "write": false,
+      "def": 0,
+      "unit": "W"
+    },
+    "native": {},
+    "_id": "adapter.0.light.shelly_dimmer.lights.Power",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953936870
+  },
+  "adapter.0.light.shelly_dimmer.lights.Switch": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "name": "Switch",
+      "role": "switch",
+      "def": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953936763,
+    "_id": "adapter.0.light.shelly_dimmer.lights.Switch",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.Transiton": {
+    "type": "state",
+    "common": {
+      "name": "Transitions Time",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "unit": "ms",
+      "min": 0,
+      "max": 5000
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939159,
+    "_id": "adapter.0.light.shelly_dimmer.lights.Transiton",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.brightness": {
+    "type": "state",
+    "common": {
+      "name": "Brightness",
+      "type": "number",
+      "role": "level.brightness",
+      "read": true,
+      "write": true,
+      "min": 0,
+      "max": 100
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953938928,
+    "_id": "adapter.0.light.shelly_dimmer.lights.brightness",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.longpush1": {
+    "type": "state",
+    "common": {
+      "name": "Longpush",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "def": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953938994,
+    "_id": "adapter.0.light.shelly_dimmer.lights.longpush1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.longpush2": {
+    "type": "state",
+    "common": {
+      "name": "Longpush",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "def": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939042,
+    "_id": "adapter.0.light.shelly_dimmer.lights.longpush2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.lights.mode": {
+    "type": "state",
+    "common": {
+      "name": "mode",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "states": {
+        "color": "color",
+        "white": "white"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939114,
+    "_id": "adapter.0.light.shelly_dimmer.lights.mode",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.name": {
+    "type": "state",
+    "common": {
+      "name": "Device Name",
+      "type": "string",
+      "role": "info.name",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939212,
+    "_id": "adapter.0.light.shelly_dimmer.name",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.online": {
+    "type": "state",
+    "common": {
+      "name": "Online",
+      "type": "boolean",
+      "role": "indicator.reachable",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953937229,
+    "_id": "adapter.0.light.shelly_dimmer.online",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.overtemperature": {
+    "type": "state",
+    "common": {
+      "name": "Over Temperature",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939081,
+    "_id": "adapter.0.light.shelly_dimmer.overtemperature",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.protocol": {
+    "type": "state",
+    "common": {
+      "name": "Protocol",
+      "type": "string",
+      "role": "info",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953937515,
+    "_id": "adapter.0.light.shelly_dimmer.protocol",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.reboot": {
+    "type": "state",
+    "common": {
+      "name": "Reboot",
+      "type": "boolean",
+      "role": "button",
+      "read": false,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953937515,
+    "_id": "adapter.0.light.shelly_dimmer.reboot",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.rssi": {
+    "type": "state",
+    "common": {
+      "name": "Device RSSI status",
+      "type": "number",
+      "role": "value",
+      "unit": "db",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939365,
+    "_id": "adapter.0.light.shelly_dimmer.rssi",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.temperatureC": {
+    "type": "state",
+    "common": {
+      "name": "Temperature °C",
+      "type": "number",
+      "role": "value.temperature",
+      "read": true,
+      "write": false,
+      "unit": "°C",
+      "min": -100,
+      "max": 100
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939042,
+    "_id": "adapter.0.light.shelly_dimmer.temperatureC",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.temperatureF": {
+    "type": "state",
+    "common": {
+      "name": "Temperature °F",
+      "type": "number",
+      "role": "value.temperature",
+      "read": true,
+      "write": false,
+      "unit": "°F",
+      "min": -100,
+      "max": 150
+    },
+    "native": {},
+    "_id": "adapter.0.light.shelly_dimmer.temperatureF",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939080
+  },
+  "adapter.0.light.shelly_dimmer.type": {
+    "type": "state",
+    "common": {
+      "name": "Device type",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939363,
+    "_id": "adapter.0.light.shelly_dimmer.type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.uptime": {
+    "type": "state",
+    "common": {
+      "name": "Uptime",
+      "type": "string",
+      "role": "info",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939281,
+    "_id": "adapter.0.light.shelly_dimmer.uptime",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.shelly_dimmer.version": {
+    "type": "state",
+    "common": {
+      "name": "version",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.shelly.0",
+    "user": "system.user.admin",
+    "ts": 1649953939211,
+    "_id": "adapter.0.light.shelly_dimmer.version",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}
