@@ -3,6 +3,7 @@ const WebSocket = require('ws');
 const enums = require('../testData/enums.json');
 
 const lovelacePort = 38091;
+const lovelaceUpdateTimeout = 500;
 
 /**
  * returns number of entities that are always added to entities array.
@@ -50,17 +51,17 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
     if (startingUp) {
         const instanceObj = await harness.objects.getObjectAsync('system.adapter.lovelace.0');
         let needUpdate = false;
-        if (instanceObj.native.updateTimeout !== 100) {
+        if (instanceObj.native.updateTimeout !== lovelaceUpdateTimeout) {
             needUpdate = true;
         }
-        instanceObj.native.updateTimeout = 100;
+        instanceObj.native.updateTimeout = lovelaceUpdateTimeout;
         if (instanceObj.native.port !== lovelacePort) {
             instanceObj.native.port = lovelacePort;
             needUpdate = true;
         }
         if (needUpdate) {
             await harness.objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
-            console.log('Updated lovelace config port to ' + lovelacePort + ' and update timeout to 100ms');
+            console.log('Updated lovelace config port to ' + lovelacePort + ' and update timeout to ' + lovelaceUpdateTimeout + 'ms.');
         }
     }
     if (!startingUp) {
