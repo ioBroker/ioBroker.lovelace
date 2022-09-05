@@ -837,17 +837,17 @@ exports.runTests = function (suite) {
                 const entity = entities.find(e => e.context.id === deviceId);
                 expect(entity).to.be.ok;
 
-                const rgbAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'reed');
-                expect(rgbAttr).to.not.be.ok;
-                expect(rgbAttr).to.have.property('setId', deviceId + '.r');
+                const rgbAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'red');
+                expect(rgbAttr).to.be.ok;
+                expect(rgbAttr).to.have.property('getId', deviceId + '.r');
 
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
-                expect(ctAttr).to.not.be.ok;
-                expect(ctAttr).to.have.property('setId', deviceId + 'ct');
+                expect(ctAttr).to.be.ok;
+                expect(ctAttr).to.have.property('getId', deviceId + '.ct');
 
                 const brAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'brightness');
                 expect(brAttr).to.be.ok;
-                expect(brAttr).to.have.property('setId', deviceId + '.level')
+                expect(brAttr).to.have.property('getId', deviceId + '.level')
             });
         });
     });
