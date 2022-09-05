@@ -1,0 +1,196 @@
+{
+  "adapter.0.climate.thermostat.target_power_humidity": {
+    "type": "device",
+    "common": {
+      "name": "Thermostat Target Power Humidity"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.climate.thermostat.target_power_humidity",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_humidity.boost": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Humidity boost",
+      "read": false,
+      "write": true,
+      "role": "switch.boost",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_humidity.boost",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021818,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_humidity.error": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Humidity error",
+      "read": true,
+      "write": false,
+      "role": "indicator.error",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_humidity.error",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021517,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_humidity.maintenance": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Humidity maintenance",
+      "read": true,
+      "write": false,
+      "role": "indicator.maintenance",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_humidity.maintenance",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021398,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_humidity.offline": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Humidity offline",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_humidity.offline",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589783251,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_humidity.power": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Humidity power",
+      "read": true,
+      "write": true,
+      "role": "switch.power",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_humidity.power",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021718,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_humidity.target": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Humidity",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_humidity.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_humidity.working": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Humidity working",
+      "read": true,
+      "write": false,
+      "role": "indicator.working",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_humidity.working",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_humidity.humidity": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Humidity humidity",
+      "read": true,
+      "write": false,
+      "role": "value.humidity",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_humidity.humidity",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

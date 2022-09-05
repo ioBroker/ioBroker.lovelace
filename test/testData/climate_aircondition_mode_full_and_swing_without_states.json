@@ -1,0 +1,85 @@
+{
+  "adapter.0.aircondition.mode_full_and_swing_without_states": {
+    "type": "device",
+    "common": {
+      "name": "AirCondition Mode and Swing without states"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.aircondition.mode_full_and_swing_without_states",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.mode_full_and_swing_without_states.mode": {
+    "type": "state",
+    "common": {
+      "name": "AirCondition Mode And Swing without states Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.airconditioner",
+      "type": "number",
+      "states": {"0": "Off", "1":  "Auto", "2": "Heat", "3":  "Cool", "4": "Heat_Cool", "5": "dry", "6": "fan_only", "7": "iobroker_mode"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.mode_full_and_swing_without_states.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.mode_full_and_swing_without_states.swing": {
+    "type": "state",
+    "common": {
+      "name": "AirCondition Mode And Swing without states",
+      "read": true,
+      "write": true,
+      "role": "level.mode.swing",
+      "type": "number"
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.mode_full_and_swing_without_states.swing",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.mode_full_and_swing_without_states.target": {
+    "type": "state",
+    "common": {
+      "name": "AirCondition Mode And Swing without states Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.mode_full_and_swing_without_states.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

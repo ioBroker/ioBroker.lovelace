@@ -1,0 +1,195 @@
+{
+  "adapter.0.climate.thermostat.target_power_current_temp": {
+    "type": "device",
+    "common": {
+      "name": "Thermostat Target Power Current"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_current_temp.boost": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Current boost",
+      "read": false,
+      "write": true,
+      "role": "switch.boost",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp.boost",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021818,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_current_temp.error": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Current error",
+      "read": true,
+      "write": false,
+      "role": "indicator.error",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp.error",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021517,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_current_temp.maintenance": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Current maintenance",
+      "read": true,
+      "write": false,
+      "role": "indicator.maintenance",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp.maintenance",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021398,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_current_temp.offline": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Current offline",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp.offline",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589783251,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_current_temp.power": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Current power",
+      "read": true,
+      "write": true,
+      "role": "switch.power",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp.power",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021718,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_current_temp.target": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Current",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 5,
+      "max": 35,
+      "step": 7
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_current_temp.working": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Current working",
+      "read": true,
+      "write": false,
+      "role": "indicator.working",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp.working",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.climate.thermostat.target_power_current_temp.current": {
+    "type": "state",
+    "common": {
+      "name": "Thermostat Target Power Current temperature",
+      "read": true,
+      "write": false,
+      "role": "value.temperature",
+      "type": "number",
+      "unit": "°C"
+    },
+    "native": {},
+    "_id": "adapter.0.climate.thermostat.target_power_current_temp.current",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1608559021918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

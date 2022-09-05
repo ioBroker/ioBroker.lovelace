@@ -1,0 +1,182 @@
+{
+  "adapter.0.light.Hue": {
+    "type": "device",
+    "common": {
+      "name": "Hue"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055615999,
+    "_id": "adapter.0.light.Hue",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.Hue.brightness": {
+    "type": "state",
+    "common": {
+      "name": "Hue brightness",
+      "read": true,
+      "write": true,
+      "role": "level.dimmer",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "smartName": {
+        "de": "Hue",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.Hue.brightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860449,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.Hue.colortemp": {
+    "type": "state",
+    "common": {
+      "name": "Hue colortemp",
+      "read": true,
+      "write": true,
+      "role": "level.color.temperature",
+      "type": "number",
+      "min": 2200,
+      "max": 6500,
+      "unit": "K",
+      "smartName": {
+        "de": "Hue",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.Hue.colortemp",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860049,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.Hue.hue": {
+    "type": "state",
+    "common": {
+      "name": "Hue Hue",
+      "read": true,
+      "write": true,
+      "role": "level.color.hue",
+      "min": 0,
+      "max": 360,
+      "type": "number",
+      "smartName": {
+        "de": "Hue",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.Hue.hue",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860249,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.Hue.offline": {
+    "type": "state",
+    "common": {
+      "name": "Hue offline",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.light.Hue.offline",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589788918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.Hue.saturation": {
+    "type": "state",
+    "common": {
+      "name": "Hue saturation",
+      "read": true,
+      "write": true,
+      "role": "level.color.saturation",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "type": "number",
+      "smartName": {
+        "de": "Hue",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.Hue.saturation",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860149,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.Hue.state": {
+    "type": "state",
+    "common": {
+      "name": "Hue",
+      "read": true,
+      "write": true,
+      "role": "switch.light",
+      "type": "boolean",
+      "min": false,
+      "max": true,
+      "smartName": {
+        "de": "Hue",
+        "smartType": "LIGHT"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.Hue.state",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860549,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

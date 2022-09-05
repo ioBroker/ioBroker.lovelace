@@ -1,0 +1,151 @@
+{
+  "adapter.0.light.rgbSingle": {
+    "type": "device",
+    "common": {
+      "name": "Light RGB Single"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055615999,
+    "_id": "adapter.0.light.rgbSingle",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingle.brightness": {
+    "type": "state",
+    "common": {
+      "name": "Light RGB Single brightness",
+      "read": true,
+      "write": true,
+      "role": "level.dimmer",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "smartName": {
+        "de": "Light RGB Single",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingle.brightness",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860449,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingle.color": {
+    "type": "state",
+    "common": {
+      "name": "Light RGB Single color",
+      "read": true,
+      "write": true,
+      "role": "level.color.rgb",
+      "type": "string",
+      "smartName": {
+        "de": "Light RGB Single",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingle.color",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860349,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingle.colortemp": {
+    "type": "state",
+    "common": {
+      "name": "Light RGB Single colortemp",
+      "read": true,
+      "write": true,
+      "role": "level.color.temperature",
+      "type": "number",
+      "min": 2200,
+      "max": 6500,
+      "unit": "K",
+      "smartName": {
+        "de": "Light RGB Single",
+        "smartType": "LIGHT",
+        "byON": "stored"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingle.colortemp",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860049,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingle.offline": {
+    "type": "state",
+    "common": {
+      "name": "Light RGB Single offline",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach",
+      "type": "boolean",
+      "smartName": false
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingle.offline",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1611589788918,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.rgbSingle.state": {
+    "type": "state",
+    "common": {
+      "name": "Light RGB Single",
+      "read": true,
+      "write": true,
+      "role": "switch.light",
+      "type": "boolean",
+      "min": false,
+      "max": true,
+      "smartName": {
+        "de": "Light RGB Single",
+        "smartType": "LIGHT"
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.light.rgbSingle.state",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049860549,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

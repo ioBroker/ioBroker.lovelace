@@ -1,0 +1,2054 @@
+{
+  "adapter.0.light.wled_rgbw": {
+    "type": "device",
+    "common": {
+      "name": "wled_rgbw"
+    },
+    "native": {
+      "ip": "10.1.4.44",
+      "mac": "30c6f7bfe4f0"
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661791745237,
+    "_id": "adapter.0.light.wled_rgbw",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info": {
+    "type": "channel",
+    "common": {
+      "name": "Basic information"
+    },
+    "native": {},
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702140104,
+    "_id": "adapter.0.light.wled_rgbw._info",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info._online": {
+    "type": "state",
+    "common": {
+      "name": "Device connection state",
+      "type": "boolean",
+      "role": "indicator.connected",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152642,
+    "_id": "adapter.0.light.wled_rgbw._info._online",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.arch": {
+    "type": "state",
+    "common": {
+      "name": "Name of the platform.",
+      "type": "mixed",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152296,
+    "_id": "adapter.0.light.wled_rgbw._info.arch",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.brand": {
+    "type": "state",
+    "common": {
+      "name": "The producer/vendor of the light. Always WLED for standard installations.",
+      "type": "mixed",
+      "role": "info.name    ",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152331,
+    "_id": "adapter.0.light.wled_rgbw._info.brand",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.core": {
+    "type": "state",
+    "common": {
+      "name": "Version of the underlying (Arduino core) SDK",
+      "type": "mixed",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152298,
+    "_id": "adapter.0.light.wled_rgbw._info.core",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.freeheap": {
+    "type": "state",
+    "common": {
+      "name": "Bytes of heap memory (RAM) currently available. Problematic if <10k.",
+      "type": "number",
+      "role": "info.status",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152303,
+    "_id": "adapter.0.light.wled_rgbw._info.freeheap",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.fs.pmt": {
+    "type": "state",
+    "common": {
+      "name": "presetsModifiedTime",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152286,
+    "_id": "adapter.0.light.wled_rgbw._info.fs.pmt",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.fs.t": {
+    "type": "state",
+    "common": {
+      "name": "fsBytesTotal in kB",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "kB",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152283,
+    "_id": "adapter.0.light.wled_rgbw._info.fs.t",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.fs.u": {
+    "type": "state",
+    "common": {
+      "name": "fsBytesUsed in kB",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "kB",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152247,
+    "_id": "adapter.0.light.wled_rgbw._info.fs.u",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.fxcount": {
+    "type": "state",
+    "common": {
+      "name": "Number of effects included",
+      "type": "mixed",
+      "role": "info.name",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152088,
+    "_id": "adapter.0.light.wled_rgbw._info.fxcount",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.ip": {
+    "type": "state",
+    "common": {
+      "name": "IP Address",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152356,
+    "_id": "adapter.0.light.wled_rgbw._info.ip",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds": {
+    "type": "channel",
+    "common": {
+      "name": "LED stripe configuration\t"
+    },
+    "native": {},
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702140113,
+    "_id": "adapter.0.light.wled_rgbw._info.leds",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.cct": {
+    "type": "state",
+    "common": {
+      "name": "White spectrum color temperature",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152038,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.cct",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.count": {
+    "type": "state",
+    "common": {
+      "name": "Total LED count",
+      "type": "number",
+      "role": "value",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702151998,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.count",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.fps": {
+    "type": "state",
+    "common": {
+      "name": "Frames per Second",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152006,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.fps",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.lc": {
+    "type": "state",
+    "common": {
+      "name": "Logical AND of all active segment's virtual light capabilities",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152022,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.lc",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.maxpwr": {
+    "type": "state",
+    "common": {
+      "name": "Maximum power budget in milliamps for the ABL. 0 if ABL is disabled",
+      "type": "number",
+      "role": "value.power",
+      "read": true,
+      "unit": "mA",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152009,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.maxpwr",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.maxseg": {
+    "type": "state",
+    "common": {
+      "name": "Maximum number of segments supported by this version",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152017,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.maxseg",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.pwr": {
+    "type": "state",
+    "common": {
+      "name": "Current LED power usage in milliamps as determined by the ABL. 0 if ABL is disabled",
+      "type": "number",
+      "role": "value.power",
+      "read": true,
+      "unit": "mA",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152002,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.pwr",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.rgbw": {
+    "type": "state",
+    "common": {
+      "name": "true if LEDs are 4-channel (RGBW)",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152033,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.rgbw",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.seglc": {
+    "type": "state",
+    "common": {
+      "name": "Segment supports (24 bit) RGB colors",
+      "type": "object",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152020,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.seglc",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.leds.wv": {
+    "type": "state",
+    "common": {
+      "name": "wv",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152036,
+    "_id": "adapter.0.light.wled_rgbw._info.leds.wv",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.lip": {
+    "type": "state",
+    "common": {
+      "name": "Realtime data source IP address",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152062,
+    "_id": "adapter.0.light.wled_rgbw._info.lip",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.live": {
+    "type": "state",
+    "common": {
+      "name": "If true, the software is currently receiving realtime data via UDP or E1.31",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152057,
+    "_id": "adapter.0.light.wled_rgbw._info.live",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.lm": {
+    "type": "state",
+    "common": {
+      "name": "Info about the realtime data source",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152060,
+    "_id": "adapter.0.light.wled_rgbw._info.lm",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.lwip": {
+    "type": "state",
+    "common": {
+      "name": "lwip",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152301,
+    "_id": "adapter.0.light.wled_rgbw._info.lwip",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.mac": {
+    "type": "state",
+    "common": {
+      "name": "The hexadecimal hardware MAC address of the light, lowercase and without colons",
+      "type": "string",
+      "role": "info.mac",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152353,
+    "_id": "adapter.0.light.wled_rgbw._info.mac",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.name": {
+    "type": "state",
+    "common": {
+      "name": "Friendly name of the light. Intended for display in lists and titles",
+      "type": "mixed",
+      "role": "info.name",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152048,
+    "_id": "adapter.0.light.wled_rgbw._info.name",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.ndc": {
+    "type": "state",
+    "common": {
+      "name": "Number of other WLED devices discovered on the network. -1 if Node discovery disabled. (since 0.12.0)",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152289,
+    "_id": "adapter.0.light.wled_rgbw._info.ndc",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.opt": {
+    "type": "state",
+    "common": {
+      "name": "Used for debugging purposes only",
+      "type": "mixed",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152328,
+    "_id": "adapter.0.light.wled_rgbw._info.opt",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.palcount": {
+    "type": "state",
+    "common": {
+      "name": "Number of palettes configured",
+      "type": "mixed",
+      "role": "info.name",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152093,
+    "_id": "adapter.0.light.wled_rgbw._info.palcount",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.product": {
+    "type": "state",
+    "common": {
+      "name": "The product name. Always DIY light for standard installations.",
+      "type": "mixed",
+      "role": "info.name",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152350,
+    "_id": "adapter.0.light.wled_rgbw._info.product",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.str": {
+    "type": "state",
+    "common": {
+      "name": "str",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152042,
+    "_id": "adapter.0.light.wled_rgbw._info.str",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.udpport": {
+    "type": "state",
+    "common": {
+      "name": "The UDP port for realtime packets and WLED broadcast",
+      "type": "number",
+      "role": "info.port",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152054,
+    "_id": "adapter.0.light.wled_rgbw._info.udpport",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.uptime": {
+    "type": "state",
+    "common": {
+      "name": "Time since the last boot/reset in seconds",
+      "type": "number",
+      "role": "info.status",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152324,
+    "_id": "adapter.0.light.wled_rgbw._info.uptime",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.ver": {
+    "type": "state",
+    "common": {
+      "name": "Version name",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702151994,
+    "_id": "adapter.0.light.wled_rgbw._info.ver",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.vid": {
+    "type": "state",
+    "common": {
+      "name": "Build ID (YYMMDDB, B = daily build index",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702151996,
+    "_id": "adapter.0.light.wled_rgbw._info.vid",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.wifi": {
+    "type": "channel",
+    "common": {
+      "name": "Wifi configuration\t"
+    },
+    "native": {},
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702140199,
+    "_id": "adapter.0.light.wled_rgbw._info.wifi",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.wifi.bssid": {
+    "type": "state",
+    "common": {
+      "name": "The BSSID of the currently connected network",
+      "type": "mixed",
+      "role": "info.address",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152127,
+    "_id": "adapter.0.light.wled_rgbw._info.wifi.bssid",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.wifi.channel": {
+    "type": "state",
+    "common": {
+      "name": "The current WiFi channel",
+      "type": "number",
+      "role": "info.address",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152231,
+    "_id": "adapter.0.light.wled_rgbw._info.wifi.channel",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.wifi.rssi": {
+    "type": "state",
+    "common": {
+      "name": "rssi",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152168,
+    "_id": "adapter.0.light.wled_rgbw._info.wifi.rssi",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.wifi.signal": {
+    "type": "state",
+    "common": {
+      "name": "Relative signal quality of the current connection",
+      "type": "number",
+      "role": "info.status",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152185,
+    "_id": "adapter.0.light.wled_rgbw._info.wifi.signal",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw._info.ws": {
+    "type": "state",
+    "common": {
+      "name": "Number of currently connected WebSockets clients. -1 indicates that WS is unsupported in this build.",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152074,
+    "_id": "adapter.0.light.wled_rgbw._info.ws",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.bri": {
+    "type": "state",
+    "common": {
+      "min": 0,
+      "max": 255,
+      "name": "Brightness of the light",
+      "type": "number",
+      "role": "value.brightness",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152368,
+    "_id": "adapter.0.light.wled_rgbw.bri",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.lor": {
+    "type": "state",
+    "common": {
+      "name": "Live data override. 0 is off, 1 is override until live data ends, 2 is override until ESP reboot (available since 0.10.0)",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152492,
+    "_id": "adapter.0.light.wled_rgbw.lor",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.mainseg": {
+    "type": "state",
+    "common": {
+      "name": "Main Segment",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152497,
+    "_id": "adapter.0.light.wled_rgbw.mainseg",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.nl": {
+    "type": "channel",
+    "common": {
+      "name": "Nightlight"
+    },
+    "native": {},
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702140303,
+    "_id": "adapter.0.light.wled_rgbw.nl",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.nl.dur": {
+    "type": "state",
+    "common": {
+      "name": "Duration of nightlight in minutes",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152443,
+    "_id": "adapter.0.light.wled_rgbw.nl.dur",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.nl.mode": {
+    "type": "state",
+    "common": {
+      "name": "Nightlight mode",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152473,
+    "_id": "adapter.0.light.wled_rgbw.nl.mode",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.nl.on": {
+    "type": "state",
+    "common": {
+      "name": "On / Off",
+      "type": "boolean",
+      "role": "switch",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152407,
+    "_id": "adapter.0.light.wled_rgbw.nl.on",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.nl.rem": {
+    "type": "state",
+    "common": {
+      "name": "Remaining nightlight in seconds",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "s",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152480,
+    "_id": "adapter.0.light.wled_rgbw.nl.rem",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.nl.tbri": {
+    "type": "state",
+    "common": {
+      "name": "Target brightness of nightlight feature",
+      "type": "number",
+      "role": "value.brightness",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152476,
+    "_id": "adapter.0.light.wled_rgbw.nl.tbri",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.on": {
+    "type": "state",
+    "common": {
+      "name": "wled_rgbw",
+      "type": "boolean",
+      "role": "switch",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "_id": "adapter.0.light.wled_rgbw.on",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1661791854698
+  },
+  "adapter.0.light.wled_rgbw.pl": {
+    "type": "state",
+    "common": {
+      "name": "ID of currently set playlist",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152403,
+    "_id": "adapter.0.light.wled_rgbw.pl",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.ps": {
+    "type": "state",
+    "common": {
+      "name": "ID of currently set preset",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152396,
+    "_id": "adapter.0.light.wled_rgbw.ps",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.psave": {
+    "type": "state",
+    "common": {
+      "name": "Save current light config to specified preset slot",
+      "type": "mixed",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702151987,
+    "_id": "adapter.0.light.wled_rgbw.psave",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg": {
+    "type": "channel",
+    "common": {
+      "name": "Segmentation"
+    },
+    "native": {},
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702140333,
+    "_id": "adapter.0.light.wled_rgbw.seg",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0": {
+    "type": "channel",
+    "common": {
+      "name": "Segment 0"
+    },
+    "native": {},
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702140335,
+    "_id": "adapter.0.light.wled_rgbw.seg.0",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.bri": {
+    "type": "state",
+    "common": {
+      "min": 0,
+      "max": 255,
+      "name": "Brightness of the light",
+      "type": "number",
+      "role": "value.brightness",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152535,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.bri",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.cct": {
+    "type": "state",
+    "common": {
+      "name": "White spectrum color temperature",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152538,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.cct",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.col.0": {
+    "type": "state",
+    "common": {
+      "name": "Primary Color RGB",
+      "type": "mixed",
+      "role": "level.color.rgb",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152544,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.col.0",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.col.0_HEX": {
+    "type": "state",
+    "common": {
+      "name": "Primary Color HEX",
+      "type": "mixed",
+      "role": "level.color.hex",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152547,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.col.0_HEX",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.col.1": {
+    "type": "state",
+    "common": {
+      "name": "Secondary Color RGB (background)",
+      "type": "mixed",
+      "role": "level.color.rgb",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152550,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.col.1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.col.1_HEX": {
+    "type": "state",
+    "common": {
+      "name": "Secondary Color HEX (background)",
+      "type": "mixed",
+      "role": "level.color.hex",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152553,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.col.1_HEX",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.col.2": {
+    "type": "state",
+    "common": {
+      "name": "Tertiary Color RGB",
+      "type": "mixed",
+      "role": "level.color.rgb",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152556,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.col.2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.col.2_HEX": {
+    "type": "state",
+    "common": {
+      "name": "Tertiary Color HEX",
+      "type": "mixed",
+      "role": "level.color.hex",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152558,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.col.2_HEX",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.frz": {
+    "type": "state",
+    "common": {
+      "name": "frz",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152533,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.frz",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.fx": {
+    "type": "state",
+    "common": {
+      "name": "ID of the effect ",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true,
+      "states": {
+        "0": "Solid",
+        "1": "Blink",
+        "2": "Breathe",
+        "3": "Wipe",
+        "4": "Wipe Random",
+        "5": "Random Colors",
+        "6": "Sweep",
+        "7": "Dynamic",
+        "8": "Colorloop",
+        "9": "Rainbow",
+        "10": "Scan",
+        "11": "Scan Dual",
+        "12": "Fade",
+        "13": "Theater",
+        "14": "Theater Rainbow",
+        "15": "Running",
+        "16": "Saw",
+        "17": "Twinkle",
+        "18": "Dissolve",
+        "19": "Dissolve Rnd",
+        "20": "Sparkle",
+        "21": "Sparkle Dark",
+        "22": "Sparkle+",
+        "23": "Strobe",
+        "24": "Strobe Rainbow",
+        "25": "Strobe Mega",
+        "26": "Blink Rainbow",
+        "27": "Android",
+        "28": "Chase",
+        "29": "Chase Random",
+        "30": "Chase Rainbow",
+        "31": "Chase Flash",
+        "32": "Chase Flash Rnd",
+        "33": "Rainbow Runner",
+        "34": "Colorful",
+        "35": "Traffic Light",
+        "36": "Sweep Random",
+        "37": "Chase 2",
+        "38": "Aurora",
+        "39": "Stream",
+        "40": "Scanner",
+        "41": "Lighthouse",
+        "42": "Fireworks",
+        "43": "Rain",
+        "44": "Tetrix",
+        "45": "Fire Flicker",
+        "46": "Gradient",
+        "47": "Loading",
+        "48": "Police",
+        "49": "Fairy",
+        "50": "Two Dots",
+        "51": "Fairytwinkle",
+        "52": "Running Dual",
+        "53": "Halloween",
+        "54": "Chase 3",
+        "55": "Tri Wipe",
+        "56": "Tri Fade",
+        "57": "Lightning",
+        "58": "ICU",
+        "59": "Multi Comet",
+        "60": "Scanner Dual",
+        "61": "Stream 2",
+        "62": "Oscillate",
+        "63": "Pride 2015",
+        "64": "Juggle",
+        "65": "Palette",
+        "66": "Fire 2012",
+        "67": "Colorwaves",
+        "68": "Bpm",
+        "69": "Fill Noise",
+        "70": "Noise 1",
+        "71": "Noise 2",
+        "72": "Noise 3",
+        "73": "Noise 4",
+        "74": "Colortwinkles",
+        "75": "Lake",
+        "76": "Meteor",
+        "77": "Meteor Smooth",
+        "78": "Railway",
+        "79": "Ripple",
+        "80": "Twinklefox",
+        "81": "Twinklecat",
+        "82": "Halloween Eyes",
+        "83": "Solid Pattern",
+        "84": "Solid Pattern Tri",
+        "85": "Spots",
+        "86": "Spots Fade",
+        "87": "Glitter",
+        "88": "Candle",
+        "89": "Fireworks Starburst",
+        "90": "Fireworks 1D",
+        "91": "Bouncing Balls",
+        "92": "Sinelon",
+        "93": "Sinelon Dual",
+        "94": "Sinelon Rainbow",
+        "95": "Popcorn",
+        "96": "Drip",
+        "97": "Plasma",
+        "98": "Percent",
+        "99": "Ripple Rainbow",
+        "100": "Heartbeat",
+        "101": "Pacifica",
+        "102": "Candle Multi",
+        "103": "Solid Glitter",
+        "104": "Sunrise",
+        "105": "Phased",
+        "106": "Twinkleup",
+        "107": "Noise Pal",
+        "108": "Sine",
+        "109": "Phased Noise",
+        "110": "Flow",
+        "111": "Chunchun",
+        "112": "Dancing Shadows",
+        "113": "Washing Machine",
+        "114": "Candy Cane",
+        "115": "Blends",
+        "116": "TV Simulator",
+        "117": "Dynamic Smooth"
+      }
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152565,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.fx",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.grp": {
+    "type": "state",
+    "common": {
+      "name": "grp",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152521,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.grp",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.id": {
+    "type": "state",
+    "common": {
+      "name": "Zero-indexed ID of the segment",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152501,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.ix": {
+    "type": "state",
+    "common": {
+      "name": "Effect intensity",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152573,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.ix",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.len": {
+    "type": "state",
+    "common": {
+      "name": "Length of the segment (stop - start). stop has preference",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152518,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.len",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.mi": {
+    "type": "state",
+    "common": {
+      "name": "Mirrors the segment (available since 0.10.2)",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152581,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.mi",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.of": {
+    "type": "state",
+    "common": {
+      "name": "Offset (how many LEDs to rotate the virtual start of the segments, available since 0.13.0)",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152527,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.of",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.on": {
+    "type": "state",
+    "common": {
+      "name": "On / Off",
+      "type": "boolean",
+      "role": "switch",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152530,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.on",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.pal": {
+    "type": "state",
+    "common": {
+      "name": "ID of the color palette",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true,
+      "states": {
+        "0": "Default",
+        "1": "* Random Cycle",
+        "2": "* Color 1",
+        "3": "* Colors 1&2",
+        "4": "* Color Gradient",
+        "5": "* Colors Only",
+        "6": "Party",
+        "7": "Cloud",
+        "8": "Lava",
+        "9": "Ocean",
+        "10": "Forest",
+        "11": "Rainbow",
+        "12": "Rainbow Bands",
+        "13": "Sunset",
+        "14": "Rivendell",
+        "15": "Breeze",
+        "16": "Red & Blue",
+        "17": "Yellowout",
+        "18": "Analogous",
+        "19": "Splash",
+        "20": "Pastel",
+        "21": "Sunset 2",
+        "22": "Beech",
+        "23": "Vintage",
+        "24": "Departure",
+        "25": "Landscape",
+        "26": "Beach",
+        "27": "Sherbet",
+        "28": "Hult",
+        "29": "Hult 64",
+        "30": "Drywet",
+        "31": "Jul",
+        "32": "Grintage",
+        "33": "Rewhi",
+        "34": "Tertiary",
+        "35": "Fire",
+        "36": "Icefire",
+        "37": "Cyane",
+        "38": "Light Pink",
+        "39": "Autumn",
+        "40": "Magenta",
+        "41": "Magred",
+        "42": "Yelmag",
+        "43": "Yelblu",
+        "44": "Orange & Teal",
+        "45": "Tiamat",
+        "46": "April Night",
+        "47": "Orangery",
+        "48": "C9",
+        "49": "Sakura",
+        "50": "Aurora",
+        "51": "Atlantica",
+        "52": "C9 2",
+        "53": "C9 New",
+        "54": "Temperature",
+        "55": "Aurora 2",
+        "56": "Retro Clown",
+        "57": "Candy",
+        "58": "Toxy Reaf",
+        "59": "Fairy Reaf",
+        "60": "Semi Blue",
+        "61": "Pink Candy",
+        "62": "Red Reaf",
+        "63": "Aqua Flash",
+        "64": "Yelblu Hot",
+        "65": "Lite Light",
+        "66": "Red Flash",
+        "67": "Blink Red",
+        "68": "Red Shift",
+        "69": "Red Tide",
+        "70": "Candy2"
+      }
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152576,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.pal",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.rev": {
+    "type": "state",
+    "common": {
+      "name": "Flips the segment, causing animations to change direction",
+      "type": "boolean",
+      "role": "switch",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152580,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.rev",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.sel": {
+    "type": "state",
+    "common": {
+      "name": "Selected segments will have their state (color/FX) updated ",
+      "type": "boolean",
+      "role": "switch",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152578,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.sel",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.spc": {
+    "type": "state",
+    "common": {
+      "min": 0,
+      "max": 255,
+      "name": "Spacing (how many LEDs are turned off and skipped between each group)",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152524,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.spc",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.start": {
+    "type": "state",
+    "common": {
+      "name": "LED the segment starts at.",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152505,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.start",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.stop": {
+    "type": "state",
+    "common": {
+      "name": "LED the segment stops at, not included in range",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152513,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.stop",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.seg.0.sx": {
+    "type": "state",
+    "common": {
+      "name": "Relative effect speed",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152570,
+    "_id": "adapter.0.light.wled_rgbw.seg.0.sx",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.time": {
+    "type": "state",
+    "common": {
+      "name": "Set module time to unix timestamp.",
+      "type": "mixed",
+      "role": "info.date",
+      "read": true,
+      "unit": "",
+      "write": false
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702151991,
+    "_id": "adapter.0.light.wled_rgbw.time",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.transition": {
+    "type": "state",
+    "common": {
+      "name": "Duration of the crossfade between different colors/brightness levels.",
+      "type": "number",
+      "role": "value.transition",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152373,
+    "_id": "adapter.0.light.wled_rgbw.transition",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.tt": {
+    "type": "state",
+    "common": {
+      "name": "Similar to transition, but applies to just the current API call.",
+      "type": "mixed",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702151984,
+    "_id": "adapter.0.light.wled_rgbw.tt",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.udpn": {
+    "type": "channel",
+    "common": {
+      "name": "Broadcast (UDP sync)"
+    },
+    "native": {},
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702140320,
+    "_id": "adapter.0.light.wled_rgbw.udpn",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.udpn.nn": {
+    "type": "state",
+    "common": {
+      "name": "Dont send a broadcast packet (applies to just the current API call)",
+      "type": "mixed",
+      "role": "state",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702151989,
+    "_id": "adapter.0.light.wled_rgbw.udpn.nn",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.udpn.recv": {
+    "type": "state",
+    "common": {
+      "name": "Receive broadcast packets",
+      "type": "boolean",
+      "role": "switch",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152489,
+    "_id": "adapter.0.light.wled_rgbw.udpn.recv",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.wled_rgbw.udpn.send": {
+    "type": "state",
+    "common": {
+      "name": "Send WLED broadcast (UDP sync) packet on state change",
+      "type": "boolean",
+      "role": "switch",
+      "read": true,
+      "unit": "",
+      "write": true
+    },
+    "from": "system.adapter.wled.0",
+    "user": "system.user.admin",
+    "ts": 1661702152485,
+    "_id": "adapter.0.light.wled_rgbw.udpn.send",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

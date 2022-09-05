@@ -1,0 +1,23 @@
+{
+  "adapter.0.binary_sensor.motions.withoutCustom": {
+    "type": "state",
+    "common": {
+      "name": "binary sensor without custom",
+      "read": true,
+      "write": false,
+      "role": "sensor.window",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.binary_sensor.motions.withoutCustom",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}
