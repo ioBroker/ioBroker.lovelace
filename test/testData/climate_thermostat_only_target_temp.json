@@ -2,7 +2,7 @@
   "adapter.0.climate.thermostat.Minimal": {
     "type": "device",
     "common": {
-      "name": "HeatingBare"
+      "name": "Thermostat Minimal"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.climate.thermostat.Minimal.target": {
     "type": "state",
     "common": {
-      "name": "HeatingBare Target",
+      "name": "Thermostat Minimal Target",
       "read": true,
       "write": true,
       "role": "level.temperature",

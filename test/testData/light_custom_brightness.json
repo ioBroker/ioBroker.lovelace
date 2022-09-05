@@ -2,7 +2,7 @@
   "adapter.0.light.CustomBrightness": {
     "type": "state",
     "common": {
-      "name": "Lamp Brightness",
+      "name": "Custom Brightness",
       "read": true,
       "write": true,
       "role": "level.dimmer",

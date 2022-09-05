@@ -3,7 +3,7 @@
     "_id": "adapter.0.binary_sensor.firealarms.homematic",
     "type": "device",
     "common": {
-      "name": "FireAlarm - HomeMatic"
+      "name": "FireAlarm HomeMatic"
     },
     "native": {},
     "from": "system.adapter.hm-rega.0",

@@ -2,7 +2,7 @@
   "adapter.0.light.rgbw": {
     "type": "device",
     "common": {
-      "name": "Color Lamp"
+      "name": "RGBW"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.light.rgbw.brightness": {
     "type": "state",
     "common": {
-      "name": "Color Lamp brightness",
+      "name": "RGBW brightness",
       "read": true,
       "write": true,
       "role": "level.dimmer",
@@ -27,7 +27,7 @@
       "max": 100,
       "unit": "%",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGBW",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -47,7 +47,7 @@
   "adapter.0.light.rgbw.colortemp": {
     "type": "state",
     "common": {
-      "name": "Color Lamp colortemp",
+      "name": "RGBW colortemp",
       "read": true,
       "write": true,
       "role": "level.color.temperature",
@@ -56,7 +56,7 @@
       "max": 6500,
       "unit": "K",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGBW",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -76,7 +76,7 @@
   "adapter.0.light.rgbw.offline": {
     "type": "state",
     "common": {
-      "name": "Color Lamp offline",
+      "name": "RGBW offline",
       "read": true,
       "write": false,
       "role": "indicator.unreach",
@@ -98,7 +98,7 @@
   "adapter.0.light.rgbw.state": {
     "type": "state",
     "common": {
-      "name": "Color Lamp",
+      "name": "RGBW",
       "read": true,
       "write": true,
       "role": "switch.light",
@@ -106,7 +106,7 @@
       "min": false,
       "max": true,
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGBW",
         "smartType": "LIGHT"
       }
     },
@@ -125,7 +125,7 @@
   "adapter.0.light.rgbw.red": {
     "type": "state",
     "common": {
-      "name": "Color Lamp",
+      "name": "RGBW",
       "read": true,
       "write": true,
       "role": "level.color.red",
@@ -148,7 +148,7 @@
   "adapter.0.light.rgbw.green": {
     "type": "state",
     "common": {
-      "name": "Color Lamp",
+      "name": "RGBW",
       "read": true,
       "write": true,
       "role": "level.color.green",
@@ -171,7 +171,7 @@
   "adapter.0.light.rgbw.blue": {
     "type": "state",
     "common": {
-      "name": "Color Lamp",
+      "name": "RGBW",
       "read": true,
       "write": true,
       "role": "level.color.blue",
@@ -194,7 +194,7 @@
   "adapter.0.light.rgbw.white": {
     "type": "state",
     "common": {
-      "name": "Color Lamp",
+      "name": "RGBW",
       "read": true,
       "write": true,
       "role": "level.color.white",

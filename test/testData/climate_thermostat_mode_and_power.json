@@ -2,7 +2,7 @@
   "adapter.0.climate.thermostat.ModeAndPower": {
     "type": "device",
     "common": {
-      "name": "HeatingModeAndPower"
+      "name": "Thermostat With Mode and Power"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.climate.thermostat.ModeAndPower.mode": {
     "type": "state",
     "common": {
-      "name": "HeatingModeAndPower Mode",
+      "name": "Thermostat With Mode and Power Mode",
       "read": true,
       "write": true,
       "role": "level.mode.thermostat",
@@ -40,7 +40,7 @@
   "adapter.0.climate.thermostat.ModeAndPower.target": {
     "type": "state",
     "common": {
-      "name": "HeatingModeAndPower Target",
+      "name": "Thermostat With Mode and Power Target",
       "read": true,
       "write": true,
       "role": "level.temperature",
@@ -64,7 +64,7 @@
   "adapter.0.climate.thermostat.ModeAndPower.power": {
     "type": "state",
     "common": {
-      "name": "HeatingModeAndPower Mode",
+      "name": "Thermostat With Mode and Power Mode",
       "read": true,
       "write": true,
       "role": "switch.power",

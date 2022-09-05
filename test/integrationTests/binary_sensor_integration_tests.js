@@ -15,85 +15,84 @@ function expectBattery(entity, id, name, getId) {
     expectBinarySensor(entity, id, name, getId);
 }
 
-async function startAndGetEntities(harness, objects, deviceId) {
-    return tools.startAndGetEntities(harness, objects, [deviceId]);
-}
+exports.runTests = function (suite) {
+    suite('binary_sensors', (getHarness) => {
+        //adapter will keep running for all test. harness and initial entities will be initialized once in before.
+        let harness;
+        let entities;
+        let objects;
 
-async function motion_sensor_zigbee(getHarness) {
-    // Create a fresh harness instance each test!
-    const harness = getHarness();
+        //load all test objects here:
+        const jsonFiles = [
+            //motion sensors
+            '../testData/binary_sensor_motion_zigbee.json',
+            '../testData/binary_sensor_motion_with_battery_warning.json',
+            '../testData/binary_sensor_motion_with_id_clash.json',
+            //fire alarm
+            '../testData/binary_sensor_fireAlarm_Homematic.json'
+        ];
 
-    const objects = require('../testData/binary_sensor_motion_zigbee.json');
-    const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
-    const entities = await startAndGetEntities(harness, objects, deviceId);
-
-    expect(entities).to.have.lengthOf(1 + tools.getNumConstEntities() + 1); //for device query switch.
-    const binarySensor = entities.find(e => e.context.id === deviceId);
-    expect(binarySensor).to.be.ok;
-    expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.occupancy');
-}
-
-async function motion_sensor_with_battery_warning(getHarness) {
-    // Create a fresh harness instance each test!
-    const harness = getHarness();
-
-    const objects = require('../testData/binary_sensor_motion_with_battery_warning.json');
-    const deviceId = 'adapter.0.binary_sensor.motions.WithBatteryWarning';
-    const entities = await startAndGetEntities(harness, objects, deviceId);
-
-    expect(entities).to.have.lengthOf(2 + tools.getNumConstEntities());
-    const binarySensor = entities.find(e => e.context.id === deviceId);
-    const battery = entities.find(e => e.context.id === deviceId + '.batteryWarning');
-    expect(binarySensor).to.be.ok;
-    expect(battery).to.be.ok;
-    expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.motion');
-    expectBattery(battery, deviceId + '.batteryWarning', objects[deviceId + '.batteryWarning'].common.name);
-}
-
-async function motion_sensor_with_id_clash(getHarness) {
-    // Create a fresh harness instance each test!
-    const harness = getHarness();
-
-    const objects = require('../testData/binary_sensor_motion_with_id_clash.json');
-    const deviceId = 'adapter.0.binary_sensor.motions.withIdClash';
-    const entities = await startAndGetEntities(harness, objects, deviceId);
-
-    expect(entities).to.have.lengthOf(2 + tools.getNumConstEntities());
-    const binarySensor = entities.find(e => e.context.id === deviceId);
-    const battery = entities.find(e => e.context.id === deviceId + '.LOW_BAT');
-    expect(binarySensor).to.be.ok;
-    expect(battery).to.be.ok;
-    expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.MOTION');
-    expectBattery(battery, deviceId + '.LOW_BAT', objects[deviceId + '.LOW_BAT'].common.name, deviceId + '.LOW_BAT');
-}
-
-exports.runTests = function (getHarness) {
-    describe('Test motion sensors', () => {
-        it('detects zigbee motion detector', async () => {
-            await motion_sensor_zigbee(getHarness);
-        });
-        it('detects Motion Sensor with battery', async () => {
-            await motion_sensor_with_battery_warning(getHarness);
-        });
-        it('detects Motion Sensor with battery and prevents id clash', async () => {
-            await motion_sensor_with_id_clash(getHarness);
+        //start adapter and get initial entities.
+        const idsWithEnums = [
+            //motion sensors
+            'adapter.0.binary_sensor.motions.zigbee',
+            'adapter.0.binary_sensor.motions.WithBatteryWarning',
+            'adapter.0.binary_sensor.motions.withIdClash',
+            //fire alarm
+            'adapter.0.binary_sensor.firealarms.homematic'
+        ];
+        const initialStates = [];
+        before(async () => {
+            tools.clearClient();
+            //get harness && entities here.
+            harness = getHarness();
+            objects = await tools.loadMultipleObjects(jsonFiles);
+            entities = await tools.startAndGetEntities(harness, objects, idsWithEnums, initialStates);
         });
 
-        it('detect fire alarm with battery', async () => {
-            const harness = getHarness();
+        describe('motion sensors', () => {
+            it('detects zigbee motion detector', async () => {
+                const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
+                const binarySensor = entities.find(e => e.context.id === deviceId);
+                expect(binarySensor).to.be.ok;
+                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.occupancy');
+            });
 
-            const objects = require('../testData/binary_sensor_fireAlarm_Homematic.json');
-            const deviceId = 'adapter.0.binary_sensor.firealarms.homematic';
-            const alarmId = 'adapter.0.binary_sensor.firealarms.homematic.1.STATE';
-            const batteryId = 'adapter.0.binary_sensor.firealarms.homematic.1.LOWBAT';
-            const entities = await startAndGetEntities(harness, objects, deviceId);
-            const binarySensor = entities.find(e => e.context.id === deviceId);
-            const battery = entities.find(e => e.context.id === batteryId);
-            expect(binarySensor).to.be.ok;
-            expect(battery).to.be.ok;
-            expectBattery(battery, batteryId, objects[batteryId].common.name, batteryId);
-            expect(binarySensor).to.have.nested.property('attributes.device_class', 'smoke');
-            expectBinarySensor(binarySensor, deviceId, objects[deviceId].common.name, alarmId);
+            it('detects Motion Sensor with battery', async () => {
+                const deviceId = 'adapter.0.binary_sensor.motions.WithBatteryWarning';
+
+                const binarySensor = entities.find(e => e.context.id === deviceId);
+                const battery = entities.find(e => e.context.id === deviceId + '.batteryWarning');
+                expect(binarySensor).to.be.ok;
+                expect(battery).to.be.ok;
+                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.motion');
+                expectBattery(battery, deviceId + '.batteryWarning', objects[deviceId + '.batteryWarning'].common.name);
+            });
+
+            it('detects Motion Sensor with battery and prevents id clash', async () => {
+                const deviceId = 'adapter.0.binary_sensor.motions.withIdClash';
+                const binarySensor = entities.find(e => e.context.id === deviceId);
+                const battery = entities.find(e => e.context.id === deviceId + '.LOW_BAT');
+                expect(binarySensor).to.be.ok;
+                expect(battery).to.be.ok;
+                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.MOTION');
+                expectBattery(battery, deviceId + '.LOW_BAT', objects[deviceId + '.LOW_BAT'].common.name, deviceId + '.LOW_BAT');
+            });
+        });
+
+        describe('fire alarm', () => {
+            it('detect fire alarm with battery', async () => {
+                const deviceId = 'adapter.0.binary_sensor.firealarms.homematic';
+                const alarmId = 'adapter.0.binary_sensor.firealarms.homematic.1.STATE';
+                const batteryId = 'adapter.0.binary_sensor.firealarms.homematic.1.LOWBAT';
+                const binarySensor = entities.find(e => e.context.id === deviceId);
+                const battery = entities.find(e => e.context.id === batteryId);
+                expect(binarySensor).to.be.ok;
+                expect(battery).to.be.ok;
+                expectBattery(battery, batteryId, objects[batteryId].common.name, batteryId);
+                expect(binarySensor).to.have.nested.property('attributes.device_class', 'smoke');
+                expectBinarySensor(binarySensor, deviceId, objects[deviceId].common.name, alarmId);
+            });
         });
     });
 };

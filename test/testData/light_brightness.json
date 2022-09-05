@@ -2,7 +2,7 @@
   "adapter.0.light.BrightnessWithState": {
     "type": "device",
     "common": {
-      "name": "Lamp"
+      "name": "Brightness With State"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.light.BrightnessWithState.brightness": {
     "type": "state",
     "common": {
-      "name": "Lamp Brightness",
+      "name": "Brightness With State Brightness",
       "read": true,
       "write": true,
       "role": "level.dimmer",
@@ -41,7 +41,7 @@
   "adapter.0.light.BrightnessWithState.state": {
     "type": "state",
     "common": {
-      "name": "Lamp Switch",
+      "name": "Brightness With State Switch",
       "read": true,
       "write": true,
       "role": "switch.light",

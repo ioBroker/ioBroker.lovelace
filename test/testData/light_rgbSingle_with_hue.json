@@ -2,7 +2,7 @@
   "adapter.0.light.rgbSingleWithHue": {
     "type": "device",
     "common": {
-      "name": "Color Lamp"
+      "name": "RGB Single With Hue"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.light.rgbSingleWithHue.brightness": {
     "type": "state",
     "common": {
-      "name": "Color Lamp brightness",
+      "name": "RGB Single With Hue brightness",
       "read": true,
       "write": true,
       "role": "level.dimmer",
@@ -27,7 +27,7 @@
       "max": 100,
       "unit": "%",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGB Single With Hue",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -47,13 +47,13 @@
   "adapter.0.light.rgbSingleWithHue.color": {
     "type": "state",
     "common": {
-      "name": "Color Lamp color",
+      "name": "RGB Single With Hue color",
       "read": true,
       "write": true,
       "role": "level.color.rgb",
       "type": "string",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGB Single With Hue",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -73,7 +73,7 @@
   "adapter.0.light.rgbSingleWithHue.colortemp": {
     "type": "state",
     "common": {
-      "name": "Color Lamp colortemp",
+      "name": "RGB Single With Hue colortemp",
       "read": true,
       "write": true,
       "role": "level.color.temperature",
@@ -82,7 +82,7 @@
       "max": 6500,
       "unit": "K",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGB Single With Hue",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -102,7 +102,7 @@
   "adapter.0.light.rgbSingleWithHue.hue": {
     "type": "state",
     "common": {
-      "name": "Color Lamp Hue",
+      "name": "RGB Single With Hue Hue",
       "read": true,
       "write": true,
       "role": "level.color.hue",
@@ -110,7 +110,7 @@
       "max": 360,
       "type": "number",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGB Single With Hue",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -130,7 +130,7 @@
   "adapter.0.light.rgbSingleWithHue.offline": {
     "type": "state",
     "common": {
-      "name": "Color Lamp offline",
+      "name": "RGB Single With Hue offline",
       "read": true,
       "write": false,
       "role": "indicator.unreach",
@@ -152,7 +152,7 @@
   "adapter.0.light.rgbSingleWithHue.saturation": {
     "type": "state",
     "common": {
-      "name": "Color Lamp saturation",
+      "name": "RGB Single With Hue saturation",
       "read": true,
       "write": true,
       "role": "level.color.saturation",
@@ -161,7 +161,7 @@
       "unit": "%",
       "type": "number",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGB Single With Hue",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -181,7 +181,7 @@
   "adapter.0.light.rgbSingleWithHue.state": {
     "type": "state",
     "common": {
-      "name": "Color Lamp",
+      "name": "RGB Single With Hue",
       "read": true,
       "write": true,
       "role": "switch.light",
@@ -189,7 +189,7 @@
       "min": false,
       "max": true,
       "smartName": {
-        "de": "Color Lamp",
+        "de": "RGB Single With Hue",
         "smartType": "LIGHT"
       }
     },

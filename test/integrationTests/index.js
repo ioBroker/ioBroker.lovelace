@@ -5,59 +5,24 @@ const geo_location_tests    = require ('./geo_location_tests');
 const input_datetime_tests  = require('./input_datetime_tests');
 const input_select_tests    = require('./input_select_tests');
 const light_tests           = require('./light_integration_tests');
+const media_player_tests    = require('./media_player_integration_tests');
 const sensor_tests          = require('./sensor_integration_tests');
 const weather_tests         = require('./weather_integration_tests');
 
 const object_change_tests   = require('./objects_change_tests');
 const custom_settings_tests = require('./custom_settings_tests');
 
-const tools                 = require('./testTools');
-
-exports.runTests = function (getHarness) {
-    afterEach(tools.clearClient);
-
-    describe('Test alarm control panel', async () => {
-        await alarm_control_tests.runTests(getHarness);
-    });
-
-    describe('Test binary_sensors', async () => {
-        await binary_sensor_tests.runTests(getHarness);
-    });
-
-    describe('Test climate', async () => {
-        await climate_tests.runTests(getHarness);
-    });
-
-    describe('Test geo_location', async () => {
-        await geo_location_tests.runTests(getHarness);
-    });
-
-    describe('Test input_datetime', async () => {
-        await input_datetime_tests.runTests(getHarness);
-    });
-
-    describe('Test input_select', async () => {
-        await input_select_tests.runTests(getHarness);
-    });
-
-    describe('Test lights', async () => {
-        await light_tests.runTests(getHarness);
-    });
-
-    describe('Test sensors', async () => {
-        await sensor_tests.runTests(getHarness);
-    });
-
-    describe('Test weather', async () => {
-        await weather_tests.runTests(getHarness);
-    })
-
-    describe('Test object changes', async () => {
-        await object_change_tests.runTests(getHarness);
-    });
-
-    describe('Test custom settings', async () => {
-        await custom_settings_tests.runTests(getHarness);
-    });
-
+exports.runTests = function (suite) {
+    alarm_control_tests.runTests(suite);
+    binary_sensor_tests.runTests(suite);
+    climate_tests.runTests(suite);
+    geo_location_tests.runTests(suite);
+    input_datetime_tests.runTests(suite);
+    input_select_tests.runTests(suite);
+    light_tests.runTests(suite);
+    media_player_tests.runTests(suite);
+    sensor_tests.runTests(suite);
+    weather_tests.runTests(suite);
+    object_change_tests.runTests(suite);
+    custom_settings_tests.runTests(suite);
 };

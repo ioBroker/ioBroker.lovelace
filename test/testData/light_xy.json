@@ -2,7 +2,7 @@
   "adapter.0.light.xy": {
     "type": "device",
     "common": {
-      "name": "Color Lamp"
+      "name": "XY"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.light.xy.brightness": {
     "type": "state",
     "common": {
-      "name": "Color Lamp brightness",
+      "name": "XY brightness",
       "read": true,
       "write": true,
       "role": "level.dimmer",
@@ -27,7 +27,7 @@
       "max": 100,
       "unit": "%",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "XY",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -47,7 +47,7 @@
   "adapter.0.light.xy.colortemp": {
     "type": "state",
     "common": {
-      "name": "Color Lamp colortemp",
+      "name": "XY colortemp",
       "read": true,
       "write": true,
       "role": "level.color.temperature",
@@ -56,7 +56,7 @@
       "max": 6500,
       "unit": "K",
       "smartName": {
-        "de": "Color Lamp",
+        "de": "XY",
         "smartType": "LIGHT",
         "byON": "stored"
       }
@@ -76,7 +76,7 @@
   "adapter.0.light.xy.offline": {
     "type": "state",
     "common": {
-      "name": "Color Lamp offline",
+      "name": "XY offline",
       "read": true,
       "write": false,
       "role": "indicator.unreach",
@@ -98,7 +98,7 @@
   "adapter.0.light.xy.state": {
     "type": "state",
     "common": {
-      "name": "Color Lamp",
+      "name": "XY",
       "read": true,
       "write": true,
       "role": "switch.light",
@@ -106,7 +106,7 @@
       "min": false,
       "max": true,
       "smartName": {
-        "de": "Color Lamp",
+        "de": "XY",
         "smartType": "LIGHT"
       }
     },
@@ -125,7 +125,7 @@
   "adapter.0.light.xy.xy": {
     "type": "state",
     "common": {
-      "name": "Color Lamp",
+      "name": "XY",
       "read": true,
       "write": true,
       "role": "color.CIE",

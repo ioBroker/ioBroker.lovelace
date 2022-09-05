@@ -2,7 +2,7 @@
   "adapter.0.light.ColorTemp": {
     "type": "device",
     "common": {
-      "name": "Lamp"
+      "name": "Colortemp"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.light.ColorTemp.brightness": {
     "type": "state",
     "common": {
-      "name": "Lamp Brightness",
+      "name": "Colortemp Brightness",
       "read": true,
       "write": true,
       "role": "level.brightness",
@@ -41,7 +41,7 @@
   "adapter.0.light.ColorTemp.state": {
     "type": "state",
     "common": {
-      "name": "Lamp Switch",
+      "name": "Colortemp Switch",
       "read": true,
       "write": true,
       "role": "switch.light",
@@ -64,7 +64,7 @@
   "adapter.0.light.ColorTemp.ct": {
     "type": "state",
     "common": {
-      "name": "Lamp Switch",
+      "name": "Colortemp Switch",
       "read": true,
       "write": true,
       "role": "level.color.temperature",

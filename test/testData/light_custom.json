@@ -2,7 +2,7 @@
   "adapter.0.light.Custom": {
     "type": "state",
     "common": {
-      "name": "Lamp Brightness",
+      "name": "Custom",
       "read": true,
       "write": true,
       "role": "switch",

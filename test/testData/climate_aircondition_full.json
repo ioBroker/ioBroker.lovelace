@@ -2,7 +2,7 @@
   "adapter.0.aircondition.Full": {
     "type": "device",
     "common": {
-      "name": "AirConditionFull"
+      "name": "AirCondition Full"
     },
     "native": {},
     "from": "system.adapter.javascript.1",

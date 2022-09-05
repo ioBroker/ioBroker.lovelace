@@ -21,7 +21,7 @@
     "from": "system.adapter.javascript.1",
     "user": "system.user.admin",
     "ts": 1592055616034,
-    "_id": "adapter.0.cover.blindsButton",
+    "_id": "adapter.0.input_select.with_states",
     "acl": {
       "object": 1636,
       "owner": "system.user.admin",

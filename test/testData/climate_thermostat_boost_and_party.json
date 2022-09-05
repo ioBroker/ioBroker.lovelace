@@ -2,7 +2,7 @@
   "adapter.0.climate.thermostat.WithBoostAndParty": {
     "type": "device",
     "common": {
-      "name": "Heating"
+      "name": "Thermostat With Boost and Party"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.climate.thermostat.WithBoostAndParty.boost": {
     "type": "state",
     "common": {
-      "name": "Heating boost",
+      "name": "Thermostat With Boost and Party boost",
       "read": false,
       "write": true,
       "role": "switch.boost",
@@ -39,7 +39,7 @@
   "adapter.0.climate.thermostat.WithBoostAndParty.party": {
     "type": "state",
     "common": {
-      "name": "Heating Party",
+      "name": "Thermostat With Boost and Party Party",
       "read": true,
       "write": true,
       "role": "switch.mode.party",
@@ -60,7 +60,7 @@
   "adapter.0.climate.thermostat.WithBoostAndParty.power": {
     "type": "state",
     "common": {
-      "name": "Heating power",
+      "name": "Thermostat With Boost and Party power",
       "read": true,
       "write": true,
       "role": "switch.power",
@@ -81,7 +81,7 @@
   "adapter.0.climate.thermostat.WithBoostAndParty.target": {
     "type": "state",
     "common": {
-      "name": "Heating",
+      "name": "Thermostat With Boost and Party",
       "read": true,
       "write": true,
       "role": "level.temperature",

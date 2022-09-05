@@ -2,9 +2,7 @@
   "adapter.0.binary_sensor.motions.zigbee": {
     "type": "device",
     "common": {
-      "name": "Motion Detector Zigbee",
-      "type": "RTCGQ11LM",
-      "icon": "img/aqara_numan_body_sensor.png"
+      "name": "Motion Detector Zigbee"
     },
     "native": {
       "id": "0123456789abcdef"

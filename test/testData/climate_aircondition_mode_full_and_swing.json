@@ -2,7 +2,7 @@
   "adapter.0.aircondition.ModeAndSwing": {
     "type": "device",
     "common": {
-      "name": "Mode And Swing"
+      "name": "AirCondition Mode And Swing"
     },
     "native": {},
     "from": "system.adapter.javascript.1",
@@ -18,7 +18,7 @@
   "adapter.0.aircondition.ModeAndSwing.mode": {
     "type": "state",
     "common": {
-      "name": "Mode And Swing Mode",
+      "name": "AirCondition Mode And Swing Mode",
       "read": true,
       "write": true,
       "role": "level.mode.airconditioner",
@@ -40,7 +40,7 @@
   "adapter.0.aircondition.ModeAndSwing.swing": {
     "type": "state",
     "common": {
-      "name": "Mode And Swing",
+      "name": "AirCondition Mode And Swing",
       "read": true,
       "write": true,
       "role": "level.mode.swing",
@@ -62,7 +62,7 @@
   "adapter.0.aircondition.ModeAndSwing.target": {
     "type": "state",
     "common": {
-      "name": "Mode And Swing Target",
+      "name": "AirCondition Mode And Swing Target",
       "read": true,
       "write": true,
       "role": "level.temperature",
