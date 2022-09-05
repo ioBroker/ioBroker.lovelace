@@ -808,6 +808,26 @@ exports.runTests = function (suite) {
                     expect(entity.entity_id).to.not.include('light.');
                 }
             });
+
+            jsonFiles.push('../testData/light_homematic_color.json');
+            idsWithEnums.push('adapter.0.light.homematic_color');
+            initialStates.push({id: 'adapter.0.light.homematic_color.LEVEL', val: 100});
+            it('homematic color is only dimmer today', async () => {
+                //TODO: color_temp has wrong role, or no role at all...
+                //TODO: color seems to be rgbw -> needs new type. But expects rgb(R,G,B,W) as string.. strange.
+                const deviceId = 'adapter.0.light.homematic_color';
+                const entity = entities.find(e => e.context.id === deviceId);
+                expect(entity).to.be.ok;
+
+                const rgbAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'rgb_color');
+                expect(rgbAttr).to.not.be.ok;
+
+                const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
+                expect(ctAttr).to.not.be.ok;
+
+                const brAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'brightness');
+                expect(brAttr).to.be.ok;
+            });
         });
     });
 };

@@ -1,0 +1,2010 @@
+{
+  "adapter.0.light.homematic_color": {
+    "_id": "adapter.0.light.homematic_color",
+    "type": "device",
+    "common": {
+      "name": "Homeatic Color"
+    },
+    "native": {
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309009,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.0": {
+    "_id": "adapter.0.light.homematic_color.0",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:0"
+    },
+    "native": {
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309037,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.0.LOWBAT": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:0.LOWBAT",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator.lowbat"
+    },
+    "native": {
+      "ID": "LOWBAT",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 5,
+      "FLAGS": 9,
+      "TYPE": "BOOL",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309056,
+    "_id": "adapter.0.light.homematic_color.0.LOWBAT",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.0.LOWBAT_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:0.LOWBAT_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {
+      "Name": "CUX2801023:0.LOWBAT_ALARM",
+      "TypeName": "ALARM",
+      "DP": "17838"
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309132,
+    "_id": "adapter.0.light.homematic_color.0.LOWBAT_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.0.STICKY_UNREACH": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:0.STICKY_UNREACH",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "indicator.unreach"
+    },
+    "native": {
+      "ID": "STICKY_UNREACH",
+      "UNIT": "",
+      "TAB_ORDER": 2,
+      "OPERATIONS": 7,
+      "FLAGS": 25,
+      "TYPE": "BOOL",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309104,
+    "_id": "adapter.0.light.homematic_color.0.STICKY_UNREACH",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.0.STICKY_UNREACH_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:0.STICKY_UNREACH_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {
+      "Name": "CUX2801023:0.STICKY_UNREACH_ALARM",
+      "TypeName": "ALARM",
+      "DP": "17842"
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309154,
+    "_id": "adapter.0.light.homematic_color.0.STICKY_UNREACH_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.0.UNREACH": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:0.UNREACH",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator.unreach"
+    },
+    "native": {
+      "ID": "UNREACH",
+      "UNIT": "",
+      "TAB_ORDER": 1,
+      "OPERATIONS": 5,
+      "FLAGS": 9,
+      "TYPE": "BOOL",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309083,
+    "_id": "adapter.0.light.homematic_color.0.UNREACH",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.0.UNREACH_ALARM": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:0.UNREACH_ALARM",
+      "type": "number",
+      "role": "indicator.alarm",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "states": {
+        "0": "NO ALARM",
+        "1": "ALARM",
+        "2": "ACKNOWLEDGED"
+      }
+    },
+    "native": {
+      "Name": "CUX2801023:0.UNREACH_ALARM",
+      "TypeName": "ALARM",
+      "DP": "17846"
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309180,
+    "_id": "adapter.0.light.homematic_color.0.UNREACH_ALARM",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1": {
+    "_id": "adapter.0.light.homematic_color.1",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:1"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:1",
+      "AES_ACTIVE": 0,
+      "FLAGS": 1,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 1,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309206,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_EXEC": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_EXEC",
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true
+    },
+    "native": {
+      "ID": "CMD_EXEC",
+      "UNIT": "",
+      "TAB_ORDER": 11,
+      "OPERATIONS": 2,
+      "FLAGS": 1,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309490,
+    "_id": "adapter.0.light.homematic_color.1.CMD_EXEC",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_KILL": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_KILL",
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true
+    },
+    "native": {
+      "ID": "CMD_KILL",
+      "UNIT": "",
+      "TAB_ORDER": 10,
+      "OPERATIONS": 2,
+      "FLAGS": 1,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309469,
+    "_id": "adapter.0.light.homematic_color.1.CMD_KILL",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_QUERY_RET": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_QUERY_RET",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button"
+    },
+    "native": {
+      "ID": "CMD_QUERY_RET",
+      "UNIT": "",
+      "TAB_ORDER": 20,
+      "OPERATIONS": 2,
+      "FLAGS": 2,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309700,
+    "_id": "adapter.0.light.homematic_color.1.CMD_QUERY_RET",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_RETL": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_RETL",
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "ID": "CMD_RETL",
+      "UNIT": "",
+      "TAB_ORDER": 19,
+      "OPERATIONS": 5,
+      "FLAGS": 1,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309679,
+    "_id": "adapter.0.light.homematic_color.1.CMD_RETL",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_RETS": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_RETS",
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": false
+    },
+    "native": {
+      "ID": "CMD_RETS",
+      "UNIT": "",
+      "TAB_ORDER": 18,
+      "OPERATIONS": 5,
+      "FLAGS": 1,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309657,
+    "_id": "adapter.0.light.homematic_color.1.CMD_RETS",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_RUNL": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_RUNL",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button"
+    },
+    "native": {
+      "ID": "CMD_RUNL",
+      "UNIT": "",
+      "TAB_ORDER": 9,
+      "OPERATIONS": 2,
+      "FLAGS": 2,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309448,
+    "_id": "adapter.0.light.homematic_color.1.CMD_RUNL",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_RUNS": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_RUNS",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button"
+    },
+    "native": {
+      "ID": "CMD_RUNS",
+      "UNIT": "",
+      "TAB_ORDER": 8,
+      "OPERATIONS": 2,
+      "FLAGS": 2,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309424,
+    "_id": "adapter.0.light.homematic_color.1.CMD_RUNS",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_SETL": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_SETL",
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": true
+    },
+    "native": {
+      "ID": "CMD_SETL",
+      "UNIT": "",
+      "TAB_ORDER": 17,
+      "OPERATIONS": 7,
+      "FLAGS": 1,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309630,
+    "_id": "adapter.0.light.homematic_color.1.CMD_SETL",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CMD_SETS": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CMD_SETS",
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": true
+    },
+    "native": {
+      "ID": "CMD_SETS",
+      "UNIT": "",
+      "TAB_ORDER": 16,
+      "OPERATIONS": 7,
+      "FLAGS": 1,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309606,
+    "_id": "adapter.0.light.homematic_color.1.CMD_SETS",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.CONTROL": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.CONTROL",
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": false,
+      "min": 0,
+      "max": 1
+    },
+    "native": {
+      "ID": "CONTROL",
+      "UNIT": "",
+      "TAB_ORDER": 22,
+      "OPERATIONS": 1,
+      "FLAGS": 2,
+      "TYPE": "INTEGER",
+      "MIN": 0,
+      "MAX": 1,
+      "DEFAULT": 0
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309747,
+    "_id": "adapter.0.light.homematic_color.1.CONTROL",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.INHIBIT": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.INHIBIT",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "state.inhibit"
+    },
+    "native": {
+      "ID": "INHIBIT",
+      "UNIT": "",
+      "TAB_ORDER": 26,
+      "OPERATIONS": 3,
+      "FLAGS": 1,
+      "TYPE": "BOOL",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309845,
+    "_id": "adapter.0.light.homematic_color.1.INHIBIT",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 28,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309887,
+    "_id": "adapter.0.light.homematic_color.1.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.LEVEL": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.LEVEL",
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": true,
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "role": "level.dimmer",
+      "workingID": "WORKING"
+    },
+    "native": {
+      "ID": "LEVEL",
+      "UNIT": "100%",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 7,
+      "FLAGS": 1,
+      "CONTROL": "DIMMER.LEVEL",
+      "TYPE": "FLOAT",
+      "MIN": 0,
+      "MAX": 1,
+      "DEFAULT": 0
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309228,
+    "_id": "adapter.0.light.homematic_color.1.LEVEL",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.LOGIT": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.LOGIT",
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true
+    },
+    "native": {
+      "ID": "LOGIT",
+      "UNIT": "",
+      "TAB_ORDER": 12,
+      "OPERATIONS": 2,
+      "FLAGS": 2,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309516,
+    "_id": "adapter.0.light.homematic_color.1.LOGIT",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.OLD_LEVEL": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.OLD_LEVEL",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button"
+    },
+    "native": {
+      "ID": "OLD_LEVEL",
+      "UNIT": "",
+      "TAB_ORDER": 1,
+      "OPERATIONS": 2,
+      "FLAGS": 1,
+      "CONTROL": "DIMMER.OLD_LEVEL",
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309252,
+    "_id": "adapter.0.light.homematic_color.1.OLD_LEVEL",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.POSTIT": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.POSTIT",
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true
+    },
+    "native": {
+      "ID": "POSTIT",
+      "UNIT": "",
+      "TAB_ORDER": 13,
+      "OPERATIONS": 2,
+      "FLAGS": 2,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309540,
+    "_id": "adapter.0.light.homematic_color.1.POSTIT",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.PRESS_LONG": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.PRESS_LONG",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button.long"
+    },
+    "native": {
+      "ID": "PRESS_LONG",
+      "UNIT": "",
+      "TAB_ORDER": 7,
+      "OPERATIONS": 6,
+      "FLAGS": 2,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309395,
+    "_id": "adapter.0.light.homematic_color.1.PRESS_LONG",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.PRESS_SHORT": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.PRESS_SHORT",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button"
+    },
+    "native": {
+      "ID": "PRESS_SHORT",
+      "UNIT": "",
+      "TAB_ORDER": 6,
+      "OPERATIONS": 6,
+      "FLAGS": 2,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309370,
+    "_id": "adapter.0.light.homematic_color.1.PRESS_SHORT",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.RAND": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.RAND",
+      "def": "",
+      "type": "string",
+      "read": true,
+      "write": true
+    },
+    "native": {
+      "ID": "RAND",
+      "UNIT": "",
+      "TAB_ORDER": 25,
+      "OPERATIONS": 3,
+      "FLAGS": 2,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309818,
+    "_id": "adapter.0.light.homematic_color.1.RAND",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.RGBW": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.RGBW",
+      "def": "rgb(255,255,255,255)",
+      "type": "string",
+      "read": true,
+      "write": true
+    },
+    "native": {
+      "ID": "RGBW",
+      "UNIT": "",
+      "TAB_ORDER": 2,
+      "OPERATIONS": 3,
+      "FLAGS": 1,
+      "CONTROL": "RGBW_COLOR.RGBW",
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": "rgb(255,255,255,255)"
+    },
+    "_id": "adapter.0.light.homematic_color.1.RGBW",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309280
+  },
+  "adapter.0.light.homematic_color.1.SET_STATE": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.SET_STATE",
+      "def": 0,
+      "type": "number",
+      "read": true,
+      "write": true,
+      "min": 0,
+      "max": 1
+    },
+    "native": {
+      "ID": "SET_STATE",
+      "UNIT": "",
+      "TAB_ORDER": 23,
+      "OPERATIONS": 7,
+      "FLAGS": 2,
+      "TYPE": "FLOAT",
+      "MIN": 0,
+      "MAX": 1,
+      "DEFAULT": 0
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309772,
+    "_id": "adapter.0.light.homematic_color.1.SET_STATE",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.SET_STATES": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.SET_STATES",
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true
+    },
+    "native": {
+      "ID": "SET_STATES",
+      "UNIT": "",
+      "TAB_ORDER": 24,
+      "OPERATIONS": 2,
+      "FLAGS": 2,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309796,
+    "_id": "adapter.0.light.homematic_color.1.SET_STATES",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.STATE": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.STATE",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "role": "switch"
+    },
+    "native": {
+      "ID": "STATE",
+      "UNIT": "",
+      "TAB_ORDER": 5,
+      "OPERATIONS": 7,
+      "FLAGS": 2,
+      "TYPE": "BOOL",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309349,
+    "_id": "adapter.0.light.homematic_color.1.STATE",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.STOP": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.STOP",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button.stop"
+    },
+    "native": {
+      "ID": "STOP",
+      "UNIT": "",
+      "TAB_ORDER": 4,
+      "OPERATIONS": 6,
+      "FLAGS": 2,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309329,
+    "_id": "adapter.0.light.homematic_color.1.STOP",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.SYSLOG": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.SYSLOG",
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true
+    },
+    "native": {
+      "ID": "SYSLOG",
+      "UNIT": "",
+      "TAB_ORDER": 14,
+      "OPERATIONS": 2,
+      "FLAGS": 2,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309562,
+    "_id": "adapter.0.light.homematic_color.1.SYSLOG",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.TOGGLE": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.TOGGLE",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "button"
+    },
+    "native": {
+      "ID": "TOGGLE",
+      "UNIT": "",
+      "TAB_ORDER": 27,
+      "OPERATIONS": 2,
+      "FLAGS": 1,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "_id": "adapter.0.light.homematic_color.1.TOGGLE",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309865
+  },
+  "adapter.0.light.homematic_color.1.WHITE": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.WHITE",
+      "def": 2000,
+      "type": "number",
+      "read": true,
+      "write": true,
+      "min": 2000,
+      "max": 6500,
+      "unit": "K"
+    },
+    "native": {
+      "ID": "WHITE",
+      "UNIT": "K",
+      "TAB_ORDER": 3,
+      "OPERATIONS": 3,
+      "FLAGS": 1,
+      "CONTROL": "COLORTEMP.WHITE",
+      "TYPE": "FLOAT",
+      "MIN": 2000,
+      "MAX": 6500,
+      "DEFAULT": 2000
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309301,
+    "_id": "adapter.0.light.homematic_color.1.WHITE",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.WORKING": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.WORKING",
+      "def": false,
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "role": "indicator.working"
+    },
+    "native": {
+      "ID": "WORKING",
+      "UNIT": "",
+      "TAB_ORDER": 21,
+      "OPERATIONS": 5,
+      "FLAGS": 1,
+      "TYPE": "BOOL",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309725,
+    "_id": "adapter.0.light.homematic_color.1.WORKING",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.1.WRITE_FILE": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:1.WRITE_FILE",
+      "def": "",
+      "type": "string",
+      "read": false,
+      "write": true
+    },
+    "native": {
+      "ID": "WRITE_FILE",
+      "UNIT": "",
+      "TAB_ORDER": 15,
+      "OPERATIONS": 2,
+      "FLAGS": 2,
+      "TYPE": "STRING",
+      "MIN": "",
+      "MAX": "",
+      "DEFAULT": ""
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309583,
+    "_id": "adapter.0.light.homematic_color.1.WRITE_FILE",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.10": {
+    "_id": "adapter.0.light.homematic_color.10",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:10"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:10",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 10,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310270,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.10.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:10.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310290,
+    "_id": "adapter.0.light.homematic_color.10.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.11": {
+    "_id": "adapter.0.light.homematic_color.11",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:11"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:11",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 11,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310316,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.11.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:11.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310342,
+    "_id": "adapter.0.light.homematic_color.11.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.12": {
+    "_id": "adapter.0.light.homematic_color.12",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:12"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:12",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 12,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310372,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.12.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:12.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310390,
+    "_id": "adapter.0.light.homematic_color.12.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.13": {
+    "_id": "adapter.0.light.homematic_color.13",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:13"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:13",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 13,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310411,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.13.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:13.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310426,
+    "_id": "adapter.0.light.homematic_color.13.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.14": {
+    "_id": "adapter.0.light.homematic_color.14",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:14"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:14",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 14,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310451,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.14.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:14.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310541,
+    "_id": "adapter.0.light.homematic_color.14.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.15": {
+    "_id": "adapter.0.light.homematic_color.15",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:15"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:15",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 15,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310573,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.15.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:15.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310588,
+    "_id": "adapter.0.light.homematic_color.15.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.16": {
+    "_id": "adapter.0.light.homematic_color.16",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:16"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:16",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 16,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310628,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.16.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:16.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310660,
+    "_id": "adapter.0.light.homematic_color.16.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.2": {
+    "_id": "adapter.0.light.homematic_color.2",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:2"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:2",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 2,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309915,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.2.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:2.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309940,
+    "_id": "adapter.0.light.homematic_color.2.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.3": {
+    "_id": "adapter.0.light.homematic_color.3",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:3"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:3",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 3,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309960,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.3.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:3.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306309982,
+    "_id": "adapter.0.light.homematic_color.3.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.4": {
+    "_id": "adapter.0.light.homematic_color.4",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:4"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:4",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 4,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310002,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.4.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:4.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310022,
+    "_id": "adapter.0.light.homematic_color.4.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.5": {
+    "_id": "adapter.0.light.homematic_color.5",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:5"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:5",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 5,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310052,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.5.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:5.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310072,
+    "_id": "adapter.0.light.homematic_color.5.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.6": {
+    "_id": "adapter.0.light.homematic_color.6",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:6"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:6",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 6,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310095,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.6.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:6.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310118,
+    "_id": "adapter.0.light.homematic_color.6.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.7": {
+    "_id": "adapter.0.light.homematic_color.7",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:7"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:7",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 7,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310139,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.7.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:7.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310161,
+    "_id": "adapter.0.light.homematic_color.7.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.8": {
+    "_id": "adapter.0.light.homematic_color.8",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:8"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:8",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 8,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310182,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.8.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:8.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310205,
+    "_id": "adapter.0.light.homematic_color.8.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.9": {
+    "_id": "adapter.0.light.homematic_color.9",
+    "type": "channel",
+    "common": {
+      "name": "Homeatic Color:9"
+    },
+    "native": {
+      "ADDRESS": "CUX2801023:9",
+      "AES_ACTIVE": 0,
+      "FLAGS": 0,
+      "VERSION": 1,
+      "TYPE": "VIR-LG-RGBW-DIM-CH",
+      "PARENT": "CUX2801023",
+      "PARENT_TYPE": "VIR-LG-RGBW-DIM",
+      "DIRECTION": 0,
+      "INDEX": 9,
+      "LINK_SOURCE_ROLES": "",
+      "LINK_TARGET_ROLES": "",
+      "PARAMSETS": [
+        "MASTER",
+        "VALUES"
+      ]
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310229,
+    "acl": {
+      "object": 1636
+    }
+  },
+  "adapter.0.light.homematic_color.9.INSTALL_TEST": {
+    "type": "state",
+    "common": {
+      "name": "Homeatic Color:9.INSTALL_TEST",
+      "def": false,
+      "type": "boolean",
+      "read": false,
+      "write": true,
+      "role": "indicator"
+    },
+    "native": {
+      "ID": "INSTALL_TEST",
+      "UNIT": "",
+      "TAB_ORDER": 0,
+      "OPERATIONS": 2,
+      "FLAGS": 3,
+      "TYPE": "ACTION",
+      "MIN": false,
+      "MAX": true,
+      "DEFAULT": false
+    },
+    "from": "system.adapter.hm-rega.0",
+    "user": "system.user.admin",
+    "ts": 1637306310249,
+    "_id": "adapter.0.light.homematic_color.9.INSTALL_TEST",
+    "acl": {
+      "object": 1636,
+      "state": 1636
+    }
+  }
+}
