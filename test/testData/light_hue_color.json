@@ -1,0 +1,451 @@
+{
+  "adapter.0.light.hue_color": {
+    "_id": "adapter.0.light.hue_color",
+    "type": "channel",
+    "common": {
+      "name": "Hue Color",
+      "role": "light.color"
+    },
+    "native": {
+      "id": "11",
+      "type": "Extended color light",
+      "name": "Hue Color",
+      "modelid": "LCA001",
+      "swversion": "1.90.1"
+    },
+    "from": "system.adapter.hue.0",
+    "user": "system.user.admin",
+    "ts": 1637090776469,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.hue_color.alert": {
+    "_id": "adapter.0.light.hue_color.alert",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.alert",
+      "read": true,
+      "write": true,
+      "type": "string",
+      "role": "text",
+      "def": "select"
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090946761
+  },
+  "adapter.0.light.hue_color.b": {
+    "_id": "adapter.0.light.hue_color.b",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.b",
+      "read": true,
+      "write": true,
+      "type": "number",
+      "role": "level.color.blue",
+      "min": 0,
+      "max": 255,
+      "def": 0
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637143964026
+  },
+  "adapter.0.light.hue_color.bri": {
+    "_id": "adapter.0.light.hue_color.bri",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.bri",
+      "read": true,
+      "write": true,
+      "type": "number",
+      "role": "level.dimmer",
+      "min": 0,
+      "max": 254,
+      "def": 191
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090968711
+  },
+  "adapter.0.light.hue_color.colormode": {
+    "_id": "adapter.0.light.hue_color.colormode",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.colormode",
+      "read": true,
+      "write": false,
+      "type": "string",
+      "role": "colormode",
+      "def": "xy"
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090971906
+  },
+  "adapter.0.light.hue_color.command": {
+    "_id": "adapter.0.light.hue_color.command",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.command",
+      "read": true,
+      "write": true,
+      "type": "string",
+      "role": "command",
+      "def": "{}"
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090975828
+  },
+  "adapter.0.light.hue_color.ct": {
+    "_id": "adapter.0.light.hue_color.ct",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.ct",
+      "read": true,
+      "write": true,
+      "type": "number",
+      "role": "level.color.temperature",
+      "unit": "°K",
+      "min": 2000,
+      "max": 6536,
+      "def": 2571
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090978799
+  },
+  "adapter.0.light.hue_color.effect": {
+    "_id": "adapter.0.light.hue_color.effect",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.effect",
+      "read": true,
+      "write": true,
+      "type": "string",
+      "role": "text",
+      "def": "none"
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090982260
+  },
+  "adapter.0.light.hue_color.g": {
+    "_id": "adapter.0.light.hue_color.g",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.g",
+      "read": true,
+      "write": true,
+      "type": "number",
+      "role": "level.color.green",
+      "min": 0,
+      "max": 255,
+      "def": 0
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090985575
+  },
+  "adapter.0.light.hue_color.hue": {
+    "_id": "adapter.0.light.hue_color.hue",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.hue",
+      "read": true,
+      "write": true,
+      "type": "number",
+      "role": "level.color.hue",
+      "unit": "°",
+      "min": 0,
+      "max": 360,
+      "def": 55
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090989193
+  },
+  "adapter.0.light.hue_color.level": {
+    "_id": "adapter.0.light.hue_color.level",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.level",
+      "read": true,
+      "write": true,
+      "type": "number",
+      "role": "level.dimmer",
+      "min": 0,
+      "max": 100,
+      "def": 0
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637143973367
+  },
+  "adapter.0.light.hue_color.mode": {
+    "_id": "adapter.0.light.hue_color.mode",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.mode",
+      "read": true,
+      "write": true,
+      "type": "string",
+      "role": "text",
+      "def": "homeautomation"
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637090995690
+  },
+  "adapter.0.light.hue_color.on": {
+    "_id": "adapter.0.light.hue_color.on",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.on",
+      "read": true,
+      "write": true,
+      "type": "boolean",
+      "role": "switch.light",
+      "def": true
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637091002451
+  },
+  "adapter.0.light.hue_color.r": {
+    "_id": "adapter.0.light.hue_color.r",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.r",
+      "read": true,
+      "write": true,
+      "type": "number",
+      "role": "level.color.red",
+      "min": 0,
+      "max": 255,
+      "def": 0
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637091005481
+  },
+  "adapter.0.light.hue_color.reachable": {
+    "_id": "adapter.0.light.hue_color.reachable",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.reachable",
+      "read": true,
+      "write": false,
+      "type": "boolean",
+      "role": "indicator.reachable",
+      "def": true
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637091011624
+  },
+  "adapter.0.light.hue_color.sat": {
+    "_id": "adapter.0.light.hue_color.sat",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.sat",
+      "read": true,
+      "write": true,
+      "type": "number",
+      "role": "level.color.saturation",
+      "min": 0,
+      "max": 254,
+      "def": 254
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637091014620
+  },
+  "adapter.0.light.hue_color.updateable": {
+    "_id": "adapter.0.light.hue_color.updateable",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.updateable",
+      "read": true,
+      "write": false,
+      "type": "string",
+      "role": "indicator.update",
+      "def": "noupdates"
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637091018501
+  },
+  "adapter.0.light.hue_color.xy": {
+    "_id": "adapter.0.light.hue_color.xy",
+    "type": "state",
+    "common": {
+      "name": "Hue Color.xy",
+      "read": true,
+      "write": true,
+      "type": "string",
+      "role": "level.color.xy",
+      "def": "[0.4713,0.4464]"
+    },
+    "native": {
+      "id": "11"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1637091022017
+  }
+}

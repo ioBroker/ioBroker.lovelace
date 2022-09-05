@@ -828,6 +828,27 @@ exports.runTests = function (suite) {
                 const brAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'brightness');
                 expect(brAttr).to.be.ok;
             });
+
+            jsonFiles.push('../testData/light_hue_color.json');
+            idsWithEnums.push('adapter.0.light.hue_color');
+            initialStates.push({id: 'adapter.0.light.homematic_color.LEVEL', val: 100});
+            it('hue color is correclty created', async () => {
+                const deviceId = 'adapter.0.light.hue_color';
+                const entity = entities.find(e => e.context.id === deviceId);
+                expect(entity).to.be.ok;
+
+                const rgbAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'reed');
+                expect(rgbAttr).to.not.be.ok;
+                expect(rgbAttr).to.have.property('setId', deviceId + '.r');
+
+                const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
+                expect(ctAttr).to.not.be.ok;
+                expect(ctAttr).to.have.property('setId', deviceId + 'ct');
+
+                const brAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'brightness');
+                expect(brAttr).to.be.ok;
+                expect(brAttr).to.have.property('setId', deviceId + '.level')
+            });
         });
     });
 };
