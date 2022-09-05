@@ -138,19 +138,16 @@ exports.runTests = function (suite) {
             expect(shouldNotBeThere).to.not.be.ok;
         });
 
-        //uses '../testData/binary_sensor_motion_zigbee.json'
+        //uses '../testData/../testData/light_rgbSingle_with_hue.json'
         //uses '../testData/light_onOff.json'
         it('should keep entity if moved to other enum', async () => {
-            console.log('Objects change thingie!!');
-            const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
+            const deviceId = 'adapter.0.light.rgbSingleWithHue';
             const deviceId2 = 'adapter.0.light.OnlyOnOff';
             const entities = await tools.waitForEntitiesUpdate(harness, [objects[deviceId], objects[deviceId2]]);
             const shouldBeThere = entities.find(e => e.context.id === deviceId);
             expect(shouldBeThere).to.be.ok;
             expect(entities.find(e => e.context.id === deviceId2)).to.be.ok;
-            console.log('Got both entities, right?:');
-            console.dir(entities);
-            
+
             //move deviceId from test room to new created room:
             const roomEnum = await harness.objects.getObjectAsync('enum.rooms.testroom');
             const secondEnum = JSON.parse(JSON.stringify(roomEnum));
@@ -169,14 +166,9 @@ exports.runTests = function (suite) {
             secondFuncEnum.common.name = 'New function enum';
             secondFuncEnum._id = 'enum.functions.newFunc';
 
-            console.log('New enums:');
-            console.dir(secondEnum, {depth: null});
-            console.dir(secondFuncEnum, {depth: null});
             const newEntities = await tools.waitForEntitiesUpdate(harness, [roomEnum, secondEnum, funcEnum, secondFuncEnum]);
             expect(newEntities.find(e => e.context.id === deviceId)).to.be.ok;
             expect(newEntities.find(e => e.context.id === deviceId2)).to.be.ok;
-            console.log('result entities:');
-            console.dir(newEntities);
         });
     });
 };
