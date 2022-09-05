@@ -190,7 +190,8 @@
     "aliayOnly": false,
     "blindsInvert": false,
     "alarmCheckCodeOnDisarmOnly": false,
-    "language": ""
+    "language": "",
+    "updateTimeout": 5000
   },
   "instanceObjects": [
     {
