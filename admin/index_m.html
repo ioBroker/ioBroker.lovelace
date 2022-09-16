@@ -163,7 +163,14 @@
 
         function formatTime(time) {
             const date = new Date(time);
-            return date.toISOString();
+            let result = 'unknown';
+            try {
+                result = date.toISOString();
+            } catch(e) {
+                //somehow does not work for folders?
+                console.log('Could not convert ' + time + ' to date object.');
+            }
+            return result;
         }
 
         function readFiles() {
@@ -182,11 +189,13 @@
                 server += ':' + httpServer.port;
 
                 for (var i = 0; i < list.length; i++) {
-                    text += '<tr><td><a href="' + server + '/cards/' + list[i].file + '" target="_blank">' + list[i].file + '</a></td>' +
-                        '<td>' + list[i].stats.size + '</td>' +
-                        '<td>' + formatTime(list[i].modifiedAt) + '</td>' +
-                        '<td><a class="btn-floating btn-small waves-effect waves-light red delete-file" data-name="' + list[i].file + '"><i class="material-icons">delete</i></a></td>' +
-                        '</tr>';
+                    const buttonText = `<a class="btn-floating btn-small waves-effect waves-light red delete-file" data-name="${list[i].file}"><i class="material-icons">delete</i></a>`;
+
+                    text += `<tr><td><a href="${server}/cards/${list[i].file}" target="_blank">${list[i].file}</a></td>
+                                <td>${list[i].isDir ? _('Folder') : list[i].stats.size}</td>
+                                <td>${list[i].isDir ? '&nbsp' : formatTime(list[i].modifiedAt)}</td>
+                                <td>${list[i].isDir ? '&nbsp' : buttonText}</td>
+                            </tr>`;
                 }
                 text += '</table>';
                 $files_list.html(text);
