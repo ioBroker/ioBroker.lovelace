@@ -8,3 +8,11 @@
 }
 
 /* Add your styles here */
+.fixed-action-btn {
+    bottom: 73px !important;
+    right: 10px !important;
+}
+
+.folder-button {
+    color: black
+}

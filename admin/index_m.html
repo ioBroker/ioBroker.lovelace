@@ -173,8 +173,11 @@
             return result;
         }
 
-        function readFiles() {
-            socket.emit('readDir', 'lovelace.' + instance, '/cards/', function (err, list) {
+        function readFiles(subfolder) {
+            const path = subfolder ? subfolder + '/' : '/cards/';
+            var $dropZone = $('#tab-custom');
+            $dropZone.data('path', path);
+            socket.emit('readDir', 'lovelace.' + instance, path, function (err, list) {
                 var $files_list = $('#files_list');
                 var text = '<table>';
                 text += '<tr><th>' + _('File') + '</th><th>' + _('Size') + '</th><th>' + _('Modified') + '</th><th></th></tr>';
@@ -188,25 +191,68 @@
                 server += httpServer.bind === '0.0.0.0' ? window.location.hostname : httpServer.bind;
                 server += ':' + httpServer.port;
 
-                for (var i = 0; i < list.length; i++) {
-                    const buttonText = `<a class="btn-floating btn-small waves-effect waves-light red delete-file" data-name="${list[i].file}"><i class="material-icons">delete</i></a>`;
+                if (subfolder) {
+                    text += `<tr><td><a href="#parent" id="parent">..</a></td><td>&nbsp</td><td>&nbsp</td><td></td></tr>`;
+                }
 
-                    text += `<tr><td><a href="${server}/cards/${list[i].file}" target="_blank">${list[i].file}</a></td>
+                for (var i = 0; i < list.length; i++) {
+                    const deleteButton = `<a class="btn-floating btn-small waves-effect waves-light red delete-file" data-name="${list[i].file}"><i class="material-icons">delete</i></a>`;
+                    const fileLink = `<a href="${server}${path}${list[i].file}" target="_blank">${list[i].file}</a>`;
+                    const folderButton = `<a href="#{list[i].file}" class="folder-button" data-folder="${list[i].isDir}" data-name="${path}${list[i].file}">${list[i].file}</a>`
+
+                    text += `<tr><td>${list[i].isDir ? folderButton : fileLink}</td>
                                 <td>${list[i].isDir ? _('Folder') : list[i].stats.size}</td>
                                 <td>${list[i].isDir ? '&nbsp' : formatTime(list[i].modifiedAt)}</td>
-                                <td>${list[i].isDir ? '&nbsp' : buttonText}</td>
+                                <td>${deleteButton}</td>
                             </tr>`;
                 }
+
                 text += '</table>';
                 $files_list.html(text);
 
                 $files_list.find('.delete-file').off('click').on('click', function () {
                     console.log('Delete lovelace.' + instance + ' /cards/' + $(this).data('name'));
-                    socket.emit('deleteFile', 'lovelace.' + instance, '/cards/' + $(this).data('name'), function (err) {
+                    let command = 'deleteFile';
+                    if ($(this).data('folder') === "true") {
+                        command = 'deleteFolder';
+                    }
+                    socket.emit(command, 'lovelace.' + instance, path + $(this).data('name'), function (err) {
                         if (err) {
-                            showError(_('Cannot delete file: ' + err));
+                            showError(_('Cannot delete file/folder: ' + err));
                         } else {
-                            setTimeout(readFiles, 100);
+                            setTimeout(() => readFiles(subfolder), 100);
+                        }
+                    });
+                });
+
+                $files_list.find('.folder-button').off('click').on('click', function () {
+                    setTimeout(() => readFiles($(this).data('name')), 100);
+                });
+
+                if (subfolder) {
+                    $('#parent').off('click').on('click', function (event) {
+                        event.preventDefault();
+                        const parts = subfolder.split('/');
+                        parts.pop();
+                        let newSubfolder = parts.join('/') || '/cards';
+                        if (newSubfolder === '/cards' || newSubfolder === '/cards/') {
+                            newSubfolder = undefined;
+                        }
+                        setTimeout(() => { readFiles(newSubfolder)}, 100);
+                    });
+                }
+
+                const addFolderButton = $('#add-folder');
+                addFolderButton.off('click').on('click', function (event) {
+                    event.preventDefault();
+                    //ok user clicked ok button. Get Foldername.
+                    const folderName = $('#foldername').val();
+                    const newPath = path + folderName + (folderName.at(folderName.length -1) === '/' ? '' : '/');
+                    socket.emit('mkdir', 'lovelace.' + instance, newPath, function (err) {
+                        if (err) {
+                            showError(_('Cannot create folder: ' + err));
+                        } else {
+                            setTimeout(() => readFiles(subfolder), 100);
                         }
                     });
                 });
@@ -280,7 +326,7 @@
             });
         }
 
-        function uploadFile(file, callback) {
+        function uploadFile(file, path, callback) {
             var reader = new FileReader();
 
             // Closure to capture the file information.
@@ -292,8 +338,8 @@
                     binary += String.fromCharCode(bytes [i]);
                 }
 
-                socket.emit('writeFile', 'lovelace.' + instance, '/cards/' + file.name, btoa(binary), function () {
-                    callback && callback(file.name);
+                socket.emit('writeFile', 'lovelace.' + instance, path + file.name, btoa(binary), function () {
+                    callback && callback(file.name, path);
                 });
                 //if admin 6.2.16 is default or dependency, we can skip the whole block and do this instead:
                 //socket.emit('writeFile', 'lovelace.' + instance, '/cards/' + file.name, e.target.result, function () {
@@ -312,6 +358,7 @@
             var $dz      = $(this).find('.drop-zone');
             var callback = $(this).data('drop-zone-cb');
             var limit    = $(this).data('limit');
+            var path     = $(this).data('path');
             var count = 0;
             for (var f = 0; f < files.length; f++) {
                 var file = files[f];
@@ -325,10 +372,10 @@
                 }
                 count++;
 
-                uploadFile(file, function () {
+                uploadFile(file, path, function (filename, path) {
                     if (!--count) {
                         $dz.hide();
-                        callback && callback();
+                        callback && callback(null, path);
                     }
                 });
                 /*(function (_file) {
@@ -375,6 +422,13 @@
             if (!settings) return;
 
             if (!settings.lePort) settings.lePort = 80;
+
+            //initilize modals.
+            var elems = document.querySelectorAll('.modal');
+            M.Modal.init(elems);
+            //open modal by button:
+            const modal = $('.modal-trigger');
+            modal.modal();
 
             getIPs(function (ips) {
                 for (var i = 0; i < ips.length; i++) {
@@ -428,11 +482,11 @@
             getAllHistoryInstances(settings.history);
 
             var $dropZone = $('#tab-custom');
-            installFileUpload($dropZone, 5242880, function (err) {
+            installFileUpload($dropZone, 5242880, function (err, path) {
                 if (err) {
                     showError(_('Cannot upload file: ') + err);
                 } else {
-                    readFiles();
+                    readFiles(path.substring(0, path.length - 1));
                 }
             });
 
@@ -773,6 +827,21 @@
             <a class="waves-effect waves-light btn btn-restart disabled" style="margin-top: 5px;"><i class="material-icons left">refresh</i><span class="translate">Restart adapter to update files</span></a>
             <span class="translate notice" style="margin-top: 15px;">Drag and drop the custom cards files here</span>
             <div id="files_list"></div>
+            <div class="fixed-action-btn">
+                <a id="open-add-folder-modal" class="btn-floating btn-large waves-effect waves-light blue modal-trigger" href="#EnterFoldernameModal"><i class="material-icons">add</i></a>
+            </div>
+            <div id="EnterFoldernameModal" class="modal">
+                <div class="modal-content">
+                    <h4 class="translate">Enter Foldername</h4>
+                    <div class="input-field">
+                        <input id="foldername"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="add-folder" href="#!" class="modal-action modal-close waves-effect waves-blue blue btn-flat">Ok</a>
+                    <a href="#!" class="modal-action modal-close waves-effect waves-red red btn-flat">Cancel</a>
+                </div>
+            </div>
         </div>
         <div id="tab-themes" class="col s12 page">
             <div class="row row-narrow">
