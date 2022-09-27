@@ -468,9 +468,12 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (agross) added: per instance language support
-* (Garfonso) changed: updated frontent to 20220706.0. Needs theme adjustment (add code-editor-background-color)
+* (Garfonso) changed: updated frontend to 20220706.0. Needs theme adjustment (add code-editor-background-color) and probably card updates
 * (Garfonso) fixed: entity_id for devices with only one non english name should be ok again.
-* (Garfonso) added: add browser_mod (1.5.3), will be installed by default now.
+* (Garfonso) added: add browser_mod (2.1.3), will be installed by default now.
+* (Garfonso) added: refresh state to instruct (connected) browsers to reload page.
+* (Garfonso) removed: lovelace_reload and window_reload states (replaced by refresh state, lovelace reload is not possible anymore).
+* (Garfonso) added: Support for notifications with action button (either json or ;-string)
 
 ### 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
