@@ -473,7 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) added: add browser_mod (2.1.3), will be installed by default now.
 * (Garfonso) added: refresh state to instruct (connected) browsers to reload page.
 * (Garfonso) removed: lovelace_reload and window_reload states (replaced by refresh state, lovelace reload is not possible anymore).
+* (Garfonso) removed: name state, not supported by browser_mod anymore
 * (Garfonso) added: Support for notifications with action button (either json or ;-string)
+* (Garfonso) added: activity state will show is user is currently using a certain browser
 
 ### 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
