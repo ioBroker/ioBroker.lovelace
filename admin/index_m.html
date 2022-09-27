@@ -211,7 +211,7 @@
                 $files_list.html(text);
 
                 $files_list.find('.delete-file').off('click').on('click', function () {
-                    console.log('Delete lovelace.' + instance + ' /cards/' + $(this).data('name'));
+                    console.log('Delete lovelace.' + instance + ' ' + path + $(this).data('name'));
                     let command = 'deleteFile';
                     if ($(this).data('folder') === "true") {
                         command = 'deleteFolder';
