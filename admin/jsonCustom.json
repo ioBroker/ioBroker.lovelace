@@ -462,6 +462,11 @@
               "hidden": "data.entity !== 'sensor'"
             },
             {
+              "value": "speed",
+              "label": "Speed",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "sulphur_dioxide",
               "label": "Sulphure Dioxide",
               "hidden": "data.entity !== 'sensor'"
@@ -484,6 +489,16 @@
             {
               "value": "voltage",
               "label": "Voltage",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "volume",
+              "label": "Volume",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "weight",
+              "label": "Weight",
               "hidden": "data.entity !== 'sensor'"
             },
             {
