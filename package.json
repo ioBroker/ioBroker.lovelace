@@ -37,6 +37,7 @@
     "@alcalzone/release-script": "^3.5.9",
     "@alcalzone/release-script-plugin-iobroker": "^3.5.9",
     "@alcalzone/release-script-plugin-license": "^3.5.9",
+    "@iobroker/adapter-dev": "^1.1.0",
     "@iobroker/dev-server": "^0.5.0",
     "@iobroker/testing": "^4.1.0",
     "@types/chai": "^4.3.3",
@@ -77,7 +78,8 @@
     "release": "release-script",
     "release-patch": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
-    "release-major": "release-script major --yes"
+    "release-major": "release-script major --yes",
+    "translate": "translate-adapter"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.lovelace/issues"
