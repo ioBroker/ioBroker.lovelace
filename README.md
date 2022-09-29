@@ -474,7 +474,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) added: refresh state to instruct (connected) browsers to reload page.
 * (Garfonso) removed: lovelace_reload and window_reload states (replaced by refresh state, lovelace reload is not possible anymore).
 * (Garfonso) removed: name state, not supported by browser_mod anymore
-* (Garfonso) added: Support for notifications with action button (either json or ;-string)
+* (Garfonso) added: Support for toasts with action button (either json or ;-string)
 * (Garfonso) added: activity state will show is user is currently using a certain browser
 
 ### 2.2.0 (2022-06-05)
