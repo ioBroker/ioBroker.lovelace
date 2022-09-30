@@ -48,12 +48,16 @@
           "label": "camera"
         },
         {
-          "value": "climate",
-          "label": "climate"
+          "value": "history_graph",
+          "label": "history_graph"
         },
         {
-          "value": "plant",
-          "label": "plant"
+          "value": "calendar",
+          "label": "calendar"
+        },
+        {
+          "value": "climate",
+          "label": "climate"
         },
         {
           "value": "alarm_control_panel",
@@ -62,14 +66,6 @@
         {
           "value": "fan",
           "label": "fan"
-        },
-        {
-          "value": "group",
-          "label": "group"
-        },
-        {
-          "value": "automation",
-          "label": "automation"
         },
         {
           "value": "cover",
@@ -84,6 +80,30 @@
           "label": "media_player"
         },
         {
+          "value": "vacuum",
+          "label": "vacuum"
+        },
+        {
+          "value": "weather",
+          "label": "weather"
+        },
+        {
+          "value": "water_heater",
+          "label": "water_heater"
+        },
+        {
+          "value": "plant",
+          "label": "plant"
+        },
+        {
+          "value": "group",
+          "label": "group"
+        },
+        {
+          "value": "automation",
+          "label": "automation"
+        },
+        {
           "value": "scene",
           "label": "scene"
         },
@@ -96,32 +116,12 @@
           "label": "timer"
         },
         {
-          "value": "vacuum",
-          "label": "vacuum"
-        },
-        {
-          "value": "water_heater",
-          "label": "water_heater"
-        },
-        {
           "value": "weblink",
           "label": "weblink"
         },
         {
-          "value": "history_graph",
-          "label": "history_graph"
-        },
-        {
           "value": "sun",
           "label": "sun"
-        },
-        {
-          "value": "weather",
-          "label": "weather"
-        },
-        {
-          "value": "calendar",
-          "label": "calendar"
         }
       ],
       "defaultFunc": "!customObj.common ? 'sensor' : customObj.common.write ? (customObj.common.states ? 'input_select' : customObj.common.role === 'date' ? 'input_datetime' : customObj.common.type === 'boolean' ? 'input_boolean' : customObj.common.type === 'number' ? 'input_number' : 'input_text') : (customObj.common.type === 'boolean' ? 'binary_sensor' : 'sensor');",
@@ -373,7 +373,7 @@
             },
             {
               "value": "date",
-              "label": "Datum",
+              "label": "Date",
               "hidden": "data.entity !== 'sensor'"
             },
             {
@@ -468,7 +468,7 @@
             },
             {
               "value": "sulphur_dioxide",
-              "label": "Sulphure Dioxide",
+              "label": "Sulphur Dioxide",
               "hidden": "data.entity !== 'sensor'"
             },
             {
