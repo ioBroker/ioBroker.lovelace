@@ -478,7 +478,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) added: activity state will show is user is currently using a certain browser
 * (Garfonso) fixed: crash if notification was not parsable json.
 * (Garfonso) fixed: some translation stuff
-* (Garfonso) added: Support for subfolders in /cards/ for images and stuff custom cards load (please leave cards in main folder).
+* (Garfonso) added: Support for subfolders in /cards/ for images and stuff custom cards load (please leave cards in root folder).
 
 ### 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
