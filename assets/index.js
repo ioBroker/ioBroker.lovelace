@@ -1,6 +1,8 @@
+/* global window, document */
+
 function getToolbar() {
     try {
-        var appToolbar = document.querySelector('home-assistant').shadowRoot
+        const appToolbar = document.querySelector('home-assistant').shadowRoot
             .querySelector('home-assistant-main').shadowRoot
             //.querySelector('app-drawer-layout')
             .querySelector('partial-panel-resolver')
@@ -16,14 +18,15 @@ function getToolbar() {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function hideButtons() {
     try {
-        var appToolbar = getToolbar();
+        const appToolbar = getToolbar();
         appToolbar.querySelector('ha-menu-button').style.display = 'none';
         try {
             appToolbar.querySelector('paper-listbox').querySelectorAll('paper-item')[2].style.display = 'none';
         } catch (e) {
-
+            console.log(e);
         }
         //.querySelector('paper-icon-button').style.display = 'none';
     } catch (e) {
@@ -31,6 +34,7 @@ function hideButtons() {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function hideHeader() {
     if (window.location.search.indexOf('edit=') === -1 && window.location.search.indexOf('toolbar') === -1) {
         setTimeout(function () {

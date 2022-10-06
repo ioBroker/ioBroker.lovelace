@@ -2,6 +2,7 @@
  * ioBroker gulpfile
  * Date: 2019-01-28
  */
+/* eslint no-prototype-builtins: 'off' */
 'use strict';
 
 const gulp = require('gulp');

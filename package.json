@@ -74,7 +74,7 @@
     "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --timeout 30000 --exit",
     "test": "npm run test:js && npm run test:package",
-    "lint": "eslint --ext .js,.jsx .",
+    "lint": "eslint --ext .js,.jsx . --ignore-pattern hass_frontend/ --ignore-pattern *.min.js",
     "release": "release-script",
     "release-patch": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
