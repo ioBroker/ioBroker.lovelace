@@ -1,7 +1,7 @@
 'use strict';
 const express   = require('express');
 const utils     = require('@iobroker/adapter-core');
-const LE        = require(utils.controllerDir + '/lib/letsencrypt');
+const LE        = utils.commonTools.letsEncrypt;
 const ApiServer = require('./lib/server');
 const words     = require('./admin/words');
 
