@@ -19,7 +19,7 @@ exports.runTests = function (suite) {
     suite('weather', (getHarness) => {
         //adapter will keep running for all test. harness and initial entities will be initialized once in before.
         let harness;
-        let entities;
+        //let entities;
         let objects;
 
         //load all test objects here:
@@ -33,7 +33,7 @@ exports.runTests = function (suite) {
             //get harness && entities here.
             harness = getHarness();
             objects = await tools.loadMultipleObjects(jsonFiles);
-            entities = await tools.startAndGetEntities(harness, objects, idsWithEnums, initialStates);
+            await tools.startAndGetEntities(harness, objects, idsWithEnums, initialStates);
         });
 
         jsonFiles.push('../testData/weather_accuweather.json');

@@ -27,7 +27,7 @@ exports.runTests = function (suite) {
             idsWithEnums.push('adapter.0.media_player.musiccast');
             it('music cast player is created', async () => {
                 const deviceId = 'adapter.0.media_player.musiccast';
-                const deviceObj = objects[deviceId];
+                //const deviceObj = objects[deviceId];
 
                 const entity = entities.find(e => e.context.id === deviceId);
                 expect(entity).to.be.ok;

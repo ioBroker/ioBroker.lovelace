@@ -263,7 +263,7 @@ exports.runTests = function (suite) {
             initialStates.push({id: 'adapter.0.light.BrightnessWithActual.brightness_actual', val: 50},
                 {id: 'adapter.0.light.BrightnessWithActual.brightness', val: 0},
                 {id: 'adapter.0.light.BrightnessWithActual.state_actual', val: true},
-                {id: 'adapter.0.light.BrightnessWithActual.state', val: false})
+                {id: 'adapter.0.light.BrightnessWithActual.state', val: false});
             it('entity subscribe and read dimmer brightness actual and on actual', async () => {
                 const deviceId = 'adapter.0.light.BrightnessWithActual';
                 const entity = entities.find(e => e.context.id === deviceId);
@@ -847,7 +847,7 @@ exports.runTests = function (suite) {
 
                 const brAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'brightness');
                 expect(brAttr).to.be.ok;
-                expect(brAttr).to.have.property('getId', deviceId + '.level')
+                expect(brAttr).to.have.property('getId', deviceId + '.level');
             });
         });
     });

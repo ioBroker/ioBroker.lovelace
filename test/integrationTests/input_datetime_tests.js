@@ -1,5 +1,5 @@
 const tools  = require('./testTools');
-const {waitForEntitiesUpdate} = require("./testTools");
+const {waitForEntitiesUpdate} = require('./testTools');
 const expect = require('chai').expect;
 
 exports.runTests = function (suite) {

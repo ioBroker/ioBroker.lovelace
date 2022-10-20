@@ -1,15 +1,10 @@
 const tools  = require('./testTools');
-const objects = require("../testData/sensor_zigbee_temp_and_hum_with_clash.json");
 const expect = require('chai').expect;
-
-async function sensor_zigbee(getHarness) {
-
-}
 
 exports.runTests = function (suite) {
     suite('sensor', (getHarness) => {
         //adapter will keep running for all test. harness and initial entities will be initialized once in before.
-        let harness;
+        //let harness;
         let entities;
         let objects;
 
@@ -22,7 +17,7 @@ exports.runTests = function (suite) {
         before(async () => {
             tools.clearClient();
             //get harness && entities here.
-            harness = getHarness();
+            const harness = getHarness();
             objects = await tools.loadMultipleObjects(jsonFiles);
             entities = await tools.startAndGetEntities(harness, objects, idsWithEnums, initialStates);
         });
