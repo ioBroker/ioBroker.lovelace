@@ -427,6 +427,11 @@
               "hidden": "data.entity !== 'sensor'"
             },
             {
+              "value": "precipitation_intensity",
+              "label": "Precipitation Intensity",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "pm1",
               "label": "Particular matter less than 1 micrometer",
               "hidden": "data.entity !== 'sensor'"
