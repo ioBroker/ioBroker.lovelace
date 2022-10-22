@@ -431,12 +431,13 @@ Used version of home-assistant-frontend@20220707.0
 First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20220707.0) following files were modified:
+For now (20221020.0) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task
 - `build-scripts/gulp/webpack.js` - Add new gulp task
 - `src/data/lovelace.ts` - add hide toolbar option
 - `src/data/weather.ts` - add support to display weather icon from url.
-- `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and remove weather state & history
+- `src/dialogs/more-info/const.ts` - remove weather state & history
+- `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button
 - `src/dialogs/more-info/controls/more-info-climate.ts` - print mode name for unsupported modes
 - `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
 - `src/entrypoints/core.ts` - modified authentication process
