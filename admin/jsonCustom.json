@@ -502,6 +502,11 @@
               "hidden": "data.entity !== 'sensor'"
             },
             {
+              "value": "water",
+              "label": "Water",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "weight",
               "label": "Weight",
               "hidden": "data.entity !== 'sensor'"
