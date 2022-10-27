@@ -57,8 +57,8 @@ function readWordJs(src) {
     }
     try {
         let words;
-        if (fs.existsSync(src + 'js/' + fileName)) {
-            words = fs.readFileSync(src + 'js/' + fileName).toString();
+        if (fs.existsSync(`${src}js/${fileName}`)) {
+            words = fs.readFileSync(`${src}js/${fileName}`).toString();
         } else {
             words = fs.readFileSync(src + fileName).toString();
         }
@@ -66,7 +66,7 @@ function readWordJs(src) {
         words = words.substring(words.indexOf('{'), words.length);
         words = words.substring(0, words.lastIndexOf(';'));
 
-        const resultFunc = new Function('return ' + words + ';');
+        const resultFunc = new Function(`return ${words};`);
 
         return resultFunc();
     } catch (e) {
@@ -513,33 +513,16 @@ gulp.task('rename', done => {
                 m && m.forEach(text =>
                     newText = newText.replace(text, text.replace('</script>', '\n</script>\n')));
 
-                /* // remove absolute paths, but it does not work
-                m = newText.match(/src='\/[^']+'/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text.replace("'/", "'")));
-
-                m = newText.match(/import\s"\/[^"]+"/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text.replace('"/', '"')));
-
-                m = newText.match(/href="\/[^"]+"/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text.replace('"/', '"')));
-
-                m = newText.match(/href='\/[^']+'/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text.replace("'/", "'")));
-
-                m = newText.match(/content="\/[^"]+"/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text.replace('"/', '"')));
-                m = newText.match(/customPanelJS = "\/[^"]+"/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text.replace('"/', '"')));
-                m = newText.match(/_ls\("\/[^"]+"/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text.replace('"/', '"')));
-                 */
+                // remove absolute paths
+                newText = newText.replace(/src='\/([^']+)'/g, "src='$1'");
+                newText = newText.replace(/import\("\/([^"]+)"/g, 'import=("./$1"');
+                newText = newText.replace(/href="\/([^"]+)"/g, 'href="$1"');
+                newText = newText.replace(/href='\/([^']+)'/g, "href='$1'");
+                newText = newText.replace(/content="\/([^"]+)"/g, 'content="$1"');
+                newText = newText.replace(/customPanelJS\s?=\s?"\/([^"]+)"/g, 'customPanelJS="$1"');
+                newText = newText.replace(/customPanelJS\s?=\s?"\/([^"]+)"/g, 'customPanelJS="$1"');
+                newText = newText.replace(/_ls\("\/([^"]+)"/g, '_ls=("$1"');
+                newText = newText.replace(/_pf\("\/([^"]+)"/g, '_pf=("$1"');
 
                 newText = newText.replace(/\n\n\n/g, '\n');
                 newText = newText.replace(/\n\n/g, '\n');
