@@ -148,6 +148,62 @@
             "order": 2,
             "localLink": true
         },
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<=2.0.0",
+                        "newVersion>=3.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "Visualisation Update",
+                    "de": "Aktualisierung der Visualisierung",
+                    "ru": "Обновление визуализации",
+                    "pt": "Atualização da visualização",
+                    "nl": "Visualisatie Update",
+                    "fr": "Mise à jour de la visualisation",
+                    "it": "Aggiornamento della visualizzazione",
+                    "es": "Actualización de Visualización",
+                    "pl": "Visualizacja",
+                    "uk": "Оновлення візуалізації",
+                    "zh-cn": "更新"
+                },
+                "text": {
+                    "en": "The update to version 3.x will change frontend version from 20211229.0 to 20221026.0. This means 10 months development of Lovelace in one update. You will probably need to update or fix your themes and custom cards. Please make sure to check your visualization after this update. Ask in forum or discord for help.",
+                    "de": "Das Update auf Version 3.x wird die Frontend Version von 20211229.0 auf 20221026.0 ändern. Dies bedeutet 10 Monate Entwicklung von Lovelace in einem Update. Sie müssen wahrscheinlich Ihre Themen und benutzerdefinierten Karten aktualisieren oder reparieren. Achten Sie darauf, Ihre Visualisierung nach diesem Update zu überprüfen. Fragen Sie im Forum oder Discord nach Hilfe.",
+                    "ru": "Обновление до версии 3.x изменит версию frontend от 20211229.0 до 20221026.0 Это означает 10 месяцев разработки Lovelace в одном обновлении. Вам, вероятно, нужно обновить или исправить ваши темы и пользовательские карты. Пожалуйста, проверьте вашу визуализацию после этого обновления. Спросите на форуме или несогласно помощи.",
+                    "pt": "A atualização para a versão 3.x mudará a versão do frontend de 20211229.0 para 20221026.0 Isso significa desenvolvimento de 10 meses do Lovelace em uma atualização. Você provavelmente precisará atualizar ou corrigir seus temas e cartões personalizados. Certifique-se de verificar sua visualização após esta atualização. Pergunte no fórum ou Discord para ajuda.",
+                    "nl": "De update van versie 3.x zal de frontend versie veranderen van 20211229.0 tot 202226. Dit betekent 10 maanden ontwikkeling van Lovelace in één update. Je moet waarschijnlijk updaten of je thema's en kaarten repareren. Controleer uw visualisatie na deze update. Vraag in forum of Discord om hulp.",
+                    "fr": "La mise à jour de la version 3.x va changer la version frontend de 20211229.0 à 20221026.0 Cela signifie 10 mois de développement de Lovelace dans une mise à jour. Vous devrez probablement mettre à jour ou corriger vos thèmes et vos cartes personnalisées. Assurez-vous de vérifier votre visualisation après cette mise à jour. Demandez de l'aide au forum ou à la Discord.",
+                    "it": "L'aggiornamento alla versione 3.x cambierà la versione frontend da 20211229.0 a 20221026.0 Ciò significa 10 mesi di sviluppo di Lovelace in un unico aggiornamento. Probabilmente dovrai aggiornare o correggere i tuoi temi e le tue carte personalizzate. Assicurati di controllare la visualizzazione dopo questo aggiornamento. Chiedi aiuto in forum o Discord.",
+                    "es": "La actualización a la versión 3.x cambiará la versión de frontend de 20211229.0 a 20221026.0 Esto significa desarrollo de 10 meses de Lovelace en una actualización. Probablemente necesite actualizar o arreglar sus temas y tarjetas personalizadas. Asegúrese de comprobar su visualización después de esta actualización. Pida ayuda en el foro o Discord.",
+                    "pl": "Zaktualizowana wersja 3.x będzie zmieniała przednią wersję od 20211229.0 do 20221026.0. Oznacza to, że w jednym uaktualnianiu jest 10 miesięcy rozwój Lovelace. Prawdopodobnie potrzebuje uaktualnienia lub naprawienia swoich motywów i kart. Postanawia sprawdzić wizualizację po tej aktualizacji. Odpowiada za pomoc.",
+                    "uk": "Оновлення версії 3.x змінить версію фронтенду з 20211229.0 до 20221026.0 Це означає 10 місяців розробки Lovelace в одному оновленні. Ви, ймовірно, повинні оновити або виправити ваші теми і спеціальні картки. Будь ласка, перевірте вашу візуалізацію після цього оновлення. Запитайте на форум або розпишіться на допомогу.",
+                    "zh-cn": "更新后的3.x将改变20211229.0至20221026年的前沿版本。 这就意味着在更新的一年里发展了良机。 你很可能需要更新或确定你们的主题和习俗卡。 请确保在更新之后检查你的视觉。 论坛或有帮助的办事处。."
+                },
+                "link": "https://forum.iobroker.net/topic/34775/test-adapter-lovelace-v1-2-x/1324?_=1666881699892",
+                "level": "warn",
+                "linkText": {
+                    "en": "A few issues with themes were already discussed here.",
+                    "de": "Hier wurden bereits einige Themen diskutiert.",
+                    "ru": "Здесь уже обсуждались несколько вопросов с темами.",
+                    "pt": "Algumas questões com temas já foram discutidas aqui.",
+                    "nl": "Een paar problemen met ze werden hier al besproken.",
+                    "fr": "Quelques questions avec des thèmes ont déjà été discutées ici.",
+                    "it": "Sono già state discusse alcune questioni con temi.",
+                    "es": "Algunos temas con temas ya se discutieron aquí.",
+                    "pl": "Omawiano tam kilka tematów.",
+                    "uk": "Тут вже обговорювалися кілька питань з темами.",
+                    "zh-cn": "这里已经讨论了几个专题的问题。."
+                },
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            }
+        ],
         "dependencies": [
             {
                 "js-controller": ">=3.3.0"
@@ -155,7 +211,7 @@
         ],
         "globalDependencies": [
             {
-                "admin": ">=3.0.0"
+                "admin": ">=5.1.28"
             }
         ],
         "welcomeScreenPro": {
