@@ -166,5 +166,6 @@
     "vacuum": "пылесос",
     "Enter folder name": "Введите имя папки",
     "Monetary value": "Стоимость в денежном выражении",
-    "Precipitation Intensity": "Интенсивность осадков"
+    "Precipitation Intensity": "Интенсивность осадков",
+    "Wind speed": "Скорость ветра"
 }

@@ -166,5 +166,6 @@
     "water_heater": "water heater",
     "weather": "weather",
     "weblink": "weblink",
-    "Precipitation Intensity": "Precipitation Intensity"
+    "Precipitation Intensity": "Precipitation Intensity",
+    "Wind speed": "Wind speed"
 }

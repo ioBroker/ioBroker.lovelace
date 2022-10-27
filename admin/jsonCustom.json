@@ -507,6 +507,11 @@
               "hidden": "data.entity !== 'sensor'"
             },
             {
+              "value": "wind_speed",
+              "label": "Wind speed",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "window",
               "label": "Window",
               "hidden": "data.entity !== 'sensor'"

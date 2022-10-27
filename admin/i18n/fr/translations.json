@@ -166,5 +166,6 @@
     "vacuum": "aspirateur",
     "Enter folder name": "Entrez le nom du dossier",
     "Monetary value": "Valeur monétaire",
-    "Precipitation Intensity": "Intensité des précipitations"
+    "Precipitation Intensity": "Intensité des précipitations",
+    "Wind speed": "Vitesse du vent"
 }
