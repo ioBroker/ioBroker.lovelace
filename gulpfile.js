@@ -515,7 +515,7 @@ gulp.task('rename', done => {
 
                 // remove absolute paths
                 newText = newText.replace(/src='\/([^']+)'/g, "src='$1'");
-                newText = newText.replace(/import\("\/([^"]+)"/g, 'import=("./$1"');
+                newText = newText.replace(/import\("\/([^"]+)"/g, 'import("./$1"');
                 newText = newText.replace(/href="\/([^"]+)"/g, 'href="$1"');
                 newText = newText.replace(/href='\/([^']+)'/g, "href='$1'");
                 newText = newText.replace(/content="\/([^"]+)"/g, 'content="$1"');
