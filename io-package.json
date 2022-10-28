@@ -1,482 +1,483 @@
 {
-    "common": {
-        "name": "lovelace",
-        "version": "2.2.0",
-        "news": {
-            "2.2.0": {
-                "en": "fixed: incorrect warning about duplicate entities on update of manual entity.\nfixed: input_datetime did not work if time was enabled and did vanish if date and time were enabled.\nfixed: RGB hex string got broken on not rounded numbers (problem with mushroom ligth card).\nfixed: state of cover entity if not 0 or 100% (fixes problem with sliter-button-card).\nfixed: light did not read brightness ACTUAL in dimmer devices.\nadded: support auto entities card and subscription.\nadded: improve support for input_datetime & string states.\nadded: support for browser_mod (i.e. crontrol frontend from iobroker).",
-                "de": "behoben: Falsche Warnung vor doppelten Entitäten beim Update einer manuellen Entität.\nbehoben: input_datetime funktionierte nicht, wenn die Uhrzeit aktiviert war, und verschwand, wenn Datum und Uhrzeit aktiviert waren.\nbehoben: RGB-Hex-String wurde bei nicht gerundeten Zahlen unterbrochen (Problem mit Pilzlichtkarte).\nbehoben: Zustand der Abdeckungsentität, wenn nicht 0 oder 100% (behebt das Problem mit der Sliter-Button-Karte).\nbehoben: Licht hat Helligkeit IST bei Dimmergeräten nicht gelesen.\nhinzugefügt: Unterstützung von Karten und Abonnements für automatische Entitäten.\nhinzugefügt: verbesserte Unterstützung für input_datetime & String-Zustände.\nhinzugefügt: Unterstützung für browser_mod (d. h. Crontrol-Frontend von iobroker).",
-                "ru": "исправлено: некорректное предупреждение о повторяющихся сущностях при обновлении ручной сущности.\nисправлено: input_datetime не работал, если время было включено, и исчезало, если были включены дата и время.\nисправлено: шестнадцатеричная строка RGB ломалась на неокругленных числах (проблема с грибовидной картой).\nисправлено: состояние объекта покрытия, если не 0 или 100% (исправляет проблему с картой-кнопкой).\nисправлено: свет не считывал АКТУАЛЬНУЮ яркость в диммерных устройствах.\nдобавлено: поддержка автоматических карточек и подписок.\nдобавлено: улучшена поддержка input_datetime и строковых состояний.\nдобавлено: поддержка browser_mod (т.е. интерфейс crontrol от iobroker).",
-                "pt": "corrigido: aviso incorreto sobre entidades duplicadas na atualização da entidade manual.\nfixo: input_datetime não funcionava se a hora estivesse habilitada e desaparecia se data e hora estivessem habilitadas.\ncorrigido: a string hexadecimal RGB foi quebrada em números não arredondados (problema com o cartão de luz de cogumelo).\nfixo: estado da entidade de cobertura se não for 0 ou 100% (corrige o problema com o cartão-botão cortador).\nfixo: a luz não lia o brilho REAL em dispositivos dimmer.\nadicionado: suporte a cartão e assinatura de entidades automáticas.\nadicionado: melhore o suporte para estados input_datetime e string.\nadicionado: suporte para browser_mod (ou seja, frontend crontrol do iobroker).",
-                "nl": "opgelost: onjuiste waarschuwing over dubbele entiteiten bij update van handmatige entiteit.\nopgelost: input_datetime werkte niet als tijd was ingeschakeld en verdween als datum en tijd waren ingeschakeld.\nopgelost: RGB hex string is gebroken op niet afgeronde getallen (probleem met paddenstoellichtkaart).\nvast: staat van dekkingsentiteit indien niet 0 of 100% (probleem met sliter-knop-kaart opgelost).\nvast: het licht leest de helderheid niet ACTUAL in dimmers.\ntoegevoegd: ondersteuning voor auto-entiteitenkaart en abonnement.\ntoegevoegd: ondersteuning voor input_datetime & string-statussen verbeteren.\ntoegevoegd: ondersteuning voor browser_mod (d.w.z. crontrol frontend van iobroker).",
-                "fr": "corrigé : avertissement incorrect concernant les entités en double lors de la mise à jour de l'entité manuelle.\ncorrigé : input_datetime ne fonctionnait pas si l'heure était activée et disparaissait si la date et l'heure étaient activées.\ncorrigé : la chaîne hexadécimale RVB était cassée sur des nombres non arrondis (problème avec la carte champignon).\ncorrigé : état de l'entité de couverture si ce n'est pas 0 ou 100 % (corrige le problème avec la découpeuse-bouton-carte).\ncorrigé : la lumière n'a pas lu la luminosité RÉELLE dans les dispositifs de gradation.\najouté : prise en charge de la carte et de l'abonnement des entités automatiques.\najouté : amélioration de la prise en charge des états input_datetime et string.\najouté : prise en charge de browser_mod (c'est-à-dire l'interface crontrol d'iobroker).",
-                "it": "corretto: avviso errato su entità duplicate sull'aggiornamento dell'entità manuale.\nrisolto: input_datetime non funzionava se l'ora era abilitata e svaniva se la data e l'ora erano abilitate.\nrisolto: la stringa esadecimale RGB si interrompeva su numeri non arrotondati (problema con la scheda fungo ligth).\nfisso: stato dell'entità della copertura se diverso da 0 o 100% (risolve il problema con la tessera-tasto-sliter).\nfisso: la luce non ha letto la luminosità EFFETTIVA nei dispositivi dimmer.\naggiunto: supporto per la carta delle entità automatiche e l'abbonamento.\naggiunto: miglioramento del supporto per input_datetime e stati delle stringhe.\naggiunto: supporto per browser_mod (cioè frontend di crotrol da iobroker).",
-                "es": "corregido: advertencia incorrecta sobre entidades duplicadas en la actualización de la entidad manual.\ncorregido: input_datetime no funcionaba si la hora estaba habilitada y desaparecía si la fecha y la hora estaban habilitadas.\nsolucionado: la cadena hexadecimal RGB se rompió en números no redondeados (problema con la tarjeta de luz de hongos).\narreglado: estado de la entidad de cobertura si no es 0 o 100% (soluciona el problema con la tarjeta de botón de corte).\ncorregido: la luz no leía el brillo REAL en los dispositivos de atenuación.\nagregado: admite tarjeta de entidades automáticas y suscripción.\nagregado: mejore el soporte para input_datetime y estados de cadena.\nagregado: soporte para browser_mod (es decir, frontend crontrol de iobroker).",
-                "pl": "naprawiono: nieprawidłowe ostrzeżenie o zduplikowanych encjach przy aktualizacji encji ręcznej.\nnaprawiono: input_datetime nie działał, jeśli czas był włączony i znikał, jeśli data i godzina były włączone.\nnaprawiono: ciąg szesnastkowy RGB pękał na niezaokrąglonych liczbach (problem z kartą grzybkową).\nnaprawiono: stan jednostki okładki, jeśli nie 0 lub 100% (rozwiązuje problem z kartą z przyciskami sliterowymi).\nnaprawiono: światło nie odczytywało jasności AKTUALNEJ w urządzeniach ze ściemniaczem.\ndodano: obsługa karty i subskrypcji podmiotów automatycznych.\ndodano: poprawiono obsługę input_datetime i stanów stringów.\ndodano: wsparcie dla browser_mod (czyli crontrol frontend z iobroker).",
-                "zh-cn": "修复：手动实体更新时有关重复实体的错误警告。\n已修复：如果启用了时间，则 input_datetime 不起作用，如果启用了日期和时间，则会消失。\n修复：RGB 十六进制字符串在非四舍五入的数字上被破坏（蘑菇灯卡问题）。\n已修复：如果不是 0 或 100%，则覆盖实体的状态（修复了 sliter-button-card 的问题）。\n已修复：调光器设备中的灯光未读取实际亮度。\n补充：支持自动实体卡和订阅。\n添加：改进对 input_datetime 和字符串状态的支持。\n添加：对 browser_mod 的支持（即来自 iobroker 的 crontrol 前端）。"
-            },
-            "2.1.4": {
-                "en": "Dependency update",
-                "de": "Abhängigkeits-Update",
-                "ru": "Обновление зависимости",
-                "pt": "Atualização de dependência",
-                "nl": "Afhankelijkheidsupdate",
-                "fr": "Mise à jour des dépendances",
-                "it": "Aggiornamento delle dipendenze",
-                "es": "Actualización de dependencia",
-                "pl": "Aktualizacja zależności",
-                "zh-cn": "依赖更新"
-            },
-            "2.1.3": {
-                "en": "Fixed: remove backup of old frontend (sorry)",
-                "de": "Behoben: Backup des alten Frontends entfernen (sorry)",
-                "ru": "Исправлено: удалить резервную копию старого интерфейса (извините)",
-                "pt": "Corrigido: remover backup de front-end antigo (desculpe)",
-                "nl": "Opgelost: verwijder back-up van oude frontend (sorry)",
-                "fr": "Corrigé : supprimer la sauvegarde de l'ancienne interface (désolé)",
-                "it": "Risolto: rimuovere il backup del vecchio frontend (scusate)",
-                "es": "Corregido: eliminar la copia de seguridad de la interfaz anterior (lo siento)",
-                "pl": "Naprawiono: usuń kopię zapasową starego frontendu (przepraszam)",
-                "zh-cn": "修正：删除旧前端的备份（抱歉）"
-            },
-            "2.1.2": {
-                "en": "Fixed: Menu was broken in frontend.",
-                "de": "Behoben: Menü war im Frontend defekt.",
-                "ru": "Исправлено: меню было сломано во внешнем интерфейсе.",
-                "pt": "Corrigido: o menu estava quebrado no frontend.",
-                "nl": "Opgelost: menu was gebroken in frontend.",
-                "fr": "Corrigé : le menu était cassé dans le frontend.",
-                "it": "Risolto: il menu era rotto nel frontend.",
-                "es": "Corregido: el menú estaba roto en la interfaz.",
-                "pl": "Naprawiono: Menu było zepsute we frontendzie.",
-                "zh-cn": "修正：菜单在前端坏了。"
-            },
-            "2.1.1": {
-                "en": "Fixed: Entity update in some cases.",
-                "de": "Behoben: Entity-Update in einigen Fällen.",
-                "ru": "Исправлено: обновление сущности в некоторых случаях.",
-                "pt": "Fixo: atualização da entidade em alguns casos.",
-                "nl": "Opgelost: Entiteitsupdate in sommige gevallen.",
-                "fr": "Corrigé : mise à jour de l'entité dans certains cas.",
-                "it": "Risolto: aggiornamento dell'entità in alcuni casi.",
-                "es": "Corregido: actualización de la entidad en algunos casos.",
-                "pl": "Naprawiono: Aktualizacja Entity w niektórych przypadkach.",
-                "zh-cn": "修正：在某些情况下实体更新。"
-            },
-            "2.1.0": {
-                "en": "* (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).\n* (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)",
-                "de": "* (Garfonso) Hinzugefügt: Unterstützung für neue Dinge im Frontend (wie arm_vacation Zustand, Währung, ...).\n* (Garfonso) Änderung: Frontent auf 20211229.0 aktualisiert (benötigt möglicherweise Update von browser_mod, card_mod)",
-                "ru": "* (Garfonso) Добавлено: поддержка новых вещей во внешнем интерфейсе (например, состояние arm_vacation, валюта, ...).\n* (Garfonso) Изменение: обновлен фронт до 20211229.0 (требуется обновление browser_mod, card_mod)",
-                "pt": "* (Garfonso) Adicionado: suporte para coisas novas no frontend (como arm_vacation state, currency, ...).\n* (Garfonso) Alteração: frontent atualizado para 20211229.0 (precisa de atualização de browser_mod, card_mod)",
-                "nl": "* (Garfonso) Toegevoegd: ondersteuning voor nieuwe dingen in frontend (zoals arm_vacation state, valuta, ...).\n* (Garfonso) Wijziging: frontent bijgewerkt naar 20211229.0 (update nodig van browser_mod, card_mod)",
-                "fr": "* (Garfonso) Ajout : prise en charge de nouvelles choses en frontend (comme l'état arm_vacation, la devise, ...).\n* (Garfonso) Changement : frontent mis à jour vers 20211229.0 (nécessite une mise à jour de browser_mod, card_mod)",
-                "it": "* (Garfonso) Aggiunto: supporto per nuove cose nel frontend (come arm_vacation state, currency, ...).\n* (Garfonso) Modifica: Frontent aggiornato a 20211229.0 (necessita di aggiornamento di browser_mod, card_mod)",
-                "es": "* (Garfonso) Agregado: soporte para cosas nuevas en la interfaz (como estado arm_vacation, moneda, ...).\n* (Garfonso) Cambio: Interfaz actualizada a 20211229.0 (necesita actualización de browser_mod, card_mod)",
-                "pl": "* (Garfonso) Dodano: wsparcie dla nowych rzeczy w interfejsie (takich jak stan arm_vacation, waluta, ...).\n* (Garfonso) Zmiana: Zaktualizowano frontent do 20211229.0 (wymaga aktualizacji browser_mod, card_mod)",
-                "zh-cn": "* (Garfonso) 添加：支持前端的新事物（如 arm_vacation 状态、货币等）。\n* (Garfonso) 更改：将前端更新为 20211229.0（需要更新 browser_mod、card_mod）"
-            },
-            "2.0.7": {
-                "en": "* (Garfonso) Fix: possible crash while creating light entity\n* (Garfonso) Fix: possible crashes in binding support\n* (Garfonso) Fix: /state/ handler for files (repairs for example Sonos cover image)\n* (Garfonso) Fix: tilt command was not correctly processed in ioBroker\n* (Garfonso) Fix: conversion issues in alarm control panel\n* (Garfonso) Fix: missed update if auto and manual entity were created from same ioBroker device\n* (Garfonso) Fixed: Warning on object change of manual entites\n* (Garfonso) Change: Subscribe ids for all config elements contain valid entity_ids (fixes tankerkoenig card and secondary-entity-row)\n* (Garfonso) Added: support for offline indicator (auto & manual) and online indicator\n* (Garfonso) Added: support for error, maintenance and working indicator (binary sensors)\n* (Garfonso) Added: more devices classes with custom settings\n* (Garfonso) Added: Support for calendar (only ical, use custom settings to create calendar entity on ical.*.data.table).",
-                "de": "* (Garfonso) Fix: möglicher Absturz beim Erstellen von Lichtobjekten\n* (Garfonso) Fix: mögliche Abstürze bei binding support\n* (Garfonso) Fix: /state/ Handler für Dateien (repariert zB Sonos-Coverbild)\n* (Garfonso) Fix: Neigungsbefehl wurde in ioBroker nicht korrekt verarbeitet\n* (Garfonso) Fix: Konvertierungsprobleme in der Alarm-Karte\n* (Garfonso) Fix: verpasstes entity Update, wenn automatische und manuelle Entität vom selben ioBroker-Gerät erstellt wurden\n* (Garfonso) Behoben: Warnung bei Objektänderung von manuellen Entitäten\n* (Garfonso) Änderung: abonniere States für alle Konfigurationselemente, die gültige Entity_IDs enthalten (behebt nicht mehr aktuelle Tankerkoenig-Karte und Secondary-Entity-Zeile)\n* (Garfonso) Hinzugefügt: Unterstützung für Offline-Indiaktor (automatisch & manuell) und Online-Indikator\n* (Garfonso) Hinzugefügt: Unterstützung für Fehler-, Wartungs- und Arbeitsanzeige (binäre Sensoren)\n* (Garfonso) Hinzugefügt: mehr Geräteklassen mit benutzerdefinierten Einstellungen\n* (Garfonso) Hinzugefügt: Unterstützung für Kalender (nur ical, verwenden Sie benutzerdefinierte Einstellungen, um Kalenderentität auf ical.*.data.table zu erstellen).",
-                "ru": "* (Garfonso) Исправление: возможный сбой при создании светового объекта\n* (Garfonso) Исправление: возможные сбои в поддержке привязки\n* (Garfonso) Исправление: / state / handler для файлов (восстановление например обложки Sonos)\n* (Garfonso) Исправление: команда наклона некорректно обрабатывалась в ioBroker\n* (Garfonso) Исправление: проблемы с преобразованием в панели управления сигнализацией.\n* (Garfonso) Исправление: пропущено обновление, если автоматическая и ручная сущность были созданы с одного и того же устройства ioBroker\n* (Garfonso) Исправлено: Предупреждение о смене объекта вручную.\n* (Garfonso) Изменение: идентификаторы подписки для всех элементов конфигурации содержат действительные идентификаторы entity_ids (исправлены карты tankerkoenig и строка второстепенного объекта)\n* (Garfonso) Добавлено: поддержка автономного индикатора (автоматический и ручной) и онлайн-индикатора.\n* (Garfonso) Добавлено: поддержка индикатора ошибок, обслуживания и работы (бинарные датчики)\n* (Garfonso) Добавлено: больше классов устройств с пользовательскими настройками\n* (Garfonso) Добавлено: Поддержка календаря (только ical, используйте пользовательские настройки для создания объекта календаря на ical. *. Data.table).",
-                "pt": "* (Garfonso) Correção: possível travamento durante a criação de entidade leve\n* (Garfonso) Correção: possíveis falhas no suporte de ligação\n* (Garfonso) Correção: / state / handler para arquivos (reparos, por exemplo, imagem da capa do Sonos)\n* (Garfonso) Correção: o comando de inclinação não foi processado corretamente no ioBroker\n* (Garfonso) Correção: problemas de conversão no painel de controle de alarme\n* (Garfonso) Correção: atualização perdida se a entidade automática e manual foram criadas a partir do mesmo dispositivo ioBroker\n* (Garfonso) Corrigido: Aviso sobre mudança de objeto de entidades manuais\n* (Garfonso) Alteração: Os ids de inscrição para todos os elementos de configuração contêm entity_ids válidos (corrige o cartão tankerkoenig e a linha de entidade secundária)\n* (Garfonso) Adicionado: suporte para indicador offline (automático e manual) e indicador online\n* (Garfonso) Adicionado: suporte para indicador de erro, manutenção e funcionamento (sensores binários)\n* (Garfonso) Adicionado: mais classes de dispositivos com configurações personalizadas\n* (Garfonso) Adicionado: Suporte para calendário (apenas ical, use configurações personalizadas para criar entidade de calendário em ical. *. Data.table).",
-                "nl": "* (Garfonso) Fix: mogelijke crash tijdens het maken van een lichte entiteit\n* (Garfonso) Fix: mogelijke crashes in bindingsondersteuning\n* (Garfonso) Fix: /state/ handler voor bestanden (reparaties bijvoorbeeld Sonos omslagafbeelding)\n* (Garfonso) Fix: kantelopdracht is niet correct verwerkt in ioBroker\n* (Garfonso) Oplossing: conversieproblemen in alarmcentrale\n* (Garfonso) Fix: gemiste update als automatische en handmatige entiteit zijn gemaakt vanaf hetzelfde ioBroker-apparaat\n* (Garfonso) Opgelost: waarschuwing bij objectwijziging van handmatige entiteiten\n* (Garfonso) Wijziging: Abonneer-ID's voor alle configuratie-elementen bevatten geldige entiteits-ID's (fixt tankerkoenig-kaart en secundaire entiteit-rij)\n* (Garfonso) Toegevoegd: ondersteuning voor offline indicator (auto & handmatig) en online indicator\n* (Garfonso) Toegevoegd: ondersteuning voor fout-, onderhouds- en werkindicator (binaire sensoren)\n* (Garfonso) Toegevoegd: meer apparaatklassen met aangepaste instellingen\n* (Garfonso) Toegevoegd: Ondersteuning voor kalender (alleen ical, gebruik aangepaste instellingen om kalenderentiteit te creëren op ical.*.data.table).",
-                "fr": "* (Garfonso) Correction : crash possible lors de la création de l'entité lumineuse\n* (Garfonso) Correction : plantages possibles dans le support de liaison\n* (Garfonso) Correction : /state/ handler pour les fichiers (répare par exemple l'image de couverture de Sonos)\n* (Garfonso) Correction : la commande d'inclinaison n'était pas correctement traitée dans ioBroker\n* (Garfonso) Correction : problèmes de conversion dans le panneau de contrôle d'alarme\n* (Garfonso) Correction : mise à jour manquée si les entités automatique et manuelle ont été créées à partir du même appareil ioBroker\n* (Garfonso) Corrigé : Avertissement sur le changement d'objet des entités manuelles\n* (Garfonso) Changement : les identifiants d'abonnement pour tous les éléments de configuration contiennent des entity_ids valides (corrige la carte tankerkoenig et la ligne secondaire d'entité)\n* (Garfonso) Ajout : prise en charge de l'indicateur hors ligne (auto et manuel) et de l'indicateur en ligne\n* (Garfonso) Ajout : prise en charge des indicateurs d'erreur, de maintenance et de fonctionnement (capteurs binaires)\n* (Garfonso) Ajouté : plus de classes d'appareils avec des paramètres personnalisés\n* (Garfonso) Ajout : Prise en charge du calendrier (uniquement ical, utilisez des paramètres personnalisés pour créer une entité de calendrier sur ical.*.data.table).",
-                "it": "* (Garfonso) Fix: possibile crash durante la creazione di entità luce\n* (Garfonso) Fix: possibili crash nel supporto del binding\n* (Garfonso) Fix: /state/ gestore per i file (ripara ad esempio l'immagine di copertina di Sonos)\n* (Garfonso) Fix: il comando tilt non è stato elaborato correttamente in ioBroker\n* (Garfonso) Fix: problemi di conversione nel pannello di controllo degli allarmi\n* (Garfonso) Fix: mancato aggiornamento se l'entità automatica e manuale sono state create dallo stesso dispositivo ioBroker\n* (Garfonso) Risolto: avviso sul cambio oggetto delle entità manuali\n* (Garfonso) Modifica: gli ID di sottoscrizione per tutti gli elementi di configurazione contengono entità_id validi (corregge la carta tankerkoenig e la riga di entità secondaria)\n* (Garfonso) Aggiunto: supporto per indicatore offline (automatico e manuale) e indicatore online\n* (Garfonso) Aggiunto: supporto per errore, manutenzione e indicatore di funzionamento (sensori binari)\n* (Garfonso) Aggiunto: più classi di dispositivi con impostazioni personalizzate\n* (Garfonso) Aggiunto: supporto per il calendario (solo ical, usa le impostazioni personalizzate per creare l'entità del calendario su ical.*.data.table).",
-                "es": "* (Garfonso) Solución: posible bloqueo al crear una entidad de luz\n* (Garfonso) Solución: posibles bloqueos en el soporte de encuadernación\n* (Garfonso) Arreglo: / state / handler for files (reparaciones, por ejemplo, la imagen de portada de Sonos)\n* (Garfonso) Solución: el comando de inclinación no se procesó correctamente en ioBroker\n* (Garfonso) Solución: problemas de conversión en el panel de control de alarmas\n* (Garfonso) Solución: actualización perdida si la entidad automática y manual se crearon desde el mismo dispositivo ioBroker\n* (Garfonso) Corregido: Advertencia sobre el cambio de objeto de las entradas manuales\n* (Garfonso) Cambio: Los identificadores de suscripción para todos los elementos de configuración contienen entity_ids válidos (corrige la tarjeta de tankerkoenig y la fila de entidad secundaria)\n* (Garfonso) Agregado: soporte para indicador fuera de línea (automático y manual) e indicador en línea\n* (Garfonso) Agregado: soporte para indicador de error, mantenimiento y funcionamiento (sensores binarios)\n* (Garfonso) Agregado: más clases de dispositivos con configuraciones personalizadas\n* (Garfonso) Agregado: Soporte para calendario (solo ical, use configuraciones personalizadas para crear una entidad de calendario en ical. *. Data.table).",
-                "pl": "* (Garfonso) Poprawka: możliwa awaria podczas tworzenia lekkiej jednostki\n* (Garfonso) Poprawka: możliwe awarie w obsłudze wiązania\n* (Garfonso) Poprawka: /state/ handler dla plików (naprawia np. okładkę Sonos)\n* (Garfonso) Poprawka: polecenie przechyłu nie zostało poprawnie przetworzone w ioBroker\n* (Garfonso) Poprawka: problemy z konwersją w panelu sterowania alarmami\n* (Garfonso) Poprawka: pominięta aktualizacja, jeśli encja automatyczna i ręczna została utworzona z tego samego urządzenia ioBroker\n* (Garfonso) Naprawiono: Ostrzeżenie o zmianie obiektu obiektów ręcznych\n* (Garfonso) Zmiana: Identyfikatory subskrypcji dla wszystkich elementów konfiguracyjnych zawierają prawidłowe entity_ids (naprawia kartę tankerkoenig i drugorzędny wiersz encji)\n* (Garfonso) Dodano: wsparcie dla wskaźnika offline (automatycznego i ręcznego) oraz wskaźnika online\n* (Garfonso) Dodano: wsparcie dla wskaźnika błędu, konserwacji i pracy (czujniki binarne)\n* (Garfonso) Dodano: więcej klas urządzeń z niestandardowymi ustawieniami\n* (Garfonso) Dodano: Wsparcie dla kalendarza (tylko ical, użyj ustawień niestandardowych, aby utworzyć encję kalendarza na ical.*.data.table).",
-                "zh-cn": "* (Garfonso) 修复：创建光实体时可能崩溃\n* (Garfonso) 修复：绑定支持可能崩溃\n* (Garfonso) 修复：/state/ 文件处理程序（修复例如 Sonos 封面图片）\n* (Garfonso) 修复：倾斜命令在 ioBroker 中没有正确处理\n* (Garfonso) 修复：警报控制面板中的转换问题\n* (Garfonso) 修复：如果自动和手动实体是从同一个 ioBroker 设备创建的，则会错过更新\n* (Garfonso) 修正：手动实体的对象变化警告\n* (Garfonso) 更改：所有配置元素的订阅 ID 都包含有效的 entity_ids（修复 tankerkoenig 卡和辅助实体行）\n* (Garfonso) 添加：支持离线指示器（自动和手动）和在线指示器\n* (Garfonso) 添加：支持错误、维护和工作指示器（二进制传感器）\n* (Garfonso) 添加：更多带有自定义设置的设备类\n* (Garfonso) 添加：支持日历（仅 ical，使用自定义设置在 ical.*.data.table 上创建日历实体）。"
-            }
-        },
-        "title": "Visualization with Lovelace-UI",
-        "titleLang": {
-            "en": "Visualization with Lovelace-UI",
-            "de": "Visualisierung mit Lovelace-UI",
-            "ru": "Визуализация с помощью Lovelace-UI",
-            "pt": "Visualização com Lovelace-UI",
-            "nl": "Visualisatie met Lovelace-UI",
-            "fr": "Visualisation avec Lovelace-UI",
-            "it": "Visualizzazione con Lovelace-UI",
-            "es": "Visualización con Lovelace-UI",
-            "pl": "Wizualizacja za pomocą Lovelace-UI",
-            "zh-cn": "使用Lovelace-UI进行可视化"
-        },
-        "desc": {
-            "en": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
-            "de": "Mit diesem Adapter können Sie eine Visualisierung für ioBroker mit der Home Assistant Lovelace-Benutzeroberfläche erstellen",
-            "ru": "С помощью этого адаптера вы можете создавать визуализацию для ioBroker с Home Assistant Lovelace UI",
-            "pt": "Com este adaptador você pode construir visualização para o ioBroker com o Home Assistant Lovelace UI",
-            "nl": "Met deze adapter kunt u visualisatie bouwen voor ioBroker met Home Assistant Lovelace UI",
-            "fr": "Avec cet adaptateur, vous pouvez créer une visualisation pour ioBroker avec Home Assistant Lovelace UI",
-            "it": "Con questo adattatore puoi costruire la visualizzazione per ioBroker con l'interfaccia utente di Home Assistant Lovelace",
-            "es": "Con este adaptador puede crear visualización para ioBroker con Home Assistant Lovelace UI",
-            "pl": "Za pomocą tego adaptera możesz zbudować wizualizację dla ioBroker z interfejsem Home Assistant Lovelace",
-            "zh-cn": "使用此适配器，您可以使用Home Assistant Lovelace UI为ioBroker构建可视化"
-        },
-        "authors": [
-            "bluefox <dogafox@gmail.com>"
-        ],
-        "keywords": [
-            "ioBroker",
-            "template",
-            "Smart Home",
-            "home automation"
-        ],
-        "license": "Apache-2.0",
-        "platform": "Javascript/Node.js",
-        "tier": 3,
-        "icon": "lovelace.png",
-        "main": "main.js",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
-        "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "visualization",
-        "compact": true,
-        "materialize": true,
-        "supportCustoms": true,
-        "messagebox": true,
-        "connectionType": "local",
-        "dataSource": "push",
-        "localLink": "%protocol%://%ip%:%port%/",
-        "welcomeScreen1": {
-            "link": "",
-            "name": "Lovelace",
-            "img": "lovelace/icons/favicon-192x192.png",
-            "color": "#03a9f4",
-            "order": 2,
-            "localLink": true
-        },
-        "messages": [
-            {
-                "condition": {
-                    "operand": "and",
-                    "rules": [
-                        "oldVersion<=2.0.0",
-                        "newVersion>=3.0.0"
-                    ]
-                },
-                "title": {
-                    "en": "Visualisation Update",
-                    "de": "Aktualisierung der Visualisierung",
-                    "ru": "Обновление визуализации",
-                    "pt": "Atualização da visualização",
-                    "nl": "Visualisatie Update",
-                    "fr": "Mise à jour de la visualisation",
-                    "it": "Aggiornamento della visualizzazione",
-                    "es": "Actualización de Visualización",
-                    "pl": "Visualizacja",
-                    "uk": "Оновлення візуалізації",
-                    "zh-cn": "更新"
-                },
-                "text": {
-                    "en": "The update to version 3.x will change frontend version from 20211229.0 to 20221026.0. This means 10 months development of Lovelace in one update. You will probably need to update or fix your themes and custom cards. Please make sure to check your visualization after this update. Ask in forum or discord for help.",
-                    "de": "Das Update auf Version 3.x wird die Frontend Version von 20211229.0 auf 20221026.0 ändern. Dies bedeutet 10 Monate Entwicklung von Lovelace in einem Update. Sie müssen wahrscheinlich Ihre Themen und benutzerdefinierten Karten aktualisieren oder reparieren. Achten Sie darauf, Ihre Visualisierung nach diesem Update zu überprüfen. Fragen Sie im Forum oder Discord nach Hilfe.",
-                    "ru": "Обновление до версии 3.x изменит версию frontend от 20211229.0 до 20221026.0 Это означает 10 месяцев разработки Lovelace в одном обновлении. Вам, вероятно, нужно обновить или исправить ваши темы и пользовательские карты. Пожалуйста, проверьте вашу визуализацию после этого обновления. Спросите на форуме или несогласно помощи.",
-                    "pt": "A atualização para a versão 3.x mudará a versão do frontend de 20211229.0 para 20221026.0 Isso significa desenvolvimento de 10 meses do Lovelace em uma atualização. Você provavelmente precisará atualizar ou corrigir seus temas e cartões personalizados. Certifique-se de verificar sua visualização após esta atualização. Pergunte no fórum ou Discord para ajuda.",
-                    "nl": "De update van versie 3.x zal de frontend versie veranderen van 20211229.0 tot 202226. Dit betekent 10 maanden ontwikkeling van Lovelace in één update. Je moet waarschijnlijk updaten of je thema's en kaarten repareren. Controleer uw visualisatie na deze update. Vraag in forum of Discord om hulp.",
-                    "fr": "La mise à jour de la version 3.x va changer la version frontend de 20211229.0 à 20221026.0 Cela signifie 10 mois de développement de Lovelace dans une mise à jour. Vous devrez probablement mettre à jour ou corriger vos thèmes et vos cartes personnalisées. Assurez-vous de vérifier votre visualisation après cette mise à jour. Demandez de l'aide au forum ou à la Discord.",
-                    "it": "L'aggiornamento alla versione 3.x cambierà la versione frontend da 20211229.0 a 20221026.0 Ciò significa 10 mesi di sviluppo di Lovelace in un unico aggiornamento. Probabilmente dovrai aggiornare o correggere i tuoi temi e le tue carte personalizzate. Assicurati di controllare la visualizzazione dopo questo aggiornamento. Chiedi aiuto in forum o Discord.",
-                    "es": "La actualización a la versión 3.x cambiará la versión de frontend de 20211229.0 a 20221026.0 Esto significa desarrollo de 10 meses de Lovelace en una actualización. Probablemente necesite actualizar o arreglar sus temas y tarjetas personalizadas. Asegúrese de comprobar su visualización después de esta actualización. Pida ayuda en el foro o Discord.",
-                    "pl": "Zaktualizowana wersja 3.x będzie zmieniała przednią wersję od 20211229.0 do 20221026.0. Oznacza to, że w jednym uaktualnianiu jest 10 miesięcy rozwój Lovelace. Prawdopodobnie potrzebuje uaktualnienia lub naprawienia swoich motywów i kart. Postanawia sprawdzić wizualizację po tej aktualizacji. Odpowiada za pomoc.",
-                    "uk": "Оновлення версії 3.x змінить версію фронтенду з 20211229.0 до 20221026.0 Це означає 10 місяців розробки Lovelace в одному оновленні. Ви, ймовірно, повинні оновити або виправити ваші теми і спеціальні картки. Будь ласка, перевірте вашу візуалізацію після цього оновлення. Запитайте на форум або розпишіться на допомогу.",
-                    "zh-cn": "更新后的3.x将改变20211229.0至20221026年的前沿版本。 这就意味着在更新的一年里发展了良机。 你很可能需要更新或确定你们的主题和习俗卡。 请确保在更新之后检查你的视觉。 论坛或有帮助的办事处。."
-                },
-                "link": "https://forum.iobroker.net/topic/34775/test-adapter-lovelace-v1-2-x/1324?_=1666881699892",
-                "level": "warn",
-                "linkText": {
-                    "en": "A few issues with themes were already discussed here.",
-                    "de": "Hier wurden bereits einige Themen diskutiert.",
-                    "ru": "Здесь уже обсуждались несколько вопросов с темами.",
-                    "pt": "Algumas questões com temas já foram discutidas aqui.",
-                    "nl": "Een paar problemen met ze werden hier al besproken.",
-                    "fr": "Quelques questions avec des thèmes ont déjà été discutées ici.",
-                    "it": "Sono già state discusse alcune questioni con temi.",
-                    "es": "Algunos temas con temas ya se discutieron aquí.",
-                    "pl": "Omawiano tam kilka tematów.",
-                    "uk": "Тут вже обговорювалися кілька питань з темами.",
-                    "zh-cn": "这里已经讨论了几个专题的问题。."
-                },
-                "buttons": [
-                    "agree",
-                    "cancel"
-                ]
-            }
-        ],
-        "dependencies": [
-            {
-                "js-controller": ">=3.3.0"
-            }
-        ],
-        "globalDependencies": [
-            {
-                "admin": ">=5.1.28"
-            }
-        ],
-        "welcomeScreenPro": {
-            "link": "lovelace/",
-            "name": "Lovelace",
-            "img": "lovelace.admin/lovelace.png",
-            "color": "#03a9f4",
-            "order": 6,
-            "localLink": true
-        }
+  "common": {
+    "name": "lovelace",
+    "version": "3.0.0",
+    "news": {
+      "3.0.0": {
+        "en": "added: per instance language support\nchanged: updated frontend to 20221027.0. Needs theme adjustment (add code-editor-background-color) and probably card updates\nadded: browser_mod (2.1.3) is now integrated. Please remove manual installed versions of custom browser_mod card.\nadded: 'instances.refresh' can be used to reload page in connected browsers.\nremoved: lovelace_reload and window_reload states\nremoved: name state, not supported by browser_mod anymore\nadded: Support for toasts with action button (either json or ;-string)\nadded: activity state will show if user is currently using a certain browser\nadded: Support for subfolders in /cards/ for images and stuff custom cards load (please keep cards in root folder).",
+        "de": "hinzugefügt: per Instanz sprachunterstützung\ngeändert: aktualisiertes Frontend auf 20221027.0 Benötigt Thema Anpassung (z.B. neu code-editor-background-color) und wahrscheinlich Karten-Updates\nadd: browser_mod (2.1.3) ist jetzt integriert. Bitte entfernen Sie manuell installierte Versionen der browser_mod-Karte.\nhinzugefügt: instances.refresh kann verwendet werden, um die Seite in verbundenen Browsern neu zu laden.\nentfernt: lovelace_reload und windows_reload\nentfernt: name-State, nicht mehr von browser_mod unterstützt\nadded: Unterstützung für Toasts mit Aktionsknopf (entweder json oder -;string)\nadded: Aktivitätszustand, der anzeigt, ob der Nutzer derzeit einen bestimmten Browser bedient\nadded: Unterstützung für Unterordner in /cards/ für Bilder und Materialien benutzerdefinierte Karten (bitte die Karten selber im Wurzelordner lassen).",
+        "ru": "добавлено: в пример языковой поддержки\nизменено: обновление frontend до 20221027.0 Нужна настройка темы (add code-editor-background-color) и, вероятно, обновления карты\nдобавлено: browser_mod (2.1.3) теперь интегрирован. Пожалуйста, удалите вручную установленные версии пользовательского браузера_mod карты.\nдобавлено: instances.refresh можно использовать для перезагрузки страницы в подключенных браузерах.\nудалено: lovelace_reload and window_reload состояния\nудалено: имя состояние, не поддерживается браузером_mod более\nдобавлено: Поддержка тостов с кнопкой действия (либо json или -;string)\nдобавлено: состояние активности покажет, если пользователь в настоящее время использует определенный браузер\nдобавлено: Поддержка субпастеров в картах для загрузки изображений и настраиваемых карт (пожалуйста, держите карты в папке root).",
+        "pt": "adicionado: por exemplo suporte de idioma\nalterado: frontend atualizado para 20221027.0 Precisa de ajuste de tema (add code-editor-background-color) e, provavelmente, atualizações de cartão\nadicionado: browser_mod (2.1.3) agora está integrado. Por favor, remova as versões manuais instaladas do cartão browser_mod personalizado.\nadicionado: instances.refresh a atualização pode ser usada para recarregar a página em navegadores conectados.\nremovido: lovelace_reload and window_reload states\nremovido: name state, não suportado pelo browser_mod mais\nadicionado: Suporte para torradas com botão de ação (quer json ou -;string)\nadicionado: estado de atividade irá mostrar se o usuário está usando um determinado navegador\nadicionado: Suporte para subpastas em cartões para imagens e coisas cartões personalizados de carga (por favor, mantenha cartões na pasta raiz).",
+        "nl": "vertaling:\nverandering: Heeft thema aanpassing nodig (add code-aditor-background-color) en waarschijnlijk kaart updates\ntoegevoegd: browsermod (2.1.3) is nu geïntegreerd. Verwijder handmatig geïnstalleerde versies van de gewone browsermod kaart.\ntoegevoegd: instances.refresh kan gebruikt worden om pagina te herladen in verbonden browsers.\n_\nverwijdert: naam staat, niet ondersteund door browsermod\nversterking voor toasts met actieknop\nde activiteitsstaat laat zien of gebruiker momenteel een bepaalde browser gebruikt\nsteun voor subfolders in kaarten voor foto's en klantenkaarten laden in wortelvouder.",
+        "fr": "ajouté: par exemple le soutien linguistique\nchangé: mise à jour du frontend à 20221027.0 Besoins réglage de thème (add code-editor-background-color) et probablement mises à jour de carte\najouté: browser_mod (2.1.3) est maintenant intégré. Veuillez supprimer les versions manuelles installées de la carte personnalisée browser_mod.\najouté: instances. rafraîchissement peut être utilisé pour recharger la page dans les navigateurs connectés.\nsupprimé: lovelace_reload et windows_reload états\nenlevé: état de nom, non pris en charge par browser_mod plus\najouté: Support pour les toasts avec bouton d'action (soit json ou -;string)\najouté: état d'activité montrera si l'utilisateur utilise actuellement un certain navigateur\najouté: Support pour les sous-dossiers dans les cartes pour les images et la charge de cartes personnalisées (veuillez garder les cartes dans le dossier racine).",
+        "it": "aggiunto: per esempio supporto linguistico\nmodificato: frontend aggiornato a 20221027.0 Ha bisogno di regolazione del tema (add code-editor-background-color) e probabilmente aggiornamenti della carta\naggiunto: browser_mod (2.1.3) è ora integrato. Si prega di rimuovere le versioni di browser_mod personalizzato.\naggiunto: instances.refresh può essere utilizzato per ricaricare la pagina nei browser collegati.\nrimosso: lovelace_reload e window_reload stati\nrimosso: nome stato, non supportato da browser_mod più\naggiunto: Supporto per toast con pulsante d'azione (sia json che -;string)\naggiunto: lo stato di attività mostrerà se l'utente sta attualmente utilizzando un certo browser\naggiunto: Supporto per le sottocartelle nelle schede per immagini e roba carico di carte personalizzate (mantenere le carte nella cartella principale).",
+        "es": "añadido: por ejemplo apoyo al idioma\ncambiado: actualización de frontend a 20221027.0 Necesidades de ajuste de tema (add code-editor-background-color) y probablemente actualizaciones de tarjetas\nañadido: browser_mod (2.1.3) está ahora integrado. Por favor, retire las versiones instaladas manualmente de la tarjeta browser_mod personalizada.\nañadido: instances.refresh se puede utilizar para recargar página en los navegadores conectados.\neliminados: estados lovelace_reload y window_reload\neliminado: estado de nombre, no soportado por browser_mod más\nañadido: Soporte para tostadas con botón de acción (ya sea json o -;string)\nañadido: estado de actividad mostrará si el usuario está utilizando un determinado navegador\nañadido: Soporte para subcarpetas en tarjetas para la carga de imágenes y material de tarjetas personalizadas (por favor, mantenga las tarjetas en la carpeta raíz).",
+        "pl": "upoważnianie języka\nzmieniło się: zaktualizowano front do 20221027. Konstrukcja tematu (dodawanie kod-editor-ground-color) oraz prawdopodobnie aktualizacja kart\ndodano: przeglądarkę_mod (2.1.3). Zastosowanie ręcznych wersji karty przeglądarki_mod.\ndostęp: instances.refresh być używany do przeładowania strony w połączonych przeglądarkach.\nusunięte: miłość_reload and window_reload\nusunięta: nazwa nie jest wspierana przez przeglądarkę_mod anymore\ndodał: Wspieranie toastów z przyciskiem (json lub -;string)\ndodano: stan aktywności pokazuje, że użytkownik jest obecnie używany przez określoną przeglądarkę\ndodał: Wsparcie dla subklerów w kartach dla obrazów i kart przechowywania kart (please keep cards in root folder).",
+        "uk": "додано: підтримка мови екземпляра\nзмінено: оновлений фронтенд до 20221027.0 Потрібні налаштування теми (add code-editor-phone-color) і, ймовірно, оновлення карт\nдодано: браузер_mod (2.1.3) тепер інтегрований. Будь ласка, видаліть ручні встановлені версії користувацького браузера_mod карти.\nдодано: instances.refresh перезавантажити сторінку в підключених браузерах.\nвидалити: lovelace_reload і windows_reload стани\nвидалити: стан імен, не підтримується браузером_mod додатково\nдоданий: Підтримка тастів з кнопкою дії (або json або -;string)\nдодано: стан роботи покаже, якщо користувач наразі використовує певний браузер\nдодано: Підтримка підпапок у картках для зображень та начинок на замовлення, завантаження карт (збережіть картки у папці кореневих).",
+        "zh-cn": "增加:每一类语文支助\n修改:更新前线到20221027.0。 需求专题调整(附加编码的外地领地)以及可能提供最新资料\n增加:现正在综合编(2.1.3)。 请取消制造的习俗包件的手册。.\n增加:情况。 可以用来复制连带代的页。.\n删除:亲王:重载和窗口。\n删除:姓名国,未获括号内的支持;莫斯·马约尔\n增加:支持以行动、但顿(既不是 json,也不是;示范)\n增加:如果用户目前使用某些代行,活动国将显示活动情况。\n增加:支持在图像和制成品的卡里的投影器(装有根带的卡)。."
+      },
+      "2.2.0": {
+        "en": "fixed: incorrect warning about duplicate entities on update of manual entity.\nfixed: input_datetime did not work if time was enabled and did vanish if date and time were enabled.\nfixed: RGB hex string got broken on not rounded numbers (problem with mushroom ligth card).\nfixed: state of cover entity if not 0 or 100% (fixes problem with sliter-button-card).\nfixed: light did not read brightness ACTUAL in dimmer devices.\nadded: support auto entities card and subscription.\nadded: improve support for input_datetime & string states.\nadded: support for browser_mod (i.e. crontrol frontend from iobroker).",
+        "de": "behoben: Falsche Warnung vor doppelten Entitäten beim Update einer manuellen Entität.\nbehoben: input_datetime funktionierte nicht, wenn die Uhrzeit aktiviert war, und verschwand, wenn Datum und Uhrzeit aktiviert waren.\nbehoben: RGB-Hex-String wurde bei nicht gerundeten Zahlen unterbrochen (Problem mit Pilzlichtkarte).\nbehoben: Zustand der Abdeckungsentität, wenn nicht 0 oder 100% (behebt das Problem mit der Sliter-Button-Karte).\nbehoben: Licht hat Helligkeit IST bei Dimmergeräten nicht gelesen.\nhinzugefügt: Unterstützung von Karten und Abonnements für automatische Entitäten.\nhinzugefügt: verbesserte Unterstützung für input_datetime & String-Zustände.\nhinzugefügt: Unterstützung für browser_mod (d. h. Crontrol-Frontend von iobroker).",
+        "ru": "исправлено: некорректное предупреждение о повторяющихся сущностях при обновлении ручной сущности.\nисправлено: input_datetime не работал, если время было включено, и исчезало, если были включены дата и время.\nисправлено: шестнадцатеричная строка RGB ломалась на неокругленных числах (проблема с грибовидной картой).\nисправлено: состояние объекта покрытия, если не 0 или 100% (исправляет проблему с картой-кнопкой).\nисправлено: свет не считывал АКТУАЛЬНУЮ яркость в диммерных устройствах.\nдобавлено: поддержка автоматических карточек и подписок.\nдобавлено: улучшена поддержка input_datetime и строковых состояний.\nдобавлено: поддержка browser_mod (т.е. интерфейс crontrol от iobroker).",
+        "pt": "corrigido: aviso incorreto sobre entidades duplicadas na atualização da entidade manual.\nfixo: input_datetime não funcionava se a hora estivesse habilitada e desaparecia se data e hora estivessem habilitadas.\ncorrigido: a string hexadecimal RGB foi quebrada em números não arredondados (problema com o cartão de luz de cogumelo).\nfixo: estado da entidade de cobertura se não for 0 ou 100% (corrige o problema com o cartão-botão cortador).\nfixo: a luz não lia o brilho REAL em dispositivos dimmer.\nadicionado: suporte a cartão e assinatura de entidades automáticas.\nadicionado: melhore o suporte para estados input_datetime e string.\nadicionado: suporte para browser_mod (ou seja, frontend crontrol do iobroker).",
+        "nl": "opgelost: onjuiste waarschuwing over dubbele entiteiten bij update van handmatige entiteit.\nopgelost: input_datetime werkte niet als tijd was ingeschakeld en verdween als datum en tijd waren ingeschakeld.\nopgelost: RGB hex string is gebroken op niet afgeronde getallen (probleem met paddenstoellichtkaart).\nvast: staat van dekkingsentiteit indien niet 0 of 100% (probleem met sliter-knop-kaart opgelost).\nvast: het licht leest de helderheid niet ACTUAL in dimmers.\ntoegevoegd: ondersteuning voor auto-entiteitenkaart en abonnement.\ntoegevoegd: ondersteuning voor input_datetime & string-statussen verbeteren.\ntoegevoegd: ondersteuning voor browser_mod (d.w.z. crontrol frontend van iobroker).",
+        "fr": "corrigé : avertissement incorrect concernant les entités en double lors de la mise à jour de l'entité manuelle.\ncorrigé : input_datetime ne fonctionnait pas si l'heure était activée et disparaissait si la date et l'heure étaient activées.\ncorrigé : la chaîne hexadécimale RVB était cassée sur des nombres non arrondis (problème avec la carte champignon).\ncorrigé : état de l'entité de couverture si ce n'est pas 0 ou 100 % (corrige le problème avec la découpeuse-bouton-carte).\ncorrigé : la lumière n'a pas lu la luminosité RÉELLE dans les dispositifs de gradation.\najouté : prise en charge de la carte et de l'abonnement des entités automatiques.\najouté : amélioration de la prise en charge des états input_datetime et string.\najouté : prise en charge de browser_mod (c'est-à-dire l'interface crontrol d'iobroker).",
+        "it": "corretto: avviso errato su entità duplicate sull'aggiornamento dell'entità manuale.\nrisolto: input_datetime non funzionava se l'ora era abilitata e svaniva se la data e l'ora erano abilitate.\nrisolto: la stringa esadecimale RGB si interrompeva su numeri non arrotondati (problema con la scheda fungo ligth).\nfisso: stato dell'entità della copertura se diverso da 0 o 100% (risolve il problema con la tessera-tasto-sliter).\nfisso: la luce non ha letto la luminosità EFFETTIVA nei dispositivi dimmer.\naggiunto: supporto per la carta delle entità automatiche e l'abbonamento.\naggiunto: miglioramento del supporto per input_datetime e stati delle stringhe.\naggiunto: supporto per browser_mod (cioè frontend di crotrol da iobroker).",
+        "es": "corregido: advertencia incorrecta sobre entidades duplicadas en la actualización de la entidad manual.\ncorregido: input_datetime no funcionaba si la hora estaba habilitada y desaparecía si la fecha y la hora estaban habilitadas.\nsolucionado: la cadena hexadecimal RGB se rompió en números no redondeados (problema con la tarjeta de luz de hongos).\narreglado: estado de la entidad de cobertura si no es 0 o 100% (soluciona el problema con la tarjeta de botón de corte).\ncorregido: la luz no leía el brillo REAL en los dispositivos de atenuación.\nagregado: admite tarjeta de entidades automáticas y suscripción.\nagregado: mejore el soporte para input_datetime y estados de cadena.\nagregado: soporte para browser_mod (es decir, frontend crontrol de iobroker).",
+        "pl": "naprawiono: nieprawidłowe ostrzeżenie o zduplikowanych encjach przy aktualizacji encji ręcznej.\nnaprawiono: input_datetime nie działał, jeśli czas był włączony i znikał, jeśli data i godzina były włączone.\nnaprawiono: ciąg szesnastkowy RGB pękał na niezaokrąglonych liczbach (problem z kartą grzybkową).\nnaprawiono: stan jednostki okładki, jeśli nie 0 lub 100% (rozwiązuje problem z kartą z przyciskami sliterowymi).\nnaprawiono: światło nie odczytywało jasności AKTUALNEJ w urządzeniach ze ściemniaczem.\ndodano: obsługa karty i subskrypcji podmiotów automatycznych.\ndodano: poprawiono obsługę input_datetime i stanów stringów.\ndodano: wsparcie dla browser_mod (czyli crontrol frontend z iobroker).",
+        "zh-cn": "修复：手动实体更新时有关重复实体的错误警告。\n已修复：如果启用了时间，则 input_datetime 不起作用，如果启用了日期和时间，则会消失。\n修复：RGB 十六进制字符串在非四舍五入的数字上被破坏（蘑菇灯卡问题）。\n已修复：如果不是 0 或 100%，则覆盖实体的状态（修复了 sliter-button-card 的问题）。\n已修复：调光器设备中的灯光未读取实际亮度。\n补充：支持自动实体卡和订阅。\n添加：改进对 input_datetime 和字符串状态的支持。\n添加：对 browser_mod 的支持（即来自 iobroker 的 crontrol 前端）。"
+      },
+      "2.1.4": {
+        "en": "Dependency update",
+        "de": "Abhängigkeits-Update",
+        "ru": "Обновление зависимости",
+        "pt": "Atualização de dependência",
+        "nl": "Afhankelijkheidsupdate",
+        "fr": "Mise à jour des dépendances",
+        "it": "Aggiornamento delle dipendenze",
+        "es": "Actualización de dependencia",
+        "pl": "Aktualizacja zależności",
+        "zh-cn": "依赖更新"
+      },
+      "2.1.3": {
+        "en": "Fixed: remove backup of old frontend (sorry)",
+        "de": "Behoben: Backup des alten Frontends entfernen (sorry)",
+        "ru": "Исправлено: удалить резервную копию старого интерфейса (извините)",
+        "pt": "Corrigido: remover backup de front-end antigo (desculpe)",
+        "nl": "Opgelost: verwijder back-up van oude frontend (sorry)",
+        "fr": "Corrigé : supprimer la sauvegarde de l'ancienne interface (désolé)",
+        "it": "Risolto: rimuovere il backup del vecchio frontend (scusate)",
+        "es": "Corregido: eliminar la copia de seguridad de la interfaz anterior (lo siento)",
+        "pl": "Naprawiono: usuń kopię zapasową starego frontendu (przepraszam)",
+        "zh-cn": "修正：删除旧前端的备份（抱歉）"
+      },
+      "2.1.2": {
+        "en": "Fixed: Menu was broken in frontend.",
+        "de": "Behoben: Menü war im Frontend defekt.",
+        "ru": "Исправлено: меню было сломано во внешнем интерфейсе.",
+        "pt": "Corrigido: o menu estava quebrado no frontend.",
+        "nl": "Opgelost: menu was gebroken in frontend.",
+        "fr": "Corrigé : le menu était cassé dans le frontend.",
+        "it": "Risolto: il menu era rotto nel frontend.",
+        "es": "Corregido: el menú estaba roto en la interfaz.",
+        "pl": "Naprawiono: Menu było zepsute we frontendzie.",
+        "zh-cn": "修正：菜单在前端坏了。"
+      },
+      "2.1.1": {
+        "en": "Fixed: Entity update in some cases.",
+        "de": "Behoben: Entity-Update in einigen Fällen.",
+        "ru": "Исправлено: обновление сущности в некоторых случаях.",
+        "pt": "Fixo: atualização da entidade em alguns casos.",
+        "nl": "Opgelost: Entiteitsupdate in sommige gevallen.",
+        "fr": "Corrigé : mise à jour de l'entité dans certains cas.",
+        "it": "Risolto: aggiornamento dell'entità in alcuni casi.",
+        "es": "Corregido: actualización de la entidad en algunos casos.",
+        "pl": "Naprawiono: Aktualizacja Entity w niektórych przypadkach.",
+        "zh-cn": "修正：在某些情况下实体更新。"
+      },
+      "2.1.0": {
+        "en": "* (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).\n* (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)",
+        "de": "* (Garfonso) Hinzugefügt: Unterstützung für neue Dinge im Frontend (wie arm_vacation Zustand, Währung, ...).\n* (Garfonso) Änderung: Frontent auf 20211229.0 aktualisiert (benötigt möglicherweise Update von browser_mod, card_mod)",
+        "ru": "* (Garfonso) Добавлено: поддержка новых вещей во внешнем интерфейсе (например, состояние arm_vacation, валюта, ...).\n* (Garfonso) Изменение: обновлен фронт до 20211229.0 (требуется обновление browser_mod, card_mod)",
+        "pt": "* (Garfonso) Adicionado: suporte para coisas novas no frontend (como arm_vacation state, currency, ...).\n* (Garfonso) Alteração: frontent atualizado para 20211229.0 (precisa de atualização de browser_mod, card_mod)",
+        "nl": "* (Garfonso) Toegevoegd: ondersteuning voor nieuwe dingen in frontend (zoals arm_vacation state, valuta, ...).\n* (Garfonso) Wijziging: frontent bijgewerkt naar 20211229.0 (update nodig van browser_mod, card_mod)",
+        "fr": "* (Garfonso) Ajout : prise en charge de nouvelles choses en frontend (comme l'état arm_vacation, la devise, ...).\n* (Garfonso) Changement : frontent mis à jour vers 20211229.0 (nécessite une mise à jour de browser_mod, card_mod)",
+        "it": "* (Garfonso) Aggiunto: supporto per nuove cose nel frontend (come arm_vacation state, currency, ...).\n* (Garfonso) Modifica: Frontent aggiornato a 20211229.0 (necessita di aggiornamento di browser_mod, card_mod)",
+        "es": "* (Garfonso) Agregado: soporte para cosas nuevas en la interfaz (como estado arm_vacation, moneda, ...).\n* (Garfonso) Cambio: Interfaz actualizada a 20211229.0 (necesita actualización de browser_mod, card_mod)",
+        "pl": "* (Garfonso) Dodano: wsparcie dla nowych rzeczy w interfejsie (takich jak stan arm_vacation, waluta, ...).\n* (Garfonso) Zmiana: Zaktualizowano frontent do 20211229.0 (wymaga aktualizacji browser_mod, card_mod)",
+        "zh-cn": "* (Garfonso) 添加：支持前端的新事物（如 arm_vacation 状态、货币等）。\n* (Garfonso) 更改：将前端更新为 20211229.0（需要更新 browser_mod、card_mod）"
+      }
     },
-    "native": {
-        "history": "",
-        "historyMaxCount": 2000,
-        "port": 8091,
-        "auth": false,
-        "secure": false,
-        "bind": "0.0.0.0",
-        "certPublic": "",
-        "certPrivate": "",
-        "certChained": "",
-        "defaultUser": "admin",
-        "onlyAllowWhenUserIsOwner": false,
-        "ttl": 3600,
-        "themes": "",
-        "defaultTheme": "default",
-        "defaultThemeDark": "default",
-        "hideHeader": false,
-        "leEnabled": false,
-        "leUpdate": false,
-        "leCheckPort": 80,
-        "aliayOnly": false,
-        "blindsInvert": false,
-        "alarmCheckCodeOnDisarmOnly": false,
-        "language": "",
-        "updateTimeout": 5000
+    "title": "Visualization with Lovelace-UI",
+    "titleLang": {
+      "en": "Visualization with Lovelace-UI",
+      "de": "Visualisierung mit Lovelace-UI",
+      "ru": "Визуализация с помощью Lovelace-UI",
+      "pt": "Visualização com Lovelace-UI",
+      "nl": "Visualisatie met Lovelace-UI",
+      "fr": "Visualisation avec Lovelace-UI",
+      "it": "Visualizzazione con Lovelace-UI",
+      "es": "Visualización con Lovelace-UI",
+      "pl": "Wizualizacja za pomocą Lovelace-UI",
+      "zh-cn": "使用Lovelace-UI进行可视化"
     },
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
+    "desc": {
+      "en": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
+      "de": "Mit diesem Adapter können Sie eine Visualisierung für ioBroker mit der Home Assistant Lovelace-Benutzeroberfläche erstellen",
+      "ru": "С помощью этого адаптера вы можете создавать визуализацию для ioBroker с Home Assistant Lovelace UI",
+      "pt": "Com este adaptador você pode construir visualização para o ioBroker com o Home Assistant Lovelace UI",
+      "nl": "Met deze adapter kunt u visualisatie bouwen voor ioBroker met Home Assistant Lovelace UI",
+      "fr": "Avec cet adaptateur, vous pouvez créer une visualisation pour ioBroker avec Home Assistant Lovelace UI",
+      "it": "Con questo adattatore puoi costruire la visualizzazione per ioBroker con l'interfaccia utente di Home Assistant Lovelace",
+      "es": "Con este adaptador puede crear visualización para ioBroker con Home Assistant Lovelace UI",
+      "pl": "Za pomocą tego adaptera możesz zbudować wizualizację dla ioBroker z interfejsem Home Assistant Lovelace",
+      "zh-cn": "使用此适配器，您可以使用Home Assistant Lovelace UI为ioBroker构建可视化"
+    },
+    "authors": [
+      "bluefox <dogafox@gmail.com>"
+    ],
+    "keywords": [
+      "ioBroker",
+      "template",
+      "Smart Home",
+      "home automation"
+    ],
+    "license": "Apache-2.0",
+    "platform": "Javascript/Node.js",
+    "tier": 3,
+    "icon": "lovelace.png",
+    "main": "main.js",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
+    "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "visualization",
+    "compact": true,
+    "materialize": true,
+    "supportCustoms": true,
+    "messagebox": true,
+    "connectionType": "local",
+    "dataSource": "push",
+    "localLink": "%protocol%://%ip%:%port%/",
+    "welcomeScreen1": {
+      "link": "",
+      "name": "Lovelace",
+      "img": "lovelace/icons/favicon-192x192.png",
+      "color": "#03a9f4",
+      "order": 2,
+      "localLink": true
+    },
+    "messages": [
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<=2.0.0",
+            "newVersion>=3.0.0"
+          ]
         },
-        {
-            "_id": "info.entitiesUpdated",
-            "type": "state",
-            "common": {
-                "name": "If the list of entities was updated",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "role": "state",
-                "def": false
-            }
+        "title": {
+          "en": "Visualisation Update",
+          "de": "Aktualisierung der Visualisierung",
+          "ru": "Обновление визуализации",
+          "pt": "Atualização da visualização",
+          "nl": "Visualisatie Update",
+          "fr": "Mise à jour de la visualisation",
+          "it": "Aggiornamento della visualizzazione",
+          "es": "Actualización de Visualización",
+          "pl": "Visualizacja",
+          "uk": "Оновлення візуалізації",
+          "zh-cn": "更新"
         },
-        {
-            "_id": "info.readyForClients",
-            "type": "state",
-            "common": {
-                "name": "Lovelace is ready to interact with UI and ioBroker.",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "role": "indicator.reachable",
-                "def": false
-            }
+        "text": {
+          "en": "The update to version 3.x will change frontend version from 20211229.0 to 20221026.0. This means 10 months development of Lovelace in one update. You will probably need to update or fix your themes and custom cards. Please make sure to check your visualization after this update. Ask in forum or discord for help.",
+          "de": "Das Update auf Version 3.x wird die Frontend Version von 20211229.0 auf 20221026.0 ändern. Dies bedeutet 10 Monate Entwicklung von Lovelace in einem Update. Sie müssen wahrscheinlich Ihre Themen und benutzerdefinierten Karten aktualisieren oder reparieren. Achten Sie darauf, Ihre Visualisierung nach diesem Update zu überprüfen. Fragen Sie im Forum oder Discord nach Hilfe.",
+          "ru": "Обновление до версии 3.x изменит версию frontend от 20211229.0 до 20221026.0 Это означает 10 месяцев разработки Lovelace в одном обновлении. Вам, вероятно, нужно обновить или исправить ваши темы и пользовательские карты. Пожалуйста, проверьте вашу визуализацию после этого обновления. Спросите на форуме или несогласно помощи.",
+          "pt": "A atualização para a versão 3.x mudará a versão do frontend de 20211229.0 para 20221026.0 Isso significa desenvolvimento de 10 meses do Lovelace em uma atualização. Você provavelmente precisará atualizar ou corrigir seus temas e cartões personalizados. Certifique-se de verificar sua visualização após esta atualização. Pergunte no fórum ou Discord para ajuda.",
+          "nl": "De update van versie 3.x zal de frontend versie veranderen van 20211229.0 tot 202226. Dit betekent 10 maanden ontwikkeling van Lovelace in één update. Je moet waarschijnlijk updaten of je thema's en kaarten repareren. Controleer uw visualisatie na deze update. Vraag in forum of Discord om hulp.",
+          "fr": "La mise à jour de la version 3.x va changer la version frontend de 20211229.0 à 20221026.0 Cela signifie 10 mois de développement de Lovelace dans une mise à jour. Vous devrez probablement mettre à jour ou corriger vos thèmes et vos cartes personnalisées. Assurez-vous de vérifier votre visualisation après cette mise à jour. Demandez de l'aide au forum ou à la Discord.",
+          "it": "L'aggiornamento alla versione 3.x cambierà la versione frontend da 20211229.0 a 20221026.0 Ciò significa 10 mesi di sviluppo di Lovelace in un unico aggiornamento. Probabilmente dovrai aggiornare o correggere i tuoi temi e le tue carte personalizzate. Assicurati di controllare la visualizzazione dopo questo aggiornamento. Chiedi aiuto in forum o Discord.",
+          "es": "La actualización a la versión 3.x cambiará la versión de frontend de 20211229.0 a 20221026.0 Esto significa desarrollo de 10 meses de Lovelace en una actualización. Probablemente necesite actualizar o arreglar sus temas y tarjetas personalizadas. Asegúrese de comprobar su visualización después de esta actualización. Pida ayuda en el foro o Discord.",
+          "pl": "Zaktualizowana wersja 3.x będzie zmieniała przednią wersję od 20211229.0 do 20221026.0. Oznacza to, że w jednym uaktualnianiu jest 10 miesięcy rozwój Lovelace. Prawdopodobnie potrzebuje uaktualnienia lub naprawienia swoich motywów i kart. Postanawia sprawdzić wizualizację po tej aktualizacji. Odpowiada za pomoc.",
+          "uk": "Оновлення версії 3.x змінить версію фронтенду з 20211229.0 до 20221026.0 Це означає 10 місяців розробки Lovelace в одному оновленні. Ви, ймовірно, повинні оновити або виправити ваші теми і спеціальні картки. Будь ласка, перевірте вашу візуалізацію після цього оновлення. Запитайте на форум або розпишіться на допомогу.",
+          "zh-cn": "更新后的3.x将改变20211229.0至20221026年的前沿版本。 这就意味着在更新的一年里发展了良机。 你很可能需要更新或确定你们的主题和习俗卡。 请确保在更新之后检查你的视觉。 论坛或有帮助的办事处。."
         },
-        {
-            "_id": "",
-            "type": "meta",
-            "common": {
-                "name": "user files and images for lovelace",
-                "type": "meta.user"
-            },
-            "native": {}
+        "link": "https://forum.iobroker.net/topic/34775/test-adapter-lovelace-v1-2-x/1324?_=1666881699892",
+        "level": "warn",
+        "linkText": {
+          "en": "A few issues with themes were already discussed here.",
+          "de": "Hier wurden bereits einige Themen diskutiert.",
+          "ru": "Здесь уже обсуждались несколько вопросов с темами.",
+          "pt": "Algumas questões com temas já foram discutidas aqui.",
+          "nl": "Een paar problemen met ze werden hier al besproken.",
+          "fr": "Quelques questions avec des thèmes ont déjà été discutées ici.",
+          "it": "Sono già state discusse alcune questioni con temi.",
+          "es": "Algunos temas con temas ya se discutieron aquí.",
+          "pl": "Omawiano tam kilka tematów.",
+          "uk": "Тут вже обговорювалися кілька питань з темами.",
+          "zh-cn": "这里已经讨论了几个专题的问题。."
         },
-        {
-            "_id": "configuration",
-            "type": "channel",
-            "common": {
-                "name": "Storage"
-            },
-            "native": {}
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      }
+    ],
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.1.28"
+      }
+    ],
+    "welcomeScreenPro": {
+      "link": "lovelace/",
+      "name": "Lovelace",
+      "img": "lovelace.admin/lovelace.png",
+      "color": "#03a9f4",
+      "order": 6,
+      "localLink": true
+    }
+  },
+  "native": {
+    "history": "",
+    "historyMaxCount": 2000,
+    "port": 8091,
+    "auth": false,
+    "secure": false,
+    "bind": "0.0.0.0",
+    "certPublic": "",
+    "certPrivate": "",
+    "certChained": "",
+    "defaultUser": "admin",
+    "onlyAllowWhenUserIsOwner": false,
+    "ttl": 3600,
+    "themes": "",
+    "defaultTheme": "default",
+    "defaultThemeDark": "default",
+    "hideHeader": false,
+    "leEnabled": false,
+    "leUpdate": false,
+    "leCheckPort": 80,
+    "aliayOnly": false,
+    "blindsInvert": false,
+    "alarmCheckCodeOnDisarmOnly": false,
+    "language": "",
+    "updateTimeout": 5000
+  },
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.entitiesUpdated",
+      "type": "state",
+      "common": {
+        "name": "If the list of entities was updated",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "role": "state",
+        "def": false
+      }
+    },
+    {
+      "_id": "info.readyForClients",
+      "type": "state",
+      "common": {
+        "name": "Lovelace is ready to interact with UI and ioBroker.",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "role": "indicator.reachable",
+        "def": false
+      }
+    },
+    {
+      "_id": "",
+      "type": "meta",
+      "common": {
+        "name": "user files and images for lovelace",
+        "type": "meta.user"
+      },
+      "native": {}
+    },
+    {
+      "_id": "configuration",
+      "type": "channel",
+      "common": {
+        "name": "Storage"
+      },
+      "native": {}
+    },
+    {
+      "_id": "session",
+      "type": "state",
+      "common": {
+        "name": "Oauth2 Session",
+        "type": "json",
+        "role": "state"
+      },
+      "native": {}
+    },
+    {
+      "_id": "conversation",
+      "type": "state",
+      "common": {
+        "name": "Question and answer for conversation ",
+        "desc": "Question and answer for conversation dialog. See readme for how to use.",
+        "desc1": {
+          "en": "Question and answer for conversation dialog. See readme for how to use.",
+          "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
+          "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
+          "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
+          "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
+          "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
+          "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
+          "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
+          "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
+          "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
         },
-        {
-            "_id": "session",
-            "type": "state",
-            "common": {
-                "name": "Oauth2 Session",
-                "type": "json",
-                "role": "state"
-            },
-            "native": {}
-        },
-        {
-            "_id": "conversation",
-            "type": "state",
-            "common": {
-                "name": "Question and answer for conversation ",
-                "desc": "Question and answer for conversation dialog. See readme for how to use.",
-                "desc1": {
-                    "en": "Question and answer for conversation dialog. See readme for how to use.",
-                    "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
-                    "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
-                    "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
-                    "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
-                    "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
-                    "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
-                    "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
-                    "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
-                    "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
-                },
-                "type": "string",
-                "role": "state"
-            },
-            "native": {}
-        },
-        {
-            "_id": "control",
-            "type": "channel",
-            "common": {
-                "name": "Control lovelace"
-            },
-            "native": {}
-        },
-        {
-            "_id": "control.shopping_list",
-            "type": "state",
-            "common": {
-                "name": "Shopping list as json",
-                "type": "json",
-                "write": true,
-                "read": true,
-                "desc": "Used for shopping list card"
-            },
-            "native": {}
-        },
-        {
-            "_id": "control.alarm",
-            "type": "state",
-            "common": {
-                "name": "alarm",
-                "type": "boolean",
-                "write": true,
-                "read": true,
-                "desc": "Arm or disarm with code",
-                "def": false
-            },
-            "native": {
-                "alarm_code": 1234
-            }
-        },
-        {
-            "_id": "control.alarm_arm_state",
-            "type": "state",
-            "common": {
-                "name": "arm status",
-                "type": "number",
-                "write": true,
-                "read": true,
-                "desc": "Set/Read alarm arm status",
-                "def": 0,
-                "states": {
-                    "0": "disarmed",
-                    "1": "armed",
-                    "2": "armed_home",
-                    "3": "armed_away",
-                    "4": "armed_night",
-                    "5": "armed_custom_bypass",
-                    "6": "pending",
-                    "7": "arming",
-                    "8": "disarming",
-                    "9": "triggered",
-                    "10": "arm_vacation"
-                }
-            },
-            "native": {
-                "alarm_code": 1234
-            }
-        },
-        {
-            "_id": "control.theme",
-            "type": "state",
-            "common": {
-                "name": "theme",
-                "type": "string",
-                "write": true,
-                "read": true,
-                "desc": "Change default theme during runtime",
-                "states": {
-                    "default": "default"
-                }
-            }
-        },
-        {
-            "_id": "control.themeDark",
-            "type": "state",
-            "common": {
-                "name": "theme",
-                "type": "string",
-                "write": true,
-                "read": true,
-                "desc": "Change default dark theme during runtime",
-                "states": {
-                    "default": "default"
-                }
-            }
-        },
-        {
-            "_id": "control.darkMode",
-            "type": "state",
-            "common": {
-                "name": "Dark Mode",
-                "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
-                "write": true,
-                "read": true,
-                "def": false
-            }
-        },
-        {
-            "_id": "notifications",
-            "type": "channel",
-            "common": {
-                "name": "notifications"
-            },
-            "native": {}
-        },
-        {
-            "_id": "notifications.list",
-            "type": "state",
-            "common": {
-                "name": "alarm",
-                "type": "json",
-                "write": true,
-                "read": true,
-                "desc": "List of notifications"
-            },
-            "native": {}
-        },
-        {
-            "_id": "notifications.add",
-            "type": "state",
-            "common": {
-                "name": "Add notification",
-                "type": "string",
-                "write": true,
-                "read": false,
-                "desc": "Add notification"
-            },
-            "native": {}
-        },
-        {
-            "_id": "notifications.clear",
-            "type": "state",
-            "common": {
-                "name": "Clear notification",
-                "type": "number",
-                "write": true,
-                "read": false,
-                "desc": "Clear notification by id or all if no id"
-            },
-            "native": {}
+        "type": "string",
+        "role": "state"
+      },
+      "native": {}
+    },
+    {
+      "_id": "control",
+      "type": "channel",
+      "common": {
+        "name": "Control lovelace"
+      },
+      "native": {}
+    },
+    {
+      "_id": "control.shopping_list",
+      "type": "state",
+      "common": {
+        "name": "Shopping list as json",
+        "type": "json",
+        "write": true,
+        "read": true,
+        "desc": "Used for shopping list card"
+      },
+      "native": {}
+    },
+    {
+      "_id": "control.alarm",
+      "type": "state",
+      "common": {
+        "name": "alarm",
+        "type": "boolean",
+        "write": true,
+        "read": true,
+        "desc": "Arm or disarm with code",
+        "def": false
+      },
+      "native": {
+        "alarm_code": 1234
+      }
+    },
+    {
+      "_id": "control.alarm_arm_state",
+      "type": "state",
+      "common": {
+        "name": "arm status",
+        "type": "number",
+        "write": true,
+        "read": true,
+        "desc": "Set/Read alarm arm status",
+        "def": 0,
+        "states": {
+          "0": "disarmed",
+          "1": "armed",
+          "2": "armed_home",
+          "3": "armed_away",
+          "4": "armed_night",
+          "5": "armed_custom_bypass",
+          "6": "pending",
+          "7": "arming",
+          "8": "disarming",
+          "9": "triggered",
+          "10": "arm_vacation"
         }
-    ]
+      },
+      "native": {
+        "alarm_code": 1234
+      }
+    },
+    {
+      "_id": "control.theme",
+      "type": "state",
+      "common": {
+        "name": "theme",
+        "type": "string",
+        "write": true,
+        "read": true,
+        "desc": "Change default theme during runtime",
+        "states": {
+          "default": "default"
+        }
+      }
+    },
+    {
+      "_id": "control.themeDark",
+      "type": "state",
+      "common": {
+        "name": "theme",
+        "type": "string",
+        "write": true,
+        "read": true,
+        "desc": "Change default dark theme during runtime",
+        "states": {
+          "default": "default"
+        }
+      }
+    },
+    {
+      "_id": "control.darkMode",
+      "type": "state",
+      "common": {
+        "name": "Dark Mode",
+        "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
+        "write": true,
+        "read": true,
+        "def": false
+      }
+    },
+    {
+      "_id": "notifications",
+      "type": "channel",
+      "common": {
+        "name": "notifications"
+      },
+      "native": {}
+    },
+    {
+      "_id": "notifications.list",
+      "type": "state",
+      "common": {
+        "name": "alarm",
+        "type": "json",
+        "write": true,
+        "read": true,
+        "desc": "List of notifications"
+      },
+      "native": {}
+    },
+    {
+      "_id": "notifications.add",
+      "type": "state",
+      "common": {
+        "name": "Add notification",
+        "type": "string",
+        "write": true,
+        "read": false,
+        "desc": "Add notification"
+      },
+      "native": {}
+    },
+    {
+      "_id": "notifications.clear",
+      "type": "state",
+      "common": {
+        "name": "Clear notification",
+        "type": "number",
+        "write": true,
+        "read": false,
+        "desc": "Clear notification by id or all if no id"
+      },
+      "native": {}
+    }
+  ]
 }

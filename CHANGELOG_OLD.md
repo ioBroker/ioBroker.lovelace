@@ -1,4 +1,7 @@
 # Older Changes
+## 2.1.1 (2022-01-06)
+* (Garfonso) Fixed: Entity update in some cases.
+
 ## 2.1.0 (2022-01-06)
 * (Garfonso) Added: support for new things in frontend (like arm_vacation state, currency, ...).
 * (Garfonso) Change: Updated frontent to 20211229.0 (needs update of browser_mod, card_mod)
