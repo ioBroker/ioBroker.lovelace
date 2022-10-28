@@ -431,7 +431,7 @@ Used version of home-assistant-frontend@20220707.0
 First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20221021.0) following files were modified:
+For now (20221026.0) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task
 - `build-scripts/gulp/webpack.js` - Add new gulp task
 - `src/data/lovelace.ts` - add hide toolbar option
@@ -470,7 +470,7 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (agross) added: per instance language support
-* (Garfonso) changed: updated frontend to 20221021.0. Needs theme adjustment (add code-editor-background-color) and probably card updates
+* (Garfonso) changed: updated frontend to 20221026.0. Needs theme adjustment (add code-editor-background-color) and probably card updates
 * (Garfonso) fixed: entity_id for devices with only one non english name should be ok again.
 * (Garfonso) added: add browser_mod (2.1.3), will be installed by default now.
 * (Garfonso) added: refresh state to instruct (connected) browsers to reload page.
