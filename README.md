@@ -482,6 +482,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) fixed: some translation stuff
 * (Garfonso) added: Support for subfolders in /cards/ for images and stuff custom cards load (please leave cards in root folder).
 * (Apollon77) Prepare for future js-controller versions
+* (bluefox) tried to make html requests relative
 
 ### 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
