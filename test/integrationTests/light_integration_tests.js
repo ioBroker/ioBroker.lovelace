@@ -320,23 +320,23 @@ exports.runTests = function (suite) {
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
                 expect(ctAttr).to.be.ok;
 
-                expect(entity).to.have.nested.property('attributes.color_temp', 1e6 / 3000);
+                expect(entity).to.have.nested.property('attributes.color_temp_kelvin', 3000);
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.ct', 6400, true),
                     entity => {
-                        expect(entity.attributes.color_temp).to.be.greaterThanOrEqual(1e6 / 6400);
+                        expect(entity.attributes.color_temp_kelvin).to.be.greaterThanOrEqual(6400);
                         expect(entity).to.have.nested.property('attributes.color_mode', 'color_temp');
                     });
 
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
-                    m.service_data = {color_temp: 1e6 / 3000};
+                    m.service_data = {color_temp_kelvin: 3000};
                 }, deviceId + '.ct', state => expect(state.val).to.equal(3000));
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
-                    m.service_data = {color_temp: 1e6 / 2200};
+                    m.service_data = {color_temp_kelvin: 2200};
                 }, deviceId + '.ct', state => expect(state.val).to.equal(2200));
                 expect(entity).to.have.nested.property('attributes.color_mode', 'color_temp');
             });
@@ -358,23 +358,23 @@ exports.runTests = function (suite) {
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
                 expect(ctAttr).to.be.ok;
 
-                expect(entity).to.have.nested.property('attributes.color_temp', 183);
+                expect(entity).to.have.nested.property('attributes.color_temp_kelvin', 1e6 / 183);
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.ct', 400, true),
                     entity => {
-                        expect(entity.attributes.color_temp).to.equal(400);
+                        expect(entity.attributes.color_temp_kelvin).to.equal(1e6 / 400);
                         expect(entity).to.have.nested.property('attributes.color_mode', 'color_temp');
                     });
 
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
-                    m.service_data = {color_temp: 183};
+                    m.service_data = {color_temp_kelvin: 1e6 / 183};
                 }, deviceId + '.ct', state => expect(state.val).to.equal(183));
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
-                    m.service_data = {color_temp: 390};
+                    m.service_data = {color_temp_kelvin: 1e6 / 390};
                 }, deviceId + '.ct', state => expect(state.val).to.equal(390));
                 expect(entity).to.have.nested.property('attributes.color_mode', 'color_temp');
             });
@@ -396,24 +396,24 @@ exports.runTests = function (suite) {
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
                 expect(ctAttr).to.be.ok;
 
-                expect(entity).to.have.nested.property('attributes.color_temp', 1e6 / 3000);
+                expect(entity).to.have.nested.property('attributes.color_temp_kelvin', 3000);
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.ct', 5000, true),
                     entity => {
-                        expect(entity.attributes.color_temp).to.equal(1e6 / 5000);
+                        expect(entity.attributes.color_temp_kelvin).to.equal(5000);
                         expect(entity).to.have.nested.property('attributes.color_mode', 'color_temp');
                     });
 
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
-                    m.service_data = {color_temp: 183};
-                }, deviceId + '.ct', state => expect(state.val).to.equal(1e6 / 183));
+                    m.service_data = {color_temp_kelvin: 2200};
+                }, deviceId + '.ct', state => expect(state.val).to.equal(2200));
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
-                    m.service_data = {color_temp: 390};
-                }, deviceId + '.ct', state => expect(state.val).to.equal(1e6 / 390));
+                    m.service_data = {color_temp_kelvin: 6400};
+                }, deviceId + '.ct', state => expect(state.val).to.equal(6400));
                 expect(entity).to.have.nested.property('attributes.color_mode', 'color_temp');
             });
 
@@ -434,23 +434,23 @@ exports.runTests = function (suite) {
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
                 expect(ctAttr).to.be.ok;
 
-                expect(entity).to.have.nested.property('attributes.color_temp', 153);
+                expect(entity).to.have.nested.property('attributes.color_temp_kelvin', 1e6 / 153);
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.ct', 200, true),
                     entity => {
-                        expect(entity.attributes.color_temp).to.equal(200);
+                        expect(entity.attributes.color_temp_kelvin).to.equal(1e6 / 200);
                     });
 
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
-                    m.service_data = {color_temp: 350};
-                }, deviceId + '.ct', state => expect(state.val).to.equal(350));
+                    m.service_data = {color_temp_kelvin: 2200 };
+                }, deviceId + '.ct', state => expect(state.val).to.equal(1e6 / 2200));
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
-                    m.service_data = {color_temp: 180};
-                }, deviceId + '.ct', state => expect(state.val).to.equal(180));
+                    m.service_data = {color_temp_kelvin: 6500};
+                }, deviceId + '.ct', state => expect(state.val).to.equal(1e6 / 6500));
             });
 
             jsonFiles.push('../testData/light_rgbSingle.json');
