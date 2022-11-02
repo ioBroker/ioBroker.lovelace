@@ -468,6 +468,10 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) do not crash if no history instance selected.
+* (Garfonso) notifications working again.
+
 ### 3.0.0 (2022-10-28)
 * (agross) added: per instance language support
 * (Garfonso) entity_id for devices with only one non english name should be ok again.
