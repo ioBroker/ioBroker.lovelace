@@ -1,4 +1,7 @@
 # Older Changes
+## 2.1.2 (2022-01-06)
+* (Garfonso) Fixed: Menu was broken in frontend.
+
 ## 2.1.1 (2022-01-06)
 * (Garfonso) Fixed: Entity update in some cases.
 
