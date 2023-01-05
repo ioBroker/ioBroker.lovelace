@@ -644,6 +644,11 @@
           "type": "checkbox",
           "label": "labelHasTime",
           "hidden": "data.entity !== 'input_datetime'",
+          "onChange": {
+            "alsoDependsOn": ["entity"],
+            "calculateFunc": "data.entity === 'input_datetime' ? false : undefined",
+            "ignoreOwnChanges": false
+          },
           "xs": 12,
           "sm": 6,
           "md": 4,
@@ -653,6 +658,11 @@
           "type": "checkbox",
           "label": "labelHasDate",
           "hidden": "data.entity !== 'input_datetime'",
+          "onChange": {
+            "alsoDependsOn": ["entity"],
+            "calculateFunc": "data.entity === 'input_datetime' ? true : undefined",
+            "ignoreOwnChanges": false
+          },
           "xs": 12,
           "sm": 6,
           "md": 4,
