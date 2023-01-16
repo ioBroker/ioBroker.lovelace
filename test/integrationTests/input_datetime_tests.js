@@ -215,7 +215,7 @@ exports.runTests = function (suite) {
                 m.domain = 'input_select';
                 m.service = 'set_datetime';
                 m.service_data = {date: '2021-07-19', time: '10:03'};
-            }, deviceId, state => expect(state.val).to.equal('2021-07-19 10:03'));
+            }, deviceId, state => expect(state.val).to.equal('2021-07-19 10:03:00'));
         });
     });
 };
