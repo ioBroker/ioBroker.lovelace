@@ -31,8 +31,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
-          paths-ignore:
-            -hass_frontend/
+          config-file: ./.github/workflows/codeql-config.yml
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
