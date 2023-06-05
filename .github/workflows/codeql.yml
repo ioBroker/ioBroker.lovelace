@@ -1,5 +1,8 @@
 name: "CodeQL"
 
+paths-ignore:
+  - hass_frontend/
+
 on:
   push:
     branches: [ "master" ]
