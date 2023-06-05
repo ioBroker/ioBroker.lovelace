@@ -198,7 +198,7 @@
                 for (var i = 0; i < list.length; i++) {
                     const deleteButton = `<a class="btn-floating btn-small waves-effect waves-light red delete-file" data-name="${list[i].file}"><i class="material-icons">delete</i></a>`;
                     const fileLink = `<a href="${server}${path}${list[i].file}" target="_blank">${list[i].file}</a>`;
-                    const folderButton = `<a href="#{list[i].file}" class="folder-button" data-folder="${list[i].isDir}" data-name="${path}${list[i].file}">${list[i].file}</a>`
+                    const folderButton = `<a href="#{list[i].file}" class="folder-button" data-folder="${list[i].isDir}" data-name="${path}${list[i].file}">${list[i].file}</a>`;
 
                     text += `<tr><td>${list[i].isDir ? folderButton : fileLink}</td>
                                 <td>${list[i].isDir ? _('Folder') : list[i].stats.size}</td>
