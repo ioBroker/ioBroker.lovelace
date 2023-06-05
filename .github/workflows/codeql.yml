@@ -1,8 +1,5 @@
 name: "CodeQL"
 
-paths-ignore:
-  - hass_frontend/
-
 on:
   push:
     branches: [ "master" ]
@@ -34,6 +31,8 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           queries: +security-and-quality
+          paths-ignore:
+            -hass_frontend/
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
