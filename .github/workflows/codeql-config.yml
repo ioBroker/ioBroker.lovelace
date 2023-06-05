@@ -1,2 +1,2 @@
 paths-ignore:
-  -hass_frontend/
+  - hass_frontend/
