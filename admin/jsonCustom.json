@@ -492,6 +492,11 @@
               "hidden": "data.entity !== 'sensor'"
             },
             {
+              "value": "volatile_organic_compounds_parts,",
+              "label": "Volatile organic compounds parts",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "voltage",
               "label": "Voltage",
               "hidden": "data.entity !== 'sensor'"
