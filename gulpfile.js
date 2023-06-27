@@ -604,7 +604,6 @@ gulp.task('updateDevserver', async done => {
     await spawnChild('node', [devserverIoBrokerPath, 'upload', 'devices'], 'Uploading devices');
     await spawnChild('node', [devserverIoBrokerPath, 'upload', 'history'], 'Uploading history');
     await spawnChild('node', [devserverIoBrokerPath, 'upload', 'admin'], 'Uploading admin');
-    await spawnChild('sudo', ['npm', 'link', 'iobroker.lovelace'], 'Linking lovelace');
     await spawnChild('node', [devserverIoBrokerPath, 'upload', 'lovelace'], 'Uploading lovelace');
     await spawnChild(npmCmd, ['install'], 'Repairing dependencies in lovelace', true);
     done();
