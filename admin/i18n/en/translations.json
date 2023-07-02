@@ -169,5 +169,9 @@
     "weblink": "weblink",
     "Precipitation Intensity": "Precipitation Intensity",
     "Wind speed": "Wind speed",
-    "Water": "Water"
+    "Water": "Water",
+    "Adapter": "Adapter",
+    "User (works only for changes during adapter runtime)": "User (works only for changes during adapter runtime)",
+    "Nothing": "Nothing",
+    "Logbook: Source should show": "Logbook: Source should show"
 }

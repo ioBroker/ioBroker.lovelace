@@ -169,5 +169,9 @@
     "Monetary value": "Monetaire waarde",
     "Precipitation Intensity": "Neerslagintensiteit",
     "Wind speed": "Windsnelheid",
-    "Water": "Water"
+    "Water": "Water",
+    "Adapter": "Adapter",
+    "User (works only for changes during adapter runtime)": "Gebruiker (werkt alleen voor wijzigingen tijdens de looptijd van de adapter)",
+    "Nothing": "Niets",
+    "Logbook: Source should show": "Logboek: Bron zou moeten verschijnen"
 }

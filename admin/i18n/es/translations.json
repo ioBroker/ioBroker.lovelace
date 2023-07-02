@@ -169,5 +169,9 @@
     "Monetary value": "Valor monetario",
     "Precipitation Intensity": "Intensidad de precipitación",
     "Wind speed": "Velocidad del viento",
-    "Water": "Agua"
+    "Water": "Agua",
+    "Adapter": "Adaptador",
+    "User (works only for changes during adapter runtime)": "Usuario (solo funciona para cambios durante el tiempo de ejecución del adaptador)",
+    "Nothing": "Nada",
+    "Logbook: Source should show": "Libro de registro: la fuente debe mostrar"
 }

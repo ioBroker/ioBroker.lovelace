@@ -256,7 +256,8 @@
         "blindsInvert": false,
         "alarmCheckCodeOnDisarmOnly": false,
         "language": "",
-        "updateTimeout": 5000
+        "updateTimeout": 5000,
+        "logbookSource": "adapter"
     },
     "instanceObjects": [
         {

@@ -169,5 +169,9 @@
     "weblink": "веб посилання",
     "Precipitation Intensity": "Інтенсивність опадів",
     "Wind speed": "Швидкість вітру",
-    "Water": "вода"
+    "Water": "вода",
+    "Adapter": "Перехідник",
+    "User (works only for changes during adapter runtime)": "Користувач (працює лише для змін під час роботи адаптера)",
+    "Nothing": "нічого",
+    "Logbook: Source should show": "Бортовий журнал: Джерело повинно бути показано"
 }
