@@ -475,6 +475,10 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Update frontent to 2023.06.08.0
+* (Garfonso) Use better random numbers
+
 ### 3.0.1 (2022-11-03)
 * (Garfonso) do not crash if no history instance selected.
 * (Garfonso) notifications working again.
