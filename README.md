@@ -433,6 +433,7 @@ Security must be taken from current user and not from default_user
 ## Development
 ### Version
 Used version of home-assistant-frontend@20230608.0
+Version of Browser Mod: 2.3.0
 
 ### How to build the new Lovelace version
 First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
