@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkhome_assistant_frontend=self.webpackChunkhome_assistant_frontend||[]).push([[48170],{48170:(e,s,a)=>{a.r(s),a.d(s,{DIRECTION_LEFT:()=>n.AV,DIRECTION_RIGHT:()=>n.EM,Manager:()=>n.dK,Swipe:()=>n.oF});var n=a(96549)}}]);
