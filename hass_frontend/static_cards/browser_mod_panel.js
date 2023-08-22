@@ -28,7 +28,7 @@ function e(e,t,i,o){var s,n=arguments.length,r=n<3?t:null===o?o=Object.getOwnPro
           <ha-settings-row>
             <span slot="heading">Register</span>
             <span slot="description"
-              >Enable this browser as a Device in Home Assistant</span
+              >Enable this browser as a Device in ioBroker</span
             >
             <ha-switch
               .checked=${null===(t=window.browser_mod)||void 0===t?void 0:t.registered}
@@ -76,7 +76,7 @@ function e(e,t,i,o){var s,n=arguments.length,r=n<3?t:null===o?o=Object.getOwnPro
       </ha-card>
     `}_renderSuspensionAlert(){return this.hass.suspendWhenHidden?B`
       <ha-alert alert-type="warning" title="Auto closing connection">
-        Home Assistant will close the websocket connection to the server
+        ioBroker will close the websocket connection to the server
         automatically after 5 minutes of inactivity.<br /><br />
         While decreasing network trafic and memory usage, this may cause
         problems for browser_mod operation.
@@ -263,7 +263,7 @@ function e(e,t,i,o){var s,n=arguments.length,r=n<3?t:null===o?o=Object.getOwnPro
             Assistant frontend works and looks. It is very easy to forget that
             you made a setting here when you switch devices or user.
             <p>
-              Do not report any issues to Home Assistant before clearing
+              Do not report any issues to ioBroker before clearing
               <b>EVERY</b> setting here and thouroghly clearing all your browser
               caches. Failure to do so means you risk wasting a lot of peoples
               time, and you will be severly and rightfully ridiculed.
