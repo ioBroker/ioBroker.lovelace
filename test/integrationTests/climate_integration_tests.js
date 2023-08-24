@@ -54,7 +54,7 @@ exports.runTests = function (suite) {
                 expect(entity).to.have.nested.property('attributes.min_temp', 5);
                 expect(entity).to.have.nested.property('attributes.max_temp', 35);
                 //from temperature state:
-                expect(entity).to.have.nested.property('attributes.unit_of_measurement', '°C');
+                expect(entity).not.to.have.nested.property('attributes.unit_of_measurement');
                 //default values:
                 expect(entity).to.have.nested.property('attributes.target_temp_step', 1);
                 expect(entity).to.have.nested.property('attributes.hvac_modes'); //lets you control power.

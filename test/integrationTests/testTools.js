@@ -220,16 +220,20 @@ async function setupClient() {
         let fired = false;
         const promise = new Promise(resolve => {
             function subscribeListener(message) {
-                const m = JSON.parse(message);
-                if (!fired) {
-                    if (m.id === subscribeId && m.type === 'result') {
-                        console.log('Successfully subscribed to state_changed events.');
+                let messages = JSON.parse(message.toString('utf8'));
+                if (!messages.length) {
+                    messages = [messages];
+                }
+                console.log(messages);
+                for (const m of messages) {
+                    console.log(`UI message ${m.id} received: `, m);
+                    if (!fired && m.id === subscribeId && m.type === 'result') {
+                        console.log('Successfully subscribed to entity changes (includes state).');
                         //currentClient.removeEventListener('message', subscribeListener);
                         resolve(subscribeId);
                         fired = true;
                     }
                 }
-                console.log(`UI message ${m.id} received: `, m);
             }
 
             currentClient.on('message', subscribeListener);
@@ -239,7 +243,7 @@ async function setupClient() {
                 currentClient.send(JSON.stringify({id: id, type: 'auth', access_token: 'no_token'}));
                 id += 1;
                 subscribeId = id;
-                currentClient.send(JSON.stringify({id: id, type: 'subscribe_events', event_type: 'state_changed'}));
+                currentClient.send(JSON.stringify({id: id, type: 'subscribe_entities'}));
             });
         });
         currentClient.on('close', () => {
@@ -279,22 +283,28 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
             }
             if (!iobChangeDone) {
                 console.log('iob state not yet changed...?');
-                console.dir(JSON.parse(message), {depth: null});
+                console.dir(JSON.parse(message.toString('utf8')), {depth: null});
                 //sadly not very reliable?? :-(
                 //return;
             }
-            const m = JSON.parse(message);
+            const m = JSON.parse(message.toString('utf8'));
             console.log(`Received message with id ${m.id}, subscrideId is ${subscribeId}`);
             if (m.id !== subscribeId) {
                 return;
             }
-            if (m.type === 'event' && m.event && m.event.event_type === 'state_changed') {
-                const data = m.event.data;
-                if (data.entity_id === entity_id) {
+            if (m.type === 'event' && m.event.event_type === 'subscribe_entities') {
+                const data = m.event.a;
+                if (data[entity_id]) {
                     fired = true;
                     console.log('Got message from adapter to UI:');
-                    console.dir(data.new_state, {depth: null});
-                    validator(data.new_state); //pass new entity to validator.
+                    const newState = data[entity_id];
+                    console.dir(newState, {depth: null});
+                    //convert short entity to old entity:
+                    newState.state = newState.state || newState.s;
+                    newState.attributes = newState.attributes || newState.a;
+                    newState.last_changed = newState.last_changed || newState.lc;
+                    newState.last_updated = newState.last_updated || newState.lu;
+                    validator(newState); //pass new entity to validator.
                     currentClient.removeEventListener('message', eventListener);
                     resolve();
                 }
@@ -344,7 +354,7 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
     console.log('Emulate UI input for ' + entity.entity_id + ' and see if iob states change.');
     await new Promise(resolve => {
         function receiver(message) {
-            const m = JSON.parse(message);
+            const m = JSON.parse(message.toString('utf8'));
             if (m.id === service_call_id) {
                 currentClient.removeEventListener('message', receiver);
                 console.log('Got response from adapter to UI message.');

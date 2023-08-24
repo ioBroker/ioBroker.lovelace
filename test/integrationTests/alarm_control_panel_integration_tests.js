@@ -39,7 +39,7 @@ exports.runTests = function (suite) {
             expect(entity).to.have.nested.property('attributes.code_format', 'number');
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId, 1, true),
-                entity => expect(entity).to.nested.property('state', 'armed'));
+                entity => expect(entity).to.have.nested.property('state', 'armed'));
             await tools.validateStateChange(harness, entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId, 6, true),
                 entity => expect(entity).to.have.property('state', 'pending'));
