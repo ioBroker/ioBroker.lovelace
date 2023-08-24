@@ -69,7 +69,7 @@ jobs:
               run: npm i
 
             - name: Run unit tests of single functions
-              run: npm run test:js
+              run: npm run test:unit
 
             - name: Run integration tests (unix only)
               if: startsWith(runner.OS, 'windows') == false

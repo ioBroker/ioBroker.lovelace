@@ -69,11 +69,10 @@
     "main.js"
   ],
   "scripts": {
-    "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
+    "test:unit": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
     "test:package": "mocha test/package --exit",
-    "test:unit": "mocha test/unit --exit",
     "test:integration": "mocha test/integration --timeout 30000 --exit",
-    "test": "npm run test:js && npm run test:package",
+    "test": "npm run test:unit && npm run test:package",
     "lint": "eslint --ext .js,.jsx . --ignore-pattern hass_frontend/ --ignore-pattern *.min.js",
     "release": "release-script",
     "release-patch": "release-script patch --yes",
