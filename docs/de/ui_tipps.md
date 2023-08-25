@@ -2,12 +2,39 @@
 
 ## Inhalt 
 
-* [Titelleiste verbergen](ui_tipps.md#titelleiste-vollständig-verbergen)
+* [Anpassen der Titelleiste](ui_tipps.md#anpassen-der-titelleiste)
 * [Mini Media Card mit TTS und Shortcuts](ui_tipps.md#mini-media-card-mit-text2speech-tts-und-musik-shortcuts)
 * [Uhrzeit](ui_tipps.md#uhrzeit)
 * [Bindings](ui_tipps.md#bindings)
 
-## Titelleiste vollständig verbergen
+
+
+
+## Anpassen der Titelleiste
+
+Die Titelleiste kann mit Hilfe der Erweiterung [Cardmod](https://github.com/thomasloven/lovelace-card-mod/tree/master) angepasst werden. 
+Dazu können die folgenden YAML Codebeispiele zum eigenen Theme hinzugefügt werden:
+
+### 1. Mikrofon entfernen   
+```yaml
+  card-mod-theme: THEMENAME
+  card-mod-root: |
+    app-toolbar:not([class="edit-mode"]) mwc-icon-button[label="Start conversation"] {
+      display: none; 
+    }
+```
+
+
+### 2. Glocke und Mikrofon entfernen 
+```yaml
+  card-mod-theme: THEMENAME
+  card-mod-root: |
+    app-toolbar:not([class="edit-mode"]) mwc-icon-button[label] {
+      display: none; 
+    }
+```
+
+### 3. Titelleiste vollständig verbergen
 
 Um einen Kioskmodus oder ähnliches zu erreichen und auch die Auswahl der Taps verschwinden zu lassen, kann der folgende YAML 
 Code zum eigenen Theme hinzugefügt werden:
@@ -19,7 +46,11 @@ Code zum eigenen Theme hinzugefügt werden:
     display: none;
   }
 ```
-Das muss Teil des Themes sein, also z.B. so:
+
+### Zu beachten:
+* Die Erweiterung [Cardmod](https://github.com/thomasloven/lovelace-card-mod/tree/master) muss installiert sein.
+* Dies funktioniert nicht im Edit-Modus. Der richtige Link ist `http://IP:PORT/lovelace/default_view` ohne `?toolbar=true`
+* Der Code muss Teil des Themes sein (*Lovelace Instanz -> Einstellungen -> Themen*), also z.B. so:
 
 <details>
   <summary>Beispiel Theme</summary>
