@@ -502,8 +502,9 @@ gulp.task('rename', done => {
         if (fileName.endsWith('.js') || fileName.endsWith('.html') || fileName.endsWith('.json')) {
             const text = fs.readFileSync(fileName).toString('utf-8');
             let newText = text.replace(/Home Assistant/g, 'ioBroker');
-            newText = newText.replace('https://www.home-assistant.io/images/merchandise/shirt-frontpage.png', '/images/image.jpg');
-            newText = newText.replace('https://www.home-assistant.io', 'https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1');
+            newText = newText.replace(/https:\/\/www.home-assistant.io\/images\/merchandise\/shirt-frontpage.png/g, '/images/image.jpg');
+            //not sure why we should do that...??? If at all, find a better place to link to.
+            //newText = newText.replace('https://www.home-assistant.io', 'https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1');
             if (fileName.endsWith('index.html')) {
                 let m = newText.match(/[^"]<script[^>]*>[^\n]/g);
                 m && m.forEach(text =>
@@ -526,22 +527,9 @@ gulp.task('rename', done => {
 
                 newText = newText.replace(/\n\n\n/g, '\n');
                 newText = newText.replace(/\n\n/g, '\n');
-                newText = newText.replace(`<script type="module" crossorigin="use-credentials" src="{{ extra_module }}">
-</script>`, '<script type="module" crossorigin="use-credentials" src="{{ extra_module }}"></script>');
-                newText = newText.replace('{% for extra_url in extra_urls -%}<link rel="import" href="{{ extra_url }}" async>{% endfor -%}', '');
-                newText = newText.replace(`{% for extra_url in extra_urls -%}
-    <link rel="import" href="{{ extra_url }}" async />
-    {% endfor -%}`, '');
-                newText = newText.replace('</script>{% endfor -%}', '</script>\n{% endfor -%}');
-
-                newText = newText.replace(/<script>\n*\s*{% for extra_module in extra_modules -%}\n*\s*import\("{{ extra_module }}"\);\n*\s*{% endfor -%}\n*\s*<\/script>/, '');
-                newText = newText.replace('<script>\n' +
-                    'if (!window.latestJS) {\n' +
-                    '        {% for extra_script in extra_js_es5 -%}\n' +
-                    '        _ls("{{ extra_script }}");\n' +
-                    '        {% endfor -%}\n' +
-                    '      }\n' +
-                    '</script>', '');
+                //remove optionally load module stuff we don't have.
+                newText = newText.replace(/<script>\n*\s*{%- for extra_module in extra_modules -%}\n*\s*import\("{{ extra_module }}"\);\n*\s*{%- endfor -%}\n*\s*<\/script>/g, '');
+                newText = newText.replace(/<script>\n*\s*if \(!window.latestJS\) {\n*\s*{%- for extra_script in extra_js_es5 -%}\n*\s*_ls\("{{ extra_script }}"\);\n*\s*{%- endfor -%}\n*\s*}\n*\s*<\/script>/g, '');
             }
 
             if (newText !== text) {
