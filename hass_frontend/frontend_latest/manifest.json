@@ -1,8 +1,8 @@
 {
   "service_worker.js": "/frontend_latest/service_worker-r5wteDBVIKQ.js",
-  "app.js": "/frontend_latest/app-tFtZzVRdiPo.js",
-  "authorize.js": "/frontend_latest/authorize-PAOXnbiO2us.js",
-  "onboarding.js": "/frontend_latest/onboarding-zShQJU35v70.js",
-  "core.js": "/frontend_latest/core-71PJzWDZ_s0.js",
+  "app.js": "/frontend_latest/app-9CVke4TSg-o.js",
+  "authorize.js": "/frontend_latest/authorize-8LtkjqoXuV8.js",
+  "onboarding.js": "/frontend_latest/onboarding-vBxDb3Vs4VM.js",
+  "core.js": "/frontend_latest/core-IW_y2nsZLQY.js",
   "custom-panel.js": "/frontend_latest/custom-panel--1S2w9y_-_I.js"
 }
