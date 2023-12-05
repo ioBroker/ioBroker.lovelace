@@ -248,7 +248,6 @@
         "themes": "",
         "defaultTheme": "default",
         "defaultThemeDark": "default",
-        "hideHeader": false,
         "leEnabled": false,
         "leUpdate": false,
         "leCheckPort": 80,
