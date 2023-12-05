@@ -432,7 +432,7 @@ Security must be taken from current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20230906.1
+Used version of home-assistant-frontend@20231130.0
 Version of Browser Mod: 2.3.0
 
 ### How to build the new Lovelace version
@@ -441,9 +441,7 @@ First of all the actual https://github.com/home-assistant/frontend (dev branch) 
 All changes for ioBroker are marked with comment `// IoB`.
 For now (20230608.0) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
-- `build-scripts/bundle.cjs` - disable fail on error
 - `build-scripts/gulp/webpack.js` - Add new gulp task webpack-dev-app
-- `src/data/lovelace.ts` - add hide toolbar option
 - `src/data/weather.ts` - add support to display weather icon from url.
 - `src/dialogs/more-info/const.ts` - remove weather state & history
 - `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab
@@ -479,8 +477,8 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso) Update frontent to 2023.06.08.0
-* (Garfonso) Use better random numbers
+* (Garfonso) Update frontent to 2023.11.30.0
+* (Garfonso) Use better random numbers.
 
 ### 3.0.1 (2022-11-03)
 * (Garfonso) do not crash if no history instance selected.
