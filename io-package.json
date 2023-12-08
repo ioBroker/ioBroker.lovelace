@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "news": {
+      "4.0.1": {
+        "en": "fix: hideHeader object is writable",
+        "de": "fix: hideHeader-Objekt ist schreibbar"
+      },
       "4.0.0": {
         "en": "Breaking: Update frontent to 2023.12.08.1\nBreaking: all states default to string now. Added some exceptions (like timestamps). Check your filters.\nUse better random numbers for tokens.\nSupport media_play_pause (mini-media-player card play / pause) again.\nSupport for input_select\nImprove support for sensor with device_class=date\nRemove hideToolbar from settings. Now using browser_mod to allow per instance control.\nrepaired persistent notifications.\nUse browser_mod to hide sidebar.",
         "de": "Breaking: Update-Front auf 2023.12.08.1\nBreaking: Alle Zustände (entity.state) sind standardmäßig Strings, jetzt. Einige Ausnahmen (wie Zeitstempel) hinzugefügt. Überprüft eure Filter.\nBessere Zufallszahlen für Tokens.\nSupport media_play_pause (mini-Media-Player-Karte geht wieder)\nUnterstützung für input_select\nUnterstützung für Sensor mit device_class=date\nhideToolbar aus Einstellungen entfernt. Nutze browser_mod, um per Instanz-Steuerung zu erlauben.\nReparatur von persistenten benachrichtigungen.\nVerwende browser_mod, um sidebar zu verstecken.",
@@ -80,19 +84,6 @@
         "pl": "Naprawiono: usuń kopię zapasową starego frontendu (przepraszam)",
         "zh-cn": "修正：删除旧前端的备份（抱歉）",
         "uk": "Виправлено: видалення резервної копії старого інтерфейсу (вибачте)"
-      },
-      "2.1.2": {
-        "en": "Fixed: Menu was broken in frontend.",
-        "de": "Behoben: Menü war im Frontend defekt.",
-        "ru": "Исправлено: меню было сломано во внешнем интерфейсе.",
-        "pt": "Corrigido: o menu estava quebrado no frontend.",
-        "nl": "Opgelost: menu was gebroken in frontend.",
-        "fr": "Corrigé : le menu était cassé dans le frontend.",
-        "it": "Risolto: il menu era rotto nel frontend.",
-        "es": "Corregido: el menú estaba roto en la interfaz.",
-        "pl": "Naprawiono: Menu było zepsute we frontendzie.",
-        "zh-cn": "修正：菜单在前端坏了。",
-        "uk": "Виправлено: меню було зламано у інтерфейсі."
       }
     },
     "title": "Visualization with Lovelace-UI",

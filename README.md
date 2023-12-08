@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.1 (2023-12-08)
 * (Garfonso) fix: hideHeader object is writable
 
 ### 4.0.0 (2023-12-08)
@@ -516,9 +516,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) added: support auto entities card and subscription.
 * (Garfonso) added: improve support for input_datetime & string states.
 * (Garfonso) added: support for browser_mod (i.e. crontrol frontend from iobroker).
-
-### 2.1.4 (2022-01-09)
-* (Garfonso) Dependency update
 
 ## License
 
