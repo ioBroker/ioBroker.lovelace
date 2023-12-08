@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.0 (2023-12-08)
 * (Garfonso) Breaking: Update frontent to 2023.12.08.1
 * (Garfonso) Breaking: all states default to string now. Added some exceptions (like timestamps). Check your filters.
 * (Garfonso) Use better random numbers for tokens.
@@ -516,9 +516,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 2.1.4 (2022-01-09)
 * (Garfonso) Dependency update
-
-### 2.1.3 (2022-01-07)
-* (Garfonso) Fixed: remove backup of old frontend (sorry)
 
 ## License
 
