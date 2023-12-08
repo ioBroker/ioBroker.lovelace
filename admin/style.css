@@ -16,3 +16,14 @@
 .folder-button {
     color: black
 }
+
+/* dark mode for editor */
+.m.react-dark .row #tab-themes .row #themes {
+    background-color: #575757 !important;
+}
+.m.react-dark .row #tab-themes .row #themes .ace_gutter {
+    background-color: #555555 !important;
+}
+.m.react-dark .row #tab-themes .row #themes .ace_gutter-active-line {
+    background-color: #101010 !important;
+}
