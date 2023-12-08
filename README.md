@@ -428,14 +428,14 @@ Security must be taken from current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20231130.0
+Used version of home-assistant-frontend@20231208.1
 Version of Browser Mod: 2.3.0
 
 ### How to build the new Lovelace version
 First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20230608.0) following files were modified:
+For now (20231208.1) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
 - `build-scripts/gulp/webpack.js` - Add new gulp task webpack-dev-app
 - `src/data/weather.ts` - add support to display weather icon from url.
@@ -445,7 +445,6 @@ For now (20230608.0) following files were modified:
 - `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
 - `src/dialogs/voice-command-dialog/ha-voice-command-dialog.ts` - disable configuration of voice assistants
 - `src/entrypoints/core.ts` - modified authentication process
-- `src/layouts/home-assistant-main.ts` - remove app sidebar
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
 - `src/panels/lovelace/hui-root.ts` - added notifications and voice control
@@ -453,7 +452,7 @@ For now (20230608.0) following files were modified:
 - `.gitignore` - add `.idea` ignore
 - `.husky/pre-commit` - remove git commit hooks.
 - `package.json` - remove husky commit hook
-+
+
 After that checkout modified version in `./build` folder. Then.
 
 1. go to ./build directory.
@@ -473,10 +472,15 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso) Update frontent to 2023.11.30.0
-* (Garfonso) Use better random numbers.
+* (Garfonso) Breaking: Update frontent to 2023.12.08.1
+* (Garfonso) Breaking: all states default to string now. Added some exceptions (like timestamps). Check your filters.
+* (Garfonso) Use better random numbers for tokens.
 * (Garfonso) Support media_play_pause (mini-media-player card play / pause) again.
-* (Garfonso) Remove hideToolbar feature. Just not working anymore.
+* (Garfonso) Support for input_select
+* (Garfonso) Improve support for sensor with device_class=date
+* (Garfonso) Remove hideToolbar from settings. Now using browser_mod to allow per instance control.
+* (Garfonso) repaired persistent notifications.
+* (Garfonso) Use browser_mod to hide sidebar.
 
 ### 3.0.1 (2022-11-03)
 * (Garfonso) do not crash if no history instance selected.
