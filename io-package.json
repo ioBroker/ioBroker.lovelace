@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.1",
+    "version": "4.0.2",
     "news": {
+      "4.0.2": {
+        "en": "fix: crash",
+        "de": "fix: absturz",
+        "ru": "исправить: аварии",
+        "pt": "correção: acidente",
+        "nl": "vertaling:",
+        "fr": "correction :",
+        "it": "correzione: crash",
+        "es": "arranca:",
+        "pl": "naprawa",
+        "uk": "виправити: аварійний",
+        "zh-cn": "fix:坠落"
+      },
       "4.0.1": {
         "en": "fix: hideHeader object is writable",
         "de": "fix: hideHeader-Objekt ist schreibbar"
@@ -71,19 +84,6 @@
         "pl": "Aktualizacja zależności",
         "zh-cn": "依赖更新",
         "uk": "Оновлення залежності"
-      },
-      "2.1.3": {
-        "en": "Fixed: remove backup of old frontend (sorry)",
-        "de": "Behoben: Backup des alten Frontends entfernen (sorry)",
-        "ru": "Исправлено: удалить резервную копию старого интерфейса (извините)",
-        "pt": "Corrigido: remover backup de front-end antigo (desculpe)",
-        "nl": "Opgelost: verwijder back-up van oude frontend (sorry)",
-        "fr": "Corrigé : supprimer la sauvegarde de l'ancienne interface (désolé)",
-        "it": "Risolto: rimuovere il backup del vecchio frontend (scusate)",
-        "es": "Corregido: eliminar la copia de seguridad de la interfaz anterior (lo siento)",
-        "pl": "Naprawiono: usuń kopię zapasową starego frontendu (przepraszam)",
-        "zh-cn": "修正：删除旧前端的备份（抱歉）",
-        "uk": "Виправлено: видалення резервної копії старого інтерфейсу (вибачте)"
       }
     },
     "title": "Visualization with Lovelace-UI",
