@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.5 (2023-12-09)
 * (Garfonso) revert shopping list
 * (Garfonso) prevent invalid date error
 
@@ -486,17 +486,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.1 (2023-12-08)
 * (Garfonso) fix: hideHeader object is writable
-
-### 4.0.0 (2023-12-08)
-* (Garfonso) Breaking: Update frontent to 2023.12.08.1
-* (Garfonso) Breaking: all states default to string now. Added some exceptions (like timestamps). Check your filters.
-* (Garfonso) Use better random numbers for tokens.
-* (Garfonso) Support media_play_pause (mini-media-player card play / pause) again.
-* (Garfonso) Support for input_select
-* (Garfonso) Improve support for sensor with device_class=date
-* (Garfonso) Remove hideToolbar from settings. Now using browser_mod to allow per instance control.
-* (Garfonso) repaired persistent notifications.
-* (Garfonso) Use browser_mod to hide sidebar.
 
 ## License
 
