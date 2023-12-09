@@ -11,9 +11,8 @@ const lovelaceUpdateTimeout = 500;
  */
 exports.getNumConstEntities = function () {
     //zone.home
-    //todo.shopping_list
     //alarm_control_panel.defaultAlarm
-    return 3;
+    return 2;
 };
 
 /**
