@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.6 (2023-12-09)
 * (Garfonso) fixed: thermostat card for thermostats without mode / off state
 * (Garfonso) fixed: history and history graph missing for some stuff
 
@@ -487,9 +487,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.2 (2023-12-09)
 * (Garfonso) fix: crash
-
-### 4.0.1 (2023-12-08)
-* (Garfonso) fix: hideHeader object is writable
 
 ## License
 

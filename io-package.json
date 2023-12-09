@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.5",
+    "version": "4.0.6",
     "news": {
+      "4.0.6": {
+        "en": "fixed: thermostat card for thermostats without mode / off state\nfixed: history and history graph missing for some stuff",
+        "de": "repariert: thermostatkarte für thermostate ohne modus / aus zustand\nrepariert: history und history diagramm fehlt für einige sachen"
+      },
       "4.0.5": {
         "en": "revert shopping list (not working right now)\nprevent invalid date error",
         "de": "Shoppignlist Änderungen rückgängig gemacht (funktionieren nicht)\nungültiger datumsfehler verhindern",
@@ -71,19 +75,6 @@
         "pl": "Przełom: Przedstawienie do 2023.12.08.1\nZłamanie: wszystkie stany domyślają się do strun. Wyróżnia się kilka wyjątków (np. znaczki czasowe). Wszystko filtruje.\nUżycie lepszych liczb losowych dla tokenów.\nMedia_pause (mini-media-player card play / pause) (ang.).\nWsparcie dla indeksu\nPoprawione wsparcie dla czujnika z urządzenie_class=date\nPrzewidywać się Toolbar from the settings (ang.). Zastosowanie przeglądarki_mod pozwala na kontrolę instancji.\nzremasterowane aktualizacje.\nUżycie przeglądarki_mod do ukrycia bocznego.",
         "uk": "Перерва: Оновлення переднього до 2023.12.08.1\nПерерва: всі стани за замовчуванням, щоб рядок зараз. Додайте деякі винятки (наприклад, мітки часу). Перевірити фільтри.\nВикористовуйте кращі випадкові номери для жетонів.\nПідтримка медіа_play_pause (міні-медійно-плеєрна картка / пауза) знову.\nПідтримка вхідних_select\nПокращення підтримки датчика з пристроєм_class=date\nВидалити приховати Клапан інструментів з налаштувань. Тепер за допомогою браузера_mod для керування екземпляром.\nвідремонтовані постійні повідомлення.\nВикористовуйте браузер_mod для приховувати бічні панелі.",
         "zh-cn": "处理:最新战线到2023.12.08.1\n打破:所有国家现在都拖欠会费。 增加一些例外(与时间限制)。 检查你的过滤。.\n使用较随机的数字。.\n支助媒体:互动_pause(媒体角色卡)再次发挥/作用。.\n投入支助\nA. 改善对传感器的支助\n移离掩护 2. 不受环境伤害。 现在使用“代行”来控制。.\n修理了持续通知。.\n使用缩写:为掩护。."
-      },
-      "3.0.1": {
-        "en": "do not crash if no history instance selected.\nnotifications working again.\nrepaired color temperature handling.",
-        "de": "nicht abstürzen, wenn keine History-Instanz ausgewählt wird.\nBenachrichtigungen funktionieren wieder.\nReparatur der Farbtemperatursteuerung.",
-        "ru": "не мешайте, если не выбрана пример истории.\nуведомления, которые снова работают.\nотремонтированная обработка цветовой температуры.",
-        "pt": "não travar se nenhuma instância do histórico selecionada.\nnotificações trabalhando novamente.\ntratamento de temperatura de cor reparado.",
-        "nl": "niet crashen als geen geschiedenis instance geselecteerd is.\nde berichten werken weer.\ngerepareerde kleurtemperatuur.",
-        "fr": "ne pas s'écraser si aucune instance historique n'est sélectionnée.\nles notifications fonctionnent à nouveau.\nla manipulation de la température de couleur réparée.",
-        "it": "non crash se non viene selezionato un'istanza di storia.\nnotifiche che funzionano di nuovo.\ngestione della temperatura del colore riparato.",
-        "es": "no se estrellen si no se selecciona ningún caso histórico.\nnotificaciones que funcionan de nuevo.\nmanejo de temperatura de color reparado.",
-        "pl": "nie dochodzi do skutku, jeśli nie zostanie wybrana historia.\nponowne wyniki pracują ponownie.\nremontowany kolorową temperaturę.",
-        "uk": "не вдається, якщо вибрано екземпляр історії.\nповідомлення про роботу знову.\nобробка кольорової температури.",
-        "zh-cn": "如果没有选择过历史的事例,就不会发生事故。.\n再次发出通知。.\n修理的气温处理。."
       }
     },
     "title": "Visualization with Lovelace-UI",

@@ -1,4 +1,7 @@
 # Older Changes
+## 4.0.1 (2023-12-08)
+* (Garfonso) fix: hideHeader object is writable
+
 ## 4.0.0 (2023-12-08)
 * (Garfonso) Breaking: Update frontent to 2023.12.08.1
 * (Garfonso) Breaking: all states default to string now. Added some exceptions (like timestamps). Check your filters.
