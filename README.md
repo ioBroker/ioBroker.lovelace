@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.4 (2023-12-09)
 * (Garfonso) fix: crash
 
 ### 4.0.3 (2023-12-09)
@@ -493,11 +493,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Remove hideToolbar from settings. Now using browser_mod to allow per instance control.
 * (Garfonso) repaired persistent notifications.
 * (Garfonso) Use browser_mod to hide sidebar.
-
-### 3.0.1 (2022-11-03)
-* (Garfonso) do not crash if no history instance selected.
-* (Garfonso) notifications working again.
-* (Garfonso) repaired color temperature handling.
 
 ## License
 

@@ -1,4 +1,9 @@
 # Older Changes
+## 3.0.1 (2022-11-03)
+* (Garfonso) do not crash if no history instance selected.
+* (Garfonso) notifications working again.
+* (Garfonso) repaired color temperature handling.
+
 ## 3.0.0 (2022-10-28)
 * (agross) added: per instance language support
 * (Garfonso) entity_id for devices with only one non english name should be ok again.
