@@ -471,6 +471,10 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fixed: thermostat card for thermostats without mode / off state
+* (Garfonso) fixed: history and history graph missing for some stuff
+
 ### 4.0.5 (2023-12-09)
 * (Garfonso) revert shopping list
 * (Garfonso) prevent invalid date error
