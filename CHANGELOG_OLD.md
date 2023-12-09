@@ -1,4 +1,21 @@
 # Older Changes
+## 3.0.0 (2022-10-28)
+* (agross) added: per instance language support
+* (Garfonso) entity_id for devices with only one non english name should be ok again.
+* (Garfonso) changed: updated frontend to 20221027.0. Needs theme adjustment (add code-editor-background-color) and probably card updates
+* (Garfonso) added: browser_mod (2.1.3) is now integrated. Please remove manual installed versions of custom browser_mod card.
+* (Garfonso) added: 'instances.refresh' can be used to reload page in connected browsers.
+* (Garfonso) removed: lovelace_reload and window_reload states
+* (Garfonso) removed: name state, not supported by browser_mod anymore
+* (Garfonso) added: Support for toasts with action button (either json or ;-string)
+* (Garfonso) added: activity state will show if user is currently using a certain browser
+* (Garfonso) added: Support for subfolders in /cards/ for images and stuff custom cards load (please keep cards in root folder).
+* (Garfonso) crash if notification was malformed json.
+* (Garfonso) some translation stuff
+* (Garfonso) crash case when states were updated before websocket was ready
+* (Apollon77) Prepare for future js-controller versions
+* (bluefox) tried to make html requests relative
+
 ## 2.2.0 (2022-06-05)
 * (Garfonso) fixed: incorrect warning about duplicate entities on update of manual entity.
 * (Garfonso) fixed: input_datetime did not work if time was enabled and did vanish if date and time were enabled.
