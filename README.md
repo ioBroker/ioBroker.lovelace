@@ -471,6 +471,10 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) revert shopping list
+* (Garfonso) prevent invalid date error
+
 ### 4.0.4 (2023-12-09)
 * (Garfonso) fix: crash
 
