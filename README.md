@@ -471,6 +471,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fix: tests.
+
 ### 4.0.2 (2023-12-09)
 * (Garfonso) fix: crash
 
