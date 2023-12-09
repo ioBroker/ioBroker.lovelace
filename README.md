@@ -471,6 +471,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fix: crash
+
 ### 4.0.1 (2023-12-08)
 * (Garfonso) fix: hideHeader object is writable
 
