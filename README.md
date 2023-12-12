@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.7 (2023-12-12)
 * (Garfonso) history should be working again.
 
 ### 4.0.6 (2023-12-09)
@@ -487,9 +487,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.3 (2023-12-09)
 * (Garfonso) fix: tests.
-
-### 4.0.2 (2023-12-09)
-* (Garfonso) fix: crash
 
 ## License
 

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.6",
+    "version": "4.0.7",
     "news": {
+      "4.0.7": {
+        "en": "history should be working again.",
+        "de": "history sollte wieder funktionieren.",
+        "ru": "история должна работать снова.",
+        "pt": "a história deve estar a trabalhar de novo.",
+        "nl": "de geschiedenis zou weer moeten werken.",
+        "fr": "l'histoire devrait retravailler.",
+        "it": "la storia dovrebbe funzionare di nuovo.",
+        "es": "la historia debe estar trabajando de nuevo.",
+        "pl": "historia powinna być kontynuowana.",
+        "uk": "історія повинна працювати знову.",
+        "zh-cn": "历史应该再次发挥作用。."
+      },
       "4.0.6": {
         "en": "fixed: thermostat card for thermostats without mode / off state\nfixed: history and history graph missing for some stuff",
         "de": "repariert: thermostatkarte für thermostate ohne modus / aus zustand\nrepariert: history und history diagramm fehlt für einige sachen"
@@ -62,19 +75,6 @@
       "4.0.1": {
         "en": "fix: hideHeader object is writable",
         "de": "fix: hideHeader-Objekt ist schreibbar"
-      },
-      "4.0.0": {
-        "en": "Breaking: Update frontent to 2023.12.08.1\nBreaking: all states default to string now. Added some exceptions (like timestamps). Check your filters.\nUse better random numbers for tokens.\nSupport media_play_pause (mini-media-player card play / pause) again.\nSupport for input_select\nImprove support for sensor with device_class=date\nRemove hideToolbar from settings. Now using browser_mod to allow per instance control.\nrepaired persistent notifications.\nUse browser_mod to hide sidebar.",
-        "de": "Breaking: Update-Front auf 2023.12.08.1\nBreaking: Alle Zustände (entity.state) sind standardmäßig Strings, jetzt. Einige Ausnahmen (wie Zeitstempel) hinzugefügt. Überprüft eure Filter.\nBessere Zufallszahlen für Tokens.\nSupport media_play_pause (mini-Media-Player-Karte geht wieder)\nUnterstützung für input_select\nUnterstützung für Sensor mit device_class=date\nhideToolbar aus Einstellungen entfernt. Nutze browser_mod, um per Instanz-Steuerung zu erlauben.\nReparatur von persistenten benachrichtigungen.\nVerwende browser_mod, um sidebar zu verstecken.",
-        "ru": "Перерыв: обновление фронтанта до 2023.12.08.1\nПерерыв: все государства по умолчанию для строки сейчас. Добавлены некоторые исключения (например, метки). Проверьте свои фильтры.\nИспользуйте лучшие случайные числа для токенов.\nПоддержка media_play_pause (мини-медийная игра / пауза) снова.\nПоддержка enter_select\nУлучшение поддержки датчика с device_class=date\nУдалить скрыть Toolbar от настроек. Теперь, используя браузер_моду, чтобы позволить в примере управления.\nотремонтированные постоянные уведомления.\nИспользуйте браузер_mod, чтобы скрыть sidebar.",
-        "pt": "Quebrando: Atualizar frontent para 2023.12.08.1\nQuebrando: todos os estados padrão para string agora. Adicionado algumas exceções (como timestamps). Verifique os filtros.\nUse melhores números aleatórios para tokens.\nSuporte media_play_pause (mini-media-player card play / pausa) novamente.\nSuporte para input_select\nMelhore o suporte para o sensor com device_class=date\nRemover esconder Barra de ferramentas de configurações. Agora, usando o browser_mod para permitir o controle por instância.\nnotificações persistentes reparadas.\nUse o browser_mod para esconder a barra lateral.",
-        "nl": "Vertaling:\nInbraak: alle staten vallen nu aan string. Voegde wat uitzonderingen toe. Controleer je filters.\nGebruik meer willekeurige nummers voor tekenen.\nSteun mediaplay (mini-media-speler kaart / pauze) opnieuw.\nSteun voor inputselect\nImprove ondersteuning voor sensor met apparaat =-date\nVerstop je. Toolbar van settings. Met behulp van browsermod om per instance controle toe te staan.\nherstelt vervolgberichten.\nGebruik browsermod om een zijbar te verbergen.",
-        "fr": "Breaking: Update frontent to 2023.12.08.1\nBreaking: tous les états par défaut à la chaîne maintenant. Ajout de quelques exceptions (comme les timetamps). Vérifiez vos filtres.\nUtilisez de meilleurs nombres aléatoires pour les jetons.\nSupport media_play_pause (mini-media-player card play / pause) à nouveau.\nSupport pour input_select\nAméliorez le support du capteur avec device_class=date\nRetirer le cachet Barre d'outils à partir de paramètres. Maintenant en utilisant browser_mod pour permettre le contrôle par instance.\nles notifications persistantes réparées.\nUtilisez browser_mod pour cacher la barre latérale.",
-        "it": "Ripartizione: Aggiornamento frontale a 2023.12.08.1\nBreaking: tutti gli stati di default per stringa ora. Aggiunta alcune eccezioni (come timestamp). Controlla i filtri.\nUtilizzare numeri casuali migliori per i gettoni.\nSupport media_play_pause (mini-media-player card play / pausa) di nuovo.\nSupporto per input_select\nMigliora il supporto per il sensore con device_class=date\nRimuovi il nascondiglio Barra degli strumenti dalle impostazioni. Ora utilizzando browser_mod per consentire per controllo delle istanze.\nnotifiche persistenti riparate.\nUtilizzare browser_mod per nascondere la barra laterale.",
-        "es": "Breaking: Actualizar frontent a 2023.12.08.1\nBreaking: todos los estados por defecto a cadena ahora. Agregó algunas excepciones (como los horarios). Revisa tus filtros.\nUse mejores números aleatorios para fichas.\nSoporte media_play_pause (mini-media-player card play / pause) de nuevo.\nSupport for input_select\nMejorar el soporte para sensor con device_class=date\nRetírese. Barra de herramientas desde la configuración. Ahora el uso de browser_mod para permitir el control por instancia.\nreparado de notificaciones persistentes.\nUse browser_mod para ocultar barra lateral.",
-        "pl": "Przełom: Przedstawienie do 2023.12.08.1\nZłamanie: wszystkie stany domyślają się do strun. Wyróżnia się kilka wyjątków (np. znaczki czasowe). Wszystko filtruje.\nUżycie lepszych liczb losowych dla tokenów.\nMedia_pause (mini-media-player card play / pause) (ang.).\nWsparcie dla indeksu\nPoprawione wsparcie dla czujnika z urządzenie_class=date\nPrzewidywać się Toolbar from the settings (ang.). Zastosowanie przeglądarki_mod pozwala na kontrolę instancji.\nzremasterowane aktualizacje.\nUżycie przeglądarki_mod do ukrycia bocznego.",
-        "uk": "Перерва: Оновлення переднього до 2023.12.08.1\nПерерва: всі стани за замовчуванням, щоб рядок зараз. Додайте деякі винятки (наприклад, мітки часу). Перевірити фільтри.\nВикористовуйте кращі випадкові номери для жетонів.\nПідтримка медіа_play_pause (міні-медійно-плеєрна картка / пауза) знову.\nПідтримка вхідних_select\nПокращення підтримки датчика з пристроєм_class=date\nВидалити приховати Клапан інструментів з налаштувань. Тепер за допомогою браузера_mod для керування екземпляром.\nвідремонтовані постійні повідомлення.\nВикористовуйте браузер_mod для приховувати бічні панелі.",
-        "zh-cn": "处理:最新战线到2023.12.08.1\n打破:所有国家现在都拖欠会费。 增加一些例外(与时间限制)。 检查你的过滤。.\n使用较随机的数字。.\n支助媒体:互动_pause(媒体角色卡)再次发挥/作用。.\n投入支助\nA. 改善对传感器的支助\n移离掩护 2. 不受环境伤害。 现在使用“代行”来控制。.\n修理了持续通知。.\n使用缩写:为掩护。."
       }
     },
     "title": "Visualization with Lovelace-UI",

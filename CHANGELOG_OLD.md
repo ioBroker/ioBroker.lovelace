@@ -1,4 +1,7 @@
 # Older Changes
+## 4.0.2 (2023-12-09)
+* (Garfonso) fix: crash
+
 ## 4.0.1 (2023-12-08)
 * (Garfonso) fix: hideHeader object is writable
 
