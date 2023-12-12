@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.7",
+    "version": "4.0.8",
     "news": {
+      "4.0.8": {
+        "en": "re-add legacy history for custom cards",
+        "de": "re-add die alten history methoden für benutzerdefinierte karten"
+      },
       "4.0.7": {
         "en": "history should be working again.",
         "de": "history sollte wieder funktionieren.",
@@ -71,10 +75,6 @@
         "pl": "naprawa",
         "uk": "виправити: аварійний",
         "zh-cn": "fix:坠落"
-      },
-      "4.0.1": {
-        "en": "fix: hideHeader object is writable",
-        "de": "fix: hideHeader-Objekt ist schreibbar"
       }
     },
     "title": "Visualization with Lovelace-UI",

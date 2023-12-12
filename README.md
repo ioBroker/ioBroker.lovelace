@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.8 (2023-12-12)
 * (Garfonso) re-add legacy history for custom cards
 
 ### 4.0.7 (2023-12-12)
@@ -487,9 +487,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.4 (2023-12-09)
 * (Garfonso) fix: crash
-
-### 4.0.3 (2023-12-09)
-* (Garfonso) fix: tests.
 
 ## License
 
