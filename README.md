@@ -471,6 +471,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) re-add legacy history for custom cards
+
 ### 4.0.7 (2023-12-12)
 * (Garfonso) history should be working again.
 
