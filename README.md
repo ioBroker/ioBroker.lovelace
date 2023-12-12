@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.9 (2023-12-12)
 * (Garfonso) fixed: timestamp in legacy history data
 
 ### 4.0.8 (2023-12-12)
@@ -487,9 +487,6 @@ After that checkout modified version in `./build` folder. Then.
 ### 4.0.5 (2023-12-09)
 * (Garfonso) revert shopping list
 * (Garfonso) prevent invalid date error
-
-### 4.0.4 (2023-12-09)
-* (Garfonso) fix: crash
 
 ## License
 

@@ -1,4 +1,7 @@
 # Older Changes
+## 4.0.4 (2023-12-09)
+* (Garfonso) fix: crash
+
 ## 4.0.3 (2023-12-09)
 * (Garfonso) fix: tests.
 
