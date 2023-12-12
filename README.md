@@ -471,6 +471,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fixed: timestamp in legacy history data
+
 ### 4.0.8 (2023-12-12)
 * (Garfonso) re-add legacy history for custom cards
 
