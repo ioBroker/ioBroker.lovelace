@@ -173,5 +173,6 @@
     "Adapter": "Adaptateur",
     "User (works only for changes during adapter runtime)": "Utilisateur (fonctionne uniquement pour les modifications pendant l'exécution de l'adaptateur)",
     "Nothing": "Rien",
-    "Logbook: Source should show": "Journal de bord : la source doit s'afficher"
+    "Logbook: Source should show": "Journal de bord : la source doit s'afficher",
+    "todolist": "liste de choses à faire"
 }

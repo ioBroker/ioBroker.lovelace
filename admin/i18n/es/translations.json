@@ -173,5 +173,6 @@
     "Adapter": "Adaptador",
     "User (works only for changes during adapter runtime)": "Usuario (solo funciona para cambios durante el tiempo de ejecución del adaptador)",
     "Nothing": "Nada",
-    "Logbook: Source should show": "Libro de registro: la fuente debe mostrar"
+    "Logbook: Source should show": "Libro de registro: la fuente debe mostrar",
+    "todolist": "lista de quehaceres"
 }

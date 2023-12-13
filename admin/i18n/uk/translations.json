@@ -173,5 +173,6 @@
     "Adapter": "Перехідник",
     "User (works only for changes during adapter runtime)": "Користувач (працює лише для змін під час роботи адаптера)",
     "Nothing": "нічого",
-    "Logbook: Source should show": "Бортовий журнал: Джерело повинно бути показано"
+    "Logbook: Source should show": "Бортовий журнал: Джерело повинно бути показано",
+    "todolist": "список справ"
 }

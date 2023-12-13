@@ -173,5 +173,6 @@
     "Adapter": "Адаптер",
     "User (works only for changes during adapter runtime)": "Пользователь (работает только для изменений во время работы адаптера)",
     "Nothing": "Ничего",
-    "Logbook: Source should show": "Бортовой журнал: источник должен отображаться"
+    "Logbook: Source should show": "Бортовой журнал: источник должен отображаться",
+    "todolist": "список дел"
 }

@@ -173,5 +173,6 @@
     "Adapter": "Adapter",
     "User (works only for changes during adapter runtime)": "Gebruiker (werkt alleen voor wijzigingen tijdens de looptijd van de adapter)",
     "Nothing": "Niets",
-    "Logbook: Source should show": "Logboek: Bron zou moeten verschijnen"
+    "Logbook: Source should show": "Logboek: Bron zou moeten verschijnen",
+    "todolist": "te doen lijst"
 }

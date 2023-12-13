@@ -173,5 +173,6 @@
     "Adapter": "适配器",
     "User (works only for changes during adapter runtime)": "用户（仅适用于适配器运行时期间的更改）",
     "Nothing": "没有什么",
-    "Logbook: Source should show": "日志：来源应显示"
+    "Logbook: Source should show": "日志：来源应显示",
+    "todolist": "待办事项清单"
 }

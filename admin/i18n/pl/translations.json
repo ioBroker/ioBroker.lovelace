@@ -173,5 +173,6 @@
     "Adapter": "Adapter",
     "User (works only for changes during adapter runtime)": "Użytkownik (działa tylko w przypadku zmian w czasie działania adaptera)",
     "Nothing": "Nic",
-    "Logbook: Source should show": "Logbook: Źródło powinno być widoczne"
+    "Logbook: Source should show": "Logbook: Źródło powinno być widoczne",
+    "todolist": "Lista rzeczy do zrobienia"
 }
