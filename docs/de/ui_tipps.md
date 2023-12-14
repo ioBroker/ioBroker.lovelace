@@ -47,6 +47,10 @@ Code zum eigenen Theme hinzugefügt werden:
   }
 ```
 
+Ab Version 4.0.1 gibt es zusätzlich die Möglichkeit den State `lovelace.0.instances.hideHeader` auf `true` zu setzen, was
+(nach einem reload) die Titelleiste bei allen Browsern entfernt. Der State existiert auch für alle Instanzen. Er kann
+also auch pro Browser gesetzt werden. Das sollte genutzt werden.
+
 ### Zu beachten:
 * Die Erweiterung [Cardmod](https://github.com/thomasloven/lovelace-card-mod/tree/master) muss installiert sein.
 * Dies funktioniert nicht im Edit-Modus. Der richtige Link ist `http://IP:PORT/lovelace/default_view` ohne `?toolbar=true`
