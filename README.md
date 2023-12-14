@@ -213,11 +213,13 @@ Custom Lovelace card created in support of accuweather forecast - https://github
 Shopping list writes the values in form:
 ```
 [
-   {name: 'Task 1', id: 1234222, complete: false},
-   {name: 'Task 2', id: 1234223, complete: true}
+   {"summary": "Task 1", "uid": "1234222", "status": "needs_action"},
+   {"summary": "Task 2", "uid": "1234223", "status": "completed"}
 ]
 ```
 into `lovelace.X.control.shopping_list` state.
+
+You can also add your own todo or shopping lists by creating manual entities with type `todo`.
 
 ### Map
 The objects must look like this one:
