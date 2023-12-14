@@ -8,48 +8,50 @@
 * [Bindings](ui_tipps.md#bindings)
 
 
-
-
 ## Anpassen der Titelleiste
 
 Die Titelleiste kann mit Hilfe der Erweiterung [Cardmod](https://github.com/thomasloven/lovelace-card-mod/tree/master) angepasst werden. 
 Dazu können die folgenden YAML Codebeispiele zum eigenen Theme hinzugefügt werden:
 
-### 1. Mikrofon entfernen   
+
+### 1. Glocke entfernen   
 ```yaml
   card-mod-theme: THEMENAME
   card-mod-root: |
-    app-toolbar:not([class="edit-mode"]) mwc-icon-button[label="Start conversation"] {
+    mwc-icon-button[label] {
       display: none; 
     }
 ```
 
-
-### 2. Glocke und Mikrofon entfernen 
+### 2. Suche und Assist entfernen 
 ```yaml
   card-mod-theme: THEMENAME
   card-mod-root: |
-    app-toolbar:not([class="edit-mode"]) mwc-icon-button[label] {
+    mwc-icon-button[label] {
+      display: none; 
+    }
+    ha-icon-button[slot="actionItems"] {
+      display: none; 
+    }
+```
+
+### 3. Suche, Assist und Punktmenü entfernen 
+```yaml
+  card-mod-theme: THEMENAME
+  card-mod-root: |
+    mwc-icon-button[label] {
+      display: none; 
+    }
+    ha-icon-button[slot] {
       display: none; 
     }
 ```
 
 ### 3. Titelleiste vollständig verbergen
 
-Um einen Kioskmodus oder ähnliches zu erreichen und auch die Auswahl der Taps verschwinden zu lassen, kann der folgende YAML 
-Code zum eigenen Theme hinzugefügt werden:
-
-```yaml
-  card-mod-theme: THEMENAME
-  card-mod-root: |
-  app-toolbar {
-    display: none;
-  }
-```
-
-Ab Version 4.0.1 gibt es zusätzlich die Möglichkeit den State `lovelace.0.instances.hideHeader` auf `true` zu setzen, was
+Ab Version 4.0.1 gibt es die Möglichkeit den State `lovelace.0.instances.hideHeader` auf `true` zu setzen, was
 (nach einem reload) die Titelleiste bei allen Browsern entfernt. Der State existiert auch für alle Instanzen. Er kann
-also auch pro Browser gesetzt werden. Das sollte genutzt werden.
+also auch pro Browser gesetzt werden.
 
 ### Zu beachten:
 * Die Erweiterung [Cardmod](https://github.com/thomasloven/lovelace-card-mod/tree/master) muss installiert sein.
@@ -58,7 +60,6 @@ also auch pro Browser gesetzt werden. Das sollte genutzt werden.
 
 <details>
   <summary>Beispiel Theme</summary>
-
 
 ```yaml
 synthwave:
@@ -166,9 +167,12 @@ synthwave:
   
   card-mod-theme: synthwave
   card-mod-root: |
-  app-toolbar {
-      display: none;
-  }
+    mwc-icon-button[label] {
+      display: none; 
+    }
+    ha-icon-button[slot="actionItems"] {
+      display: none; 
+    }
 
 
 
