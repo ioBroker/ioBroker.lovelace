@@ -522,8 +522,8 @@ gulp.task('rename', done => {
                 newText = newText.replace(/content="\/([^"]+)"/g, 'content="$1"');
                 newText = newText.replace(/customPanelJS\s?=\s?"\/([^"]+)"/g, 'customPanelJS="$1"');
                 newText = newText.replace(/customPanelJS\s?=\s?"\/([^"]+)"/g, 'customPanelJS="$1"');
-                newText = newText.replace(/_ls\("\/([^"]+)"/g, '_ls=("$1"');
-                newText = newText.replace(/_pf\("\/([^"]+)"/g, '_pf=("$1"');
+                newText = newText.replace(/_ls\("\/([^"]+)"/g, '_ls("$1"');
+                newText = newText.replace(/_pf\("\/([^"]+)"/g, '_pf("$1"');
 
                 newText = newText.replace(/\n\n\n/g, '\n');
                 newText = newText.replace(/\n\n/g, '\n');
