@@ -1,5 +1,4 @@
 {
-    "(add to URL '...?toolbar=true' to show toolbar again)": "(zur URL '...?toolbar=true' hinzufügen, um die Symbolleiste wieder anzuzeigen)",
     "(unique for one entity type)": "(eindeutig für einen Entitätstyp)",
     "Additional Attributes": "Zusätzliche Attribute",
     "AliasOnly": "Automatische Generierung von Geräten nur aus Alias.0. *",
@@ -174,5 +173,6 @@
     "Adapter": "Adapter",
     "User (works only for changes during adapter runtime)": "Benutzer (funktioniert nur bei Änderungen während der Adapterlaufzeit)",
     "Nothing": "Nichts",
-    "Logbook: Source should show": "Logbuch: Quelle sollte zeigen"
+    "Logbook: Source should show": "Logbuch: Quelle sollte zeigen",
+    "Unsecure_Auth": "Wenn Sie HTTPS nicht aktivieren oder andere Mittel zur Verschlüsselung der Kommunikation verwenden, wird Ihr Passwort unverschlüsselt über das Netzwerk gesendet. Öffnen Sie nicht einfach einen Port für Lovelace!"
 }

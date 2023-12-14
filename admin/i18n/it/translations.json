@@ -1,5 +1,4 @@
 {
-    "(add to URL '...?toolbar=true' to show toolbar again)": "(aggiungi all'URL '...?toolbar=true' per mostrare di nuovo la barra degli strumenti)",
     "(unique for one entity type)": "(unico per un tipo di entità)",
     "Additional Attributes": "Attributi aggiuntivi",
     "AliasOnly": "Generazione automatica dei dispositivi solo da alias.0. *",
@@ -174,5 +173,6 @@
     "User (works only for changes during adapter runtime)": "Utente (funziona solo per le modifiche durante il runtime dell'adattatore)",
     "Nothing": "Niente",
     "Logbook: Source should show": "Diario di bordo: dovrebbe essere visualizzata la fonte",
-    "todolist": "lista di cose da fare"
+    "todolist": "lista di cose da fare",
+    "Unsecure_Auth": "Se non abiliti HTTPS o non utilizzi altri mezzi per crittografare la comunicazione, la tua password verrà inviata non crittografata sulla rete. Non limitarti ad aprire una porta per l'amore!"
 }

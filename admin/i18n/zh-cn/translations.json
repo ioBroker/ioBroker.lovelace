@@ -1,5 +1,4 @@
 {
-    "(add to URL '...?toolbar=true' to show toolbar again)": "(添加到网址'...?toolbar=true'显示工具栏再次)",
     "(unique for one entity type)": "(唯一的一个实体的类型)",
     "Additional Attributes": "附加属性",
     "AliasOnly": "仅从alias.0。*自动生成设备",
@@ -174,5 +173,6 @@
     "User (works only for changes during adapter runtime)": "用户（仅适用于适配器运行时期间的更改）",
     "Nothing": "没有什么",
     "Logbook: Source should show": "日志：来源应显示",
-    "todolist": "待办事项清单"
+    "todolist": "待办事项清单",
+    "Unsecure_Auth": "如果您未启用 HTTPS 或使用其他方式加密通信，您的密码将通过网络以未加密的方式发送。不要只为lovelace打开一个端口！"
 }

@@ -1,5 +1,4 @@
 {
-    "(add to URL '...?toolbar=true' to show toolbar again)": "(adicione ao URL '...?toolbar=true' para mostrar a barra de ferramentas novamente)",
     "(unique for one entity type)": "(exclusivo para um tipo de entidade)",
     "Additional Attributes": "Atributos Adicionais",
     "AliasOnly": "Gerar automaticamente dispositivos apenas a partir do alias.0. *",
@@ -174,5 +173,6 @@
     "User (works only for changes during adapter runtime)": "Usuário (funciona apenas para alterações durante o tempo de execução do adaptador)",
     "Nothing": "Nada",
     "Logbook: Source should show": "Diário de bordo: a fonte deve mostrar",
-    "todolist": "lista de afazeres"
+    "todolist": "lista de afazeres",
+    "Unsecure_Auth": "Se você não ativar o HTTPS ou usar outros meios para criptografar a comunicação, sua senha será enviada sem criptografia pela rede. Não basta abrir uma porta para lovelace!"
 }

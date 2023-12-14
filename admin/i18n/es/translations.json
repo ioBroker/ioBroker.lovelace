@@ -1,5 +1,4 @@
 {
-    "(add to URL '...?toolbar=true' to show toolbar again)": "(agregue a la URL '...?toolbar=true' para mostrar la barra de herramientas nuevamente)",
     "(unique for one entity type)": "(exclusivo para un tipo de entidad)",
     "Additional Attributes": "Atributos adicionales",
     "AliasOnly": "Generar automáticamente dispositivos desde alias.0. * Solamente",
@@ -174,5 +173,6 @@
     "User (works only for changes during adapter runtime)": "Usuario (solo funciona para cambios durante el tiempo de ejecución del adaptador)",
     "Nothing": "Nada",
     "Logbook: Source should show": "Libro de registro: la fuente debe mostrar",
-    "todolist": "lista de quehaceres"
+    "todolist": "lista de quehaceres",
+    "Unsecure_Auth": "Si no habilita HTTPS o utiliza otros medios para cifrar la comunicación, su contraseña se enviará sin cifrar a través de la red. ¡No se limite a abrir un puerto para Lovelace!"
 }

@@ -1,5 +1,4 @@
 {
-    "(add to URL '...?toolbar=true' to show toolbar again)": "(dodaj adres URL '...?toolbar=true', aby ponownie wyświetlić pasek narzędzi)",
     "(unique for one entity type)": "(unikalny dla jednego typu jednostki)",
     "Additional Attributes": "Dodatkowe atrybuty",
     "AliasOnly": "Automatyczne generowanie urządzeń tylko z aliasu. 0. *",
@@ -174,5 +173,6 @@
     "User (works only for changes during adapter runtime)": "Użytkownik (działa tylko w przypadku zmian w czasie działania adaptera)",
     "Nothing": "Nic",
     "Logbook: Source should show": "Logbook: Źródło powinno być widoczne",
-    "todolist": "Lista rzeczy do zrobienia"
+    "todolist": "Lista rzeczy do zrobienia",
+    "Unsecure_Auth": "Jeśli nie włączysz protokołu HTTPS lub nie użyjesz innych sposobów szyfrowania komunikacji, Twoje hasło zostanie przesłane przez sieć w formie niezaszyfrowanej. Nie otwieraj portu tylko dla lovelace!"
 }

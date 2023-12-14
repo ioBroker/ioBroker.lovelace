@@ -1,5 +1,4 @@
 {
-    "(add to URL '...?toolbar=true' to show toolbar again)": "(toevoegen aan URL '...?toolbar=true' om de werkbalk opnieuw weer te geven)",
     "(unique for one entity type)": "(uniek voor één entiteitstype)",
     "Additional Attributes": "Extra attributen",
     "AliasOnly": "Apparaten automatisch genereren vanaf alias.0. * Alleen",
@@ -174,5 +173,6 @@
     "User (works only for changes during adapter runtime)": "Gebruiker (werkt alleen voor wijzigingen tijdens de looptijd van de adapter)",
     "Nothing": "Niets",
     "Logbook: Source should show": "Logboek: Bron zou moeten verschijnen",
-    "todolist": "te doen lijst"
+    "todolist": "te doen lijst",
+    "Unsecure_Auth": "Als u HTTPS niet inschakelt of andere middelen gebruikt om de communicatie te versleutelen, wordt uw wachtwoord onversleuteld over het netwerk verzonden. Open niet zomaar een poort voor lovelace!"
 }
