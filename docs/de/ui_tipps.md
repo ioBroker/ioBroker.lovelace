@@ -55,7 +55,6 @@ also auch pro Browser gesetzt werden.
 
 ### Zu beachten:
 * Die Erweiterung [Cardmod](https://github.com/thomasloven/lovelace-card-mod/tree/master) muss installiert sein.
-* Dies funktioniert nicht im Edit-Modus. Der richtige Link ist `http://IP:PORT/lovelace/default_view` ohne `?toolbar=true`
 * Der Code muss Teil des Themes sein (*Lovelace Instanz -> Einstellungen -> Themen*), also z.B. so:
 
 <details>
