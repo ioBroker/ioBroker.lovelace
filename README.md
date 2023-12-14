@@ -430,14 +430,14 @@ Security must be taken from current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20231208.1
+Used version of home-assistant-frontend@20231208.2
 Version of Browser Mod: 2.3.0
 
 ### How to build the new Lovelace version
 First of all the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20231208.1) following files were modified:
+For now (20231208.2) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
 - `build-scripts/gulp/webpack.js` - Add new gulp task webpack-dev-app
 - `src/data/weather.ts` - add support to display weather icon from url.
@@ -473,6 +473,12 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) brought back shopping list. Now also supports shopping/todo lists from manual entities.
+* (Garfonso) fix: browser console errors
+* (Garfonso) fix: sane error message if authentication failed
+* (Garfonso) added: user images on login screen
+
 ### 4.0.9 (2023-12-12)
 * (Garfonso) fixed: timestamp in legacy history data
 
