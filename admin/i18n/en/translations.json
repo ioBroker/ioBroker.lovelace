@@ -174,5 +174,8 @@
     "User (works only for changes during adapter runtime)": "User (works only for changes during adapter runtime)",
     "Nothing": "Nothing",
     "Logbook: Source should show": "Logbook: Source should show",
-    "Unsecure_Auth": "If you don't enable HTTPS or use other means to encrypt communication, your password will be sent unencrypted over the network. Do not just open a port for lovelace!"
+    "Unsecure_Auth": "If you don't enable HTTPS or use other means to encrypt communication, your password will be sent unencrypted over the network. Do not just open a port for lovelace!",
+    "Warning!": "Warning!",
+    "Ignore warning": "Ignore warning",
+    "Disable authentication": "Disable authentication"
 }

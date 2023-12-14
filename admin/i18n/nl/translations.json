@@ -174,5 +174,8 @@
     "Nothing": "Niets",
     "Logbook: Source should show": "Logboek: Bron zou moeten verschijnen",
     "todolist": "te doen lijst",
-    "Unsecure_Auth": "Als u HTTPS niet inschakelt of andere middelen gebruikt om de communicatie te versleutelen, wordt uw wachtwoord onversleuteld over het netwerk verzonden. Open niet zomaar een poort voor lovelace!"
+    "Unsecure_Auth": "Als u HTTPS niet inschakelt of andere middelen gebruikt om de communicatie te versleutelen, wordt uw wachtwoord onversleuteld over het netwerk verzonden. Open niet zomaar een poort voor lovelace!",
+    "Warning!": "Waarschuwing!",
+    "Ignore warning": "Negeer waarschuwing",
+    "Disable authentication": "Schakel authenticatie uit"
 }

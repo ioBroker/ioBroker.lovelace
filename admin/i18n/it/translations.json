@@ -174,5 +174,8 @@
     "Nothing": "Niente",
     "Logbook: Source should show": "Diario di bordo: dovrebbe essere visualizzata la fonte",
     "todolist": "lista di cose da fare",
-    "Unsecure_Auth": "Se non abiliti HTTPS o non utilizzi altri mezzi per crittografare la comunicazione, la tua password verrà inviata non crittografata sulla rete. Non limitarti ad aprire una porta per l'amore!"
+    "Unsecure_Auth": "Se non abiliti HTTPS o non utilizzi altri mezzi per crittografare la comunicazione, la tua password verrà inviata non crittografata sulla rete. Non limitarti ad aprire una porta per l'amore!",
+    "Warning!": "Avvertimento!",
+    "Ignore warning": "Ignora l'avviso",
+    "Disable authentication": "Disabilita l'autenticazione"
 }

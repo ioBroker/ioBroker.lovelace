@@ -174,5 +174,8 @@
     "Nothing": "Nic",
     "Logbook: Source should show": "Logbook: Źródło powinno być widoczne",
     "todolist": "Lista rzeczy do zrobienia",
-    "Unsecure_Auth": "Jeśli nie włączysz protokołu HTTPS lub nie użyjesz innych sposobów szyfrowania komunikacji, Twoje hasło zostanie przesłane przez sieć w formie niezaszyfrowanej. Nie otwieraj portu tylko dla lovelace!"
+    "Unsecure_Auth": "Jeśli nie włączysz protokołu HTTPS lub nie użyjesz innych sposobów szyfrowania komunikacji, Twoje hasło zostanie przesłane przez sieć w formie niezaszyfrowanej. Nie otwieraj portu tylko dla lovelace!",
+    "Warning!": "Ostrzeżenie!",
+    "Ignore warning": "Zignoruj ​​ostrzeżenie",
+    "Disable authentication": "Wyłącz uwierzytelnianie"
 }

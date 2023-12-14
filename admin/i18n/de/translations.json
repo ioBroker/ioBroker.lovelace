@@ -174,5 +174,8 @@
     "User (works only for changes during adapter runtime)": "Benutzer (funktioniert nur bei Änderungen während der Adapterlaufzeit)",
     "Nothing": "Nichts",
     "Logbook: Source should show": "Logbuch: Quelle sollte zeigen",
-    "Unsecure_Auth": "Wenn Sie HTTPS nicht aktivieren oder andere Mittel zur Verschlüsselung der Kommunikation verwenden, wird Ihr Passwort unverschlüsselt über das Netzwerk gesendet. Öffnen Sie nicht einfach einen Port für Lovelace!"
+    "Unsecure_Auth": "Wenn Sie HTTPS nicht aktivieren oder andere Mittel zur Verschlüsselung der Kommunikation verwenden, wird Ihr Passwort unverschlüsselt über das Netzwerk gesendet. Öffnen Sie nicht einfach einen Port für Lovelace!",
+    "Warning!": "Warnung!",
+    "Ignore warning": "Warnung ignorieren",
+    "Disable authentication": "Deaktivieren Sie die Authentifizierung"
 }

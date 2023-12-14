@@ -174,5 +174,8 @@
     "Nothing": "Rien",
     "Logbook: Source should show": "Journal de bord : la source doit s'afficher",
     "todolist": "liste de choses à faire",
-    "Unsecure_Auth": "Si vous n'activez pas HTTPS ou n'utilisez pas d'autres moyens pour crypter la communication, votre mot de passe sera envoyé en clair sur le réseau. Ne vous contentez pas d'ouvrir un port pour Lovelace !"
+    "Unsecure_Auth": "Si vous n'activez pas HTTPS ou n'utilisez pas d'autres moyens pour crypter la communication, votre mot de passe sera envoyé en clair sur le réseau. Ne vous contentez pas d'ouvrir un port pour Lovelace !",
+    "Warning!": "Avertissement!",
+    "Ignore warning": "Ignorer l'avertissement",
+    "Disable authentication": "Désactiver l'authentification"
 }
