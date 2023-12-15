@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) updated dependencies
+
 ### 4.0.10 (2023-12-15)
 * (Garfonso) brought back shopping list. Now also supports shopping/todo lists from manual entities.
 * (Garfonso) fix: browser console errors
