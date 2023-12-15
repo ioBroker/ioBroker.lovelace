@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.9",
+    "version": "4.0.10",
     "news": {
+      "4.0.10": {
+        "en": "brought back shopping list. Now also supports shopping/todo lists from manual entities.\nfix: browser console errors\nfix: login & authorization\nadded: user images & names on login screen",
+        "de": "Einkaufsliste funktioniert wieder. Zusätzliche Shopping/Todo-Listen können als manuellen Entities angelegt werden.\nfix: browser fehler\nfix: anmeldung & autorisierung\nhinzugefügt: benutzerbilder & namen auf login-bildschirm"
+      },
       "4.0.9": {
         "en": "fixed: timestamp in legacy history data",
         "de": "fixed: zeitstempel in alten History daten"
@@ -53,19 +57,6 @@
         "pl": "naprawa",
         "uk": "виправити: аварійний",
         "zh-cn": "fix:坠落"
-      },
-      "4.0.3": {
-        "en": "fix: tests.",
-        "de": "fix: tests.",
-        "ru": "исправить: тесты.",
-        "pt": "correção: testes.",
-        "nl": "testen.",
-        "fr": "correction: essais.",
-        "it": "correzione: test.",
-        "es": "reparación: pruebas.",
-        "pl": "uwaga: testy.",
-        "uk": "виправити: тести.",
-        "zh-cn": "fix:试验。."
       }
     },
     "title": "Visualization with Lovelace-UI",

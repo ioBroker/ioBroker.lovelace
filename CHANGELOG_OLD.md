@@ -1,4 +1,8 @@
 # Older Changes
+## 4.0.5 (2023-12-09)
+* (Garfonso) revert shopping list
+* (Garfonso) prevent invalid date error
+
 ## 4.0.4 (2023-12-09)
 * (Garfonso) fix: crash
 
