@@ -476,8 +476,8 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso) brought back shopping list. Now also supports shopping/todo lists from manual entities.
 * (Garfonso) fix: browser console errors
-* (Garfonso) fix: sane error message if authentication failed
-* (Garfonso) added: user images on login screen
+* (Garfonso) fix: login & authorization
+* (Garfonso) added: user images & names on login screen
 
 ### 4.0.9 (2023-12-12)
 * (Garfonso) fixed: timestamp in legacy history data
