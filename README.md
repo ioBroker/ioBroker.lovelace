@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.12 (2023-12-15)
 * (Garfonso) fix lint errors
 
 ### 4.0.11 (2023-12-15)
@@ -490,9 +490,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.8 (2023-12-12)
 * (Garfonso) re-add legacy history for custom cards
-
-### 4.0.7 (2023-12-12)
-* (Garfonso) history should be working again.
 
 ## License
 

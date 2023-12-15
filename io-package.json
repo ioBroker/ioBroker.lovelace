@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.11",
+    "version": "4.0.12",
     "news": {
+      "4.0.12": {
+        "en": "fix lint errors",
+        "de": "lint fehler beheben",
+        "ru": "исправить ошибки lint",
+        "pt": "corrigir erros de lint",
+        "nl": "lint fouten",
+        "fr": "corriger les erreurs lint",
+        "it": "correggere gli errori di lintuizione",
+        "es": "corregir errores lint",
+        "pl": "błędy lintowe",
+        "uk": "виправлено помилки в розмітці",
+        "zh-cn": "f 固定错误"
+      },
       "4.0.11": {
         "en": "updated dependencies",
         "de": "aktualisierte abhängigkeiten",
@@ -44,19 +57,6 @@
       "4.0.6": {
         "en": "fixed: thermostat card for thermostats without mode / off state\nfixed: history and history graph missing for some stuff",
         "de": "repariert: thermostatkarte für thermostate ohne modus / aus zustand\nrepariert: history und history diagramm fehlt für einige sachen"
-      },
-      "4.0.5": {
-        "en": "revert shopping list (not working right now)\nprevent invalid date error",
-        "de": "Shoppignlist Änderungen rückgängig gemacht (funktionieren nicht)\nungültiger datumsfehler verhindern",
-        "ru": "перевернуть список покупок\nпредотвратить недопустимую ошибку",
-        "pt": "lista de compras reverter\nevitar erro de data inválido",
-        "nl": "revert shoppen\nongeldige datum fout",
-        "fr": "retourner la liste des courses\nprévenir l'erreur de date invalide",
-        "it": "rifare la lista della spesa\nprevenire errore di data non valido",
-        "es": "revertir la lista de compras\nprevenir el error de fecha inválida",
-        "pl": "lista zakupów\nzapobieganie błędom",
-        "uk": "перевернути список покупок\nзапобігання недійсної помилки дати",
-        "zh-cn": "回购单\n防止无效日期"
       }
     },
     "title": "Visualization with Lovelace-UI",
