@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.10",
+    "version": "4.0.11",
     "news": {
+      "4.0.11": {
+        "en": "updated dependencies",
+        "de": "aktualisierte abhängigkeiten",
+        "ru": "обновленные зависимости",
+        "pt": "dependências atualizadas",
+        "nl": "vertaling:",
+        "fr": "dépendances actualisées",
+        "it": "dipendenze aggiornate",
+        "es": "dependencias actualizadas",
+        "pl": "zależności aktualizacji",
+        "uk": "оновлені залежності",
+        "zh-cn": "二. 最新依赖"
+      },
       "4.0.10": {
         "en": "brought back shopping list. Now also supports shopping/todo lists from manual entities.\nfix: browser console errors\nfix: login & authorization\nadded: user images & names on login screen",
         "de": "Einkaufsliste funktioniert wieder. Zusätzliche Shopping/Todo-Listen können als manuellen Entities angelegt werden.\nfix: browser fehler\nfix: anmeldung & autorisierung\nhinzugefügt: benutzerbilder & namen auf login-bildschirm"
@@ -44,19 +57,6 @@
         "pl": "lista zakupów\nzapobieganie błędom",
         "uk": "перевернути список покупок\nзапобігання недійсної помилки дати",
         "zh-cn": "回购单\n防止无效日期"
-      },
-      "4.0.4": {
-        "en": "fix: crash",
-        "de": "fix: absturz",
-        "ru": "исправить: аварии",
-        "pt": "correção: acidente",
-        "nl": "vertaling:",
-        "fr": "correction :",
-        "it": "correzione: crash",
-        "es": "arranca:",
-        "pl": "naprawa",
-        "uk": "виправити: аварійний",
-        "zh-cn": "fix:坠落"
       }
     },
     "title": "Visualization with Lovelace-UI",

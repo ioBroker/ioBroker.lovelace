@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.0.11 (2023-12-15)
 * (Garfonso) updated dependencies
 
 ### 4.0.10 (2023-12-15)
@@ -490,10 +490,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.7 (2023-12-12)
 * (Garfonso) history should be working again.
-
-### 4.0.6 (2023-12-09)
-* (Garfonso) fixed: thermostat card for thermostats without mode / off state
-* (Garfonso) fixed: history and history graph missing for some stuff
 
 ## License
 
