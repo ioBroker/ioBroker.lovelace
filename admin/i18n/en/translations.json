@@ -177,5 +177,6 @@
     "Unsecure_Auth": "If you don't enable HTTPS or use other means to encrypt communication, your password will be sent unencrypted over the network. Do not just open a port for lovelace!",
     "Warning!": "Warning!",
     "Ignore warning": "Ignore warning",
-    "Disable authentication": "Disable authentication"
+    "Disable authentication": "Disable authentication",
+    "showUsersOnLoginScreen": "Show users on login screen"
 }

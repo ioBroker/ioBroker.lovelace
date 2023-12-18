@@ -288,7 +288,10 @@
                 $('.tab-login').removeClass('disabled');
                 $('#defaultUser').val('admin');
                 $('.col-defaultUser').hide();
+                $('.col-showUsersOnLoginScreen').show();
+                $('#showUsersOnLoginScreen').show();
                 $('.col-ttl').show();
+
 
                 if ((id === 'auth' || id === 'secure') && !$secure.prop('checked')) {
                     confirmMessage(_('Unsecure_Auth'), _('Warning!'), 'security', [_('Ignore warning'), _('Disable authentication')], function (result) {
@@ -301,7 +304,9 @@
             } else {
                 $('.tab-login').addClass('disabled');
                 $('.col-defaultUser').show();
-                //$('.col-ttl').hide();
+                $('.col-showUsersOnLoginScreen').hide();
+                $('#showUsersOnLoginScreen').hide();
+                $('.col-ttl').hide();
             }
             if ($('#loginBackgroundImage').prop('checked')) {
                 $('.background').show();
@@ -759,6 +764,10 @@
                 <div class="input-field col s12 m6 l2 col-defaultUser">
                     <select class="value" id="defaultUser"></select>
                     <label class="translate" for="defaultUser">Run as</label>
+                </div>
+                <div class="input-field col s12 m6 l2 col-showUsersOnLoginScreen">
+                    <select class="value" id="showUsersOnLoginScreen"></select>
+                    <label class="translate" for="showUsersOnLoginScreen">Run as</label>
                 </div>
             </div>
             <div class="row">

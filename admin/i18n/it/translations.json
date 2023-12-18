@@ -177,5 +177,6 @@
     "Unsecure_Auth": "Se non abiliti HTTPS o non utilizzi altri mezzi per crittografare la comunicazione, la tua password verrà inviata non crittografata sulla rete. Non limitarti ad aprire una porta per l'amore!",
     "Warning!": "Avvertimento!",
     "Ignore warning": "Ignora l'avviso",
-    "Disable authentication": "Disabilita l'autenticazione"
+    "Disable authentication": "Disabilita l'autenticazione",
+    "showUsersOnLoginScreen": "Mostra gli utenti nella schermata di accesso"
 }

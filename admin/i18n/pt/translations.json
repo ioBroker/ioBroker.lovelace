@@ -177,5 +177,6 @@
     "Unsecure_Auth": "Se você não ativar o HTTPS ou usar outros meios para criptografar a comunicação, sua senha será enviada sem criptografia pela rede. Não basta abrir uma porta para lovelace!",
     "Warning!": "Aviso!",
     "Ignore warning": "Ignorar aviso",
-    "Disable authentication": "Desabilitar autenticação"
+    "Disable authentication": "Desabilitar autenticação",
+    "showUsersOnLoginScreen": "Mostrar usuários na tela de login"
 }

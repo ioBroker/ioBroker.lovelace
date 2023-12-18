@@ -209,6 +209,7 @@
     "defaultUser": "admin",
     "onlyAllowWhenUserIsOwner": false,
     "ttl": 3600,
+    "showUsersOnLoginScreen": false,
     "themes": "",
     "defaultTheme": "default",
     "defaultThemeDark": "default",

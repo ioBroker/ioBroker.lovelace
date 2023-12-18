@@ -177,5 +177,6 @@
     "Unsecure_Auth": "Si no habilita HTTPS o utiliza otros medios para cifrar la comunicación, su contraseña se enviará sin cifrar a través de la red. ¡No se limite a abrir un puerto para Lovelace!",
     "Warning!": "¡Advertencia!",
     "Ignore warning": "ignorar advertencia",
-    "Disable authentication": "Deshabilitar la autenticación"
+    "Disable authentication": "Deshabilitar la autenticación",
+    "showUsersOnLoginScreen": "Mostrar usuarios en la pantalla de inicio de sesión"
 }

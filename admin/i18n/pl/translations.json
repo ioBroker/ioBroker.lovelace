@@ -177,5 +177,6 @@
     "Unsecure_Auth": "Jeśli nie włączysz protokołu HTTPS lub nie użyjesz innych sposobów szyfrowania komunikacji, Twoje hasło zostanie przesłane przez sieć w formie niezaszyfrowanej. Nie otwieraj portu tylko dla lovelace!",
     "Warning!": "Ostrzeżenie!",
     "Ignore warning": "Zignoruj ​​ostrzeżenie",
-    "Disable authentication": "Wyłącz uwierzytelnianie"
+    "Disable authentication": "Wyłącz uwierzytelnianie",
+    "showUsersOnLoginScreen": "Pokaż użytkowników na ekranie logowania"
 }

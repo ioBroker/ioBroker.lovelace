@@ -177,5 +177,6 @@
     "Unsecure_Auth": "Wenn Sie HTTPS nicht aktivieren oder andere Mittel zur Verschlüsselung der Kommunikation verwenden, wird Ihr Passwort unverschlüsselt über das Netzwerk gesendet. Öffnen Sie nicht einfach einen Port für Lovelace!",
     "Warning!": "Warnung!",
     "Ignore warning": "Warnung ignorieren",
-    "Disable authentication": "Deaktivieren Sie die Authentifizierung"
+    "Disable authentication": "Deaktivieren Sie die Authentifizierung",
+    "showUsersOnLoginScreen": "Benutzer auf dem Anmeldebildschirm anzeigen"
 }
