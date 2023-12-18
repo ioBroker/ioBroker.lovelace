@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfons) add an option to show users on login screen (off by default)
+
 ### 4.0.12 (2023-12-15)
 * (Garfonso) fix lint errors
 
