@@ -753,10 +753,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s12 m6 l2 col-ttl">
-                    <input class="value" type="number" id="ttl" />
-                    <label class="translate" for="ttl">Login timeout(sec)</label>
-                </div>
                 <div class="input-field col s12 m6 l2">
                     <input class="value" id="auth" type="checkbox" />
                     <label class="translate" for="auth">Authentication</label>
@@ -765,9 +761,13 @@
                     <select class="value" id="defaultUser"></select>
                     <label class="translate" for="defaultUser">Run as</label>
                 </div>
+                <div class="input-field col s12 m6 l2 col-ttl">
+                    <input class="value" type="number" id="ttl" />
+                    <label class="translate" for="ttl">Login timeout(sec)</label>
+                </div>
                 <div class="input-field col s12 m6 l2 col-showUsersOnLoginScreen">
-                    <select class="value" id="showUsersOnLoginScreen"></select>
-                    <label class="translate" for="showUsersOnLoginScreen">Run as</label>
+                    <input class="value" id="showUsersOnLoginScreen" type="checkbox" />
+                    <label class="translate" for="showUsersOnLoginScreen">showUsersOnLoginScreen</label>
                 </div>
             </div>
             <div class="row">
