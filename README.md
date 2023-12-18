@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.0 (2023-12-18)
 * (Garfons) add an option to show users on login screen (off by default)
 
 ### 4.0.12 (2023-12-15)
@@ -490,9 +490,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.9 (2023-12-12)
 * (Garfonso) fixed: timestamp in legacy history data
-
-### 4.0.8 (2023-12-12)
-* (Garfonso) re-add legacy history for custom cards
 
 ## License
 

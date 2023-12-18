@@ -1,4 +1,7 @@
 # Older Changes
+## 4.0.8 (2023-12-12)
+* (Garfonso) re-add legacy history for custom cards
+
 ## 4.0.7 (2023-12-12)
 * (Garfonso) history should be working again.
 

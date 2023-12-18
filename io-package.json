@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.0.12",
+    "version": "4.1.0",
     "news": {
+      "4.1.0": {
+        "en": "add an option to show users on login screen (off by default)",
+        "de": "Neu Option um Benutzer auf dem Login-Bildschirm anzuzeigen"
+      },
       "4.0.12": {
         "en": "fix lint errors",
         "de": "lint fehler beheben",
@@ -53,10 +57,6 @@
         "pl": "historia powinna być kontynuowana.",
         "uk": "історія повинна працювати знову.",
         "zh-cn": "历史应该再次发挥作用。."
-      },
-      "4.0.6": {
-        "en": "fixed: thermostat card for thermostats without mode / off state\nfixed: history and history graph missing for some stuff",
-        "de": "repariert: thermostatkarte für thermostate ohne modus / aus zustand\nrepariert: history und history diagramm fehlt für einige sachen"
       }
     },
     "title": "Visualization with Lovelace-UI",
