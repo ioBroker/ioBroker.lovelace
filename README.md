@@ -473,10 +473,11 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.1 (2024-01-02)
 * (Garfonso) changed: determining user id
 * (Garfosno) changed: history attributes handling
 * (Garfonso) added: handle browser_mod/recall_id service call.
+* (Garfonso) changed: all states are strings (fixes #483)
 
 ### 4.1.0 (2023-12-18)
 * (Garfons) add an option to show users on login screen (off by default)
@@ -492,9 +493,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) fix: browser console errors
 * (Garfonso) fix: login & authorization
 * (Garfonso) added: user images & names on login screen
-
-### 4.0.9 (2023-12-12)
-* (Garfonso) fixed: timestamp in legacy history data
 
 ## License
 

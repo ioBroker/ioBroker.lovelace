@@ -1,4 +1,7 @@
 # Older Changes
+## 4.0.9 (2023-12-12)
+* (Garfonso) fixed: timestamp in legacy history data
+
 ## 4.0.8 (2023-12-12)
 * (Garfonso) re-add legacy history for custom cards
 

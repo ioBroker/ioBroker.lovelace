@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.0",
+    "version": "4.1.1",
     "news": {
+      "4.1.1": {
+        "en": "changed: determining user id\nchanged: history attributes handling\nadded: handle browser_mod/recall_id service call.\nchanged: all states are strings!",
+        "de": "geändert: bestimmung der benutzer-id\ngeändert: historie für attribute\nhinzugefügt: handle browser_mod/recall_id service call.\ngeändert: alle zustände sind strings!"
+      },
       "4.1.0": {
         "en": "add an option to show users on login screen (off by default)",
         "de": "Neu Option um Benutzer auf dem Login-Bildschirm anzuzeigen"
@@ -44,19 +48,6 @@
       "4.0.8": {
         "en": "re-add legacy history for custom cards",
         "de": "re-add die alten history methoden für benutzerdefinierte karten"
-      },
-      "4.0.7": {
-        "en": "history should be working again.",
-        "de": "history sollte wieder funktionieren.",
-        "ru": "история должна работать снова.",
-        "pt": "a história deve estar a trabalhar de novo.",
-        "nl": "de geschiedenis zou weer moeten werken.",
-        "fr": "l'histoire devrait retravailler.",
-        "it": "la storia dovrebbe funzionare di nuovo.",
-        "es": "la historia debe estar trabajando de nuevo.",
-        "pl": "historia powinna być kontynuowana.",
-        "uk": "історія повинна працювати знову.",
-        "zh-cn": "历史应该再次发挥作用。."
       }
     },
     "title": "Visualization with Lovelace-UI",
