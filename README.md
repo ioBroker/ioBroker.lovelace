@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fix: time in timestamp display
+
 ### 4.1.1 (2024-01-02)
 * (Garfonso) changed: determining user id
 * (Garfosno) changed: history attributes handling
