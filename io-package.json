@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.1",
+    "version": "4.1.2",
     "news": {
+      "4.1.2": {
+        "en": "fix: time in timestamp display",
+        "de": "fix: zeit im zeitstempel-display",
+        "ru": "фиксация: время дисплея",
+        "pt": "correção: tempo em exibição do timestamp",
+        "nl": "fix: tijd in tijdstempelweergave",
+        "fr": "correction : temps dans l'affichage de l'horodatage",
+        "it": "correzione: tempo in visualizzazione timestamp",
+        "es": "fijación: tiempo en la pantalla de tiempo",
+        "pl": "fix: czas wyświetlania znacznika czasu",
+        "uk": "виправити: час в часовому режимі відображення",
+        "zh-cn": "修正:时间戳显示的时间"
+      },
       "4.1.1": {
         "en": "changed: determining user id\nchanged: history attributes handling\nadded: handle browser_mod/recall_id service call.\nchanged: all states are strings!",
         "de": "geändert: bestimmung der benutzer-id\ngeändert: historie für attribute\nhinzugefügt: handle browser_mod/recall_id service call.\ngeändert: alle zustände sind strings!"
@@ -44,10 +57,6 @@
       "4.0.9": {
         "en": "fixed: timestamp in legacy history data",
         "de": "fixed: zeitstempel in alten History daten"
-      },
-      "4.0.8": {
-        "en": "re-add legacy history for custom cards",
-        "de": "re-add die alten history methoden für benutzerdefinierte karten"
       }
     },
     "title": "Visualization with Lovelace-UI",

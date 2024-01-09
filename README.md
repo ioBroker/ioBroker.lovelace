@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.2 (2024-01-09)
 * (Garfonso) fix: time in timestamp display
 
 ### 4.1.1 (2024-01-02)
@@ -490,12 +490,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.11 (2023-12-15)
 * (Garfonso) updated dependencies
-
-### 4.0.10 (2023-12-15)
-* (Garfonso) brought back shopping list. Now also supports shopping/todo lists from manual entities.
-* (Garfonso) fix: browser console errors
-* (Garfonso) fix: login & authorization
-* (Garfonso) added: user images & names on login screen
 
 ## License
 

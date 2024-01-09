@@ -1,4 +1,10 @@
 # Older Changes
+## 4.0.10 (2023-12-15)
+* (Garfonso) brought back shopping list. Now also supports shopping/todo lists from manual entities.
+* (Garfonso) fix: browser console errors
+* (Garfonso) fix: login & authorization
+* (Garfonso) added: user images & names on login screen
+
 ## 4.0.9 (2023-12-12)
 * (Garfonso) fixed: timestamp in legacy history data
 
