@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) prevent warning for browser_mod/recall_id service call
+
 ### 4.1.2 (2024-01-09)
 * (Garfonso) fix: time in timestamp display
 
