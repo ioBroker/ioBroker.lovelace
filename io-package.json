@@ -175,6 +175,60 @@
           "agree",
           "cancel"
         ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<=3.0.0",
+            "newVersion>=4.0.0"
+          ]
+        },
+        "title": {
+          "en": "Visualisation Update",
+          "de": "Aktualisierung der Visualisierung",
+          "ru": "Обновление визуализации",
+          "pt": "Atualização da visualização",
+          "nl": "Visualisatie Update",
+          "fr": "Mise à jour de la visualisation",
+          "it": "Aggiornamento della visualizzazione",
+          "es": "Actualización de Visualización",
+          "pl": "Visualizacja",
+          "uk": "Оновлення візуалізації",
+          "zh-cn": "更新"
+        },
+        "text": {
+          "en": "The update to version 4.x will change the frontend version from 20221026.0 to 20231208.2. This implies many months of Lovelace development in a single update. You will likely need to update or fix your themes and custom cards. Make sure to review your visualization after this update. Seek help in the forum or Discord if needed.",
+          "de": "Das Update auf Version 4.x wird die Frontend Version von 20221026.0 auf 20231208.2 ändern. Dies bedeutet 10 Monate Entwicklung von Lovelace in einem Update. Sie müssen wahrscheinlich Ihre Themen und benutzerdefinierten Karten aktualisieren oder reparieren. Achten Sie darauf, Ihre Visualisierung nach diesem Update zu überprüfen. Fragen Sie im Forum oder Discord nach Hilfe.",
+          "ru": "Обновление до версии 4.x изменит версию интерфейса с 20221026.0 на 20231208.2. Это означает многомесячную разработку Lovelace в рамках одного обновления. Вам, вероятно, придется обновить или исправить свои темы и пользовательские карты. Обязательно проверьте свою визуализацию после этого обновления. Задавайте вопросы на форуме или в Discord, если вам нужна помощь.",
+          "pt": "A atualização para a versão 4.x irá alterar a versão do frontend de 20221026.0 para 20231208.2. Isso significa muitos meses de desenvolvimento do Lovelace em uma única atualização. Você provavelmente precisará atualizar ou corrigir seus temas e cartões personalizados. Certifique-se de verificar sua visualização após esta atualização. Procure ajuda no fórum ou no Discord, se necessário.",
+          "nl": "De update naar versie 4.x zal de frontend-versie veranderen van 20221026.0 naar 20231208.2. Dit betekent vele maanden ontwikkeling van Lovelace in één update. Waarschijnlijk moet u uw thema's en aangepaste kaarten bijwerken of herstellen. Controleer na deze update uw visualisatie. Vraag om hulp op het forum of Discord indien nodig.",
+          "fr": "La mise à jour vers la version 4.x changera la version du frontend de 20221026.0 à 20231208.2. Cela signifie plusieurs mois de développement de Lovelace en une seule mise à jour. Vous devrez probablement mettre à jour ou réparer vos thèmes et cartes personnalisées. Assurez-vous de vérifier votre visualisation après cette mise à jour. Demandez de l'aide sur le forum ou sur Discord si nécessaire.",
+          "it": "L'aggiornamento alla versione 4.x cambierà la versione del frontend da 20221026.0 a 20231208.2. Ciò significa molti mesi di sviluppo di Lovelace in un singolo aggiornamento. Probabilmente sarà necessario aggiornare o correggere i temi e le carte personalizzate. Assicurati di controllare la tua visualizzazione dopo questo aggiornamento. Chiedi aiuto sul forum o su Discord se necessario.",
+          "es": "La actualización a la versión 4.x cambiará la versión del frontend de 20221026.0 a 20231208.2. Esto significa muchos meses de desarrollo de Lovelace en una sola actualización. Probablemente necesitarás actualizar o corregir tus temas y tarjetas personalizadas. Asegúrate de revisar tu visualización después de esta actualización. Busca ayuda en el foro o en Discord si es necesario.",
+          "pl": "Aktualizacja do wersji 4.x zmieni wersję frontendu z 20221026.0 na 20231208.2. Oznacza to wiele miesięcy rozwoju Lovelace w jednej aktualizacji. Prawdopodobnie będziesz musiał zaktualizować lub naprawić swoje motywy i niestandardowe karty. Upewnij się, że sprawdzisz swoją wizualizację po tej aktualizacji. Szukaj pomocy na forum lub Discord, jeśli to konieczne.",
+          "uk": "Оновлення до версії 4.x змінить версію фронтенду з 20221026.0 на 20231208.2. Це означає багато місяців розробки Lovelace у одному оновленні. Ймовірно, вам доведеться оновити або виправити свої теми та власні картки. Переконайтеся, що після цього оновлення ви переглянете свою візуалізацію. Звертайтеся за допомогою на форумі або в Discord, якщо потрібно.",
+          "zh-cn": "升级到4.x版本将把前端版本从20221026.0更改为20231208.2。这意味着在一个更新中进行了数月的Lovelace开发。您可能需要更新或修复您的主题和自定义卡片。请确保在此更新后检查您的可视化。如有需要，请在论坛或Discord上寻求帮助。"
+        },
+        "link": "https://forum.iobroker.net/topic/59435/test-lovelace-4-x/408?_=1705695186248",
+        "level": "warn",
+        "linkText": {
+          "en": "A few issues with themes were already discussed here.",
+          "de": "Hier wurden bereits einige Themen diskutiert.",
+          "ru": "Здесь уже обсуждались несколько вопросов с темами.",
+          "pt": "Algumas questões com temas já foram discutidas aqui.",
+          "nl": "Een paar problemen met ze werden hier al besproken.",
+          "fr": "Quelques questions avec des thèmes ont déjà été discutées ici.",
+          "it": "Sono già state discusse alcune questioni con temi.",
+          "es": "Algunos temas con temas ya se discutieron aquí.",
+          "pl": "Omawiano tam kilka tematów.",
+          "uk": "Тут вже обговорювалися кілька питань з темами.",
+          "zh-cn": "这里已经讨论了几个专题的问题。."
+        },
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
       }
     ],
     "dependencies": [
