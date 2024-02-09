@@ -62,7 +62,8 @@ function startAdapter(options) {
             if (obj.command === 'browse') {
                 obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
             } else if (obj.command === 'send') {
-                adapter.apiServer.addNotification(obj.message).then(list =>
+                //*cough*
+                adapter.apiServer.onStateChange(adapter.namespace + '.notifications.add', {val: obj.message, ack: false}).then(list =>
                     obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
             } else if (obj.command === 'checkIdForDuplicates') {
                 if (obj.callback) {
