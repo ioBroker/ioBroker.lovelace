@@ -1,4 +1,7 @@
 # Older Changes
+## 4.0.12 (2023-12-15)
+* (Garfonso) fix lint errors
+
 ## 4.0.11 (2023-12-15)
 * (Garfonso) updated dependencies
 
