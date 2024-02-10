@@ -476,7 +476,7 @@ After that checkout modified version in `./build` folder. Then.
 ### 4.1.3 (2024-02-10)
 * (Garfonso) prevent warning for browser_mod/recall_id service call
 * (Garfonso) fix: lamp icons now turn gray on switch off.
-* (Garfonso) fix: send notification works again.
+* (Garfonso) fix: notifications via sendTo work again.
 
 ### 4.1.2 (2024-01-09)
 * (Garfonso) fix: time in timestamp display
