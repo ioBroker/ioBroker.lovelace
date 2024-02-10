@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.2",
+    "version": "4.1.3",
     "news": {
+      "4.1.3": {
+        "en": "prevent warning for browser_mod/recall_id service call\nfix: lamp icons now turn gray on switch off.\nfix: notifications via sendTo work again.",
+        "de": "Verhindere warnung für browser_mod/recall_id service call\nfix: Lampensymbole werden nun grau beim ausschalten.\nfix: Benachrichtigung mittels sendTo funktionieren wieder."
+      },
       "4.1.2": {
         "en": "fix: time in timestamp display",
         "de": "fix: zeit im zeitstempel-display",
@@ -53,10 +57,6 @@
       "4.0.10": {
         "en": "brought back shopping list. Now also supports shopping/todo lists from manual entities.\nfix: browser console errors\nfix: login & authorization\nadded: user images & names on login screen",
         "de": "Einkaufsliste funktioniert wieder. Zusätzliche Shopping/Todo-Listen können als manuellen Entities angelegt werden.\nfix: browser fehler\nfix: anmeldung & autorisierung\nhinzugefügt: benutzerbilder & namen auf login-bildschirm"
-      },
-      "4.0.9": {
-        "en": "fixed: timestamp in legacy history data",
-        "de": "fixed: zeitstempel in alten History daten"
       }
     },
     "title": "Visualization with Lovelace-UI",

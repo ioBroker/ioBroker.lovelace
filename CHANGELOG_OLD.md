@@ -1,4 +1,7 @@
 # Older Changes
+## 4.0.11 (2023-12-15)
+* (Garfonso) updated dependencies
+
 ## 4.0.10 (2023-12-15)
 * (Garfonso) brought back shopping list. Now also supports shopping/todo lists from manual entities.
 * (Garfonso) fix: browser console errors

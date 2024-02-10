@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.3 (2024-02-10)
 * (Garfonso) prevent warning for browser_mod/recall_id service call
 * (Garfonso) fix: lamp icons now turn gray on switch off.
 * (Garfonso) fix: send notification works again.
@@ -492,9 +492,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.0.12 (2023-12-15)
 * (Garfonso) fix lint errors
-
-### 4.0.11 (2023-12-15)
-* (Garfonso) updated dependencies
 
 ## License
 
