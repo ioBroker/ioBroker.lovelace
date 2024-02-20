@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) fixed: possible crashes
+
 ### 4.1.4 (2024-02-10)
 * (Garfonso) improved fix: lamp icons now turn gray on switch off.
 
