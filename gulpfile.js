@@ -478,7 +478,7 @@ gulp.task('rename', done => {
 
                 newText = newText.replace(/\n\n\n/g, '\n');
                 newText = newText.replace(/\n\n/g, '\n');
-                //remove optionally load module stuff we don't have.
+                // remove optional load module stuff we don't have.
                 newText = newText.replace(/<script>\n*\s*{%- for extra_module in extra_modules -%}\n*\s*import\("{{ extra_module }}"\);\n*\s*{%- endfor -%}\n*\s*<\/script>/g, '');
                 newText = newText.replace(/<script>\n*\s*if \(!window.latestJS\) {\n*\s*{%- for extra_script in extra_js_es5 -%}\n*\s*_ls\("{{ extra_script }}"\);\n*\s*{%- endfor -%}\n*\s*}\n*\s*<\/script>/g, '');
             }
