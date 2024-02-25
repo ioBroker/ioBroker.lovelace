@@ -24,6 +24,7 @@ const languages = {
     it: {},
     es: {},
     pl: {},
+    uk: {},
     'zh-cn': {}
 };
 
@@ -84,11 +85,11 @@ function writeWordJs(data, src) {
     text += 'var lovelace_systemDictionary = {\n';
     for (const word in data) {
         if (data.hasOwnProperty(word)) {
-            text += '    ' + padRight('"' + word.replace(/"/g, '\\"') + '": {', 50);
+            text += `    ${padRight('"' + word.replace(/"/g, '\\"') + '": {', 50)}`;
             let line = '';
             for (const lang in data[word]) {
                 if (data[word].hasOwnProperty(lang)) {
-                    line += '"' + lang + '": "' + padRight(data[word][lang].replace(/"/g, '\\"') + '",', 50) + ' ';
+                    line += `"${lang}": "${padRight(data[word][lang].replace(/"/g, '\\"') + '",', 50)} `;
                 }
             }
             if (line) {
@@ -102,10 +103,10 @@ function writeWordJs(data, src) {
 
     text += NODE_JS_EXPORT;
 
-    if (fs.existsSync(src + 'js/' + fileName)) {
-        fs.writeFileSync(src + 'js/' + fileName, text);
+    if (fs.existsSync(`${src}js/${fileName}`)) {
+        fs.writeFileSync(`${src}js/${fileName}`, text);
     } else {
-        fs.writeFileSync(src + '' + fileName, text);
+        fs.writeFileSync(`${src}${fileName}`, text);
     }
 }
 
@@ -128,8 +129,8 @@ function words2languages(src) {
                 }
             }
         }
-        if (!fs.existsSync(src + 'i18n/')) {
-            fs.mkdirSync(src + 'i18n/');
+        if (!fs.existsSync(`${src}i18n/`)) {
+            fs.mkdirSync(`${src}i18n/`);
         }
         for (const l in langs) {
             if (!langs.hasOwnProperty(l))
@@ -140,14 +141,14 @@ function words2languages(src) {
             for (let k = 0; k < keys.length; k++) {
                 obj[keys[k]] = langs[l][keys[k]];
             }
-            if (!fs.existsSync(src + 'i18n/' + l)) {
-                fs.mkdirSync(src + 'i18n/' + l);
+            if (!fs.existsSync(`${src}i18n/${l}`)) {
+                fs.mkdirSync(`${src}i18n/${l}`);
             }
 
-            fs.writeFileSync(src + 'i18n/' + l + '/translations.json', lang2data(obj));
+            fs.writeFileSync(`${src}i18n/${l}/translations.json`, lang2data(obj));
         }
     } else {
-        console.error('Cannot read or parse ' + fileName);
+        console.error(`Cannot read or parse ${fileName}`);
     }
 }
 
@@ -181,26 +182,26 @@ function words2languagesFlat(src) {
             }
             langs[l] = obj;
         }
-        if (!fs.existsSync(src + 'i18n/')) {
-            fs.mkdirSync(src + 'i18n/');
+        if (!fs.existsSync(`${src}i18n/`)) {
+            fs.mkdirSync(`${src}i18n/`);
         }
         for (const ll in langs) {
             if (!langs.hasOwnProperty(ll))
                 continue;
-            if (!fs.existsSync(src + 'i18n/' + ll)) {
-                fs.mkdirSync(src + 'i18n/' + ll);
+            if (!fs.existsSync(`${src}i18n/${ll}`)) {
+                fs.mkdirSync(`${src}i18n/${ll}`);
             }
 
-            fs.writeFileSync(src + 'i18n/' + ll + '/flat.txt', lang2data(langs[ll], langs.en));
+            fs.writeFileSync(`${src}i18n/${ll}/flat.txt`, lang2data(langs[ll], langs.en));
         }
-        fs.writeFileSync(src + 'i18n/flat.txt', keys.join('\n'));
+        fs.writeFileSync(`${src}i18n/flat.txt`, keys.join('\n'));
     } else {
-        console.error('Cannot read or parse ' + fileName);
+        console.error(`Cannot read or parse ${fileName}`);
     }
 }
 
 function languagesFlat2words(src) {
-    const dirs = fs.readdirSync(src + 'i18n/');
+    const dirs = fs.readdirSync(`${src}i18n/`);
     const langs = {};
     const bigOne = {};
     const order = Object.keys(languages);
@@ -225,13 +226,13 @@ function languagesFlat2words(src) {
             return 0;
         }
     });
-    const keys = fs.readFileSync(src + 'i18n/flat.txt').toString().split('\n');
+    const keys = fs.readFileSync(`${src}i18n/flat.txt`).toString().split('\n');
 
     for (const lang of dirs) {
         if (lang === 'flat.txt') {
             continue;
         }
-        const values = fs.readFileSync(src + 'i18n/' + lang + '/flat.txt').toString().split('\n');
+        const values = fs.readFileSync(`${src}i18n/${lang}/flat.txt`).toString().split('\n');
         langs[lang] = {};
         keys.forEach((word, i) => langs[lang][word] = values[i]);
 
@@ -254,7 +255,7 @@ function languagesFlat2words(src) {
         for (const w in aWords) {
             if (aWords.hasOwnProperty(w)) {
                 if (!bigOne[w]) {
-                    console.warn('Take from actual words.js: ' + w);
+                    console.warn(`Take from actual words.js: ${w}`);
                     bigOne[w] = aWords[w];
                 }
                 dirs.forEach(lang => {
@@ -262,7 +263,7 @@ function languagesFlat2words(src) {
                         return;
                     }
                     if (!bigOne[w][lang]) {
-                        console.warn('Missing "' + lang + '": ' + w);
+                        console.warn(`Missing "${lang}": ${w}`);
                     }
                 });
             }
@@ -274,7 +275,7 @@ function languagesFlat2words(src) {
 }
 
 function languages2words(src) {
-    const dirs = fs.readdirSync(src + 'i18n/');
+    const dirs = fs.readdirSync(`${src}i18n/`);
     const langs = {};
     const bigOne = {};
     const order = Object.keys(languages);
@@ -304,7 +305,7 @@ function languages2words(src) {
         if (lang === 'flat.txt') {
             continue;
         }
-        langs[lang] = fs.readFileSync(src + 'i18n/' + lang + '/translations.json').toString();
+        langs[lang] = fs.readFileSync(`${src}i18n/${lang}/translations.json`).toString();
         langs[lang] = JSON.parse(langs[lang]);
         const words = langs[lang];
         for (const word in words) {
@@ -325,7 +326,7 @@ function languages2words(src) {
         for (const w in aWords) {
             if (aWords.hasOwnProperty(w)) {
                 if (!bigOne[w]) {
-                    console.warn('Take from actual words.js: ' + w);
+                    console.warn(`Take from actual words.js: ${w}`);
                     bigOne[w] = aWords[w];
                 }
                 dirs.forEach(lang => {
@@ -333,7 +334,7 @@ function languages2words(src) {
                         return;
                     }
                     if (!bigOne[w][lang]) {
-                        console.warn('Missing "' + lang + '": ' + w);
+                        console.warn(`Missing "${lang}": ${w}`);
                     }
                 });
             }
@@ -355,7 +356,7 @@ async function translateNotExisting(obj, baseText, yandex) {
             if (!obj[l]) {
                 const time = Date.now();
                 obj[l] = await translate(t, l, yandex);
-                console.log('en -> ' + l + ' ' + (Date.now() - time) + ' ms');
+                console.log(`en -> ${l} ${Date.now() - time} ms`);
             }
         }
     }
@@ -396,56 +397,6 @@ gulp.task('adminLanguages2words', done => {
     done();
 });
 
-gulp.task('updatePackages', done => {
-    iopackage.common.version = pkg.version;
-    iopackage.common.news = iopackage.common.news || {};
-    if (!iopackage.common.news[pkg.version]) {
-        const news = iopackage.common.news;
-        const newNews = {};
-
-        newNews[pkg.version] = {
-            en: 'news',
-            de: 'neues',
-            ru: 'новое',
-            pt: 'novidades',
-            nl: 'nieuws',
-            fr: 'nouvelles',
-            it: 'notizie',
-            es: 'noticias',
-            pl: 'nowości',
-            'zh-cn': '新'
-        };
-        iopackage.common.news = Object.assign(newNews, news);
-    }
-    fs.writeFileSync('io-package.json', JSON.stringify(iopackage, null, 4));
-    done();
-});
-
-gulp.task('updateReadme', done => {
-    const readme = fs.readFileSync('README.md').toString();
-    const pos = readme.indexOf('## Changelog\n');
-    if (pos !== -1) {
-        const readmeStart = readme.substring(0, pos + '## Changelog\n'.length);
-        const readmeEnd = readme.substring(pos + '## Changelog\n'.length);
-
-        if (readme.indexOf(version) === -1) {
-            const timestamp = new Date();
-            const date = timestamp.getFullYear() + '-' +
-                    ('0' + (timestamp.getMonth() + 1).toString(10)).slice(-2) + '-' +
-                    ('0' + (timestamp.getDate()).toString(10)).slice(-2);
-
-            let news = '';
-            if (iopackage.common.news && iopackage.common.news[pkg.version]) {
-                news += '* ' + iopackage.common.news[pkg.version].en;
-            }
-
-            fs.writeFileSync('README.md', readmeStart + '### ' + version + ' (' + date + ')\n' + (news ? news + '\n\n' : '\n') + readmeEnd);
-        }
-    }
-
-    done();
-});
-
 gulp.task('translate', async function () {
     let yandex;
     const i = process.argv.indexOf('--yandex');
@@ -458,7 +409,7 @@ gulp.task('translate', async function () {
             console.log('Translate News');
             for (const k in iopackage.common.news) {
                 if (iopackage.common.news.hasOwnProperty(k)) {
-                    console.log('News: ' + k);
+                    console.log(`News: ${k}`);
                     const nw = iopackage.common.news[k];
                     await translateNotExisting(nw, null, yandex);
                 }
@@ -478,18 +429,18 @@ gulp.task('translate', async function () {
             for (const l in languages) {
                 console.log('Translate Text: ' + l);
                 let existing = {};
-                if (fs.existsSync('./admin/i18n/' + l + '/translations.json')) {
-                    existing = require('./admin/i18n/' + l + '/translations.json');
+                if (fs.existsSync(`./admin/i18n/${l}/translations.json`)) {
+                    existing = require(`./admin/i18n/${l}/translations.json`);
                 }
                 for (const t in enTranslations) {
                     if (enTranslations.hasOwnProperty(t) && !existing[t]) {
                         existing[t] = await translate(enTranslations[t], l, yandex);
                     }
                 }
-                if (!fs.existsSync('./admin/i18n/' + l + '/')) {
-                    fs.mkdirSync('./admin/i18n/' + l + '/');
+                if (!fs.existsSync(`./admin/i18n/${l}/`)) {
+                    fs.mkdirSync(`./admin/i18n/${l}/`);
                 }
-                fs.writeFileSync('./admin/i18n/' + l + '/translations.json', JSON.stringify(existing, null, 4));
+                fs.writeFileSync(`./admin/i18n/${l}/translations.json`, JSON.stringify(existing, null, 4));
             }
         }
 
@@ -498,7 +449,7 @@ gulp.task('translate', async function () {
 });
 
 gulp.task('rename', done => {
-    filesWalk(__dirname + '/hass_frontend', fileName => {
+    filesWalk(`${__dirname}/hass_frontend`, fileName => {
         if (fileName.endsWith('.js') || fileName.endsWith('.html') || fileName.endsWith('.json')) {
             const text = fs.readFileSync(fileName).toString('utf-8');
             let newText = text.replace(/Home Assistant/g, 'ioBroker');
@@ -541,10 +492,10 @@ gulp.task('rename', done => {
             fs.unlinkSync(fileName);
         }
     });
-    if (fs.existsSync(__dirname + '/hass_frontend/images/')) {
-        fs.writeFileSync(__dirname + '/hass_frontend/images/image.jpg', fs.readFileSync(__dirname + '/assets/image.jpg'));
+    if (fs.existsSync(`${__dirname}/hass_frontend/images/`)) {
+        fs.writeFileSync(`${__dirname}/hass_frontend/images/image.jpg`, fs.readFileSync(`${__dirname}/assets/image.jpg`));
     } else {
-        fs.writeFileSync(__dirname + '/hass_frontend/static/images/image.jpg', fs.readFileSync(__dirname + '/assets/image.jpg'));
+        fs.writeFileSync(`${__dirname}/hass_frontend/static/images/image.jpg`, fs.readFileSync(`${__dirname}/assets/image.jpg`));
     }
     done();
 });
@@ -553,8 +504,8 @@ gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2
 
 gulp.task('default', gulp.series('updatePackages', 'updateReadme'));
 
-const devServerPath = __dirname + '/.dev-server/default/';
-const devserverIoBrokerPath = devServerPath + 'node_modules/iobroker.js-controller/iobroker.js';
+const devServerPath = `${__dirname}/.dev-server/default/`;
+const devserverIoBrokerPath = `${devServerPath}node_modules/iobroker.js-controller/iobroker.js`;
 const spawn = require('child_process').spawn;
 async function spawnChild(command, params, logmsg, local) {
     if (logmsg) {
@@ -567,7 +518,7 @@ async function spawnChild(command, params, logmsg, local) {
 }
 gulp.task('prepareDevserver', async done => {
     const promises = [];
-    filesWalk(__dirname + '/test/testData', (fileName) => {
+    filesWalk(`${__dirname}/test/testData`, (fileName) => {
         if (fileName && fileName.toLowerCase().endsWith('.json')) {
             const objects = JSON.parse(fs.readFileSync(fileName));
             for (const id of Object.keys(objects)) {
@@ -583,7 +534,7 @@ gulp.task('prepareDevserver', async done => {
 });
 
 gulp.task('updateDevserver', async done => {
-    const npmCmd = 'npm' + (process.platform.startsWith('win') ? '.CMD' : '');
+    const npmCmd = `npm${process.platform.startsWith('win') ? '.CMD' : ''}`;
     await spawnChild(npmCmd, ['install', 'iobroker.js-controller@latest'], 'Updating js-controller');
     await spawnChild(npmCmd, ['install', 'iobroker.admin@latest'], 'Updating admin');
     await spawnChild(npmCmd, ['install', 'iobroker.devices@latest'], 'Updating devices');
