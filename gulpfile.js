@@ -1,6 +1,6 @@
 /*!
  * ioBroker gulpfile
- * Date: 2019-01-28
+ * Date: 2024-02-26
  */
 /* eslint no-prototype-builtins: 'off' */
 'use strict';
@@ -8,9 +8,8 @@
 const gulp = require('gulp');
 const fs = require('fs');
 const path = require('path');
-const pkg = require('./package.json');
 const iopackage = require('./io-package.json');
-const version = (pkg && pkg.version) ? pkg.version : iopackage.common.version;
+const cp = require('child_process');
 const fileName = 'words.js';
 const EMPTY = '';
 const translate = require('./lib/tools').translateText;
@@ -502,48 +501,108 @@ gulp.task('rename', done => {
 
 gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages'));
 
-gulp.task('default', gulp.series('updatePackages', 'updateReadme'));
-
 const devServerPath = `${__dirname}/.dev-server/default/`;
 const devserverIoBrokerPath = `${devServerPath}node_modules/iobroker.js-controller/iobroker.js`;
-const spawn = require('child_process').spawn;
-async function spawnChild(command, params, logmsg, local) {
-    if (logmsg) {
-        console.log(logmsg);
-    }
-    return new Promise(resolve => {
-        const child = spawn(command, params, {stdio: 'inherit', cwd: local ? __dirname : devServerPath});
-        child.on('exit', resolve);
+
+function npmCommand(params, logmsg, local) {
+    let cwd = local ? __dirname : devServerPath;
+
+    logmsg && console.log(logmsg);
+
+    return new Promise((resolve, reject) => {
+        // Install node modules
+        cwd = cwd.replace(/\\/g, '/');
+
+        const cmd = `npm ${params.join(' ')}`;
+        console.log(`"${cmd} in ${cwd}`);
+
+        // System call used for update of js-controller itself,
+        // because during the installation of the npm packet will be deleted too, but some files must be loaded even during the installation process.
+        const child = cp.exec(cmd, { cwd });
+
+        child.stderr.pipe(process.stderr);
+        child.stdout.pipe(process.stdout);
+
+        child.on('exit', (code /* , signal */) => {
+            // code 1 is a strange error that cannot be explained. Everything is installed but error :(
+            if (code && code !== 1) {
+                reject(`Cannot install: ${code}`);
+            } else {
+                console.log(`"${cmd} in ${cwd} finished.`);
+                // command succeeded
+                resolve(null);
+            }
+        });
+        child.on('error', err => {
+            console.error(`Cannot execute ${cmd}: ${err}`);
+            reject(err);
+        });
     });
 }
+
+function nodeCommand(params, logmsg) {
+    let cwd = devServerPath;
+
+    logmsg && console.log(logmsg);
+
+    return new Promise((resolve, reject) => {
+        // Install node modules
+        cwd = cwd.replace(/\\/g, '/');
+
+        const cmd = `node ${params.join(' ')}`;
+        console.log(`"${cmd} in ${cwd}`);
+
+        // System call used for update of js-controller itself,
+        // because during the installation of the npm packet will be deleted too, but some files must be loaded even during the installation process.
+        const child = cp.exec(cmd, { cwd });
+
+        child.stderr.pipe(process.stderr);
+        child.stdout.pipe(process.stdout);
+
+        child.on('exit', (code /* , signal */) => {
+            // code 1 is a strange error that cannot be explained. Everything is installed but error :(
+            if (code && code !== 1) {
+                reject(`Cannot install: ${code}`);
+            } else {
+                console.log(`"${cmd} in ${cwd} finished.`);
+                // command succeeded
+                resolve(null);
+            }
+        });
+        child.on('error', err => {
+            console.error(`Cannot execute ${cmd}: ${err}`);
+            reject(err);
+        });
+    });
+}
+
 gulp.task('prepareDevserver', async done => {
     const promises = [];
     filesWalk(`${__dirname}/test/testData`, (fileName) => {
         if (fileName && fileName.toLowerCase().endsWith('.json')) {
-            const objects = JSON.parse(fs.readFileSync(fileName));
+            const objects = JSON.parse(fs.readFileSync(fileName).toString('utf8'));
             for (const id of Object.keys(objects)) {
                 //const newId = '0_userdata.0.' + id.split('.').slice(2).join('.');
-                promises.push(spawnChild('node', [devserverIoBrokerPath, 'object', 'set', id, JSON.stringify(objects[id])], 'Writing ' + id));
+                promises.push(nodeCommand([devserverIoBrokerPath, 'object', 'set', id, JSON.stringify(objects[id])], `Writing ${id}`));
             }
         }
     });
     await Promise.all(promises);
-    await spawnChild('node', [devserverIoBrokerPath, 'add', 'devices']);
-    await spawnChild('node', [devserverIoBrokerPath, 'add', 'history']);
+    await nodeCommand([devserverIoBrokerPath, 'add', 'devices']);
+    await nodeCommand([devserverIoBrokerPath, 'add', 'history']);
     done();
 });
 
 gulp.task('updateDevserver', async done => {
-    const npmCmd = `npm${process.platform.startsWith('win') ? '.CMD' : ''}`;
-    await spawnChild(npmCmd, ['install', 'iobroker.js-controller@latest'], 'Updating js-controller');
-    await spawnChild(npmCmd, ['install', 'iobroker.admin@latest'], 'Updating admin');
-    await spawnChild(npmCmd, ['install', 'iobroker.devices@latest'], 'Updating devices');
-    await spawnChild(npmCmd, ['install', 'iobroker.history@latest'], 'Updating history');
-    await spawnChild(npmCmd, ['install', 'iobroker.type-detector@latest'], 'Updating type-detector');
-    await spawnChild('node', [devserverIoBrokerPath, 'upload', 'devices'], 'Uploading devices');
-    await spawnChild('node', [devserverIoBrokerPath, 'upload', 'history'], 'Uploading history');
-    await spawnChild('node', [devserverIoBrokerPath, 'upload', 'admin'], 'Uploading admin');
-    await spawnChild('node', [devserverIoBrokerPath, 'upload', 'lovelace'], 'Uploading lovelace');
-    await spawnChild(npmCmd, ['install'], 'Repairing dependencies in lovelace', true);
+    await npmCommand(['install', 'iobroker.js-controller@latest'], 'Updating js-controller');
+    await npmCommand(['install', 'iobroker.admin@latest'], 'Updating admin');
+    await npmCommand(['install', 'iobroker.devices@latest'], 'Updating devices');
+    await npmCommand(['install', 'iobroker.history@latest'], 'Updating history');
+    await npmCommand(['install', 'iobroker.type-detector@latest'], 'Updating type-detector');
+    await nodeCommand([devserverIoBrokerPath, 'upload', 'devices'], 'Uploading devices');
+    await nodeCommand([devserverIoBrokerPath, 'upload', 'history'], 'Uploading history');
+    await nodeCommand([devserverIoBrokerPath, 'upload', 'admin'], 'Uploading admin');
+    await nodeCommand([devserverIoBrokerPath, 'upload', 'lovelace'], 'Uploading lovelace');
+    await npmCommand(['install'], 'Repairing dependencies in lovelace', true);
     done();
 });
