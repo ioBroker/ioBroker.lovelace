@@ -1,7 +1,7 @@
 'use strict';
 const express   = require('express');
 const utils     = require('@iobroker/adapter-core'); // Get common adapter utils
-const LE     	= utils.commonTools.letsEncrypt;
+const IoBWebServer = require('@iobroker/webserver');
 const ApiServer = require('./lib/server');
 const words     = require('./admin/words');
 
@@ -63,14 +63,15 @@ function startAdapter(options) {
                 obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
             } else if (obj.command === 'send') {
                 //*cough*
-                adapter.apiServer.onStateChange(adapter.namespace + '.notifications.add', {val: obj.message, ack: false}).then(list =>
-                    obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
+                adapter.apiServer.onStateChange(`${adapter.namespace}.notifications.add`, {val: obj.message, ack: false})
+                    .then(list =>
+                        obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
             } else if (obj.command === 'checkIdForDuplicates') {
                 if (obj.callback) {
                     if (obj.message) {
                         const entities = adapter.apiServer.getHassStates();
                         const params = obj.message;
-                        const entityId = params.entity + '.' + params.name;
+                        const entityId = `${params.entity}.${params.name}`;
                         const objectId = params.objectId;
                         const entity = entities.find(e => e.entity_id === entityId);
                         if (entity) {
@@ -121,19 +122,19 @@ async function initWebServer(settings) {
     settings.port = parseInt(settings.port, 10);
 
     if (settings.port) {
-
         if (settings.secure && !adapter.config.certificates) {
             return null;
         }
-
         try {
-            if (typeof LE.createServerAsync === 'function') {
-                server.server = await LE.createServerAsync(server.app, settings, adapter.config.certificates, adapter.config.leConfig, adapter.log, adapter);
-            } else {
-                server.server = LE.createServer(server.app, settings, adapter.config.certificates, adapter.config.leConfig, adapter.log);
-            }
+            const webserver = new IoBWebServer.WebServer({app: server.app, adapter, secure: settings.secure});
+            server.server = await webserver.init();
         } catch (err) {
-            adapter.log.error(`Cannot create webserver: ${err}`);
+            adapter.log.error(`Cannot create web-server: ${err}`);
+            adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+            return;
+        }
+        if (!server.server) {
+            adapter.log.error(`Cannot create web-server`);
             adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
             return;
         }
@@ -177,17 +178,17 @@ async function initWebServer(settings) {
             }
             serverPort = port;
 
-            server.server.listen(port, (!server.settings.bind || server.settings.bind === '0.0.0.0') ? undefined : server.settings.bind || undefined, () =>
-                serverListening = true);
-            adapter.log.info(`http${server.settings.secure ? 's' : ''} server listening on port ${port}`);
+            server.server.listen(port, (!server.settings.bind || server.settings.bind === '0.0.0.0') ? undefined : server.settings.bind || undefined, () => {
+                serverListening = true;
+                adapter.log.info(`http${server.settings.secure ? 's' : ''} server listening on port ${port}`);
+            });
         });
     }
 
     if (server.server) {
         return server;
-    } else {
-        return null;
     }
+    return null;
 }
 
 async function main(adapter) {
@@ -205,7 +206,7 @@ async function main(adapter) {
                 adapter,
                 server: adapter.webServer.server,
                 app: adapter.webServer.app,
-                words
+                words,
             });
         });
     } else {
@@ -214,7 +215,7 @@ async function main(adapter) {
             adapter,
             server: adapter.webServer.server,
             app: adapter.webServer.app,
-            words
+            words,
         });
     }
 
