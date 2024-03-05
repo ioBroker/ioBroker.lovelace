@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.5 (2024-03-05)
 * (Garfonso) fixed: possible crashes during startup
 
 ### 4.1.4 (2024-02-10)
@@ -492,9 +492,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfosno) changed: history attributes handling
 * (Garfonso) added: handle browser_mod/recall_id service call.
 * (Garfonso) changed: all states are strings (fixes #483)
-
-### 4.1.0 (2023-12-18)
-* (Garfons) add an option to show users on login screen (off by default)
 
 ## License
 

@@ -1,4 +1,7 @@
 # Older Changes
+## 4.1.0 (2023-12-18)
+* (Garfons) add an option to show users on login screen (off by default)
+
 ## 4.0.12 (2023-12-15)
 * (Garfonso) fix lint errors
 
