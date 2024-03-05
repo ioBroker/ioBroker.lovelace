@@ -20,9 +20,10 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.0.4",
+    "@iobroker/webserver": "^1.0.3",
     "axios": "^1.6.7",
     "body-parser": "^1.20.2",
-    "express": "^4.18.2",
+    "express": "^4.18.3",
     "iobroker.type-detector": "^3.0.5",
     "js-yaml": "^4.1.0",
     "jstimezonedetect": "^1.0.7",
@@ -78,7 +79,8 @@
     "release-patch": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
     "release-major": "release-script major --yes",
-    "translate": "translate-adapter"
+    "translate": "translate-adapter",
+    "update-packages": "ncu --upgrade"
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.lovelace/issues"
