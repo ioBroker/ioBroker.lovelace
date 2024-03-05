@@ -474,7 +474,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso) fixed: possible crashes
+* (Garfonso) fixed: possible crashes during startup
 
 ### 4.1.4 (2024-02-10)
 * (Garfonso) improved fix: lamp icons now turn gray on switch off.
