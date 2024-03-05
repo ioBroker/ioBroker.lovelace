@@ -36,8 +36,14 @@ exports.runTests = function (suite) {
                 expect(entity).to.have.nested.property('attributes.color_mode', 'onoff');
                 expect(entity.attributes.supported_color_modes).to.have.members(['onoff']);
                 await tools.validateStateChange(harness, entity.entity_id,
-                    async () => await harness.states.setStateAsync(deviceId + '.state', false, true),
-                    entity => expect(entity).to.have.property('state', 'off'));
+                    async () => {
+                        console.log('Setting ' + deviceId + '.state to false');
+                        await harness.states.setStateAsync(deviceId + '.state', false, true);
+                    },
+                    entity => {
+                        console.log('State should be off: ' + entity.state);
+                        expect(entity).to.have.property('state', 'off');
+                    });
 
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
@@ -61,7 +67,6 @@ exports.runTests = function (suite) {
                 tools.expectEntity(entity, 'light', deviceId);
 
                 expect(entity.attributes.supported_color_modes).to.have.members(['onoff', 'brightness']);
-                expect(entity).to.have.nested.property('attributes.color_mode', 'brightness');
                 expect(entity).to.have.nested.property('context.ATTRIBUTES');
                 expect(entity.context.ATTRIBUTES).to.have.lengthOf(1);
                 const attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'brightness');
@@ -72,7 +77,7 @@ exports.runTests = function (suite) {
                 expect(cmd).to.be.ok;
 
                 expect(entity).to.have.property('state', 'off');
-                expect(entity).to.have.nested.property('attributes.brightness', 0);
+                expect(entity.attributes.brightness === null || entity.attributes.brightness === undefined).to.be.true;
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.brightness', 50, true),
                     entity => {
@@ -84,7 +89,7 @@ exports.runTests = function (suite) {
                     async () => await harness.states.setStateAsync(deviceId + '.brightness', 0, true),
                     entity => {
                         expect(entity).to.have.property('state', 'off');
-                        expect(entity.attributes.brightness).to.be.greaterThanOrEqual(0);
+                        expect(entity).to.have.nested.property('attributes.brightness',null);
                     });
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.brightness', 100, true),
@@ -157,7 +162,6 @@ exports.runTests = function (suite) {
                 tools.expectEntity(entity, 'light', deviceId);
 
                 expect(entity).to.have.property('state', 'off');
-                expect(entity).to.have.nested.property('attributes.brightness', 0);
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.brightness', 60, true),
                     entity => {
@@ -169,7 +173,7 @@ exports.runTests = function (suite) {
                     async () => await harness.states.setStateAsync(deviceId + '.brightness', 10, true),
                     entity => {
                         expect(entity).to.have.property('state', 'off');
-                        expect(entity.attributes.brightness).to.be.greaterThanOrEqual(0);
+                        expect(entity).to.have.nested.property('attributes.brightness',null);
                     });
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.brightness', 110, true),
@@ -232,7 +236,6 @@ exports.runTests = function (suite) {
                 tools.expectEntity(entity, 'light', deviceId);
 
                 expect(entity).to.have.property('state', 'off');
-                expect(entity).to.have.nested.property('attributes.brightness', 0);
 
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
@@ -310,7 +313,7 @@ exports.runTests = function (suite) {
             jsonFiles.push('../testData/light_colortemp.json');
             idsWithEnums.push('adapter.0.light.ColorTemp');
             initialStates.push({id: 'adapter.0.light.ColorTemp.brightness', val: 0},
-                {id: 'adapter.0.light.ColorTemp.state', val: false},
+                {id: 'adapter.0.light.ColorTemp.state', val: true},
                 {id: 'adapter.0.light.ColorTemp.ct', val: 3000});
             it('colortemp kelvin', async () => {
                 const deviceId = 'adapter.0.light.ColorTemp';
@@ -321,6 +324,22 @@ exports.runTests = function (suite) {
                 expect(ctAttr).to.be.ok;
 
                 expect(entity).to.have.nested.property('attributes.color_temp_kelvin', 3000);
+                await tools.validateStateChange(harness, entity.entity_id,
+                    async () => {
+                        await harness.states.setStateAsync(deviceId + '.state', false, true);
+                    },
+                    entity => {
+                        expect(entity).to.have.nested.property('attributes.color_temp_kelvin',null);
+                    });
+
+                await tools.validateStateChange(harness, entity.entity_id,
+                    async () => {
+                        await harness.states.setStateAsync(deviceId + '.state', true, true);
+                    },
+                    entity => {
+                        expect(entity).to.have.nested.property('attributes.color_temp_kelvin', 3000);
+                    });
+
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.ct', 6400, true),
                     entity => {
@@ -349,7 +368,7 @@ exports.runTests = function (suite) {
                 ctObj.common.min = 170;
                 ctObj.common.max = 400;
                 await harness.states.setStateAsync(deviceId + '.brightness', 0, true);
-                await harness.states.setStateAsync(deviceId + '.state', false, true);
+                await harness.states.setStateAsync(deviceId + '.state', true, true);
                 await harness.states.setStateAsync(deviceId + '.ct', 183, true);
                 const entities = await tools.waitForEntitiesUpdate(harness, [ctObj]);
                 const entity = entities.find(e => e.context.id === deviceId);
@@ -387,7 +406,7 @@ exports.runTests = function (suite) {
                 ctObj.common.min = undefined;
                 ctObj.common.max = undefined;
                 await harness.states.setStateAsync(deviceId + '.brightness', 0, true);
-                await harness.states.setStateAsync(deviceId + '.state', false, true);
+                await harness.states.setStateAsync(deviceId + '.state', true, true);
                 await harness.states.setStateAsync(deviceId + '.ct', 3000, true);
                 const entities = await tools.waitForEntitiesUpdate(harness, [ctObj]);
                 const entity = entities.find(e => e.context.id === deviceId);
@@ -425,7 +444,7 @@ exports.runTests = function (suite) {
                 ctObj.common.min = undefined;
                 ctObj.common.max = undefined;
                 await harness.states.setStateAsync(deviceId + '.brightness', 0, true);
-                await harness.states.setStateAsync(deviceId + '.state', false, true);
+                await harness.states.setStateAsync(deviceId + '.state', true, true);
                 await harness.states.setStateAsync(deviceId + '.ct', 153, true);
                 const entities = await tools.waitForEntitiesUpdate(harness, [ctObj]);
                 const entity = entities.find(e => e.context.id === deviceId);
@@ -455,7 +474,7 @@ exports.runTests = function (suite) {
 
             jsonFiles.push('../testData/light_rgbSingle.json');
             idsWithEnums.push('adapter.0.light.rgbSingle');
-            initialStates.push({id: 'adapter.0.light.rgbSingle.color', val: '#FF0080'});
+            initialStates.push({id: 'adapter.0.light.rgbSingle.color', val: '#FF0080'}, {id: 'adapter.0.light.rgbSingle.state', val: true});
             it('color lamp rgbSingle', async () => {
                 const deviceId = 'adapter.0.light.rgbSingle';
                 const entity = entities.find(e => e.context.id === deviceId);
@@ -510,7 +529,8 @@ exports.runTests = function (suite) {
             jsonFiles.push('../testData/light_hue.json');
             idsWithEnums.push('adapter.0.light.Hue');
             initialStates.push({id: 'adapter.0.light.Hue.hue', val: 0},
-                {id: 'adapter.0.light.Hue.saturation', val: 50});
+                {id: 'adapter.0.light.Hue.saturation', val: 50},
+                {id: 'adapter.0.light.Hue.state', val: true});
             it('color lamp hue and saturation', async () => {
                 const deviceId = 'adapter.0.light.Hue';
                 const entity = entities.find(e => e.context.id === deviceId);
@@ -564,6 +584,7 @@ exports.runTests = function (suite) {
                 const deviceId = 'adapter.0.light.rgbSingle';
                 const obj = JSON.parse(JSON.stringify(objects[deviceId]));
                 obj.common.name += ' AS ARRAY STRING';
+                await harness.states.setStateAsync(deviceId + '.state', true, true);
                 await harness.states.setStateAsync(deviceId + '.color', '255,0,0', true);
                 const entities = await tools.waitForEntitiesUpdate(harness, [obj]); //recreate entity.
                 await tools.addEntitiesToConfiguration(harness, entities);
@@ -609,7 +630,8 @@ exports.runTests = function (suite) {
             initialStates.push({id: 'adapter.0.light.rgbw.red', val: 0},
                 {id: 'adapter.0.light.rgbw.green', val: 0},
                 {id: 'adapter.0.light.rgbw.blue', val: 100},
-                {id: 'adapter.0.light.rgbw.white', val: 100});
+                {id: 'adapter.0.light.rgbw.white', val: 100},
+                {id: 'adapter.0.light.rgbw.state', val: true});
             it('color lamp rgbw', async () => {
                 const deviceId = 'adapter.0.light.rgbw';
                 const entity = entities.find(e => e.context.id === deviceId);
@@ -656,7 +678,6 @@ exports.runTests = function (suite) {
                 expect(entity).to.be.ok;
 
                 expect(entity).to.have.property('state', 'off');
-                expect(entity).to.have.nested.property('attributes.brightness', 0);
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId, 100, true),
                     entity => {
@@ -673,9 +694,8 @@ exports.runTests = function (suite) {
                     async () => await harness.states.setStateAsync(deviceId, 0, true),
                     entity => {
                         expect(entity).to.have.property('state', 'off');
-                        expect(entity).to.have.nested.property('attributes.brightness', 0);
+                        expect(entity).to.have.nested.property('attributes.brightness', null);
                     });
-                expect(entity).to.have.nested.property('attributes.color_mode', 'brightness');
 
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
@@ -704,7 +724,6 @@ exports.runTests = function (suite) {
                     m.service = 'turn_on';
                     m.service_data = {brightness: 255};
                 }, deviceId, state => expect(state.val).to.equal(100));
-                expect(entity).to.have.nested.property('attributes.color_mode', 'brightness');
             });
 
             jsonFiles.push('../testData/light_custom.json');
@@ -736,7 +755,6 @@ exports.runTests = function (suite) {
                     m.service = 'turn_off';
                     m.service_data = {};
                 }, deviceId, state => expect(state.val).to.equal(false));
-                expect(entity).to.have.nested.property('attributes.color_mode', 'onoff');
             });
         });
 
@@ -759,24 +777,30 @@ exports.runTests = function (suite) {
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.color', '00FF00', true), //expect to work with # and without.
                     entity => {
+                        console.log('AHRG');
+                        console.log('rgb_color', entity.attributes.rgb_color);
                         expect(entity.attributes.rgb_color).to.have.members([0, 255, 0]);
                     });
+                console.log('AHRG2');
                 //test HSV edge cases:
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.color', '#000000', true),
                     entity => {
                         expect(entity.attributes.rgb_color).to.have.members([0, 0, 0]);
                     });
+                console.log('AHRG3');
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.color', '#FFFFFF', true),
                     entity => {
                         expect(entity.attributes.rgb_color).to.have.members([255, 255, 255]);
                     });
+                console.log('AHRG4');
                 await tools.validateStateChange(harness, entity.entity_id,
                     async () => await harness.states.setStateAsync(deviceId + '.color', '#FFFF80', true),
                     entity => {
                         expect(entity.attributes.rgb_color).to.have.members([255, 255, 128]);
                     });
+                console.log('AHRG5');
                 expect(entity).to.have.nested.property('attributes.color_mode', 'rgb');
 
                 await tools.validateUIInput(harness, entity, m => {
@@ -784,17 +808,20 @@ exports.runTests = function (suite) {
                     m.service = 'turn_on';
                     m.service_data = {rgb_color: [0, 255, 0]};
                 }, deviceId + '.color', state => expect(state.val).to.equal('#00FF00'));
+                console.log('AHRG6');
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
                     m.service_data = {rgb_color: [255, 128, 128]};
                 }, deviceId + '.color', state => expect(state.val).to.equal('#FF8080'));
+                console.log('AHRG7');
                 await tools.validateUIInput(harness, entity, m => {
                     m.domain = 'light';
                     m.service = 'turn_on';
                     m.service_data = {rgb_color: [255, 255, 255]};
                 }, deviceId + '.color', state => expect(state.val).to.equal('#FFFFFF'));
                 expect(entity).to.have.nested.property('attributes.color_mode', 'rgb');
+                console.log('AHRG8');
             });
 
             jsonFiles.push('../testData/light_wled_rgbw.json');

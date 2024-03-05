@@ -227,7 +227,7 @@ async function setupClient() {
                 }
                 console.log(messages);
                 for (const m of messages) {
-                    console.log(`UI message ${m.id} received: `, m);
+                    console.log(`UI message ${m.id} received: `, JSON.stringify(m, null, 2));
                     if (!fired && m.id === subscribeId && m.type === 'result') {
                         console.log('Successfully subscribed to entity changes (includes state).');
                         //currentClient.removeEventListener('message', subscribeListener);
@@ -272,7 +272,7 @@ async function setupClient() {
  */
 exports.validateStateChange = async function (harness, entity_id, changeState, validator) {
     let fired = false;
-    console.log('Change state in iob and see that ' + entity_id + ' changes.');
+    console.log(`Change state in iob and see that ${entity_id} changes.`);
 
     const subscribeId = await setupClient(); //now a no-op.
     let iobChangeDone = false;
