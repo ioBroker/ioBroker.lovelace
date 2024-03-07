@@ -1,4 +1,10 @@
 # Older Changes
+## 4.1.1 (2024-01-02)
+* (Garfonso) changed: determining user id
+* (Garfosno) changed: history attributes handling
+* (Garfonso) added: handle browser_mod/recall_id service call.
+* (Garfonso) changed: all states are strings (fixes #483)
+
 ## 4.1.0 (2023-12-18)
 * (Garfons) add an option to show users on login screen (off by default)
 

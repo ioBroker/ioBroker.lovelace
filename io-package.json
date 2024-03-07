@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.5",
+    "version": "4.1.6",
     "news": {
+      "4.1.6": {
+        "en": "remove exessive logging\nimprove fix for crash again.",
+        "de": "exessive log ausgabe entfernen\nverbesserung der reparatur für crash.",
+        "ru": "удалить exessive logging\nулучшить исправление для аварии снова.",
+        "pt": "remover registro exessivo\nmelhorar a correção para acidente novamente.",
+        "nl": "exessieve logging verwijderen\nverbeteren fix voor crash opnieuw.",
+        "fr": "supprimer l'exploitation exessive\naméliorer la correction pour le crash à nouveau.",
+        "it": "rimuovere logging exessive\nmigliorare la correzione per crash di nuovo.",
+        "es": "remove exessive logging\nmejorar la solución para el accidente de nuevo.",
+        "pl": "usunięcie nadmiernego logowania\npoprawić naprawić ponownie awarii.",
+        "uk": "видалити есенціальний журнал\nзнову поліпшуйте фіксацію.",
+        "zh-cn": "删除 exessive 日志\n改善再次崩溃的修复."
+      },
       "4.1.5": {
         "en": "fixed: possible crashes during startup",
         "de": "behoben: mögliche abstürzen beim start",
@@ -44,19 +57,6 @@
       "4.1.0": {
         "en": "add an option to show users on login screen (off by default)",
         "de": "Neu Option um Benutzer auf dem Login-Bildschirm anzuzeigen"
-      },
-      "4.0.12": {
-        "en": "fix lint errors",
-        "de": "lint fehler beheben",
-        "ru": "исправить ошибки lint",
-        "pt": "corrigir erros de lint",
-        "nl": "lint fouten",
-        "fr": "corriger les erreurs lint",
-        "it": "correggere gli errori di lintuizione",
-        "es": "corregir errores lint",
-        "pl": "błędy lintowe",
-        "uk": "виправлено помилки в розмітці",
-        "zh-cn": "f 固定错误"
       }
     },
     "title": "Visualization with Lovelace-UI",

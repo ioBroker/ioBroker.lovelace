@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.6 (2024-03-07)
 * (Garfonso) remove exessive logging
 * (Garfonso) improve fix for crash again.
 
@@ -490,12 +490,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.1.2 (2024-01-09)
 * (Garfonso) fix: time in timestamp display
-
-### 4.1.1 (2024-01-02)
-* (Garfonso) changed: determining user id
-* (Garfosno) changed: history attributes handling
-* (Garfonso) added: handle browser_mod/recall_id service call.
-* (Garfonso) changed: all states are strings (fixes #483)
 
 ## License
 
