@@ -475,6 +475,7 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso) prevent even more possible crashes
+* (smarthomejoey) fixed: tilt level and inversion
 
 ### 4.1.6 (2024-03-07)
 * (Garfonso) remove exessive logging
