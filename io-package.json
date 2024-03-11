@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.7",
+    "version": "4.1.8",
     "news": {
+      "4.1.8": {
+        "en": "prevent even more possible crashes\nfixed: tilt level and inversion",
+        "de": "noch mehr mögliche abstürzen verhindern\nfixed: tilt level und inversion"
+      },
       "4.1.7": {
         "en": "prevent even more possible crashes\nfixed: tilt level and inversion",
         "de": "noch mehr mögliche abstürzen verhindern\nfixed: tilt level und inversion"
@@ -53,10 +57,6 @@
         "pl": "fix: czas wyświetlania znacznika czasu",
         "uk": "виправити: час в часовому режимі відображення",
         "zh-cn": "修正:时间戳显示的时间"
-      },
-      "4.1.1": {
-        "en": "changed: determining user id\nchanged: history attributes handling\nadded: handle browser_mod/recall_id service call.\nchanged: all states are strings!",
-        "de": "geändert: bestimmung der benutzer-id\ngeändert: historie für attribute\nhinzugefügt: handle browser_mod/recall_id service call.\ngeändert: alle zustände sind strings!"
       }
     },
     "title": "Visualization with Lovelace-UI",
