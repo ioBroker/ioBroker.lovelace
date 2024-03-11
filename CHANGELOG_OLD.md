@@ -1,4 +1,7 @@
 # Older Changes
+## 4.1.2 (2024-01-09)
+* (Garfonso) fix: time in timestamp display
+
 ## 4.1.1 (2024-01-02)
 * (Garfonso) changed: determining user id
 * (Garfosno) changed: history attributes handling

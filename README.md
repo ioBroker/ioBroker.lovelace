@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.7 (2024-03-11)
 * (Garfonso) prevent even more possible crashes
 * (smarthomejoey) fixed: tilt level and inversion
 
@@ -491,9 +491,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) prevent warning for browser_mod/recall_id service call
 * (Garfonso) fix: lamp icons now turn gray on switch off.
 * (Garfonso) fix: notifications via sendTo work again.
-
-### 4.1.2 (2024-01-09)
-* (Garfonso) fix: time in timestamp display
 
 ## License
 
