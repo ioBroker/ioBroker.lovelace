@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) prevent even more possible crashes
+
 ### 4.1.6 (2024-03-07)
 * (Garfonso) remove exessive logging
 * (Garfonso) improve fix for crash again.
