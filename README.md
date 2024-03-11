@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### 4.1.7 (2024-03-11)
+### **WORK IN PROGRESS**
 * (Garfonso) prevent even more possible crashes
 * (smarthomejoey) fixed: tilt level and inversion
 
