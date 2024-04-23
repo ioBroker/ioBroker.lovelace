@@ -18,6 +18,9 @@
     "type": "git",
     "url": "https://github.com/ioBroker/ioBroker.lovelace"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
     "@iobroker/adapter-core": "^3.0.4",
     "@iobroker/webserver": "^1.0.3",
