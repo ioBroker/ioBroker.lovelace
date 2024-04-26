@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.8",
+    "version": "4.1.9",
     "news": {
+      "4.1.9": {
+        "en": "add support for new service call structure.\nadd support for delivering files from other adapters, for example, local cover images.\ncleaned up service descriptions.",
+        "de": "unterstützung für neue service call-struktur hinzufügen.\nhinzufügen von unterstützung für die bereitstellung von dateien von anderen adaptern, zum beispiel lokale cover-bilder.\ngereinigte servicebeschreibungen.",
+        "ru": "добавить поддержку новой структуры вызова службы.\nдобавьте поддержку для доставки файлов из других адаптеров, например, локальные обложки изображений.\nочистили описания услуг.",
+        "pt": "adicionar suporte para nova estrutura de chamada de serviço.\nadicionar suporte para a entrega de arquivos de outros adaptadores, por exemplo, imagens de capa local.\nlimpeza de descrições de serviços.",
+        "nl": "toevoegen van ondersteuning voor nieuwe service call structuur.\nvoeg ondersteuning toe voor het leveren van bestanden van andere adapters, bijvoorbeeld lokale cover images.\nde servicebeschrijvingen zijn opgeruimd.",
+        "fr": "ajouter le soutien pour la nouvelle structure d'appel de service.\najouter le support pour la livraison de fichiers à partir d'autres adaptateurs, par exemple, les images de couverture locale.\nnettoyage des descriptions de service.",
+        "it": "aggiungere supporto per la nuova struttura delle chiamate di servizio.\naggiungere supporto per la fornitura di file da altri adattatori, ad esempio, immagini di copertura locale.\npulire le descrizioni dei servizi.",
+        "es": "añadir soporte para nueva estructura de llamadas de servicio.\nañadir soporte para la entrega de archivos de otros adaptadores, por ejemplo, imágenes de cubierta local.\nlimpiar las descripciones del servicio.",
+        "pl": "dodaj wsparcie dla nowej struktury połączeń serwisowych.\ndodaj obsługę dostarczania plików z innych adapterów, na przykład lokalnych obrazów okładek.\nwyczyszczone opisy usług.",
+        "uk": "додати підтримку нової структури виклику сервісу.\nдодати підтримку для доставки файлів з інших адаптерів, наприклад, локальних зображень кришки.\nочищають описи послуг.",
+        "zh-cn": "添加对新服务呼叫结构的支持.\n添加支持从其他适配器发送文件,例如本地封面图像.\n清理服务说明."
+      },
       "4.1.8": {
         "en": "prevent even more possible crashes\nfixed: tilt level and inversion",
         "de": "noch mehr mögliche abstürzen verhindern\nfixed: tilt level und inversion"
@@ -44,19 +57,6 @@
       "4.1.3": {
         "en": "prevent warning for browser_mod/recall_id service call\nfix: lamp icons now turn gray on switch off.\nfix: notifications via sendTo work again.",
         "de": "Verhindere warnung für browser_mod/recall_id service call\nfix: Lampensymbole werden nun grau beim ausschalten.\nfix: Benachrichtigung mittels sendTo funktionieren wieder."
-      },
-      "4.1.2": {
-        "en": "fix: time in timestamp display",
-        "de": "fix: zeit im zeitstempel-display",
-        "ru": "фиксация: время дисплея",
-        "pt": "correção: tempo em exibição do timestamp",
-        "nl": "fix: tijd in tijdstempelweergave",
-        "fr": "correction : temps dans l'affichage de l'horodatage",
-        "it": "correzione: tempo in visualizzazione timestamp",
-        "es": "fijación: tiempo en la pantalla de tiempo",
-        "pl": "fix: czas wyświetlania znacznika czasu",
-        "uk": "виправити: час в часовому режимі відображення",
-        "zh-cn": "修正:时间戳显示的时间"
       }
     },
     "titleLang": {
@@ -98,7 +98,7 @@
     "licenseInformation": {
       "license": "Apache-2.0",
       "link": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/LICENSE",
-      "type":"free"
+      "type": "free"
     },
     "platform": "Javascript/Node.js",
     "tier": 3,
@@ -239,22 +239,26 @@
         "admin": ">=5.1.28"
       }
     ],
-    "welcomeScreenPro": [{
-      "link": "lovelace/",
-      "name": "Lovelace",
-      "img": "lovelace.admin/lovelace.png",
-      "color": "#03a9f4",
-      "order": 6,
-      "localLink": true
-    }],
-    "welcomeScreen": [{
-      "link": "lovelace/",
-      "name": "Lovelace",
-      "img": "lovelace.admin/lovelace.png",
-      "color": "#03a9f4",
-      "order": 6,
-      "localLink": true
-    }]
+    "welcomeScreenPro": [
+      {
+        "link": "lovelace/",
+        "name": "Lovelace",
+        "img": "lovelace.admin/lovelace.png",
+        "color": "#03a9f4",
+        "order": 6,
+        "localLink": true
+      }
+    ],
+    "welcomeScreen": [
+      {
+        "link": "lovelace/",
+        "name": "Lovelace",
+        "img": "lovelace.admin/lovelace.png",
+        "color": "#03a9f4",
+        "order": 6,
+        "localLink": true
+      }
+    ]
   },
   "native": {
     "history": "",
