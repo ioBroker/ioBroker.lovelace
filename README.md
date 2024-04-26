@@ -476,6 +476,7 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso) add support for new service call structure.
 * (Garfonso) add support for delivering files from other adapters, for example, local cover images.
+* (Garfonso) cleaned up service descriptions.
 
 ### 4.1.8 (2024-03-11)
 * (Garfonso) prevent even more possible crashes
