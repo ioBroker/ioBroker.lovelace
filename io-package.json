@@ -59,7 +59,6 @@
         "zh-cn": "修正:时间戳显示的时间"
       }
     },
-    "title": "Visualization with Lovelace-UI",
     "titleLang": {
       "en": "Visualization with Lovelace-UI",
       "de": "Visualisierung mit Lovelace-UI",
@@ -90,12 +89,18 @@
       "bluefox <dogafox@gmail.com>"
     ],
     "keywords": [
-      "ioBroker",
-      "template",
+      "visualisation",
+      "lovelace",
+      "easy",
+      "What you see is what you get",
       "Smart Home",
       "home automation"
     ],
-    "license": "Apache-2.0",
+    "licenseInformation": {
+      "license": "Apache-2.0",
+      "link": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/LICENSE",
+      "type":"free"
+    },
     "platform": "Javascript/Node.js",
     "tier": 3,
     "icon": "lovelace.png",
@@ -112,14 +117,8 @@
     "messagebox": true,
     "connectionType": "local",
     "dataSource": "push",
-    "localLink": "%protocol%://%ip%:%port%/",
-    "welcomeScreen1": {
-      "link": "",
-      "name": "Lovelace",
-      "img": "lovelace/icons/favicon-192x192.png",
-      "color": "#03a9f4",
-      "order": 2,
-      "localLink": true
+    "localLinks": {
+      "_default": "%protocol%://%ip%:%port%/"
     },
     "messages": [
       {
@@ -241,14 +240,22 @@
         "admin": ">=5.1.28"
       }
     ],
-    "welcomeScreenPro": {
+    "welcomeScreenPro": [{
       "link": "lovelace/",
       "name": "Lovelace",
       "img": "lovelace.admin/lovelace.png",
       "color": "#03a9f4",
       "order": 6,
       "localLink": true
-    }
+    }],
+    "welcomeScreen": [{
+      "link": "lovelace/",
+      "name": "Lovelace",
+      "img": "lovelace.admin/lovelace.png",
+      "color": "#03a9f4",
+      "order": 6,
+      "localLink": true
+    }]
   },
   "native": {
     "history": "",
