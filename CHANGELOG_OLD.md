@@ -1,4 +1,7 @@
 # Older Changes
+## 4.1.4 (2024-02-10)
+* (Garfonso) improved fix: lamp icons now turn gray on switch off.
+
 ## 4.1.3 (2024-02-10)
 * (Garfonso) prevent warning for browser_mod/recall_id service call
 * (Garfonso) fix: lamp icons now turn gray on switch off.

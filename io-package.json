@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.9",
+    "version": "4.1.10",
     "news": {
+      "4.1.10": {
+        "en": "device icons work again (if authorization is required).\ndefault user sometimes was not found in system.",
+        "de": "gerätesymbole funktionieren wieder (wenn authorisierung notwendig).\nder eingestellte standard-benutzer wurde manchmal nicht im system gefunden.",
+        "ru": "иконки устройства снова работают.\nпользователь по умолчанию иногда не был найден в системе.",
+        "pt": "ícones do dispositivo funcionam novamente.\nusuário padrão às vezes não foi encontrado no sistema.",
+        "nl": "apparaatpictogrammen werken opnieuw.\nde standaardgebruiker werd soms niet gevonden in het systeem.",
+        "fr": "les icônes du périphérique fonctionnent à nouveau.\nl'utilisateur par défaut n'a parfois pas été trouvé dans le système.",
+        "it": "le icone del dispositivo funzionano di nuovo.\nutente predefinito a volte non è stato trovato nel sistema.",
+        "es": "los iconos del dispositivo funcionan de nuevo.\nusuario predeterminado a veces no se encontró en el sistema.",
+        "pl": "ikony urządzenia działają ponownie.\ndomyślny użytkownik czasami nie został znaleziony w systemie.",
+        "uk": "знову працюють іконки пристрою.\nне знайдено типовий користувач.",
+        "zh-cn": "设备图标再次工作.\n默认用户有时在系统中找不到 ."
+      },
       "4.1.9": {
         "en": "add support for new service call structure.\nadd support for delivering files from other adapters, for example, local cover images.\ncleaned up service descriptions.",
         "de": "unterstützung für neue service call-struktur hinzufügen.\nhinzufügen von unterstützung für die bereitstellung von dateien von anderen adaptern, zum beispiel lokale cover-bilder.\ngereinigte servicebeschreibungen.",
@@ -53,10 +66,6 @@
       "4.1.4": {
         "en": "improved fix: lamp icons now turn gray on switch off.",
         "de": "verbesserter fix: lampensymbole werden nun grau beim ausschalten."
-      },
-      "4.1.3": {
-        "en": "prevent warning for browser_mod/recall_id service call\nfix: lamp icons now turn gray on switch off.\nfix: notifications via sendTo work again.",
-        "de": "Verhindere warnung für browser_mod/recall_id service call\nfix: Lampensymbole werden nun grau beim ausschalten.\nfix: Benachrichtigung mittels sendTo funktionieren wieder."
       }
     },
     "titleLang": {
