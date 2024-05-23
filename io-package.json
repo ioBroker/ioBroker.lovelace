@@ -309,6 +309,18 @@
       }
     },
     {
+      "_id": "info.configUpdateProcessed",
+      "type": "state",
+      "common": {
+        "name": "If a config update was processed",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "role": "state",
+        "def": false
+      }
+    },
+    {
       "_id": "info.readyForClients",
       "type": "state",
       "common": {

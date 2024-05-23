@@ -91,9 +91,11 @@ async function waitForStateChange(targetId, harness) {
                     console.log('Entities updated! -> resolve');
                     harness.removeListener('stateChange', stateChangedListener);
                     resolve();
+                } else {
+                    console.log(`Ignore change for ${id} with state ${state?.val}`);
                 }
             } else {
-                console.log('Ignore change for', id);
+                console.log(`Ignore change for ${id} with state ${state?.val}`);
             }
         }
         harness.on('stateChange', stateChangedListener);
@@ -104,7 +106,6 @@ async function waitForStateChange(targetId, harness) {
  * Waits until lovelace.0.info.entitiesUpdated is set to true by lovelace.
  * @param harness
  * @param {Array<IOBObject>} objects to add.
- * @param {boolean} [startingUp] prevent setting entitiesUpdated to false on startup
  * @returns {Promise<Array<Entity>>}
  */
 exports.waitForEntitiesUpdate = async function (harness, objects) {
@@ -187,10 +188,9 @@ exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, val
  * Adds entity to configuration, which should make adapter subscribe to state changes
  * @param harness
  * @param {Array<Entity>} entities
- * @returns {Promise<Array<Entity>>}
  */
 exports.addEntitiesToConfiguration = async function (harness, entities) {
-    console.log('Updating UI config -> ignore update messages. :-)');
+    console.log('Updating UI config');
     const configObj = await harness.objects.getObjectAsync('lovelace.0.configuration');
     let currentConfig = configObj.native;
     if (!currentConfig.views) {
@@ -204,9 +204,10 @@ exports.addEntitiesToConfiguration = async function (harness, entities) {
             'entity': entity.entity_id
         });
     }
-    const newEntities = await exports.waitForEntitiesUpdate(harness, [configObj]);
+    const promise = waitForStateChange('lovelace.0.info.configUpdateProcessed', harness);
+    await harness.objects.setObjectAsync('lovelace.0.configuration', configObj);
+    await promise;
     console.log('Updated lovelace UI config.');
-    return newEntities;
 };
 
 let currentClient;

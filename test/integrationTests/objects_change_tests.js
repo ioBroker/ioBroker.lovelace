@@ -18,7 +18,7 @@ exports.runTests = function (suite) {
             tools.clearClient();
             //get harness && entities here.
             harness = getHarness();
-            objects = await tools.loadMultipleObjects(jsonFiles);
+            objects = tools.loadMultipleObjects(jsonFiles);
             entities = await tools.startAndGetEntities(harness, objects, idsWithEnums, initialStates);
         });
 
@@ -32,7 +32,7 @@ exports.runTests = function (suite) {
             expect(onOffLamp).to.be.ok;
             expect(onOffLamp).has.nested.property('attributes.friendly_name', deviceObj.common.smartName);
 
-            deviceObj.common.smartName = 'Name changed';
+            deviceObj.common.smartName = 'Smartname changed';
             const newEntities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
             const newOnOffLamp = newEntities.find(e => e.context.id === deviceId);
             expect(newOnOffLamp).to.be.ok;
