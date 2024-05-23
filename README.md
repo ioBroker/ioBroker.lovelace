@@ -475,7 +475,7 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso) device icons work again.
-
+* (Garfonso) default user sometimes was not found in system.
 
 ### 4.1.9 (2024-04-26)
 * (Garfonso) add support for new service call structure.
