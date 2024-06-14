@@ -112,7 +112,6 @@
     "platform": "Javascript/Node.js",
     "tier": 3,
     "icon": "lovelace.png",
-    "main": "main.js",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
     "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
