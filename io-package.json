@@ -119,7 +119,9 @@
     "mode": "daemon",
     "type": "visualization",
     "compact": true,
-    "materialize": true,
+    "adminUI": {
+      "config": "materialize"
+    },
     "supportCustoms": true,
     "messagebox": true,
     "connectionType": "local",
