@@ -35,7 +35,7 @@
     "nyc": "^15.1.0",
     "pinyin": "^3.1.0",
     "translit-rus-eng": "^1.0.8",
-    "ws": "^8.16.0"
+    "ws": "^8.17.1"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.7.0",
