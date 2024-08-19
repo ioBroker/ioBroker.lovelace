@@ -657,6 +657,7 @@
           "type": "checkbox",
           "label": "labelHasTime",
           "hidden": "data.entity !== 'input_datetime'",
+          "default": false,
           "onChange": {
             "alsoDependsOn": ["entity"],
             "calculateFunc": "data.entity === 'input_datetime' ? false : undefined",
@@ -671,6 +672,7 @@
           "type": "checkbox",
           "label": "labelHasDate",
           "hidden": "data.entity !== 'input_datetime'",
+          "default": true,
           "onChange": {
             "alsoDependsOn": ["entity"],
             "calculateFunc": "data.entity === 'input_datetime' ? true : undefined",
