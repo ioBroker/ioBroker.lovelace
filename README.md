@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) convert string state values to numbers, where necessary.
+
 ### 4.1.10 (2024-05-23)
 * (Garfonso) device icons work again.
 * (Garfonso) default user sometimes was not found in system.
