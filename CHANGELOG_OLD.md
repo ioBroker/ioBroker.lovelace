@@ -1,4 +1,7 @@
 # Older Changes
+## 4.1.5 (2024-03-05)
+* (Garfonso) fixed: possible crashes during startup
+
 ## 4.1.4 (2024-02-10)
 * (Garfonso) improved fix: lamp icons now turn gray on switch off.
 

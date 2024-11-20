@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.10",
+    "version": "4.1.11",
     "news": {
+      "4.1.11": {
+        "en": "convert string state values to numbers, where necessary.",
+        "de": "string-zustandswerte gegebenenfalls in zahlen umwandeln.",
+        "ru": "конвертировать значения состояния строки в числа, когда это необходимо.",
+        "pt": "converter valores de estado de cadeia para números, quando necessário.",
+        "nl": "converteer string state waarden naar getallen, waar nodig.",
+        "fr": "convertir les valeurs d'état de chaîne en nombres, si nécessaire.",
+        "it": "convertire i valori di stato della stringa in numeri, ove necessario.",
+        "es": "convertir valores de estado de cadena a números, cuando sea necesario.",
+        "pl": "w razie potrzeby przekonwertować wartości stanu string do liczb.",
+        "uk": "перетворюйте значення стану рядків до чисел, де необхідно.",
+        "zh-cn": "必要时将字符串状态值转换为数字."
+      },
       "4.1.10": {
         "en": "device icons work again (if authorization is required).\ndefault user sometimes was not found in system.",
         "de": "gerätesymbole funktionieren wieder (wenn authorisierung notwendig).\nder eingestellte standard-benutzer wurde manchmal nicht im system gefunden.",
@@ -62,10 +75,6 @@
         "pl": "stałe: możliwe awarie podczas uruchamiania",
         "uk": "виправлено: можливі аварії під час запуску",
         "zh-cn": "固定: 启动时可能发生的崩溃"
-      },
-      "4.1.4": {
-        "en": "improved fix: lamp icons now turn gray on switch off.",
-        "de": "verbesserter fix: lampensymbole werden nun grau beim ausschalten."
       }
     },
     "titleLang": {
