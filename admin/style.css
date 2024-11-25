@@ -27,3 +27,15 @@
 .m.react-dark .row #tab-themes .row #themes .ace_gutter-active-line {
     background-color: #101010 !important;
 }
+
+/* long text in smaller screens */
+@media screen and (max-width: 800px) {
+    .long-text {
+        margin-bottom: 2rem !important;
+    }
+}
+@media screen and (max-width: 540px) {
+    .long-text {
+        margin-bottom: 3rem !important;
+    }
+}
