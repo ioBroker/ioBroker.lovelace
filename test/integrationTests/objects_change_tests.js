@@ -1,8 +1,9 @@
-const tools  = require('./testTools');
+/* global it before */
+const tools = require('./testTools');
 const expect = require('chai').expect;
 
 exports.runTests = function (suite) {
-    suite('object_change', (getHarness) => {
+    suite('object_change', getHarness => {
         //adapter will keep running for all test. harness and initial entities will be initialized once in before.
         let harness;
         let entities;
@@ -81,7 +82,7 @@ exports.runTests = function (suite) {
             expect(lamp).to.have.nested.property('context.iobType', 'rgbSingle');
 
             await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
-            await harness.objects.delObjectAsync(deviceId + '.color');
+            await harness.objects.delObjectAsync(`${deviceId}.color`);
             const newEntities = await tools.waitForEntitiesUpdate(harness, []);
             const newLamp = newEntities.find(e => e.context.id === deviceId);
             expect(newLamp).to.be.ok;
@@ -166,7 +167,12 @@ exports.runTests = function (suite) {
             secondFuncEnum.common.name = 'New function enum';
             secondFuncEnum._id = 'enum.functions.newFunc';
 
-            const newEntities = await tools.waitForEntitiesUpdate(harness, [roomEnum, secondEnum, funcEnum, secondFuncEnum]);
+            const newEntities = await tools.waitForEntitiesUpdate(harness, [
+                roomEnum,
+                secondEnum,
+                funcEnum,
+                secondFuncEnum,
+            ]);
             expect(newEntities.find(e => e.context.id === deviceId)).to.be.ok;
             expect(newEntities.find(e => e.context.id === deviceId2)).to.be.ok;
         });

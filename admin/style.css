@@ -39,3 +39,18 @@
         margin-bottom: 3rem !important;
     }
 }
+@media screen and (max-width: 450px) {
+    .long-text {
+        margin-bottom: 5rem !important;
+    }
+}
+@media screen and (max-width: 395px) {
+    .long-text {
+        margin-bottom: 6rem !important;
+    }
+}
+@media screen and (max-width: 330px) {
+    .long-text {
+        margin-bottom: 8rem !important;
+    }
+}

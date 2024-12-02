@@ -1,8 +1,9 @@
-const tools  = require('./testTools');
+/* global describe it before */
+const tools = require('./testTools');
 const expect = require('chai').expect;
 
 exports.runTests = function (suite) {
-    suite('media_player', (getHarness) => {
+    suite('media_player', getHarness => {
         //adapter will keep running for all test. harness and initial entities will be initialized once in before.
         let harness;
         let entities;

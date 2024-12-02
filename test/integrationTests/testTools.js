@@ -7,7 +7,8 @@ const lovelaceUpdateTimeout = 500;
 
 /**
  * returns number of entities that are always added to entities array.
- * @returns {number}
+ *
+ * @returns {number} number of entities that are always added to entities array.
  */
 exports.getNumConstEntities = function () {
     //zone.home
@@ -18,22 +19,32 @@ exports.getNumConstEntities = function () {
 
 /**
  * Async waits for delay t.
+ *
  * @param {number} t time in milliseconds
  * @param {any} [val] value to return on timeout
- * @returns {Promise<unknown>}
+ * @returns {Promise<void>} resolves after t milliseconds.
  */
 exports.delay = function (t, val) {
-    return new Promise(function(resolve) {
-        setTimeout(function() {
+    return new Promise(function (resolve) {
+        setTimeout(function () {
             resolve(val);
         }, t);
     });
 };
 
-//example: harness.sendTo('lovelace.0', 'browse', 'message', (resp) => {});
+/**
+ * Send a message to instance and return the response in a promise.
+ * example: harness.sendTo('lovelace.0', 'browse', 'message', (resp) => {});
+ *
+ * @param harness {object} - instance of ioBroker harness
+ * @param instance {string} - instance to send message to
+ * @param command {string} - command to send
+ * @param [message] {string} - message to send
+ * @returns {Promise<unknown>} - resolves with response from instance.
+ */
 exports.sendToAsync = function (harness, instance, command, message) {
-    return new Promise((resolve) => {
-        harness.sendTo(instance, command, message, (resp) => {
+    return new Promise(resolve => {
+        harness.sendTo(instance, command, message, resp => {
             resolve(resp);
         });
     });
@@ -41,11 +52,12 @@ exports.sendToAsync = function (harness, instance, command, message) {
 
 /**
  * Insert objects into harness db
- * @param harness
- * @param {Record<string, ioBroker.Object>} objects
+ *
+ * @param harness {object} - instance of ioBroker harness
+ * @param {Record<string, ioBroker.Object>} objects - objects to add.
  * @param {Array<string>} [idsWithEnums] ids to add to enums.
  * @param {boolean} [startingUp] prevent setting entitiesUpdated to false on startup
- * @returns {Promise<void>}
+ * @returns {Promise<void>} - resolves after objects are added.
  */
 exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, startingUp) {
     //modify port here:
@@ -62,7 +74,9 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
         }
         if (needUpdate) {
             await harness.objects.setObjectAsync('system.adapter.lovelace.0', instanceObj);
-            console.log('Updated lovelace config port to ' + lovelacePort + ' and update timeout to ' + lovelaceUpdateTimeout + 'ms.');
+            console.log(
+                `Updated lovelace config port to ${lovelacePort} and update timeout to ${lovelaceUpdateTimeout}ms.`,
+            );
         }
     }
     if (!startingUp) {
@@ -83,6 +97,13 @@ exports.insertObjectsToDB = async function (harness, objects, idsWithEnums, star
     console.log('Added objects to db.');
 };
 
+/**
+ * Waits until lovelace.0.info.entitiesUpdated is set to true by lovelace adapter.
+ *
+ * @param targetId {string} id to wait for
+ * @param harness {object} - instance of ioBroker harness
+ * @returns {Promise<void>} - resolves after state change.
+ */
 async function waitForStateChange(targetId, harness) {
     return new Promise(resolve => {
         function stateChangedListener(id, state) {
@@ -104,9 +125,10 @@ async function waitForStateChange(targetId, harness) {
 
 /**
  * Waits until lovelace.0.info.entitiesUpdated is set to true by lovelace.
- * @param harness
- * @param {Array<IOBObject>} objects to add.
- * @returns {Promise<Array<Entity>>}
+ *
+ * @param harness {object} - instance of ioBroker harness
+ * @param {Array<ioBroker.Object>} objects to add.
+ * @returns {Promise<Array<object>>} - resolves with entities.
  */
 exports.waitForEntitiesUpdate = async function (harness, objects) {
     console.log('Adding new Objects - reset entities updated flag.');
@@ -120,10 +142,19 @@ exports.waitForEntitiesUpdate = async function (harness, objects) {
     await promise;
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse', 'message');
     console.log('Lovelace created new entities. Testing can continue.');
-    console.dir(entities, {depth: null});
+    console.dir(entities, { depth: null });
     return entities;
 };
 
+/**
+ * Start adapter and wait for entities to be created.
+ *
+ * @param harness {object} - instance of ioBroker harness
+ * @param objects {Array<ioBroker.Object>} - objects to add to db before adapter start.
+ * @param deviceIds {Array<string>} - ids to add to enums, i.e. type-detector created devices.
+ * @param initialStates {Array<{id: string, val: any}>} - initial states to set before start.
+ * @returns {Promise<Array<{object}>>} - resolves with entities.
+ */
 exports.startAndGetEntities = async function (harness, objects, deviceIds, initialStates) {
     await exports.insertObjectsToDB(harness, objects, deviceIds, true);
 
@@ -143,10 +174,7 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
         console.log(id, 'changed to', state);
     });
     await harness.enableSendTo();*/
-    const promises = [
-        harness.startAdapterAndWait(),
-        waitForStateChange('lovelace.0.info.readyForClients', harness)
-    ];
+    const promises = [harness.startAdapterAndWait(), waitForStateChange('lovelace.0.info.readyForClients', harness)];
     await Promise.all(promises);
     console.log('Lovelace started and ready for action.');
     const entities = await exports.sendToAsync(harness, 'lovelace.0', 'browse');
@@ -158,7 +186,8 @@ exports.startAndGetEntities = async function (harness, objects, deviceIds, initi
 
 /**
  * Expects one entity
- * @param {Entity} entity
+ *
+ * @param {object} entity - entity to check
  * @param {string} entityType (for example light or sensor)
  * @param {string} ioBrokerDeviceId expected id of context.id
  * @param {string} [name] expected friendly name
@@ -180,14 +209,14 @@ exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, val
         expect(entity).to.have.nested.property('context.STATE.setId', values.setId);
     }
     expect(entity).to.have.property('entity_id');
-    expect(entity.entity_id.startsWith(entityType + '.')).to.be.true;
+    expect(entity.entity_id.startsWith(`${entityType}.`)).to.be.true;
 };
-
 
 /**
  * Adds entity to configuration, which should make adapter subscribe to state changes
- * @param harness
- * @param {Array<Entity>} entities
+ *
+ * @param harness {object} - instance of ioBroker harness
+ * @param {Array<Entity>} entities entities to add to lovelace configuration, so they are subscribed.
  */
 exports.addEntitiesToConfiguration = async function (harness, entities) {
     console.log('Updating UI config');
@@ -199,9 +228,10 @@ exports.addEntitiesToConfiguration = async function (harness, entities) {
     }
     for (const entity of entities) {
         //should look like lib\defaultConfig.json -> i.e. just fill views[0].cards
-        currentConfig.views[0].cards.push({ //just add entity card
-            'type': 'entity',
-            'entity': entity.entity_id
+        currentConfig.views[0].cards.push({
+            //just add entity card
+            type: 'entity',
+            entity: entity.entity_id,
         });
     }
     const promise = waitForStateChange('lovelace.0.info.configUpdateProcessed', harness);
@@ -213,12 +243,23 @@ exports.addEntitiesToConfiguration = async function (harness, entities) {
 let currentClient;
 let id = 0;
 let subscribeId = 0;
-exports.clearClient = function () { currentClient && currentClient.close(); currentClient = undefined; };
+/**
+ * Close current websocket connection to lovelace.
+ */
+exports.clearClient = function () {
+    currentClient && currentClient.close();
+    currentClient = undefined;
+};
 
+/**
+ * Setup websocket connection to lovelace, subscribe to state changes.
+ *
+ * @returns {Promise<unknown>} - resolves with id of subscription.
+ */
 async function setupClient() {
     if (!currentClient) {
         console.log('Setting up websocket client for UI input emulation.');
-        currentClient = new WebSocket('ws://localhost:' + lovelacePort);
+        currentClient = new WebSocket(`ws://localhost:${lovelacePort}`);
         let fired = false;
         const promise = new Promise(resolve => {
             function subscribeListener(message) {
@@ -242,10 +283,10 @@ async function setupClient() {
             currentClient.on('open', () => {
                 console.log('Websocket connection open');
                 id += 1;
-                currentClient.send(JSON.stringify({id: id, type: 'auth', access_token: 'no_token'}));
+                currentClient.send(JSON.stringify({ id: id, type: 'auth', access_token: 'no_token' }));
                 id += 1;
                 subscribeId = id;
-                currentClient.send(JSON.stringify({id: id, type: 'subscribe_entities'}));
+                currentClient.send(JSON.stringify({ id: id, type: 'subscribe_entities' }));
             });
         });
         currentClient.on('close', () => {
@@ -265,11 +306,12 @@ async function setupClient() {
 
 /**
  * initiate websocket connection to lovelace, subscribe to state changes, then change state in iobroker and validate reaction from lovelace
- * @param harness
+ *
+ * @param harness {object} - instance of ioBroker harness
  * @param {string} entity_id id of entity that should be watched for changes.
- * @param {function} changeState function that changes iobroker state -> must return promise / be async!
- * @param {function} validator function that validates changed state, will get complete new entity.
- * @returns {Promise<unknown>}
+ * @param {Function} changeState function that changes iobroker state -> must return promise / be async!
+ * @param {Function} validator function that validates changed state, will get complete new entity.
+ * @returns {Promise<unknown>} - resolves after state change.
  */
 exports.validateStateChange = async function (harness, entity_id, changeState, validator) {
     let fired = false;
@@ -285,7 +327,7 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
             }
             if (!iobChangeDone) {
                 console.log('iob state not yet changed...?');
-                console.dir(JSON.parse(message.toString('utf8')), {depth: null});
+                console.dir(JSON.parse(message.toString('utf8')), { depth: null });
                 //sadly not very reliable?? :-(
                 //return;
             }
@@ -300,7 +342,7 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
                     fired = true;
                     console.log('Got message from adapter to UI:');
                     const newState = data[entity_id];
-                    console.dir(newState, {depth: null});
+                    console.dir(newState, { depth: null });
                     //convert short entity to old entity:
                     newState.state = newState.state || newState.s;
                     newState.attributes = newState.attributes || newState.a;
@@ -324,14 +366,17 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
 
 /**
  * Send a service call to adapter, emulating UI interaction
- * @param harness
- * @param {function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
+ *
+ * @param harness {object} - instance of ioBroker harness
+ * @param entity {object} - entity to emulate service call for.
+ * @param {Function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
  * @param {string} [ioBrokerId] - set of ids of state to check for changes.
- * @returns {Promise<ioBroker.State|null>}
+ * @param validator {Function} - function that validates changed state, will get complete new entity.
+ * @returns {Promise<ioBroker.State|null>} - resolves after state change.
  */
 exports.validateUIInput = async function (harness, entity, prepareMessageFunc, ioBrokerId, validator) {
     if (ioBrokerId) {
-        await exports.validateMultiUIInput(harness, entity, prepareMessageFunc, [ioBrokerId], (states) => {
+        await exports.validateMultiUIInput(harness, entity, prepareMessageFunc, [ioBrokerId], states => {
             if (validator) {
                 validator(states[ioBrokerId]);
             }
@@ -343,17 +388,20 @@ exports.validateUIInput = async function (harness, entity, prepareMessageFunc, i
 
 /**
  * Send a service call to adapter, emulating UI interaction
- * @param harness
- * @param {function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
+ *
+ * @param harness {object} - instance of ioBroker harness
+ * @param entity {object} - entity to emulate service call for.
+ * @param {Function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
  * @param {Array<string>} [ioBrokerIds] - set of ids of state to check for changes.
- * @returns {Promise<ioBroker.State|null>}
+ * @param validator {Function} - function that validates changed state, will get complete new entity.
+ * @returns {Promise<ioBroker.State|null>} - resolves after state change.
  */
 exports.validateMultiUIInput = async function (harness, entity, prepareMessageFunc, ioBrokerIds, validator) {
     if (!currentClient) {
         await setupClient();
     }
 
-    console.log('Emulate UI input for ' + entity.entity_id + ' and see if iob states change.');
+    console.log(`Emulate UI input for ${entity.entity_id} and see if iob states change.`);
     await new Promise(resolve => {
         function receiver(message) {
             const m = JSON.parse(message.toString('utf8'));
@@ -376,7 +424,8 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
                 const foundIndex = ioBrokerIds.indexOf(id);
                 ioBrokerIds.splice(foundIndex, 1);
             }
-            if (ioBrokerIds.length === 0) { //all received.
+            if (ioBrokerIds.length === 0) {
+                //all received.
                 harness.removeListener('stateChange', stateChanged);
                 console.log('All iob states changed after UI input. Done.');
                 if (validator) {
@@ -395,11 +444,11 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
             console.log('Subscribed to lovelace stateChange');
             currentClient.on('message', receiver);
         }
-        const message = {id, type: 'call_service'};
+        const message = { id, type: 'call_service' };
         prepareMessageFunc(message);
         message.service_data.entity_id = entity.entity_id;
         //no one waits for this callback... can this cause issues? *Should* not, because listeners can not resolve before this is sent, right?
-        currentClient.send(JSON.stringify(message), (err) => {
+        currentClient.send(JSON.stringify(message), err => {
             if (err) {
                 console.log('Error sending: ', err);
             }
@@ -409,9 +458,10 @@ exports.validateMultiUIInput = async function (harness, entity, prepareMessageFu
 };
 
 /**
- * Load objects from json files and merge them in one big objects object.
- * @param {Array<String>} jsonFiles
- * @returns {Record<string, ioBroker.Object>}
+ * Load objects from JSON files and merge them in one big objects cache.
+ *
+ * @param {Array<string>} jsonFiles - files to load
+ * @returns {Record<string, ioBroker.Object>} - ioBroker objects read.
  */
 exports.loadMultipleObjects = function (jsonFiles) {
     const objects = {};

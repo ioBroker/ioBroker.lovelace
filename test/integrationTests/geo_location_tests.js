@@ -1,8 +1,9 @@
-const tools  = require('./testTools');
+/* global it before */
+const tools = require('./testTools');
 const expect = require('chai').expect;
 
 exports.runTests = function (suite) {
-    suite('geo_location', (getHarness) => {
+    suite('geo_location', getHarness => {
         //adapter will keep running for all test. harness and initial entities will be initialized once in before.
         let harness;
         let entities;
@@ -25,9 +26,9 @@ exports.runTests = function (suite) {
         jsonFiles.push('../testData/geo_location_two_states.json');
         idsWithEnums.push('adapter.0.geo_location.twoStates');
         initialStates.push(
-            {id: 'adapter.0.geo_location.twoStates.latitude', val: 53.7},
-            {id: 'adapter.0.geo_location.twoStates.longitude', val: 7.18},
-            {id: 'adapter.0.geo_location.twoStates.accuracy', val: 15}
+            { id: 'adapter.0.geo_location.twoStates.latitude', val: 53.7 },
+            { id: 'adapter.0.geo_location.twoStates.longitude', val: 7.18 },
+            { id: 'adapter.0.geo_location.twoStates.accuracy', val: 15 },
         );
         it('geo_location with two states should be created and updated', async () => {
             const deviceId = 'adapter.0.geo_location.twoStates';
@@ -40,20 +41,29 @@ exports.runTests = function (suite) {
             expect(entity).to.have.nested.property('attributes.latitude', 53.7);
             expect(entity).to.have.nested.property('attributes.longitude', 7.18);
             expect(entity).to.have.nested.property('attributes.gps_accuracy', 15);
-            await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.states.setStateAsync(deviceId + '.latitude', 54.7, true),
-                entity => expect(entity).to.have.nested.property('attributes.latitude', 54.7));
-            await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.states.setStateAsync(deviceId + '.longitude', 7.13, true),
-                entity => expect(entity).to.have.nested.property('attributes.longitude', 7.13));
-            await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.states.setStateAsync(deviceId + '.accuracy', 16, true),
-                entity => expect(entity).to.have.nested.property('attributes.gps_accuracy', 16));
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
+                async () => await harness.states.setStateAsync(`${deviceId}.latitude`, 54.7, true),
+                entity => expect(entity).to.have.nested.property('attributes.latitude', 54.7),
+            );
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
+                async () => await harness.states.setStateAsync(`${deviceId}.longitude`, 7.13, true),
+                entity => expect(entity).to.have.nested.property('attributes.longitude', 7.13),
+            );
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
+                async () => await harness.states.setStateAsync(`${deviceId}.accuracy`, 16, true),
+                entity => expect(entity).to.have.nested.property('attributes.gps_accuracy', 16),
+            );
         });
 
         jsonFiles.push('../testData/geo_location_single_state.json');
         idsWithEnums.push('adapter.0.geo_location.singleState');
-        initialStates.push({id: 'adapter.0.geo_location.singleState.GPS', val: '54.7;7.15'});
+        initialStates.push({ id: 'adapter.0.geo_location.singleState.GPS', val: '54.7;7.15' });
         it('geo_location with single state should be created and updated', async () => {
             const deviceId = 'adapter.0.geo_location.singleState';
             const deviceObj = objects[deviceId];
@@ -64,12 +74,15 @@ exports.runTests = function (suite) {
 
             expect(entity).to.have.nested.property('attributes.latitude', 54.7);
             expect(entity).to.have.nested.property('attributes.longitude', 7.15);
-            await tools.validateStateChange(harness, entity.entity_id,
-                async () => await harness.states.setStateAsync(deviceId + '.GPS', '53.7;7.13', true),
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
+                async () => await harness.states.setStateAsync(`${deviceId}.GPS`, '53.7;7.13', true),
                 entity => {
                     expect(entity).to.have.nested.property('attributes.latitude', 53.7);
                     expect(entity).to.have.nested.property('attributes.longitude', 7.13);
-                });
+                },
+            );
         });
     });
 };

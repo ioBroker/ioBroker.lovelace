@@ -24,7 +24,7 @@ const languages = {
     es: {},
     pl: {},
     uk: {},
-    'zh-cn': {}
+    'zh-cn': {},
 };
 
 function lang2data(lang, isFlat) {
@@ -34,19 +34,20 @@ function lang2data(lang, isFlat) {
         if (lang.hasOwnProperty(w)) {
             count++;
             if (isFlat) {
-                str += (lang[w] === '' ? (isFlat[w] || w) : lang[w]) + '\n';
+                str += `${lang[w] === '' ? isFlat[w] || w : lang[w]}\n`;
             } else {
-                const key = '    "' + w.replace(/"/g, '\\"') + '": ';
-                str += key + '"' + lang[w].replace(/"/g, '\\"') + '",\n';
+                const key = `    "${w.replace(/"/g, '\\"')}": `;
+                str += `${key}"${lang[w].replace(/"/g, '\\"')}",\n`;
             }
         }
     }
-    if (!count)
+    if (!count) {
         return isFlat ? '' : '{\n}';
+    }
     if (isFlat) {
         return str;
     } else {
-        return str.substring(0, str.length - 2) + '\n}';
+        return `${str.substring(0, str.length - 2)}\n}`;
     }
 }
 
@@ -70,6 +71,7 @@ function readWordJs(src) {
 
         return resultFunc();
     } catch (e) {
+        console.error(`Cannot read or parse ${fileName}: ${e}`);
         return null;
     }
 }
@@ -84,18 +86,18 @@ function writeWordJs(data, src) {
     text += 'var lovelace_systemDictionary = {\n';
     for (const word in data) {
         if (data.hasOwnProperty(word)) {
-            text += `    ${padRight('"' + word.replace(/"/g, '\\"') + '": {', 50)}`;
+            text += `    ${padRight(`"${word.replace(/"/g, '\\"')}": {`, 50)}`;
             let line = '';
             for (const lang in data[word]) {
                 if (data[word].hasOwnProperty(lang)) {
-                    line += `"${lang}": "${padRight(data[word][lang].replace(/"/g, '\\"') + '",', 50)} `;
+                    line += `"${lang}": "${padRight(`${data[word][lang].replace(/"/g, '\\"')}",`, 50)} `;
                 }
             }
             if (line) {
                 line = line.trim();
                 line = line.substring(0, line.length - 1);
             }
-            text += line + '},\n';
+            text += `${line}},\n`;
         }
     }
     text += '};\n';
@@ -132,8 +134,9 @@ function words2languages(src) {
             fs.mkdirSync(`${src}i18n/`);
         }
         for (const l in langs) {
-            if (!langs.hasOwnProperty(l))
+            if (!langs.hasOwnProperty(l)) {
                 continue;
+            }
             const keys = Object.keys(langs[l]);
             keys.sort();
             const obj = {};
@@ -173,8 +176,9 @@ function words2languagesFlat(src) {
         const keys = Object.keys(langs.en);
         keys.sort();
         for (const l in langs) {
-            if (!langs.hasOwnProperty(l))
+            if (!langs.hasOwnProperty(l)) {
                 continue;
+            }
             const obj = {};
             for (let k = 0; k < keys.length; k++) {
                 obj[keys[k]] = langs[l][keys[k]];
@@ -185,8 +189,9 @@ function words2languagesFlat(src) {
             fs.mkdirSync(`${src}i18n/`);
         }
         for (const ll in langs) {
-            if (!langs.hasOwnProperty(ll))
+            if (!langs.hasOwnProperty(ll)) {
                 continue;
+            }
             if (!fs.existsSync(`${src}i18n/${ll}`)) {
                 fs.mkdirSync(`${src}i18n/${ll}`);
             }
@@ -208,20 +213,24 @@ function languagesFlat2words(src) {
         const posA = order.indexOf(a);
         const posB = order.indexOf(b);
         if (posA === -1 && posB === -1) {
-            if (a > b)
+            if (a > b) {
                 return 1;
-            if (a < b)
+            }
+            if (a < b) {
                 return -1;
+            }
             return 0;
         } else if (posA === -1) {
             return -1;
         } else if (posB === -1) {
             return 1;
         } else {
-            if (posA > posB)
+            if (posA > posB) {
                 return 1;
-            if (posA < posB)
+            }
+            if (posA < posB) {
                 return -1;
+            }
             return 0;
         }
     });
@@ -233,7 +242,7 @@ function languagesFlat2words(src) {
         }
         const values = fs.readFileSync(`${src}i18n/${lang}/flat.txt`).toString().split('\n');
         langs[lang] = {};
-        keys.forEach((word, i) => langs[lang][word] = values[i]);
+        keys.forEach((word, i) => (langs[lang][word] = values[i]));
 
         const words = langs[lang];
         for (const word in words) {
@@ -267,7 +276,6 @@ function languagesFlat2words(src) {
                 });
             }
         }
-
     }
 
     writeWordJs(bigOne, src);
@@ -282,20 +290,24 @@ function languages2words(src) {
         const posA = order.indexOf(a);
         const posB = order.indexOf(b);
         if (posA === -1 && posB === -1) {
-            if (a > b)
+            if (a > b) {
                 return 1;
-            if (a < b)
+            }
+            if (a < b) {
                 return -1;
+            }
             return 0;
         } else if (posA === -1) {
             return -1;
         } else if (posB === -1) {
             return 1;
         } else {
-            if (posA > posB)
+            if (posA > posB) {
                 return 1;
-            if (posA < posB)
+            }
+            if (posA < posB) {
                 return -1;
+            }
             return 0;
         }
     });
@@ -338,7 +350,6 @@ function languages2words(src) {
                 });
             }
         }
-
     }
 
     writeWordJs(bigOne, src);
@@ -426,7 +437,7 @@ gulp.task('translate', async function () {
         if (fs.existsSync('./admin/i18n/en/translations.json')) {
             const enTranslations = require('./admin/i18n/en/translations.json');
             for (const l in languages) {
-                console.log('Translate Text: ' + l);
+                console.log(`Translate Text: ${l}`);
                 let existing = {};
                 if (fs.existsSync(`./admin/i18n/${l}/translations.json`)) {
                     existing = require(`./admin/i18n/${l}/translations.json`);
@@ -442,7 +453,6 @@ gulp.task('translate', async function () {
                 fs.writeFileSync(`./admin/i18n/${l}/translations.json`, JSON.stringify(existing, null, 4));
             }
         }
-
     }
     fs.writeFileSync('io-package.json', JSON.stringify(iopackage, null, 4));
 });
@@ -452,17 +462,25 @@ gulp.task('rename', done => {
         if (fileName.endsWith('.js') || fileName.endsWith('.html') || fileName.endsWith('.json')) {
             const text = fs.readFileSync(fileName).toString('utf-8');
             let newText = text.replace(/Home Assistant/g, 'ioBroker');
-            newText = newText.replace(/https:\/\/www.home-assistant.io\/images\/merchandise\/shirt-frontpage.png/g, '/images/image.jpg');
+            newText = newText.replace(
+                /https:\/\/www.home-assistant.io\/images\/merchandise\/shirt-frontpage.png/g,
+                '/images/image.jpg',
+            );
             //not sure why we should do that...??? If at all, find a better place to link to.
             //newText = newText.replace('https://www.home-assistant.io', 'https://embed.windy.com/embed2.html?lat=32.487&lon=-84.023&zoom=5&level=surface&overlay=rain&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=32.487&detailLon=--84.023&metricWind=default&metricTemp=default&radarRange=-1');
             if (fileName.endsWith('index.html')) {
                 let m = newText.match(/[^"]<script[^>]*>[^\n]/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text[0] + '\n' + text.substring(1, text.length - 1) + '\n' + text[text.length - 1]));
+                m &&
+                    m.forEach(
+                        text =>
+                            (newText = newText.replace(
+                                text,
+                                `${text[0]}\n${text.substring(1, text.length - 1)}\n${text[text.length - 1]}`,
+                            )),
+                    );
 
                 m = newText.match(/[^\n]<\/script>/g);
-                m && m.forEach(text =>
-                    newText = newText.replace(text, text.replace('</script>', '\n</script>\n')));
+                m && m.forEach(text => (newText = newText.replace(text, text.replace('</script>', '\n</script>\n'))));
 
                 // remove absolute paths
                 newText = newText.replace(/src='\/([^']+)'/g, "src='$1'");
@@ -478,8 +496,14 @@ gulp.task('rename', done => {
                 newText = newText.replace(/\n\n\n/g, '\n');
                 newText = newText.replace(/\n\n/g, '\n');
                 // remove optional load module stuff we don't have.
-                newText = newText.replace(/<script>\n*\s*{%- for extra_module in extra_modules -%}\n*\s*import\("{{ extra_module }}"\);\n*\s*{%- endfor -%}\n*\s*<\/script>/g, '');
-                newText = newText.replace(/<script>\n*\s*if \(!window.latestJS\) {\n*\s*{%- for extra_script in extra_js_es5 -%}\n*\s*_ls\("{{ extra_script }}"\);\n*\s*{%- endfor -%}\n*\s*}\n*\s*<\/script>/g, '');
+                newText = newText.replace(
+                    /<script>\n*\s*{%- for extra_module in extra_modules -%}\n*\s*import\("{{ extra_module }}"\);\n*\s*{%- endfor -%}\n*\s*<\/script>/g,
+                    '',
+                );
+                newText = newText.replace(
+                    /<script>\n*\s*if \(!window.latestJS\) {\n*\s*{%- for extra_script in extra_js_es5 -%}\n*\s*_ls\("{{ extra_script }}"\);\n*\s*{%- endfor -%}\n*\s*}\n*\s*<\/script>/g,
+                    '',
+                );
             }
 
             if (newText !== text) {
@@ -492,9 +516,15 @@ gulp.task('rename', done => {
         }
     });
     if (fs.existsSync(`${__dirname}/hass_frontend/images/`)) {
-        fs.writeFileSync(`${__dirname}/hass_frontend/images/image.jpg`, fs.readFileSync(`${__dirname}/assets/image.jpg`));
+        fs.writeFileSync(
+            `${__dirname}/hass_frontend/images/image.jpg`,
+            fs.readFileSync(`${__dirname}/assets/image.jpg`),
+        );
     } else {
-        fs.writeFileSync(`${__dirname}/hass_frontend/static/images/image.jpg`, fs.readFileSync(`${__dirname}/assets/image.jpg`));
+        fs.writeFileSync(
+            `${__dirname}/hass_frontend/static/images/image.jpg`,
+            fs.readFileSync(`${__dirname}/assets/image.jpg`),
+        );
     }
     done();
 });
@@ -578,12 +608,17 @@ function nodeCommand(params, logmsg) {
 
 gulp.task('prepareDevserver', async done => {
     const promises = [];
-    filesWalk(`${__dirname}/test/testData`, (fileName) => {
+    filesWalk(`${__dirname}/test/testData`, fileName => {
         if (fileName && fileName.toLowerCase().endsWith('.json')) {
             const objects = JSON.parse(fs.readFileSync(fileName).toString('utf8'));
             for (const id of Object.keys(objects)) {
                 //const newId = '0_userdata.0.' + id.split('.').slice(2).join('.');
-                promises.push(nodeCommand([devserverIoBrokerPath, 'object', 'set', id, JSON.stringify(objects[id])], `Writing ${id}`));
+                promises.push(
+                    nodeCommand(
+                        [devserverIoBrokerPath, 'object', 'set', id, JSON.stringify(objects[id])],
+                        `Writing ${id}`,
+                    ),
+                );
             }
         }
     });

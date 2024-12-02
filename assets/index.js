@@ -2,23 +2,25 @@
 
 function getToolbar() {
     try {
-        const appToolbar = document.querySelector('home-assistant').shadowRoot
-            .querySelector('home-assistant-main').shadowRoot
-            //.querySelector('app-drawer-layout')
+        const appToolbar = document
+            .querySelector('home-assistant')
+            .shadowRoot.querySelector('home-assistant-main')
+            .shadowRoot //.querySelector('app-drawer-layout')
             .querySelector('partial-panel-resolver')
-            .querySelector('ha-panel-lovelace').shadowRoot
-            .querySelector('hui-root').shadowRoot
-            //.querySelector('ha-app-layout')
+            .querySelector('ha-panel-lovelace')
+            .shadowRoot.querySelector('hui-root')
+            .shadowRoot //.querySelector('ha-app-layout')
             //.querySelector('app-header')
             .querySelector('app-toolbar');
 
         return appToolbar;
     } catch (e) {
+        console.log(e);
         return null;
     }
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function hideButtons() {
     try {
         const appToolbar = getToolbar();
@@ -30,11 +32,12 @@ function hideButtons() {
         }
         //.querySelector('paper-icon-button').style.display = 'none';
     } catch (e) {
+        console.log(e);
         setTimeout(hideButtons, 200);
     }
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function hideHeader() {
     if (window.location.search.indexOf('edit=') === -1 && window.location.search.indexOf('toolbar') === -1) {
         setTimeout(function () {
@@ -42,6 +45,7 @@ function hideHeader() {
                 getToolbar().style.display = 'none';
                 window.dispatchEvent(new Event('resize'));
             } catch (e) {
+                console.log(e);
                 setTimeout(hideHeader, 200);
             }
         }, 200);

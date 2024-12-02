@@ -1,8 +1,9 @@
-const tools  = require('./testTools');
+/* global it before describe */
+const tools = require('./testTools');
 const expect = require('chai').expect;
 
 function expectBinarySensor(entity, id, name, getId) {
-    tools.expectEntity(entity, 'binary_sensor', id, name, {getId});
+    tools.expectEntity(entity, 'binary_sensor', id, name, { getId });
 }
 
 function expectMotion(entity, id, name, getId) {
@@ -16,7 +17,7 @@ function expectBattery(entity, id, name, getId) {
 }
 
 exports.runTests = function (suite) {
-    suite('binary_sensors', (getHarness) => {
+    suite('binary_sensors', getHarness => {
         //adapter will keep running for all test. harness and initial entities will be initialized once in before.
         let harness;
         let entities;
@@ -29,7 +30,7 @@ exports.runTests = function (suite) {
             '../testData/binary_sensor_motion_with_battery_warning.json',
             '../testData/binary_sensor_motion_with_id_clash.json',
             //fire alarm
-            '../testData/binary_sensor_fireAlarm_Homematic.json'
+            '../testData/binary_sensor_fireAlarm_Homematic.json',
         ];
 
         //start adapter and get initial entities.
@@ -39,7 +40,7 @@ exports.runTests = function (suite) {
             'adapter.0.binary_sensor.motions.WithBatteryWarning',
             'adapter.0.binary_sensor.motions.withIdClash',
             //fire alarm
-            'adapter.0.binary_sensor.firealarms.homematic'
+            'adapter.0.binary_sensor.firealarms.homematic',
         ];
         const initialStates = [];
         before(async () => {
@@ -55,28 +56,33 @@ exports.runTests = function (suite) {
                 const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
                 const binarySensor = entities.find(e => e.context.id === deviceId);
                 expect(binarySensor).to.be.ok;
-                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.occupancy');
+                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, `${deviceId}.occupancy`);
             });
 
             it('detects Motion Sensor with battery', async () => {
                 const deviceId = 'adapter.0.binary_sensor.motions.WithBatteryWarning';
 
                 const binarySensor = entities.find(e => e.context.id === deviceId);
-                const battery = entities.find(e => e.context.id === deviceId + '.batteryWarning');
+                const battery = entities.find(e => e.context.id === `${deviceId}.batteryWarning`);
                 expect(binarySensor).to.be.ok;
                 expect(battery).to.be.ok;
-                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.motion');
-                expectBattery(battery, deviceId + '.batteryWarning', objects[deviceId + '.batteryWarning'].common.name);
+                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, `${deviceId}.motion`);
+                expectBattery(battery, `${deviceId}.batteryWarning`, objects[`${deviceId}.batteryWarning`].common.name);
             });
 
             it('detects Motion Sensor with battery and prevents id clash', async () => {
                 const deviceId = 'adapter.0.binary_sensor.motions.withIdClash';
                 const binarySensor = entities.find(e => e.context.id === deviceId);
-                const battery = entities.find(e => e.context.id === deviceId + '.LOW_BAT');
+                const battery = entities.find(e => e.context.id === `${deviceId}.LOW_BAT`);
                 expect(binarySensor).to.be.ok;
                 expect(battery).to.be.ok;
-                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, deviceId + '.MOTION');
-                expectBattery(battery, deviceId + '.LOW_BAT', objects[deviceId + '.LOW_BAT'].common.name, deviceId + '.LOW_BAT');
+                expectMotion(binarySensor, deviceId, objects[deviceId].common.name, `${deviceId}.MOTION`);
+                expectBattery(
+                    battery,
+                    `${deviceId}.LOW_BAT`,
+                    objects[`${deviceId}.LOW_BAT`].common.name,
+                    `${deviceId}.LOW_BAT`,
+                );
             });
         });
 

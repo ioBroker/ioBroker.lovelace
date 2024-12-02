@@ -1,122 +1,127 @@
 'use strict';
-const express   = require('express');
-const utils     = require('@iobroker/adapter-core'); // Get common adapter utils
+const express = require('express');
+const utils = require('@iobroker/adapter-core'); // Get common adapter utils
 const IoBWebServer = require('@iobroker/webserver');
 const ApiServer = require('./lib/server');
-const words     = require('./admin/words');
+const words = require('./admin/words');
 
 /**
  * The adapter instance
- * @type {ioBroker.Adapter}
+ *
  */
 let adapter;
 
 /**
  * Starts the adapter instance
- * @param {Partial<ioBroker.AdapterOptions>} [options]
+ *
+ * @param {Partial<ioBroker.AdapterOptions>} [options] The adapter options
  */
 function startAdapter(options) {
     // Create the adapter and define its methods
-    return adapter = utils.adapter(Object.assign({}, options, {
-        name: 'lovelace',
+    return (adapter = utils.adapter(
+        Object.assign({}, options, {
+            name: 'lovelace',
 
-        // The ready callback is called when databases are connected and adapter received configuration.
-        // start here!
-        ready: () => main(adapter), // Main method defined below for readability
+            // The ready callback is called when databases are connected and adapter received configuration.
+            // start here!
+            ready: () => main(adapter), // Main method defined below for readability
 
-        // is called when adapter shuts down - callback has to be called under any circumstances!
-        unload: (callback) => {
-            try {
-                adapter.log.info('cleaned everything up...');
+            // is called when adapter shuts down - callback has to be called under any circumstances!
+            unload: callback => {
+                try {
+                    adapter.log.info('cleaned everything up...');
 
-                adapter.apiServer && adapter.apiServer.destroy();
+                    adapter.apiServer && adapter.apiServer.destroy();
 
-                if (adapter.webServer) {
-                    adapter.webServer.close(callback);
-                    adapter.webServer = null;
-                } else {
+                    if (adapter.webServer && typeof adapter.webServer.close === 'function') {
+                        adapter.webServer.close(callback);
+                        adapter.webServer = null;
+                    } else {
+                        callback();
+                    }
+                } catch (e) {
+                    adapter.log.error(`Error on unload: ${e} - ${e?.stack}`);
                     callback();
                 }
-            } catch (e) {
-                callback();
-            }
-        },
+            },
 
-        // is called if a subscribed object changes
-        objectChange: (id, obj) => {
-            adapter.apiServer.onObjectChange(id, obj);
-        },
+            // is called if a subscribed object changes
+            objectChange: (id, obj) => {
+                adapter.apiServer.onObjectChange(id, obj);
+            },
 
-        // is called if a subscribed state changes
-        stateChange: (id, state) => {
-            if (state) {
-                // The state was changed
-                adapter.apiServer.onStateChange(id, state);
-            } else {
-                // The state was deleted
-                adapter.log.info(`state ${id} deleted`);
-            }
-        },
+            // is called if a subscribed state changes
+            stateChange: (id, state) => {
+                if (state) {
+                    // The state was changed
+                    adapter.apiServer.onStateChange(id, state);
+                } else {
+                    // The state was deleted
+                    adapter.log.info(`state ${id} deleted`);
+                }
+            },
 
-        message: obj => {
-            if (obj.command === 'browse') {
-                obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
-            } else if (obj.command === 'send') {
-                //*cough*
-                adapter.apiServer.onStateChange(`${adapter.namespace}.notifications.add`, {val: obj.message, ack: false})
-                    .then(list =>
-                        obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
-            } else if (obj.command === 'checkIdForDuplicates') {
-                if (obj.callback) {
-                    if (obj.message) {
-                        const entities = adapter.apiServer.getHassStates();
-                        const params = obj.message;
-                        const entityId = `${params.entity}.${params.name}`;
-                        const objectId = params.objectId;
-                        const entity = entities.find(e => e.entity_id === entityId);
-                        if (entity) {
-                            if (entity.isManual) {
-                                if (entity.context.id === objectId) {
-                                    adapter.sendTo(obj.from, obj.command, '', obj.callback);
+            message: obj => {
+                if (obj.command === 'browse') {
+                    obj.callback &&
+                        adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
+                } else if (obj.command === 'send') {
+                    //*cough*
+                    adapter.apiServer
+                        .onStateChange(`${adapter.namespace}.notifications.add`, { val: obj.message, ack: false })
+                        .then(list => obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback));
+                } else if (obj.command === 'checkIdForDuplicates') {
+                    if (obj.callback) {
+                        if (obj.message) {
+                            const entities = adapter.apiServer.getHassStates();
+                            const params = obj.message;
+                            const entityId = `${params.entity}.${params.name}`;
+                            const objectId = params.objectId;
+                            const entity = entities.find(e => e.entity_id === entityId);
+                            if (entity) {
+                                if (entity.isManual) {
+                                    if (entity.context.id === objectId) {
+                                        adapter.sendTo(obj.from, obj.command, '', obj.callback);
+                                    } else {
+                                        adapter.sendTo(obj.from, obj.command, 'labelDuplicateId', obj.callback);
+                                    }
                                 } else {
-                                    adapter.sendTo(obj.from, obj.command, 'labelDuplicateId', obj.callback);
+                                    adapter.sendTo(obj.from, obj.command, 'labelOverwriteAutoEntity', obj.callback);
                                 }
                             } else {
-                                adapter.sendTo(obj.from, obj.command, 'labelOverwriteAutoEntity', obj.callback);
+                                adapter.sendTo(obj.from, obj.command, '', obj.callback);
                             }
                         } else {
-                            adapter.sendTo(obj.from, obj.command, '', obj.callback);
+                            adapter.sendTo(obj.from, obj.command, 'Internal error - Message null', obj.callback);
                         }
-                    } else {
-                        adapter.sendTo(obj.from, obj.command, 'Internal error - Message null', obj.callback);
                     }
                 }
-            }
-        }
+            },
 
-        // Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
-        // requires "common.message" property to be set to true in io-package.json
-        // message: (obj) => {
-        // 	if (typeof obj === "object" && obj.message) {
-        // 		if (obj.command === "send") {
-        // 			// e.g. send email or pushover or whatever
-        // 			adapter.log.info("send command");
+            // Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
+            // requires "common.message" property to be set to true in io-package.json
+            // message: (obj) => {
+            // 	if (typeof obj === "object" && obj.message) {
+            // 		if (obj.command === "send") {
+            // 			// e.g. send email or pushover or whatever
+            // 			adapter.log.info("send command");
 
-        // 			// Send response in callback if required
-        // 			if (obj.callback) adapter.sendTo(obj.from, obj.command, "Message received", obj.callback);
-        // 		}
-        // 	}
-        // },
-    }));
+            // 			// Send response in callback if required
+            // 			if (obj.callback) adapter.sendTo(obj.from, obj.command, "Message received", obj.callback);
+            // 		}
+            // 	}
+            // },
+        }),
+    ));
 }
 
 async function initWebServer(settings) {
     const server = {
-        app:       express(),
-        server:    null,
-        api:       null,
-        io:        null,
-        settings:  settings
+        app: express(),
+        server: null,
+        api: null,
+        io: null,
+        settings: settings,
     };
 
     settings.port = parseInt(settings.port, 10);
@@ -126,16 +131,20 @@ async function initWebServer(settings) {
             return null;
         }
         try {
-            const webserver = new IoBWebServer.WebServer({app: server.app, adapter, secure: settings.secure});
+            const webserver = new IoBWebServer.WebServer({ app: server.app, adapter, secure: settings.secure });
             server.server = await webserver.init();
         } catch (err) {
             adapter.log.error(`Cannot create web-server: ${err}`);
-            adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+            adapter.terminate
+                ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION)
+                : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
             return;
         }
         if (!server.server) {
             adapter.log.error(`Cannot create web-server`);
-            adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+            adapter.terminate
+                ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION)
+                : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
             return;
         }
 
@@ -155,34 +164,47 @@ async function initWebServer(settings) {
 
         server.server.on('error', e => {
             if (e.toString().includes('EACCES') && serverPort <= 1024) {
-                adapter.log.error(`node.js process has no rights to start server on the port ${serverPort}.\n` +
-                    `Do you know that on linux you need special permissions for ports under 1024?\n` +
-                    `You can call in shell following scrip to allow it for node.js: "iobroker fix"`
+                adapter.log.error(
+                    `node.js process has no rights to start server on the port ${serverPort}.\n` +
+                        `Do you know that on linux you need special permissions for ports under 1024?\n` +
+                        `You can call in shell following scrip to allow it for node.js: "iobroker fix"`,
                 );
             } else {
                 adapter.log.error(`Cannot start server on ${settings.bind || '0.0.0.0'}:${serverPort}: ${e}`);
             }
             if (!serverListening) {
-                adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+                adapter.terminate
+                    ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION)
+                    : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
             }
         });
 
-        adapter.getPort(server.settings.port, (!server.settings.bind || server.settings.bind === '0.0.0.0') ? undefined : server.settings.bind || undefined, port => {
-            if (port !== server.settings.port && !adapter.config.findNextPort) {
-                adapter.log.error(`port ${server.settings.port} already in use`);
-                if (adapter.terminate) {
-                    adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
-                } else {
-                    process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+        adapter.getPort(
+            server.settings.port,
+            !server.settings.bind || server.settings.bind === '0.0.0.0' ? undefined : server.settings.bind || undefined,
+            port => {
+                if (port !== server.settings.port && !adapter.config.findNextPort) {
+                    adapter.log.error(`port ${server.settings.port} already in use`);
+                    if (adapter.terminate) {
+                        adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+                    } else {
+                        process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+                    }
                 }
-            }
-            serverPort = port;
+                serverPort = port;
 
-            server.server.listen(port, (!server.settings.bind || server.settings.bind === '0.0.0.0') ? undefined : server.settings.bind || undefined, () => {
-                serverListening = true;
-                adapter.log.info(`http${server.settings.secure ? 's' : ''} server listening on port ${port}`);
-            });
-        });
+                server.server.listen(
+                    port,
+                    !server.settings.bind || server.settings.bind === '0.0.0.0'
+                        ? undefined
+                        : server.settings.bind || undefined,
+                    () => {
+                        serverListening = true;
+                        adapter.log.info(`http${server.settings.secure ? 's' : ''} server listening on port ${port}`);
+                    },
+                );
+            },
+        );
     }
 
     if (server.server) {
@@ -200,7 +222,7 @@ async function main(adapter) {
         // Load certificates
         adapter.getCertificates(async (err, certificates, leConfig) => {
             adapter.config.certificates = certificates;
-            adapter.config.leConfig     = leConfig;
+            adapter.config.leConfig = leConfig;
             adapter.webServer = await initWebServer(adapter.config);
             adapter.apiServer = new ApiServer({
                 adapter,

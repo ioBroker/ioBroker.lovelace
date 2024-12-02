@@ -22,5 +22,5 @@ tests.integration(path.join(__dirname, '..'), {
     // Since the tests are heavily instrumented, you need to create and use a so-called "harness" to control the tests.
     defineAdditionalTests({ suite }) {
         integrationTests.runTests(suite);
-    }
+    },
 });

@@ -5,5 +5,5 @@ export default {
     ...prettierConfig,
     // uncomment the next line if you prefer double quotes
     // singleQuote: false,
-    trailingComma: 'none'
+    // trailingComma: 'none'
 }

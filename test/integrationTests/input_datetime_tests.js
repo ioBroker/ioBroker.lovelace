@@ -1,9 +1,10 @@
-const tools  = require('./testTools');
-const {waitForEntitiesUpdate} = require('./testTools');
+/* global it before */
+const tools = require('./testTools');
+const { waitForEntitiesUpdate } = require('./testTools');
 const expect = require('chai').expect;
 
 exports.runTests = function (suite) {
-    suite('input_datetime', (getHarness) => {
+    suite('input_datetime', getHarness => {
         //adapter will keep running for all test. harness and initial entities will be initialized once in before.
         let harness;
         let entities;
@@ -14,7 +15,7 @@ exports.runTests = function (suite) {
 
         //start adapter and get initial entities.
         const idsWithEnums = [];
-        const initialStates = [{id: 'adapter.0.input_datetime.custom_test', val: 0}];
+        const initialStates = [{ id: 'adapter.0.input_datetime.custom_test', val: 0 }];
         before(async () => {
             tools.clearClient();
             //get harness && entities here.
@@ -36,25 +37,46 @@ exports.runTests = function (suite) {
             expect(entity).to.have.nested.property('attributes.year', date0.getFullYear());
             expect(entity).to.have.nested.property('attributes.month', date0.getMonth() + 1);
             expect(entity).to.have.nested.property('attributes.day', date0.getDate());
-            expect(entity).to.have.nested.property('attributes.hour', (date0.getHours() < 10 ? '0' : '') + date0.getHours());
-            expect(entity).to.have.nested.property('attributes.minute', (date0.getMinutes() < 10 ? '0' : '') + date0.getMinutes());
+            expect(entity).to.have.nested.property(
+                'attributes.hour',
+                (date0.getHours() < 10 ? '0' : '') + date0.getHours(),
+            );
+            expect(entity).to.have.nested.property(
+                'attributes.minute',
+                (date0.getMinutes() < 10 ? '0' : '') + date0.getMinutes(),
+            );
             const now = new Date();
-            await tools.validateStateChange(harness, entity.entity_id,
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId, now.getTime(), true),
                 entity => {
                     expect(entity).to.have.nested.property('attributes.year', now.getFullYear());
                     expect(entity).to.have.nested.property('attributes.month', now.getMonth() + 1);
                     expect(entity).to.have.nested.property('attributes.day', now.getDate());
-                    expect(entity).to.have.nested.property('attributes.hour', (now.getHours() < 10 ? '0' : '') + now.getHours());
-                    expect(entity).to.have.nested.property('attributes.minute', (now.getMinutes() < 10 ? '0' : '') + now.getMinutes());
-                });
+                    expect(entity).to.have.nested.property(
+                        'attributes.hour',
+                        (now.getHours() < 10 ? '0' : '') + now.getHours(),
+                    );
+                    expect(entity).to.have.nested.property(
+                        'attributes.minute',
+                        (now.getMinutes() < 10 ? '0' : '') + now.getMinutes(),
+                    );
+                },
+            );
 
             console.log('Sending UI commands.');
-            await tools.validateUIInput(harness, entity, m => {
-                m.domain = 'input_select';
-                m.service = 'set_datetime';
-                m.service_data = {date: '2021-07-19', time: '10:03'};
-            }, deviceId, state => expect(state.val).to.equal(new Date(2021, 6, 19, 10, 3).getTime()));
+            await tools.validateUIInput(
+                harness,
+                entity,
+                m => {
+                    m.domain = 'input_select';
+                    m.service = 'set_datetime';
+                    m.service_data = { date: '2021-07-19', time: '10:03' };
+                },
+                deviceId,
+                state => expect(state.val).to.equal(new Date(2021, 6, 19, 10, 3).getTime()),
+            );
         });
 
         //uses '../testData/input_datetime_custom.json'
@@ -130,7 +152,9 @@ exports.runTests = function (suite) {
             expect(entity).to.not.have.nested.property('attributes.hour');
             expect(entity).to.not.have.nested.property('attributes.minute');
             const now = new Date();
-            await tools.validateStateChange(harness, entity.entity_id,
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId, now.getTime(), true),
                 entity => {
                     expect(entity).to.have.nested.property('attributes.year', now.getFullYear());
@@ -138,14 +162,21 @@ exports.runTests = function (suite) {
                     expect(entity).to.have.nested.property('attributes.day', now.getDate());
                     expect(entity).to.not.have.nested.property('attributes.hour');
                     expect(entity).to.not.have.nested.property('attributes.minute');
-                });
+                },
+            );
 
             console.log('Sending UI commands.');
-            await tools.validateUIInput(harness, entity, m => {
-                m.domain = 'input_select';
-                m.service = 'set_datetime';
-                m.service_data = {date: '2021-07-19'};
-            }, deviceId, state => expect(state.val).to.equal(new Date('2021-07-19').getTime()));
+            await tools.validateUIInput(
+                harness,
+                entity,
+                m => {
+                    m.domain = 'input_select';
+                    m.service = 'set_datetime';
+                    m.service_data = { date: '2021-07-19' };
+                },
+                deviceId,
+                state => expect(state.val).to.equal(new Date('2021-07-19').getTime()),
+            );
         });
 
         it('input_datetime should work without date', async () => {
@@ -164,22 +195,46 @@ exports.runTests = function (suite) {
             expect(entity).to.not.have.nested.property('attributes.year');
             expect(entity).to.not.have.nested.property('attributes.month');
             expect(entity).to.not.have.nested.property('attributes.day');
-            expect(entity).to.have.nested.property('attributes.hour', (date0.getHours() < 10 ? '0' : '') + date0.getHours());
-            expect(entity).to.have.nested.property('attributes.minute', (date0.getMinutes() < 10 ? '0' : '') + date0.getMinutes());
+            expect(entity).to.have.nested.property(
+                'attributes.hour',
+                (date0.getHours() < 10 ? '0' : '') + date0.getHours(),
+            );
+            expect(entity).to.have.nested.property(
+                'attributes.minute',
+                (date0.getMinutes() < 10 ? '0' : '') + date0.getMinutes(),
+            );
             const now = new Date();
-            await tools.validateStateChange(harness, entity.entity_id,
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId, now.getTime(), true),
                 entity => {
-                    expect(entity).to.have.nested.property('attributes.hour', (now.getHours() < 10 ? '0' : '') + now.getHours());
-                    expect(entity).to.have.nested.property('attributes.minute', (now.getMinutes() < 10 ? '0' : '') + now.getMinutes());
-                });
+                    expect(entity).to.have.nested.property(
+                        'attributes.hour',
+                        (now.getHours() < 10 ? '0' : '') + now.getHours(),
+                    );
+                    expect(entity).to.have.nested.property(
+                        'attributes.minute',
+                        (now.getMinutes() < 10 ? '0' : '') + now.getMinutes(),
+                    );
+                },
+            );
 
             console.log('Sending UI commands.');
-            await tools.validateUIInput(harness, entity, m => {
-                m.domain = 'input_select';
-                m.service = 'set_datetime';
-                m.service_data = {time: '9:31'};
-            }, deviceId, state => expect(state.val).to.equal(new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 31).getTime()));
+            await tools.validateUIInput(
+                harness,
+                entity,
+                m => {
+                    m.domain = 'input_select';
+                    m.service = 'set_datetime';
+                    m.service_data = { time: '9:31' };
+                },
+                deviceId,
+                state =>
+                    expect(state.val).to.equal(
+                        new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 31).getTime(),
+                    ),
+            );
         });
 
         it('input_datetime should work with string object', async () => {
@@ -200,22 +255,37 @@ exports.runTests = function (suite) {
             expect(entity).to.have.nested.property('attributes.hour', 13);
             expect(entity).to.have.nested.property('attributes.minute', 15);
             const now = new Date();
-            await tools.validateStateChange(harness, entity.entity_id,
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
                 async () => await harness.states.setStateAsync(deviceId, now.getTime(), true),
                 entity => {
                     expect(entity).to.have.nested.property('attributes.year', now.getFullYear());
                     expect(entity).to.have.nested.property('attributes.month', now.getMonth() + 1);
                     expect(entity).to.have.nested.property('attributes.day', now.getDate());
-                    expect(entity).to.have.nested.property('attributes.hour', (now.getHours() < 10 ? '0' : '') + now.getHours());
-                    expect(entity).to.have.nested.property('attributes.minute', (now.getMinutes() < 10 ? '0' : '') + now.getMinutes());
-                });
+                    expect(entity).to.have.nested.property(
+                        'attributes.hour',
+                        (now.getHours() < 10 ? '0' : '') + now.getHours(),
+                    );
+                    expect(entity).to.have.nested.property(
+                        'attributes.minute',
+                        (now.getMinutes() < 10 ? '0' : '') + now.getMinutes(),
+                    );
+                },
+            );
 
             console.log('Sending UI commands.');
-            await tools.validateUIInput(harness, entity, m => {
-                m.domain = 'input_select';
-                m.service = 'set_datetime';
-                m.service_data = {date: '2021-07-19', time: '10:03'};
-            }, deviceId, state => expect(state.val).to.equal('2021-07-19 10:03:00'));
+            await tools.validateUIInput(
+                harness,
+                entity,
+                m => {
+                    m.domain = 'input_select';
+                    m.service = 'set_datetime';
+                    m.service_data = { date: '2021-07-19', time: '10:03' };
+                },
+                deviceId,
+                state => expect(state.val).to.equal('2021-07-19 10:03:00'),
+            );
         });
     });
 };

@@ -1,8 +1,9 @@
-const tools  = require('./testTools');
+/* global it before */
+const tools = require('./testTools');
 const expect = require('chai').expect;
 
 exports.runTests = function (suite) {
-    suite('custom_settings', (getHarness) => {
+    suite('custom_settings', getHarness => {
         //adapter will keep running for all test. harness and initial entities will be initialized once in before.
         let harness;
         let entities;
@@ -28,7 +29,7 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.ok;
-            tools.expectEntity(entity, 'binary_sensor', deviceId, objects[deviceId].common.name, {getId: deviceId});
+            tools.expectEntity(entity, 'binary_sensor', deviceId, objects[deviceId].common.name, { getId: deviceId });
             expect(entity).to.have.nested.property('attributes.device_class', 'connectivity');
         });
 
@@ -42,7 +43,9 @@ exports.runTests = function (suite) {
         //uses '../testData/custom_test_no_custom.json' and '../testData/binary_sensor_custom_settings.json'
         it('entity should be created after custom is set', async () => {
             const deviceId = 'adapter.0.binary_sensor.motions.withoutCustom';
-            const custom = JSON.parse(JSON.stringify(objects['adapter.0.binary_sensor.motions.withCustom'].common.custom));
+            const custom = JSON.parse(
+                JSON.stringify(objects['adapter.0.binary_sensor.motions.withCustom'].common.custom),
+            );
             custom.name = 'binary_sensor_without_custom';
             const entity = entities.find(e => e.context.id === deviceId);
             expect(entity).to.be.not.ok;
@@ -61,16 +64,18 @@ exports.runTests = function (suite) {
             const obj = JSON.parse(JSON.stringify(objects[deviceId]));
             obj.common.custom = {
                 'lovelace.0': {
-                    'enabled': true,
-                    'entity': 'binary_sensor',
-                    'name': 'binary_sensor_with_custom',
-                    'attr_device_class': 'motion'
-                }
+                    enabled: true,
+                    entity: 'binary_sensor',
+                    name: 'binary_sensor_with_custom',
+                    attr_device_class: 'motion',
+                },
             };
             const newEntities = await tools.waitForEntitiesUpdate(harness, [obj]);
             const newEntity = newEntities.find(e => e.context.id === deviceId);
             expect(newEntity).to.be.ok;
-            tools.expectEntity(newEntity, 'binary_sensor', deviceId, objects[deviceId].common.name, {getId: deviceId});
+            tools.expectEntity(newEntity, 'binary_sensor', deviceId, objects[deviceId].common.name, {
+                getId: deviceId,
+            });
             expect(newEntity).to.have.nested.property('attributes.device_class', 'motion');
         });
 
@@ -113,7 +118,6 @@ exports.runTests = function (suite) {
             expect(newEntity).to.be.ok;
             expect(newEntity).to.have.nested.property('attributes.friendly_name', 'New Name');
         });
-
 
         it('manual entity should overwrite automatic entity', async () => {
             //reset object:
