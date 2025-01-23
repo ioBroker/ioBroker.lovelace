@@ -145,7 +145,13 @@
     "connectionType": "local",
     "dataSource": "push",
     "localLinks": {
-      "_default": "%protocol%://%ip%:%port%/"
+      "_default": {
+        "link": "%protocol%://%ip%:%port%/",
+        "name": "Lovelace",
+        "color": "#14C8FF",
+        "pro": "lovelace/",
+        "intro": true
+      }
     },
     "messages": [
       {
@@ -266,26 +272,6 @@
       {
         "admin": ">=6.17.14"
       }
-    ],
-    "welcomeScreenPro": [
-      {
-        "link": "lovelace/",
-        "name": "Lovelace",
-        "img": "lovelace.admin/lovelace.png",
-        "color": "#03a9f4",
-        "order": 6,
-        "localLink": true
-      }
-    ],
-    "welcomeScreen": [
-      {
-        "link": "lovelace/",
-        "name": "Lovelace",
-        "img": "lovelace.admin/lovelace.png",
-        "color": "#03a9f4",
-        "order": 6,
-        "localLink": true
-      }
     ]
   },
   "native": {
@@ -308,7 +294,7 @@
     "leEnabled": false,
     "leUpdate": false,
     "leCheckPort": 80,
-    "aliayOnly": false,
+    "aliasOnly": false,
     "blindsInvert": false,
     "alarmCheckCodeOnDisarmOnly": false,
     "language": "",
