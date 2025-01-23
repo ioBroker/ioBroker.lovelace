@@ -35,14 +35,14 @@ In auto mode the similar process will be applied like for `google home` or `mate
 You can define friendly names and this will be used in entities.
 
 ### Manual
-The objects can be defined manually in an object tree like sql or histroy. The type of entity must be provided and optionally the name of object.
+The objects can be defined manually in an object tree like SQL or history. The type of entity must be provided and optionally the name of object.
 With this method only simple entities, like input_number, input_text or input_boolean could be created. It may not have more than one state or attribute.
 
 ## Panels
 ### Alarm panel
 ioBroker does not support such a device yet, but it can be simulated. If you create such a script:
 
-```
+```js
 createState(
     'alarmSimple',
     false,
@@ -211,7 +211,7 @@ Custom Lovelace card created in support of accuweather forecast - https://github
 
 ### Shopping list
 Shopping list writes the values in form:
-```
+```json
 [
    {"summary": "Task 1", "uid": "1234222", "status": "needs_action"},
    {"summary": "Task 2", "uid": "1234223", "status": "completed"}
@@ -224,7 +224,7 @@ You can also add your own todo or shopping lists by creating manual entities wit
 ### Map
 The objects must look like this one:
 
-```
+```js
 createState('location', '39.5681295;2.6432632', false, {
     "name": "location",
     "role": "value.gps",
@@ -237,7 +237,7 @@ createState('location', '39.5681295;2.6432632', false, {
 
 or these two objects:
 
-```
+```js
 createState('location.longitude', 2.6432632, false, {
     "name": "location longitude",
     "role": "value.gps.longitude",
@@ -260,7 +260,7 @@ createState('location.latitude', 39.5681295, false, {
 You can use static picture for it or use any state that delivers URL as a state.
 E.g.:
 
-```
+```json
 {
   "_id": "daswetter.0.NextDays.Location_1.Day_1.iconURL",
   "type": "state",
@@ -278,7 +278,7 @@ E.g.:
 or just manually set the entity type to `camera` and write URL into it.
 
 ### Markdown
-You can use bindings in markdown like in [iobroker.vis](https://github.com/ioBroker/ioBroker.vis#bindings-of-objects).
+You can use bindings in Markdown like in [iobroker.vis](https://github.com/ioBroker/ioBroker.vis#bindings-of-objects).
 
 E.g., Text `Admin adapter is {a:system.adapter.admin.0.alive;a === true || a === 'true' ? ' ' : 'not '} *alive*.` will produce text `Admin adapter is alive` in a markdown panel.
 
@@ -286,7 +286,7 @@ E.g., Text `Admin adapter is {a:system.adapter.admin.0.alive;a === true || a ===
 ### Upload of custom cards
 To upload the custom card, write the following:
 
-```iobroker file write PATH_TO_FILE\bignumber-card.js /lovelace.0/cards/```
+`iobroker file write PATH_TO_FILE\bignumber-card.js /lovelace.0/cards/`
 
 After restart of lovelace adapter it will include all files from the `cards` directory automatically.
 
@@ -391,14 +391,14 @@ Use icons in form `mdi:NAME`, like `mdi:play-network`. Names can be taken from h
 ## Notifications
 You can add notifications via `sendTo` functionality or by writing the state into `lovelace.X.notifications.add`:
 
-```
+```js
 sendTo('lovelace.0', 'send', {message: 'Message text', title: 'Title'}); // full version
 sendTo('lovelace.0', 'send', 'Message text'); // short version
 ```
 
 or
 
-```
+```js
 setState('lovelace.0.notifications.add', '{"message": "Message text", "title": "Title"}'); // full version
 setState('lovelace.0.notifications.add', 'Message text'); // short version
 ```
@@ -406,7 +406,7 @@ setState('lovelace.0.notifications.add', 'Message text'); // short version
 ## Voice control
 All commands from web interface will be written into lovelace.X.conversation state with `ack=false`.
 You can write a script that will react on request and will answer:
-```
+```js
 on({id: 'lovelace.0.conversation', ack: false, change: 'any'}, obj => {
    console.log('Question: ' + obj.state.val);
    if (obj.state.val.includes('time')) {
@@ -465,7 +465,7 @@ After that checkout modified version in `./build` folder. Then.
 6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
 7. copy all files from `./build/home-assistant-polymer/hass_frontend` into `./hass_frontend` in this repo
 8. Run `gulp rename` task multiple times (until no changes happen).
-9. Update version in `README.md` and also in `server.js` the `VERSION` constant.
+9. Update a version in `README.md` and also in `server.js` the `VERSION` constant.
 
 ## Changelog
 
