@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.11",
+    "version": "4.1.12",
     "news": {
+      "4.1.12": {
+        "en": "reworked image sending. Now weather icons work for normal users, too. Also weather images are transfered from our server, so no access to admin is needed anymore.",
+        "de": "reworked image send. Jetzt funktionieren auch Wettersymbole für normale Benutzer. Auch Wetterbilder werden von unserem Server übertragen, so dass kein Zugriff auf Admin mehr erforderlich ist.",
+        "ru": "переделанная отправка изображений. Теперь иконки погоды работают и для обычных пользователей. Также с нашего сервера передаются погодные изображения, поэтому доступ к администратору больше не требуется.",
+        "pt": "envio de imagem retrabalhado. Agora os ícones do tempo funcionam para usuários normais, também. Também as imagens meteorológicas são transferidas do nosso servidor, então não é necessário mais acesso a admin.",
+        "nl": "herwerkte afbeelding verzenden. Nu weer pictogrammen werken voor normale gebruikers, ook. Ook weerbeelden worden overgebracht van onze server, zodat geen toegang meer nodig is tot admin.",
+        "fr": "l'envoi d'images retravaillées. Maintenant, les icônes météo fonctionnent aussi pour les utilisateurs normaux. Aussi les images météorologiques sont transférées de notre serveur, de sorte qu'aucun accès à admin n'est plus nécessaire.",
+        "it": "l'invio di immagini rielaborate. Ora le icone meteo funzionano anche per gli utenti normali. Anche le immagini meteo vengono trasferite dal nostro server, quindi non è più necessario accedere all'amministratore.",
+        "es": "reelaboró el envío de imagen. Ahora los iconos meteorológicos también funcionan para los usuarios normales. También las imágenes del tiempo son transferidas desde nuestro servidor, por lo que ya no se necesita acceso a admin.",
+        "pl": "przerabiane wysyłanie obrazów. Teraz ikony pogodowe działają również dla zwykłych użytkowników. Również obrazy pogody są transfered z naszego serwera, więc nie jest już potrzebny dostęp do admin.",
+        "uk": "переробляти посилку зображення. Ікони погоди працюють для нормальних користувачів. Крім того, погодні зображення передаються з нашого сервера, тому не потрібно доступу до адміну.",
+        "zh-cn": "重新工作图像发送 。 现在天气图标也为正常用户服务. 还有天气图像是从我们的服务器传输的,所以不再需要访问管理员了."
+      },
       "4.1.11": {
         "en": "convert string state values to numbers, where necessary.",
         "de": "string-zustandswerte gegebenenfalls in zahlen umwandeln.",

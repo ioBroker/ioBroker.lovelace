@@ -1,4 +1,8 @@
 # Older Changes
+## 4.1.6 (2024-03-07)
+* (Garfonso) remove exessive logging
+* (Garfonso) improve fix for crash again.
+
 ## 4.1.5 (2024-03-05)
 * (Garfonso) fixed: possible crashes during startup
 
