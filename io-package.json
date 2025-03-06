@@ -46,10 +46,6 @@
         "en": "prevent even more possible crashes\nfixed: tilt level and inversion",
         "de": "noch mehr mögliche abstürzen verhindern\nfixed: tilt level und inversion"
       },
-      "4.1.7": {
-        "en": "prevent even more possible crashes\nfixed: tilt level and inversion",
-        "de": "noch mehr mögliche abstürzen verhindern\nfixed: tilt level und inversion"
-      },
       "4.1.6": {
         "en": "remove exessive logging\nimprove fix for crash again.",
         "de": "exessive log ausgabe entfernen\nverbesserung der reparatur für crash.",
@@ -250,12 +246,12 @@
     ],
     "dependencies": [
       {
-        "js-controller": ">=3.3.0"
+        "js-controller": ">=5.0.19"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=5.1.28"
+        "admin": ">=6.0.0"
       }
     ],
     "welcomeScreenPro": [
