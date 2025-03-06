@@ -264,7 +264,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=6.0.0"
+        "admin": ">=6.17.14"
       }
     ],
     "welcomeScreenPro": [
