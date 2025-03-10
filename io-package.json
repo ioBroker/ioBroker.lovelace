@@ -1,11 +1,11 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "5.0.0-alpha.0",
+    "version": "5.0.0-alpha.1",
     "news": {
-      "5.0.0-alpha.0": {
+      "5.0.0-alpha.1": {
         "en": "Updated frontent to 20250306.0",
-        "de": "Aktualisierte Frontend auf 20250306.0",
+        "de": "Aktualisierter Frontent auf 20250306.0",
         "ru": "Обновленный интерфейс до 20250306.0",
         "pt": "Frontente atualizado para 20250306.0",
         "nl": "Bijgewerkt frontent naar 20250306,0",
@@ -80,10 +80,6 @@
         "pl": "dodaj wsparcie dla nowej struktury połączeń serwisowych.\ndodaj obsługę dostarczania plików z innych adapterów, na przykład lokalnych obrazów okładek.\nwyczyszczone opisy usług.",
         "uk": "додати підтримку нової структури виклику сервісу.\nдодати підтримку для доставки файлів з інших адаптерів, наприклад, локальних зображень кришки.\nочищають описи послуг.",
         "zh-cn": "添加对新服务呼叫结构的支持.\n添加支持从其他适配器发送文件,例如本地封面图像.\n清理服务说明."
-      },
-      "4.1.8": {
-        "en": "prevent even more possible crashes\nfixed: tilt level and inversion",
-        "de": "noch mehr mögliche abstürzen verhindern\nfixed: tilt level und inversion"
       }
     },
     "titleLang": {
