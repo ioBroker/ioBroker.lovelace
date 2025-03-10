@@ -1,0 +1,1 @@
+{"version":3,"file":"62689.7dc9b948afc133fc.js","sources":["/unknown/node_modules/jsqr-es6/src/BitMatrix.ts"],"names":["createWorker","Worker","URL","createObjectURL","Blob"],"mappings":"qKASEA,IAAA,IAAYC,OACVC,IAAKC,gBACA,IAAcC,KAAA,CAAnB,g61C"}

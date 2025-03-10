@@ -1,0 +1,2 @@
+export const __webpack_ids__=["70642"];export const __webpack_modules__={55832:function(e,t,r){r.r(t),r.d(t,{IframeViewStrategy:()=>c});var n=r(44249),a=r(57243),s=r(15093);let c=(0,n.Z)([(0,s.Mo)("iframe-view-strategy")],(function(e,t){return{F:class extends t{constructor(...t){super(...t),e(this)}},d:[{kind:"method",static:!0,key:"generate",value:async function(e){return{type:"panel",title:e.title,cards:[{type:"iframe",url:e.url}]}}}]}}),a.fl)}};
+//# sourceMappingURL=70642.41141c3f0c2160e6.js.map
