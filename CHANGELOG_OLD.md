@@ -1,4 +1,9 @@
 # Older Changes
+## 4.1.9 (2024-04-26)
+* (Garfonso) add support for new service call structure.
+* (Garfonso) add support for delivering files from other adapters, for example, local cover images.
+* (Garfonso) cleaned up service descriptions.
+
 ## 4.1.8 (2024-03-11)
 * (Garfonso) prevent even more possible crashes
 * (smarthomejoey) fixed: tilt level and inversion

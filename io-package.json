@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.14",
+    "version": "5.0.0-alpha.0",
     "news": {
+      "5.0.0-alpha.0": {
+        "en": "Updated frontent to 20250306.0",
+        "de": "Aktualisierte Frontend auf 20250306.0",
+        "ru": "Обновленный интерфейс до 20250306.0",
+        "pt": "Frontente atualizado para 20250306.0",
+        "nl": "Bijgewerkt frontent naar 20250306,0",
+        "fr": "Mise à jour du frontent vers 2020306.0",
+        "it": "Anteprima aggiornato a 20250306.0",
+        "es": "Actualizado frontal a 20250306.0",
+        "pl": "Aktualizacja do 20250306.0",
+        "uk": "Оновлений фронтент до 20250306.0",
+        "zh-cn": "更新至202030306.0"
+      },
       "4.1.14": {
         "en": "repaired image loading. Fixes #577",
         "de": "Bilder laden repariert. Fixes #577",
@@ -71,19 +84,6 @@
       "4.1.8": {
         "en": "prevent even more possible crashes\nfixed: tilt level and inversion",
         "de": "noch mehr mögliche abstürzen verhindern\nfixed: tilt level und inversion"
-      },
-      "4.1.6": {
-        "en": "remove exessive logging\nimprove fix for crash again.",
-        "de": "exessive log ausgabe entfernen\nverbesserung der reparatur für crash.",
-        "ru": "удалить exessive logging\nулучшить исправление для аварии снова.",
-        "pt": "remover registro exessivo\nmelhorar a correção para acidente novamente.",
-        "nl": "exessieve logging verwijderen\nverbeteren fix voor crash opnieuw.",
-        "fr": "supprimer l'exploitation exessive\naméliorer la correction pour le crash à nouveau.",
-        "it": "rimuovere logging exessive\nmigliorare la correzione per crash di nuovo.",
-        "es": "remove exessive logging\nmejorar la solución para el accidente de nuevo.",
-        "pl": "usunięcie nadmiernego logowania\npoprawić naprawić ponownie awarii.",
-        "uk": "видалити есенціальний журнал\nзнову поліпшуйте фіксацію.",
-        "zh-cn": "删除 exessive 日志\n改善再次崩溃的修复."
       }
     },
     "titleLang": {
