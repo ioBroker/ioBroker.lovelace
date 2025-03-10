@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) repaired image loading, again.
+
 ### 4.1.14 (2025-03-10)
 * (Garfonso) repaired image loading. Fixes #577
 
