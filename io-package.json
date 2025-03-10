@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.14",
+    "version": "4.1.15",
     "news": {
+      "4.1.15": {
+        "en": "repaired image loading, again.",
+        "de": "Bilder laden nochmal verändert. Jetzt geht hoffentlich alles.",
+        "ru": "восстановлена загрузка изображения, опять же.",
+        "pt": "carga de imagem reparada, novamente.",
+        "nl": "hersteld beeld laden, opnieuw.",
+        "fr": "réparation de chargement d'image, encore.",
+        "it": "caricamento immagine riparato, di nuovo.",
+        "es": "reparado carga de imagen, otra vez.",
+        "pl": "ponownie naprawiono ładowanie obrazu.",
+        "uk": "ремонтувати завантаження зображень, знову.",
+        "zh-cn": "再次修复图像加载 ."
+      },
       "4.1.14": {
         "en": "repaired image loading. Fixes #577",
         "de": "Bilder laden repariert. Fixes #577",
@@ -71,19 +84,6 @@
       "4.1.8": {
         "en": "prevent even more possible crashes\nfixed: tilt level and inversion",
         "de": "noch mehr mögliche abstürzen verhindern\nfixed: tilt level und inversion"
-      },
-      "4.1.6": {
-        "en": "remove exessive logging\nimprove fix for crash again.",
-        "de": "exessive log ausgabe entfernen\nverbesserung der reparatur für crash.",
-        "ru": "удалить exessive logging\nулучшить исправление для аварии снова.",
-        "pt": "remover registro exessivo\nmelhorar a correção para acidente novamente.",
-        "nl": "exessieve logging verwijderen\nverbeteren fix voor crash opnieuw.",
-        "fr": "supprimer l'exploitation exessive\naméliorer la correction pour le crash à nouveau.",
-        "it": "rimuovere logging exessive\nmigliorare la correzione per crash di nuovo.",
-        "es": "remove exessive logging\nmejorar la solución para el accidente de nuevo.",
-        "pl": "usunięcie nadmiernego logowania\npoprawić naprawić ponownie awarii.",
-        "uk": "видалити есенціальний журнал\nзнову поліпшуйте фіксацію.",
-        "zh-cn": "删除 exessive 日志\n改善再次崩溃的修复."
       }
     },
     "titleLang": {

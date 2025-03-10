@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.15 (2025-03-10)
 * (Garfonso) repaired image loading, again.
 
 ### 4.1.14 (2025-03-10)
@@ -488,11 +488,6 @@ After that checkout modified version in `./build` folder. Then.
 ### 4.1.10 (2024-05-23)
 * (Garfonso) device icons work again.
 * (Garfonso) default user sometimes was not found in system.
-
-### 4.1.9 (2024-04-26)
-* (Garfonso) add support for new service call structure.
-* (Garfonso) add support for delivering files from other adapters, for example, local cover images.
-* (Garfonso) cleaned up service descriptions.
 
 ## License
 
