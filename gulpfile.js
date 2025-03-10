@@ -506,6 +506,9 @@ gulp.task('rename', done => {
                 );
             }
 
+            //auth error translations:
+            newText = newText.replace(/authorize.form.providers.homeassistant/g, 'authorize.form.providers.iobroker');
+
             if (newText !== text) {
                 console.log(`File ${fileName} patched.`);
                 fs.writeFileSync(fileName, newText);
