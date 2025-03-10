@@ -1,4 +1,8 @@
 # Older Changes
+## 4.1.8 (2024-03-11)
+* (Garfonso) prevent even more possible crashes
+* (smarthomejoey) fixed: tilt level and inversion
+
 ## 4.1.6 (2024-03-07)
 * (Garfonso) remove exessive logging
 * (Garfonso) improve fix for crash again.

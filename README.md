@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 4.1.14 (2025-03-10)
 * (Garfonso) repaired image loading. Fixes #577
 
 ### 4.1.13 (2025-03-06)
@@ -490,10 +490,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) add support for new service call structure.
 * (Garfonso) add support for delivering files from other adapters, for example, local cover images.
 * (Garfonso) cleaned up service descriptions.
-
-### 4.1.8 (2024-03-11)
-* (Garfonso) prevent even more possible crashes
-* (smarthomejoey) fixed: tilt level and inversion
 
 ## License
 

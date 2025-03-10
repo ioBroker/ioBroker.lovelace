@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.13",
+    "version": "4.1.14",
     "news": {
+      "4.1.14": {
+        "en": "repaired image loading. Fixes #577",
+        "de": "Bilder laden repariert. Fixes #577",
+        "ru": "восстановленная загрузка изображения. Исправления #577",
+        "pt": "carga de imagem reparada. Correções #577",
+        "nl": "hersteld beeld laden. Fixes #577",
+        "fr": "chargement d'image réparé. Corrige #577",
+        "it": "caricamento dell'immagine riparato. Correzioni #577",
+        "es": "carga de imagen reparada. Arreglos #577",
+        "pl": "naprawiono ładowanie obrazu. Fixes # 577",
+        "uk": "відремонтовано завантаження зображень. Виправлення #577",
+        "zh-cn": "修复图像加载。 修复 #577"
+      },
       "4.1.13": {
         "en": "reworked image sending. Now weather icons work for normal users, too. Also weather images are transfered from our server, so no access to admin is needed anymore.",
         "de": "reworked image send. Jetzt funktionieren auch Wettersymbole für normale Benutzer. Auch Wetterbilder werden von unserem Server übertragen, so dass kein Zugriff auf Admin mehr erforderlich ist.",
@@ -71,19 +84,6 @@
         "pl": "usunięcie nadmiernego logowania\npoprawić naprawić ponownie awarii.",
         "uk": "видалити есенціальний журнал\nзнову поліпшуйте фіксацію.",
         "zh-cn": "删除 exessive 日志\n改善再次崩溃的修复."
-      },
-      "4.1.5": {
-        "en": "fixed: possible crashes during startup",
-        "de": "behoben: mögliche abstürzen beim start",
-        "ru": "фиксированный: возможные аварии во время запуска",
-        "pt": "corrigido: possíveis falhas durante a inicialização",
-        "nl": "vast: mogelijke crashes tijdens opstarten",
-        "fr": "corrigé: crashs possibles pendant le démarrage",
-        "it": "fisso: possibili crash durante l'avvio",
-        "es": "fijo: posibles fallos durante la puesta en marcha",
-        "pl": "stałe: możliwe awarie podczas uruchamiania",
-        "uk": "виправлено: можливі аварії під час запуску",
-        "zh-cn": "固定: 启动时可能发生的崩溃"
       }
     },
     "titleLang": {
