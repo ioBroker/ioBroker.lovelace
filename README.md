@@ -472,7 +472,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 5.0.0-alpha.0 (2025-03-10)
 * (Garfonso) Updated frontent to 20250306.0
 
 ### 4.1.15 (2025-03-10)

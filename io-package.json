@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "4.1.15",
+    "version": "5.0.0-alpha.0",
     "news": {
+      "5.0.0-alpha.0": {
+        "en": "Updated frontent to 20250306.0",
+        "de": "Aktualisierte Frontend auf 20250306.0",
+        "ru": "Обновленный интерфейс до 20250306.0",
+        "pt": "Frontente atualizado para 20250306.0",
+        "nl": "Bijgewerkt frontent naar 20250306,0",
+        "fr": "Mise à jour du frontent vers 2020306.0",
+        "it": "Anteprima aggiornato a 20250306.0",
+        "es": "Actualizado frontal a 20250306.0",
+        "pl": "Aktualizacja do 20250306.0",
+        "uk": "Оновлений фронтент до 20250306.0",
+        "zh-cn": "更新至202030306.0"
+      },
       "4.1.15": {
         "en": "repaired image loading, again.",
         "de": "Bilder laden nochmal verändert. Jetzt geht hoffentlich alles.",
