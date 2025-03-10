@@ -444,14 +444,14 @@ For now (20250306.0) following files were modified:
 - `src/dialogs/more-info/const.ts` - remove weather state & history
 - `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab
 - `src/dialogs/more-info/ha-more-info-history.ts` - remove `show more` link in history
+- `src/dialogs/more-info/ha-more-info-logbook.ts` - remove `show more` link in logbook
 - `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
 - `src/dialogs/voice-command-dialog/ha-voice-command-dialog.ts` - disable configuration of voice assistants
 - `src/entrypoints/core.ts` - add no auth option
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
-- `src/panels/lovelace/hui-root.ts` - added notifications and voice control
+- `src/panels/lovelace/hui-root.ts` - added notifications and voice control, disable manage dahsboards link
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
-- `.gitignore` - add `build-translations` to ignore.
 - `.husky/pre-commit` - remove git commit hooks.
 
 After that checkout modified version in `./build` folder. Then.
