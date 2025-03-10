@@ -462,7 +462,7 @@ After that checkout modified version in `./build` folder. Then.
 4. `git checkout master`
 5. `yarn install`
 6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
-7. copy all files from `./build/home-assistant-polymer/hass_frontend` into `./hass_frontend` in this repo
+7. run script `hass_frontend/static_cards/newFrontend.sh` in adapter repo to update frontend (it assumes that the two repositories are next to each other in the same folder, if not, please adjust script, preferrably with some parameter handling and make a PR, thanks :smile: ) 
 8. Run `gulp rename` task multiple times (until no changes happen).
 9. Update version in `README.md` and also in `server.js` the `VERSION` constant.
 
