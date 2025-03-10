@@ -1,0 +1,2 @@
+export const __webpack_ids__=["6824"];export const __webpack_modules__={7414:function(t,e,a){a.r(e),a.d(e,{MapDashboardStrategy:()=>o});var r=a(44249),s=a(57243),n=a(15093);let o=(0,r.Z)([(0,n.Mo)("map-dashboard-strategy")],(function(t,e){return{F:class extends e{constructor(...e){super(...e),t(this)}},d:[{kind:"method",static:!0,key:"generate",value:async function(t){return{views:[{strategy:t}]}}},{kind:"field",static:!0,key:"noEditor",value:()=>!0}]}}),s.fl)}};
+//# sourceMappingURL=6824.e965fd9ea210725e.js.map
