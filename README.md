@@ -430,30 +430,29 @@ Security must be taken from the current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20231208.2
+Used version of home-assistant-frontend@20250306.0
 Version of Browser Mod: 2.3.0
 
 ### How to build the new Lovelace version
 First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20231208.2) following files were modified:
+For now (20250306.0) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
-- `build-scripts/gulp/webpack.js` - Add new gulp task webpack-dev-app
+- `build-scripts/gulp/rspack.js` - Add new gulp task rspack-dev-app
 - `src/data/weather.ts` - add support to display weather icon from url.
 - `src/dialogs/more-info/const.ts` - remove weather state & history
 - `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab
 - `src/dialogs/more-info/ha-more-info-history.ts` - remove `show more` link in history
 - `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
 - `src/dialogs/voice-command-dialog/ha-voice-command-dialog.ts` - disable configuration of voice assistants
-- `src/entrypoints/core.ts` - modified authentication process
+- `src/entrypoints/core.ts` - add no auth option
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
 - `src/panels/lovelace/hui-root.ts` - added notifications and voice control
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
-- `.gitignore` - add `.idea` ignore
+- `.gitignore` - add `build-translations` to ignore.
 - `.husky/pre-commit` - remove git commit hooks.
-- `package.json` - remove husky commit hook
 
 After that checkout modified version in `./build` folder. Then.
 
