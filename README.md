@@ -473,6 +473,9 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) repaired image loading. Fixes #577
+
 ### 4.1.13 (2025-03-06)
 * (Garfonso) reworked image sending. Now weather icons work for normal users, too. Also weather images are transfered from our server, so no access to admin is needed anymore.
 
