@@ -504,6 +504,9 @@ gulp.task('rename', done => {
                     /<script>\n*\s*if \(!window.latestJS\) {\n*\s*{%- for extra_script in extra_js_es5 -%}\n*\s*_ls\("{{ extra_script }}"\);\n*\s*{%- endfor -%}\n*\s*}\n*\s*<\/script>/g,
                     '',
                 );
+
+                //open home foundation logo (display none, because completely removing the div breaks... uhm.. everything?)
+                newText = newText.replace(/<div class="ohf-logo">/gm, '<div class="ohf-logo" style="display:none">');
             }
 
             //auth error translations:
