@@ -387,6 +387,14 @@
       "native": {}
     },
     {
+      "_id": "entityRegistry",
+      "type": "channel",
+      "common": {
+        "name": "Storage for entity registry"
+      },
+      "native": {}
+    },
+    {
       "_id": "session",
       "type": "state",
       "common": {
