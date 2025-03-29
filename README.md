@@ -35,7 +35,7 @@ In auto mode the similar process will be applied like for `google home` or `mate
 You can define friendly names and this will be used in entities.
 
 ### Manual
-The objects can be defined manually in an object tree like sql or histroy. The type of entity must be provided and optionally the name of object.
+The objects can be defined manually in an object tree like `sql` or `history`. The type of entity must be provided and optionally the name of object.
 With this method only simple entities, like input_number, input_text or input_boolean could be created. It may not have more than one state or attribute.
 
 ## Panels
