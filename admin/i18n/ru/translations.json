@@ -179,5 +179,6 @@
     "vacuum": "пылесос",
     "water_heater": "water_heater",
     "weather": "weather",
-    "weblink": "weblink"
+    "weblink": "weblink",
+    "Maximum browser instances to keep": "Максимальные экземпляры браузера, чтобы сохранить"
 }

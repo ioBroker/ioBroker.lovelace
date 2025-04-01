@@ -179,5 +179,6 @@
     "vacuum": "Staubsauger",
     "water_heater": "Wasserkocher",
     "weather": "Wetter",
-    "weblink": "Weblink"
+    "weblink": "Weblink",
+    "Maximum browser instances to keep": "Maximale Anzahl an verwalteten Browser-Instanzen"
 }

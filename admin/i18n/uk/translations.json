@@ -179,5 +179,6 @@
     "vacuum": "пилосос",
     "water_heater": "нагрівач води",
     "weather": "погода",
-    "weblink": "веб посилання"
+    "weblink": "веб посилання",
+    "Maximum browser instances to keep": "Максимальні екземпляри браузера для збереження"
 }

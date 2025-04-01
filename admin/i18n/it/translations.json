@@ -179,5 +179,6 @@
     "vacuum": "aspirapolvere",
     "water_heater": "scaldabagno",
     "weather": "tempo metereologico",
-    "weblink": "collegamento web"
+    "weblink": "collegamento web",
+    "Maximum browser instances to keep": "Istanze massime del browser da mantenere"
 }

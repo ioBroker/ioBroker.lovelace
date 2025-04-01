@@ -179,5 +179,6 @@
     "vacuum": "stofzuiger",
     "water_heater": "waterkoker",
     "weather": "weer",
-    "weblink": "web link"
+    "weblink": "web link",
+    "Maximum browser instances to keep": "Maximale browserinstanties om te behouden"
 }

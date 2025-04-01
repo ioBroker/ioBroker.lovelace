@@ -322,7 +322,8 @@
     "alarmCheckCodeOnDisarmOnly": false,
     "language": "",
     "updateTimeout": 5000,
-    "logbookSource": "adapter"
+    "logbookSource": "adapter",
+    "maxBrowserInstances": 10
   },
   "instanceObjects": [
     {

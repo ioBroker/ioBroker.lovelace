@@ -179,5 +179,6 @@
     "vacuum": "aspiradora",
     "water_heater": "calentador de agua",
     "weather": "clima",
-    "weblink": "enlace web"
+    "weblink": "enlace web",
+    "Maximum browser instances to keep": "Instancias máximas del navegador para mantener"
 }

@@ -179,5 +179,6 @@
     "vacuum": "吸尘器",
     "water_heater": "热水器",
     "weather": "天气",
-    "weblink": "网络链接"
+    "weblink": "网络链接",
+    "Maximum browser instances to keep": "最大浏览器实例保留"
 }

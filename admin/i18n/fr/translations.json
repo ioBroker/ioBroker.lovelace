@@ -179,5 +179,6 @@
     "vacuum": "aspirateur",
     "water_heater": "chauffe-eau",
     "weather": "conditions météorologiques",
-    "weblink": "lien Web"
+    "weblink": "lien Web",
+    "Maximum browser instances to keep": "Instances de navigateur maximum à conserver"
 }

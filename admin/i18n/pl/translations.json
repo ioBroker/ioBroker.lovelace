@@ -179,5 +179,6 @@
     "vacuum": "odkurzacz",
     "water_heater": "podgrzewacz wody",
     "weather": "pogoda",
-    "weblink": "link"
+    "weblink": "link",
+    "Maximum browser instances to keep": "Maksymalne instancje przeglądarki do zachowania"
 }
