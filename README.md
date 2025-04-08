@@ -437,7 +437,7 @@ Version of Browser Mod: 2.3.3
 First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20250306.0) following files were modified:
+For now (20250401.0) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
 - `build-scripts/gulp/rspack.js` - Add new gulp task rspack-dev-app
 - `src/data/weather.ts` - add support to display weather icon from url.
@@ -450,7 +450,7 @@ For now (20250306.0) following files were modified:
 - `src/entrypoints/core.ts` - add no auth option
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
-- `src/panels/lovelace/hui-root.ts` - added notifications and voice control, disable manage dahsboards link
+- `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `.husky/pre-commit` - remove git commit hooks.
 
