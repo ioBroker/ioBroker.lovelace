@@ -472,8 +472,19 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Updated frontend to 20250401.0
+* (Garfonso) Updated browser_mod to 2.3.3
+* (Garfonso) Add statistics recorder
+* (Garfonso) Add entity registry, use it to solve id clashes. In the future, store entity settings here.
+* (Garfonso) Limit the number of stored browser instances
+* (Garfonso) Improved caching behavior. Might solve iobroker.pro issue... hopefully?
+* (Garfonso) Prevent crash with some edge cases with light entities
+* (Garfonso) first steps to dashboard support.
+
+
 ### 5.0.0-alpha.1 (2025-03-10)
-* (Garfonso) Updated frontent to 20250306.0
+* (Garfonso) Updated frontend to 20250306.0
 
 ### 4.1.15 (2025-03-10)
 * (Garfonso) repaired image loading, again.
