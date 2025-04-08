@@ -396,6 +396,14 @@
       "native": {}
     },
     {
+      "_id": "dashboardStorage",
+      "type": "channel",
+      "common": {
+        "name": "Storage for dashboards"
+      },
+      "native": {}
+    },
+    {
       "_id": "session",
       "type": "state",
       "common": {
