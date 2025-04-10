@@ -6,13 +6,14 @@
 'use strict';
 
 const gulp = require('gulp');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
+const cp = require('node:child_process');
+const translate = require('./lib/tools').translateText;
+
 const iopackage = require('./io-package.json');
-const cp = require('child_process');
 const fileName = 'words.js';
 const EMPTY = '';
-const translate = require('./lib/tools').translateText;
 const languages = {
     en: {},
     de: {},
