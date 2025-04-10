@@ -1,4 +1,11 @@
 # Older Changes
+## 4.1.11 (2024-11-20)
+* (Garfonso) convert string state values to numbers, where necessary.
+
+## 4.1.10 (2024-05-23)
+* (Garfonso) device icons work again.
+* (Garfonso) default user sometimes was not found in a system.
+
 ## 4.1.9 (2024-04-26)
 * (Garfonso) add support for new service call structure.
 * (Garfonso) add support for delivering files from other adapters, for example, local cover images.

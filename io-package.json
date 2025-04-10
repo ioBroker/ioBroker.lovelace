@@ -1,20 +1,20 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "5.0.0-alpha.1",
+    "version": "5.0.0",
     "news": {
-      "5.0.0-alpha.1": {
-        "en": "Updated frontent to 20250306.0",
-        "de": "Aktualisierter Frontent auf 20250306.0",
-        "ru": "Обновленный интерфейс до 20250306.0",
-        "pt": "Frontente atualizado para 20250306.0",
-        "nl": "Bijgewerkt frontent naar 20250306,0",
-        "fr": "Mise à jour du frontent vers 2020306.0",
-        "it": "Anteprima aggiornato a 20250306.0",
-        "es": "Actualizado frontal a 20250306.0",
-        "pl": "Aktualizacja do 20250306.0",
-        "uk": "Оновлений фронтент до 20250306.0",
-        "zh-cn": "更新至202030306.0"
+      "5.0.0": {
+        "en": "BREAKING: Updated frontend to 20250401.0\nUpdated browser_mod to 2.3.3\nAdd statistics recorder\nAdd entity registry, use it to solve id clashes. In the future, store entity settings here.\nLimit the number of stored browser instances\nImproved caching behavior. Might solve iobroker.pro issue... hopefully?\nPrevent crash with some edge cases with light entities\nexperimental dashboard support.\nAllow to show sidebar via object in instances. VERY experimental. A lot of stuff does not yet work. But allows to configure dashboards and also browser mod.",
+        "de": "BREAKING: Aktualisiertes Frontend auf 20250401.0\nAktualisierter Browser_mod auf 2.3.3\nStatistik Recorder implementiert\nEntity-Registry implement, wird verwendet um id clashes zu lösen. In der Zukunft speicher der Adapter hier Entity-Einstellungen.\nDie Anzahl der gespeicherten Browser-Instanzen beschränkt\nVerbessertes Cacheverhalten. Könnte Probleme mit iobroker.pro lösen... hoffentlich?\nVerhindert Crash mit einigen Randfällen mit Lichteinheiten\nexperimentelle dashboard-unterstützung.\nSidebar über Objekt anzeigbar machen. Sehr experimentell. Vieles funktioniert noch nicht. Aber erlaubt dashboards und auch Browser-Mod zu konfigurieren.",
+        "ru": "BREAKING: Обновленный интерфейс до 20250401.0\nОбновленный браузер_mod до 2.3.3\nДобавить запись статистики\nДобавьте реестр юридических лиц, используйте его для решения конфликтов идентификаторов. В будущем, настройки объекта хранения здесь.\nОграничьте количество сохраненных экземпляров браузера\nУлучшение кэширования поведения. Может решить проблему с йоброкером. Профессиональный вопрос... надеюсь?\nПредотвращение аварий с некоторыми крайними случаями со светлыми объектами\nэкспериментальная поддержка приборной панели.\nПозволяет показывать боковую панель через объект в примерах. Очень экспериментально. Многое еще не работает. Но позволяет настраивать панели инструментов, а также мод браузера.",
+        "pt": "BREAKING: Frontend atualizado para 20250401.0\nAtualizado browser_mod para 2.3.3\nAdicionar gravador de estatísticas\nAdicionar registro de entidade, usá-lo para resolver conflitos de identificação. No futuro, armazenar configurações de entidade aqui.\nLimite o número de instâncias do navegador armazenados\nMelhor comportamento de caching. Pode resolver o iobroker. pro problema... espero?\nImpedir acidente com alguns casos de borda com entidades leves\nsuporte de painel experimental.\nPermitir mostrar barra lateral via objeto em instâncias. Muito experimental. Muitas coisas ainda não funcionam. Mas permite configurar painéis e também o mod do navegador.",
+        "nl": "BREAKING: Bijgewerkt frontend naar 20250401.0\nBijgewerkte browser_mod naar 2.3.3\nStatistiekenrecorder toevoegen\nVoeg entiteit register toe, gebruik het om id botsingen op te lossen. In de toekomst, opslag entiteit instellingen hier.\nHet aantal opgeslagen browser-instances beperken\nBeter cachinggedrag. Misschien lost Iobroker op. Pro kwestie... hopelijk?\nVoorkom crash met sommige rand gevallen met lichte entiteiten\nexperimentele dashboard ondersteuning.\nZijbalk tonen via object in instanties. Erg experimenteel. Veel dingen werken nog niet. Maar maakt het mogelijk om dashboards te configureren en ook browser mod.",
+        "fr": "BREAKING: Frontend mis à jour vers 20250401.0\nMise à jour du navigateur_mod à 2.3.3\nAjouter un enregistreur de statistiques\nAjouter le registre des entités, l'utiliser pour résoudre les affrontements id. Dans l'avenir, stocker les paramètres de l'entité ici.\nLimiter le nombre d'instances du navigateur stockées\nAmélioration du comportement de cache. Ça pourrait résoudre iobroker. Numéro pro... espérons ?\nPrévenir l'écrasement avec certains cas bord avec des entités lumineuses\nsupport expérimental du tableau de bord.\nPermet d'afficher la barre latérale via objet dans les instances. Très expérimental. Beaucoup de choses ne fonctionnent pas encore. Mais permet de configurer les tableaux de bord et aussi le navigateur mod.",
+        "it": "BREAKING: Aggiornato frontend a 20250401.0\nAggiornato browser_mod a 2.3.3\nAggiungi record di statistiche\nAggiungere il registro delle entità, usarlo per risolvere gli scontri id. In futuro, memorizzare le impostazioni dell'entità qui.\nLimitare il numero di istanze del browser memorizzate\nComportamento di caching migliorato. Potrebbe risolvere lo iobroker. problema pro... speriamo?\nPrevenire crash con alcuni casi di bordo con entità leggere\nsupporto cruscotto sperimentale.\nConsentire di mostrare la barra laterale tramite oggetto in istanze. Molto sperimentale. Molte cose non funzionano ancora. Ma permette di configurare dashboard e anche mod browser.",
+        "es": "BREAKING: Inicio actualizado a 20250401.0\nActualizado navegador_mod a 2.3.3\nAgregar registro de estadísticas\nAñadir registro de entidad, utilizarlo para resolver choques id. En el futuro, almacena la configuración de entidad aquí.\nLimite el número de instancias del navegador almacenadas\nMejor comportamiento de caché. Podría resolver el iobroker. ¿Pro issue... espero?\nEvitar el choque con algunos casos de borde con entidades ligeras\nsoporte de panel experimental.\nPermite mostrar la barra lateral a través del objeto en los casos. Muy experimental. Muchas cosas todavía no funcionan. Pero permite configurar los paneles y también el mod del navegador.",
+        "pl": "BREAKING: Aktualizacja frontu do 20250401.0\nAktualizacja przeglądarki _ mod do 2.3.3\nDodaj rejestrator statystyk\nDodaj rejestr jednostek, użyj go do rozwiązywania starć ID. W przyszłości, przechowywać ustawienia podmiotów tutaj.\nOgranicz liczbę zapisanych instancji przeglądarki\nUlepszone zachowanie. Może rozwiąże sprawę iobrokera. pro issue... miejmy nadzieję?\nZapobieganie awarii z niektórych skrzyń krawędzi z lekkimi jednostkami\neksperymentalne wsparcie desek rozdzielczych.\nPozwala wyświetlać pasek boczny przez obiekt w instancjach. Bardzo eksperymentalne. Wiele rzeczy jeszcze nie działa. Ale pozwala na konfigurację desek rozdzielczych, a także mod przeglądarki.",
+        "uk": "BREAKING: Оновлений фронтенд до 20250401.0\nОновлено браузер_mod до 2.3.3\nДодати рекордер статистики\nДодайте реєстр суб’єкта господарювання, використовуйте його для вирішення id-зітків. У майбутньому тут зберігати налаштування суб’єкта господарювання.\nОбмеження кількості збережених екземплярів браузера\nПокращена поведінка кешування. Мигий розчин iobroker. Про проблему... надії?\nЗапобігти збитку з деякими крайовими випадками зі світловими особами\nекспериментальна підтримка панелі приладів.\nДозволити показати бічну панель через об'єкт в екземплярах. ДУЖЕ експериментальний. Багато речей ще не працюють. Але дозволяє налаштовувати панельи і також моду браузера.",
+        "zh-cn": "BREAKING: 更新前端为20250401.0\n更新浏览器_mod 到 2.3.3\n添加统计记录器\n添加实体注册, 用于解决 id 冲突 。 未来,在此存储实体设置 .\n限制存储浏览器实例数\n改进了潜伏行为 可能解决io经纪人。 有希望吗?\n防止轻实体发生一些边缘事故\n实验仪表板支持.\n允许通过对象显示边栏。 非常实验 很多东西还没用 但允许配置仪表板和浏览器mod."
       },
       "4.1.15": {
         "en": "repaired image loading, again.",
@@ -80,19 +80,6 @@
         "pl": "ikony urządzenia działają ponownie.\ndomyślny użytkownik czasami nie został znaleziony w systemie.",
         "uk": "знову працюють іконки пристрою.\nне знайдено типовий користувач.",
         "zh-cn": "设备图标再次工作.\n默认用户有时在系统中找不到 ."
-      },
-      "4.1.9": {
-        "en": "add support for new service call structure.\nadd support for delivering files from other adapters, for example, local cover images.\ncleaned up service descriptions.",
-        "de": "unterstützung für neue service call-struktur hinzufügen.\nhinzufügen von unterstützung für die bereitstellung von dateien von anderen adaptern, zum beispiel lokale cover-bilder.\ngereinigte servicebeschreibungen.",
-        "ru": "добавить поддержку новой структуры вызова службы.\nдобавьте поддержку для доставки файлов из других адаптеров, например, локальные обложки изображений.\nочистили описания услуг.",
-        "pt": "adicionar suporte para nova estrutura de chamada de serviço.\nadicionar suporte para a entrega de arquivos de outros adaptadores, por exemplo, imagens de capa local.\nlimpeza de descrições de serviços.",
-        "nl": "toevoegen van ondersteuning voor nieuwe service call structuur.\nvoeg ondersteuning toe voor het leveren van bestanden van andere adapters, bijvoorbeeld lokale cover images.\nde servicebeschrijvingen zijn opgeruimd.",
-        "fr": "ajouter le soutien pour la nouvelle structure d'appel de service.\najouter le support pour la livraison de fichiers à partir d'autres adaptateurs, par exemple, les images de couverture locale.\nnettoyage des descriptions de service.",
-        "it": "aggiungere supporto per la nuova struttura delle chiamate di servizio.\naggiungere supporto per la fornitura di file da altri adattatori, ad esempio, immagini di copertura locale.\npulire le descrizioni dei servizi.",
-        "es": "añadir soporte para nueva estructura de llamadas de servicio.\nañadir soporte para la entrega de archivos de otros adaptadores, por ejemplo, imágenes de cubierta local.\nlimpiar las descripciones del servicio.",
-        "pl": "dodaj wsparcie dla nowej struktury połączeń serwisowych.\ndodaj obsługę dostarczania plików z innych adapterów, na przykład lokalnych obrazów okładek.\nwyczyszczone opisy usług.",
-        "uk": "додати підтримку нової структури виклику сервісу.\nдодати підтримку для доставки файлів з інших адаптерів, наприклад, локальних зображень кришки.\nочищають описи послуг.",
-        "zh-cn": "添加对新服务呼叫结构的支持.\n添加支持从其他适配器发送文件,例如本地封面图像.\n清理服务说明."
       }
     },
     "titleLang": {

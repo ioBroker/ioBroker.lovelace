@@ -472,7 +472,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 5.0.0 (2025-04-10)
 * (Garfonso) Updated frontend to 20250401.0
 * (Garfonso) Updated browser_mod to 2.3.3
 * (Garfonso) Add statistics recorder
@@ -483,9 +483,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) experimental dashboard support.
 * (Garfonso) Allow to show sidebar via object in instances. VERY experimental. A lot of stuff does not yet work. But allows to configure dashboards and also browser mod.
 
-### 5.0.0-alpha.1 (2025-03-10)
-* (Garfonso) Updated frontend to 20250306.0
-
 ### 4.1.15 (2025-03-10)
 * (Garfonso) repaired image loading, again.
 
@@ -494,13 +491,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 4.1.13 (2025-03-06)
 * (Garfonso) reworked image sending. Now weather icons work for normal users, too. Also, weather images are transferred from our server, so no access to admin is needed anymore.
-
-### 4.1.11 (2024-11-20)
-* (Garfonso) convert string state values to numbers, where necessary.
-
-### 4.1.10 (2024-05-23)
-* (Garfonso) device icons work again.
-* (Garfonso) default user sometimes was not found in a system.
 
 ## License
 
