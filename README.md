@@ -480,8 +480,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Limit the number of stored browser instances
 * (Garfonso) Improved caching behavior. Might solve iobroker.pro issue... hopefully?
 * (Garfonso) Prevent crash with some edge cases with light entities
-* (Garfonso) first steps to dashboard support.
-
+* (Garfonso) experimental dashboard support.
+* (Garfonso) Allow to show sidebar via object in instances. VERY experimental. A lot of stuff does not yet work. But allows to configure dashboards and also browser mod.
 
 ### 5.0.0-alpha.1 (2025-03-10)
 * (Garfonso) Updated frontend to 20250306.0
