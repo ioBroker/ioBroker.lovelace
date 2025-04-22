@@ -429,6 +429,7 @@ exports.runTests = function (suite) {
                 expect(entity).to.have.property('state', 'on');
                 expect(entity).to.have.nested.property('attributes.brightness', 127.5);
 
+                console.log('UI set brightness to 255');
                 await tools.validateUIInput(
                     harness,
                     entity,
@@ -441,6 +442,7 @@ exports.runTests = function (suite) {
                     state => expect(state.val).to.equal(100),
                 );
 
+                console.log('UI turn off');
                 await tools.validateUIInput(
                     harness,
                     entity,
@@ -455,6 +457,7 @@ exports.runTests = function (suite) {
                 const state = await harness.states.getStateAsync(`${deviceId}.brightness`);
                 expect(state.val).to.equal(100); //turn off should leave brightness alone
 
+                console.log('UI set brightness to 100%');
                 await tools.validateUIInput(
                     harness,
                     entity,
@@ -467,6 +470,7 @@ exports.runTests = function (suite) {
                     state => expect(state.val).to.equal(100),
                 );
 
+                console.log('IoB change brightness to 60%');
                 await tools.validateStateChange(
                     harness,
                     entity.entity_id,
@@ -476,6 +480,7 @@ exports.runTests = function (suite) {
                         expect(entity.attributes.brightness).to.be.lessThanOrEqual(255 * 0.6);
                     },
                 );
+                console.log('IoB turn off');
                 await tools.validateStateChange(
                     harness,
                     entity.entity_id,

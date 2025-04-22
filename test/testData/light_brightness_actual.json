@@ -90,7 +90,7 @@
       "name": "Lamp Switch",
       "read": true,
       "write": false,
-      "role": "switch.light",
+      "role": "sensor.light",
       "type": "boolean",
       "min": false,
       "max": true
