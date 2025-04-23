@@ -440,7 +440,6 @@ All changes for ioBroker are marked with comment `// IoB`.
 For now (20250401.0) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
 - `build-scripts/gulp/rspack.js` - Add new gulp task rspack-dev-app
-- `src/data/icons.ts` - always use fallback for old versions where frontend decides which icon to use for binary_sensors (if none supplied).
 - `src/data/weather.ts` - add support to display weather icon from url.
 - `src/dialogs/more-info/const.ts` - remove weather state & history
 - `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab
