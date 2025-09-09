@@ -476,8 +476,9 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso) settings from entity registry are now loaded on startup
 * (Garfonso) logbook: prevent entries from the future
-* (Garfonso) use default icons for binary sensors again (recompiled frontend, clear browser cache if problems occur)
-* (Garfonso) fix script entities.
+* (Garfonso) icons should now work as before, again.
+* (Garfonso) script entities now can be used again.
+* (Garfonso) subscribe to all object ids in a template.
 * (Garfonso) Update dependencies.
 
 ### 5.0.0 (2025-04-10)
