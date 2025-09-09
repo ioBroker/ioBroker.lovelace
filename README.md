@@ -477,6 +477,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) settings from entity registry are now loaded on startup
 * (Garfonso) logbook: prevent entries from the future
 * (Garfonso) use default icons for binary sensors again (recompiled frontend, clear browser cache if problems occur)
+* (Garfonso) fix script entities.
+* (Garfonso) Update dependencies.
 
 ### 5.0.0 (2025-04-10)
 * (Garfonso) Updated frontend to 20250401.0
