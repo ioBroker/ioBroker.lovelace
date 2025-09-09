@@ -1,103 +1,88 @@
-# This is a composition of lint and test scripts
-# Make sure to update this file along with the others
-
 name: Test and Release
 
 # Run this job on all pushes and pull requests
 # as well as tags with a semantic version
 on:
-    push:
-        branches:
-            - '*'
-        tags:
-            # normal versions
-            - "v?[0-9]+.[0-9]+.[0-9]+"
-            # pre-releases
-            - "v?[0-9]+.[0-9]+.[0-9]+-**"
-    pull_request: {}
+  push:
+    branches:
+      - "master"
+    tags:
+      # normal versions
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      # pre-releases
+      - "v[0-9]+.[0-9]+.[0-9]+-**"
+  pull_request: {}
+
+# Cancel previous PR/branch runs when a new commit is pushed
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    # Performs quick checks before the expensive test runs
-    check-and-lint:
-        if: contains(github.event.head_commit.message, '[skip ci]') == false
+  # Performs quick checks before the expensive test runs
+  check-and-lint:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
 
-        runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-        steps:
-            -   name: Checkout code
-                uses: actions/checkout@v4
+    steps:
+      - uses: ioBroker/testing-action-check@v1
+        with:
+          node-version: '20.x'
+          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
+          # install-command: 'npm install'
+          lint: true
 
-            -   name: Use Node.js 20.x
-                uses: actions/setup-node@v4
-                with:
-                    node-version: 20.x
+  # Runs adapter tests on all supported node versions and OSes
+  adapter-tests:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
 
-            -   name: Install Dependencies
-                run: npm i
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x, 24.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
-            -   name: Lint source code
-                run: npm run lint
-            -   name: Test package files
-                run: npm run test:package
+    steps:
+      - uses: ioBroker/testing-action-adapter@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          os: ${{ matrix.os }}
+          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
+          # install-command: 'npm install'
 
-    # Runs adapter tests on all supported node versions and OSes
-    adapter-tests:
-        if: contains(github.event.head_commit.message, '[skip ci]') == false
+  # Deploys the final package to NPM
+  deploy:
+    needs: [check-and-lint, adapter-tests]
 
-        needs: [check-and-lint]
+    # Trigger this step only when a commit on any branch is tagged with a version number
+    if: |
+      contains(github.event.head_commit.message, '[skip ci]') == false &&
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags/v')
 
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                node-version: [20.x, 22.x]
-                os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    # Write permissions are required to create Github releases
+    permissions:
+      contents: write
 
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ matrix.node-version }}
+    steps:
+      - uses: ioBroker/testing-action-deploy@v1
+        with:
+          node-version: '20.x'
+          # Uncomment the following line if your adapter cannot be installed using 'npm ci'
+          # install-command: 'npm install'
+          npm-token: ${{ secrets.NPM_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Install Dependencies
-              run: npm i
-
-            - name: Run unit tests of single functions
-              run: npm run test:unit
-
-            - name: Run integration tests (unix only)
-              if: startsWith(runner.OS, 'windows') == false
-              run: DEBUG=testing:* npm run test:integration
-
-            - name: Run integration tests (windows only)
-              if: startsWith(runner.OS, 'windows')
-              run: set DEBUG=testing:* & npm run test:integration
-
-    # Deploys the final package to NPM
-    deploy:
-        needs: [adapter-tests]
-
-        # Trigger this step only when a commit on master is tagged with a version number
-        if: |
-          contains(github.event.head_commit.message, '[skip ci]') == false &&
-          github.event_name == 'push' &&
-          startsWith(github.ref, 'refs/tags/v')
-
-        runs-on: ubuntu-latest
-
-      # Write permissions are required to create Github releases
-        permissions:
-          contents: write
-
-        steps:
-          - uses: ioBroker/testing-action-deploy@v1
-            with:
-              node-version: '20.x'
-              # Uncomment the following line if your adapter cannot be installed using 'npm ci'
-              # install-command: 'npm install'
-              build: false
-              npm-token: ${{ secrets.NPM_TOKEN }}
-              github-token: ${{ secrets.GITHUB_TOKEN }}
-
+#          # When using Sentry for error reporting, Sentry can be informed about new releases
+#          # To enable create a API-Token in Sentry (User settings, API keys)
+#          # Enter this token as a GitHub secret (with name SENTRY_AUTH_TOKEN) in the repository options
+#          # Then uncomment and customize the following block:
+#          sentry: true
+#          sentry-token: ${{ secrets.SENTRY_AUTH_TOKEN }}
+#          sentry-project: "iobroker-template"
+#          sentry-version-prefix: "iobroker.template"
+#          # If your sentry project is linked to a GitHub repository, you can enable the following option
+#          # sentry-github-integration: true
