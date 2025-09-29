@@ -1,0 +1,216 @@
+{
+  "adapter.0.light.issue616": {
+    "_id": "adapter.0.light.issue616",
+    "common": {
+      "name": {
+        "en": "Issue616BrightnessNotSynced"
+      },
+      "role": "hue",
+      "icon": "",
+      "enums": [
+        {
+          "_id": "enum.functions.Light",
+          "common": {
+            "name": {
+              "en": "Light",
+              "de": "Licht",
+              "ru": "Свет",
+              "fr": "Lumière",
+              "nl": "Licht"
+            }
+          },
+          "native": {
+            "Name": "funcLight",
+            "TypeName": "ENUM",
+            "EnumInfo": ""
+          },
+          "type": "enum"
+        },
+        {
+          "_id": "enum.rooms.LivingRoom",
+          "common": {
+            "name": {
+              "en": "LivingRoom",
+              "de": "Wohnzimmer",
+              "ru": "Гостиная",
+              "fr": "Salon",
+              "nl": "Woonkamer"
+            },
+            "desc": ""
+          },
+          "native": {
+            "Name": "roomLivingRoom",
+            "TypeName": "ENUM",
+            "EnumInfo": ""
+          },
+          "type": "enum"
+        }
+      ]
+    },
+    "native": {},
+    "type": "channel",
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1758808109218,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.issue616.DIMMER": {
+    "_id": "adapter.0.light.issue616.DIMMER",
+    "native": {},
+    "type": "state",
+    "common": {
+      "alias": {
+        "id": "nanoleaf-lightpanels.1.Shapes.brightness"
+      },
+      "name": "DIMMER",
+      "role": "level.dimmer",
+      "write": true,
+      "type": "number",
+      "unit": "%"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1759143073187,
+    "val": 26,
+    "ack": true
+  },
+  "adapter.0.light.issue616.HUE": {
+    "_id": "adapter.0.light.issue616.HUE",
+    "common": {
+      "name": "HUE",
+      "role": "level.color.hue",
+      "type": "number",
+      "read": true,
+      "write": true,
+      "alias": {
+        "id": "nanoleaf-lightpanels.1.Shapes.hue"
+      },
+      "unit": "°"
+    },
+    "native": {},
+    "type": "state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1759143073165,
+    "val": 11,
+    "ack": true
+  },
+  "adapter.0.light.issue616.ON": {
+    "_id": "adapter.0.light.issue616.ON",
+    "native": {},
+    "type": "state",
+    "common": {
+      "alias": {
+        "id": "nanoleaf-lightpanels.1.Shapes.state"
+      },
+      "name": "ON",
+      "role": "switch.light",
+      "write": true,
+      "type": "boolean"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1759143073240,
+    "val": false,
+    "ack": true
+  },
+  "adapter.0.light.issue616.ON_ACTUAL": {
+    "_id": "adapter.0.light.issue616.ON_ACTUAL",
+    "native": {},
+    "type": "state",
+    "common": {
+      "alias": {
+        "id": "nanoleaf-lightpanels.1.Shapes.state"
+      },
+      "name": "ON_ACTUAL",
+      "role": "sensor.light",
+      "write": false,
+      "type": "boolean"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1759143073251,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": false,
+    "ack": true
+  },
+  "adapter.0.light.issue616.SATURATION": {
+    "_id": "adapter.0.light.issue616.SATURATION",
+    "native": {},
+    "type": "state",
+    "common": {
+      "alias": {
+        "id": "nanoleaf-lightpanels.1.Shapes.saturation"
+      },
+      "name": "SATURATION",
+      "role": "level.color.saturation",
+      "write": true,
+      "type": "number",
+      "unit": "%"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1759143073205,
+    "val": 88,
+    "ack": true
+  },
+  "adapter.0.light.issue616.TEMPERATURE": {
+    "_id": "adapter.0.light.issue616.TEMPERATURE",
+    "native": {},
+    "type": "state",
+    "common": {
+      "alias": {
+        "id": "nanoleaf-lightpanels.1.Shapes.colorTemp"
+      },
+      "name": "TEMPERATURE",
+      "role": "level.color.temperature",
+      "write": true,
+      "type": "number",
+      "unit": "°K"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1759143073224,
+    "val": 6500,
+    "ack": true
+  }
+}
