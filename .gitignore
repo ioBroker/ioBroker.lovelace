@@ -17,3 +17,6 @@ admin/i18n/*/flat.txt
 *.code-workspace
 
 .nyc_output
+
+# temporary release script file, might still linger around, if release script failed.
+ commitinfo
