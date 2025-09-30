@@ -19,4 +19,4 @@ admin/i18n/*/flat.txt
 .nyc_output
 
 # temporary release script file, might still linger around, if release script failed.
- commitinfo
+.commitinfo
