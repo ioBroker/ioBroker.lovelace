@@ -476,6 +476,7 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso) some light entities did not restore their proper state on switch on. Fixed.
 * (Garfonso) process folders-Objects for auto entities, too. (pirate-weather support)
+* (Garfonso) prepare support for effects in light entities (will need new type-detector version).
 
 ### 5.0.1 (2025-09-09)
 * (Garfonso) settings from entity registry are now loaded on startup
