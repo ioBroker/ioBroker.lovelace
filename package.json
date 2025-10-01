@@ -36,7 +36,7 @@
     "mime": "^3.0.0",
     "multer": "^2.0.2",
     "pinyin": "^3.1.0",
-    "translit-rus-eng": "^1.0.8",
+    "translit-rus-eng": "^2.0.0",
     "ws": "^8.18.3"
   },
   "devDependencies": {
