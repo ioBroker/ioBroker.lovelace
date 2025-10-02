@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "5.0.1",
+    "version": "5.0.2",
     "news": {
+      "5.0.2": {
+        "en": "some light entities did not restore their proper state on switch on. Fixed.\nprocess folders-Objects for auto entities, too. (pirate-weather support)\nprepare support for effects in light entities (will need new type-detector version).",
+        "de": "einige Licht entities haben ihren Zustand beim Einschalten nicht wiederhergestellt. Behoben.\nOrdner-Objekte auch für Auto-Entitäten bearbeiten. (Pirate-Wetter-Unterstützung)\ndie unterstützung von effekten in Licht entities vorbereitet (benötigt neue typ-detektor-version).",
+        "ru": "некоторые легкие сущности не восстановили свое надлежащее состояние при включении. Исправлено.\nтакже обрабатывают папки-объекты для автообъектов. (поддержка пиратской погоды)\nподготовить поддержку эффектов в легких объектах (требуется новая версия детектора типа).",
+        "pt": "algumas entidades de luz não restauraram seu estado adequado no interruptor ligado. Consertado.\npastas de processo-Objects para entidades auto, também. (suporte de pirate-weather)\npreparar suporte para efeitos em entidades leves (necessitará de uma nova versão do detector de tipo).",
+        "nl": "sommige lichte entiteiten hebben hun juiste staat bij het inschakelen niet hersteld. Vast.\nproces mappen-objecten voor auto-entiteiten, ook. (Pirate-weather support)\nvoorbereiding van ondersteuning voor effecten in lichte entiteiten (zal nieuwe type-detector versie nodig hebben).",
+        "fr": "certaines entités lumineuses n'ont pas rétabli leur état d'activation. Corrigé.\ntraiter les dossiers-Objects pour les entités auto, aussi. (soutien en temps de pluie)\npréparer le support des effets dans les entités lumineuses (il faudra une nouvelle version de détecteur de type).",
+        "it": "alcune entità leggere non hanno ripristinato il loro stato corretto all'accensione. Risolto.\nprocess folders-Objects per entità auto, troppo. (Supporto pirata-matrimoniale)\npreparare il supporto per gli effetti in entità leggere (sarà necessario una nuova versione di tipo-detector).",
+        "es": "algunas entidades de luz no restauraron su estado adecuado encendido encendido encendido. Arreglado.\ncarpetas de proceso-Objetos para entidades de automóviles, también. (Apoyo de piratería-tetera)\npreparar soporte para efectos en entidades ligeras (necesitará nueva versión tipo-detector).",
+        "pl": "niektóre jednostki świetlne nie przywróciły swojego stanu włączania. Naprawione.\nfoldery procesu- Obiekty dla podmiotów samochodowych, też. (wsparcie pirackiej pogody)\nprzygotować wsparcie dla efektów w jednostkach świetlnych (potrzeba nowej wersji czujnika typu).",
+        "uk": "деякі світлові особи не відновили належний стан на перемикачі. Фіксований.\nобробляє папки-об'єкти для автооб'єктів. (приватно-пожежна підтримка)\nпідготувати підтримку ефектів у легких суб’єктах (необхідно потрібна нова версія-детектора).",
+        "zh-cn": "一些轻实体没有在开关时恢复正常状态。 固定着.\n用于自动实体的处理文件夹-对象。 (发作天气支持)\n为光实体中的效果准备支持(需要新的类型检测器版本)."
+      },
       "5.0.1": {
         "en": "* (Garfonso) settings from entity registry are now loaded on startup\n* (Garfonso) logbook: prevent entries from the future\n* (Garfonso) icons should now work as before, again.\n* (Garfonso) script entities now can be used again.\n* (Garfonso) subscribe to all object ids in a template.\n* (Garfonso) Update dependencies.",
         "de": "* (Garfonso) Einstellungen aus der Entitätsregistrierung werden nun beim Start geladen\n* (Garfonso) Logbuch: Einträge aus der Zukunft verhindern\n* (Garfonso) Icons sollten nun wieder wie zuvor funktionieren.\n* (Garfonso) Skriptentitäten können nun wieder verwendet werden.\n* (Garfonso) alle Objekt-IDs in einer Vorlage abonnieren.\n* (Garfonso) Aktualisieren von Abhängigkeiten.",
@@ -80,19 +93,6 @@
         "pl": "w razie potrzeby przekonwertować wartości stanu string do liczb.",
         "uk": "перетворюйте значення стану рядків до чисел, де необхідно.",
         "zh-cn": "必要时将字符串状态值转换为数字."
-      },
-      "4.1.10": {
-        "en": "device icons work again (if authorization is required).\ndefault user sometimes was not found in system.",
-        "de": "gerätesymbole funktionieren wieder (wenn authorisierung notwendig).\nder eingestellte standard-benutzer wurde manchmal nicht im system gefunden.",
-        "ru": "иконки устройства снова работают.\nпользователь по умолчанию иногда не был найден в системе.",
-        "pt": "ícones do dispositivo funcionam novamente.\nusuário padrão às vezes não foi encontrado no sistema.",
-        "nl": "apparaatpictogrammen werken opnieuw.\nde standaardgebruiker werd soms niet gevonden in het systeem.",
-        "fr": "les icônes du périphérique fonctionnent à nouveau.\nl'utilisateur par défaut n'a parfois pas été trouvé dans le système.",
-        "it": "le icone del dispositivo funzionano di nuovo.\nutente predefinito a volte non è stato trovato nel sistema.",
-        "es": "los iconos del dispositivo funcionan de nuevo.\nusuario predeterminado a veces no se encontró en el sistema.",
-        "pl": "ikony urządzenia działają ponownie.\ndomyślny użytkownik czasami nie został znaleziony w systemie.",
-        "uk": "знову працюють іконки пристрою.\nне знайдено типовий користувач.",
-        "zh-cn": "设备图标再次工作.\n默认用户有时在系统中找不到 ."
       }
     },
     "titleLang": {
