@@ -1,4 +1,7 @@
 # Older Changes
+## 4.1.14 (2025-03-10)
+* (Garfonso) repaired image loading. Fixes #577
+
 ## 4.1.13 (2025-03-06)
 * (Garfonso) reworked image sending. Now weather icons work for normal users, too. Also, weather images are transferred from our server, so no access to admin is needed anymore.
 

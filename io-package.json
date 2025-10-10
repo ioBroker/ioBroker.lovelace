@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "5.0.2",
+    "version": "5.0.3",
     "news": {
+      "5.0.3": {
+        "en": "make sure only existing themes are selectable in control.theme states.\nbring back support for frontend_es5.",
+        "de": "sicher stellen, dass nur vorhandene themen in der steuerung über states wählbar sind.\nunterstützung für frontend_es5 wiederhergestellt.",
+        "ru": "убедитесь, что только существующие темы поддаются выбору. темы государств.\nподдержка интерфейса frontend_es5.",
+        "pt": "certifique-se de que apenas os temas existentes são selecionáveis no controle. estados temáticos.\ntrazer suporte para frontend_es5.",
+        "nl": "zorg ervoor dat alleen bestaande thema's zijn geselecteerd in controle. thema staat.\nondersteuning voor frontend_es5 terugbrengen.",
+        "fr": "assurez-vous que seuls les thèmes existants peuvent être sélectionnés dans le contrôle. les états thématiques.\nramener le support de frontend_es5.",
+        "it": "assicurarsi che solo i temi esistenti siano selezionabili in controllo. stati tematici.\nriportare il supporto per frontend_es5.",
+        "es": "asegúrese de que sólo los temas existentes son seleccionables en control. estados temáticos.\ntraer apoyo para frontend_es5.",
+        "pl": "upewnij się, że tylko istniejące motywy są wybierane pod kontrolą. stan tematyczny.\nprzywrócić wsparcie dla frontend _ es5.",
+        "uk": "переконайтеся, що тільки існуючі теми вибираються в управлінні. тематичні стани.\nповернути підтримку фронтенд_es5.",
+        "zh-cn": "确保控制中只选择现有主题。 主题状态.\n带回对前端_es5的支持."
+      },
       "5.0.2": {
         "en": "some light entities did not restore their proper state on switch on. Fixed.\nprocess folders-Objects for auto entities, too. (pirate-weather support)\nprepare support for effects in light entities (will need new type-detector version).",
         "de": "einige Licht entities haben ihren Zustand beim Einschalten nicht wiederhergestellt. Behoben.\nOrdner-Objekte auch für Auto-Entitäten bearbeiten. (Pirate-Wetter-Unterstützung)\ndie unterstützung von effekten in Licht entities vorbereitet (benötigt neue typ-detektor-version).",
@@ -80,19 +93,6 @@
         "pl": "przerabiane wysyłanie obrazów. Teraz ikony pogodowe działają również dla zwykłych użytkowników. Również obrazy pogody są transfered z naszego serwera, więc nie jest już potrzebny dostęp do admin.",
         "uk": "переробляти посилку зображення. Ікони погоди працюють для нормальних користувачів. Крім того, погодні зображення передаються з нашого сервера, тому не потрібно доступу до адміну.",
         "zh-cn": "重新工作图像发送 。 现在天气图标也为正常用户服务. 还有天气图像是从我们的服务器传输的,所以不再需要访问管理员了."
-      },
-      "4.1.11": {
-        "en": "convert string state values to numbers, where necessary.",
-        "de": "string-zustandswerte gegebenenfalls in zahlen umwandeln.",
-        "ru": "конвертировать значения состояния строки в числа, когда это необходимо.",
-        "pt": "converter valores de estado de cadeia para números, quando necessário.",
-        "nl": "converteer string state waarden naar getallen, waar nodig.",
-        "fr": "convertir les valeurs d'état de chaîne en nombres, si nécessaire.",
-        "it": "convertire i valori di stato della stringa in numeri, ove necessario.",
-        "es": "convertir valores de estado de cadena a números, cuando sea necesario.",
-        "pl": "w razie potrzeby przekonwertować wartości stanu string do liczb.",
-        "uk": "перетворюйте значення стану рядків до чисел, де необхідно.",
-        "zh-cn": "必要时将字符串状态值转换为数字."
       }
     },
     "titleLang": {
