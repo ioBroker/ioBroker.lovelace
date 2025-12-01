@@ -30,7 +30,7 @@
     "@iobroker/webserver": "^1.2.8",
     "axios": "^1.11.0",
     "body-parser": "^2.2.1",
-    "express": "^5.1.0",
+    "express": "^5.2.0",
     "js-yaml": "^4.1.1",
     "jstimezonedetect": "^1.0.7",
     "mime": "^3.0.0",
