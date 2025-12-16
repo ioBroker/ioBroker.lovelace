@@ -284,18 +284,14 @@ E.g., Text `Admin adapter is {a:system.adapter.admin.0.alive;a === true || a ===
 
 ## Custom cards
 ### Upload of custom cards
-To upload the custom card, write the following:
+To upload the custom card either use the `Files` tab in Admin, drag & drop in the instance settings or write the following in command line where iobroker is installed:
 
 ```iobroker file write PATH_TO_FILE\bignumber-card.js /lovelace.0/cards/```
 
 After restart of lovelace adapter it will include all files from the `cards` directory automatically.
 
-The following custom cards could be tested successfully:
-- `bignumber-card`: https://github.com/custom-cards/bignumber-card/blob/master/bignumber-card.js
-- `simple-thermostat`: https://github.com/nervetattoo/simple-thermostat/releases (take the latest release)
-- `thermostat`: https://github.com/ciotlosm/custom-lovelace/tree/master/thermostat-card (both files .js and .lib.js are required)
-
-I found this link https://github.com/jimz011/homeassistant as an interesting resource for custom cards.
+If the card needs additional resources (css or js files), you will have to recreate the folder structure in the `cards` directory and place those files there.
+The adapter will detect URLs starting with `/hacsfiles/` and reroute them to the `cards` directory. So if you see `404` errors for URLs including `/hacsfiles/`, then try to adjust the folder structure in the `cards` directory accordingly.
 
 Often the custom cards are stored on GitHub as sources and must be compiled before use.
 You should check the `Releases` menu on GitHub and try to find compiled files there.
