@@ -1,0 +1,1464 @@
+{
+  "adapter.0.light.SHSW-1#B8D862#1": {
+    "type": "device",
+    "common": {
+      "name": "Device light.SHSW-1#B8D862#1",
+      "read": true,
+      "statusStates": {
+        "onlineId": "adapter.0.light.SHSW-1#B8D862#1.online"
+      },
+      "desc": "Gen 1"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173796,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Cloud": {
+    "type": "channel",
+    "common": {
+      "name": "Channel Cloud",
+      "read": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173379,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Cloud",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Cloud.enabled": {
+    "type": "state",
+    "common": {
+      "name": "Cloud Connection",
+      "type": "boolean",
+      "role": "switch.enable",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175059,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Cloud.enabled",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": true,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0": {
+    "type": "channel",
+    "common": {
+      "name": "Channel Relay0",
+      "read": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173589,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.AutoTimerOff": {
+    "type": "state",
+    "common": {
+      "name": "AutoTimerOff",
+      "type": "number",
+      "role": "level.timer",
+      "def": 0,
+      "unit": "s",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175578,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.AutoTimerOff",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 0,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.AutoTimerOn": {
+    "type": "state",
+    "common": {
+      "name": "AutoTimerOn",
+      "type": "number",
+      "role": "level.timer",
+      "def": 0,
+      "unit": "s",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175578,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.AutoTimerOn",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 0,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.ButtonReverse": {
+    "type": "state",
+    "common": {
+      "name": "ButtonReverse",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "write": true,
+      "states": {
+        "0": "normal",
+        "1": "inverted"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175578,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.ButtonReverse",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 1,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.ButtonType": {
+    "type": "state",
+    "common": {
+      "name": "ButtonType",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": true,
+      "states": {
+        "momentary": "momentary",
+        "toggle": "toggle",
+        "edge": "edge",
+        "detached": "detached",
+        "action": "action",
+        "cycle": "cycle",
+        "momentary_on_release": "momentary_on_release"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175578,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.ButtonType",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "momentary",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.ChannelName": {
+    "type": "state",
+    "common": {
+      "name": "ChannelName",
+      "type": "string",
+      "role": "text",
+      "read": true,
+      "write": true,
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNNjQgMEMyOC43IDAgMCAyOC43IDAgNjRWNDQ4YzAgMzUuMyAyOC43IDY0IDY0IDY0SDMyMGMzNS4zIDAgNjQtMjguNyA2NC02NFY0MjguN2MtMi43IDEuMS01LjQgMi04LjIgMi43bC02MC4xIDE1Yy0zIC43LTYgMS4yLTkgMS40Yy0uOSAuMS0xLjggLjItMi43IC4ySDI0MGMtNi4xIDAtMTEuNi0zLjQtMTQuMy04LjhsLTguOC0xNy43Yy0xLjctMy40LTUuMS01LjUtOC44LTUuNXMtNy4yIDIuMS04LjggNS41bC04LjggMTcuN2MtMi45IDUuOS05LjIgOS40LTE1LjcgOC44cy0xMi4xLTUuMS0xMy45LTExLjNMMTQ0IDM4MWwtOS44IDMyLjhjLTYuMSAyMC4zLTI0LjggMzQuMi00NiAzNC4ySDgwYy04LjggMC0xNi03LjItMTYtMTZzNy4yLTE2IDE2LTE2aDguMmM3LjEgMCAxMy4zLTQuNiAxNS4zLTExLjRsMTQuOS00OS41YzMuNC0xMS4zIDEzLjgtMTkuMSAyNS42LTE5LjFzMjIuMiA3LjggMjUuNiAxOS4xbDExLjYgMzguNmM3LjQtNi4yIDE2LjgtOS43IDI2LjgtOS43YzE1LjkgMCAzMC40IDkgMzcuNSAyMy4ybDQuNCA4LjhoOC45Yy0zLjEtOC44LTMuNy0xOC40LTEuNC0yNy44bDE1LTYwLjFjMi44LTExLjMgOC42LTIxLjUgMTYuOC0yOS43TDM4NCAyMDMuNlYxNjBIMjU2Yy0xNy43IDAtMzItMTQuMy0zMi0zMlYwSDY0ek0yNTYgMFYxMjhIMzg0TDI1NiAwek01NDkuOCAxMzkuN2MtMTUuNi0xNS42LTQwLjktMTUuNi01Ni42IDBsLTI5LjQgMjkuNCA3MSA3MSAyOS40LTI5LjRjMTUuNi0xNS42IDE1LjYtNDAuOSAwLTU2LjZsLTE0LjQtMTQuNHpNMzExLjkgMzIxYy00LjEgNC4xLTcgOS4yLTguNCAxNC45bC0xNSA2MC4xYy0xLjQgNS41IC4yIDExLjIgNC4yIDE1LjJzOS43IDUuNiAxNS4yIDQuMmw2MC4xLTE1YzUuNi0xLjQgMTAuOC00LjMgMTQuOS04LjRMNTEyLjEgMjYyLjdsLTcxLTcxTDMxMS45IDMyMXoiLz48L3N2Zz4="
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175630,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.ChannelName",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.Event": {
+    "type": "state",
+    "common": {
+      "name": "Event",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "states": {
+        "S": "1xShort",
+        "L": "Long"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173390,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.Event",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.EventCount": {
+    "type": "state",
+    "common": {
+      "name": "Event Counter",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875174968,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.EventCount",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 243,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.Input": {
+    "type": "state",
+    "common": {
+      "name": "Input / Detach",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "def": false,
+      "states": "0:Input;1:Detach"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875174964,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.Input",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": true,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.Switch": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": true,
+      "write": true,
+      "name": "Switch",
+      "role": "switch",
+      "def": false,
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "light",
+          "name": "Esszimmer_Licht"
+        }
+      },
+      "enums": [
+        {
+          "_id": "enum.functions.light",
+          "common": {
+            "icon": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgJy0vL1czQy8vRFREIFNWRyAxLjEvL0VOJyAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIj4KICA8Zz4KICAgIDxnPgogICAgICA8cGF0aCBkPSJtMjU2LDkyLjNjLTc0LjIsMC0xMjcuOCw1NS4zLTEzNi4zLDExNC43LTUuMywzOS42IDcuNSw3OC4yIDM0LjEsMTA3LjQgMjMuNCwyNSAzNi4yLDU4LjQgMzYuMiw5Mi44bC0uMSw1NC4yYzAsMjEuOSAxOC4xLDM5LjYgNDAuNSwzOS42aDUyLjJjMjIuNCwwIDQwLjUtMTcuNyA0MC41LTM5LjZsLjEtNTQuMmMwLTM1LjQgMTEuNy02Ny44IDM0LjEtOTAuNyAyNC41LTI1IDM3LjMtNTcuMyAzNy4zLTkwLjctMC4xLTc0LjEtNjMtMTMzLjUtMTM4LjYtMTMzLjV6bTQ2LjgsMzY5LjFjMCwxMC40LTguNSwxOC44LTE5LjIsMTguOGgtNTIuMmMtMTAuNywwLTE5LjItOC4zLTE5LjItMTguOHYtMjRoOTAuNXYyNHptMzkuNi0xNTkuNWMtMjYuNiwyNy4xLTQwLjUsNjQuNi00MC41LDEwNS4zdjkuNGgtOTAuNXYtOS40YzAtMzguNi0xNi03Ny4xLTQyLjYtMTA2LjMtMjMuNC0yNS0zMy01Ny4zLTI4LjgtOTAuNyA3LjUtNTAgNTQtOTcgMTE2LjEtOTcgNjUsMCAxMTcuMiw1MS4xIDExNy4yLDExMi42IDAsMjguMS0xMC43LDU1LjItMzAuOSw3Ni4xeiIvPgogICAgICA8cmVjdCB3aWR0aD0iMjEuMyIgeD0iMjQ1LjMiIHk9IjExIiBoZWlnaHQ9IjUwIi8+CiAgICAgIDxwb2x5Z29uIHBvaW50cz0iMzg1LjEsMTA3LjQgNDAwLDEyMi4zIDQzNi41LDg3LjIgNDIxLjUsNzIuMyAgICIvPgogICAgICA8cmVjdCB3aWR0aD0iNTIuMiIgeD0iNDQ4LjgiIHk9IjIzNi4yIiBoZWlnaHQ9IjIwLjkiLz4KICAgICAgPHJlY3Qgd2lkdGg9IjUyLjIiIHg9IjExIiB5PSIyMzYuMiIgaGVpZ2h0PSIyMC45Ii8+CiAgICAgIDxwb2x5Z29uIHBvaW50cz0iOTAuMSw3Mi4yIDc1LjEsODcuMSAxMTEuNiwxMjIuMiAxMjYuNSwxMDcuMyAgICIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+Cg==",
+            "name": {
+              "en": "Light",
+              "de": "Licht",
+              "ru": "Свет",
+              "pt": "Luz",
+              "nl": "Licht",
+              "fr": "Lumière",
+              "it": "Soggiorno",
+              "es": "Luz",
+              "pl": "Światło",
+              "zh-cn": "光"
+            }
+          },
+          "type": "enum"
+        },
+        {
+          "_id": "enum.rooms.esszimmer",
+          "common": {
+            "name": "esszimmer"
+          },
+          "type": "enum"
+        }
+      ]
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875174956,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.Switch",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": true,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.Timer": {
+    "type": "state",
+    "common": {
+      "name": "Timer",
+      "type": "number",
+      "role": "level.timer",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "unit": "s"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175578,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.Timer",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.longpush": {
+    "type": "state",
+    "common": {
+      "name": "Longpush",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "def": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875174970,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.longpush",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": false,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.longpushtime": {
+    "type": "state",
+    "common": {
+      "name": "Longpush Time",
+      "type": "number",
+      "role": "state",
+      "unit": "ms",
+      "min": 1,
+      "max": 5000,
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175578,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.longpushtime",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 800,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Relay0.source": {
+    "type": "state",
+    "common": {
+      "name": "source",
+      "type": "string",
+      "role": "text",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175059,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Relay0.source",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "input",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Sys": {
+    "type": "channel",
+    "common": {
+      "name": "Channel Sys",
+      "read": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173372,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Sys",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Sys.eco": {
+    "type": "state",
+    "common": {
+      "name": "Eco Mode",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175570,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Sys.eco",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": true,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Sys.lat": {
+    "type": "state",
+    "common": {
+      "name": "Latitude",
+      "type": "number",
+      "role": "value.gps.latitude",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175573,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Sys.lat",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 53.8965,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Sys.lon": {
+    "type": "state",
+    "common": {
+      "name": "Longitude",
+      "type": "number",
+      "role": "value.gps.longitude",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175573,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Sys.lon",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 10.6432,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Sys.sntp": {
+    "type": "state",
+    "common": {
+      "name": "SNTP Server",
+      "type": "string",
+      "role": "text.url",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175570,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Sys.sntp",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "time.google.com",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.Sys.timezone": {
+    "type": "state",
+    "common": {
+      "name": "Timezone",
+      "type": "string",
+      "role": "text",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175570,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.Sys.timezone",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "Europe/Berlin",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.authEnabled": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "Authentication enabled",
+        "de": "Authentication aktiviert",
+        "ru": "Аутентификация включена",
+        "pt": "Autenticação activada",
+        "nl": "Authenticatie in staat",
+        "fr": "Authentification activée",
+        "it": "Autenticazione abilitata",
+        "es": "Autenticación habilitada",
+        "pl": "Authenticacja umożliwiła",
+        "zh-cn": "逮捕使"
+      },
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMTQ0IDE0NGMwLTQ0LjIgMzUuOC04MCA4MC04MGMzMS45IDAgNTkuNCAxOC42IDcyLjMgNDUuN2M3LjYgMTYgMjYuNyAyMi44IDQyLjYgMTUuMnMyMi44LTI2LjcgMTUuMi00Mi42QzMzMSAzMy43IDI4MS41IDAgMjI0IDBDMTQ0LjUgMCA4MCA2NC41IDgwIDE0NHY0OEg2NGMtMzUuMyAwLTY0IDI4LjctNjQgNjRWNDQ4YzAgMzUuMyAyOC43IDY0IDY0IDY0SDM4NGMzNS4zIDAgNjQtMjguNyA2NC02NFYyNTZjMC0zNS4zLTI4LjctNjQtNjQtNjRIMTQ0VjE0NHoiLz48L3N2Zz4="
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175550,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.authEnabled",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": false,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.class": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "Device class",
+        "de": "Geräteklasse",
+        "ru": "Класс устройства",
+        "pt": "Classe de dispositivo",
+        "nl": "Device klas",
+        "fr": "Classe d' appareil",
+        "it": "Classe di dispositivo",
+        "es": "Clase de dispositivo",
+        "pl": "Klasa Device",
+        "zh-cn": "证人阶级"
+      },
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173307,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.class",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "adapter1",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext": {
+    "type": "channel",
+    "common": {
+      "name": "Channel ext",
+      "read": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173795,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.humidity1": {
+    "type": "state",
+    "common": {
+      "name": "humidity1",
+      "type": "number",
+      "role": "value.humidity",
+      "read": true,
+      "write": false,
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173792,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.humidity1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.humidity2": {
+    "type": "state",
+    "common": {
+      "name": "External Humidity",
+      "type": "number",
+      "role": "value.humidity",
+      "read": true,
+      "write": false,
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175059,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.humidity2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 0,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.humidity3": {
+    "type": "state",
+    "common": {
+      "name": "humidity3",
+      "type": "number",
+      "role": "value.humidity",
+      "read": true,
+      "write": false,
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175059,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.humidity3",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 0,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.switch1": {
+    "type": "state",
+    "common": {
+      "type": "boolean",
+      "read": true,
+      "write": false,
+      "name": "Switch",
+      "role": "switch",
+      "def": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173795,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.switch1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": false,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureC1": {
+    "type": "state",
+    "common": {
+      "name": "temperatureC1",
+      "type": "number",
+      "role": "value.temperature",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173589,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureC1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureC2": {
+    "type": "state",
+    "common": {
+      "name": "temperatureC2",
+      "type": "number",
+      "role": "value.temperature",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173589,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureC2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureC3": {
+    "type": "state",
+    "common": {
+      "name": "temperatureC3",
+      "type": "number",
+      "role": "value.temperature",
+      "unit": "°C",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173597,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureC3",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureF1": {
+    "type": "state",
+    "common": {
+      "name": "temperatureF1",
+      "type": "number",
+      "role": "value.temperature",
+      "unit": "°F",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173608,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureF1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureF2": {
+    "type": "state",
+    "common": {
+      "name": "temperatureF2",
+      "type": "number",
+      "role": "value.temperature",
+      "unit": "°F",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173608,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureF2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureF3": {
+    "type": "state",
+    "common": {
+      "name": "temperatureF3",
+      "type": "number",
+      "role": "value.temperature",
+      "unit": "°F",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173608,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureF3",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetC1": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "External sensor temperature offset",
+        "de": "Externer Sensor Temperaturversatz",
+        "ru": "Внешний датчик температуры компенсации",
+        "pt": "Compensação da temperatura do sensor externo",
+        "nl": "Externe sensortemperatuur",
+        "fr": "Régulateur de température du capteur externe",
+        "it": "Interruttore di temperatura del sensore esterno",
+        "es": "Offset de temperatura del sensor externo",
+        "pl": "Sensor temperature offset",
+        "zh-cn": "外部因素"
+      },
+      "type": "number",
+      "role": "level.temperature",
+      "read": true,
+      "write": true,
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173614,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetC1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetC2": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "External sensor temperature offset",
+        "de": "Externer Sensor Temperaturversatz",
+        "ru": "Внешний датчик температуры компенсации",
+        "pt": "Compensação da temperatura do sensor externo",
+        "nl": "Externe sensortemperatuur",
+        "fr": "Régulateur de température du capteur externe",
+        "it": "Interruttore di temperatura del sensore esterno",
+        "es": "Offset de temperatura del sensor externo",
+        "pl": "Sensor temperature offset",
+        "zh-cn": "外部因素"
+      },
+      "type": "number",
+      "role": "level.temperature",
+      "read": true,
+      "write": true,
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173614,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetC2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetC3": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "External sensor temperature offset",
+        "de": "Externer Sensor Temperaturversatz",
+        "ru": "Внешний датчик температуры компенсации",
+        "pt": "Compensação da temperatura do sensor externo",
+        "nl": "Externe sensortemperatuur",
+        "fr": "Régulateur de température du capteur externe",
+        "it": "Interruttore di temperatura del sensore esterno",
+        "es": "Offset de temperatura del sensor externo",
+        "pl": "Sensor temperature offset",
+        "zh-cn": "外部因素"
+      },
+      "type": "number",
+      "role": "level.temperature",
+      "read": true,
+      "write": true,
+      "unit": "°C"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173619,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetC3",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetF1": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "External sensor temperature offset",
+        "de": "Externer Sensor Temperaturversatz",
+        "ru": "Внешний датчик температуры компенсации",
+        "pt": "Compensação da temperatura do sensor externo",
+        "nl": "Externe sensortemperatuur",
+        "fr": "Régulateur de température du capteur externe",
+        "it": "Interruttore di temperatura del sensore esterno",
+        "es": "Offset de temperatura del sensor externo",
+        "pl": "Sensor temperature offset",
+        "zh-cn": "外部因素"
+      },
+      "type": "number",
+      "role": "level.temperature",
+      "read": true,
+      "write": true,
+      "unit": "°F"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173614,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetF1",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetF2": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "External sensor temperature offset",
+        "de": "Externer Sensor Temperaturversatz",
+        "ru": "Внешний датчик температуры компенсации",
+        "pt": "Compensação da temperatura do sensor externo",
+        "nl": "Externe sensortemperatuur",
+        "fr": "Régulateur de température du capteur externe",
+        "it": "Interruttore di temperatura del sensore esterno",
+        "es": "Offset de temperatura del sensor externo",
+        "pl": "Sensor temperature offset",
+        "zh-cn": "外部因素"
+      },
+      "type": "number",
+      "role": "level.temperature",
+      "read": true,
+      "write": true,
+      "unit": "°F"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173614,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetF2",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetF3": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "External sensor temperature offset",
+        "de": "Externer Sensor Temperaturversatz",
+        "ru": "Внешний датчик температуры компенсации",
+        "pt": "Compensação da temperatura do sensor externo",
+        "nl": "Externe sensortemperatuur",
+        "fr": "Régulateur de température du capteur externe",
+        "it": "Interruttore di temperatura del sensore esterno",
+        "es": "Offset de temperatura del sensor externo",
+        "pl": "Sensor temperature offset",
+        "zh-cn": "外部因素"
+      },
+      "type": "number",
+      "role": "level.temperature",
+      "read": true,
+      "write": true,
+      "unit": "°F"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173787,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.ext.temperatureOffsetF3",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.factoryResetFromSwitch": {
+    "type": "state",
+    "common": {
+      "name": "factoryResetFromSwitch",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175578,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.factoryResetFromSwitch",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": true,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.firmware": {
+    "type": "state",
+    "common": {
+      "name": "firmware",
+      "type": "boolean",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175054,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.firmware",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": false,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.firmwareupdate": {
+    "type": "state",
+    "common": {
+      "name": "Update Firmware",
+      "type": "boolean",
+      "role": "button",
+      "read": false,
+      "write": true,
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMTA1LjEgMjAyLjZjNy43LTIxLjggMjAuMi00Mi4zIDM3LjgtNTkuOGM2Mi41LTYyLjUgMTYzLjgtNjIuNSAyMjYuMyAwTDM4Ni4zIDE2MEgzMzZjLTE3LjcgMC0zMiAxNC4zLTMyIDMyczE0LjMgMzIgMzIgMzJINDYzLjVjMCAwIDAgMCAwIDBoLjRjMTcuNyAwIDMyLTE0LjMgMzItMzJWNjRjMC0xNy43LTE0LjMtMzItMzItMzJzLTMyIDE0LjMtMzIgMzJ2NTEuMkw0MTQuNCA5Ny42Yy04Ny41LTg3LjUtMjI5LjMtODcuNS0zMTYuOCAwQzczLjIgMTIyIDU1LjYgMTUwLjcgNDQuOCAxODEuNGMtNS45IDE2LjcgMi45IDM0LjkgMTkuNSA0MC44czM0LjktMi45IDQwLjgtMTkuNXpNMzkgMjg5LjNjLTUgMS41LTkuOCA0LjItMTMuNyA4LjJjLTQgNC02LjcgOC44LTguMSAxNGMtLjMgMS4yLS42IDIuNS0uOCAzLjhjLS4zIDEuNy0uNCAzLjQtLjQgNS4xVjQ0OGMwIDE3LjcgMTQuMyAzMiAzMiAzMnMzMi0xNC4zIDMyLTMyVjM5Ni45bDE3LjYgMTcuNSAwIDBjODcuNSA4Ny40IDIyOS4zIDg3LjQgMzE2LjcgMGMyNC40LTI0LjQgNDIuMS01My4xIDUyLjktODMuN2M1LjktMTYuNy0yLjktMzQuOS0xOS41LTQwLjhzLTM0LjkgMi45LTQwLjggMTkuNWMtNy43IDIxLjgtMjAuMiA0Mi4zLTM3LjggNTkuOGMtNjIuNSA2Mi41LTE2My44IDYyLjUtMjI2LjMgMGwtLjEtLjFMMTI1LjYgMzUySDE3NmMxNy43IDAgMzItMTQuMyAzMi0zMnMtMTQuMy0zMi0zMi0zMkg0OC40Yy0xLjYgMC0zLjIgLjEtNC44IC4zcy0zLjEgLjUtNC42IDF6Ii8+PC9zdmc+"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173299,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.firmwareupdate",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.gen": {
+    "type": "state",
+    "common": {
+      "name": "Device generation",
+      "type": "number",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "states": {
+        "1": "Generation 1",
+        "2": "Generation 2",
+        "3": "Generation 3",
+        "4": "Generation 4"
+      }
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173299,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.gen",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 1,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.hostname": {
+    "type": "state",
+    "common": {
+      "name": "hostname",
+      "type": "string",
+      "role": "info.ip",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173307,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.hostname",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "192.168.2.97",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.id": {
+    "type": "state",
+    "common": {
+      "name": "id",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173307,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.id",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "light.SHSW-1#B8D862#1",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.knowledgeBaseUrl": {
+    "type": "state",
+    "common": {
+      "name": {
+        "en": "Knowledge base",
+        "de": "Wissensdatenbank",
+        "ru": "База знаний",
+        "pt": "Base de conhecimento",
+        "nl": "Kennisbasis",
+        "fr": "Base de connaissances",
+        "it": "Base di conoscenza",
+        "es": "Base de conocimientos",
+        "pl": "Baza wiedzy",
+        "zh-cn": "知识基础"
+      },
+      "type": "string",
+      "role": "url.blank",
+      "read": true,
+      "write": false,
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMjU2IDUxMmMxNDEuNCAwIDI1Ni0xMTQuNiAyNTYtMjU2UzM5Ny40IDAgMjU2IDBTMCAxMTQuNiAwIDI1NlMxMTQuNiA1MTIgMjU2IDUxMnpNMTY5LjggMTY1LjNjNy45LTIyLjMgMjkuMS0zNy4zIDUyLjgtMzcuM2g1OC4zYzM0LjkgMCA2My4xIDI4LjMgNjMuMSA2My4xYzAgMjIuNi0xMi4xIDQzLjUtMzEuNyA1NC44TDI4MCAyNjQuNGMtLjIgMTMtMTAuOSAyMy42LTI0IDIzLjZjLTEzLjMgMC0yNC0xMC43LTI0LTI0VjI1MC41YzAtOC42IDQuNi0xNi41IDEyLjEtMjAuOGw0NC4zLTI1LjRjNC43LTIuNyA3LjYtNy43IDcuNi0xMy4xYzAtOC40LTYuOC0xNS4xLTE1LjEtMTUuMUgyMjIuNmMtMy40IDAtNi40IDIuMS03LjUgNS4zbC0uNCAxLjJjLTQuNCAxMi41LTE4LjIgMTktMzAuNiAxNC42cy0xOS0xOC4yLTE0LjYtMzAuNmwuNC0xLjJ6TTI4OCAzNTJjMCAxNy43LTE0LjMgMzItMzIgMzJzLTMyLTE0LjMtMzItMzJzMTQuMy0zMiAzMi0zMnMzMiAxNC4zIDMyIDMyeiIvPjwvc3ZnPg=="
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173321,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.knowledgeBaseUrl",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "https://kb.adapter.cloud/knowledge-base/adapter-1",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.name": {
+    "type": "state",
+    "common": {
+      "name": "Device Name",
+      "type": "string",
+      "role": "info.name",
+      "read": true,
+      "write": true,
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNNjQgMEMyOC43IDAgMCAyOC43IDAgNjRWNDQ4YzAgMzUuMyAyOC43IDY0IDY0IDY0SDMyMGMzNS4zIDAgNjQtMjguNyA2NC02NFY0MjguN2MtMi43IDEuMS01LjQgMi04LjIgMi43bC02MC4xIDE1Yy0zIC43LTYgMS4yLTkgMS40Yy0uOSAuMS0xLjggLjItMi43IC4ySDI0MGMtNi4xIDAtMTEuNi0zLjQtMTQuMy04LjhsLTguOC0xNy43Yy0xLjctMy40LTUuMS01LjUtOC44LTUuNXMtNy4yIDIuMS04LjggNS41bC04LjggMTcuN2MtMi45IDUuOS05LjIgOS40LTE1LjcgOC44cy0xMi4xLTUuMS0xMy45LTExLjNMMTQ0IDM4MWwtOS44IDMyLjhjLTYuMSAyMC4zLTI0LjggMzQuMi00NiAzNC4ySDgwYy04LjggMC0xNi03LjItMTYtMTZzNy4yLTE2IDE2LTE2aDguMmM3LjEgMCAxMy4zLTQuNiAxNS4zLTExLjRsMTQuOS00OS41YzMuNC0xMS4zIDEzLjgtMTkuMSAyNS42LTE5LjFzMjIuMiA3LjggMjUuNiAxOS4xbDExLjYgMzguNmM3LjQtNi4yIDE2LjgtOS43IDI2LjgtOS43YzE1LjkgMCAzMC40IDkgMzcuNSAyMy4ybDQuNCA4LjhoOC45Yy0zLjEtOC44LTMuNy0xOC40LTEuNC0yNy44bDE1LTYwLjFjMi44LTExLjMgOC42LTIxLjUgMTYuOC0yOS43TDM4NCAyMDMuNlYxNjBIMjU2Yy0xNy43IDAtMzItMTQuMy0zMi0zMlYwSDY0ek0yNTYgMFYxMjhIMzg0TDI1NiAwek01NDkuOCAxMzkuN2MtMTUuNi0xNS42LTQwLjktMTUuNi01Ni42IDBsLTI5LjQgMjkuNCA3MSA3MSAyOS40LTI5LjRjMTUuNi0xNS42IDE1LjYtNDAuOSAwLTU2LjZsLTE0LjQtMTQuNHpNMzExLjkgMzIxYy00LjEgNC4xLTcgOS4yLTguNCAxNC45bC0xNSA2MC4xYy0xLjQgNS41IC4yIDExLjIgNC4yIDE1LjJzOS43IDUuNiAxNS4yIDQuMmw2MC4xLTE1YzUuNi0xLjQgMTAuOC00LjMgMTQuOS04LjRMNTEyLjEgMjYyLjdsLTcxLTcxTDMxMS45IDMyMXoiLz48L3N2Zz4="
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175563,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.name",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.online": {
+    "type": "state",
+    "common": {
+      "name": "Online",
+      "type": "boolean",
+      "role": "indicator.reachable",
+      "read": true,
+      "write": false,
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNNTQuMiAyMDIuOUMxMjMuMiAxMzYuNyAyMTYuOCA5NiAzMjAgOTZzMTk2LjggNDAuNyAyNjUuOCAxMDYuOWMxMi44IDEyLjIgMzMgMTEuOCA0NS4yLS45czExLjgtMzMtLjktNDUuMkM1NDkuNyA3OS41IDQ0MC40IDMyIDMyMCAzMlM5MC4zIDc5LjUgOS44IDE1Ni43Qy0yLjkgMTY5LTMuMyAxODkuMiA4LjkgMjAyczMyLjUgMTMuMiA0NS4yIC45ek0zMjAgMjU2YzU2LjggMCAxMDguNiAyMS4xIDE0OC4yIDU2YzEzLjMgMTEuNyAzMy41IDEwLjQgNDUuMi0yLjhzMTAuNC0zMy41LTIuOC00NS4yQzQ1OS44IDIxOS4yIDM5MyAxOTIgMzIwIDE5MnMtMTM5LjggMjcuMi0xOTAuNSA3MmMtMTMuMyAxMS43LTE0LjUgMzEuOS0yLjggNDUuMnMzMS45IDE0LjUgNDUuMiAyLjhjMzkuNS0zNC45IDkxLjMtNTYgMTQ4LjItNTZ6bTY0IDE2MGMwLTM1LjMtMjguNy02NC02NC02NHMtNjQgMjguNy02NCA2NHMyOC43IDY0IDY0IDY0czY0LTI4LjcgNjQtNjR6Ii8+PC9zdmc+"
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173299,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.online",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": true,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.protocol": {
+    "type": "state",
+    "common": {
+      "name": "Protocol",
+      "type": "string",
+      "role": "text",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173331,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.protocol",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "coap",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.reboot": {
+    "type": "state",
+    "common": {
+      "name": "Reboot",
+      "type": "boolean",
+      "role": "button",
+      "read": false,
+      "write": true
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173331,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.reboot",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.rssi": {
+    "type": "state",
+    "common": {
+      "name": "rssi",
+      "type": "number",
+      "role": "value",
+      "read": true,
+      "write": false,
+      "unit": "dBm",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NzYgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNNTQ0IDBjMTcuNyAwIDMyIDE0LjMgMzIgMzJWNDgwYzAgMTcuNy0xNC4zIDMyLTMyIDMycy0zMi0xNC4zLTMyLTMyVjMyYzAtMTcuNyAxNC4zLTMyIDMyLTMyek00MTYgOTZjMTcuNyAwIDMyIDE0LjMgMzIgMzJWNDgwYzAgMTcuNy0xNC4zIDMyLTMyIDMycy0zMi0xNC4zLTMyLTMyVjEyOGMwLTE3LjcgMTQuMy0zMiAzMi0zMnpNMzIwIDIyNFY0ODBjMCAxNy43LTE0LjMgMzItMzIgMzJzLTMyLTE0LjMtMzItMzJWMjI0YzAtMTcuNyAxNC4zLTMyIDMyLTMyczMyIDE0LjMgMzIgMzJ6TTE2MCAyODhjMTcuNyAwIDMyIDE0LjMgMzIgMzJWNDgwYzAgMTcuNy0xNC4zIDMyLTMyIDMycy0zMi0xNC4zLTMyLTMyVjMyMGMwLTE3LjcgMTQuMy0zMiAzMi0zMnpNNjQgNDE2djY0YzAgMTcuNy0xNC4zIDMyLTMyIDMycy0zMi0xNC4zLTMyLTMyVjQxNmMwLTE3LjcgMTQuMy0zMiAzMi0zMnMzMiAxNC4zIDMyIDMyeiIvPjwvc3ZnPg=="
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175057,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.rssi",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": -10,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.type": {
+    "type": "state",
+    "common": {
+      "name": "type",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875173321,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.type",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "light.SHSW-1",
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.uptime": {
+    "type": "state",
+    "common": {
+      "name": "uptime",
+      "type": "number",
+      "role": "value.interval",
+      "read": true,
+      "write": false,
+      "unit": "sec",
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMjU2IDUxMkMxMTQuNiA1MTIgMCAzOTcuNCAwIDI1NlMxMTQuNiAwIDI1NiAwUzUxMiAxMTQuNiA1MTIgMjU2cy0xMTQuNiAyNTYtMjU2IDI1NnpNMjMyIDEyMFYyNTZjMCA4IDQgMTUuNSAxMC43IDIwbDk2IDY0YzExIDcuNCAyNS45IDQuNCAzMy4zLTYuN3M0LjQtMjUuOS02LjctMzMuM0wyODAgMjQzLjJWMTIwYzAtMTMuMy0xMC43LTI0LTI0LTI0cy0yNCAxMC43LTI0IDI0eiIvPjwvc3ZnPg=="
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175057,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.uptime",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": 14270697,
+    "ack": true
+  },
+  "adapter.0.light.SHSW-1#B8D862#1.version": {
+    "type": "state",
+    "common": {
+      "name": "version",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIENvcHlyaWdodCAyMDIyIEZvbnRpY29ucywgSW5jLiAtLT48cGF0aCBkPSJNMTc2IDI0YzAtMTMuMy0xMC43LTI0LTI0LTI0cy0yNCAxMC43LTI0IDI0VjY0Yy0zNS4zIDAtNjQgMjguNy02NCA2NEgyNGMtMTMuMyAwLTI0IDEwLjctMjQgMjRzMTAuNyAyNCAyNCAyNEg2NHY1NkgyNGMtMTMuMyAwLTI0IDEwLjctMjQgMjRzMTAuNyAyNCAyNCAyNEg2NHY1NkgyNGMtMTMuMyAwLTI0IDEwLjctMjQgMjRzMTAuNyAyNCAyNCAyNEg2NGMwIDM1LjMgMjguNyA2NCA2NCA2NHY0MGMwIDEzLjMgMTAuNyAyNCAyNCAyNHMyNC0xMC43IDI0LTI0VjQ0OGg1NnY0MGMwIDEzLjMgMTAuNyAyNCAyNCAyNHMyNC0xMC43IDI0LTI0VjQ0OGg1NnY0MGMwIDEzLjMgMTAuNyAyNCAyNCAyNHMyNC0xMC43IDI0LTI0VjQ0OGMzNS4zIDAgNjQtMjguNyA2NC02NGg0MGMxMy4zIDAgMjQtMTAuNyAyNC0yNHMtMTAuNy0yNC0yNC0yNEg0NDhWMjgwaDQwYzEzLjMgMCAyNC0xMC43IDI0LTI0cy0xMC43LTI0LTI0LTI0SDQ0OFYxNzZoNDBjMTMuMyAwIDI0LTEwLjcgMjQtMjRzLTEwLjctMjQtMjQtMjRINDQ4YzAtMzUuMy0yOC43LTY0LTY0LTY0VjI0YzAtMTMuMy0xMC43LTI0LTI0LTI0cy0yNCAxMC43LTI0IDI0VjY0SDI4MFYyNGMwLTEzLjMtMTAuNy0yNC0yNC0yNHMtMjQgMTAuNy0yNCAyNFY2NEgxNzZWMjR6TTE2MCAxMjhIMzUyYzE3LjcgMCAzMiAxNC4zIDMyIDMyVjM1MmMwIDE3LjctMTQuMyAzMi0zMiAzMkgxNjBjLTE3LjcgMC0zMi0xNC4zLTMyLTMyVjE2MGMwLTE3LjcgMTQuMy0zMiAzMi0zMnptMTkyIDMySDE2MFYzNTJIMzUyVjE2MHoiLz48L3N2Zz4="
+    },
+    "native": {},
+    "from": "system.adapter.adapter.0",
+    "user": "system.user.admin",
+    "ts": 1765875175550,
+    "_id": "adapter.0.light.SHSW-1#B8D862#1.version",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "val": "20230913-112003/v1.14.0-gcb84623",
+    "ack": true
+  }
+}
