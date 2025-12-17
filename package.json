@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.3.2",
-    "@iobroker/type-detector": "^4.5.1",
+    "@iobroker/type-detector": "^5.0.9",
     "@iobroker/webserver": "^1.3.1",
     "axios": "^1.13.2",
     "body-parser": "^2.2.1",
