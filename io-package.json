@@ -328,7 +328,7 @@
         "type": "boolean",
         "read": true,
         "write": false,
-        "role": "state",
+        "role": "indicator",
         "def": false
       }
     },
@@ -340,7 +340,7 @@
         "type": "boolean",
         "read": true,
         "write": false,
-        "role": "state",
+        "role": "indicator",
         "def": false
       }
     },
@@ -418,7 +418,7 @@
           "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
         },
         "type": "string",
-        "role": "state"
+        "role": "text"
       },
       "native": {}
     },
@@ -438,6 +438,7 @@
         "type": "json",
         "write": true,
         "read": true,
+        "role": "json",
         "desc": "Used for shopping list card"
       },
       "native": {}
@@ -450,6 +451,7 @@
         "type": "boolean",
         "write": true,
         "read": true,
+        "role": "switch.enable",
         "desc": "Arm or disarm with code",
         "def": false
       },
@@ -465,6 +467,7 @@
         "type": "number",
         "write": true,
         "read": true,
+        "role": "text",
         "desc": "Set/Read alarm arm status",
         "def": 0,
         "states": {
@@ -493,6 +496,7 @@
         "type": "string",
         "write": true,
         "read": true,
+        "role": "text",
         "desc": "Change default theme during runtime",
         "states": {
           "default": "default"
@@ -507,6 +511,7 @@
         "type": "string",
         "write": true,
         "read": true,
+        "role": "text",
         "desc": "Change default dark theme during runtime",
         "states": {
           "default": "default"
@@ -521,6 +526,7 @@
         "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
         "write": true,
         "read": true,
+        "role": "switch.mode.dark",
         "def": false
       }
     },
@@ -538,6 +544,7 @@
       "common": {
         "name": "alarm",
         "type": "json",
+        "role": "text",
         "write": true,
         "read": true,
         "desc": "List of notifications"
@@ -550,6 +557,7 @@
       "common": {
         "name": "Add notification",
         "type": "string",
+        "role": "text",
         "write": true,
         "read": false,
         "desc": "Add notification"
@@ -562,6 +570,7 @@
       "common": {
         "name": "Clear notification",
         "type": "number",
+        "role": "state",
         "write": true,
         "read": false,
         "desc": "Clear notification by id or all if no id"
