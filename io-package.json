@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "5.0.3",
+    "version": "5.0.4",
     "news": {
+      "5.0.4": {
+        "en": "added missing roles to instance objects\nmanual entities should not vanish anymore because of automatic entities\nadd support for cover images from static urls",
+        "de": "fehlende rollen zu instanz objekte hinzugefügt\nmanuelle einheiten sollten wegen automatischer einheiten nicht mehr verschwinden\nunterstützung für cover-bilder aus statischen urls hinzufügen",
+        "ru": "добавление недостающих ролей в объекты экземпляра\nручные сущности больше не должны исчезать из-за автоматических сущностей\nдобавить поддержку изображений обложки из статических url",
+        "pt": "adicionar funções em falta aos objetos de instância\nentidades manuais não devem mais desaparecer por causa de entidades automáticas\nadicionar suporte para imagens de capa de urls estáticos",
+        "nl": "ontbrekende rollen toegevoegd aan instantieobjecten\nhandmatige entiteiten mogen niet meer verdwijnen vanwege automatische entiteiten\nondersteuning toevoegen voor cover afbeeldingen van statische urls",
+        "fr": "ajout de rôles manquants aux objets d'instance\nles entités manuelles ne devraient plus disparaître à cause des entités automatiques\najouter le support pour les images de couverture des urls statiques",
+        "it": "aggiunto ruoli mancanti agli oggetti di istanza\nentità manuali non dovrebbero più svanire a causa di entità automatiche\naggiungere supporto per le immagini di copertura da urls statici",
+        "es": "añadiendo roles perdidos para instancia objetos\nlas entidades manuales ya no deben desaparecer debido a las entidades automáticas\nañadir soporte para imágenes de cubierta de urls estáticos",
+        "pl": "dodano brakujące role do instancji obiektów\npodmioty manualne nie powinny już znikać z powodu podmiotów automatycznych\ndodaj obsługę okładek z urli statycznych",
+        "uk": "додано відсутні ролі до об'єктів екземпляра\nручні суб'єкти не повинні фуршети більше через автоматичні суб'єкти\nдодати підтримку зображення кришки з статичних url",
+        "zh-cn": "在实例对象中添加缺失的角色\n手动实体不应因为自动实体而消失\n从静态 urls 添加对封面图像的支持"
+      },
       "5.0.3": {
         "en": "make sure only existing themes are selectable in control.theme states.\nbring back support for frontend_es5.",
         "de": "sicher stellen, dass nur vorhandene themen in der steuerung über states wählbar sind.\nunterstützung für frontend_es5 wiederhergestellt.",
@@ -80,19 +93,6 @@
         "pl": "naprawiono ładowanie obrazu. Fixes # 577",
         "uk": "відремонтовано завантаження зображень. Виправлення #577",
         "zh-cn": "修复图像加载。 修复 #577"
-      },
-      "4.1.13": {
-        "en": "reworked image sending. Now weather icons work for normal users, too. Also weather images are transfered from our server, so no access to admin is needed anymore.",
-        "de": "reworked image send. Jetzt funktionieren auch Wettersymbole für normale Benutzer. Auch Wetterbilder werden von unserem Server übertragen, so dass kein Zugriff auf Admin mehr erforderlich ist.",
-        "ru": "переделанная отправка изображений. Теперь иконки погоды работают и для обычных пользователей. Также с нашего сервера передаются погодные изображения, поэтому доступ к администратору больше не требуется.",
-        "pt": "envio de imagem retrabalhado. Agora os ícones do tempo funcionam para usuários normais, também. Também as imagens meteorológicas são transferidas do nosso servidor, então não é necessário mais acesso a admin.",
-        "nl": "herwerkte afbeelding verzenden. Nu weer pictogrammen werken voor normale gebruikers, ook. Ook weerbeelden worden overgebracht van onze server, zodat geen toegang meer nodig is tot admin.",
-        "fr": "l'envoi d'images retravaillées. Maintenant, les icônes météo fonctionnent aussi pour les utilisateurs normaux. Aussi les images météorologiques sont transférées de notre serveur, de sorte qu'aucun accès à admin n'est plus nécessaire.",
-        "it": "l'invio di immagini rielaborate. Ora le icone meteo funzionano anche per gli utenti normali. Anche le immagini meteo vengono trasferite dal nostro server, quindi non è più necessario accedere all'amministratore.",
-        "es": "reelaboró el envío de imagen. Ahora los iconos meteorológicos también funcionan para los usuarios normales. También las imágenes del tiempo son transferidas desde nuestro servidor, por lo que ya no se necesita acceso a admin.",
-        "pl": "przerabiane wysyłanie obrazów. Teraz ikony pogodowe działają również dla zwykłych użytkowników. Również obrazy pogody są transfered z naszego serwera, więc nie jest już potrzebny dostęp do admin.",
-        "uk": "переробляти посилку зображення. Ікони погоди працюють для нормальних користувачів. Крім того, погодні зображення передаються з нашого сервера, тому не потрібно доступу до адміну.",
-        "zh-cn": "重新工作图像发送 。 现在天气图标也为正常用户服务. 还有天气图像是从我们的服务器传输的,所以不再需要访问管理员了."
       }
     },
     "titleLang": {

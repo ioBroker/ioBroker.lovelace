@@ -471,7 +471,7 @@ After that checkout modified version in `./build` folder. Then.
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 5.0.4 (2025-12-17)
 * (Garfonso) added missing roles to instance objects
 * (Garfonso) manual entities should not vanish anymore because of automatic entities
 * (Garfonso) add support for cover images from static urls
@@ -503,9 +503,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) Prevent crash with some edge cases with light entities
 * (Garfonso) experimental dashboard support.
 * (Garfonso) Allow to show sidebar via object in instances. VERY experimental. A lot of stuff does not yet work. But allows to configure dashboards and also browser mod.
-
-### 4.1.15 (2025-03-10)
-* (Garfonso) repaired image loading, again.
 
 ## License
 

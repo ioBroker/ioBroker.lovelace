@@ -1,4 +1,7 @@
 # Older Changes
+## 4.1.15 (2025-03-10)
+* (Garfonso) repaired image loading, again.
+
 ## 4.1.14 (2025-03-10)
 * (Garfonso) repaired image loading. Fixes #577
 
