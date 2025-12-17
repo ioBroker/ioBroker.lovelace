@@ -293,6 +293,8 @@ After restart of lovelace adapter it will include all files from the `cards` dir
 If the card needs additional resources (css or js files), you will have to recreate the folder structure in the `cards` directory and place those files there.
 The adapter will detect URLs starting with `/hacsfiles/` and reroute them to the `cards` directory. So if you see `404` errors for URLs including `/hacsfiles/`, then try to adjust the folder structure in the `cards` directory accordingly.
 
+So, for example, if a custom card needs the following file `/hacsfiles/folder1/folder2/file3.json` you need to place it at `/lovelace.0/cards/folder1/folder2/file3.json`.
+
 Often the custom cards are stored on GitHub as sources and must be compiled before use.
 You should check the `Releases` menu on GitHub and try to find compiled files there.
 Like this one: [https://github.com/kalkih/mini-graph-card/releases](https://github.com/kalkih/mini-graph-card/releases) (Look for the file `mini-graph-card-bundle.js`)
