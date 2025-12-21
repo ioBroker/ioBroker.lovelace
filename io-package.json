@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "5.0.4",
+    "version": "5.0.5",
     "news": {
+      "5.0.5": {
+        "en": "added missing roles to instance objects\nmanual entities should not vanish anymore because of automatic entities\nadd support for cover images from static URls",
+        "de": "fehlende rollen zu instanz objekte hinzugefügt\nmanuelle einheiten sollten wegen automatischer einheiten nicht mehr verschwinden\nunterstützung für Cover-Bilder aus statischen URls hinzufügen",
+        "ru": "добавление недостающих ролей в объекты экземпляра\nручные сущности больше не должны исчезать из-за автоматических сущностей\nдобавить поддержку изображений обложки из статических URL",
+        "pt": "adicionar funções em falta aos objetos de instância\nentidades manuais não devem mais desaparecer por causa de entidades automáticas\nadicionar suporte para imagens de capa de URls estáticos",
+        "nl": "ontbrekende rollen toegevoegd aan instantieobjecten\nhandmatige entiteiten mogen niet meer verdwijnen vanwege automatische entiteiten\nondersteuning toevoegen voor cover afbeeldingen van statische URls",
+        "fr": "ajout de rôles manquants aux objets d'instance\nles entités manuelles ne devraient plus disparaître à cause des entités automatiques\najouter le support pour les images de couverture à partir d'URls statiques",
+        "it": "aggiunto ruoli mancanti agli oggetti di istanza\nentità manuali non dovrebbero più svanire a causa di entità automatiche\naggiungere supporto per immagini di copertura da URls statici",
+        "es": "añadiendo roles perdidos para instancia objetos\nlas entidades manuales ya no deben desaparecer debido a las entidades automáticas\nañadir soporte para imágenes de cubierta de URls estáticos",
+        "pl": "dodano brakujące role do instancji obiektów\npodmioty manualne nie powinny już znikać z powodu podmiotów automatycznych\ndodać wsparcie dla okładki obrazów ze statycznych URL",
+        "uk": "додано відсутні ролі до об'єктів екземпляра\nручні суб'єкти не повинні фуршети більше через автоматичні суб'єкти\nдодавати підтримку зображенням кришки з статичних URLS",
+        "zh-cn": "在实例对象中添加缺失的角色\n手动实体不应因为自动实体而消失\n从静态 URls 添加对封面图像的支持"
+      },
       "5.0.4": {
         "en": "added missing roles to instance objects\nmanual entities should not vanish anymore because of automatic entities\nadd support for cover images from static urls",
         "de": "fehlende rollen zu instanz objekte hinzugefügt\nmanuelle einheiten sollten wegen automatischer einheiten nicht mehr verschwinden\nunterstützung für cover-bilder aus statischen urls hinzufügen",
@@ -80,19 +93,6 @@
         "pl": "ponownie naprawiono ładowanie obrazu.",
         "uk": "ремонтувати завантаження зображень, знову.",
         "zh-cn": "再次修复图像加载 ."
-      },
-      "4.1.14": {
-        "en": "repaired image loading. Fixes #577",
-        "de": "Bilder laden repariert. Fixes #577",
-        "ru": "восстановленная загрузка изображения. Исправления #577",
-        "pt": "carga de imagem reparada. Correções #577",
-        "nl": "hersteld beeld laden. Fixes #577",
-        "fr": "chargement d'image réparé. Corrige #577",
-        "it": "caricamento dell'immagine riparato. Correzioni #577",
-        "es": "carga de imagen reparada. Arreglos #577",
-        "pl": "naprawiono ładowanie obrazu. Fixes # 577",
-        "uk": "відремонтовано завантаження зображень. Виправлення #577",
-        "zh-cn": "修复图像加载。 修复 #577"
       }
     },
     "titleLang": {
