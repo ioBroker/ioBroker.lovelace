@@ -33,7 +33,7 @@
     "express": "^5.2.1",
     "js-yaml": "^4.1.1",
     "jstimezonedetect": "^1.0.7",
-    "mime": "^3.0.0",
+    "mime": "^4.1.0",
     "multer": "^2.0.2",
     "pinyin": "^3.1.0",
     "translit-rus-eng": "^1.0.8",
