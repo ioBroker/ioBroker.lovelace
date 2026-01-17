@@ -35,7 +35,7 @@
     "jstimezonedetect": "^1.0.7",
     "mime": "^3.0.0",
     "multer": "^2.0.2",
-    "pinyin": "^3.1.0",
+    "pinyin": "^4.0.0",
     "translit-rus-eng": "^1.0.8",
     "ws": "^8.18.3"
   },
