@@ -78,7 +78,6 @@ export class Converter {
         [Types.blind]: processBlind,
         [Types.blindButtons]: processBlind,
         [Types.weatherForecast]: converterWeather.processWeather,
-        [Types.accuWeatherForecast]: converterWeather.processAccuWeather,
         [Types.location]: converterGeoLocation.processLocation,
         [Types.locationOne]: converterGeoLocation.processLocation,
         [Types.media]: processMediaPlayer,
