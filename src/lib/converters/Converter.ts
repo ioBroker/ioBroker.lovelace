@@ -1,17 +1,19 @@
 
 import {Types} from '@iobroker/type-detector';
-import converterSwitch from './switch';
-import converterLight from './light';
-import converterBinarySensors from './binary_sensor';
-import converterSensors from './sensor';
-import {processLock} from './lock';
-import converterClimate from './climate';
-import {processBlind} from './cover';
-import converterWeather from './weather';
-import converterGeoLocation from './geo_location';
-import {processMediaPlayer} from './media_player';
-import {processImage} from './camera';
+import converterSwitch from '../../../lib/converters/switch';
+import converterLight from '../../../lib/converters/light';
+import converterBinarySensors from '../../../lib/converters/binary_sensor';
+import converterSensors from '../../../lib/converters/sensor';
+import {processLock} from '../../../lib/converters/lock';
+import converterClimate from '../../../lib/converters/climate';
+import {processBlind} from '../../../lib/converters/cover';
+import converterWeather from '../../../lib/converters/weather';
+import converterGeoLocation from '../../../lib/converters/geo_location';
+import {processMediaPlayer} from '../../../lib/converters/media_player';
+import {processImage} from '../../../lib/converters/camera';
 import type { PatternControl } from '@iobroker/type-detector/types';
+import '@iobroker/types';
+import type { HassEntity as Entity } from 'home-assistant-js-websocket';
 
 type ConverterParams = {
     /**
@@ -41,7 +43,7 @@ type ConverterParams = {
     /**
      * The already existing entities to check for duplicates.
      */
-    existingEntities: Array<object>;
+    existingEntities: Array<Entity & { context: { id: string; iobType?: string } }>;
     /**
      * The ioBroker adapter instance.
      */
@@ -49,7 +51,7 @@ type ConverterParams = {
     /**
      * The entity registry module
      */
-    entityRegistry: EntityRegistry;
+    entityRegistry: object;
 };
 
 /**

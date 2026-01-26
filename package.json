@@ -52,6 +52,7 @@
     "@types/gulp": "^4.0.18",
     "@types/node": "^20.19.29 < 21",
     "gulp": "^5.0.1",
+    "home-assistant-js-websocket": "^9.6.0",
     "nyc": "^17.1.0",
     "rimraf": "^6.1.2",
     "source-map-support": "^0.5.21",
