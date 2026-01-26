@@ -47,14 +47,23 @@
     "@iobroker/adapter-dev": "^1.5.0",
     "@iobroker/eslint-config": "^2.2.0",
     "@iobroker/testing": "^5.2.2",
+    "@iobroker/types": "^7.1.0",
+    "@tsconfig/node20": "^20.1.8",
     "@types/gulp": "^4.0.18",
-    "@types/node": "^20.19.27 < 21",
-    "gulp": "^5.0.1"
+    "@types/node": "^20.19.29 < 21",
+    "gulp": "^5.0.1",
+    "nyc": "^17.1.0",
+    "rimraf": "^6.1.2",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9.3"
   },
   "main": "main.js",
   "files": [
-    "admin/",
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
     "assets/",
+    "build/",
     "docs/",
     "hass_frontend/",
     "lib/",
@@ -63,17 +72,46 @@
     "main.js"
   ],
   "scripts": {
+    "prebuild": "rimraf build",
+    "build": "build-adapter ts",
+    "watch": "build-adapter ts --watch",
+    "prebuild:ts": "rimraf build",
+    "build:ts": "build-adapter ts",
+    "watch:ts": "build-adapter ts --watch",
+    "test:ts": "mocha --config test/mocharc.custom.json src/**/*.test.ts",
     "test:unit": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
     "test:package": "mocha test/package --exit",
     "test:integration": "mocha test/integration --timeout 30000 --exit",
     "test": "npm run test:unit && npm run test:package",
     "lint": "eslint -c eslint.config.mjs .",
+    "check": "tsc --noEmit",
+    "coverage": "nyc npm run test:ts",
     "release": "release-script",
     "release-patch": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
     "release-major": "release-script major --yes",
     "translate": "translate-adapter",
     "update-packages": "ncu --upgrade"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*.test.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
   },
   "bugs": {
     "url": "https://github.com/ioBroker/ioBroker.lovelace/issues"

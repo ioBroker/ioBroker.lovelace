@@ -1,22 +1,28 @@
-*~
-.git
-.idea
-.dev-server
+# No dot-directories except github/vscode
+.*/
+!.vscode/
+!.github/
+
+*.code-workspace
 node_modules
 nbproject
-build/home-assistant-polymer/
 
 # npm package files
 iobroker.*.tgz
 
 Thumbs.db
+# temporary release script file, might still linger around, if release script failed.
+.commitinfo
+
+# NYC coverage files
+coverage
 
 # i18n intermediate files
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt
-*.code-workspace
 
-.nyc_output
+# frontend files
+build/home-assistant-polymer/
 
-# temporary release script file, might still linger around, if release script failed.
-.commitinfo
+# Editor backup files
+*~
