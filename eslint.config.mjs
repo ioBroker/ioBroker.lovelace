@@ -29,7 +29,7 @@ export default [
         // as this improves maintainability. jsdoc warnings will not block build process.
         rules: {
             'no-else-return': 'off',
-            'jsdoc/require-jsdoc': 'on',
+            'jsdoc/require-jsdoc': 1,
             'jsdoc/no-types': 'off',
             'no-redundant-jsdoc': 'off',
         },
