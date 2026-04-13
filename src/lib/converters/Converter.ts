@@ -133,7 +133,7 @@ export type ConverterParameters = {
     /**
      * The controls found by type-detector.
      */
-    controls: PatternControl[];
+    controls: PatternControl;
     /**
      * The friendly name of the device, if we have a predefined one.
      */

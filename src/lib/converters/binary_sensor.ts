@@ -5,9 +5,9 @@ const utils = require('../../../lib/entities/utils');
 
 /**
  * Create a bare binary_sensor entity from ConverterParameters.
- * Uses controls[0] to look up the given state name (default: 'ACTUAL').
+ * Uses controls to look up the given state name (default: 'ACTUAL').
  *
- * @param parameters - converter parameters; controls[0] is the detected type control.
+ * @param parameters - converter parameters; controls is the detected type control.
  * @param stateName - name of the state to look up in the control.
  * @returns created entity.
  */
@@ -23,7 +23,7 @@ function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL
     ) as ioBrokerEntity;
 
     entity.context.STATE = { getId: '' };
-    const state = controls[0]?.states.find((s: { id: string; name: string }) => s.id && s.name === stateName);
+    const state = controls.states.find((s: { id: string; name: string }) => s.id && s.name === stateName);
     if (state?.id) {
         entity.context.STATE.getId = state.id;
         utils.addID2entity(state.id, entity);
@@ -34,6 +34,8 @@ function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL
 /**
  * Invert an entity's state so that an ioBroker "offline/unreach" indicator
  * becomes a Home Assistant "connectivity" sensor (online = on).
+ *
+ * @param entity unreach entity to modify
  */
 function createOnlineIndicatorFromOfflineIndicator(entity: ioBrokerEntity): void {
     entity.attributes.device_class = 'connectivity';
@@ -48,6 +50,8 @@ function createOnlineIndicatorFromOfflineIndicator(entity: ioBrokerEntity): void
 /**
  * Create a motion binary_sensor entity.
  * Called by Converter with controls: [motionControl].
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function processMotion(parameters: ConverterParameters): ioBrokerEntity[] {
     const entity = createSensorEntity(parameters);
@@ -59,6 +63,8 @@ export function processMotion(parameters: ConverterParameters): ioBrokerEntity[]
 /**
  * Create a door binary_sensor entity.
  * Called by Converter with controls: [doorControl].
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function processDoor(parameters: ConverterParameters): ioBrokerEntity[] {
     const entity = createSensorEntity(parameters);
@@ -70,6 +76,8 @@ export function processDoor(parameters: ConverterParameters): ioBrokerEntity[] {
 /**
  * Create a window binary_sensor entity.
  * Called by Converter with controls: [windowControl].
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function processWindow(parameters: ConverterParameters): ioBrokerEntity[] {
     const entity = createSensorEntity(parameters);
@@ -81,6 +89,8 @@ export function processWindow(parameters: ConverterParameters): ioBrokerEntity[]
 /**
  * Create a fire alarm (smoke) binary_sensor entity.
  * Called by Converter with controls: [fireAlarmControl].
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function processFireAlarm(parameters: ConverterParameters): ioBrokerEntity[] {
     const entity = createSensorEntity(parameters);
@@ -92,25 +102,26 @@ export function processFireAlarm(parameters: ConverterParameters): ioBrokerEntit
  * Create a battery warning binary_sensor entity from a LOWBAT indicator state.
  * Searches all controls for a state named 'LOWBAT'.
  * Returns null if no LOWBAT state is found.
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function processBattery(parameters: ConverterParameters): ioBrokerEntity | null {
-    for (const control of parameters.controls) {
-        const state = control.states.find((s: { id: string; name: string }) => s.id && s.name === 'LOWBAT');
-        if (state?.id) {
-            const entity = utils.processCommon(
-                parameters.friendlyName,
-                parameters.room,
-                parameters.func,
-                parameters.objects[state.id],
-                'binary_sensor',
-                parameters.forcedEntityId,
-            ) as ioBrokerEntity;
-            entity.context.STATE = { getId: state.id };
-            entity.context.iobType = 'LOWBAT';
-            entity.attributes.device_class = 'battery';
-            utils.addID2entity(state.id, entity);
-            return entity;
-        }
+    const state = parameters.controls.states.find(s => s.id && s.name === 'LOWBAT');
+    const state = parameters.controls.states.find(s => s.id && s.name === 'LOWBAT');
+    if (state?.id) {
+        const entity = utils.processCommon(
+            parameters.friendlyName,
+            parameters.room,
+            parameters.func,
+            parameters.objects[state.id],
+            'binary_sensor',
+            parameters.forcedEntityId,
+        ) as ioBrokerEntity;
+        entity.context.STATE = { getId: state.id };
+        entity.context.iobType = 'LOWBAT';
+        entity.attributes.device_class = 'battery';
+        utils.addID2entity(state.id, entity);
+        return entity;
     }
     return null;
 }
@@ -119,46 +130,42 @@ export function processBattery(parameters: ConverterParameters): ioBrokerEntity 
  * Create a connectivity binary_sensor entity from an UNREACH, OFFLINE, or CONNECTED indicator state.
  * Searches all controls. UNREACH/OFFLINE are inverted (offline → connectivity off).
  * Returns null if no matching state is found.
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function connectivityIndicator(parameters: ConverterParameters): ioBrokerEntity | null {
-    for (const control of parameters.controls) {
-        const offlineState = control.states.find(
-            (s: { id: string; name: string }) => s.id && (s.name === 'UNREACH' || s.name === 'OFFLINE'),
-        );
-        if (offlineState?.id) {
-            const entity = utils.processCommon(
-                parameters.friendlyName,
-                parameters.room,
-                parameters.func,
-                parameters.objects[offlineState.id],
-                'binary_sensor',
-                parameters.forcedEntityId,
-            ) as ioBrokerEntity;
-            entity.context.STATE = { getId: offlineState.id };
-            entity.context.iobType = 'OFFLINE';
-            createOnlineIndicatorFromOfflineIndicator(entity);
-            utils.addID2entity(offlineState.id, entity);
-            return entity;
-        }
+    const offlineState = parameters.controls.states.find(s => s.id && (s.name === 'UNREACH' || s.name === 'OFFLINE'));
+    if (offlineState?.id) {
+        const entity = utils.processCommon(
+            parameters.friendlyName,
+            parameters.room,
+            parameters.func,
+            parameters.objects[offlineState.id],
+            'binary_sensor',
+            parameters.forcedEntityId,
+        ) as ioBrokerEntity;
+        entity.context.STATE = { getId: offlineState.id };
+        entity.context.iobType = 'OFFLINE';
+        createOnlineIndicatorFromOfflineIndicator(entity);
+        utils.addID2entity(offlineState.id, entity);
+        return entity;
+    }
 
-        const connectedState = control.states.find(
-            (s: { id: string; name: string }) => s.id && s.name === 'CONNECTED',
-        );
-        if (connectedState?.id) {
-            const entity = utils.processCommon(
-                parameters.friendlyName,
-                parameters.room,
-                parameters.func,
-                parameters.objects[connectedState.id],
-                'binary_sensor',
-                parameters.forcedEntityId,
-            ) as ioBrokerEntity;
-            entity.context.STATE = { getId: connectedState.id };
-            entity.context.iobType = 'CONNECTED';
-            entity.attributes.device_class = 'connectivity';
-            utils.addID2entity(connectedState.id, entity);
-            return entity;
-        }
+    const connectedState = parameters.controls.states.find(s => s.id && s.name === 'CONNECTED');
+    if (connectedState?.id) {
+        const entity = utils.processCommon(
+            parameters.friendlyName,
+            parameters.room,
+            parameters.func,
+            parameters.objects[connectedState.id],
+            'binary_sensor',
+            parameters.forcedEntityId,
+        ) as ioBrokerEntity;
+        entity.context.STATE = { getId: connectedState.id };
+        entity.context.iobType = 'CONNECTED';
+        entity.attributes.device_class = 'connectivity';
+        utils.addID2entity(connectedState.id, entity);
+        return entity;
     }
     return null;
 }
@@ -166,24 +173,24 @@ export function connectivityIndicator(parameters: ConverterParameters): ioBroker
 /**
  * Create an error binary_sensor entity from an ERROR indicator state.
  * Searches all controls. Returns null if no ERROR state is found.
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function processError(parameters: ConverterParameters): ioBrokerEntity | null {
-    for (const control of parameters.controls) {
-        const state = control.states.find((s: { id: string; name: string }) => s.id && s.name === 'ERROR');
-        if (state?.id) {
-            const entity = utils.processCommon(
-                parameters.friendlyName,
-                parameters.room,
-                parameters.func,
-                parameters.objects[state.id],
-                'binary_sensor',
-                parameters.forcedEntityId,
-            ) as ioBrokerEntity;
-            entity.context.STATE = { getId: state.id };
-            entity.context.iobType = 'ERROR';
-            entity.attributes.device_class = 'problem';
-            return entity;
-        }
+    const state = parameters.controls.states.find(s => s.id && s.name === 'ERROR');
+    if (state?.id) {
+        const entity = utils.processCommon(
+            parameters.friendlyName,
+            parameters.room,
+            parameters.func,
+            parameters.objects[state.id],
+            'binary_sensor',
+            parameters.forcedEntityId,
+        ) as ioBrokerEntity;
+        entity.context.STATE = { getId: state.id };
+        entity.context.iobType = 'ERROR';
+        entity.attributes.device_class = 'problem';
+        return entity;
     }
     return null;
 }
@@ -191,24 +198,24 @@ export function processError(parameters: ConverterParameters): ioBrokerEntity | 
 /**
  * Create a maintenance binary_sensor entity from a MAINTAIN indicator state.
  * Searches all controls. Returns null if no MAINTAIN state is found.
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function processMaintenance(parameters: ConverterParameters): ioBrokerEntity | null {
-    for (const control of parameters.controls) {
-        const state = control.states.find((s: { id: string; name: string }) => s.id && s.name === 'MAINTAIN');
-        if (state?.id) {
-            const entity = utils.processCommon(
-                parameters.friendlyName,
-                parameters.room,
-                parameters.func,
-                parameters.objects[state.id],
-                'binary_sensor',
-                parameters.forcedEntityId,
-            ) as ioBrokerEntity;
-            entity.context.STATE = { getId: state.id };
-            entity.context.iobType = 'MAINTAIN';
-            entity.attributes.device_class = 'update';
-            return entity;
-        }
+    const state = parameters.controls.states.find(s => s.id && s.name === 'MAINTAIN');
+    if (state?.id) {
+        const entity = utils.processCommon(
+            parameters.friendlyName,
+            parameters.room,
+            parameters.func,
+            parameters.objects[state.id],
+            'binary_sensor',
+            parameters.forcedEntityId,
+        ) as ioBrokerEntity;
+        entity.context.STATE = { getId: state.id };
+        entity.context.iobType = 'MAINTAIN';
+        entity.attributes.device_class = 'update';
+        return entity;
     }
     return null;
 }
@@ -216,24 +223,24 @@ export function processMaintenance(parameters: ConverterParameters): ioBrokerEnt
 /**
  * Create a working binary_sensor entity from a WORKING indicator state.
  * Searches all controls. Returns null if no WORKING state is found.
+ *
+ * @param parameters parameters, including type-detector result.
  */
 export function processWorking(parameters: ConverterParameters): ioBrokerEntity | null {
-    for (const control of parameters.controls) {
-        const state = control.states.find((s: { id: string; name: string }) => s.id && s.name === 'WORKING');
-        if (state?.id) {
-            const entity = utils.processCommon(
-                parameters.friendlyName,
-                parameters.room,
-                parameters.func,
-                parameters.objects[state.id],
-                'binary_sensor',
-                parameters.forcedEntityId,
-            ) as ioBrokerEntity;
-            entity.context.STATE = { getId: state.id };
-            entity.context.iobType = 'WORKING';
-            entity.attributes.device_class = 'running';
-            return entity;
-        }
+    const state = parameters.controls.states.find(s => s.id && s.name === 'WORKING');
+    if (state?.id) {
+        const entity = utils.processCommon(
+            parameters.friendlyName,
+            parameters.room,
+            parameters.func,
+            parameters.objects[state.id],
+            'binary_sensor',
+            parameters.forcedEntityId,
+        ) as ioBrokerEntity;
+        entity.context.STATE = { getId: state.id };
+        entity.context.iobType = 'WORKING';
+        entity.attributes.device_class = 'running';
+        return entity;
     }
     return null;
 }
@@ -248,15 +255,18 @@ export function processWorking(parameters: ConverterParameters): ioBrokerEntity 
  * @param custom - custom lovelace settings from the ioBroker object
  * @returns the configured entity wrapped in an array.
  */
-export async function processManualEntity(
+export function processManualEntity(
     _id: string,
     obj: ioBroker.Object,
     entity: ioBrokerEntity,
     _objects: Record<string, ioBroker.Object>,
     custom: Record<string, unknown>,
-): Promise<ioBrokerEntity[]> {
-    entity.attributes.device_class = custom.attr_device_class;
-    if (custom.attr_device_class === 'connectivity' && (obj as ioBroker.StateObject).common?.role === 'indicator.unreach') {
+): ioBrokerEntity[] {
+    entity.attributes.device_class = custom.attr_device_class as string | undefined;
+    if (
+        custom.attr_device_class === 'connectivity' &&
+        (obj as ioBroker.StateObject).common?.role === 'indicator.unreach'
+    ) {
         createOnlineIndicatorFromOfflineIndicator(entity);
     }
     return [entity];
