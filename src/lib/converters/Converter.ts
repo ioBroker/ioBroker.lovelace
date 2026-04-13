@@ -1,7 +1,7 @@
 import { Types } from '@iobroker/type-detector';
 import converterSwitch from '../../../lib/converters/switch';
 import converterLight from '../../../lib/converters/light';
-import converterBinarySensors from '../../../lib/converters/binary_sensor';
+import converterBinarySensors from './binary_sensor';
 import converterSensors from '../../../lib/converters/sensor';
 import { processLock } from '../../../lib/converters/lock';
 import converterClimate from '../../../lib/converters/climate';
@@ -32,9 +32,9 @@ export type ioBrokerEntity = {
      */
     last_updated: string;
     /**
-     * attributes as frontend expects them.
+     * attributes as frontend expects them — an object, not an array.
      */
-    attributes: HassEntityAttributeBase[];
+    attributes: HassEntityAttributeBase & Record<string, unknown>;
     /**
      * ioBroker context information.
      */
@@ -118,6 +118,10 @@ export type ioBrokerEntity = {
          * attribute handling.
          */
         ATTRIBUTES?: [];
+        /**
+         * id of the parent device entity. Set on indicator entities (battery, connectivity, error, maintenance, working).
+         */
+        deviceId?: string;
     };
 };
 
@@ -163,6 +167,10 @@ export type ConverterParameters = {
      */
     forcedEntityId?: string;
 };
+
+function callLegacyConverter(converterFunc: () => ioBrokerEntity, parameters: ConverterParameters) {
+    return converterFunc(parameters.id);
+}
 
 /**
  * Base class for all converters. (Currently not really, mostly working with a static function and doing some groundwork
@@ -210,8 +218,7 @@ export class Converter {
     ): Array<ioBrokerEntity> {
         const entities = [];
         const baseName = mainEntity.entity_id.split('.')[1];
-        //make battery have sensible entity id and make sure it is different from "host" device:
-        //call with our parameters but overwrite forced id:
+        //make sure indicator entities have sensible entity id and make sure it is different from "host" device
         const battery = converterBinarySensors.processBattery({
             ...parameters,
             forcedEntityId: `binary_sensor.${baseName}_BatteryWarning`,
@@ -220,54 +227,38 @@ export class Converter {
             battery.context.deviceId = mainEntity.context.id;
             entities.push(battery);
         }
-        //create binary sensor from online/offline indicator:
-        const online = converterBinarySensors.connectivityIndicator(
-            control,
-            friendlyName,
-            room,
-            func,
-            objects,
-            `binary_sensor.${baseName}_Connectivity`,
-        );
+
+        const online = converterBinarySensors.connectivityIndicator({
+            ...parameters,
+            forcedEntityId: `binary_sensor.${baseName}_Connectivity`,
+        });
         if (online) {
             online.context.deviceId = mainEntity.context.id;
             entities.push(online);
         }
-        //error:
-        const error = converterBinarySensors.processError(
-            control,
-            friendlyName,
-            room,
-            func,
-            objects,
-            `binary_sensor.${baseName}_Error`,
-        );
+
+        const error = converterBinarySensors.processError({
+            ...parameters,
+            forcedEntityId: `binary_sensor.${baseName}_Error`,
+        });
         if (error) {
             error.context.deviceId = mainEntity.context.id;
             entities.push(error);
         }
-        //maintenance
-        const maintenance = converterBinarySensors.processMaintenance(
-            control,
-            friendlyName,
-            room,
-            func,
-            objects,
-            `binary_sensor.${baseName}_Maintenance`,
-        );
+
+        const maintenance = converterBinarySensors.processMaintenance({
+            ...parameters,
+            forcedEntityId: `binary_sensor.${baseName}_Maintenance`,
+        });
         if (maintenance) {
             maintenance.context.deviceId = mainEntity.context.id;
             entities.push(maintenance);
         }
-        //working
-        const working = converterBinarySensors.processWorking(
-            control,
-            friendlyName,
-            room,
-            func,
-            objects,
-            `binary_sensor.${baseName}_Working`,
-        );
+
+        const working = converterBinarySensors.processWorking({
+            ...parameters,
+            forcedEntityId: `binary_sensor.${baseName}_Working`,
+        });
         if (working) {
             working.context.deviceId = mainEntity.context.id;
             entities.push(working);
@@ -281,34 +272,22 @@ export class Converter {
      *
      * @param {ConverterParameters} params - The parameters for conversion.
      */
-    static async convert(params) {
-        const { controls, id, friendlyName, room, func, objects, existingEntities, adapter, entityRegistry } = params;
+    static async convert(params: ConverterParameters): Promise<void> {
+        const { controls, existingEntities, adapter, entityRegistry } = params;
         for (const control of controls) {
             if (Converter.converter[control.type]) {
-                const forcedEntityId = entityRegistry.getEntityId(id);
-                const entities = await Converter.converter[control.type](
-                    id,
-                    control,
-                    friendlyName,
-                    room,
-                    func,
-                    objects[id],
-                    objects,
+                const forcedEntityId = entityRegistry.getEntityId(params.id);
+                const entities = await Converter.converter[control.type]({
+                    ...params,
+                    controls: [control],
                     forcedEntityId,
-                );
+                });
                 // converter could return one or more devices as an array
                 if (entities && entities.length) {
                     //try to create battery_alarm:
                     const mainEntity = entities.find(x => x && x.entity_id);
                     if (mainEntity) {
-                        const indicatorEntities = Converter._generateEntitiesFromIndicators(
-                            mainEntity,
-                            control,
-                            friendlyName,
-                            room,
-                            func,
-                            objects,
-                        );
+                        const indicatorEntities = Converter._generateEntitiesFromIndicators(mainEntity, params);
                         entities.push(...indicatorEntities);
                     }
 
@@ -336,7 +315,7 @@ export class Converter {
                                 //decide: either not use id of device for context.id or check context.state.setId or getId here as well... (or so), since this should be unique. But it is not present for all entities... right?
                                 // like location... or so?
                                 adapter.log.warn(
-                                    `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${control.type}, ${id}`,
+                                    `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${control.type}, ${params.id}`,
                                 );
                                 continue;
                             }
@@ -345,13 +324,13 @@ export class Converter {
                         existingEntities.push(entity);
 
                         adapter.log.debug(
-                            `[Type-Detector] Created auto device: ${entity.entity_id} - ${control.type} - ${id}`,
+                            `[Type-Detector] Created auto device: ${entity.entity_id} - ${control.type} - ${params.id}`,
                         );
                     }
                 }
             } else {
                 adapter.log.debug(
-                    `[Type-Detector] device ${control.states.find(e => e.id).id} - ${control.type} - ${id} is not yet supported`,
+                    `[Type-Detector] device ${control.states.find(e => e.id).id} - ${control.type} - ${params.id} is not yet supported`,
                 );
             }
         }
