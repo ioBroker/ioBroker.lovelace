@@ -1,21 +1,127 @@
-
-import {Types} from '@iobroker/type-detector';
+import { Types } from '@iobroker/type-detector';
 import converterSwitch from '../../../lib/converters/switch';
 import converterLight from '../../../lib/converters/light';
 import converterBinarySensors from '../../../lib/converters/binary_sensor';
 import converterSensors from '../../../lib/converters/sensor';
-import {processLock} from '../../../lib/converters/lock';
+import { processLock } from '../../../lib/converters/lock';
 import converterClimate from '../../../lib/converters/climate';
-import {processBlind} from '../../../lib/converters/cover';
+import { processBlind } from '../../../lib/converters/cover';
 import converterWeather from '../../../lib/converters/weather';
 import converterGeoLocation from '../../../lib/converters/geo_location';
-import {processMediaPlayer} from '../../../lib/converters/media_player';
-import {processImage} from '../../../lib/converters/camera';
+import { processMediaPlayer } from '../../../lib/converters/media_player';
+import { processImage } from '../../../lib/converters/camera';
 import type { PatternControl } from '@iobroker/type-detector/types';
 import '@iobroker/types';
-import type { HassEntity as Entity } from 'home-assistant-js-websocket';
+import type { HassEntityAttributeBase } from 'home-assistant-js-websocket';
 
-type ConverterParams = {
+export type ioBrokerEntity = {
+    /**
+     * entity_id of the entity, for example "light.living_room_light". Should be unique across all entities and should not change after creation, since it is used for storing in entity registry and so on. So it should be based on iobroker id of device or state and type of entity (like main state, battery, online/offline, error, maintenance, working, or so) and maybe some other information if needed to make it unique. But it should not be based on friendly name or so, since that can change and can cause problems with duplicates and so on.
+     */
+    entity_id: string;
+    /**
+     * state of the entity. Needs to be a string and what the frontend expects it to be!
+     */
+    state: string;
+    /**
+     * when the state (and only the state!) last changed.
+     */
+    last_changed: string;
+    /**
+     * when was the state or attributes last changed.
+     */
+    last_updated: string;
+    /**
+     * attributes as frontend expects them.
+     */
+    attributes: HassEntityAttributeBase[];
+    /**
+     * ioBroker context information.
+     */
+    context: {
+        /**
+         * id of device or (main) state in ioBroker, to be able to link back later on if needed.
+         */
+        id: string;
+        /**
+         * //type of device or state in ioBroker, to be able to link back later on if needed.
+         */
+        iobType?: string;
+        /**
+         * information on how to handle the entity.state.
+         */
+        STATE?: {
+            /**
+             * iobroker id to get the entity.state from
+             */
+            getId: string;
+            /**
+             * Parser to parse ioBroker state into entity.state
+             */
+            getParser?: (entity: ioBrokerEntity, attributeName: string, state: ioBroker.State) => void;
+            /**
+             * Convert history iobroker state to entity.state value.
+             */
+            historyParser?: (iobId: string, state: ioBroker.State) => string;
+            /**
+             * Optional setId, only set if differs from getId.
+             */
+            setId?: string;
+            /**
+             * maximum number
+             */
+            max?: number;
+            /**
+             * minimum number
+             */
+            min?: number;
+            /**
+             * state is boolean
+             * TODO: try to fill this for more entity types, preferrable for ALL?
+             */
+            isBoolean?: boolean;
+            /**
+             * state is number
+             * TODO: try to fill this for more entity types, preferrable for ALL?
+             */
+            isNumber?: boolean;
+            /**
+             * state is string array.
+             * Only relevant for very few types, for example geolocation.
+             */
+            isStringArray?: boolean;
+            /**
+             * Map ioBroker states to entity.state
+             * deprecated: use map2lovelace instead, since map can be confused with mapping of attributes or so... and it is not clear that it is for lovelace... and it is not clear that it is for state... so better to have a more explicit name.
+             * TODO: this is the same as map2lovelace -> deprecate and remove.
+             * @deprecated
+             */
+            map?: Record<string, string | number>;
+            /**
+             * Map iobroker state value to entity.state
+             */
+            map2lovelace?: Record<string, string | number>;
+            /**
+             * Map entity.state value to ioBroker state (can be autogenerated from map2lovelace and will be for performance)
+             */
+            map2iob?: Record<string, string | number>;
+            /**
+             * Predefined string value for entity.state that is used instead of iobroker state value.
+             */
+            getValue?: string;
+        };
+        /**
+         * Command processor functions
+         */
+        COMMANDS?: [];
+        /**
+         * attribute handling.
+         */
+        ATTRIBUTES?: [];
+    };
+};
+
+export type ConverterParameters = {
     /**
      * The ID of the ioBroker device.
      */
@@ -43,7 +149,7 @@ type ConverterParams = {
     /**
      * The already existing entities to check for duplicates.
      */
-    existingEntities: Array<Entity & { context: { id: string; iobType?: string } }>;
+    existingEntities: Array<ioBrokerEntity>;
     /**
      * The ioBroker adapter instance.
      */
@@ -52,6 +158,10 @@ type ConverterParams = {
      * The entity registry module
      */
     entityRegistry: object;
+    /**
+     * a predetermined entity_id to use.
+     */
+    forcedEntityId?: string;
 };
 
 /**
@@ -91,25 +201,21 @@ export class Converter {
      * Generate entities from indicators for a device, found by type detector. Store "deviceId" in context for later use.
      *
      * @param mainEntity main entity of the device
-     * @param control control object from type detector
-     * @param friendlyName friendly name of the device
-     * @param room room name of the device
-     * @param func function name of the device
-     * @param objects all ioBroker objects
-     * @returns {*[]} array of generated entities
+     * @param parameters parameters for conversion
+     * @returns array of generated entities
      */
-    static _generateEntitiesFromIndicators(mainEntity, control, friendlyName, room, func, objects) {
+    static _generateEntitiesFromIndicators(
+        mainEntity: ioBrokerEntity,
+        parameters: ConverterParameters,
+    ): Array<ioBrokerEntity> {
         const entities = [];
         const baseName = mainEntity.entity_id.split('.')[1];
         //make battery have sensible entity id and make sure it is different from "host" device:
-        const battery = converterBinarySensors.processBattery(
-            control,
-            friendlyName,
-            room,
-            func,
-            objects,
-            `binary_sensor.${baseName}_BatteryWarning`,
-        );
+        //call with our parameters but overwrite forced id:
+        const battery = converterBinarySensors.processBattery({
+            ...parameters,
+            forcedEntityId: `binary_sensor.${baseName}_BatteryWarning`,
+        });
         if (battery) {
             battery.context.deviceId = mainEntity.context.id;
             entities.push(battery);
@@ -173,7 +279,7 @@ export class Converter {
     /**
      * Convert ioBroker device to Home Assistant entities.
      *
-     * @param {ConverterParams} params - The parameters for conversion.
+     * @param {ConverterParameters} params - The parameters for conversion.
      */
     static async convert(params) {
         const { controls, id, friendlyName, room, func, objects, existingEntities, adapter, entityRegistry } = params;
@@ -251,9 +357,10 @@ export class Converter {
         }
     }
 
-    static processManualEntity(params) {
-
-    }
+    /**
+     *
+     */
+    static processManualEntity(params) {}
 }
 
 export default Converter;
