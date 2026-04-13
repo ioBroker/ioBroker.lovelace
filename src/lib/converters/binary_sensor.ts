@@ -1,7 +1,7 @@
 import type { ioBrokerEntity, ConverterParameters } from './Converter';
+import { processCommon } from '../../../lib/entities/utils';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const utils = require('../../../lib/entities/utils');
+//TODO: rework processCommon parameters, when method is eventually changed.
 
 /**
  * Create a bare binary_sensor entity from ConverterParameters.
@@ -13,7 +13,7 @@ const utils = require('../../../lib/entities/utils');
  */
 function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL'): ioBrokerEntity {
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = parameters;
-    const entity = utils.processCommon(
+    const entity = processCommon(
         friendlyName,
         room,
         func,
@@ -26,7 +26,6 @@ function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL
     const state = controls.states.find((s: { id: string; name: string }) => s.id && s.name === stateName);
     if (state?.id) {
         entity.context.STATE.getId = state.id;
-        utils.addID2entity(state.id, entity);
     }
     return entity;
 }
@@ -107,9 +106,8 @@ export function processFireAlarm(parameters: ConverterParameters): ioBrokerEntit
  */
 export function processBattery(parameters: ConverterParameters): ioBrokerEntity | null {
     const state = parameters.controls.states.find(s => s.id && s.name === 'LOWBAT');
-    const state = parameters.controls.states.find(s => s.id && s.name === 'LOWBAT');
     if (state?.id) {
-        const entity = utils.processCommon(
+        const entity = processCommon(
             parameters.friendlyName,
             parameters.room,
             parameters.func,
@@ -120,7 +118,6 @@ export function processBattery(parameters: ConverterParameters): ioBrokerEntity 
         entity.context.STATE = { getId: state.id };
         entity.context.iobType = 'LOWBAT';
         entity.attributes.device_class = 'battery';
-        utils.addID2entity(state.id, entity);
         return entity;
     }
     return null;
@@ -136,7 +133,7 @@ export function processBattery(parameters: ConverterParameters): ioBrokerEntity 
 export function connectivityIndicator(parameters: ConverterParameters): ioBrokerEntity | null {
     const offlineState = parameters.controls.states.find(s => s.id && (s.name === 'UNREACH' || s.name === 'OFFLINE'));
     if (offlineState?.id) {
-        const entity = utils.processCommon(
+        const entity = processCommon(
             parameters.friendlyName,
             parameters.room,
             parameters.func,
@@ -147,13 +144,12 @@ export function connectivityIndicator(parameters: ConverterParameters): ioBroker
         entity.context.STATE = { getId: offlineState.id };
         entity.context.iobType = 'OFFLINE';
         createOnlineIndicatorFromOfflineIndicator(entity);
-        utils.addID2entity(offlineState.id, entity);
         return entity;
     }
 
     const connectedState = parameters.controls.states.find(s => s.id && s.name === 'CONNECTED');
     if (connectedState?.id) {
-        const entity = utils.processCommon(
+        const entity = processCommon(
             parameters.friendlyName,
             parameters.room,
             parameters.func,
@@ -164,7 +160,6 @@ export function connectivityIndicator(parameters: ConverterParameters): ioBroker
         entity.context.STATE = { getId: connectedState.id };
         entity.context.iobType = 'CONNECTED';
         entity.attributes.device_class = 'connectivity';
-        utils.addID2entity(connectedState.id, entity);
         return entity;
     }
     return null;
@@ -179,7 +174,7 @@ export function connectivityIndicator(parameters: ConverterParameters): ioBroker
 export function processError(parameters: ConverterParameters): ioBrokerEntity | null {
     const state = parameters.controls.states.find(s => s.id && s.name === 'ERROR');
     if (state?.id) {
-        const entity = utils.processCommon(
+        const entity = processCommon(
             parameters.friendlyName,
             parameters.room,
             parameters.func,
@@ -204,7 +199,7 @@ export function processError(parameters: ConverterParameters): ioBrokerEntity | 
 export function processMaintenance(parameters: ConverterParameters): ioBrokerEntity | null {
     const state = parameters.controls.states.find(s => s.id && s.name === 'MAINTAIN');
     if (state?.id) {
-        const entity = utils.processCommon(
+        const entity = processCommon(
             parameters.friendlyName,
             parameters.room,
             parameters.func,
@@ -229,7 +224,7 @@ export function processMaintenance(parameters: ConverterParameters): ioBrokerEnt
 export function processWorking(parameters: ConverterParameters): ioBrokerEntity | null {
     const state = parameters.controls.states.find(s => s.id && s.name === 'WORKING');
     if (state?.id) {
-        const entity = utils.processCommon(
+        const entity = processCommon(
             parameters.friendlyName,
             parameters.room,
             parameters.func,
