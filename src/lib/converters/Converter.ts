@@ -25,12 +25,13 @@ export type ioBrokerEntity = {
     state: string;
     /**
      * when the state (and only the state!) last changed.
+     * We store a number here. Frontend expects a String in ISO
      */
-    last_changed: string;
+    last_changed: number;
     /**
      * when was the state or attributes last changed.
      */
-    last_updated: string;
+    last_updated: number;
     /**
      * attributes as frontend expects them — an object, not an array.
      */
@@ -94,6 +95,7 @@ export type ioBrokerEntity = {
              * Map ioBroker states to entity.state
              * deprecated: use map2lovelace instead, since map can be confused with mapping of attributes or so... and it is not clear that it is for lovelace... and it is not clear that it is for state... so better to have a more explicit name.
              * TODO: this is the same as map2lovelace -> deprecate and remove.
+             *
              * @deprecated
              */
             map?: Record<string, string | number>;
@@ -141,11 +143,11 @@ export type ConverterParameters = {
     /**
      * ID of the room of the device
      */
-    room?: string;
+    room?: ioBroker.EnumObject;
     /**
      * ID of function of the device
      */
-    func?: string;
+    func?: ioBroker.EnumObject;
     /**
      * The cache of ioBroker objects.
      */
@@ -167,10 +169,6 @@ export type ConverterParameters = {
      */
     forcedEntityId?: string;
 };
-
-function callLegacyConverter(converterFunc: () => ioBrokerEntity, parameters: ConverterParameters) {
-    return converterFunc(parameters.id);
-}
 
 /**
  * Base class for all converters. (Currently not really, mostly working with a static function and doing some groundwork
@@ -274,65 +272,63 @@ export class Converter {
      */
     static async convert(params: ConverterParameters): Promise<void> {
         const { controls, existingEntities, adapter, entityRegistry } = params;
-        for (const control of controls) {
-            if (Converter.converter[control.type]) {
-                const forcedEntityId = entityRegistry.getEntityId(params.id);
-                const entities = await Converter.converter[control.type]({
-                    ...params,
-                    controls: [control],
-                    forcedEntityId,
-                });
-                // converter could return one or more devices as an array
-                if (entities && entities.length) {
-                    //try to create battery_alarm:
-                    const mainEntity = entities.find(x => x && x.entity_id);
-                    if (mainEntity) {
-                        const indicatorEntities = Converter._generateEntitiesFromIndicators(mainEntity, params);
-                        entities.push(...indicatorEntities);
+        if (Converter.converter[controls.type]) {
+            const forcedEntityId = entityRegistry.getEntityId(params.id);
+            const entities = await Converter.converter[controls.type]({
+                ...params,
+                controls,
+                forcedEntityId,
+            });
+            // converter could return one or more devices as an array
+            if (entities && entities.length) {
+                //try to create battery_alarm:
+                const mainEntity = entities.find(x => x && x.entity_id);
+                if (mainEntity) {
+                    const indicatorEntities = Converter._generateEntitiesFromIndicators(mainEntity, params);
+                    entities.push(...indicatorEntities);
+                }
+
+                // iterate through entities
+                for (const entity of entities) {
+                    if (!entity) {
+                        continue;
+                    }
+                    if (!entity.context.iobType) {
+                        entity.context.iobType = controls.type; //remember type.
                     }
 
-                    // iterate through entities
-                    for (const entity of entities) {
-                        if (!entity) {
+                    const _entity = existingEntities.find(e => e.entity_id === entity.entity_id);
+                    if (_entity) {
+                        if (entity.context.id !== _entity.context.id) {
+                            entityRegistry.storeEntityId(_entity.context.id, _entity.entity_id);
+                            entity.entity_id = `${entity.entity_id}_${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
+                            entityRegistry.storeEntityId(entity.context.id, entity.entity_id);
+                            //utils.fillEntityIntoCaches(entity); -> nope, nowadays done in calling method.
+                            adapter.log.debug(
+                                `Duplicates found for ${_entity.entity_id}, solved by renaming second to ${entity.entity_id}`,
+                            );
+                        } else {
+                            //TODO: context.id is not sufficient here... there are devices with a lot of types and some of them can be duplicates...
+                            //decide: either not use id of device for context.id or check context.state.setId or getId here as well... (or so), since this should be unique. But it is not present for all entities... right?
+                            // like location... or so?
+                            adapter.log.warn(
+                                `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${control.type}, ${params.id}`,
+                            );
                             continue;
                         }
-                        if (!entity.context.iobType) {
-                            entity.context.iobType = control.type; //remember type.
-                        }
-
-                        const _entity = existingEntities.find(e => e.entity_id === entity.entity_id);
-                        if (_entity) {
-                            if (entity.context.id !== _entity.context.id) {
-                                entityRegistry.storeEntityId(_entity.context.id, _entity.entity_id);
-                                entity.entity_id = `${entity.entity_id}_${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
-                                entityRegistry.storeEntityId(entity.context.id, entity.entity_id);
-                                //utils.fillEntityIntoCaches(entity); -> nope, nowadays done in calling method.
-                                adapter.log.debug(
-                                    `Duplicates found for ${_entity.entity_id}, solved by renaming second to ${entity.entity_id}`,
-                                );
-                            } else {
-                                //TODO: context.id is not sufficient here... there are devices with a lot of types and some of them can be duplicates...
-                                //decide: either not use id of device for context.id or check context.state.setId or getId here as well... (or so), since this should be unique. But it is not present for all entities... right?
-                                // like location... or so?
-                                adapter.log.warn(
-                                    `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${control.type}, ${params.id}`,
-                                );
-                                continue;
-                            }
-                        }
-
-                        existingEntities.push(entity);
-
-                        adapter.log.debug(
-                            `[Type-Detector] Created auto device: ${entity.entity_id} - ${control.type} - ${params.id}`,
-                        );
                     }
+
+                    existingEntities.push(entity);
+
+                    adapter.log.debug(
+                        `[Type-Detector] Created auto device: ${entity.entity_id} - ${controls.type} - ${params.id}`,
+                    );
                 }
-            } else {
-                adapter.log.debug(
-                    `[Type-Detector] device ${control.states.find(e => e.id).id} - ${control.type} - ${params.id} is not yet supported`,
-                );
             }
+        } else {
+            adapter.log.debug(
+                `[Type-Detector] device ${controls.states.find(e => e?.id)?.id} - ${controls.type} - ${params.id} is not yet supported`,
+            );
         }
     }
 
