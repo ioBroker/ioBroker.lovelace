@@ -32,7 +32,11 @@
     // "useUnknownInCatchVariables": false,
 
     "sourceMap": true,
-    "inlineSourceMap": false
+    "inlineSourceMap": false,
+
+    "paths": {
+      "home-assistant-js-websocket": ["./node_modules/home-assistant-js-websocket/dist/index"]
+    }
   },
   "include": [
     "src/**/*.ts",
