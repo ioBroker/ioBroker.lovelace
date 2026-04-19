@@ -4,13 +4,7 @@ import type { ioBrokerEntity, ConverterParameters } from './converter';
 import { processCommon } from '../../../lib/entities/utils';
 
 // Re-export indicator functions so callers importing from binary_sensor still work.
-export {
-    processBattery,
-    connectivityIndicator,
-    processError,
-    processMaintenance,
-    processWorking,
-} from './indicators';
+export { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
 
 //TODO: rework processCommon parameters, when method is eventually changed.
 

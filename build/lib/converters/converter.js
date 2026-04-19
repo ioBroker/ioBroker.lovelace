@@ -100,7 +100,7 @@ class Converter {
   static async convert(params) {
     const forcedEntityId = params.entityRegistry.getEntityId(params.id);
     const entities = await this.convertEntities({ ...params, forcedEntityId });
-    await Converter._processEntities(entities, params);
+    Converter._processEntities(entities, params);
   }
   /**
    * Main entry point called from server.js.
@@ -133,7 +133,7 @@ class Converter {
           baseParams.objects,
           forcedEntityId
         );
-        await Converter._processEntities(entities || [], params);
+        Converter._processEntities(entities || [], params);
         continue;
       }
       adapter.log.debug(
@@ -149,7 +149,7 @@ class Converter {
    * @param entities - entities produced by the converter
    * @param params - conversion parameters
    */
-  static async _processEntities(entities, params) {
+  static _processEntities(entities, params) {
     if (!(entities == null ? void 0 : entities.length)) {
       return;
     }
@@ -211,6 +211,13 @@ class Converter {
     add((0, import_indicators.processWorking)({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Working` }));
     return entities;
   }
+  /**
+   * Create manual entity - base function for creating entities that are not based on type-detector results, but are manually
+   * defined by the user via object-settings.
+   * TODO: use in server.js
+   *
+   * @param _params
+   */
   static processManualEntity(_params) {
   }
 }

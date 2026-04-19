@@ -12,6 +12,7 @@ import {
     processManualEntity,
 } from './binary_sensor';
 import type { ConverterParameters, ioBrokerEntity } from './converter';
+import type { PatternControl } from '@iobroker/type-detector/types';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const entityData = require('../../../lib/dataSingleton');
@@ -24,7 +25,10 @@ function makeObj(id: string, name = 'Test Device'): ioBroker.Object {
     return { _id: id, type: 'device', common: { name, role: '' }, native: {} } as ioBroker.Object;
 }
 
-function makeParameters(states: Array<{ id?: string; name: string }>, overrides: Partial<ConverterParameters> = {}): ConverterParameters {
+function makeParameters(
+    states: Array<{ id?: string; name: string }>,
+    overrides: Partial<ConverterParameters> = {},
+): ConverterParameters {
     const objects: Record<string, ioBroker.Object> = { [DEVICE_ID]: makeObj(DEVICE_ID) };
     for (const s of states) {
         if (s.id) {
@@ -33,7 +37,7 @@ function makeParameters(states: Array<{ id?: string; name: string }>, overrides:
     }
     return {
         id: DEVICE_ID,
-        controls: { states, type: 0 } as unknown as import('@iobroker/type-detector/types').PatternControl,
+        controls: { states, type: 0 } as unknown as PatternControl,
         friendlyName: 'Test Device',
         room: undefined,
         func: undefined,
