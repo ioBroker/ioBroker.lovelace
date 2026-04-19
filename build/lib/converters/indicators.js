@@ -25,7 +25,7 @@ __export(indicators_exports, {
   processWorking: () => processWorking
 });
 module.exports = __toCommonJS(indicators_exports);
-var import_utils = require("../../../lib/entities/utils");
+var import_utils = require("../entities/utils");
 function createOnlineIndicatorFromOfflineIndicator(entity) {
   entity.attributes.device_class = "connectivity";
   entity.context.STATE.getParser = (_entity, _attr, state) => {

@@ -34,7 +34,7 @@ __export(binary_sensor_exports, {
 module.exports = __toCommonJS(binary_sensor_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = require("./converter");
-var import_utils = require("../../../lib/entities/utils");
+var import_utils = require("../entities/utils");
 var import_indicators = require("./indicators");
 function createSensorEntity(parameters, stateName = "ACTUAL") {
   const { friendlyName, room, func, objects, id, forcedEntityId, controls } = parameters;

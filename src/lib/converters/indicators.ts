@@ -1,5 +1,5 @@
 import type { ioBrokerEntity, ConverterParameters } from './converter';
-import { processCommon } from '../../../lib/entities/utils';
+import { processCommon } from '../entities/utils';
 
 /**
  * Invert an entity's state so that an ioBroker "offline/unreach" indicator
@@ -34,7 +34,7 @@ export function processBattery(parameters: ConverterParameters): ioBrokerEntity 
             parameters.objects[state.id],
             'binary_sensor',
             parameters.forcedEntityId,
-        ) as ioBrokerEntity;
+        );
         entity.context.STATE = { getId: state.id };
         entity.context.iobType = 'LOWBAT';
         entity.attributes.device_class = 'battery';
@@ -60,7 +60,7 @@ export function connectivityIndicator(parameters: ConverterParameters): ioBroker
             parameters.objects[offlineState.id],
             'binary_sensor',
             parameters.forcedEntityId,
-        ) as ioBrokerEntity;
+        );
         entity.context.STATE = { getId: offlineState.id };
         entity.context.iobType = 'OFFLINE';
         createOnlineIndicatorFromOfflineIndicator(entity);
@@ -76,7 +76,7 @@ export function connectivityIndicator(parameters: ConverterParameters): ioBroker
             parameters.objects[connectedState.id],
             'binary_sensor',
             parameters.forcedEntityId,
-        ) as ioBrokerEntity;
+        );
         entity.context.STATE = { getId: connectedState.id };
         entity.context.iobType = 'CONNECTED';
         entity.attributes.device_class = 'connectivity';
@@ -101,7 +101,7 @@ export function processError(parameters: ConverterParameters): ioBrokerEntity | 
             parameters.objects[state.id],
             'binary_sensor',
             parameters.forcedEntityId,
-        ) as ioBrokerEntity;
+        );
         entity.context.STATE = { getId: state.id };
         entity.context.iobType = 'ERROR';
         entity.attributes.device_class = 'problem';
@@ -126,7 +126,7 @@ export function processMaintenance(parameters: ConverterParameters): ioBrokerEnt
             parameters.objects[state.id],
             'binary_sensor',
             parameters.forcedEntityId,
-        ) as ioBrokerEntity;
+        );
         entity.context.STATE = { getId: state.id };
         entity.context.iobType = 'MAINTAIN';
         entity.attributes.device_class = 'update';
@@ -151,7 +151,7 @@ export function processWorking(parameters: ConverterParameters): ioBrokerEntity 
             parameters.objects[state.id],
             'binary_sensor',
             parameters.forcedEntityId,
-        ) as ioBrokerEntity;
+        );
         entity.context.STATE = { getId: state.id };
         entity.context.iobType = 'WORKING';
         entity.attributes.device_class = 'running';

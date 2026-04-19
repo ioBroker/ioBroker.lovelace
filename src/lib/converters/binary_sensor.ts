@@ -1,7 +1,7 @@
 import { Types } from '@iobroker/type-detector';
 import { Converter } from './converter';
 import type { ioBrokerEntity, ConverterParameters } from './converter';
-import { processCommon } from '../../../lib/entities/utils';
+import { processCommon } from '../entities/utils';
 
 // Re-export indicator functions so callers importing from binary_sensor still work.
 export { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
@@ -17,14 +17,7 @@ export { processBattery, connectivityIndicator, processError, processMaintenance
  */
 function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL'): ioBrokerEntity {
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = parameters;
-    const entity = processCommon(
-        friendlyName,
-        room,
-        func,
-        objects[id],
-        'binary_sensor',
-        forcedEntityId,
-    ) as ioBrokerEntity;
+    const entity = processCommon(friendlyName, room, func, objects[id], 'binary_sensor', forcedEntityId);
 
     entity.context.STATE = { getId: '' };
     const state = controls.states.find((s: { id: string; name: string }) => s.id && s.name === stateName);

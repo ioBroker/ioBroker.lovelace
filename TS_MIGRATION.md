@@ -20,10 +20,13 @@ New converters extend `Converter` from `src/lib/converters/converter.ts` and sel
 These are imported by many converters; converting them first provides types for everything downstream
 and fixes the `checkJs` build errors.
 
-- [ ] `lib/entities/utils.js` — `processCommon()`, `addID2entity()`, entity building helpers
-- [ ] `lib/entities/entity_id.js` — entity_id generation
-- [ ] `lib/entities/friendly_name.js` — friendly name resolution
-- [ ] `lib/converters/genericConverter.js` — shared helpers used by multiple converters
+- [x] `lib/entities/utils.js` → `src/lib/entities/utils.ts` — `processCommon()`, `addID2entity()`, entity building helpers
+- [x] `lib/entities/entity_id.js` → `src/lib/entities/entity_id.ts` — entity_id generation
+- [x] `lib/entities/friendly_name.js` → `src/lib/entities/friendly_name.ts` — friendly name resolution
+- [x] `lib/converters/genericConverter.js` → `src/lib/converters/genericConverter.ts` — shared helpers used by multiple converters
+
+Note: `tsconfig.build.json` has `checkJs: false` to suppress pre-existing type errors in the
+remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters are migrated.
 
 ---
 

@@ -117,15 +117,20 @@ export type ioBrokerEntity = {
         /**
          * Command processor functions
          */
-        COMMANDS?: [];
+        COMMANDS?: unknown[];
         /**
          * attribute handling.
          */
-        ATTRIBUTES?: [];
+        ATTRIBUTES?: unknown[];
         /**
          * id of the parent device entity. Set on indicator entities (battery, connectivity, error, maintenance, working).
          */
         deviceId?: string;
+        /**
+         * Allow additional context fields set by processCommon and individual converters
+         * (e.g. room, roomId, func, funcId, ids, stateType, aliases).
+         */
+        [key: string]: unknown;
     };
 };
 

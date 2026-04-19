@@ -216,7 +216,7 @@ class Converter {
    * defined by the user via object-settings.
    * TODO: use in server.js
    *
-   * @param _params
+   * @param _params - conversion parameters (unused in base; subclasses may use)
    */
   static processManualEntity(_params) {
   }
