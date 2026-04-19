@@ -163,7 +163,10 @@ export type ConverterParameters = {
     /**
      * The entity registry module
      */
-    entityRegistry: object;
+    entityRegistry: {
+        getEntityId(iobId: string): string | undefined;
+        storeEntityId(iobId: string, entityId: string): void;
+    };
     /**
      * a predetermined entity_id to use.
      */
@@ -175,7 +178,8 @@ export type ConverterParameters = {
  * and then calling other converter functions... but in future could be more OOP like)
  */
 export class Converter {
-    static converter = {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+    static converter: Partial<Record<Types, Function>> = {
         [Types.socket]: converterSwitch.processSocket,
         [Types.light]: converterLight.processLight,
         [Types.dimmer]: converterLight.processLightAdvanced,
@@ -274,7 +278,8 @@ export class Converter {
         const { controls, existingEntities, adapter, entityRegistry } = params;
         if (Converter.converter[controls.type]) {
             const forcedEntityId = entityRegistry.getEntityId(params.id);
-            const entities = await Converter.converter[controls.type]({
+            const converterFn = Converter.converter[controls.type]!;
+            const entities = await converterFn({
                 ...params,
                 controls,
                 forcedEntityId,
@@ -282,7 +287,7 @@ export class Converter {
             // converter could return one or more devices as an array
             if (entities && entities.length) {
                 //try to create battery_alarm:
-                const mainEntity = entities.find(x => x && x.entity_id);
+                const mainEntity = entities.find((x: ioBrokerEntity | null | undefined) => x && x.entity_id);
                 if (mainEntity) {
                     const indicatorEntities = Converter._generateEntitiesFromIndicators(mainEntity, params);
                     entities.push(...indicatorEntities);
@@ -312,7 +317,7 @@ export class Converter {
                             //decide: either not use id of device for context.id or check context.state.setId or getId here as well... (or so), since this should be unique. But it is not present for all entities... right?
                             // like location... or so?
                             adapter.log.warn(
-                                `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${control.type}, ${params.id}`,
+                                `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${controls.type}, ${params.id}`,
                             );
                             continue;
                         }
@@ -335,7 +340,7 @@ export class Converter {
     /**
      *
      */
-    static processManualEntity(params) {}
+    static processManualEntity(_params: ConverterParameters): void {}
 }
 
 export default Converter;
