@@ -11,7 +11,7 @@ import {
     processWorking,
     processManualEntity,
 } from './binary_sensor';
-import type { ConverterParameters, ioBrokerEntity } from './Converter';
+import type { ConverterParameters, ioBrokerEntity } from './converter';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const entityData = require('../../../lib/dataSingleton');
@@ -40,7 +40,7 @@ function makeParameters(states: Array<{ id?: string; name: string }>, overrides:
         objects,
         existingEntities: [],
         adapter: { log: { debug: () => {}, warn: () => {} } } as unknown as ioBroker.Adapter,
-        entityRegistry: {} as object,
+        entityRegistry: { getEntityId: () => undefined, storeEntityId: () => {} },
         ...overrides,
     };
 }

@@ -1,7 +1,7 @@
 import { Types } from '@iobroker/type-detector';
+import type { PatternControl } from '@iobroker/type-detector/types';
 import converterSwitch from '../../../lib/converters/switch';
 import converterLight from '../../../lib/converters/light';
-import converterBinarySensors from './binary_sensor';
 import converterSensors from '../../../lib/converters/sensor';
 import { processLock } from '../../../lib/converters/lock';
 import converterClimate from '../../../lib/converters/climate';
@@ -10,176 +10,124 @@ import converterWeather from '../../../lib/converters/weather';
 import converterGeoLocation from '../../../lib/converters/geo_location';
 import { processMediaPlayer } from '../../../lib/converters/media_player';
 import { processImage } from '../../../lib/converters/camera';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import {
+    processBattery,
+    connectivityIndicator,
+    processError,
+    processMaintenance,
+    processWorking,
+} from './indicators';
 import '@iobroker/types';
 import type { HassEntityAttributeBase } from 'home-assistant-js-websocket';
 
+// NOTE: binary_sensor.ts is NOT imported here to avoid a circular dependency.
+// BinarySensorConverter (defined in binary_sensor.ts) self-registers on
+// Converter.converters when binary_sensor.ts is first required by server.js.
+
 export type ioBrokerEntity = {
     /**
-     * entity_id of the entity, for example "light.living_room_light". Should be unique across all entities and should not change after creation, since it is used for storing in entity registry and so on. So it should be based on iobroker id of device or state and type of entity (like main state, battery, online/offline, error, maintenance, working, or so) and maybe some other information if needed to make it unique. But it should not be based on friendly name or so, since that can change and can cause problems with duplicates and so on.
+     * entity_id of the entity, for example "light.living_room_light". Should be unique across all
+     * entities and should not change after creation, since it is used for storing in entity registry
+     * and so on. It should be based on the ioBroker id of the device or state and the type of entity
+     * (like main state, battery, online/offline, error, maintenance, working), not on friendly name.
      */
     entity_id: string;
-    /**
-     * state of the entity. Needs to be a string and what the frontend expects it to be!
-     */
+    /** state of the entity as a string, matching what the frontend expects */
     state: string;
-    /**
-     * when the state (and only the state!) last changed.
-     * We store a number here. Frontend expects a String in ISO
-     */
+    /** timestamp (ms) when only the state last changed */
     last_changed: number;
-    /**
-     * when was the state or attributes last changed.
-     */
+    /** timestamp (ms) when state or attributes last changed */
     last_updated: number;
-    /**
-     * attributes as frontend expects them — an object, not an array.
-     */
+    /** HA-compatible attributes object (not an array) */
     attributes: HassEntityAttributeBase & Record<string, unknown>;
-    /**
-     * ioBroker context information.
-     */
+    /** ioBroker-specific context, not used by the HA frontend */
     context: {
-        /**
-         * id of device or (main) state in ioBroker, to be able to link back later on if needed.
-         */
+        /** ioBroker object id of the device or main state */
         id: string;
-        /**
-         * //type of device or state in ioBroker, to be able to link back later on if needed.
-         */
+        /** detected ioBroker device type (e.g. Types.motion) */
         iobType?: string;
-        /**
-         * information on how to handle the entity.state.
-         */
+        /** How to map entity.state from/to ioBroker */
         STATE?: {
-            /**
-             * iobroker id to get the entity.state from
-             */
             getId: string;
-            /**
-             * Parser to parse ioBroker state into entity.state
-             */
             getParser?: (entity: ioBrokerEntity, attributeName: string, state: ioBroker.State) => void;
-            /**
-             * Convert history iobroker state to entity.state value.
-             */
             historyParser?: (iobId: string, state: ioBroker.State) => string;
-            /**
-             * Optional setId, only set if differs from getId.
-             */
             setId?: string;
-            /**
-             * maximum number
-             */
             max?: number;
-            /**
-             * minimum number
-             */
             min?: number;
-            /**
-             * state is boolean
-             * TODO: try to fill this for more entity types, preferrable for ALL?
-             */
             isBoolean?: boolean;
-            /**
-             * state is number
-             * TODO: try to fill this for more entity types, preferrable for ALL?
-             */
             isNumber?: boolean;
-            /**
-             * state is string array.
-             * Only relevant for very few types, for example geolocation.
-             */
             isStringArray?: boolean;
-            /**
-             * Map ioBroker states to entity.state
-             * deprecated: use map2lovelace instead, since map can be confused with mapping of attributes or so... and it is not clear that it is for lovelace... and it is not clear that it is for state... so better to have a more explicit name.
-             * TODO: this is the same as map2lovelace -> deprecate and remove.
-             *
-             * @deprecated
-             */
+            /** @deprecated use map2lovelace */
             map?: Record<string, string | number>;
-            /**
-             * Map iobroker state value to entity.state
-             */
             map2lovelace?: Record<string, string | number>;
-            /**
-             * Map entity.state value to ioBroker state (can be autogenerated from map2lovelace and will be for performance)
-             */
             map2iob?: Record<string, string | number>;
-            /**
-             * Predefined string value for entity.state that is used instead of iobroker state value.
-             */
             getValue?: string;
         };
-        /**
-         * Command processor functions
-         */
         COMMANDS?: [];
-        /**
-         * attribute handling.
-         */
         ATTRIBUTES?: [];
-        /**
-         * id of the parent device entity. Set on indicator entities (battery, connectivity, error, maintenance, working).
-         */
+        /** entity_id of the parent device, set on indicator entities */
         deviceId?: string;
     };
 };
 
 export type ConverterParameters = {
-    /**
-     * The ID of the ioBroker device.
-     */
+    /** ioBroker device id */
     id: string;
-    /**
-     * The controls found by type-detector.
-     */
+    /** The single PatternControl being converted */
     controls: PatternControl;
-    /**
-     * The friendly name of the device, if we have a predefined one.
-     */
+    /** Pre-determined friendly name, if any */
     friendlyName?: string;
-    /**
-     * ID of the room of the device
-     */
+    /** Room enum object assigned to the device */
     room?: ioBroker.EnumObject;
-    /**
-     * ID of function of the device
-     */
+    /** Function enum object assigned to the device */
     func?: ioBroker.EnumObject;
-    /**
-     * The cache of ioBroker objects.
-     */
+    /** Cache of all ioBroker objects */
     objects: Record<string, ioBroker.Object>;
-    /**
-     * The already existing entities to check for duplicates.
-     */
+    /** Entities already created in this run (for duplicate detection) */
     existingEntities: Array<ioBrokerEntity>;
-    /**
-     * The ioBroker adapter instance.
-     */
+    /** ioBroker adapter instance */
     adapter: ioBroker.Adapter;
-    /**
-     * The entity registry module
-     */
+    /** Entity registry module */
     entityRegistry: {
         getEntityId(iobId: string): string | undefined;
         storeEntityId(iobId: string, entityId: string): void;
     };
-    /**
-     * a predetermined entity_id to use.
-     */
+    /** Pre-determined entity_id to use, overrides auto-generated one */
     forcedEntityId?: string;
 };
 
 /**
- * Base class for all converters. (Currently not really, mostly working with a static function and doing some groundwork
- * and then calling other converter functions... but in future could be more OOP like)
+ * Base class for all device converters.
+ *
+ * Subclasses implement convertEntities() to produce HA entities from a single
+ * detected PatternControl.  The base class convert() method calls convertEntities()
+ * and then handles the shared work: indicator entities, duplicate detection, and
+ * registration in existingEntities.
+ *
+ * ## Adding a new TypeScript converter subclass
+ *
+ * 1. Create `src/lib/converters/<type>.ts`, extend Converter, override convertEntities().
+ * 2. At the bottom of the file, register: `Converter.converters[Types.xxx] = MyConverter;`
+ * 3. Ensure server.js requires the compiled file so the registration runs.
+ *
+ * ## Legacy JS converters
+ *
+ * Converters not yet migrated to TypeScript are kept in legacyConverters and are called
+ * with the old positional-argument signature.  They will be removed as migration proceeds.
  */
 export class Converter {
+    /**
+     * Registry of TypeScript converter subclasses keyed by device type.
+     * Populated by each subclass module at load time.
+     */
+    static converters: Partial<Record<Types, typeof Converter>> = {};
+
+    /**
+     * Legacy JavaScript converter functions with positional-argument signature.
+     * Will be removed as converters are migrated to TypeScript subclasses.
+     */
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-    static converter: Partial<Record<Types, Function>> = {
+    static legacyConverters: Partial<Record<Types, Function>> = {
         [Types.socket]: converterSwitch.processSocket,
         [Types.light]: converterLight.processLight,
         [Types.dimmer]: converterLight.processLightAdvanced,
@@ -187,10 +135,7 @@ export class Converter {
         [Types.hue]: converterLight.processLightAdvanced,
         [Types.rgb]: converterLight.processLightAdvanced,
         [Types.rgbSingle]: converterLight.processLightAdvanced,
-        [Types.motion]: converterBinarySensors.processMotion,
-        [Types.window]: converterBinarySensors.processWindow,
         [Types.windowTilt]: converterSensors.processWindowTilt,
-        [Types.door]: converterBinarySensors.processDoor,
         [Types.button]: converterSwitch.processSocket,
         [Types.temperature]: converterSensors.processTemperature,
         [Types.humidity]: converterSensors.processHumidity,
@@ -204,142 +149,165 @@ export class Converter {
         [Types.locationOne]: converterGeoLocation.processLocation,
         [Types.media]: processMediaPlayer,
         [Types.image]: processImage,
-        [Types.fireAlarm]: converterBinarySensors.processFireAlarm,
+        // NOTE: binary sensor types (motion, door, window, fireAlarm) are handled by
+        // BinarySensorConverter in binary_sensor.ts and registered in Converter.converters.
     };
 
     /**
-     * Generate entities from indicators for a device, found by type detector. Store "deviceId" in context for later use.
+     * Override in subclasses to return the HA entities for this device type.
+     * Called by the base class convert() after resolving forcedEntityId.
      *
-     * @param mainEntity main entity of the device
-     * @param parameters parameters for conversion
-     * @returns array of generated entities
+     * @param _params - conversion parameters with a single controls PatternControl
+     * @returns array of created entities (may be empty, may be async)
      */
-    static _generateEntitiesFromIndicators(
-        mainEntity: ioBrokerEntity,
-        parameters: ConverterParameters,
-    ): Array<ioBrokerEntity> {
-        const entities = [];
-        const baseName = mainEntity.entity_id.split('.')[1];
-        //make sure indicator entities have sensible entity id and make sure it is different from "host" device
-        const battery = converterBinarySensors.processBattery({
-            ...parameters,
-            forcedEntityId: `binary_sensor.${baseName}_BatteryWarning`,
-        });
-        if (battery) {
-            battery.context.deviceId = mainEntity.context.id;
-            entities.push(battery);
-        }
-
-        const online = converterBinarySensors.connectivityIndicator({
-            ...parameters,
-            forcedEntityId: `binary_sensor.${baseName}_Connectivity`,
-        });
-        if (online) {
-            online.context.deviceId = mainEntity.context.id;
-            entities.push(online);
-        }
-
-        const error = converterBinarySensors.processError({
-            ...parameters,
-            forcedEntityId: `binary_sensor.${baseName}_Error`,
-        });
-        if (error) {
-            error.context.deviceId = mainEntity.context.id;
-            entities.push(error);
-        }
-
-        const maintenance = converterBinarySensors.processMaintenance({
-            ...parameters,
-            forcedEntityId: `binary_sensor.${baseName}_Maintenance`,
-        });
-        if (maintenance) {
-            maintenance.context.deviceId = mainEntity.context.id;
-            entities.push(maintenance);
-        }
-
-        const working = converterBinarySensors.processWorking({
-            ...parameters,
-            forcedEntityId: `binary_sensor.${baseName}_Working`,
-        });
-        if (working) {
-            working.context.deviceId = mainEntity.context.id;
-            entities.push(working);
-        }
-
-        return entities;
+    static convertEntities(_params: ConverterParameters): ioBrokerEntity[] | Promise<ioBrokerEntity[]> {
+        return [];
     }
 
     /**
-     * Convert ioBroker device to Home Assistant entities.
+     * Template method — do not override in subclasses.
+     * Calls this.convertEntities(), adds indicator entities, handles duplicates.
      *
-     * @param {ConverterParameters} params - The parameters for conversion.
+     * @param params - conversion parameters (controls is a single PatternControl)
      */
     static async convert(params: ConverterParameters): Promise<void> {
-        const { controls, existingEntities, adapter, entityRegistry } = params;
-        if (Converter.converter[controls.type]) {
-            const forcedEntityId = entityRegistry.getEntityId(params.id);
-            const converterFn = Converter.converter[controls.type]!;
-            const entities = await converterFn({
-                ...params,
-                controls,
-                forcedEntityId,
-            });
-            // converter could return one or more devices as an array
-            if (entities && entities.length) {
-                //try to create battery_alarm:
-                const mainEntity = entities.find((x: ioBrokerEntity | null | undefined) => x && x.entity_id);
-                if (mainEntity) {
-                    const indicatorEntities = Converter._generateEntitiesFromIndicators(mainEntity, params);
-                    entities.push(...indicatorEntities);
-                }
+        const forcedEntityId = params.entityRegistry.getEntityId(params.id);
+        const entities = await this.convertEntities({ ...params, forcedEntityId });
+        await Converter._processEntities(entities, params);
+    }
 
-                // iterate through entities
-                for (const entity of entities) {
-                    if (!entity) {
-                        continue;
-                    }
-                    if (!entity.context.iobType) {
-                        entity.context.iobType = controls.type; //remember type.
-                    }
+    /**
+     * Main entry point called from server.js.
+     * Iterates over all detected controls and dispatches each one to the right converter.
+     * TypeScript subclasses in Converter.converters take priority over legacyConverters.
+     *
+     * @param controls - array of PatternControls returned by type-detector
+     * @param baseParams - all parameters except 'controls'
+     */
+    static async convertAll(
+        controls: PatternControl[],
+        baseParams: Omit<ConverterParameters, 'controls'>,
+    ): Promise<void> {
+        const { adapter } = baseParams;
+        for (const control of controls) {
+            const params: ConverterParameters = { ...baseParams, controls: control };
 
-                    const _entity = existingEntities.find(e => e.entity_id === entity.entity_id);
-                    if (_entity) {
-                        if (entity.context.id !== _entity.context.id) {
-                            entityRegistry.storeEntityId(_entity.context.id, _entity.entity_id);
-                            entity.entity_id = `${entity.entity_id}_${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
-                            entityRegistry.storeEntityId(entity.context.id, entity.entity_id);
-                            //utils.fillEntityIntoCaches(entity); -> nope, nowadays done in calling method.
-                            adapter.log.debug(
-                                `Duplicates found for ${_entity.entity_id}, solved by renaming second to ${entity.entity_id}`,
-                            );
-                        } else {
-                            //TODO: context.id is not sufficient here... there are devices with a lot of types and some of them can be duplicates...
-                            //decide: either not use id of device for context.id or check context.state.setId or getId here as well... (or so), since this should be unique. But it is not present for all entities... right?
-                            // like location... or so?
-                            adapter.log.warn(
-                                `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${controls.type}, ${params.id}`,
-                            );
-                            continue;
-                        }
-                    }
-
-                    existingEntities.push(entity);
-
-                    adapter.log.debug(
-                        `[Type-Detector] Created auto device: ${entity.entity_id} - ${controls.type} - ${params.id}`,
-                    );
-                }
+            const ConverterClass = Converter.converters[control.type];
+            if (ConverterClass) {
+                await ConverterClass.convert(params);
+                continue;
             }
-        } else {
+
+            const legacyFn = Converter.legacyConverters[control.type];
+            if (legacyFn) {
+                const forcedEntityId = baseParams.entityRegistry.getEntityId(baseParams.id);
+                // Legacy converters use old positional-argument signature
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+                const entities = await legacyFn(
+                    baseParams.id,
+                    control,
+                    baseParams.friendlyName,
+                    baseParams.room,
+                    baseParams.func,
+                    baseParams.objects[baseParams.id],
+                    baseParams.objects,
+                    forcedEntityId,
+                );
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                await Converter._processEntities(entities || [], params);
+                continue;
+            }
+
             adapter.log.debug(
-                `[Type-Detector] device ${controls.states.find(e => e?.id)?.id} - ${controls.type} - ${params.id} is not yet supported`,
+                `[Type-Detector] device ${control.states?.find((e: { id?: string }) => e?.id)?.id} - ${control.type} - ${baseParams.id} is not yet supported`,
             );
         }
     }
 
     /**
+     * Shared post-processing for a batch of entities produced by a single converter call.
+     * Adds indicator entities (battery, connectivity, error, maintenance, working),
+     * detects and resolves duplicate entity_ids, and pushes into existingEntities.
      *
+     * @param entities - entities produced by the converter
+     * @param params - conversion parameters
      */
+    static async _processEntities(entities: ioBrokerEntity[], params: ConverterParameters): Promise<void> {
+        if (!entities?.length) {
+            return;
+        }
+        const { existingEntities, adapter, entityRegistry, controls } = params;
+
+        // Add indicator entities for the primary device entity
+        const mainEntity = entities.find((x: ioBrokerEntity | null | undefined) => x?.entity_id);
+        if (mainEntity) {
+            entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
+        }
+
+        for (const entity of entities) {
+            if (!entity) {
+                continue;
+            }
+            if (!entity.context.iobType) {
+                entity.context.iobType = controls.type;
+            }
+
+            const existing = existingEntities.find(e => e.entity_id === entity.entity_id);
+            if (existing) {
+                if (entity.context.id !== existing.context.id) {
+                    // Different ioBroker device — resolve collision by renaming the new entity
+                    entityRegistry.storeEntityId(existing.context.id, existing.entity_id);
+                    entity.entity_id = `${entity.entity_id}_${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
+                    entityRegistry.storeEntityId(entity.context.id, entity.entity_id);
+                    adapter.log.debug(
+                        `Duplicates found for ${existing.entity_id}, solved by renaming second to ${entity.entity_id}`,
+                    );
+                } else {
+                    adapter.log.warn(
+                        `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${controls.type}, ${params.id}`,
+                    );
+                    continue;
+                }
+            }
+
+            existingEntities.push(entity);
+            adapter.log.debug(
+                `[Type-Detector] Created auto device: ${entity.entity_id} - ${controls.type} - ${params.id}`,
+            );
+        }
+    }
+
+    /**
+     * Generate indicator entities (battery, connectivity, error, maintenance, working)
+     * for the given device.  Sets context.deviceId on each indicator to link it back
+     * to the main entity.
+     *
+     * @param mainEntity - the primary entity for the device
+     * @param parameters - conversion parameters (used to build each indicator)
+     */
+    static _generateEntitiesFromIndicators(
+        mainEntity: ioBrokerEntity,
+        parameters: ConverterParameters,
+    ): Array<ioBrokerEntity> {
+        const entities: ioBrokerEntity[] = [];
+        const baseName = mainEntity.entity_id.split('.')[1];
+
+        const add = (entity: ioBrokerEntity | null): void => {
+            if (entity) {
+                entity.context.deviceId = mainEntity.context.id;
+                entities.push(entity);
+            }
+        };
+
+        add(processBattery({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_BatteryWarning` }));
+        add(connectivityIndicator({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Connectivity` }));
+        add(processError({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Error` }));
+        add(processMaintenance({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Maintenance` }));
+        add(processWorking({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Working` }));
+
+        return entities;
+    }
+
     static processManualEntity(_params: ConverterParameters): void {}
 }
 

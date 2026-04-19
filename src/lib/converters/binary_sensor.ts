@@ -1,15 +1,25 @@
-import type { ioBrokerEntity, ConverterParameters } from './Converter';
+import { Types } from '@iobroker/type-detector';
+import { Converter } from './converter';
+import type { ioBrokerEntity, ConverterParameters } from './converter';
 import { processCommon } from '../../../lib/entities/utils';
+
+// Re-export indicator functions so callers importing from binary_sensor still work.
+export {
+    processBattery,
+    connectivityIndicator,
+    processError,
+    processMaintenance,
+    processWorking,
+} from './indicators';
 
 //TODO: rework processCommon parameters, when method is eventually changed.
 
 /**
  * Create a bare binary_sensor entity from ConverterParameters.
- * Uses controls to look up the given state name (default: 'ACTUAL').
+ * Uses controls.states to look up the given state name (default: 'ACTUAL').
  *
- * @param parameters - converter parameters; controls is the detected type control.
- * @param stateName - name of the state to look up in the control.
- * @returns created entity.
+ * @param parameters - converter parameters
+ * @param stateName - name of the state to look up in controls.states
  */
 function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL'): ioBrokerEntity {
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = parameters;
@@ -31,10 +41,57 @@ function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL
 }
 
 /**
+ * Create a motion binary_sensor entity.
+ *
+ * @param parameters - conversion parameters
+ */
+export function processMotion(parameters: ConverterParameters): ioBrokerEntity[] {
+    const entity = createSensorEntity(parameters);
+    entity.attributes.icon = 'mdi:motion-sensor';
+    entity.attributes.device_class = 'motion';
+    return [entity];
+}
+
+/**
+ * Create a door binary_sensor entity.
+ *
+ * @param parameters - conversion parameters
+ */
+export function processDoor(parameters: ConverterParameters): ioBrokerEntity[] {
+    const entity = createSensorEntity(parameters);
+    entity.attributes.icon = 'mdi:door';
+    entity.attributes.device_class = 'door';
+    return [entity];
+}
+
+/**
+ * Create a window binary_sensor entity.
+ *
+ * @param parameters - conversion parameters
+ */
+export function processWindow(parameters: ConverterParameters): ioBrokerEntity[] {
+    const entity = createSensorEntity(parameters);
+    entity.attributes.icon = 'mdi:window-maximize';
+    entity.attributes.device_class = 'window';
+    return [entity];
+}
+
+/**
+ * Create a fire alarm (smoke) binary_sensor entity.
+ *
+ * @param parameters - conversion parameters
+ */
+export function processFireAlarm(parameters: ConverterParameters): ioBrokerEntity[] {
+    const entity = createSensorEntity(parameters);
+    entity.attributes.device_class = 'smoke';
+    return [entity];
+}
+
+/**
  * Invert an entity's state so that an ioBroker "offline/unreach" indicator
  * becomes a Home Assistant "connectivity" sensor (online = on).
  *
- * @param entity unreach entity to modify
+ * @param entity - unreach entity to configure in-place
  */
 function createOnlineIndicatorFromOfflineIndicator(entity: ioBrokerEntity): void {
     entity.attributes.device_class = 'connectivity';
@@ -47,208 +104,14 @@ function createOnlineIndicatorFromOfflineIndicator(entity: ioBrokerEntity): void
 }
 
 /**
- * Create a motion binary_sensor entity.
- * Called by Converter with controls: [motionControl].
- *
- * @param parameters parameters, including type-detector result.
- */
-export function processMotion(parameters: ConverterParameters): ioBrokerEntity[] {
-    const entity = createSensorEntity(parameters);
-    entity.attributes.icon = 'mdi:motion-sensor';
-    entity.attributes.device_class = 'motion';
-    return [entity];
-}
-
-/**
- * Create a door binary_sensor entity.
- * Called by Converter with controls: [doorControl].
- *
- * @param parameters parameters, including type-detector result.
- */
-export function processDoor(parameters: ConverterParameters): ioBrokerEntity[] {
-    const entity = createSensorEntity(parameters);
-    entity.attributes.icon = 'mdi:door';
-    entity.attributes.device_class = 'door';
-    return [entity];
-}
-
-/**
- * Create a window binary_sensor entity.
- * Called by Converter with controls: [windowControl].
- *
- * @param parameters parameters, including type-detector result.
- */
-export function processWindow(parameters: ConverterParameters): ioBrokerEntity[] {
-    const entity = createSensorEntity(parameters);
-    entity.attributes.icon = 'mdi:window-maximize';
-    entity.attributes.device_class = 'window';
-    return [entity];
-}
-
-/**
- * Create a fire alarm (smoke) binary_sensor entity.
- * Called by Converter with controls: [fireAlarmControl].
- *
- * @param parameters parameters, including type-detector result.
- */
-export function processFireAlarm(parameters: ConverterParameters): ioBrokerEntity[] {
-    const entity = createSensorEntity(parameters);
-    entity.attributes.device_class = 'smoke';
-    return [entity];
-}
-
-/**
- * Create a battery warning binary_sensor entity from a LOWBAT indicator state.
- * Searches all controls for a state named 'LOWBAT'.
- * Returns null if no LOWBAT state is found.
- *
- * @param parameters parameters, including type-detector result.
- */
-export function processBattery(parameters: ConverterParameters): ioBrokerEntity | null {
-    const state = parameters.controls.states.find(s => s.id && s.name === 'LOWBAT');
-    if (state?.id) {
-        const entity = processCommon(
-            parameters.friendlyName,
-            parameters.room,
-            parameters.func,
-            parameters.objects[state.id],
-            'binary_sensor',
-            parameters.forcedEntityId,
-        ) as ioBrokerEntity;
-        entity.context.STATE = { getId: state.id };
-        entity.context.iobType = 'LOWBAT';
-        entity.attributes.device_class = 'battery';
-        return entity;
-    }
-    return null;
-}
-
-/**
- * Create a connectivity binary_sensor entity from an UNREACH, OFFLINE, or CONNECTED indicator state.
- * Searches all controls. UNREACH/OFFLINE are inverted (offline → connectivity off).
- * Returns null if no matching state is found.
- *
- * @param parameters parameters, including type-detector result.
- */
-export function connectivityIndicator(parameters: ConverterParameters): ioBrokerEntity | null {
-    const offlineState = parameters.controls.states.find(s => s.id && (s.name === 'UNREACH' || s.name === 'OFFLINE'));
-    if (offlineState?.id) {
-        const entity = processCommon(
-            parameters.friendlyName,
-            parameters.room,
-            parameters.func,
-            parameters.objects[offlineState.id],
-            'binary_sensor',
-            parameters.forcedEntityId,
-        ) as ioBrokerEntity;
-        entity.context.STATE = { getId: offlineState.id };
-        entity.context.iobType = 'OFFLINE';
-        createOnlineIndicatorFromOfflineIndicator(entity);
-        return entity;
-    }
-
-    const connectedState = parameters.controls.states.find(s => s.id && s.name === 'CONNECTED');
-    if (connectedState?.id) {
-        const entity = processCommon(
-            parameters.friendlyName,
-            parameters.room,
-            parameters.func,
-            parameters.objects[connectedState.id],
-            'binary_sensor',
-            parameters.forcedEntityId,
-        ) as ioBrokerEntity;
-        entity.context.STATE = { getId: connectedState.id };
-        entity.context.iobType = 'CONNECTED';
-        entity.attributes.device_class = 'connectivity';
-        return entity;
-    }
-    return null;
-}
-
-/**
- * Create an error binary_sensor entity from an ERROR indicator state.
- * Searches all controls. Returns null if no ERROR state is found.
- *
- * @param parameters parameters, including type-detector result.
- */
-export function processError(parameters: ConverterParameters): ioBrokerEntity | null {
-    const state = parameters.controls.states.find(s => s.id && s.name === 'ERROR');
-    if (state?.id) {
-        const entity = processCommon(
-            parameters.friendlyName,
-            parameters.room,
-            parameters.func,
-            parameters.objects[state.id],
-            'binary_sensor',
-            parameters.forcedEntityId,
-        ) as ioBrokerEntity;
-        entity.context.STATE = { getId: state.id };
-        entity.context.iobType = 'ERROR';
-        entity.attributes.device_class = 'problem';
-        return entity;
-    }
-    return null;
-}
-
-/**
- * Create a maintenance binary_sensor entity from a MAINTAIN indicator state.
- * Searches all controls. Returns null if no MAINTAIN state is found.
- *
- * @param parameters parameters, including type-detector result.
- */
-export function processMaintenance(parameters: ConverterParameters): ioBrokerEntity | null {
-    const state = parameters.controls.states.find(s => s.id && s.name === 'MAINTAIN');
-    if (state?.id) {
-        const entity = processCommon(
-            parameters.friendlyName,
-            parameters.room,
-            parameters.func,
-            parameters.objects[state.id],
-            'binary_sensor',
-            parameters.forcedEntityId,
-        ) as ioBrokerEntity;
-        entity.context.STATE = { getId: state.id };
-        entity.context.iobType = 'MAINTAIN';
-        entity.attributes.device_class = 'update';
-        return entity;
-    }
-    return null;
-}
-
-/**
- * Create a working binary_sensor entity from a WORKING indicator state.
- * Searches all controls. Returns null if no WORKING state is found.
- *
- * @param parameters parameters, including type-detector result.
- */
-export function processWorking(parameters: ConverterParameters): ioBrokerEntity | null {
-    const state = parameters.controls.states.find(s => s.id && s.name === 'WORKING');
-    if (state?.id) {
-        const entity = processCommon(
-            parameters.friendlyName,
-            parameters.room,
-            parameters.func,
-            parameters.objects[state.id],
-            'binary_sensor',
-            parameters.forcedEntityId,
-        ) as ioBrokerEntity;
-        entity.context.STATE = { getId: state.id };
-        entity.context.iobType = 'WORKING';
-        entity.attributes.device_class = 'running';
-        return entity;
-    }
-    return null;
-}
-
-/**
  * Apply manual entity configuration to a pre-created binary_sensor entity.
+ * Called from server.js for user-configured (non-auto-detected) entities.
  *
- * @param _id - ioBroker object id (unused, kept for consistent manual-entity signature)
+ * @param _id - ioBroker object id (unused)
  * @param obj - ioBroker object
  * @param entity - already created entity to configure
  * @param _objects - ioBroker objects cache (unused here)
  * @param custom - custom lovelace settings from the ioBroker object
- * @returns the configured entity wrapped in an array.
  */
 export function processManualEntity(
     _id: string,
@@ -267,15 +130,50 @@ export function processManualEntity(
     return [entity];
 }
 
+/**
+ * Converter subclass for binary sensor device types:
+ * motion, door, window, and fire alarm.
+ *
+ * Registered at the bottom of this file for Types.motion, .door, .window, .fireAlarm.
+ * The convert() orchestration (indicator entities, duplicate handling) is inherited from
+ * the Converter base class.
+ */
+export class BinarySensorConverter extends Converter {
+    /**
+     * Return entities for the detected binary sensor type.
+     * Called by the inherited Converter.convert() template method.
+     *
+     * @param params - conversion parameters
+     */
+    static override convertEntities(params: ConverterParameters): ioBrokerEntity[] {
+        switch (params.controls.type) {
+            case Types.motion:
+                return processMotion(params);
+            case Types.door:
+                return processDoor(params);
+            case Types.window:
+                return processWindow(params);
+            case Types.fireAlarm:
+                return processFireAlarm(params);
+            default:
+                return [];
+        }
+    }
+}
+
+// Register this converter for the binary sensor types it handles.
+// This runs when server.js first loads this module (after converter.ts is already
+// loaded), so Converter.converters is available and Converter is fully initialised.
+Converter.converters[Types.motion] = BinarySensorConverter;
+Converter.converters[Types.door] = BinarySensorConverter;
+Converter.converters[Types.window] = BinarySensorConverter;
+Converter.converters[Types.fireAlarm] = BinarySensorConverter;
+
 export default {
     processMotion,
     processDoor,
     processWindow,
     processFireAlarm,
-    processBattery,
-    connectivityIndicator,
-    processError,
-    processMaintenance,
-    processWorking,
     processManualEntity,
+    BinarySensorConverter,
 };
