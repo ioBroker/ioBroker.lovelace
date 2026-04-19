@@ -1,0 +1,9 @@
+{
+  "require": [
+    "ts-node/register",
+    "test/mocha.setup.js"
+  ],
+  "ts-node": {
+    "project": "tsconfig.test.json"
+  }
+}
