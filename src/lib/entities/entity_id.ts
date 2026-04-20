@@ -86,7 +86,7 @@ function replaceInvalidChars(idPart: string): string {
 function splitEntityId(
     entityType: string,
     entityId: string | null | undefined,
-    obj: ioBroker.Object,
+    obj: ioBroker.Object | undefined,
 ): [string, string] {
     let idPart: string;
 
@@ -109,7 +109,11 @@ function splitEntityId(
  * @param obj - The ioBroker object
  * @returns The full entity id, e.g. 'light.living_room'
  */
-export function getEntityId(entityType: string, entityId: string | null | undefined, obj: ioBroker.Object): string {
+export function getEntityId(
+    entityType: string,
+    entityId: string | null | undefined,
+    obj: ioBroker.Object | undefined,
+): string {
     return splitEntityId(entityType, entityId, obj).join('.');
 }
 
@@ -121,6 +125,10 @@ export function getEntityId(entityType: string, entityId: string | null | undefi
  * @param obj - The ioBroker object
  * @returns The entity type
  */
-export function getEntityType(entityType: string, entityId: string | null | undefined, obj: ioBroker.Object): string {
+export function getEntityType(
+    entityType: string,
+    entityId: string | null | undefined,
+    obj: ioBroker.Object | undefined,
+): string {
     return splitEntityId(entityType, entityId, obj)[0];
 }

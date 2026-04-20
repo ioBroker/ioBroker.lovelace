@@ -1,16 +1,18 @@
 import { Types } from '@iobroker/type-detector';
 import type { PatternControl } from '@iobroker/type-detector/types';
-import converterSwitch from '../../../lib/converters/switch';
 import converterLight from '../../../lib/converters/light';
-import converterSensors from '../../../lib/converters/sensor';
-import { processLock } from '../../../lib/converters/lock';
 import converterClimate from '../../../lib/converters/climate';
 import { processBlind } from '../../../lib/converters/cover';
 import converterWeather from '../../../lib/converters/weather';
-import converterGeoLocation from '../../../lib/converters/geo_location';
 import { processMediaPlayer } from '../../../lib/converters/media_player';
-import { processImage } from '../../../lib/converters/camera';
 import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
+
+// Phase 2 converters — now TypeScript; imported so their self-registration runs at load time.
+import './switch';
+import './lock';
+import './sensor';
+import './geo_location';
+import './camera';
 import '@iobroker/types';
 import type { HassEntityAttributeBase } from 'home-assistant-js-websocket';
 
@@ -45,9 +47,9 @@ export type ServiceCallTarget = {
 export type EntityState = {
     /**
      * ioBroker state id to read entity.state from.
-     * null/undefined until the converter assigns one (legacy JS converters initialise to null).
+     * null/undefined when the entity has no readable ioBroker state (e.g. camera with getValue only).
      */
-    getId: string | null;
+    getId?: string | null;
     /**
      * ioBroker state id to write when a service call changes the entity.
      * Only set when it differs from getId, or when the state is write-only.
@@ -74,6 +76,11 @@ export type EntityState = {
     isBoolean?: boolean;
     /** Raw ioBroker values are numeric. */
     isNumber?: boolean;
+    /**
+     * ioBroker common.states value map (e.g. {0: 'closed', 1: 'tilted', 2: 'open'}).
+     * Used by sensor window-tilt to translate numeric state values to strings.
+     */
+    states?: Record<string | number, string> | null;
     /**
      * Raw ioBroker value is a JSON-encoded string array.
      * Only used by a few types, e.g. geo_location which encodes [lat, lon] as a string.
@@ -140,6 +147,11 @@ export type EntityAttribute = {
      * Used by climate converter for hvac_mode translation.
      */
     iobToLovelace?: Record<string | number, unknown>;
+    /**
+     * Converts a historical ioBroker state value to an HA attribute value string.
+     * Used by geo_location for extracting latitude/longitude from a GPS "lat;lon" string.
+     */
+    historyParser?: (iobId: string, val: unknown) => string;
 };
 
 // ---------------------------------------------------------------------------
@@ -401,27 +413,20 @@ export class Converter {
      */
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     static legacyConverters: Partial<Record<Types, Function>> = {
-        [Types.socket]: converterSwitch.processSocket,
+        // Phase 2 converters (switch, lock, sensor, geo_location, camera) are now TS
+        // and self-register in Converter.converters — no longer listed here.
         [Types.light]: converterLight.processLight,
         [Types.dimmer]: converterLight.processLightAdvanced,
         [Types.ct]: converterLight.processLightAdvanced,
         [Types.hue]: converterLight.processLightAdvanced,
         [Types.rgb]: converterLight.processLightAdvanced,
         [Types.rgbSingle]: converterLight.processLightAdvanced,
-        [Types.windowTilt]: converterSensors.processWindowTilt,
-        [Types.button]: converterSwitch.processSocket,
-        [Types.temperature]: converterSensors.processTemperature,
-        [Types.humidity]: converterSensors.processHumidity,
-        [Types.lock]: processLock,
         [Types.airCondition]: converterClimate.processThermostatOrAirConditioning,
         [Types.thermostat]: converterClimate.processThermostatOrAirConditioning,
         [Types.blind]: processBlind,
         [Types.blindButtons]: processBlind,
         [Types.weatherForecast]: converterWeather.processWeather,
-        [Types.location]: converterGeoLocation.processLocation,
-        [Types.locationOne]: converterGeoLocation.processLocation,
         [Types.media]: processMediaPlayer,
-        [Types.image]: processImage,
         // NOTE: binary sensor types (motion, door, window, fireAlarm) are handled by
         // BinarySensorConverter in binary_sensor.ts and registered in Converter.converters.
     };

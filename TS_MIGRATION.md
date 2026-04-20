@@ -32,11 +32,11 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 
 ## Phase 2 — Simple converters
 
-- [ ] `lib/converters/switch.js` — socket / button
-- [ ] `lib/converters/lock.js`
-- [ ] `lib/converters/sensor.js` — temperature, humidity, window tilt
-- [ ] `lib/converters/geo_location.js`
-- [ ] `lib/converters/camera.js`
+- [x] `lib/converters/switch.js` → `src/lib/converters/switch.ts` — socket / button
+- [x] `lib/converters/lock.js` → `src/lib/converters/lock.ts`
+- [x] `lib/converters/sensor.js` → `src/lib/converters/sensor.ts` — temperature, humidity, window tilt
+- [x] `lib/converters/geo_location.js` → `src/lib/converters/geo_location.ts`
+- [x] `lib/converters/camera.js` → `src/lib/converters/camera.ts`
 
 ---
 

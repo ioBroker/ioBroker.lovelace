@@ -405,10 +405,11 @@ export function processCommon(
     name: string | null | undefined,
     room: ioBroker.EnumObject | null | undefined,
     func: ioBroker.EnumObject | null | undefined,
-    obj: ioBroker.Object,
+    obj: ioBroker.Object | undefined,
     entityType: string,
     entity_id?: string | null,
 ): ioBrokerEntity {
+    const objId = obj?._id ?? '';
     const entity: ioBrokerEntity = {
         entity_id: getEntityId(entityType, entity_id, obj),
         attributes: {
@@ -419,28 +420,30 @@ export function processCommon(
         last_changed: 0,
         last_updated: 0,
         context: {
-            id: obj._id,
+            id: objId,
             type: getEntityType(entityType, entity_id, obj),
             room: getEnumName(room),
             roomId: room ? room._id : null,
             func: getEnumName(func),
             funcId: func ? func._id : null,
-            ids: [obj._id],
-            stateType: (obj.common as Record<string, unknown>)?.type as string | undefined,
-            deviceId: obj._id,
-            aliases: getSmartName(obj, obj._id, entityData.lang)?.split(',') || [],
+            ids: [objId],
+            stateType: (obj?.common as Record<string, unknown> | undefined)?.type as string | undefined,
+            deviceId: objId,
+            aliases: obj ? getSmartName(obj, objId, entityData.lang)?.split(',') || [] : [],
         },
     };
 
-    if (obj.common && obj.common.unit) {
+    if (obj?.common && obj.common.unit) {
         entity.attributes.unit_of_measurement = obj.common.unit;
     }
 
-    if (obj.common && obj.common.icon) {
+    if (obj?.common && obj.common.icon) {
         entity.attributes.entity_picture = _getObjectIcon(obj) ?? undefined;
     }
 
-    addID2entity(obj._id, entity);
+    if (objId) {
+        addID2entity(objId, entity);
+    }
     return entity;
 }
 
