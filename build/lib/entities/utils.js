@@ -276,7 +276,8 @@ function findEntitiesFromEnumChange(newEnum, oldEnum) {
   return { ids, entities };
 }
 function processCommon(name, room, func, obj, entityType, entity_id) {
-  var _a, _b, _c;
+  var _a, _b, _c, _d;
+  const objId = (_a = obj == null ? void 0 : obj._id) != null ? _a : "";
   const entity = {
     entity_id: (0, import_entity_id.getEntityId)(entityType, entity_id, obj),
     attributes: {
@@ -287,25 +288,27 @@ function processCommon(name, room, func, obj, entityType, entity_id) {
     last_changed: 0,
     last_updated: 0,
     context: {
-      id: obj._id,
+      id: objId,
       type: (0, import_entity_id.getEntityType)(entityType, entity_id, obj),
       room: getEnumName(room),
       roomId: room ? room._id : null,
       func: getEnumName(func),
       funcId: func ? func._id : null,
-      ids: [obj._id],
-      stateType: (_a = obj.common) == null ? void 0 : _a.type,
-      deviceId: obj._id,
-      aliases: ((_b = getSmartName(obj, obj._id, entityData.lang)) == null ? void 0 : _b.split(",")) || []
+      ids: [objId],
+      stateType: (_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.type,
+      deviceId: objId,
+      aliases: obj ? ((_c = getSmartName(obj, objId, entityData.lang)) == null ? void 0 : _c.split(",")) || [] : []
     }
   };
-  if (obj.common && obj.common.unit) {
+  if ((obj == null ? void 0 : obj.common) && obj.common.unit) {
     entity.attributes.unit_of_measurement = obj.common.unit;
   }
-  if (obj.common && obj.common.icon) {
-    entity.attributes.entity_picture = (_c = _getObjectIcon(obj)) != null ? _c : void 0;
+  if ((obj == null ? void 0 : obj.common) && obj.common.icon) {
+    entity.attributes.entity_picture = (_d = _getObjectIcon(obj)) != null ? _d : void 0;
   }
-  addID2entity(obj._id, entity);
+  if (objId) {
+    addID2entity(objId, entity);
+  }
   return entity;
 }
 function fillEntityFromStates(states, entity, objects) {

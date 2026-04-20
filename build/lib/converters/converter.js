@@ -33,17 +33,17 @@ __export(converter_exports, {
 });
 module.exports = __toCommonJS(converter_exports);
 var import_type_detector = require("@iobroker/type-detector");
-var import_switch = __toESM(require("../../../lib/converters/switch"));
 var import_light = __toESM(require("../../../lib/converters/light"));
-var import_sensor = __toESM(require("../../../lib/converters/sensor"));
-var import_lock = require("../../../lib/converters/lock");
 var import_climate = __toESM(require("../../../lib/converters/climate"));
 var import_cover = require("../../../lib/converters/cover");
 var import_weather = __toESM(require("../../../lib/converters/weather"));
-var import_geo_location = __toESM(require("../../../lib/converters/geo_location"));
 var import_media_player = require("../../../lib/converters/media_player");
-var import_camera = require("../../../lib/converters/camera");
 var import_indicators = require("./indicators");
+var import_switch = require("./switch");
+var import_lock = require("./lock");
+var import_sensor = require("./sensor");
+var import_geo_location = require("./geo_location");
+var import_camera = require("./camera");
 var import_types = require("@iobroker/types");
 class Converter {
   /**
@@ -57,27 +57,20 @@ class Converter {
    */
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   static legacyConverters = {
-    [import_type_detector.Types.socket]: import_switch.default.processSocket,
+    // Phase 2 converters (switch, lock, sensor, geo_location, camera) are now TS
+    // and self-register in Converter.converters — no longer listed here.
     [import_type_detector.Types.light]: import_light.default.processLight,
     [import_type_detector.Types.dimmer]: import_light.default.processLightAdvanced,
     [import_type_detector.Types.ct]: import_light.default.processLightAdvanced,
     [import_type_detector.Types.hue]: import_light.default.processLightAdvanced,
     [import_type_detector.Types.rgb]: import_light.default.processLightAdvanced,
     [import_type_detector.Types.rgbSingle]: import_light.default.processLightAdvanced,
-    [import_type_detector.Types.windowTilt]: import_sensor.default.processWindowTilt,
-    [import_type_detector.Types.button]: import_switch.default.processSocket,
-    [import_type_detector.Types.temperature]: import_sensor.default.processTemperature,
-    [import_type_detector.Types.humidity]: import_sensor.default.processHumidity,
-    [import_type_detector.Types.lock]: import_lock.processLock,
     [import_type_detector.Types.airCondition]: import_climate.default.processThermostatOrAirConditioning,
     [import_type_detector.Types.thermostat]: import_climate.default.processThermostatOrAirConditioning,
     [import_type_detector.Types.blind]: import_cover.processBlind,
     [import_type_detector.Types.blindButtons]: import_cover.processBlind,
     [import_type_detector.Types.weatherForecast]: import_weather.default.processWeather,
-    [import_type_detector.Types.location]: import_geo_location.default.processLocation,
-    [import_type_detector.Types.locationOne]: import_geo_location.default.processLocation,
-    [import_type_detector.Types.media]: import_media_player.processMediaPlayer,
-    [import_type_detector.Types.image]: import_camera.processImage
+    [import_type_detector.Types.media]: import_media_player.processMediaPlayer
     // NOTE: binary sensor types (motion, door, window, fireAlarm) are handled by
     // BinarySensorConverter in binary_sensor.ts and registered in Converter.converters.
   };
