@@ -293,7 +293,7 @@ export function addID2entity(id: string, entity: ioBrokerEntity): void {
     if (!entity.context.ids) {
         entity.context.ids = [];
     }
-    const ids = entity.context.ids as string[];
+    const ids = entity.context.ids;
     if (!ids.includes(id)) {
         ids.push(id);
     }
@@ -476,7 +476,7 @@ export function fillEntityFromStates(
             addID2entity(id, entity);
             if (!key.endsWith('Read')) {
                 if (key !== 'state' && key !== 'stateRead') {
-                    const attrs = entity.context.ATTRIBUTES as Array<Record<string, unknown>>;
+                    const attrs = entity.context.ATTRIBUTES;
                     const attr = attrs.find(a => a.attribute === key);
                     if (!attr) {
                         attrs.push({
@@ -543,7 +543,7 @@ export function fillEntityIntoCaches(entity: ioBrokerEntity): void {
         entityData.entities.push(entity);
     }
     entityData.entityId2Entity[entity.entity_id] = entity;
-    const ids = entity.context.ids as string[] | undefined;
+    const ids = entity.context.ids;
     for (const id of ids || []) {
         entityData.iobID2entity[id] = entityData.iobID2entity[id] || [];
         const foundIdx = entityData.iobID2entity[id].findIndex(e => e.entity_id === entity.entity_id);

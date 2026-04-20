@@ -59,7 +59,7 @@ export const numericDeviceClasses: string[] = [
  * @returns the converted value
  */
 export function iobState2EntityState(entity: ioBrokerEntity, val: unknown, attribute?: string): unknown {
-    let type = (entity.context.type as string | undefined) || '';
+    let type = entity.context.type || '';
     const pos = type.lastIndexOf('.');
     if (pos !== -1) {
         type = type.substring(pos + 1);
@@ -86,12 +86,8 @@ export function iobState2EntityState(entity: ioBrokerEntity, val: unknown, attri
     } else if (typeof val === 'boolean' && type !== 'media_player' && !attribute) {
         //attributes can have true/false.
         return val ? 'on' : 'off';
-    } else if (
-        typeof val === 'number' &&
-        entity.context.STATE &&
-        (entity.context.STATE as Record<string, unknown>).map2lovelace
-    ) {
-        const map = (entity.context.STATE as Record<string, unknown>).map2lovelace as Record<string, string | number>;
+    } else if (typeof val === 'number' && entity.context.STATE && entity.context.STATE.map2lovelace) {
+        const map = entity.context.STATE.map2lovelace;
         return map[val] ?? val;
     } else if (attribute === 'power') {
         return val ? 'on' : 'off';

@@ -100,7 +100,7 @@ function iobState2EntityState(entity, val, attribute) {
     return val ? "on" : "off";
   } else {
     if (!attribute) {
-      return val === null || val === void 0 ? "unknown" : String(val);
+      return val === null || val === void 0 ? "unknown" : typeof val === "object" ? JSON.stringify(val) : String(val);
     } else {
       return val;
     }

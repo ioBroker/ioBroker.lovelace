@@ -89,7 +89,7 @@ function findEnumForId(enums, id) {
   return void 0;
 }
 function getSmartName(objects, id, lang) {
-  let object = id ? objects[id] : objects;
+  const object = id ? objects[id] : objects;
   if (!object || !object.common || !object.common.smartName) {
     return void 0;
   }
@@ -178,7 +178,7 @@ function _getObjectIcon(obj, prefix) {
     if (obj.common.icon.indexOf(".") !== -1) {
       let instance;
       if (obj.type === "instance") {
-        icon = `${prefix}/adapter/${obj.common.name}/${obj.common.icon}`;
+        icon = `${prefix}/adapter/${String(obj.common.name)}/${obj.common.icon}`;
       } else if (obj._id && obj._id.match(/^system\.adapter\./)) {
         instance = obj._id.split(".", 3);
         if (obj.common.icon[0] === "/") {
@@ -421,7 +421,7 @@ function updateTimestamps(entity, state, newTS = false) {
   try {
     const ts = new Date(lc).getTime();
     if (isNaN(ts)) {
-      throw "Invalid Date";
+      throw new Error("Invalid Date");
     }
   } catch (e) {
     entityData.adapter.log.debug(`Invalid lc time for ${stateId} in ${entity.entity_id}: ${String(e)}`);
@@ -430,7 +430,7 @@ function updateTimestamps(entity, state, newTS = false) {
   try {
     const ts = new Date(lu).getTime();
     if (isNaN(ts)) {
-      throw "Invalid Date";
+      throw new Error("Invalid Date");
     }
   } catch (e) {
     entityData.adapter.log.debug(`Invalid lu time for ${stateId} in ${entity.entity_id}: ${String(e)}`);

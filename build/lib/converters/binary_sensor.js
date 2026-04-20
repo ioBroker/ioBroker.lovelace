@@ -38,14 +38,7 @@ var import_utils = require("../entities/utils");
 var import_indicators = require("./indicators");
 function createSensorEntity(parameters, stateName = "ACTUAL") {
   const { friendlyName, room, func, objects, id, forcedEntityId, controls } = parameters;
-  const entity = (0, import_utils.processCommon)(
-    friendlyName,
-    room,
-    func,
-    objects[id],
-    "binary_sensor",
-    forcedEntityId
-  );
+  const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[id], "binary_sensor", forcedEntityId);
   entity.context.STATE = { getId: "" };
   const state = controls.states.find((s) => s.id && s.name === stateName);
   if (state == null ? void 0 : state.id) {
