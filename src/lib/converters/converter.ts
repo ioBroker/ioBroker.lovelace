@@ -1,8 +1,5 @@
 import { Types } from '@iobroker/type-detector';
 import type { PatternControl } from '@iobroker/type-detector/types';
-import converterLight from '../../../lib/converters/light';
-import converterClimate from '../../../lib/converters/climate';
-import { processMediaPlayer } from '../../../lib/converters/media_player';
 import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
 
 // Phase 2 & 3 converters — now TypeScript; imported so their self-registration runs at load time.
@@ -13,6 +10,11 @@ import './geo_location';
 import './camera';
 import './weather';
 import './cover';
+
+// Phase 4 converters — now TypeScript; imported so their self-registration runs at load time.
+import './climate';
+import './media_player';
+import './light';
 import '@iobroker/types';
 import type { HassEntityAttributeBase } from 'home-assistant-js-websocket';
 
@@ -101,6 +103,11 @@ export type EntityState = {
      * Used by entities that have no readable state (e.g. camera when no snapshot state exists).
      */
     getValue?: string;
+    /**
+     * Attribute values stored on switch-off and restored on switch-on (advanced lights only).
+     * Keys are HA attribute names such as 'brightness', 'color_temp', 'rgb_color', etc.
+     */
+    storedValues?: Record<string, unknown>;
 };
 
 // ---------------------------------------------------------------------------
@@ -174,6 +181,31 @@ export type EntityAttribute = {
      * Used by weather converter for forecast.N.datetime when no explicit DATE state exists.
      */
     dayShift?: number;
+    /**
+     * Whether to convert between mired and Kelvin for color temperature (light converter).
+     * true when ioBroker state unit is 'mired'; false when unit is 'K' (Kelvin).
+     */
+    convert_to_mired?: boolean;
+    /**
+     * Whether the RGB value is encoded as a "r,g,b" decimal comma-separated string.
+     * Used by light converter for single RGB state.
+     */
+    is_rgb_array?: boolean;
+    /**
+     * Whether the RGB value is encoded as a "#RRGGBB" hex string.
+     * Used by light converter for single RGB state.
+     */
+    is_rgb_string?: boolean;
+    /**
+     * Whether this attribute uses a boolean ioBroker state (e.g. climate swing on/off).
+     * Used by climate converter for swing_mode.
+     */
+    isBoolean?: boolean;
+    /**
+     * States map for this attribute (e.g. swing modes {0:'AUTO',1:'HORIZONTAL'}, fan modes).
+     * Used by climate converter for swing_mode and fan_mode translation.
+     */
+    states?: Record<string | number, unknown>;
 };
 
 // ---------------------------------------------------------------------------
@@ -209,10 +241,10 @@ export type EntityCommand = {
      */
     val?: unknown;
     /**
-     * Brightness/level value for light turn_on (the maximum 'on' brightness level).
-     * TODO: Review whether this should be in service_data instead when light.js is migrated.
+     * Value to write to the SET state when turning on.
+     * boolean (true) for boolean lights; numeric max value for dimmer-style lights.
      */
-    on?: number;
+    on?: number | boolean;
     /** ioBroker state id for the play action in a media_player play/pause toggle command. */
     playId?: string;
     /** ioBroker state id for the pause action in a media_player play/pause toggle command. */
@@ -226,6 +258,22 @@ export type EntityCommand = {
      * Used by input_datetime when the ioBroker state type is 'string'.
      */
     isString?: boolean;
+    /**
+     * ioBroker state id to read current value before applying an incremental change.
+     * Used by media_player volume_up / volume_down to read current volume first.
+     */
+    getId?: string;
+    /** Minimum value for range/incremental commands (media_player volume). */
+    min?: number;
+    /** Maximum value for range/incremental commands (media_player volume, light brightness). */
+    max?: number;
+    /** Step size for incremental commands (media_player volume_up / volume_down). */
+    step?: number;
+    /**
+     * 'Off' level for lights whose state is a numeric dimmer value rather than boolean.
+     * Turn-off writes this value (typically the common.min of the SET state).
+     */
+    off?: number | boolean;
 };
 
 // ---------------------------------------------------------------------------
@@ -440,19 +488,10 @@ export class Converter {
      */
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     static legacyConverters: Partial<Record<Types, Function>> = {
-        // Phases 2 & 3 converters (switch, lock, sensor, geo_location, camera, weather, cover)
-        // are now TypeScript and self-register in Converter.converters — no longer listed here.
-        [Types.light]: converterLight.processLight,
-        [Types.dimmer]: converterLight.processLightAdvanced,
-        [Types.ct]: converterLight.processLightAdvanced,
-        [Types.hue]: converterLight.processLightAdvanced,
-        [Types.rgb]: converterLight.processLightAdvanced,
-        [Types.rgbSingle]: converterLight.processLightAdvanced,
-        [Types.airCondition]: converterClimate.processThermostatOrAirConditioning,
-        [Types.thermostat]: converterClimate.processThermostatOrAirConditioning,
-        [Types.media]: processMediaPlayer,
+        // All converters have been migrated to TypeScript and self-register in Converter.converters.
         // NOTE: binary sensor types (motion, door, window, fireAlarm) are handled by
         // BinarySensorConverter in binary_sensor.ts and registered in Converter.converters.
+        // NOTE: light, climate, media_player are now registered via Phase 4 TS imports above.
     };
 
     /**

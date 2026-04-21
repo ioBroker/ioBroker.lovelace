@@ -42,20 +42,20 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 
 ## Phase 3 — Medium converters
 
-- [ ] `lib/converters/fan.js`
-- [ ] `lib/converters/input_select.js`
-- [ ] `lib/converters/input_datetime.js`
-- [ ] `lib/converters/weather.js`
-- [ ] `lib/converters/cover.js` — blind / blindButtons
+- [x] `lib/converters/fan.js` → `src/lib/converters/fan.ts` — manual-entity only
+- [x] `lib/converters/input_select.js` → `src/lib/converters/input_select.ts` — manual-entity only
+- [x] `lib/converters/input_datetime.js` → `src/lib/converters/input_datetime.ts` — manual-entity only
+- [x] `lib/converters/weather.js` → `src/lib/converters/weather.ts`
+- [x] `lib/converters/cover.js` → `src/lib/converters/cover.ts` — blind / blindButtons
 
 ---
 
 ## Phase 4 — Complex converters
 
-- [ ] `lib/converters/alarm_control_panel.js`
-- [ ] `lib/converters/climate.js` — thermostat + air conditioning
-- [ ] `lib/converters/media_player.js`
-- [ ] `lib/converters/light.js` — dimmer / CT / hue / RGB variants + manual entity handling
+- [x] `lib/converters/alarm_control_panel.js` → `src/lib/converters/alarm_control_panel.ts` — manual-entity only
+- [x] `lib/converters/climate.js` → `src/lib/converters/climate.ts` — thermostat + air conditioning
+- [x] `lib/converters/media_player.js` → `src/lib/converters/media_player.ts`
+- [x] `lib/converters/light.js` → `src/lib/converters/light.ts` — dimmer / CT / hue / RGB variants + manual entity handling
 
 ---
 

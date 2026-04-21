@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var converter_exports = {};
 __export(converter_exports, {
@@ -32,18 +22,17 @@ __export(converter_exports, {
   default: () => converter_default
 });
 module.exports = __toCommonJS(converter_exports);
-var import_type_detector = require("@iobroker/type-detector");
-var import_light = __toESM(require("../../../lib/converters/light"));
-var import_climate = __toESM(require("../../../lib/converters/climate"));
-var import_cover = require("../../../lib/converters/cover");
-var import_weather = __toESM(require("../../../lib/converters/weather"));
-var import_media_player = require("../../../lib/converters/media_player");
 var import_indicators = require("./indicators");
 var import_switch = require("./switch");
 var import_lock = require("./lock");
 var import_sensor = require("./sensor");
 var import_geo_location = require("./geo_location");
 var import_camera = require("./camera");
+var import_weather = require("./weather");
+var import_cover = require("./cover");
+var import_climate = require("./climate");
+var import_media_player = require("./media_player");
+var import_light = require("./light");
 var import_types = require("@iobroker/types");
 class Converter {
   /**
@@ -57,22 +46,10 @@ class Converter {
    */
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   static legacyConverters = {
-    // Phase 2 converters (switch, lock, sensor, geo_location, camera) are now TS
-    // and self-register in Converter.converters — no longer listed here.
-    [import_type_detector.Types.light]: import_light.default.processLight,
-    [import_type_detector.Types.dimmer]: import_light.default.processLightAdvanced,
-    [import_type_detector.Types.ct]: import_light.default.processLightAdvanced,
-    [import_type_detector.Types.hue]: import_light.default.processLightAdvanced,
-    [import_type_detector.Types.rgb]: import_light.default.processLightAdvanced,
-    [import_type_detector.Types.rgbSingle]: import_light.default.processLightAdvanced,
-    [import_type_detector.Types.airCondition]: import_climate.default.processThermostatOrAirConditioning,
-    [import_type_detector.Types.thermostat]: import_climate.default.processThermostatOrAirConditioning,
-    [import_type_detector.Types.blind]: import_cover.processBlind,
-    [import_type_detector.Types.blindButtons]: import_cover.processBlind,
-    [import_type_detector.Types.weatherForecast]: import_weather.default.processWeather,
-    [import_type_detector.Types.media]: import_media_player.processMediaPlayer
+    // All converters have been migrated to TypeScript and self-register in Converter.converters.
     // NOTE: binary sensor types (motion, door, window, fireAlarm) are handled by
     // BinarySensorConverter in binary_sensor.ts and registered in Converter.converters.
+    // NOTE: light, climate, media_player are now registered via Phase 4 TS imports above.
   };
   /**
    * Override in subclasses to return the HA entities for this device type.
