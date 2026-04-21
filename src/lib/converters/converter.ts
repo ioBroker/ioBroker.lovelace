@@ -2,17 +2,17 @@ import { Types } from '@iobroker/type-detector';
 import type { PatternControl } from '@iobroker/type-detector/types';
 import converterLight from '../../../lib/converters/light';
 import converterClimate from '../../../lib/converters/climate';
-import { processBlind } from '../../../lib/converters/cover';
-import converterWeather from '../../../lib/converters/weather';
 import { processMediaPlayer } from '../../../lib/converters/media_player';
 import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
 
-// Phase 2 converters — now TypeScript; imported so their self-registration runs at load time.
+// Phase 2 & 3 converters — now TypeScript; imported so their self-registration runs at load time.
 import './switch';
 import './lock';
 import './sensor';
 import './geo_location';
 import './camera';
+import './weather';
+import './cover';
 import '@iobroker/types';
 import type { HassEntityAttributeBase } from 'home-assistant-js-websocket';
 
@@ -152,6 +152,28 @@ export type EntityAttribute = {
      * Used by geo_location for extracting latitude/longitude from a GPS "lat;lon" string.
      */
     historyParser?: (iobId: string, val: unknown) => string;
+    /**
+     * Whether the ioBroker state value is a JSON-encoded string array.
+     * Used by fan/input_select when common.states is an Array.
+     */
+    isStringArray?: boolean;
+    /** Whether the ioBroker state value is numeric. Used by fan/input_select for type coercion. */
+    isNumber?: boolean;
+    /**
+     * Map ioBroker state value → HA attribute string.
+     * Parallel to EntityState.map2lovelace but for attributes (e.g. fan preset_mode).
+     */
+    map2lovelace?: Record<string | number, string | number>;
+    /**
+     * Inverse of map2lovelace: HA attribute string → ioBroker state value.
+     * Built from map2lovelace entries at converter time.
+     */
+    map2iob?: Record<string, string | number>;
+    /**
+     * Day offset from "today" to compute the forecast date from a state timestamp.
+     * Used by weather converter for forecast.N.datetime when no explicit DATE state exists.
+     */
+    dayShift?: number;
 };
 
 // ---------------------------------------------------------------------------
@@ -199,6 +221,11 @@ export type EntityCommand = {
     playVal?: unknown;
     /** Value to write to pauseId when pausing (media_player). */
     pauseVal?: unknown;
+    /**
+     * Whether to write entity.state as a string rather than a timestamp number.
+     * Used by input_datetime when the ioBroker state type is 'string'.
+     */
+    isString?: boolean;
 };
 
 // ---------------------------------------------------------------------------
@@ -413,8 +440,8 @@ export class Converter {
      */
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     static legacyConverters: Partial<Record<Types, Function>> = {
-        // Phase 2 converters (switch, lock, sensor, geo_location, camera) are now TS
-        // and self-register in Converter.converters — no longer listed here.
+        // Phases 2 & 3 converters (switch, lock, sensor, geo_location, camera, weather, cover)
+        // are now TypeScript and self-register in Converter.converters — no longer listed here.
         [Types.light]: converterLight.processLight,
         [Types.dimmer]: converterLight.processLightAdvanced,
         [Types.ct]: converterLight.processLightAdvanced,
@@ -423,9 +450,6 @@ export class Converter {
         [Types.rgbSingle]: converterLight.processLightAdvanced,
         [Types.airCondition]: converterClimate.processThermostatOrAirConditioning,
         [Types.thermostat]: converterClimate.processThermostatOrAirConditioning,
-        [Types.blind]: processBlind,
-        [Types.blindButtons]: processBlind,
-        [Types.weatherForecast]: converterWeather.processWeather,
         [Types.media]: processMediaPlayer,
         // NOTE: binary sensor types (motion, door, window, fireAlarm) are handled by
         // BinarySensorConverter in binary_sensor.ts and registered in Converter.converters.
