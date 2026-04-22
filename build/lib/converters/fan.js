@@ -131,7 +131,7 @@ function processManualEntity(id, _obj, entity, objects, custom) {
   if (states.preset_mode) {
     augmentPresetMode(states.preset_mode, states.state, entity, objects);
   }
-  return new Promise(() => [entity]);
+  return [entity];
 }
 adapterData.services.fan = {
   set_speed: {

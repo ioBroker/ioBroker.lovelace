@@ -329,6 +329,7 @@ class EntityRegistry {
    */
   async init() {
     await this.loadEntityRegistry();
+    this.adapter.log.debug("modules/entityRegistry: init done.");
   }
 }
 module.exports = EntityRegistry;

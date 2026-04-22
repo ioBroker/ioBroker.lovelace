@@ -165,7 +165,7 @@ export function processManualEntity(
     entity: ioBrokerEntity,
     objects: Record<string, ioBroker.Object>,
     custom: Record<string, unknown>,
-): Promise<ioBrokerEntity[]> {
+): ioBrokerEntity[] {
     const states = (custom.states as Record<string, string> | undefined) ?? { preset_mode: id };
     // Normalize: prefer preset_mode, remove speed alias
     if (!states.preset_mode) {
@@ -180,8 +180,7 @@ export function processManualEntity(
         augmentPresetMode(states.preset_mode, states.state, entity, objects);
     }
 
-    //TODO: what is the processManualEntity signature in other converters? Should be identically, as much as possible -> so keep promise here?
-    return new Promise(() => [entity]);
+    return [entity];
 }
 
 adapterData.services.fan = {

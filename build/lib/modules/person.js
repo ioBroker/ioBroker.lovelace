@@ -133,6 +133,7 @@ class PersonModule {
       }
     }
     await this.adapter.subscribeObjectsAsync("system.user.*");
+    this.adapter.log.debug("modules/person: init done.");
   }
 }
 module.exports = PersonModule;

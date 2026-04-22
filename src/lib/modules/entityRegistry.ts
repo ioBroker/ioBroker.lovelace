@@ -409,6 +409,7 @@ class EntityRegistry {
      */
     async init(): Promise<void> {
         await this.loadEntityRegistry();
+        this.adapter.log.debug('modules/entityRegistry: init done.');
     }
 }
 

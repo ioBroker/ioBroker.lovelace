@@ -148,6 +148,7 @@ class DashboardModule {
    */
   async init() {
     await this.loadDashboards();
+    this.adapter.log.debug("modules/dashboard: init done.");
   }
 }
 module.exports = DashboardModule;

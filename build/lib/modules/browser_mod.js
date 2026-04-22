@@ -687,6 +687,7 @@ class BrowserModModule {
       }
     }
     await this._cleanUpInstances();
+    this.adapter.log.debug("modules/browser_mod: init done.");
   }
   /**
    * Augment the services object with browser_mod services.

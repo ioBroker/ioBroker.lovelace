@@ -470,6 +470,7 @@ After that checkout modified version in `./build` folder. Then.
 <!--
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
+    ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### 5.0.5 (2025-12-21)
 * (Garfonso) added missing roles to instance objects

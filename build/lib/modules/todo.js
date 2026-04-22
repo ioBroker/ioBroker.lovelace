@@ -429,6 +429,7 @@ class TodoModule {
       this.entityData.entityId2Entity[entityShoppingList.entity_id] = entityShoppingList;
       this.entityData.iobID2entity[iobObj._id] = [entityShoppingList];
     }
+    this.adapter.log.debug("modules/todo: init done.");
   }
   /**
    * End tasks of the module.

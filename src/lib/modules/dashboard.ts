@@ -183,6 +183,7 @@ class DashboardModule {
      */
     async init(): Promise<void> {
         await this.loadDashboards();
+        this.adapter.log.debug('modules/dashboard: init done.');
     }
 }
 
