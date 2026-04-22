@@ -472,6 +472,11 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso) Typescript now... hopefully everything still works. If not, please report.
+* (Garfonso) Improved loading images from other adapters.
+* (Garfonso) Reworked entity creation a lot. Hopefully everything still works. If not, please report.
+
 ### 5.0.5 (2025-12-21)
 * (Garfonso) added missing roles to instance objects
 * (Garfonso) manual entities should not vanish anymore because of automatic entities
