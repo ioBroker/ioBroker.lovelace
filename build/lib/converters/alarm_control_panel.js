@@ -83,9 +83,7 @@ function fillAlarmControlPanelFromStates(states, objects, entity) {
     var _a2;
     const targetState = data.service.replace("alarm_", "").replace("arm", "armed");
     const stateId = ent.context.STATE.setId;
-    adapterData.log.debug(
-      `${data.service}: ${stateId} = ${data.service_data.code ? "XXX" : "none"}`
-    );
+    adapterData.log.debug(`${data.service}: ${stateId} = ${data.service_data.code ? "XXX" : "none"}`);
     if (!adapterData.adapter.config.alarmCheckCodeOnDisarmOnly || targetState.includes("disarm")) {
       const sd = data.service_data;
       if (sd == null || sd.code == null) {
@@ -102,12 +100,7 @@ function fillAlarmControlPanelFromStates(states, objects, entity) {
       }
     }
     if (ent.context.STATE.isBoolean) {
-      await adapterData.adapter.setForeignStateAsync(
-        stateId,
-        !targetState.includes("disarm"),
-        false,
-        { user }
-      );
+      await adapterData.adapter.setForeignStateAsync(stateId, !targetState.includes("disarm"), false, { user });
     } else {
       let valToSet = targetState;
       const stateMap = ent.context.STATE.map;
@@ -125,9 +118,7 @@ function fillAlarmControlPanelFromStates(states, objects, entity) {
         let valToSet = targetState;
         const attrMap = attr.map;
         if (attrMap) {
-          const numKey = Number(
-            Object.keys(attrMap).find((k) => attrMap[k] === targetState)
-          );
+          const numKey = Number(Object.keys(attrMap).find((k) => attrMap[k] === targetState));
           if (!isNaN(numKey)) {
             valToSet = numKey;
           }
@@ -153,7 +144,7 @@ async function processManualEntity(id, obj, entity, objects, custom) {
   var _a;
   const states = (_a = custom.states) != null ? _a : { state: id };
   objects[id] = obj;
-  return fillAlarmControlPanelFromStates(states, objects, entity);
+  return new Promise((resolve) => resolve(fillAlarmControlPanelFromStates(states, objects, entity)));
 }
 adapterData.services.alarm_control_panel = {
   alarm_arm_away: {

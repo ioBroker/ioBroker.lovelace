@@ -1,5 +1,10 @@
 import { Types } from '@iobroker/type-detector';
-import Converter, { type ConverterParameters, type ioBrokerEntity, type EntityCommand, type ServiceCallData } from './converter';
+import Converter, {
+    type ConverterParameters,
+    type ioBrokerEntity,
+    type EntityCommand,
+    type ServiceCallData,
+} from './converter';
 import { processCommon, addID2entity } from '../entities/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -106,8 +111,12 @@ export class MediaPlayerConverter extends Converter {
             };
             entity.context.STATE.historyParser = (_id, st): string => {
                 const val = st?.val;
-                if (val === true || val === 1 || val === 'play') return 'playing';
-                if (val === false || val === 0 || val === 'pause') return 'paused';
+                if (val === true || val === 1 || val === 'play') {
+                    return 'playing';
+                }
+                if (val === false || val === 0 || val === 'pause') {
+                    return 'paused';
+                }
                 return 'idle';
             };
 
@@ -207,21 +216,18 @@ export class MediaPlayerConverter extends Converter {
 
         if (playCommand) {
             entity.context.COMMANDS.push(playCommand);
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_PLAY;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_PLAY;
         }
         if (pauseCommand) {
             entity.context.COMMANDS.push(pauseCommand);
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_PAUSE;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_PAUSE;
         }
         if (playPauseCommand) {
             entity.context.COMMANDS.push(playPauseCommand);
         }
         if (stopCommand) {
             entity.context.COMMANDS.push(stopCommand);
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_STOP;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_STOP;
         }
 
         // SEEK
@@ -232,13 +238,11 @@ export class MediaPlayerConverter extends Converter {
                 setId: state.id,
                 parseCommand: (ent, command, data: ServiceCallData, user): Promise<unknown> => {
                     const sd = data.service_data as Record<string, number>;
-                    const percent =
-                        (sd.seek_position / (ent.attributes.media_duration as number)) * 100;
+                    const percent = (sd.seek_position / (ent.attributes.media_duration as number)) * 100;
                     return adapterData.adapter.setForeignStateAsync(command.setId!, percent, false, { user });
                 },
             });
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_SEEK;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_SEEK;
         }
 
         // SHUFFLE
@@ -248,7 +252,7 @@ export class MediaPlayerConverter extends Converter {
                 service: 'shuffle_set',
                 setId: state.id,
                 parseCommand: (_ent, command, data: ServiceCallData, user): Promise<unknown> => {
-                    const shuffle = (data.service_data as Record<string, unknown>).shuffle;
+                    const shuffle = data.service_data.shuffle;
                     return adapterData.adapter.setForeignStateAsync(
                         command.setId!,
                         shuffle as ioBroker.StateValue,
@@ -259,8 +263,7 @@ export class MediaPlayerConverter extends Converter {
             });
             entity.context.ATTRIBUTES.push({ attribute: 'shuffle', getId: state.id });
             addID2entity(state.id, entity);
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_SHUFFLE_SET;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_SHUFFLE_SET;
         }
 
         // REPEAT
@@ -272,8 +275,11 @@ export class MediaPlayerConverter extends Converter {
                 parseCommand: (_ent, command, data: ServiceCallData, user): Promise<unknown> => {
                     const repeatIn = (data.service_data as Record<string, string>).repeat;
                     let target = 0;
-                    if (repeatIn === 'all') target = 1;
-                    else if (repeatIn === 'one') target = 2;
+                    if (repeatIn === 'all') {
+                        target = 1;
+                    } else if (repeatIn === 'one') {
+                        target = 2;
+                    }
                     return adapterData.adapter.setForeignStateAsync(command.setId!, target, false, { user });
                 },
             });
@@ -282,15 +288,18 @@ export class MediaPlayerConverter extends Converter {
                 getId: state.id,
                 getParser: (ent, _attr, st): void => {
                     if (st) {
-                        if (st.val === 0) ent.attributes.repeat = 'off';
-                        else if (st.val === 1) ent.attributes.repeat = 'all';
-                        else if (st.val === 2) ent.attributes.repeat = 'one';
+                        if (st.val === 0) {
+                            ent.attributes.repeat = 'off';
+                        } else if (st.val === 1) {
+                            ent.attributes.repeat = 'all';
+                        } else if (st.val === 2) {
+                            ent.attributes.repeat = 'one';
+                        }
                     }
                 },
             });
             addID2entity(state.id, entity);
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_REPEAT_SET;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_REPEAT_SET;
         }
 
         // NEXT / PREV
@@ -307,8 +316,7 @@ export class MediaPlayerConverter extends Converter {
                         ),
                     ),
             });
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_NEXT_TRACK;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_NEXT_TRACK;
         }
 
         state = controls.states.find(s => s.id && s.name === 'PREV');
@@ -323,8 +331,7 @@ export class MediaPlayerConverter extends Converter {
                         ),
                     ),
             });
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_PREVIOUS_TRACK;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_PREVIOUS_TRACK;
         }
 
         // VOLUME
@@ -340,7 +347,7 @@ export class MediaPlayerConverter extends Converter {
             getVolumeId = getVolumeId ?? setVolumeId;
 
             entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_VOLUME_SET | SUPPORT_VOLUME_BUTTONS;
+                entity.attributes.supported_features | SUPPORT_VOLUME_SET | SUPPORT_VOLUME_BUTTONS;
 
             const volCommon = (objects[setVolumeId]?.common ?? {}) as Record<string, unknown>;
             const min = (volCommon.min as number | undefined) ?? 0;
@@ -354,17 +361,15 @@ export class MediaPlayerConverter extends Converter {
                 min,
                 max,
                 step,
-                parseCommand: (_ent, command, _data, user): Promise<unknown> =>
-                    new Promise<void>((resolve, reject) => {
-                        adapterData.adapter.getForeignState(command.getId!, (err, st) => {
-                            let val = ((st && st.val) as number) || 0;
-                            val -= command.step!;
-                            if (val < command.min!) val = command.min!;
-                            adapterData.adapter.setForeignState(command.setId!, val, false, { user }, e =>
-                                e ? reject(e) : resolve(),
-                            );
-                        });
-                    }),
+                parseCommand: async (_ent, command, _data, user): Promise<void> => {
+                    const st = await adapterData.adapter.getForeignStateAsync(command.getId!);
+                    let val = ((st && st.val) as number) || 0;
+                    val -= command.step!;
+                    if (val < command.min!) {
+                        val = command.min!;
+                    }
+                    await adapterData.adapter.setForeignStateAsync(command.setId!, val, false, { user });
+                },
             });
 
             entity.context.COMMANDS.push({
@@ -374,17 +379,15 @@ export class MediaPlayerConverter extends Converter {
                 min,
                 max,
                 step,
-                parseCommand: (_ent, command, _data, user): Promise<unknown> =>
-                    new Promise<void>((resolve, reject) => {
-                        adapterData.adapter.getForeignState(command.getId!, (err, st) => {
-                            let val = ((st && st.val) as number) || 0;
-                            val += command.step!;
-                            if (val > command.max!) val = command.max!;
-                            adapterData.adapter.setForeignState(command.setId!, val, false, { user }, e =>
-                                e ? reject(e) : resolve(),
-                            );
-                        });
-                    }),
+                parseCommand: async (_ent, command, _data, user): Promise<void> => {
+                    const st = await adapterData.adapter.getForeignStateAsync(command.getId!);
+                    let val = ((st && st.val) as number) || 0;
+                    val += command.step!;
+                    if (val > command.max!) {
+                        val = command.max!;
+                    }
+                    await adapterData.adapter.setForeignStateAsync(command.setId!, val, false, { user });
+                },
             });
 
             entity.context.COMMANDS.push({
@@ -451,17 +454,13 @@ export class MediaPlayerConverter extends Converter {
                         `Got volume_mute command: ${JSON.stringify(command)} controlling mute with ${sd.is_volume_muted} from ${JSON.stringify(data)}`,
                     );
                     ent.attributes.is_volume_muted = sd.is_volume_muted;
-                    return adapterData.adapter.setForeignStateAsync(
-                        command.setId!,
-                        sd.is_volume_muted,
-                        false,
-                        { user },
-                    );
+                    return adapterData.adapter.setForeignStateAsync(command.setId!, sd.is_volume_muted, false, {
+                        user,
+                    });
                 },
             });
             addID2entity(state.id, entity);
-            entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_VOLUME_MUTE;
+            entity.attributes.supported_features = entity.attributes.supported_features | SUPPORT_VOLUME_MUTE;
         }
 
         // POWER (turn on/off/toggle)
@@ -511,7 +510,7 @@ export class MediaPlayerConverter extends Converter {
                 },
             });
             entity.attributes.supported_features =
-                (entity.attributes.supported_features as number) | SUPPORT_TURN_ON | SUPPORT_TURN_OFF;
+                entity.attributes.supported_features | SUPPORT_TURN_ON | SUPPORT_TURN_OFF;
             addID2entity(powerId, entity);
         }
 
@@ -557,17 +556,11 @@ export class MediaPlayerConverter extends Converter {
                         ent.attributes.entity_picture as string | null | undefined,
                     );
                     ent.attributes.entity_picture = st?.val as string | undefined;
-                    if (
-                        ent.attributes.entity_picture &&
-                        (ent.attributes.entity_picture as string).startsWith('/')
-                    ) {
-                        if (!(ent.attributes.entity_picture as string).includes('?')) {
-                            ent.attributes.entity_picture =
-                                `${ent.attributes.entity_picture as string}?ts=${Date.now()}`;
+                    if (ent.attributes.entity_picture && ent.attributes.entity_picture.startsWith('/')) {
+                        if (!ent.attributes.entity_picture.includes('?')) {
+                            ent.attributes.entity_picture = `${ent.attributes.entity_picture}?ts=${Date.now()}`;
                         }
-                        adapterData.server?.addRequestableFile(
-                            ent.attributes.entity_picture as string,
-                        );
+                        adapterData.server?.addRequestableFile(ent.attributes.entity_picture);
                     }
                 },
             });

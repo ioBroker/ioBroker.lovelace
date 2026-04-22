@@ -1,0 +1,335 @@
+"use strict";
+const { utils } = require("../../../lib/entities/utils");
+class EntityRegistry {
+  _entries = {};
+  _entityCategories = { 0: "config", 1: "diagnostic" };
+  adapter;
+  entityData;
+  sendResponse;
+  sendUpdate;
+  /**
+   * Constructor
+   *
+   * @param options - options including adapter.
+   * @param options.adapter - ioBroker adapter instance
+   * @param options.entityData - shared entity data singleton
+   * @param options.sendResponse - function to send a response to a client
+   * @param options.sendUpdate - function to broadcast an update event
+   */
+  constructor(options) {
+    this.adapter = options.adapter;
+    this.entityData = options.entityData;
+    this.sendResponse = options.sendResponse;
+    this.sendUpdate = options.sendUpdate;
+  }
+  /**
+   * Convert an entity registry entry to the format expected by the frontend for display.
+   *
+   * @param entityWithId - the registry entry to convert
+   */
+  convertEntryForDisplay(entityWithId) {
+    return {
+      ei: entityWithId.entity_id,
+      en: entityWithId.name || entityWithId.original_name,
+      ai: entityWithId.area_id,
+      ic: entityWithId.icon || entityWithId.original_icon,
+      di: entityWithId.device_id,
+      lb: entityWithId.labels || [],
+      hb: entityWithId.hidden,
+      ec: entityWithId.entity_category,
+      tk: entityWithId.translation_key,
+      pl: entityWithId.platform,
+      dp: entityWithId.display_precision
+    };
+  }
+  /**
+   * Create an entity registry entry from an entity.
+   *
+   * @param entity - the entity to create the entry from
+   */
+  _createEntryFromEntity(entity) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
+    const entry = {
+      id: entity.context.id,
+      entity_id: entity.entity_id,
+      name: null,
+      icon: null,
+      platform: entity.platform,
+      config_entry_id: null,
+      config_subentry_id: null,
+      device_id: entity.context.deviceId || null,
+      area_id: entity.context.roomId || null,
+      labels: [],
+      disabled_by: null,
+      hidden_by: null,
+      entity_category: null,
+      has_entity_name: false,
+      original_name: (_a = entity.attributes) == null ? void 0 : _a.friendly_name,
+      unique_id: entity.context.id,
+      translation_key: null,
+      options: null,
+      categories: {},
+      capabilities: entity.context.capabilities || null,
+      original_icon: (_b = entity.attributes) == null ? void 0 : _b.icon,
+      device_class: ((_c = entity.attributes) == null ? void 0 : _c.device_class) || null,
+      original_device_class: ((_d = entity.attributes) == null ? void 0 : _d.device_class) || null,
+      aliases: entity.context.aliases || null
+    };
+    if (entry.platform === "sensor") {
+      entry.options = {
+        sensor: {
+          display_precision: ((_e = entity.attributes) == null ? void 0 : _e.display_precision) || null,
+          suggested_display_precision: ((_f = entity.attributes) == null ? void 0 : _f.suggested_display_precision) || null,
+          unit_of_measurement: ((_g = entity.attributes) == null ? void 0 : _g.unit_of_measurement) || null
+        }
+      };
+    } else if (entry.platform === "number") {
+      entry.options = {
+        number: {
+          unit_of_measurement: ((_h = entity.attributes) == null ? void 0 : _h.unit_of_measurement) || null
+        }
+      };
+    } else if (entry.platform === "light") {
+      entry.options = {
+        light: {
+          favorite_colors: ((_i = entity.attributes) == null ? void 0 : _i.favorite_colors) || []
+        }
+      };
+    } else if (entry.platform === "lock") {
+      entry.options = {
+        lock: {
+          default_code: ((_j = entity.attributes) == null ? void 0 : _j.default_code) || null
+        }
+      };
+    } else if (entry.platform === "alarm_control_panel") {
+      entry.options = {
+        alarm_control_panel: {
+          default_code: ((_k = entity.attributes) == null ? void 0 : _k.default_code) || null
+        }
+      };
+    } else if (entry.platform === "weather") {
+      entry.options = {
+        weather: {
+          precipitation_unit: ((_l = entity.attributes) == null ? void 0 : _l.precipitation_unit) || void 0,
+          pressure_unit: ((_m = entity.attributes) == null ? void 0 : _m.pressure_unit) || void 0,
+          temperature_unit: ((_n = entity.attributes) == null ? void 0 : _n.temperature_unit) || void 0,
+          visibility_unit: ((_o = entity.attributes) == null ? void 0 : _o.visibility_unit) || void 0,
+          wind_speed_unit: ((_p = entity.attributes) == null ? void 0 : _p.wind_speed_unit) || void 0
+        }
+      };
+    }
+    return entry;
+  }
+  /**
+   * Update the entity with the new values from the registry.
+   *
+   * @param entity - the entity to update
+   * @param entry - the registry entry to read values from (optional, looked up by entity id if omitted)
+   */
+  updateEntityFromRegistry(entity, entry) {
+    if (entity.isManual) {
+      return;
+    }
+    if (!entry) {
+      entry = this._entries[entity.context.id];
+      if (!entry) {
+        return;
+      }
+    }
+    entity.entity_id = entry.entity_id;
+    this.entityData.entityId2Entity[entry.entity_id] = entity;
+    entity.attributes.friendly_name = entry.name || entry.original_name;
+    entity.attributes.icon = entry.icon || entry.original_icon;
+    entity.platform = entry.platform;
+    entity.attributes.device_class = entry.device_class || entry.original_device_class;
+    if (entry.options) {
+      for (const platform of Object.keys(entry.options)) {
+        if (entry.options[platform]) {
+          const platformOptions = entry.options[platform];
+          for (const attribute of Object.keys(platformOptions)) {
+            entity.attributes[attribute] = platformOptions[attribute];
+          }
+        }
+      }
+    }
+  }
+  /**
+   * Get the entity id from the ioBroker id.
+   *
+   * @param iobId - ioBroker object id
+   */
+  getEntityId(iobId) {
+    var _a;
+    return (_a = this._entries[iobId]) == null ? void 0 : _a.entity_id;
+  }
+  /**
+   * Store the entity id in the registry.
+   *
+   * @param iobId - ioBroker object id
+   * @param entityId - HA entity id to store
+   */
+  storeEntityId(iobId, entityId) {
+    this._entries[iobId] = this._entries[iobId] || {};
+    this._entries[iobId].entity_id = entityId;
+  }
+  /**
+   * Process incoming messages from the frontend.
+   *
+   * @param ws - websocket connection to the client
+   * @param message - the message from the frontend
+   */
+  processMessage(ws, message) {
+    if (message.type === "config/entity_registry/list_for_display") {
+      const entities = [];
+      for (const entity of this.entityData.entities) {
+        entities.push(this.convertEntryForDisplay(this._createEntryFromEntity(entity)));
+      }
+      this.sendResponse(ws, message.id, {
+        entities,
+        entity_categories: this._entityCategories
+      });
+      return true;
+    } else if (message.type === "config/entity_registry/list") {
+      const entities = [];
+      for (const id of Object.keys(this._entries)) {
+        entities.push(this._entries[id]);
+      }
+      this.sendResponse(ws, message.id, {
+        entities,
+        entity_categories: this._entityCategories
+      });
+      return true;
+    } else if (message.type === "config/entity_registry/get") {
+      const entityId = message.entity_id;
+      let entityWithId = this._entries[entityId];
+      const entity = this.entityData.entityId2Entity[entityId];
+      if (!entity) {
+        ws.send(
+          JSON.stringify({
+            id: message.id,
+            type: "result",
+            success: false,
+            error: { code: "entity_not_found" }
+          })
+        );
+        this.adapter.log.warn(`Entity ${entityId} not found`);
+        return true;
+      }
+      if (!entityWithId) {
+        entityWithId = this._createEntryFromEntity(entity);
+      }
+      this.sendResponse(ws, message.id, entityWithId);
+      return true;
+    } else if (message.type === "config/entity_registry/get_entries") {
+      const entityIds = message.entity_ids;
+      const result = {};
+      for (const entityId of entityIds) {
+        const entityWithId = this._entries[entityId];
+        const entity = this.entityData.entityId2Entity[entityId];
+        if (entityWithId) {
+          result[entityId] = entityWithId;
+        } else if (entity) {
+          result[entityId] = this._createEntryFromEntity(entity);
+        } else {
+          result[entityId] = null;
+        }
+      }
+      this.sendResponse(ws, message.id, result);
+      return true;
+    } else if (message.type === "config/entity_registry/update") {
+      const entityId = message.entity_id;
+      let entityWithId = this._entries[entityId];
+      const entity = this.entityData.entityId2Entity[entityId];
+      if (!entity) {
+        ws.send(
+          JSON.stringify({
+            id: message.id,
+            type: "result",
+            success: false,
+            error: { code: "entity_not_found" }
+          })
+        );
+        this.adapter.log.warn(`Entity ${entityId} not found`);
+        return true;
+      }
+      if (!entityWithId) {
+        entityWithId = this._createEntryFromEntity(entity);
+      }
+      const newData = JSON.parse(JSON.stringify(message));
+      delete newData.id;
+      delete newData.type;
+      delete newData.entity_id;
+      const changes = {};
+      for (const key of Object.keys(newData)) {
+        changes[key] = entityWithId[key] || null;
+        entityWithId[key] = newData[key];
+        if (key === "new_entity_id") {
+          utils.removeEntity(entity, newData[key]);
+          delete entityWithId.new_entity_id;
+        }
+      }
+      this.updateEntityFromRegistry(entity, entityWithId);
+      this.sendResponse(ws, message.id, { entity_entry: entityWithId });
+      this.sendUpdate("entity_registry_updated", {
+        action: "update",
+        entity_id: entityWithId.entity_id,
+        changes
+      });
+    }
+    return false;
+  }
+  /**
+   * Update entities from the registry. Inform the frontend about changes.
+   *
+   * @param entities - entities to update from the registry
+   * @param sendEvent - whether to send an update event to the frontend
+   */
+  handleUpdatedEntities(entities = [], sendEvent = false) {
+    for (const entity of entities) {
+      this.updateEntityFromRegistry(entity);
+    }
+    if (entities.length > 0 && sendEvent) {
+      this.sendUpdate("entity_registry_updated");
+      this.sendUpdate("device_registry_updated");
+    }
+  }
+  /**
+   * Load the entity registry from the ioBroker object database.
+   */
+  async loadEntityRegistry() {
+    const storage = await this.adapter.getObjectAsync("entityRegistry");
+    const native = storage == null ? void 0 : storage.native;
+    this._entries = (native == null ? void 0 : native.entities) || {};
+    this._entityCategories = (native == null ? void 0 : native.entityCategories) || {
+      0: "config",
+      1: "diagnostic"
+    };
+  }
+  /**
+   * Store the entity registry to the ioBroker object database.
+   */
+  async saveEntityRegistry() {
+    const storage = await this.adapter.getObjectAsync("entityRegistry");
+    if (!storage.native) {
+      storage.native = {};
+    }
+    storage.native.entities = this._entries;
+    storage.native.entityCategories = this._entityCategories;
+    await this.adapter.setObject("entityRegistry", storage);
+  }
+  /**
+   * Clean up, save the entity registry.
+   */
+  async cleanup() {
+    this.adapter.log.debug("cleaning up entity registry");
+    await this.saveEntityRegistry();
+  }
+  /**
+   * Init module.
+   */
+  async init() {
+    await this.loadEntityRegistry();
+  }
+}
+module.exports = EntityRegistry;
+//# sourceMappingURL=entityRegistry.js.map

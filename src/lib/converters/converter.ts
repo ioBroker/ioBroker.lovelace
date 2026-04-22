@@ -1,22 +1,10 @@
-import { Types } from '@iobroker/type-detector';
+import type { Types } from '@iobroker/type-detector';
 import type { PatternControl } from '@iobroker/type-detector/types';
 import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
-
-// Phase 2 & 3 converters — now TypeScript; imported so their self-registration runs at load time.
-import './switch';
-import './lock';
-import './sensor';
-import './geo_location';
-import './camera';
-import './weather';
-import './cover';
+import type { HassEntityAttributeBase } from 'home-assistant-js-websocket';
 
 // Phase 4 converters — now TypeScript; imported so their self-registration runs at load time.
-import './climate';
-import './media_player';
-import './light';
 import '@iobroker/types';
-import type { HassEntityAttributeBase } from 'home-assistant-js-websocket';
 
 // NOTE: binary_sensor.ts is NOT imported here to avoid a circular dependency.
 // BinarySensorConverter (defined in binary_sensor.ts) self-registers on
@@ -143,22 +131,22 @@ export type EntityAttribute = {
      * Value map for this attribute, e.g. alarm arm-state codes → HA state strings.
      * TODO: Clarify whether this overlaps with EntityState.map — consider unifying.
      */
-    map?: Record<string | number, unknown>;
+    map?: Record<string | number, string>;
     /**
      * Map Lovelace/HA attribute values → ioBroker values.
      * Used by climate converter for hvac_mode translation.
      */
-    lovelaceToIob?: Record<string, unknown>;
+    lovelaceToIob?: Record<string, string | number>;
     /**
      * Map ioBroker values → Lovelace/HA attribute values.
      * Used by climate converter for hvac_mode translation.
      */
-    iobToLovelace?: Record<string | number, unknown>;
+    iobToLovelace?: Record<string | number, string>;
     /**
      * Converts a historical ioBroker state value to an HA attribute value string.
      * Used by geo_location for extracting latitude/longitude from a GPS "lat;lon" string.
      */
-    historyParser?: (iobId: string, val: unknown) => string;
+    historyParser?: (iobId: string, val: ioBroker.StateValue) => string;
     /**
      * Whether the ioBroker state value is a JSON-encoded string array.
      * Used by fan/input_select when common.states is an Array.
@@ -483,25 +471,13 @@ export class Converter {
     static converters: Partial<Record<Types, typeof Converter>> = {};
 
     /**
-     * Legacy JavaScript converter functions with positional-argument signature.
-     * Will be removed as converters are migrated to TypeScript subclasses.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-    static legacyConverters: Partial<Record<Types, Function>> = {
-        // All converters have been migrated to TypeScript and self-register in Converter.converters.
-        // NOTE: binary sensor types (motion, door, window, fireAlarm) are handled by
-        // BinarySensorConverter in binary_sensor.ts and registered in Converter.converters.
-        // NOTE: light, climate, media_player are now registered via Phase 4 TS imports above.
-    };
-
-    /**
      * Override in subclasses to return the HA entities for this device type.
      * Called by the base class convert() after resolving forcedEntityId.
      *
      * @param _params - conversion parameters with a single controls PatternControl
      * @returns array of created entities (may be empty, may be async)
      */
-    static convertEntities(_params: ConverterParameters): ioBrokerEntity[] | Promise<ioBrokerEntity[]> {
+    static convertEntities(_params: ConverterParameters): ioBrokerEntity[] {
         return [];
     }
 
@@ -511,9 +487,9 @@ export class Converter {
      *
      * @param params - conversion parameters (controls is a single PatternControl)
      */
-    static async convert(params: ConverterParameters): Promise<void> {
+    static convert(params: ConverterParameters): void {
         const forcedEntityId = params.entityRegistry.getEntityId(params.id);
-        const entities = await this.convertEntities({ ...params, forcedEntityId });
+        const entities = this.convertEntities({ ...params, forcedEntityId });
         Converter._processEntities(entities, params);
     }
 
@@ -525,37 +501,14 @@ export class Converter {
      * @param controls - array of PatternControls returned by type-detector
      * @param baseParams - all parameters except 'controls'
      */
-    static async convertAll(
-        controls: PatternControl[],
-        baseParams: Omit<ConverterParameters, 'controls'>,
-    ): Promise<void> {
+    static convertAll(controls: PatternControl[], baseParams: Omit<ConverterParameters, 'controls'>): void {
         const { adapter } = baseParams;
         for (const control of controls) {
             const params: ConverterParameters = { ...baseParams, controls: control };
 
             const ConverterClass = Converter.converters[control.type];
             if (ConverterClass) {
-                await ConverterClass.convert(params);
-                continue;
-            }
-
-            const legacyFn = Converter.legacyConverters[control.type];
-            if (legacyFn) {
-                const forcedEntityId = baseParams.entityRegistry.getEntityId(baseParams.id);
-                // Legacy converters use old positional-argument signature
-
-                const entities = await legacyFn(
-                    baseParams.id,
-                    control,
-                    baseParams.friendlyName,
-                    baseParams.room,
-                    baseParams.func,
-                    baseParams.objects[baseParams.id],
-                    baseParams.objects,
-                    forcedEntityId,
-                );
-
-                Converter._processEntities(entities || [], params);
+                ConverterClass.convert(params);
                 continue;
             }
 

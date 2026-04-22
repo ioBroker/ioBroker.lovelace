@@ -106,8 +106,12 @@ class MediaPlayerConverter extends import_converter.default {
       };
       entity.context.STATE.historyParser = (_id, st) => {
         const val = st == null ? void 0 : st.val;
-        if (val === true || val === 1 || val === "play") return "playing";
-        if (val === false || val === 0 || val === "pause") return "paused";
+        if (val === true || val === 1 || val === "play") {
+          return "playing";
+        }
+        if (val === false || val === 0 || val === "pause") {
+          return "paused";
+        }
         return "idle";
       };
       const stateObj = objects[state.id];
@@ -252,8 +256,11 @@ class MediaPlayerConverter extends import_converter.default {
         parseCommand: (_ent, command, data, user) => {
           const repeatIn = data.service_data.repeat;
           let target = 0;
-          if (repeatIn === "all") target = 1;
-          else if (repeatIn === "one") target = 2;
+          if (repeatIn === "all") {
+            target = 1;
+          } else if (repeatIn === "one") {
+            target = 2;
+          }
           return adapterData.adapter.setForeignStateAsync(command.setId, target, false, { user });
         }
       });
@@ -262,9 +269,13 @@ class MediaPlayerConverter extends import_converter.default {
         getId: state.id,
         getParser: (ent, _attr, st) => {
           if (st) {
-            if (st.val === 0) ent.attributes.repeat = "off";
-            else if (st.val === 1) ent.attributes.repeat = "all";
-            else if (st.val === 2) ent.attributes.repeat = "one";
+            if (st.val === 0) {
+              ent.attributes.repeat = "off";
+            } else if (st.val === 1) {
+              ent.attributes.repeat = "all";
+            } else if (st.val === 2) {
+              ent.attributes.repeat = "one";
+            }
           }
         }
       });
@@ -327,20 +338,15 @@ class MediaPlayerConverter extends import_converter.default {
         min,
         max,
         step,
-        parseCommand: (_ent, command, _data, user) => new Promise((resolve, reject) => {
-          adapterData.adapter.getForeignState(command.getId, (err, st) => {
-            let val = st && st.val || 0;
-            val -= command.step;
-            if (val < command.min) val = command.min;
-            adapterData.adapter.setForeignState(
-              command.setId,
-              val,
-              false,
-              { user },
-              (e) => e ? reject(e) : resolve()
-            );
-          });
-        })
+        parseCommand: async (_ent, command, _data, user) => {
+          const st = await adapterData.adapter.getForeignStateAsync(command.getId);
+          let val = st && st.val || 0;
+          val -= command.step;
+          if (val < command.min) {
+            val = command.min;
+          }
+          await adapterData.adapter.setForeignStateAsync(command.setId, val, false, { user });
+        }
       });
       entity.context.COMMANDS.push({
         service: "volume_up",
@@ -349,20 +355,15 @@ class MediaPlayerConverter extends import_converter.default {
         min,
         max,
         step,
-        parseCommand: (_ent, command, _data, user) => new Promise((resolve, reject) => {
-          adapterData.adapter.getForeignState(command.getId, (err, st) => {
-            let val = st && st.val || 0;
-            val += command.step;
-            if (val > command.max) val = command.max;
-            adapterData.adapter.setForeignState(
-              command.setId,
-              val,
-              false,
-              { user },
-              (e) => e ? reject(e) : resolve()
-            );
-          });
-        })
+        parseCommand: async (_ent, command, _data, user) => {
+          const st = await adapterData.adapter.getForeignStateAsync(command.getId);
+          let val = st && st.val || 0;
+          val += command.step;
+          if (val > command.max) {
+            val = command.max;
+          }
+          await adapterData.adapter.setForeignStateAsync(command.setId, val, false, { user });
+        }
       });
       entity.context.COMMANDS.push({
         service: "volume_set",
@@ -426,12 +427,9 @@ class MediaPlayerConverter extends import_converter.default {
             `Got volume_mute command: ${JSON.stringify(command)} controlling mute with ${sd.is_volume_muted} from ${JSON.stringify(data)}`
           );
           ent.attributes.is_volume_muted = sd.is_volume_muted;
-          return adapterData.adapter.setForeignStateAsync(
-            command.setId,
-            sd.is_volume_muted,
-            false,
-            { user }
-          );
+          return adapterData.adapter.setForeignStateAsync(command.setId, sd.is_volume_muted, false, {
+            user
+          });
         }
       });
       (0, import_utils.addID2entity)(state.id, entity);
@@ -533,9 +531,7 @@ class MediaPlayerConverter extends import_converter.default {
             if (!ent.attributes.entity_picture.includes("?")) {
               ent.attributes.entity_picture = `${ent.attributes.entity_picture}?ts=${Date.now()}`;
             }
-            (_b2 = adapterData.server) == null ? void 0 : _b2.addRequestableFile(
-              ent.attributes.entity_picture
-            );
+            (_b2 = adapterData.server) == null ? void 0 : _b2.addRequestableFile(ent.attributes.entity_picture);
           }
         }
       });

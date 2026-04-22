@@ -1,4 +1,4 @@
-import type { ioBrokerEntity, EntityAttribute, ServiceCallData } from './converter';
+import type { ioBrokerEntity, ServiceCallData } from './converter';
 import { fillEntityFromStates, addID2entity } from '../entities/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -17,7 +17,7 @@ const adapterData = require('../../../lib/dataSingleton') as {
  */
 function parseAlarmState(
     entity: ioBrokerEntity,
-    attrMap: Record<string | number, unknown> | undefined,
+    attrMap: Record<string | number, string> | undefined,
     state: ioBroker.State | null,
 ): void {
     if (!state) {
@@ -88,14 +88,13 @@ function fillAlarmControlPanelFromStates(
                 attribute: 'arm_state',
                 getId: id,
                 setId: id,
-                map: (obj?.common?.states as Record<string | number, unknown>) ?? undefined,
+                map: (obj?.common?.states as Record<string | number, string>) ?? undefined,
                 getParser: (ent, attr, state): void => parseAlarmState(ent, attr.map, state),
             },
         ];
         addID2entity(id, entity);
     }
-    entity.context.STATE!.getParser = (ent, _attrName, state): void =>
-        parseAlarmState(ent, undefined, state);
+    entity.context.STATE!.getParser = (ent, _attrName, state): void => parseAlarmState(ent, undefined, state);
 
     const processCommand = async (
         ent: ioBrokerEntity,
@@ -106,16 +105,14 @@ function fillAlarmControlPanelFromStates(
         // alarm_arm_away → 'armed_away', alarm_disarm → 'disarmed'
         const targetState = data.service.replace('alarm_', '').replace('arm', 'armed');
         const stateId = ent.context.STATE!.setId!;
-        adapterData.log.debug(
-            `${data.service}: ${stateId} = ${(data.service_data as Record<string, unknown>).code ? 'XXX' : 'none'}`,
-        );
+        adapterData.log.debug(`${data.service}: ${stateId} = ${data.service_data.code ? 'XXX' : 'none'}`);
 
         // Optionally require code only for disarm
         if (
             !(adapterData.adapter.config as Record<string, unknown>).alarmCheckCodeOnDisarmOnly ||
             targetState.includes('disarm')
         ) {
-            const sd = data.service_data as Record<string, unknown>;
+            const sd = data.service_data;
             if (sd == null || sd.code == null) {
                 throw new Error('code is empty');
             }
@@ -125,19 +122,14 @@ function fillAlarmControlPanelFromStates(
                     `No code is defined! To provide the code add to object ${stateId} native.alarm_code with desired code`,
                 );
                 throw new Error('iobroker misconfigured.');
-            } else if (String(obj.native.alarm_code) !== String(sd.code)) {
+            } else if (String(obj.native.alarm_code) !== String(sd.code as number | string)) {
                 throw new Error('invalid code');
             }
         }
 
         // Write state
         if (ent.context.STATE!.isBoolean) {
-            await adapterData.adapter.setForeignStateAsync(
-                stateId,
-                !targetState.includes('disarm'),
-                false,
-                { user },
-            );
+            await adapterData.adapter.setForeignStateAsync(stateId, !targetState.includes('disarm'), false, { user });
         } else {
             let valToSet: ioBroker.StateValue = targetState;
             const stateMap = ent.context.STATE!.map;
@@ -157,9 +149,7 @@ function fillAlarmControlPanelFromStates(
                 let valToSet: ioBroker.StateValue = targetState;
                 const attrMap = attr.map;
                 if (attrMap) {
-                    const numKey = Number(
-                        Object.keys(attrMap).find(k => attrMap[k] === targetState),
-                    );
+                    const numKey = Number(Object.keys(attrMap).find(k => attrMap[k] === targetState));
                     if (!isNaN(numKey)) {
                         valToSet = numKey;
                     }
@@ -203,7 +193,7 @@ export async function processManualEntity(
 ): Promise<ioBrokerEntity[]> {
     const states = (custom.states as Record<string, string> | undefined) ?? { state: id };
     objects[id] = obj; // keep reference so fillAlarmControlPanelFromStates can read it
-    return fillAlarmControlPanelFromStates(states, objects, entity);
+    return new Promise(resolve => resolve(fillAlarmControlPanelFromStates(states, objects, entity)));
 }
 
 adapterData.services.alarm_control_panel = {

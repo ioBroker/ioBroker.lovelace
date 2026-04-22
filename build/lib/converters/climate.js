@@ -37,7 +37,6 @@ var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
 var import_utils = require("../entities/utils");
 var import_sensor = require("./sensor");
-var import_utils2 = require("../entities/utils");
 const adapterData = require("../../../lib/dataSingleton");
 const CLIMATE_SUPPORT_TARGET_TEMPERATURE = 1;
 const CLIMATE_SUPPORT_FAN_MODE = 8;
@@ -66,7 +65,7 @@ function translateModeNameForLovelace(modeNameIn) {
 }
 function fillClimateEntityFromStates(states, objects, entity, iobType) {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s;
-  (0, import_utils2.fillEntityFromStates)(states, entity, objects);
+  (0, import_utils.fillEntityFromStates)(states, entity, objects);
   entity.attributes.supported_features = CLIMATE_SUPPORT_TARGET_TEMPERATURE;
   entity.context.COMMANDS = [];
   if (states.state || states.hvac_mode) {
@@ -78,12 +77,9 @@ function fillClimateEntityFromStates(states, objects, entity, iobType) {
         const hvac_attr = (_a2 = ent.context.ATTRIBUTES) == null ? void 0 : _a2.find((a) => a.attribute === "hvac_mode");
         const value = data.service_data.hvac_mode;
         if ((_b2 = ent.context.STATE) == null ? void 0 : _b2.setId) {
-          await adapterData.adapter.setForeignStateAsync(
-            ent.context.STATE.setId,
-            value !== "off",
-            false,
-            { user }
-          );
+          await adapterData.adapter.setForeignStateAsync(ent.context.STATE.setId, value !== "off", false, {
+            user
+          });
         }
         if (hvac_attr) {
           const target = (_c2 = hvac_attr.lovelaceToIob) == null ? void 0 : _c2[value];
@@ -107,9 +103,7 @@ function fillClimateEntityFromStates(states, objects, entity, iobType) {
     }
     entity.attributes.hvac_modes.push("off");
     if (!states.hvac_mode) {
-      entity.attributes.hvac_modes.push(
-        iobType === import_type_detector.Types.airCondition ? "cool" : "heat"
-      );
+      entity.attributes.hvac_modes.push(iobType === import_type_detector.Types.airCondition ? "cool" : "heat");
     }
     entity.context.STATE.getParser = (ent, _attrName, state) => {
       var _a2, _b2, _c2;
@@ -127,15 +121,19 @@ function fillClimateEntityFromStates(states, objects, entity, iobType) {
             adapterData.log.warn(
               `No mode for ${ent.entity_id} received, yet. Asking database. Will delay update.`
             );
-            adapterData.adapter.getForeignState(hvac_attr.getId, (err, stateVal) => {
-              var _a3, _b3, _c3;
+            adapterData.adapter.getForeignStateAsync(hvac_attr.getId).then((stateVal) => {
+              var _a3, _b3;
               const val = stateVal ? stateVal.val : null;
               if (ent.context.iobMode === void 0) {
                 ent.context.iobMode = val;
-                const resolved = (_c3 = (_b3 = (_a3 = hvac_attr.iobToLovelace) == null ? void 0 : _a3[val]) != null ? _b3 : String(val)) != null ? _c3 : iobType === import_type_detector.Types.airCondition ? "cool" : "heat";
+                const resolved = (_b3 = (_a3 = hvac_attr.iobToLovelace) == null ? void 0 : _a3[val]) != null ? _b3 : iobType === import_type_detector.Types.airCondition ? "cool" : "heat";
                 ent.state = resolved;
                 ent.attributes.hvac_mode = resolved;
               }
+            }).catch((e) => {
+              adapterData.log.error(
+                `Error fetching HVAC mode for ${ent.entity_id} during power state update: ${e}`
+              );
             });
           }
         }
@@ -282,19 +280,21 @@ function fillClimateEntityFromStates(states, objects, entity, iobType) {
           const mode = data.service_data.swing_mode;
           const swingAttr = (_a2 = ent.context.ATTRIBUTES) == null ? void 0 : _a2.find((a) => a.attribute === "swing_mode");
           let val;
-          if (swingAttr.isBoolean) {
-            val = mode === "on";
-          } else {
-            val = parseInt(mode, 10);
-            if (swingAttr.states) {
-              for (const key of Object.keys(swingAttr.states)) {
-                if (swingAttr.states[key] === mode) {
-                  val = parseInt(key, 10);
+          if (swingAttr && swingAttr.getId) {
+            if (swingAttr == null ? void 0 : swingAttr.isBoolean) {
+              val = mode === "on";
+            } else {
+              val = parseInt(mode, 10);
+              if (swingAttr.states) {
+                for (const key of Object.keys(swingAttr.states)) {
+                  if (swingAttr.states[key] === mode) {
+                    val = parseInt(key, 10);
+                  }
                 }
               }
             }
+            return adapterData.adapter.setForeignStateAsync(swingAttr.getId, val, false, { user });
           }
-          return adapterData.adapter.setForeignStateAsync(swingAttr.getId, val, false, { user });
         }
       });
     }
@@ -327,14 +327,16 @@ function fillClimateEntityFromStates(states, objects, entity, iobType) {
           const mode = data.service_data.fan_mode;
           const fanAttr = (_a2 = ent.context.ATTRIBUTES) == null ? void 0 : _a2.find((a) => a.attribute === "fan_mode");
           let val = parseInt(mode, 10);
-          if (fanAttr.states) {
-            for (const key of Object.keys(fanAttr.states)) {
-              if (fanAttr.states[key] === mode) {
-                val = parseInt(key, 10);
+          if (fanAttr && fanAttr.getId) {
+            if (fanAttr.states) {
+              for (const key of Object.keys(fanAttr.states)) {
+                if (fanAttr.states[key] === mode) {
+                  val = parseInt(key, 10);
+                }
               }
             }
+            return adapterData.adapter.setForeignStateAsync(fanAttr.getId, val, false, { user });
           }
-          return adapterData.adapter.setForeignStateAsync(fanAttr.getId, val, false, { user });
         }
       });
     }
@@ -408,14 +410,7 @@ class ClimateConverter extends import_converter.default {
   static convertEntities(params) {
     var _a;
     const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
-    const entity = (0, import_utils.processCommon)(
-      friendlyName,
-      room,
-      func,
-      objects[params.id],
-      "climate",
-      forcedEntityId
-    );
+    const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[params.id], "climate", forcedEntityId);
     const states = {};
     let entityTemp;
     let entityHum;
@@ -474,14 +469,18 @@ class ClimateConverter extends import_converter.default {
     }
     fillClimateEntityFromStates(states, objects, entity, controls.type);
     const result = [entity];
-    if (entityHum) result.push(entityHum);
-    if (entityTemp) result.push(entityTemp);
+    if (entityHum) {
+      result.push(entityHum);
+    }
+    if (entityTemp) {
+      result.push(entityTemp);
+    }
     return result;
   }
 }
 import_converter.default.converters[import_type_detector.Types.thermostat] = ClimateConverter;
 import_converter.default.converters[import_type_detector.Types.airCondition] = ClimateConverter;
-async function processManualEntity(id, _obj, entity, objects, custom) {
+function processManualEntity(id, _obj, entity, objects, custom) {
   var _a;
   const states = (_a = custom.states) != null ? _a : { temperature: id };
   fillClimateEntityFromStates(states, objects, entity);

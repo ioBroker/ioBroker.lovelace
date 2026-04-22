@@ -30,7 +30,8 @@ var sensor_exports = {};
 __export(sensor_exports, {
   SensorConverter: () => SensorConverter,
   createHumiditySensor: () => createHumiditySensor,
-  createTemperatureSensor: () => createTemperatureSensor
+  createTemperatureSensor: () => createTemperatureSensor,
+  processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(sensor_exports);
 var import_type_detector = require("@iobroker/type-detector");
@@ -129,6 +130,11 @@ class SensorConverter extends import_converter.default {
     return [entity];
   }
 }
+function processManualEntity(id, obj, entity, objects, custom) {
+  entity.attributes.device_class = custom.attr_device_class;
+  entity.attributes.unit_of_measurement = custom.attr_unit_of_measurement || entity.attributes.unit_of_measurement;
+  return [entity];
+}
 import_converter.default.converters[import_type_detector.Types.windowTilt] = SensorConverter;
 import_converter.default.converters[import_type_detector.Types.temperature] = SensorConverter;
 import_converter.default.converters[import_type_detector.Types.humidity] = SensorConverter;
@@ -136,6 +142,7 @@ import_converter.default.converters[import_type_detector.Types.humidity] = Senso
 0 && (module.exports = {
   SensorConverter,
   createHumiditySensor,
-  createTemperatureSensor
+  createTemperatureSensor,
+  processManualEntity
 });
 //# sourceMappingURL=sensor.js.map

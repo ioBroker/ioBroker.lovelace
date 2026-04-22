@@ -61,19 +61,19 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 
 ## Phase 5 — Modules
 
-- [ ] `lib/modules/areaRegistry.js`
-- [ ] `lib/modules/deviceRegistry.js`
-- [ ] `lib/modules/autoEntities.js`
-- [ ] `lib/modules/person.js`
-- [ ] `lib/modules/dashboard.js`
-- [ ] `lib/modules/statisticsRecorder.js`
-- [ ] `lib/modules/logbook.js`
-- [ ] `lib/modules/persistentNotifications.js`
-- [ ] `lib/modules/conversation.js`
-- [ ] `lib/modules/history.js`
-- [ ] `lib/modules/entityRegistry.js`
-- [ ] `lib/modules/todo.js`
-- [ ] `lib/modules/browser_mod.js`
+- [x] `lib/modules/areaRegistry.js` → `src/lib/modules/areaRegistry.ts`
+- [x] `lib/modules/deviceRegistry.js` → `src/lib/modules/deviceRegistry.ts`
+- [x] `lib/modules/autoEntities.js` → `src/lib/modules/autoEntities.ts`
+- [x] `lib/modules/person.js` → `src/lib/modules/person.ts`
+- [x] `lib/modules/dashboard.js` → `src/lib/modules/dashboard.ts`
+- [x] `lib/modules/statisticsRecorder.js` → `src/lib/modules/statisticsRecorder.ts`
+- [x] `lib/modules/logbook.js` → `src/lib/modules/logbook.ts`
+- [x] `lib/modules/persistentNotifications.js` → `src/lib/modules/persistentNotifications.ts`
+- [x] `lib/modules/conversation.js` → `src/lib/modules/conversation.ts`
+- [x] `lib/modules/history.js` → `src/lib/modules/history.ts`
+- [x] `lib/modules/entityRegistry.js` → `src/lib/modules/entityRegistry.ts`
+- [x] `lib/modules/todo.js` → `src/lib/modules/todo.ts`
+- [x] `lib/modules/browser_mod.js` → `src/lib/modules/browser_mod.ts`
 
 ---
 

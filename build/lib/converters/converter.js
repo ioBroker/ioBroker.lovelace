@@ -23,16 +23,6 @@ __export(converter_exports, {
 });
 module.exports = __toCommonJS(converter_exports);
 var import_indicators = require("./indicators");
-var import_switch = require("./switch");
-var import_lock = require("./lock");
-var import_sensor = require("./sensor");
-var import_geo_location = require("./geo_location");
-var import_camera = require("./camera");
-var import_weather = require("./weather");
-var import_cover = require("./cover");
-var import_climate = require("./climate");
-var import_media_player = require("./media_player");
-var import_light = require("./light");
 var import_types = require("@iobroker/types");
 class Converter {
   /**
@@ -40,17 +30,6 @@ class Converter {
    * Populated by each subclass module at load time.
    */
   static converters = {};
-  /**
-   * Legacy JavaScript converter functions with positional-argument signature.
-   * Will be removed as converters are migrated to TypeScript subclasses.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  static legacyConverters = {
-    // All converters have been migrated to TypeScript and self-register in Converter.converters.
-    // NOTE: binary sensor types (motion, door, window, fireAlarm) are handled by
-    // BinarySensorConverter in binary_sensor.ts and registered in Converter.converters.
-    // NOTE: light, climate, media_player are now registered via Phase 4 TS imports above.
-  };
   /**
    * Override in subclasses to return the HA entities for this device type.
    * Called by the base class convert() after resolving forcedEntityId.
@@ -67,9 +46,9 @@ class Converter {
    *
    * @param params - conversion parameters (controls is a single PatternControl)
    */
-  static async convert(params) {
+  static convert(params) {
     const forcedEntityId = params.entityRegistry.getEntityId(params.id);
-    const entities = await this.convertEntities({ ...params, forcedEntityId });
+    const entities = this.convertEntities({ ...params, forcedEntityId });
     Converter._processEntities(entities, params);
   }
   /**
@@ -80,30 +59,14 @@ class Converter {
    * @param controls - array of PatternControls returned by type-detector
    * @param baseParams - all parameters except 'controls'
    */
-  static async convertAll(controls, baseParams) {
+  static convertAll(controls, baseParams) {
     var _a, _b;
     const { adapter } = baseParams;
     for (const control of controls) {
       const params = { ...baseParams, controls: control };
       const ConverterClass = Converter.converters[control.type];
       if (ConverterClass) {
-        await ConverterClass.convert(params);
-        continue;
-      }
-      const legacyFn = Converter.legacyConverters[control.type];
-      if (legacyFn) {
-        const forcedEntityId = baseParams.entityRegistry.getEntityId(baseParams.id);
-        const entities = await legacyFn(
-          baseParams.id,
-          control,
-          baseParams.friendlyName,
-          baseParams.room,
-          baseParams.func,
-          baseParams.objects[baseParams.id],
-          baseParams.objects,
-          forcedEntityId
-        );
-        Converter._processEntities(entities || [], params);
+        ConverterClass.convert(params);
         continue;
       }
       adapter.log.debug(

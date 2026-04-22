@@ -112,9 +112,13 @@ function lightAddColorTemperature(states, objects, entity) {
   var _a, _b, _c, _d, _e;
   const iobMaxValueKelvin = 7e3;
   const iobMinValueKelvin = 1e3;
-  if (!states.color_temp) return;
+  if (!states.color_temp) {
+    return;
+  }
   const attribute = entity.context.ATTRIBUTES.find((a) => a.attribute === "color_temp");
-  if (!attribute) return;
+  if (!attribute) {
+    return;
+  }
   const tempObj = objects[states.color_temp];
   const tempCommon = (_a = tempObj == null ? void 0 : tempObj.common) != null ? _a : {};
   attribute.convert_to_mired = tempCommon.unit === "mired";
@@ -177,9 +181,13 @@ function lightAddBrightness(states, objects, entity) {
       states.brightnessRead = states.stateRead;
     }
   }
-  if (!states.brightness) return;
+  if (!states.brightness) {
+    return;
+  }
   const attribute = entity.context.ATTRIBUTES.find((a) => a.attribute === "brightness");
-  if (!attribute) return;
+  if (!attribute) {
+    return;
+  }
   const readId = (_b = states.brightnessRead) != null ? _b : states.brightness;
   const readCommon = (_d = (_c = objects[readId]) == null ? void 0 : _c.common) != null ? _d : {};
   attribute.min = (_e = readCommon.min) != null ? _e : 0;
@@ -225,10 +233,16 @@ function lightAddHueAndSat(states, objects, entity) {
       hue_attr.getParser = (ent, attr, state) => {
         var _a2;
         let targetAttributes = ent.attributes;
-        if (ent.state !== "on") targetAttributes = ent.context.STATE.storedValues;
+        if (ent.state !== "on") {
+          targetAttributes = ent.context.STATE.storedValues;
+        }
         let val = state == null ? void 0 : state.val;
-        if (val === void 0 || val === null) val = 0;
-        if (!targetAttributes.hs_color) targetAttributes.hs_color = [0, 100];
+        if (val === void 0 || val === null) {
+          val = 0;
+        }
+        if (!targetAttributes.hs_color) {
+          targetAttributes.hs_color = [0, 100];
+        }
         targetAttributes.hs_color[0] = val / ((_a2 = attr.max) != null ? _a2 : 360) * 360;
         targetAttributes.color_mode = HS;
       };
@@ -251,10 +265,16 @@ function lightAddHueAndSat(states, objects, entity) {
         sat_attr.getParser = (ent, attr, state) => {
           var _a2, _b2;
           let targetAttributes = ent.attributes;
-          if (ent.state !== "on") targetAttributes = ent.context.STATE.storedValues;
+          if (ent.state !== "on") {
+            targetAttributes = ent.context.STATE.storedValues;
+          }
           let val = state == null ? void 0 : state.val;
-          if (val === void 0 || val === null) val = (_a2 = attr.max) != null ? _a2 : 100;
-          if (!targetAttributes.hs_color) targetAttributes.hs_color = [0, 100];
+          if (val === void 0 || val === null) {
+            val = (_a2 = attr.max) != null ? _a2 : 100;
+          }
+          if (!targetAttributes.hs_color) {
+            targetAttributes.hs_color = [0, 100];
+          }
           targetAttributes.hs_color[1] = val / ((_b2 = attr.max) != null ? _b2 : 100) * 100;
           targetAttributes.color_mode = HS;
         };
@@ -267,18 +287,28 @@ function lightAddHueAndSat(states, objects, entity) {
     adapterData.log.warn(`Hue present but no saturation id found for ${states.hue}. Saturation won't work.`);
   }
 }
-async function lightAddRGBSingle(states, _objects, entity) {
-  if (!states.rgb_color) return;
+function lightAddRGBSingle(states, _objects, entity) {
+  if (!states.rgb_color) {
+    return;
+  }
   const attribute = entity.context.ATTRIBUTES.find((a) => a.attribute === "rgb_color");
-  if (!attribute) return;
+  if (!attribute) {
+    return;
+  }
   attribute.is_rgb_array = false;
   attribute.is_rgb_string = true;
   attribute.getParser = (ent, _attr, state) => {
     let targetAttributes = ent.attributes;
-    if (ent.state !== "on") targetAttributes = ent.context.STATE.storedValues;
+    if (ent.state !== "on") {
+      targetAttributes = ent.context.STATE.storedValues;
+    }
     let str = state == null ? void 0 : state.val;
-    if (str === void 0 || str === null) str = "#FFFFFF";
-    if (str[0] === "#") str = str.substring(1);
+    if (str === void 0 || str === null) {
+      str = "#FFFFFF";
+    }
+    if (str[0] === "#") {
+      str = str.substring(1);
+    }
     let r, g, b;
     if (/([0-9]){1,3},([0-9]){1,3},([0-9]){1,3}/.test(str)) {
       [r, g, b] = str.split(",").map((v) => parseInt(v, 10));
@@ -295,34 +325,51 @@ async function lightAddRGBSingle(states, _objects, entity) {
     targetAttributes.color_mode = RGB;
     if (states.white) {
       targetAttributes.color_mode = RGBW;
-      if (!targetAttributes.rgbw_color) targetAttributes.rgbw_color = [r, g, b, 0];
+      if (!targetAttributes.rgbw_color) {
+        targetAttributes.rgbw_color = [r, g, b, 0];
+      }
       targetAttributes.rgbw_color[0] = r;
       targetAttributes.rgbw_color[1] = g;
       targetAttributes.rgbw_color[2] = b;
     }
   };
-  const rgbState = await adapterData.adapter.getForeignStateAsync(states.rgb_color);
-  if (rgbState == null ? void 0 : rgbState.val) {
-    attribute.is_rgb_array = /([0-9]){1,3},([0-9]){1,3},([0-9]){1,3}/.test(String(rgbState.val));
-  }
+  adapterData.adapter.getForeignStateAsync(states.rgb_color).then((rgbState) => {
+    if (rgbState == null ? void 0 : rgbState.val) {
+      attribute.is_rgb_array = /([0-9]){1,3},([0-9]){1,3},([0-9]){1,3}/.test(String(rgbState.val));
+    }
+  }).catch((e) => {
+    adapterData.log.warn(
+      `Could not read ${states.rgb_color} to determine RGB format: ${e}. Assuming hex string.`
+    );
+  });
   entity.attributes.rgb_color = [null, null, null];
   entity.context.STATE.storedValues.rgb_color = [255, 255, 255];
   entity.attributes.supported_color_modes.push(RGB);
 }
 function lightAddRGB(states, objects, entity) {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i;
-  if (!states.red || !states.green || !states.blue) return;
+  if (!states.red || !states.green || !states.blue) {
+    return;
+  }
   const red_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "red");
   const green_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "green");
   const blue_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "blue");
-  if (!red_attr || !green_attr || !blue_attr) return;
+  if (!red_attr || !green_attr || !blue_attr) {
+    return;
+  }
   const rgbGetParser = (index, ent, attr, state) => {
     var _a2, _b2;
     let targetAttributes = ent.attributes;
-    if (ent.state !== "on") targetAttributes = ent.context.STATE.storedValues;
-    if (!targetAttributes.rgb_color) targetAttributes.rgb_color = [255, 255, 255];
+    if (ent.state !== "on") {
+      targetAttributes = ent.context.STATE.storedValues;
+    }
+    if (!targetAttributes.rgb_color) {
+      targetAttributes.rgb_color = [255, 255, 255];
+    }
     let val = state == null ? void 0 : state.val;
-    if (val === void 0 || val === null) val = (_a2 = attr.max) != null ? _a2 : 255;
+    if (val === void 0 || val === null) {
+      val = (_a2 = attr.max) != null ? _a2 : 255;
+    }
     const scaled = val / ((_b2 = attr.max) != null ? _b2 : 255) * 255;
     targetAttributes.rgb_color[index] = scaled;
     if (targetAttributes.rgbw_color) {
@@ -356,7 +403,9 @@ async function setLightAdvancedAttributesToIOBStates(data, entity, user) {
     entity.attributes.color_temp_kelvin = ct;
     entity.attributes.color_temp = sd.color_temp;
     const attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "color_temp");
-    if (attr.convert_to_mired) ct = sd.color_temp;
+    if (attr.convert_to_mired) {
+      ct = sd.color_temp;
+    }
     entity.attributes.color_mode = COLOR_TEMP;
     await adapterData.adapter.setForeignStateAsync(attr.getId, ct, false, { user });
   }
@@ -364,7 +413,9 @@ async function setLightAdvancedAttributesToIOBStates(data, entity, user) {
     let ct = sd.color_temp_kelvin;
     entity.attributes.color_temp_kelvin = ct;
     const attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "color_temp");
-    if (attr.convert_to_mired) ct = 1e6 / ct;
+    if (attr.convert_to_mired) {
+      ct = 1e6 / ct;
+    }
     entity.attributes.color_mode = COLOR_TEMP;
     await adapterData.adapter.setForeignStateAsync(attr.getId, ct, false, { user });
   }
@@ -377,7 +428,7 @@ async function setLightAdvancedAttributesToIOBStates(data, entity, user) {
     if (!entity.attributes.color_mode || entity.attributes.color_mode === ONOFF) {
       entity.attributes.color_mode = BRIGHTNESS;
     }
-    await adapterData.adapter.setForeignState(
+    await adapterData.adapter.setForeignStateAsync(
       attr.setId,
       sd.brightness_pct / 100 * (((_a = attr.max) != null ? _a : 100) - ((_b = attr.min) != null ? _b : 0)) + ((_c = attr.min) != null ? _c : 0),
       false,
@@ -395,7 +446,9 @@ async function setLightAdvancedAttributesToIOBStates(data, entity, user) {
       adapterData.log.warn(`No hue for ${entity.entity_id}, can only set saturation.`);
     }
     if (attr_Sat) {
-      await adapterData.adapter.setForeignStateAsync(attr_Sat.getId, s / 100 * ((_e = attr_Sat.max) != null ? _e : 100), false, { user });
+      await adapterData.adapter.setForeignStateAsync(attr_Sat.getId, s / 100 * ((_e = attr_Sat.max) != null ? _e : 100), false, {
+        user
+      });
     } else {
       adapterData.log.warn(`No saturation for ${entity.entity_id}, can only set hue.`);
     }
@@ -420,16 +473,27 @@ async function setLightAdvancedAttributesToIOBStates(data, entity, user) {
         const rgbString = `#${numToHex(r)}${numToHex(g)}${numToHex(b)}`;
         await adapterData.adapter.setForeignStateAsync(rgb_color_attr.getId, rgbString, false, { user });
       } else {
-        await adapterData.adapter.setForeignStateAsync(rgb_color_attr.getId, `${r},${g},${b}`, false, { user });
+        await adapterData.adapter.setForeignStateAsync(rgb_color_attr.getId, `${r},${g},${b}`, false, {
+          user
+        });
       }
     } else {
       const red_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "red");
       const green_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "green");
       const blue_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "blue");
       await Promise.all([
-        adapterData.adapter.setForeignStateAsync(red_attr.getId, r / 255 * ((_g = red_attr.max) != null ? _g : 255), false, { user }),
-        adapterData.adapter.setForeignStateAsync(green_attr.getId, g / 255 * ((_h = green_attr.max) != null ? _h : 255), false, { user }),
-        adapterData.adapter.setForeignStateAsync(blue_attr.getId, b / 255 * ((_i = blue_attr.max) != null ? _i : 255), false, { user })
+        adapterData.adapter.setForeignStateAsync(red_attr.getId, r / 255 * ((_g = red_attr.max) != null ? _g : 255), false, {
+          user
+        }),
+        adapterData.adapter.setForeignStateAsync(
+          green_attr.getId,
+          g / 255 * ((_h = green_attr.max) != null ? _h : 255),
+          false,
+          { user }
+        ),
+        adapterData.adapter.setForeignStateAsync(blue_attr.getId, b / 255 * ((_i = blue_attr.max) != null ? _i : 255), false, {
+          user
+        })
       ]);
     }
     entity.attributes.color_mode = !sd.rgbw_color ? RGB : RGBW;
@@ -437,7 +501,9 @@ async function setLightAdvancedAttributesToIOBStates(data, entity, user) {
   if (sd.effect) {
     const effect_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "effect");
     let val = (_j = effect_attr.states) == null ? void 0 : _j[sd.effect];
-    if (val === void 0) val = sd.effect;
+    if (val === void 0) {
+      val = sd.effect;
+    }
     await adapterData.adapter.setForeignStateAsync(effect_attr.getId, val, false, { user });
   }
 }
@@ -494,7 +560,7 @@ function convertControlToStates(control) {
   states.white = findState("WHITE");
   return states;
 }
-async function fillLightEntityFromStates(states, objects, entity) {
+function fillLightEntityFromStates(states, objects, entity) {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
   (0, import_utils.fillEntityFromStates)(states, entity, objects);
   entity.attributes.supported_color_modes = [];
@@ -516,9 +582,13 @@ async function fillLightEntityFromStates(states, objects, entity) {
         white_attr.getParser = (ent, attr, state) => {
           var _a2, _b2, _c2, _d2, _e2;
           let val = state == null ? void 0 : state.val;
-          if (val === void 0 || val === null) val = (_a2 = attr.max) != null ? _a2 : 255;
+          if (val === void 0 || val === null) {
+            val = (_a2 = attr.max) != null ? _a2 : 255;
+          }
           let targetAttributes = ent.attributes;
-          if (ent.state !== "on") targetAttributes = ent.context.STATE.storedValues;
+          if (ent.state !== "on") {
+            targetAttributes = ent.context.STATE.storedValues;
+          }
           if (!targetAttributes.rgbw_color) {
             const rgb = targetAttributes.rgb_color;
             targetAttributes.rgbw_color = [(_b2 = rgb == null ? void 0 : rgb[0]) != null ? _b2 : 255, (_c2 = rgb == null ? void 0 : rgb[1]) != null ? _c2 : 255, (_d2 = rgb == null ? void 0 : rgb[2]) != null ? _d2 : 255];
@@ -533,7 +603,7 @@ async function fillLightEntityFromStates(states, objects, entity) {
   lightAddColorTemperature(states, objects, entity);
   lightAddBrightness(states, objects, entity);
   lightAddHueAndSat(states, objects, entity);
-  await lightAddRGBSingle(states, objects, entity);
+  lightAddRGBSingle(states, objects, entity);
   lightAddRGB(states, objects, entity);
   if (states.effect) {
     const effect_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "effect");
@@ -549,7 +619,9 @@ async function fillLightEntityFromStates(states, objects, entity) {
         var _a2;
         const s = state != null ? state : { val: 0 };
         let targetAttributes = ent.attributes;
-        if (ent.state !== "on") targetAttributes = ent.context.STATE.storedValues;
+        if (ent.state !== "on") {
+          targetAttributes = ent.context.STATE.storedValues;
+        }
         targetAttributes.effect = (_a2 = attr.states) == null ? void 0 : _a2[s.val];
       };
     }
@@ -571,7 +643,12 @@ async function fillLightEntityFromStates(states, objects, entity) {
       off: offVal,
       setId: entity.context.STATE.setId,
       parseCommand: (_ent, command, _data, user) => {
-        return adapterData.adapter.setForeignStateAsync(command.setId, command.off, false, { user });
+        return adapterData.adapter.setForeignStateAsync(
+          command.setId,
+          command.off,
+          false,
+          { user }
+        );
       }
     });
     entity.context.STATE.getParser = (ent, _attrName, state) => {
@@ -591,7 +668,7 @@ async function fillLightEntityFromStates(states, objects, entity) {
 }
 class LightConverter extends import_converter.default {
   /** @inheritdoc */
-  static async convertEntities(params) {
+  static convertEntities(params) {
     const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
     if (controls.type === import_type_detector.Types.light) {
       const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[params.id], "light", forcedEntityId);
@@ -616,9 +693,7 @@ class LightConverter extends import_converter.default {
       const entity = (0, import_utils.processCommon)(friendlyName, func, room, objects[params.id], "light", forcedEntityId);
       return fillLightEntityFromStates(states, objects, entity);
     }
-    adapterData.log.debug(
-      `Could not add ${params.id} of type ${controls.type} -> no on/off control found.`
-    );
+    adapterData.log.debug(`Could not add ${params.id} of type ${controls.type} -> no on/off control found.`);
     return [];
   }
 }
@@ -628,7 +703,7 @@ import_converter.default.converters[import_type_detector.Types.ct] = LightConver
 import_converter.default.converters[import_type_detector.Types.hue] = LightConverter;
 import_converter.default.converters[import_type_detector.Types.rgb] = LightConverter;
 import_converter.default.converters[import_type_detector.Types.rgbSingle] = LightConverter;
-async function processManualEntity(id, obj, entity, objects, custom) {
+function processManualEntity(id, obj, entity, objects, custom) {
   var _a, _b;
   const states = (_a = custom.states) != null ? _a : {
     state: id

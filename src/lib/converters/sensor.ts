@@ -165,6 +165,30 @@ export class SensorConverter extends Converter {
     }
 }
 
+/**
+ * Create a manual light entity.
+ *
+ * @param id - ioBroker state id (the main object)
+ * @param obj - ioBroker object
+ * @param entity - already created entity
+ * @param objects - ioBroker objects cache
+ * @param custom - custom settings from the ioBroker object
+ * @returns array containing the augmented entity
+ */
+export function processManualEntity(
+    id: string,
+    obj: ioBroker.Object,
+    entity: ioBrokerEntity,
+    objects: Record<string, ioBroker.Object>,
+    custom: Record<string, unknown>,
+): ioBrokerEntity[] {
+    entity.attributes.device_class = custom.attr_device_class as string;
+    entity.attributes.unit_of_measurement =
+        (custom.attr_unit_of_measurement as string) || entity.attributes.unit_of_measurement;
+
+    return [entity];
+}
+
 Converter.converters[Types.windowTilt] = SensorConverter;
 Converter.converters[Types.temperature] = SensorConverter;
 Converter.converters[Types.humidity] = SensorConverter;
