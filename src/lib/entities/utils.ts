@@ -409,7 +409,7 @@ export function fillEntityFromStates(
         const id = states[key];
         const obj = objects ? objects[id] : null;
         if (id) {
-            addID2entity(id, entity);
+            entity.addID2entity(id);
             if (!key.endsWith('Read')) {
                 if (key !== 'state' && key !== 'stateRead') {
                     const attrs = entity.context.ATTRIBUTES;

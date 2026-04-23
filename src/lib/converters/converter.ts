@@ -1,9 +1,8 @@
 import type { Types } from '@iobroker/type-detector';
 import type { PatternControl } from '@iobroker/type-detector/types';
 import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
+import { Entity } from './entity';
 
-// Phase 4 converters — now TypeScript; imported so their self-registration runs at load time.
-import '@iobroker/types';
 
 export type ConverterParameters = {
     /**

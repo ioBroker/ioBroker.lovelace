@@ -434,7 +434,9 @@ export class Entity {
     }
 
     /**
-     * ioBroker ID needs to be subscribed, if entity is used in vis in order to update.
+     * Register an ioBroker state id as used by this entity (for subscriptions and lookup).
+     * Updates both the canonical `iobIds` array and the legacy `context.ids` for backward
+     * compatibility with JS code that still reads from `entity.context.ids`.
      *
      * @param id - ioBroker state id
      */
