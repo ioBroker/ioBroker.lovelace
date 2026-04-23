@@ -654,4 +654,4 @@ class TodoModule {
     }
 }
 
-module.exports = TodoModule;
+export = TodoModule;

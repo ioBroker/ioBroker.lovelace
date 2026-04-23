@@ -277,4 +277,4 @@ class LogbookModule {
     }
 }
 
-module.exports = LogbookModule;
+export = LogbookModule;

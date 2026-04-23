@@ -89,4 +89,4 @@ class AreaRegistry {
     }
 }
 
-module.exports = AreaRegistry;
+export = AreaRegistry;

@@ -430,6 +430,7 @@ export function processCommon(
             stateType: (obj?.common as Record<string, unknown> | undefined)?.type as string | undefined,
             deviceId: objId,
             aliases: obj ? getSmartName(obj, objId, entityData.lang)?.split(',') || [] : [],
+            STATE: {},
         },
     };
 

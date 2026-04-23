@@ -413,4 +413,4 @@ class EntityRegistry {
     }
 }
 
-module.exports = EntityRegistry;
+export = EntityRegistry;

@@ -996,4 +996,4 @@ class BrowserModModule {
     }
 }
 
-module.exports = BrowserModModule;
+export = BrowserModModule;

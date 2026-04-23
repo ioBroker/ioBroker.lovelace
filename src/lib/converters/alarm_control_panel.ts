@@ -32,8 +32,8 @@ function parseAlarmState(
         const mapKey = state.val as string | number;
         if (attrMap && attrMap[mapKey] !== undefined) {
             entity.state = String(attrMap[mapKey]);
-        } else if (entity.context.STATE!.map && entity.context.STATE!.map[mapKey] !== undefined) {
-            entity.state = String(entity.context.STATE!.map[mapKey]);
+        } else if (entity.context.STATE.map && entity.context.STATE.map[mapKey] !== undefined) {
+            entity.state = String(entity.context.STATE.map[mapKey]);
         } else {
             entity.state = String(state.val);
         }
@@ -57,6 +57,7 @@ function fillAlarmControlPanelFromStates(
     // STATE disarmed/armed/armed_home/armed_away/armed_night/armed_custom_bypass/pending/arming/disarming/triggered
     // attributes: [code_format]
     // commands: alarm_arm_away, alarm_arm_home, alarm_arm_night, alarm_arm_custom_bypass, alarm_disarm (code will be sent)
+    // the code must be in the object in native as alarm_code
     fillEntityFromStates(states, entity, objects);
 
     entity.attributes.code_format = 'number';
@@ -72,17 +73,18 @@ function fillAlarmControlPanelFromStates(
                     entity.attributes.code_format = (nsCustom.code_format as string) ?? 'number';
                 }
             }
-            entity.context.STATE!.isBoolean = obj.common.type === 'boolean';
-            entity.context.STATE!.map = obj.common.states as Record<string, string | number>;
+            entity.context.STATE.isBoolean = obj.common.type === 'boolean';
+            entity.context.STATE.map = obj.common.states as Record<string, string | number>;
         }
-        entity.context.STATE!.setId = states.state;
-        entity.context.STATE!.getId = states.state;
+        entity.context.STATE.setId = states.state;
+        entity.context.STATE.getId = states.state;
         addID2entity(states.state, entity);
     }
 
     if (states.arm_state) {
         const id = states.arm_state;
         const obj = objects[id];
+        //TODO: make sure we don't overwrite ATTRIBUTES here -> must be method of base class!
         entity.context.ATTRIBUTES = [
             {
                 attribute: 'arm_state',
@@ -94,7 +96,7 @@ function fillAlarmControlPanelFromStates(
         ];
         addID2entity(id, entity);
     }
-    entity.context.STATE!.getParser = (ent, _attrName, state): void => parseAlarmState(ent, undefined, state);
+    entity.context.STATE.getParser = (ent, _attrName, state): void => parseAlarmState(ent, undefined, state);
 
     const processCommand = async (
         ent: ioBrokerEntity,
@@ -184,16 +186,16 @@ function fillAlarmControlPanelFromStates(
  * @param custom - custom settings from the ioBroker object
  * @returns array containing the augmented entity
  */
-export async function processManualEntity(
+export function processManualEntity(
     id: string,
     obj: ioBroker.Object,
     entity: ioBrokerEntity,
     objects: Record<string, ioBroker.Object>,
     custom: Record<string, unknown>,
-): Promise<ioBrokerEntity[]> {
+): ioBrokerEntity[] {
     const states = (custom.states as Record<string, string> | undefined) ?? { state: id };
     objects[id] = obj; // keep reference so fillAlarmControlPanelFromStates can read it
-    return new Promise(resolve => resolve(fillAlarmControlPanelFromStates(states, objects, entity)));
+    return fillAlarmControlPanelFromStates(states, objects, entity);
 }
 
 adapterData.services.alarm_control_panel = {

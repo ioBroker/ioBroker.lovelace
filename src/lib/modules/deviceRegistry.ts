@@ -93,4 +93,4 @@ class DeviceRegistry {
     }
 }
 
-module.exports = DeviceRegistry;
+export = DeviceRegistry;

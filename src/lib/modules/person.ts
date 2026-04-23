@@ -166,4 +166,4 @@ class PersonModule {
     }
 }
 
-module.exports = PersonModule;
+export = PersonModule;

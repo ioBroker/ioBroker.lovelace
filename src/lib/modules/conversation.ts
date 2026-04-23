@@ -292,4 +292,4 @@ class ConversationModule {
     }
 }
 
-module.exports = ConversationModule;
+export = ConversationModule;

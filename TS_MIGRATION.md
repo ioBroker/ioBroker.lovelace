@@ -79,8 +79,8 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 
 ## Phase 6 — Core (last, depends on everything)
 
-- [ ] `lib/server.js`
-- [ ] `main.js`
+- [x] `lib/server.js` → `src/lib/server.ts` — main WebServer class (TypeScript imports/exports/structure done; `@ts-nocheck` in place for incremental typing)
+- [x] `main.js` → `src/main.ts` — adapter entry point, fully typed
 
 ---
 

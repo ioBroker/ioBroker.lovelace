@@ -187,4 +187,4 @@ class DashboardModule {
     }
 }
 
-module.exports = DashboardModule;
+export = DashboardModule;

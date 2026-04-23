@@ -35,4 +35,20 @@ export default [
         },
     },
 
+    {
+        // server.ts is a large JS→TS migration in progress.
+        // Strict typing rules are relaxed here until the incremental typing pass is done.
+        files: ['src/lib/server.ts'],
+        rules: {
+            '@typescript-eslint/ban-ts-comment': 'off',
+            '@typescript-eslint/explicit-function-return-type': 'off',
+            '@typescript-eslint/explicit-module-boundary-types': 'off',
+            '@typescript-eslint/no-explicit-any': 'off',
+            '@typescript-eslint/no-require-imports': 'off',
+            '@typescript-eslint/restrict-template-expressions': 'off',
+            '@typescript-eslint/require-await': 'off',
+            'jsdoc/require-jsdoc': 'off',
+        },
+    },
+
 ];

@@ -239,4 +239,4 @@ class StatisticsRecorder {
     }
 }
 
-module.exports = StatisticsRecorder;
+export = StatisticsRecorder;

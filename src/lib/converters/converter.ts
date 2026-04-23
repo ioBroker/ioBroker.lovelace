@@ -358,7 +358,7 @@ export type ioBrokerEntity = {
          */
         iobType?: string;
         /** How entity.state maps to/from the primary ioBroker state. */
-        STATE?: EntityState;
+        STATE: EntityState;
         /** HA service call handlers — one entry per supported service. */
         COMMANDS?: EntityCommand[];
         /** Additional HA attribute mappings to ioBroker states. */

@@ -503,4 +503,4 @@ class HistoryModule {
     }
 }
 
-module.exports = HistoryModule;
+export = HistoryModule;

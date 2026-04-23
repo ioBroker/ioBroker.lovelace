@@ -295,4 +295,4 @@ class PersistentNotificationsModule {
     }
 }
 
-module.exports = PersistentNotificationsModule;
+export = PersistentNotificationsModule;
