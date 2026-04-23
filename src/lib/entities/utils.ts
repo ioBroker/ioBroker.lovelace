@@ -1,11 +1,11 @@
-import type { ioBrokerEntity } from '../converters/converter';
+import type { Entity } from '../converters/entity';
 import { getEntityId, getEntityType } from './entity_id';
 import { getFriendlyName } from './friendly_name';
 
 interface EntityData {
-    entities: ioBrokerEntity[];
-    iobID2entity: Record<string, ioBrokerEntity[]>;
-    entityId2Entity: Record<string, ioBrokerEntity>;
+    entities: Entity[];
+    iobID2entity: Record<string, Entity[]>;
+    entityId2Entity: Record<string, Entity>;
     adapter: ioBroker.Adapter;
     log: ioBroker.Logger;
     lang: string;
@@ -110,8 +110,12 @@ export function findEnumForId(enums: ioBroker.EnumObject[], id: string): ioBroke
 export function getSmartName(
     objects: Record<string, ioBroker.Object> | ioBroker.Object,
     id: string | null | undefined,
-    lang: string,
+    lang: string | undefined,
 ): string | undefined {
+    if (!lang) {
+        entityData.log.warn(`getSmartName falling back to en as default for ${id}. Please fix.`);
+        lang = 'en';
+    }
     const object: ioBroker.Object | undefined = id
         ? (objects as Record<string, ioBroker.Object>)[id]
         : (objects as ioBroker.Object);
@@ -238,7 +242,7 @@ export function extractValidEntityIds(str: string, alreadyPresentEntityIds: stri
  * @param prefix - prefix to add to local icons
  * @returns icon url or null if no icon
  */
-function _getObjectIcon(obj: ioBroker.Object, prefix?: string): string | null {
+export function getObjectIcon(obj: ioBroker.Object, prefix?: string): string | null {
     prefix = prefix || '.'; //http://localhost:8081';
 
     if (!obj || !obj.common || !obj.common.icon) {
@@ -284,28 +288,12 @@ function _getObjectIcon(obj: ioBroker.Object, prefix?: string): string | null {
 }
 
 /**
- * ioBroker ID needs to be subscribed, if entity is used in vis in order to update.
- *
- * @param id - ioBroker state id
- * @param entity - complete entity
- */
-export function addID2entity(id: string, entity: ioBrokerEntity): void {
-    if (!entity.context.ids) {
-        entity.context.ids = [];
-    }
-    const ids = entity.context.ids;
-    if (!ids.includes(id)) {
-        ids.push(id);
-    }
-}
-
-/**
  * Removes entity from cached storages or adjusts to new id.
  *
  * @param entity - entity to remove
  * @param newId - if set, will just replay entity_id
  */
-export function removeEntity(entity: ioBrokerEntity | null | undefined, newId?: string): void {
+export function removeEntity(entity: Entity | null | undefined, newId?: string): void {
     if (!entity) {
         return;
     }
@@ -343,7 +331,7 @@ export function removeEntity(entity: ioBrokerEntity | null | undefined, newId?: 
             foundIndex = entities.findIndex(x => x.entity_id === entity.entity_id);
         }
         if (newId) {
-            entities.push(newId as unknown as ioBrokerEntity);
+            entities.push(newId as unknown as Entity);
         }
     }
 }
@@ -358,11 +346,11 @@ export function removeEntity(entity: ioBrokerEntity | null | undefined, newId?: 
 export function findEntitiesFromEnumChange(
     newEnum: ioBroker.EnumObject,
     oldEnum?: ioBroker.EnumObject,
-): { ids: string[]; entities: ioBrokerEntity[] } {
+): { ids: string[]; entities: Entity[] } {
     const membersNew: string[] = newEnum?.common?.members || [];
     const membersOld: string[] = oldEnum?.common?.members || [];
 
-    let entities: ioBrokerEntity[] = [];
+    let entities: Entity[] = [];
     const ids: string[] = [];
     for (const id of membersNew) {
         if (!membersOld.includes(id)) {
@@ -390,63 +378,7 @@ export function findEntitiesFromEnumChange(
     return { ids, entities };
 }
 
-/**
- * Generate a bare entity from parameters. Already adds the entity to its ids context array.
- *
- * @param name - friendly name of entity; if empty, will be read from object or generated from room & func or id
- * @param room - room enum object of device for name generation
- * @param func - function enum object of device for name generation
- * @param obj - ioBroker object, used to read id, name, icon, unit, lovelace specific settings
- * @param entityType - lovelace domain of entity, for example light, sensor, ...
- * @param entity_id - predefined entity id; if empty, will be generated from name
- * @returns new entity object
- */
-export function processCommon(
-    name: string | null | undefined,
-    room: ioBroker.EnumObject | null | undefined,
-    func: ioBroker.EnumObject | null | undefined,
-    obj: ioBroker.Object | undefined,
-    entityType: string,
-    entity_id?: string | null,
-): ioBrokerEntity {
-    const objId = obj?._id ?? '';
-    const entity: ioBrokerEntity = {
-        entity_id: getEntityId(entityType, entity_id, obj),
-        attributes: {
-            friendly_name: getFriendlyName(name, obj, getEnumName(room), getEnumName(func)),
-        },
-        state: 'unknown',
-        //make sure times are initialized:
-        last_changed: 0,
-        last_updated: 0,
-        context: {
-            id: objId,
-            type: getEntityType(entityType, entity_id, obj),
-            room: getEnumName(room),
-            roomId: room ? room._id : null,
-            func: getEnumName(func),
-            funcId: func ? func._id : null,
-            ids: [objId],
-            stateType: (obj?.common as Record<string, unknown> | undefined)?.type as string | undefined,
-            deviceId: objId,
-            aliases: obj ? getSmartName(obj, objId, entityData.lang)?.split(',') || [] : [],
-            STATE: {},
-        },
-    };
 
-    if (obj?.common && obj.common.unit) {
-        entity.attributes.unit_of_measurement = obj.common.unit;
-    }
-
-    if (obj?.common && obj.common.icon) {
-        entity.attributes.entity_picture = _getObjectIcon(obj) ?? undefined;
-    }
-
-    if (objId) {
-        addID2entity(objId, entity);
-    }
-    return entity;
-}
 
 /**
  * Fill entity functions from states Object — allows users to add generic ioBroker ids as attributes.
@@ -457,7 +389,7 @@ export function processCommon(
  */
 export function fillEntityFromStates(
     states: Record<string, string>,
-    entity: ioBrokerEntity,
+    entity: Entity,
     objects?: Record<string, ioBroker.Object>,
 ): void {
     //state:
@@ -536,7 +468,7 @@ export function autoDetermineEntityType(obj: ioBroker.Object): string {
  *
  * @param entity - entity to fill into caches
  */
-export function fillEntityIntoCaches(entity: ioBrokerEntity): void {
+export function fillEntityIntoCaches(entity: Entity): void {
     const foundIndex = entityData.entities.findIndex(x => x.entity_id === entity.entity_id);
     if (foundIndex !== -1) {
         entityData.log.warn(
@@ -584,65 +516,3 @@ export function createEntityNameFromCustom(obj: ioBroker.Object, namespace: stri
     }
 }
 
-/**
- * Update timestamps in entity from state in ioBroker.
- *
- * @param entity - entity to update
- * @param state - state to update from
- * @param newTS - if true, will update lc and lu fields; if false, will update last_changed and last_updated
- */
-export function updateTimestamps(
-    entity: ioBrokerEntity,
-    state: ioBroker.State | null | undefined,
-    newTS = false,
-): void {
-    let lc: number;
-    let lu: number;
-    if (!state) {
-        //if we don't know anything, all is now.
-        lc = Date.now();
-        lu = Date.now();
-    } else {
-        lu = state.ts || Date.now();
-        lc = state.lc || state.ts || Date.now();
-    }
-
-    const stateId = state ? ((state as unknown as Record<string, unknown>)._id as string) : '';
-    try {
-        const ts = new Date(lc).getTime();
-        if (isNaN(ts)) {
-            throw new Error('Invalid Date');
-        }
-    } catch (e) {
-        entityData.adapter.log.debug(`Invalid lc time for ${stateId} in ${entity.entity_id}: ${String(e)}`);
-        lc = Date.now();
-    }
-    try {
-        const ts = new Date(lu).getTime();
-        if (isNaN(ts)) {
-            throw new Error('Invalid Date');
-        }
-    } catch (e) {
-        entityData.adapter.log.debug(`Invalid lu time for ${stateId} in ${entity.entity_id}: ${String(e)}`);
-        lu = Date.now();
-    }
-
-    const lcKey = newTS ? 'lc' : 'last_changed';
-    const luKey = newTS ? 'lu' : 'last_updated';
-    const entityRecord = entity as unknown as Record<string, number>;
-
-    if (
-        lc / 1000 > entityRecord[lcKey] ||
-        isNaN(entityRecord[lcKey]) ||
-        new Date(entityRecord[lcKey] * 1000).toString() === 'Invalid Date'
-    ) {
-        entityRecord[lcKey] = lc / 1000;
-    }
-    if (
-        lu / 1000 > entityRecord[luKey] ||
-        isNaN(entityRecord[luKey]) ||
-        new Date(entityRecord[luKey] * 1000).toString() === 'Invalid Date'
-    ) {
-        entityRecord[luKey] = lu / 1000;
-    }
-}

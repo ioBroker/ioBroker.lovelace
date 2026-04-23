@@ -106,7 +106,7 @@ function fillAlarmControlPanelFromStates(
     ): Promise<void> => {
         // alarm_arm_away → 'armed_away', alarm_disarm → 'disarmed'
         const targetState = data.service.replace('alarm_', '').replace('arm', 'armed');
-        const stateId = ent.context.STATE!.setId!;
+        const stateId = ent.context.STATE.setId!;
         adapterData.log.debug(`${data.service}: ${stateId} = ${data.service_data.code ? 'XXX' : 'none'}`);
 
         // Optionally require code only for disarm
