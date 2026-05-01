@@ -2,6 +2,7 @@ import type { HassEntityAttributeBase, HassEntityBase } from 'home-assistant-js-
 import { getFriendlyName } from '../entities/friendly_name';
 import { getEntityId, getEntityType } from '../entities/entity_id';
 import { getEnumName, getSmartName, getObjectIcon } from '../entities/utils';
+import { iobState2EntityState } from './genericConverter';
 
 export type ServiceCallData = {
     /** WebSocket message id */
@@ -28,7 +29,7 @@ export type EntityState = {
      * ioBroker state id to read entity.state from.
      * null/undefined when the entity has no readable ioBroker state (e.g. camera with getValue only).
      */
-    getId?: string | null;
+    getId: string | null;
     /**
      * ioBroker state id to write when a service call changes the entity.
      * Only set when it differs from getId, or when the state is write-only.
@@ -85,6 +86,10 @@ export type EntityState = {
      * Keys are HA attribute names such as 'brightness', 'color_temp', 'rgb_color', etc.
      */
     storedValues?: Record<string, unknown>;
+    /**
+     * Be compatible to attribute..?
+     */
+    attribute: 'state';
 };
 
 // ---------------------------------------------------------------------------
@@ -199,7 +204,7 @@ export type EntityCommand = {
      * ioBroker state id to write when the command is executed.
      * Not needed when parseCommand handles the write itself.
      */
-    setId?: string | null;
+    setId: string | null;
     /**
      * Custom async handler for this command.
      * Receives the entity, the matched command object, the full HA service-call data,
@@ -344,9 +349,9 @@ export class Entity {
         /** How entity.state maps to/from the primary ioBroker state. */
         STATE: EntityState;
         /** HA service call handlers — one entry per supported service. */
-        COMMANDS?: EntityCommand[];
+        COMMANDS: EntityCommand[];
         /** Additional HA attribute mappings to ioBroker states. */
-        ATTRIBUTES?: EntityAttribute[];
+        ATTRIBUTES: EntityAttribute[];
 
         // --- Converter-specific runtime fields ---
 
@@ -417,7 +422,12 @@ export class Entity {
             stateType: (obj?.common as Record<string, unknown> | undefined)?.type as string | undefined,
             deviceId: objId,
             aliases: obj ? getSmartName(obj, objId, language)?.split(',') || [] : [],
-            STATE: {},
+            STATE: {
+                getId: objId,
+                attribute: 'state',
+            },
+            ATTRIBUTES: [],
+            COMMANDS: [],
         };
 
         if (obj?.common?.unit) {
@@ -447,21 +457,21 @@ export class Entity {
     }
 
     /**
-     * Process a state change from ioBroker state db.
-     * Needs to find out if the state or an attribute changed. Need to call the right conversion methods
-     * (need to be overridable by children). Need to update timestamps.
+     * Update Timestamps from a state change.
      *
-     * @param id - ioBroker object id
      * @param state - state to update from
+     * @param isStateChange - if entity.state was changed or "only" an attribute.
      */
-    processStateChange(id: string, state: ioBroker.State | null | undefined): void {
+    updateTimestamp(state: ioBroker.State | null | undefined, isStateChange: boolean): void {
         //TODO: do we have entities that don't want this default behaviour?
         if (!state) {
-            if (this.state !== 'unknown') {
-                this.last_changed = Date.now();
-                this.last_updated = Date.now();
+            if (isStateChange) {
+                if (this.state !== 'unknown') {
+                    this.last_changed = Date.now();
+                    this.last_updated = Date.now();
+                }
+                this.state = 'unknown';
             }
-            this.state = 'unknown';
             return;
         }
 
@@ -481,9 +491,52 @@ export class Entity {
         if (lu > this.last_updated) {
             this.last_updated = lu;
         }
-        if (lc > this.last_changed) {
+        if (isStateChange && lc > this.last_changed) {
             this.last_changed = lc;
         }
+    }
+
+    /**
+     * Process state change from ioBroker state db.
+     *
+     * @param id ioBroker object id.
+     * @param state new state
+     */
+    processStateChange(id: string, state: ioBroker.State | null | undefined): void {
+        let isStateChange = false;
+        let isChange = false;
+        if (id === this.context.STATE.getId) {
+            const isChanged = this.getParser(this.context.STATE, state);
+            if (isChanged) {
+                isStateChange = true;
+                isChange = true;
+            }
+        }
+        for (const attr of this.context.ATTRIBUTES ?? []) {
+            if (attr.getId === id) {
+                isChange ||= this.getParser(attr, state);
+            }
+        }
+        if (isChange) {
+            this.updateTimestamp(state, isStateChange);
+        }
+    }
+
+    /**
+     * Default getParser - can be overwritten by child classes.
+     *
+     * @param attr attribute whose getId object changed (including "state").
+     * @param state new state of getId object
+     */
+    getParser(attr: EntityState | EntityAttribute, state: ioBroker.State | null | undefined): boolean {
+        const oldVal = attr.attribute === 'state' ? this.state : this.attributes[attr.attribute];
+        const newVal = iobState2EntityState(this, state?.val ?? null, attr.attribute);
+        if (attr.attribute === 'state') {
+            this.state = newVal as string; //iobState2EntityState makes sure it is string.
+        } else {
+            this.attributes[attr.attribute] = newVal;
+        }
+        return oldVal !== newVal;
     }
 
     /**

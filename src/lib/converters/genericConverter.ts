@@ -1,4 +1,4 @@
-import type { ioBrokerEntity } from './converter';
+import type { Entity } from './entity';
 
 export const numericDeviceClasses: string[] = [
     'voltage',
@@ -58,7 +58,11 @@ export const numericDeviceClasses: string[] = [
  * @param attribute - if set, the attribute name being converted (not the entity state)
  * @returns the converted value
  */
-export function iobState2EntityState(entity: ioBrokerEntity, val: unknown, attribute?: string): unknown {
+export function iobState2EntityState(
+    entity: Entity,
+    val: ioBroker.StateValue,
+    attribute?: string,
+): string | number | boolean | null {
     let type = entity.context.type || '';
     const pos = type.lastIndexOf('.');
     if (pos !== -1) {
@@ -83,7 +87,7 @@ export function iobState2EntityState(entity: ioBrokerEntity, val: unknown, attri
         return dateStr === 'Invalid Date' ? 'unknown' : dateStr;
     } else if (type === 'lock') {
         return val ? 'unlocked' : 'locked';
-    } else if (typeof val === 'boolean' && type !== 'media_player' && !attribute) {
+    } else if (typeof val === 'boolean' && type !== 'media_player' && attribute === 'state') {
         //attributes can have true/false.
         return val ? 'on' : 'off';
     } else if (typeof val === 'number' && entity.context.STATE && entity.context.STATE.map2lovelace) {
@@ -92,13 +96,14 @@ export function iobState2EntityState(entity: ioBrokerEntity, val: unknown, attri
     } else if (attribute === 'power') {
         return val ? 'on' : 'off';
     } else {
-        if (!attribute) {
+        if (attribute === 'state') {
             return val === null || val === undefined
                 ? 'unknown'
                 : typeof val === 'object'
                   ? JSON.stringify(val)
-                  : String(val as number | boolean | string);
+                  : String(val);
         } else {
+            //TODO: can attributes become null? What happens if they are not defined in HASS?
             return val;
         }
     }

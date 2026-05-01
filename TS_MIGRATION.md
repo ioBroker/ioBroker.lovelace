@@ -84,6 +84,14 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 
 ---
 
+## Phase 7 - Restructure code for better maintainability
+
+- [ ] create base entity class in `src/lib/entities/baseEntity.ts` and convert all entities to extend it (currently each converter has its own entity structure, with some shared helpers in `utils.ts`)
+- [ ] restructure converters to separate out shared logic (e.g. manual entity handling) from the core conversion logic, to reduce code duplication and improve readability
+- [ ] try to integrate as much of utils.ts into baseEntity class as possible, to centralize entity-building logic and reduce the number of separate helper functions
+
+---
+
 ## Cleanup (after all conversions)
 
 - [ ] Delete `lib/converters/binary_sensor.js` (superseded by TS version)
