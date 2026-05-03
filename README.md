@@ -504,6 +504,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) experimental dashboard support.
 * (Garfonso) Allow to show sidebar via object in instances. VERY experimental. A lot of stuff does not yet work. But allows to configure dashboards and also browser mod.
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 Copyright 2019-2025, bluefox <dogafox@gmail.com>
