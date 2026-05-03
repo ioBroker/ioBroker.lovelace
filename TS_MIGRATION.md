@@ -86,9 +86,13 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 
 ## Phase 7 - Restructure code for better maintainability
 
-- [ ] create base entity class in `src/lib/entities/baseEntity.ts` and convert all entities to extend it (currently each converter has its own entity structure, with some shared helpers in `utils.ts`)
-- [ ] restructure converters to separate out shared logic (e.g. manual entity handling) from the core conversion logic, to reduce code duplication and improve readability
-- [ ] try to integrate as much of utils.ts into baseEntity class as possible, to centralize entity-building logic and reduce the number of separate helper functions
+- [x] create base entity class in `src/lib/entities/baseEntity.ts` and convert all entities to extend it
+- [x] per-domain subclasses: BinarySensor, Camera, Climate, Cover, GeoLocation, Light, Lock, MediaPlayer, Sensor, Switch, Todo, Weather
+- [x] TodoEntity: new class for HA `todo` domain (shopping list / to-do lists)
+- [x] fan, alarm_control_panel, input_datetime, input_select: replaced standalone `addID2entity`/`fillEntityFromStates` calls with instance methods
+- [x] fixed alarm_control_panel ATTRIBUTES array overwrite (uses filter+push instead of assignment)
+- [x] converters separated from entity construction: entity logic lives in `src/lib/entities/`, converters in `src/lib/converters/`
+- [ ] integrate utils.ts standalone shims into entity classes fully (blocked by server.ts migration below)
 
 ---
 
