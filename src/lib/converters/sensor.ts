@@ -1,18 +1,10 @@
 import { Types } from '@iobroker/type-detector';
 import Converter, { type ConverterParameters, type ioBrokerEntity } from './converter';
-import { processCommon, addID2entity } from '../entities/utils';
-
-interface SensorAdapterData {
-    lang: string;
-    words: Record<string, Record<string, string>>;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const adapterData: SensorAdapterData = require('../../../lib/dataSingleton');
+import { SensorEntity } from '../entities/sensorEntity';
 
 /**
- * Create a humidity sensor entity from an ioBroker state id.
- * Exported because processTemperature re-uses it for the optional SECOND (humidity) channel.
+ * Backward-compatible factory for a humidity sensor entity.
+ * Exposed because climate / weather converters re-use it.
  *
  * @param stateId - ioBroker state id to read humidity from
  * @param name - friendly name
@@ -20,7 +12,6 @@ const adapterData: SensorAdapterData = require('../../../lib/dataSingleton');
  * @param func - function enum object
  * @param obj - ioBroker object for the state
  * @param forcedEntityId - optional entity_id override
- * @returns the created entity
  */
 export function createHumiditySensor(
     stateId: string,
@@ -30,17 +21,12 @@ export function createHumiditySensor(
     obj: ioBroker.Object | undefined,
     forcedEntityId?: string,
 ): ioBrokerEntity {
-    const entity = processCommon(name, room, func, obj, 'sensor', forcedEntityId);
-    entity.context.STATE = { getId: stateId };
-    entity.attributes.device_class = 'humidity';
-    entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || '%';
-    addID2entity(stateId, entity);
-    return entity;
+    return SensorEntity.humidity(stateId, name, room, func, obj, forcedEntityId);
 }
 
 /**
- * Create a temperature sensor entity from an ioBroker state id.
- * Exported because weather and thermostat converters may re-use it.
+ * Backward-compatible factory for a temperature sensor entity.
+ * Exposed because climate / weather converters re-use it.
  *
  * @param stateId - ioBroker state id to read temperature from
  * @param name - friendly name
@@ -48,7 +34,6 @@ export function createHumiditySensor(
  * @param func - function enum object
  * @param obj - ioBroker object for the state
  * @param forcedEntityId - optional entity_id override
- * @returns the created entity
  */
 export function createTemperatureSensor(
     stateId: string,
@@ -58,12 +43,7 @@ export function createTemperatureSensor(
     obj: ioBroker.Object | undefined,
     forcedEntityId?: string,
 ): ioBrokerEntity {
-    const entity = processCommon(name, room, func, obj, 'sensor', forcedEntityId);
-    entity.context.STATE = { getId: stateId };
-    entity.attributes.device_class = 'temperature';
-    entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || '°C';
-    addID2entity(stateId, entity);
-    return entity;
+    return SensorEntity.temperature(stateId, name, room, func, obj, forcedEntityId);
 }
 
 /** Converter for temperature, humidity, and window-tilt sensor device types. */
@@ -73,32 +53,24 @@ export class SensorConverter extends Converter {
         const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
 
         if (controls.type === Types.windowTilt) {
-            return SensorConverter._convertWindowTilt(params);
+            return [SensorEntity.windowTilt(params)];
         }
 
         if (controls.type === Types.humidity) {
             const state = controls.states.find(s => s.id && s.name === 'ACTUAL');
             if (state?.id) {
-                const entity = createHumiditySensor(
-                    state.id,
-                    friendlyName,
-                    room,
-                    func,
-                    objects[params.id],
-                    forcedEntityId,
-                );
-                return [entity];
+                return [SensorEntity.humidity(state.id, friendlyName, room, func, objects[params.id], forcedEntityId)];
             }
             return [];
         }
 
         // Types.temperature
-        const entities: (ioBrokerEntity | undefined)[] = [];
+        const entities: ioBrokerEntity[] = [];
 
         let state = controls.states.find(s => s.id && s.name === 'ACTUAL');
         let tempEntity: ioBrokerEntity | undefined;
         if (state?.id) {
-            tempEntity = createTemperatureSensor(
+            tempEntity = SensorEntity.temperature(
                 state.id,
                 friendlyName,
                 room,
@@ -112,80 +84,32 @@ export class SensorConverter extends Converter {
         state = controls.states.find(s => s.id && s.name === 'SECOND');
         if (state?.id) {
             const humForcedId = tempEntity ? `${tempEntity.entity_id}_Humidity` : undefined;
-            entities.push(createHumiditySensor(state.id, friendlyName, room, func, objects[params.id], humForcedId));
+            entities.push(SensorEntity.humidity(state.id, friendlyName, room, func, objects[params.id], humForcedId));
         }
 
-        return entities.filter((e): e is ioBrokerEntity => e !== undefined);
-    }
-
-    private static _convertWindowTilt(params: ConverterParameters): ioBrokerEntity[] {
-        const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
-        const entity = processCommon(friendlyName, room, func, objects[params.id], 'sensor', forcedEntityId);
-
-        entity.context.STATE = { getId: null };
-        entity.attributes.icon = 'mdi:window-maximize';
-        entity.attributes.device_class = 'window';
-
-        const state = controls.states.find(s => s.id && s.name === 'ACTUAL');
-        if (state?.id) {
-            const stateId = state.id;
-            entity.context.STATE.getId = stateId;
-            entity.context.STATE.states = objects[stateId]?.common
-                ? ((objects[stateId].common.states as Record<string | number, string> | undefined) ?? null)
-                : null;
-
-            entity.context.STATE.historyParser = (_iobId: string, iobState: ioBroker.State): string => {
-                const val = iobState?.val;
-                let str: string;
-                const stateMap = entity.context.STATE!.states;
-                if (stateMap) {
-                    str = stateMap[val as string | number] ? stateMap[val as string | number].toLowerCase() : 'error';
-                } else {
-                    // Default from ioBroker-roles: 0=closed, 1=tilted, 2=open
-                    str = val === 0 ? 'closed' : val === 1 ? 'tilted' : 'open';
-                }
-                // Translate using adapter word list (works for 'open', 'closed', 'tilted')
-                const wordEntry = adapterData.words[str];
-                return wordEntry ? wordEntry[adapterData.lang] || wordEntry.en : str;
-            };
-
-            entity.context.STATE.getParser = (
-                _entity: ioBrokerEntity,
-                _attr: string,
-                iobState: ioBroker.State,
-            ): void => {
-                const s = iobState || ({ val: null } as ioBroker.State);
-                _entity.state = _entity.context.STATE!.historyParser!(stateId, s);
-            };
-
-            addID2entity(stateId, entity);
-        }
-
-        return [entity];
+        return entities;
     }
 }
 
 /**
- * Create a manual light entity.
+ * Apply manual entity configuration to a pre-created sensor entity.
  *
- * @param id - ioBroker state id (the main object)
- * @param obj - ioBroker object
- * @param entity - already created entity
- * @param objects - ioBroker objects cache
- * @param custom - custom settings from the ioBroker object
- * @returns array containing the augmented entity
+ * @param _id - ioBroker object id (unused)
+ * @param _obj - ioBroker object (unused)
+ * @param entity - pre-created entity to configure
+ * @param _objects - ioBroker objects cache (unused)
+ * @param custom - custom lovelace settings from the ioBroker object
  */
 export function processManualEntity(
-    id: string,
-    obj: ioBroker.Object,
+    _id: string,
+    _obj: ioBroker.Object,
     entity: ioBrokerEntity,
-    objects: Record<string, ioBroker.Object>,
+    _objects: Record<string, ioBroker.Object>,
     custom: Record<string, unknown>,
 ): ioBrokerEntity[] {
     entity.attributes.device_class = custom.attr_device_class as string;
     entity.attributes.unit_of_measurement =
         (custom.attr_unit_of_measurement as string) || entity.attributes.unit_of_measurement;
-
     return [entity];
 }
 

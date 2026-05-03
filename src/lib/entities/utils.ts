@@ -1,11 +1,10 @@
-import type { Entity } from '../converters/entity';
-import { getEntityId, getEntityType } from './entity_id';
-import { getFriendlyName } from './friendly_name';
+import { BaseEntity } from './baseEntity';
+import { getEntityId } from './entity_id';
 
 interface EntityData {
-    entities: Entity[];
-    iobID2entity: Record<string, Entity[]>;
-    entityId2Entity: Record<string, Entity>;
+    entities: BaseEntity[];
+    iobID2entity: Record<string, BaseEntity[]>;
+    entityId2Entity: Record<string, BaseEntity>;
     adapter: ioBroker.Adapter;
     log: ioBroker.Logger;
     lang: string;
@@ -288,52 +287,17 @@ export function getObjectIcon(obj: ioBroker.Object, prefix?: string): string | n
 }
 
 /**
- * Removes entity from cached storages or adjusts to new id.
+ * Removes entity from cached storages or re-keys it under a new entity_id.
+ * Backward-compat shim — prefer `entity.unregister(newId?)` directly on a BaseEntity.
  *
  * @param entity - entity to remove
- * @param newId - if set, will just replay entity_id
+ * @param newId - if set, the entity is re-keyed under this new id instead of being removed.
  */
-export function removeEntity(entity: Entity | null | undefined, newId?: string): void {
+export function removeEntity(entity: BaseEntity | null | undefined, newId?: string): void {
     if (!entity) {
         return;
     }
-
-    //entityId2Entity:
-    if (newId) {
-        entityData.entityId2Entity[newId] = entity;
-    } else {
-        delete entityData.entityId2Entity[entity.entity_id];
-    }
-
-    //entities
-    if (!newId) {
-        let foundIndex = entityData.entities.findIndex(x => x.entity_id === entity.entity_id);
-        while (foundIndex !== -1) {
-            entityData.entities.splice(foundIndex, 1);
-            foundIndex = entityData.entities.findIndex(x => x.entity_id === entity.entity_id);
-        }
-    }
-
-    //_entityIconUrls
-    if (!newId && entity.attributes.entity_picture) {
-        const urlIndex = entityData.entityIconUrls.findIndex(x => x === entity.attributes.entity_picture);
-        if (urlIndex !== -1) {
-            entityData.entityIconUrls.splice(urlIndex, 1);
-        }
-    }
-
-    //iobID2entity
-    for (const key of Object.keys(entityData.iobID2entity)) {
-        const entities = entityData.iobID2entity[key];
-        let foundIndex = entities.findIndex(x => x.entity_id === entity.entity_id);
-        while (foundIndex !== -1) {
-            entities.splice(foundIndex, 1);
-            foundIndex = entities.findIndex(x => x.entity_id === entity.entity_id);
-        }
-        if (newId) {
-            entities.push(newId as unknown as Entity);
-        }
-    }
+    entity.unregister(newId);
 }
 
 /**
@@ -346,11 +310,11 @@ export function removeEntity(entity: Entity | null | undefined, newId?: string):
 export function findEntitiesFromEnumChange(
     newEnum: ioBroker.EnumObject,
     oldEnum?: ioBroker.EnumObject,
-): { ids: string[]; entities: Entity[] } {
+): { ids: string[]; entities: BaseEntity[] } {
     const membersNew: string[] = newEnum?.common?.members || [];
     const membersOld: string[] = oldEnum?.common?.members || [];
 
-    let entities: Entity[] = [];
+    let entities: BaseEntity[] = [];
     const ids: string[] = [];
     for (const id of membersNew) {
         if (!membersOld.includes(id)) {
@@ -378,55 +342,20 @@ export function findEntitiesFromEnumChange(
     return { ids, entities };
 }
 
-
-
 /**
- * Fill entity functions from states Object — allows users to add generic ioBroker ids as attributes.
+ * Fill an entity's STATE/ATTRIBUTES from a `{state, stateRead, ...}` map.
+ * Backward-compat shim — prefer `entity.fillFromStates(states, objects)`.
  *
- * @param states - ids of ioBroker states; "state" goes into entity-state, can also have stateRead. Rest creates attributes from key.
+ * @param states - ids of ioBroker states; "state" → entity.state, others → attributes.
  * @param entity - entity to fill
- * @param objects - optional objects cache to determine writeability of attributes
+ * @param objects - optional objects cache to determine writeability of attributes.
  */
 export function fillEntityFromStates(
     states: Record<string, string>,
-    entity: Entity,
+    entity: BaseEntity,
     objects?: Record<string, ioBroker.Object>,
 ): void {
-    //state:
-    entity.context.STATE = { setId: states.state || undefined, getId: states.stateRead || states.state || '' };
-    // make entity.context.id point to main state. Still have deviceId which points to device object.
-    if (entity.context.STATE.getId) {
-        entity.context.id = entity.context.STATE.getId;
-    } else if (entity.context.STATE.setId) {
-        entity.context.id = entity.context.STATE.setId;
-    }
-
-    //attributes:
-    if (!entity.context.ATTRIBUTES) {
-        entity.context.ATTRIBUTES = [];
-    }
-    for (const key of Object.keys(states)) {
-        const id = states[key];
-        const obj = objects ? objects[id] : null;
-        if (id) {
-            entity.addID2entity(id);
-            if (!key.endsWith('Read')) {
-                if (key !== 'state' && key !== 'stateRead') {
-                    const attrs = entity.context.ATTRIBUTES;
-                    const attr = attrs.find(a => a.attribute === key);
-                    if (!attr) {
-                        attrs.push({
-                            attribute: key,
-                            getId: states[`${key}Read`] || id,
-                            setId: (obj?.common as Record<string, unknown>)?.write ? id : undefined,
-                        });
-                    } else {
-                        attr.setId = id;
-                    }
-                }
-            }
-        }
-    }
+    entity.fillFromStates(states, objects);
 }
 
 /**
@@ -464,31 +393,57 @@ export function autoDetermineEntityType(obj: ioBroker.Object): string {
 }
 
 /**
- * Fill entity into entityData entity caches.
+ * Register an entity in the dataSingleton caches.
+ * Backward-compat shim — prefer `entity.registerInCaches()`.
  *
  * @param entity - entity to fill into caches
  */
-export function fillEntityIntoCaches(entity: Entity): void {
-    const foundIndex = entityData.entities.findIndex(x => x.entity_id === entity.entity_id);
-    if (foundIndex !== -1) {
-        entityData.log.warn(
-            `Got duplicate for entity ${entity.entity_id}. Overwriting old value. Was for ${entityData.entities[foundIndex].context.id} and new one is for ${entity.context.id}`,
-        );
-        entityData.entities[foundIndex] = entity;
-    } else {
-        entityData.entities.push(entity);
-    }
-    entityData.entityId2Entity[entity.entity_id] = entity;
-    const ids = entity.context.ids;
-    for (const id of ids || []) {
-        entityData.iobID2entity[id] = entityData.iobID2entity[id] || [];
-        const foundIdx = entityData.iobID2entity[id].findIndex(e => e.entity_id === entity.entity_id);
-        if (foundIdx === -1) {
-            entityData.iobID2entity[id].push(entity);
-        } else {
-            entityData.iobID2entity[id][foundIdx] = entity;
-        }
-    }
+export function fillEntityIntoCaches(entity: BaseEntity): void {
+    entity.registerInCaches();
+}
+
+/**
+ * Update timestamps on an entity from an ioBroker state.
+ * Backward-compat shim — prefer `entity.updateTimestamp(state, isStateChange)`.
+ *
+ * @param entity - entity to update
+ * @param state - ioBroker state to read timestamps from
+ */
+export function updateTimestamps(entity: BaseEntity, state: ioBroker.State | null | undefined): void {
+    entity.updateTimestamp(state, true);
+}
+
+/**
+ * Track an ioBroker state id on an entity.
+ * Backward-compat shim — prefer `entity.addID2entity(id)`.
+ *
+ * @param id - ioBroker state id
+ * @param entity - entity to register the id on
+ */
+export function addID2entity(id: string, entity: BaseEntity): void {
+    entity.addID2entity(id);
+}
+
+/**
+ * Build a bare entity from common parameters.
+ * Backward-compat shim — prefer `new BaseEntity(...)` (or a per-domain subclass).
+ *
+ * @param name - friendly name; if empty, taken from object or generated from room & func or id
+ * @param room - room enum object (used for friendly-name generation)
+ * @param func - function enum object (used for friendly-name generation)
+ * @param obj - ioBroker object — used for id, name, icon, unit, lovelace-specific settings
+ * @param entityType - lovelace domain of the entity (e.g. 'light', 'sensor')
+ * @param entity_id - predefined entity id; if empty, generated from name
+ */
+export function processCommon(
+    name: string | null | undefined,
+    room: ioBroker.EnumObject | null | undefined,
+    func: ioBroker.EnumObject | null | undefined,
+    obj: ioBroker.Object | undefined,
+    entityType: string,
+    entity_id?: string | null,
+): BaseEntity {
+    return new BaseEntity(name, room, func, obj, entityType, entity_id);
 }
 
 /**
@@ -515,4 +470,3 @@ export function createEntityNameFromCustom(obj: ioBroker.Object, namespace: stri
         return `${custom[namespace].entity}.${custom[namespace].name}`;
     }
 }
-

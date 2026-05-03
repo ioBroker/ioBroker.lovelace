@@ -1,5 +1,5 @@
 // @ts-nocheck -- TypeScript migration in progress: imports/exports/class structure converted; full typing is incremental
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import path from 'node:path';
@@ -23,56 +23,56 @@ import DeviceRegistryModule from './modules/deviceRegistry';
 import AreaRegistryModule from './modules/areaRegistry';
 
 // Modules without TypeScript types — keep as require
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const WebSocket = require('ws');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const bodyParser = require('body-parser');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const PANELS = require('./panels');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const multer = require('multer');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const mime = require('mime');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const yaml = require('js-yaml');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const axios = require('axios');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const jstz = require('jstimezonedetect');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const entityData = require('./dataSingleton');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const bindings = require('./bindings');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const ChannelDetector = require('@iobroker/type-detector').default;
 
 // Converter modules — loaded for side-effects (self-registration on Converter.converters)
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterSwitch = require('../converters/switch');
 // Load compiled TS converters to trigger Converter.converters self-registration.
 // Phase 2 & 3: binary_sensor, switch, lock, sensor, geo_location, camera, weather, cover
 //   are registered transitively when converter.ts is loaded above.
 // Phase 4: alarm_control_panel, climate, media_player, light are also loaded transitively,
 //   but we require them explicitly here for processManualEntity access.
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterBinarySensors = require('../converters/binary_sensor');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterSensors = require('../converters/sensor');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterGeoLocation = require('../converters/geo_location');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterDatetime = require('../converters/input_datetime');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterAlarmCP = require('../converters/alarm_control_panel');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterInputSelect = require('../converters/input_select');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const convertFan = require('../converters/fan');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterClimate = require('../converters/climate');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+
 const converterLight = require('../converters/light');
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-require-imports
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _registeredConverters = {
     converterLock: require('../converters/lock'),
     converterCamera: require('../converters/camera'),
@@ -169,56 +169,53 @@ interface WebServerOptions {
  * WebServer class, handles incomming requests and manages websocket connections.
  */
 class WebServer {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     adapter: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     config: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     log: any;
     lang: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     detector: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     words: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     templateStates: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     systemConfig: any;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private _lovelaceConfig: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     private _ressourceConfig: any[];
     private _requestableFiles: string[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     private _subscribed: any[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     private _server: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     private _app: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     private _auth_flows: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     private _themes: any;
     private _currentTheme: string;
     private _currentThemeDark: string;
     private _darkMode: boolean;
     private _objectData: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         objects: Record<string, any>;
         ids: string[];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         rooms: any[];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         functions: any[];
         roomNames: Record<string, string>;
         funcNames: Record<string, string>;
         updatedIds: string[];
         usedKeys: string[];
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     private _modules: any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     private _wss: any;
     private _indexHtml: string | undefined;
     private _clearInterval: ReturnType<typeof setInterval> | null | undefined;

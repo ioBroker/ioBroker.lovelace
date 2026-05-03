@@ -1,29 +1,14 @@
 import crypto from 'crypto';
+import { BaseEntity } from '../entities/baseEntity';
+import { TodoEntity } from '../entities/todoEntity';
 
 const WS_OPEN = 1; // WebSocket.OPEN
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { updateTimestamps, processCommon } = require('../../../lib/entities/utils') as {
-    updateTimestamps: (target: unknown, source: unknown) => void;
-    processCommon: (
-        name: string,
-        room: unknown,
-        func: unknown,
-        obj: unknown,
-        type: string,
-        forcedEntityId: string,
-    ) => EntityLike;
-};
 
 const TodoItemStatus = {
     NeedsAction: 'needs_action',
     Completed: 'completed',
 } as const;
 
-const CREATE_TODO_ITEM = 1;
-const DELETE_TODO_ITEM = 2;
-const UPDATE_TODO_ITEM = 4;
-const MOVE_TODO_ITEM = 8;
 
 interface TodoItem {
     summary?: string;
@@ -300,7 +285,7 @@ class TodoModule {
                         item.due = item.due || null;
                         item.description = item.description || null;
                     }
-                    updateTimestamps(entity, state);
+                    (entity as unknown as BaseEntity).updateTimestamp(state, true);
                 } catch (e) {
                     this.adapter.log.warn(
                         `Cannot parse todo items of ${ioBrokerId}: ${String(state.val)}, ${String(e)}`,
@@ -457,38 +442,7 @@ class TodoModule {
         _objects: unknown,
         _customPart: unknown,
     ): Promise<EntityLike[]> {
-        entity.attributes.icon = 'mdi:cart';
-        entity.attributes.supported_features = CREATE_TODO_ITEM | DELETE_TODO_ITEM | UPDATE_TODO_ITEM | MOVE_TODO_ITEM;
-        entity.context.STATE = {
-            getId: entity.context.id,
-            setId: entity.context.id,
-            getParser: (ent: EntityLike, _attr: unknown, state: ioBroker.State | null) => {
-                if (state && state.val) {
-                    try {
-                        const items = JSON.parse(state.val as string);
-                        ent.state = String(items.length);
-                    } catch (e) {
-                        this.adapter.log.warn(
-                            `Cannot parse todo items of ${ent.context.id}: ${String(state.val)}, ${String(e)}`,
-                        );
-                        ent.state = 'unknown';
-                    }
-                } else {
-                    ent.state = 0;
-                }
-            },
-            historyParser: (_id: string, value: unknown) => {
-                try {
-                    const items = JSON.parse(value as string);
-                    return String(items.length);
-                } catch (e) {
-                    this.adapter.log.warn(
-                        `Cannot parse todo items of ${entity.context.id}: ${String(value)}, ${String(e)}`,
-                    );
-                    return 'unknown';
-                }
-            },
-        };
+        TodoEntity.augment(entity as unknown as BaseEntity);
 
         const todoList = await this._getTodoList(entity);
         entity.state = String(todoList.items.length);
@@ -503,11 +457,12 @@ class TodoModule {
         let entityShoppingList = this.entityData.entityId2Entity['todo.shoppinglist'];
         if (!entityShoppingList) {
             const iobObj = await this.adapter.getObjectAsync('control.shopping_list');
-            entityShoppingList = processCommon('Shopping List', null, null, iobObj, 'todo', 'todo.shoppinglist');
-            await this.processManualEntity('Shopping List', iobObj!, entityShoppingList, null, null);
-            this.entityData.entities.push(entityShoppingList);
-            this.entityData.entityId2Entity[entityShoppingList.entity_id] = entityShoppingList;
-            this.entityData.iobID2entity[iobObj!._id] = [entityShoppingList];
+            const entity = new TodoEntity('Shopping List', iobObj, 'todo.shoppinglist');
+            const todoList = await this._getTodoList(entity as unknown as EntityLike);
+            entity.state = String(todoList.items.length);
+            this.entityData.entities.push(entity as unknown as EntityLike);
+            this.entityData.entityId2Entity[entity.entity_id] = entity as unknown as EntityLike;
+            this.entityData.iobID2entity[iobObj!._id] = [entity as unknown as EntityLike];
         }
         this.adapter.log.debug('modules/todo: init done.');
     }

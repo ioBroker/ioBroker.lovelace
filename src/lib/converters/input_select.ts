@@ -1,5 +1,4 @@
 import type { ioBrokerEntity, ServiceCallData } from './converter';
-import { addID2entity } from '../entities/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData = require('../../../lib/dataSingleton') as {
@@ -32,27 +31,27 @@ async function fillInputSelectEntity(
         common.type = 'string';
     }
 
-    entity.context.STATE!.isNumber = (common.type as string).toLowerCase() === 'number';
+    entity.context.STATE.isNumber = (common.type as string).toLowerCase() === 'number';
 
     const rawStates = common.states;
     if (rawStates) {
         if (Array.isArray(rawStates)) {
-            entity.context.STATE!.isStringArray = true;
+            entity.context.STATE.isStringArray = true;
             entity.attributes.options = rawStates;
         } else if (typeof rawStates === 'string') {
             adapterData.log.warn(
                 `${String(obj._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`,
             );
-            entity.context.STATE!.map2lovelace = {};
+            entity.context.STATE.map2lovelace = {};
             for (const kv of rawStates.split(';')) {
                 const [key, value] = kv.split(':');
-                entity.context.STATE!.map2lovelace[key] = value;
+                entity.context.STATE.map2lovelace[key] = value;
             }
         } else {
-            entity.context.STATE!.map2lovelace = rawStates as Record<string | number, string | number>;
-            entity.context.STATE!.isNumber =
+            entity.context.STATE.map2lovelace = rawStates as Record<string | number, string | number>;
+            entity.context.STATE.isNumber =
                 common.type !== undefined && (common.type as string).toLowerCase() === 'number';
-            entity.attributes.options = Object.values(entity.context.STATE!.map2lovelace);
+            entity.attributes.options = Object.values(entity.context.STATE.map2lovelace);
         }
     } else {
         adapterData.log.warn(`${entity.entity_id} has no common.states. Options will be empty and issues will occur.`);
@@ -61,16 +60,16 @@ async function fillInputSelectEntity(
     const currentState = await adapterData.adapter.getForeignStateAsync(stateId);
     if (currentState) {
         entity.attributes.initial = currentState.val;
-        const map = entity.context.STATE!.map2lovelace;
+        const map = entity.context.STATE.map2lovelace;
         if (map && map[currentState.val as string | number] !== undefined) {
             entity.attributes.initial = map[currentState.val as string | number];
         }
     }
 
-    entity.context.STATE!.getParser = (ent, _attr, iobState): void => {
+    entity.context.STATE.getParser = (ent, _attr, iobState): void => {
         const s = iobState ?? ({ val: null } as ioBroker.State);
         ent.attributes.initial = (s.val ?? 'unknown') as string;
-        const m = ent.context.STATE!.map2lovelace;
+        const m = ent.context.STATE.map2lovelace;
         if (m) {
             ent.attributes.initial = (m[s.val as string | number] ?? s.val ?? 'unknown') as string;
         }
@@ -80,11 +79,11 @@ async function fillInputSelectEntity(
     entity.context.COMMANDS = entity.context.COMMANDS ?? [];
     entity.context.COMMANDS.push({
         service: 'select_option',
-        setId: entity.context.STATE!.setId,
+        setId: entity.context.STATE.setId,
         parseCommand: async (ent, command, data: ServiceCallData, user): Promise<unknown> => {
             let target: unknown = data.service_data.option;
-            if (!ent.context.STATE!.isStringArray) {
-                const map = ent.context.STATE!.map2lovelace;
+            if (!ent.context.STATE.isStringArray) {
+                const map = ent.context.STATE.map2lovelace;
                 if (map) {
                     const found = Object.keys(map).find(key => map[key] === target);
                     if (found !== undefined) {
@@ -94,7 +93,7 @@ async function fillInputSelectEntity(
                 if (!target && target !== 0) {
                     target = data.service_data.option;
                 }
-                if (ent.context.STATE!.isNumber) {
+                if (ent.context.STATE.isNumber) {
                     target = Number(target);
                 }
             }
@@ -107,7 +106,7 @@ async function fillInputSelectEntity(
         },
     });
 
-    addID2entity(stateId, entity);
+    entity.addID2entity(stateId);
 }
 
 /**

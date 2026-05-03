@@ -1,5 +1,4 @@
 import type { ioBrokerEntity, ServiceCallData } from './converter';
-import { fillEntityFromStates, addID2entity } from '../entities/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData = require('../../../lib/dataSingleton') as {
@@ -58,7 +57,7 @@ function fillAlarmControlPanelFromStates(
     // attributes: [code_format]
     // commands: alarm_arm_away, alarm_arm_home, alarm_arm_night, alarm_arm_custom_bypass, alarm_disarm (code will be sent)
     // the code must be in the object in native as alarm_code
-    fillEntityFromStates(states, entity, objects);
+    entity.fillFromStates(states, objects);
 
     entity.attributes.code_format = 'number';
     if (states.state) {
@@ -78,23 +77,21 @@ function fillAlarmControlPanelFromStates(
         }
         entity.context.STATE.setId = states.state;
         entity.context.STATE.getId = states.state;
-        addID2entity(states.state, entity);
+        entity.addID2entity(states.state);
     }
 
     if (states.arm_state) {
         const id = states.arm_state;
         const obj = objects[id];
-        //TODO: make sure we don't overwrite ATTRIBUTES here -> must be method of base class!
-        entity.context.ATTRIBUTES = [
-            {
-                attribute: 'arm_state',
-                getId: id,
-                setId: id,
-                map: (obj?.common?.states as Record<string | number, string>) ?? undefined,
-                getParser: (ent, attr, state): void => parseAlarmState(ent, attr.map, state),
-            },
-        ];
-        addID2entity(id, entity);
+        entity.context.ATTRIBUTES = entity.context.ATTRIBUTES.filter(a => a.attribute !== 'arm_state');
+        entity.context.ATTRIBUTES.push({
+            attribute: 'arm_state',
+            getId: id,
+            setId: id,
+            map: (obj?.common?.states as Record<string | number, string>) ?? undefined,
+            getParser: (ent, attr, state): void => parseAlarmState(ent, attr.map, state),
+        });
+        entity.addID2entity(id);
     }
     entity.context.STATE.getParser = (ent, _attrName, state): void => parseAlarmState(ent, undefined, state);
 
@@ -130,11 +127,11 @@ function fillAlarmControlPanelFromStates(
         }
 
         // Write state
-        if (ent.context.STATE!.isBoolean) {
+        if (ent.context.STATE.isBoolean) {
             await adapterData.adapter.setForeignStateAsync(stateId, !targetState.includes('disarm'), false, { user });
         } else {
             let valToSet: ioBroker.StateValue = targetState;
-            const stateMap = ent.context.STATE!.map;
+            const stateMap = ent.context.STATE.map;
             if (stateMap) {
                 const numKey = Number(Object.keys(stateMap).find(k => stateMap[k] === targetState));
                 if (!isNaN(numKey)) {

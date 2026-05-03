@@ -1,31 +1,10 @@
 import { Types } from '@iobroker/type-detector';
 import { Converter } from './converter';
-import type { ioBrokerEntity, ConverterParameters } from './converter';
-import { processCommon } from '../entities/utils';
+import type { ConverterParameters, ioBrokerEntity } from './converter';
+import { BinarySensorEntity } from '../entities/binarySensorEntity';
 
 // Re-export indicator functions so callers importing from binary_sensor still work.
 export { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
-
-//TODO: rework processCommon parameters, when method is eventually changed.
-
-/**
- * Create a bare binary_sensor entity from ConverterParameters.
- * Uses controls.states to look up the given state name (default: 'ACTUAL').
- *
- * @param parameters - converter parameters
- * @param stateName - name of the state to look up in controls.states
- */
-function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL'): ioBrokerEntity {
-    const { friendlyName, room, func, objects, id, forcedEntityId, controls } = parameters;
-    const entity = processCommon(friendlyName, room, func, objects[id], 'binary_sensor', forcedEntityId);
-
-    entity.context.STATE = { getId: '' };
-    const state = controls.states.find((s: { id: string; name: string }) => s.id && s.name === stateName);
-    if (state?.id) {
-        entity.context.STATE.getId = state.id;
-    }
-    return entity;
-}
 
 /**
  * Create a motion binary_sensor entity.
@@ -33,10 +12,7 @@ function createSensorEntity(parameters: ConverterParameters, stateName = 'ACTUAL
  * @param parameters - conversion parameters
  */
 export function processMotion(parameters: ConverterParameters): ioBrokerEntity[] {
-    const entity = createSensorEntity(parameters);
-    entity.attributes.icon = 'mdi:motion-sensor';
-    entity.attributes.device_class = 'motion';
-    return [entity];
+    return [new BinarySensorEntity(parameters, { deviceClass: 'motion', icon: 'mdi:motion-sensor' })];
 }
 
 /**
@@ -45,10 +21,7 @@ export function processMotion(parameters: ConverterParameters): ioBrokerEntity[]
  * @param parameters - conversion parameters
  */
 export function processDoor(parameters: ConverterParameters): ioBrokerEntity[] {
-    const entity = createSensorEntity(parameters);
-    entity.attributes.icon = 'mdi:door';
-    entity.attributes.device_class = 'door';
-    return [entity];
+    return [new BinarySensorEntity(parameters, { deviceClass: 'door', icon: 'mdi:door' })];
 }
 
 /**
@@ -57,10 +30,7 @@ export function processDoor(parameters: ConverterParameters): ioBrokerEntity[] {
  * @param parameters - conversion parameters
  */
 export function processWindow(parameters: ConverterParameters): ioBrokerEntity[] {
-    const entity = createSensorEntity(parameters);
-    entity.attributes.icon = 'mdi:window-maximize';
-    entity.attributes.device_class = 'window';
-    return [entity];
+    return [new BinarySensorEntity(parameters, { deviceClass: 'window', icon: 'mdi:window-maximize' })];
 }
 
 /**
@@ -69,25 +39,7 @@ export function processWindow(parameters: ConverterParameters): ioBrokerEntity[]
  * @param parameters - conversion parameters
  */
 export function processFireAlarm(parameters: ConverterParameters): ioBrokerEntity[] {
-    const entity = createSensorEntity(parameters);
-    entity.attributes.device_class = 'smoke';
-    return [entity];
-}
-
-/**
- * Invert an entity's state so that an ioBroker "offline/unreach" indicator
- * becomes a Home Assistant "connectivity" sensor (online = on).
- *
- * @param entity - unreach entity to configure in-place
- */
-function createOnlineIndicatorFromOfflineIndicator(entity: ioBrokerEntity): void {
-    entity.attributes.device_class = 'connectivity';
-    entity.context.STATE!.getParser = (_entity: ioBrokerEntity, _attr: string, state: ioBroker.State): void => {
-        _entity.state = state?.val ? 'off' : 'on';
-    };
-    entity.context.STATE!.historyParser = (_iobId: string, state: ioBroker.State): string => {
-        return state?.val ? 'off' : 'on';
-    };
+    return [new BinarySensorEntity(parameters, { deviceClass: 'smoke' })];
 }
 
 /**
@@ -112,7 +64,14 @@ export function processManualEntity(
         custom.attr_device_class === 'connectivity' &&
         (obj as ioBroker.StateObject).common?.role === 'indicator.unreach'
     ) {
-        createOnlineIndicatorFromOfflineIndicator(entity);
+        // entity is already a BaseEntity from server.js processCommon; reuse the inversion logic.
+        entity.attributes.device_class = 'connectivity';
+        entity.context.STATE.getParser = (e, _attr, state): void => {
+            e.state = state?.val ? 'off' : 'on';
+        };
+        entity.context.STATE.historyParser = (_iobId: string, state: ioBroker.State): string => {
+            return state?.val ? 'off' : 'on';
+        };
     }
     return [entity];
 }
@@ -120,18 +79,8 @@ export function processManualEntity(
 /**
  * Converter subclass for binary sensor device types:
  * motion, door, window, and fire alarm.
- *
- * Registered at the bottom of this file for Types.motion, .door, .window, .fireAlarm.
- * The convert() orchestration (indicator entities, duplicate handling) is inherited from
- * the Converter base class.
  */
 export class BinarySensorConverter extends Converter {
-    /**
-     * Return entities for the detected binary sensor type.
-     * Called by the inherited Converter.convert() template method.
-     *
-     * @param params - conversion parameters
-     */
     static override convertEntities(params: ConverterParameters): ioBrokerEntity[] {
         switch (params.controls.type) {
             case Types.motion:
@@ -148,9 +97,6 @@ export class BinarySensorConverter extends Converter {
     }
 }
 
-// Register this converter for the binary sensor types it handles.
-// This runs when server.js first loads this module (after converter.ts is already
-// loaded), so Converter.converters is available and Converter is fully initialised.
 Converter.converters[Types.motion] = BinarySensorConverter;
 Converter.converters[Types.door] = BinarySensorConverter;
 Converter.converters[Types.window] = BinarySensorConverter;

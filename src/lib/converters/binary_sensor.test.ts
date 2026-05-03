@@ -158,9 +158,9 @@ describe('binary_sensor converter', function () {
             expect(entity!.context.STATE?.getId).to.equal(unreachId);
             // getParser inverts: val=true (offline) → state='off'
             const mockEntity = { state: '' } as ioBrokerEntity;
-            entity!.context.STATE!.getParser!(mockEntity, '', { val: true } as ioBroker.State);
+            entity!.context.STATE.getParser!(mockEntity, '', { val: true } as ioBroker.State);
             expect(mockEntity.state).to.equal('off');
-            entity!.context.STATE!.getParser!(mockEntity, '', { val: false } as ioBroker.State);
+            entity!.context.STATE.getParser!(mockEntity, '', { val: false } as ioBroker.State);
             expect(mockEntity.state).to.equal('on');
         });
 
@@ -186,8 +186,8 @@ describe('binary_sensor converter', function () {
             const unreachId = `${DEVICE_ID}.unreach`;
             const params = makeParameters([{ id: unreachId, name: 'UNREACH' }]);
             const entity = connectivityIndicator(params)!;
-            expect(entity.context.STATE!.historyParser!('', { val: true } as ioBroker.State)).to.equal('off');
-            expect(entity.context.STATE!.historyParser!('', { val: false } as ioBroker.State)).to.equal('on');
+            expect(entity.context.STATE.historyParser!('', { val: true } as ioBroker.State)).to.equal('off');
+            expect(entity.context.STATE.historyParser!('', { val: false } as ioBroker.State)).to.equal('on');
         });
     });
 

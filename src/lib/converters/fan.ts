@@ -1,5 +1,4 @@
 import type { ioBrokerEntity, EntityAttribute, ServiceCallData } from './converter';
-import { fillEntityFromStates } from '../entities/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData = require('../../../lib/dataSingleton') as {
@@ -174,7 +173,7 @@ export function processManualEntity(
     delete states.speed;
 
     // Fill base entity attributes from state map
-    fillEntityFromStates(states, entity, objects);
+    entity.fillFromStates(states, objects);
 
     if (states.preset_mode) {
         augmentPresetMode(states.preset_mode, states.state, entity, objects);

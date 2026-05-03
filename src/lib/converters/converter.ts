@@ -1,8 +1,18 @@
 import type { Types } from '@iobroker/type-detector';
 import type { PatternControl } from '@iobroker/type-detector/types';
 import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
-import { Entity } from './entity';
+import type { BaseEntity } from '../entities/baseEntity';
 
+/** Alias kept for backward compatibility with the legacy "ioBrokerEntity" name used by older converters. */
+export type ioBrokerEntity = BaseEntity;
+export type {
+    EntityState,
+    EntityAttribute,
+    EntityCommand,
+    ServiceCallData,
+    ServiceCallTarget,
+} from '../entities/baseEntity';
+export { BaseEntity as Entity } from '../entities/baseEntity';
 
 export type ConverterParameters = {
     /**
@@ -32,7 +42,7 @@ export type ConverterParameters = {
     /**
      * The already existing entities to check for duplicates.
      */
-    existingEntities: Array<Entity>;
+    existingEntities: Array<BaseEntity>;
     /**
      * The ioBroker adapter instance.
      */
@@ -89,7 +99,7 @@ export class Converter {
      * @param _params - conversion parameters with a single controls PatternControl
      * @returns array of created entities (may be empty, may be async)
      */
-    static convertEntities(_params: ConverterParameters): Entity[] {
+    static convertEntities(_params: ConverterParameters): BaseEntity[] {
         return [];
     }
 
@@ -138,14 +148,14 @@ export class Converter {
      * @param entities - entities produced by the converter
      * @param params - conversion parameters
      */
-    static _processEntities(entities: Entity[], params: ConverterParameters): void {
+    static _processEntities(entities: BaseEntity[], params: ConverterParameters): void {
         if (!entities?.length) {
             return;
         }
         const { existingEntities, adapter, entityRegistry, controls } = params;
 
         // Add indicator entities for the primary device entity
-        const mainEntity = entities.find((x: Entity | null | undefined) => x?.entity_id);
+        const mainEntity = entities.find((x: BaseEntity | null | undefined) => x?.entity_id);
         if (mainEntity) {
             entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
         }
@@ -191,14 +201,11 @@ export class Converter {
      * @param mainEntity - the primary entity for the device
      * @param parameters - conversion parameters (used to build each indicator)
      */
-    static _generateEntitiesFromIndicators(
-        mainEntity: Entity,
-        parameters: ConverterParameters,
-    ): Array<ioBrokerEntity> {
-        const entities: ioBrokerEntity[] = [];
+    static _generateEntitiesFromIndicators(mainEntity: BaseEntity, parameters: ConverterParameters): Array<BaseEntity> {
+        const entities: BaseEntity[] = [];
         const baseName = mainEntity.entity_id.split('.')[1];
 
-        const add = (entity: ioBrokerEntity | null): void => {
+        const add = (entity: BaseEntity | null): void => {
             if (entity) {
                 entity.context.deviceId = mainEntity.context.id;
                 entities.push(entity);

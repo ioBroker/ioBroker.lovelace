@@ -1,7 +1,6 @@
-import crypto from 'crypto';
 import { Types } from '@iobroker/type-detector';
 import Converter, { type ConverterParameters, type ioBrokerEntity } from './converter';
-import { processCommon, addID2entity } from '../entities/utils';
+import { CameraEntity } from '../entities/cameraEntity';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData: { services: Record<string, unknown> } = require('../../../lib/dataSingleton');
@@ -10,36 +9,7 @@ const adapterData: { services: Record<string, unknown> } = require('../../../lib
 export class CameraConverter extends Converter {
     /** @inheritdoc */
     static convertEntities(params: ConverterParameters): ioBrokerEntity[] {
-        //TOOD: Let's move this call to base class and call the overwritten (?) function here.
-        const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
-        const entity = processCommon(friendlyName, room, func, objects[params.id], 'camera', forcedEntityId);
-
-        entity.context.STATE = { getId: null };
-        //TOOD: in the long run, don't handle attributes like this. Let base class handle attributes, especially creation of the array -> so we don't override already present attributes. Lets add a base func to add attributes which handles all that. Similar for COMMANDS, of course.
-        entity.context.ATTRIBUTES = [];
-        entity.attributes.icon = 'mdi:camera-outline';
-
-        const state = controls.states.find(s => s.id && s.name === 'URL');
-        if (state?.id) {
-            entity.context.STATE = { getValue: 'on' };
-            entity.context.ATTRIBUTES = [{ getId: state.id, attribute: 'url' }];
-            entity.attributes.code_format = 'number';
-
-            entity.attributes.access_token = crypto
-                .createHmac(
-                    'sha256',
-                    (crypto.webcrypto.getRandomValues(new Uint32Array(1))[0] * 1_000_000_000).toString(),
-                )
-                .update(Date.now().toString())
-                .digest('hex');
-
-            entity.attributes.model_name = 'Simulated URL';
-            entity.attributes.brand = 'ioBroker';
-            entity.attributes.motion_detection = false;
-            addID2entity(state.id, entity);
-        }
-
-        return [entity];
+        return [new CameraEntity(params)];
     }
 }
 
@@ -114,7 +84,7 @@ adapterData.services.camera = {
                 example: '/tmp/snapshot_{{ entity_id.name }}.mp4',
                 selector: { text: null },
                 name: 'Filename',
-                description: 'Template of a filename. Variable available is `entity_id`. Must be mp4.',
+                description: 'Template of a filename. Variable available is `entity_id`.',
             },
             duration: {
                 default: 30,

@@ -1,5 +1,4 @@
 import type { ioBrokerEntity, ServiceCallData } from './converter';
-import { addID2entity } from '../entities/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData = require('../../../lib/dataSingleton') as {
@@ -73,7 +72,7 @@ function fillInputDatetimeEntity(stateId: string, isString: boolean, entity: ioB
     entity.context.COMMANDS.push({
         service: 'set_datetime',
         isString,
-        setId: entity.context.STATE!.setId,
+        setId: entity.context.STATE.setId,
         parseCommand: async (ent, command, data: ServiceCallData, user): Promise<unknown> => {
             const sd = data.service_data as Record<string, string | undefined>;
             const entAttrs = ent.attributes as Record<string, unknown>;
@@ -98,7 +97,7 @@ function fillInputDatetimeEntity(stateId: string, isString: boolean, entity: ioB
         },
     });
 
-    entity.context.STATE!.getParser = (ent, _attr, iobState): void => {
+    entity.context.STATE.getParser = (ent, _attr, iobState): void => {
         const s = iobState ?? ({ val: null } as ioBroker.State);
         const entAttrs = ent.attributes as Record<string, unknown>;
         if (typeof s.val === 'number') {
@@ -146,7 +145,7 @@ function fillInputDatetimeEntity(stateId: string, isString: boolean, entity: ioB
         has_time: attrs.has_time as boolean,
     };
 
-    addID2entity(stateId, entity);
+    entity.addID2entity(stateId);
 }
 
 /**
