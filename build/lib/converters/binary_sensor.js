@@ -34,65 +34,35 @@ __export(binary_sensor_exports, {
 module.exports = __toCommonJS(binary_sensor_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = require("./converter");
-var import_utils = require("../entities/utils");
+var import_binarySensorEntity = require("../entities/binarySensorEntity");
 var import_indicators = require("./indicators");
-function createSensorEntity(parameters, stateName = "ACTUAL") {
-  const { friendlyName, room, func, objects, id, forcedEntityId, controls } = parameters;
-  const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[id], "binary_sensor", forcedEntityId);
-  entity.context.STATE = { getId: "" };
-  const state = controls.states.find((s) => s.id && s.name === stateName);
-  if (state == null ? void 0 : state.id) {
-    entity.context.STATE.getId = state.id;
-  }
-  return entity;
-}
 function processMotion(parameters) {
-  const entity = createSensorEntity(parameters);
-  entity.attributes.icon = "mdi:motion-sensor";
-  entity.attributes.device_class = "motion";
-  return [entity];
+  return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "motion", icon: "mdi:motion-sensor" })];
 }
 function processDoor(parameters) {
-  const entity = createSensorEntity(parameters);
-  entity.attributes.icon = "mdi:door";
-  entity.attributes.device_class = "door";
-  return [entity];
+  return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "door", icon: "mdi:door" })];
 }
 function processWindow(parameters) {
-  const entity = createSensorEntity(parameters);
-  entity.attributes.icon = "mdi:window-maximize";
-  entity.attributes.device_class = "window";
-  return [entity];
+  return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "window", icon: "mdi:window-maximize" })];
 }
 function processFireAlarm(parameters) {
-  const entity = createSensorEntity(parameters);
-  entity.attributes.device_class = "smoke";
-  return [entity];
-}
-function createOnlineIndicatorFromOfflineIndicator(entity) {
-  entity.attributes.device_class = "connectivity";
-  entity.context.STATE.getParser = (_entity, _attr, state) => {
-    _entity.state = (state == null ? void 0 : state.val) ? "off" : "on";
-  };
-  entity.context.STATE.historyParser = (_iobId, state) => {
-    return (state == null ? void 0 : state.val) ? "off" : "on";
-  };
+  return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "smoke" })];
 }
 function processManualEntity(_id, obj, entity, _objects, custom) {
   var _a;
   entity.attributes.device_class = custom.attr_device_class;
   if (custom.attr_device_class === "connectivity" && ((_a = obj.common) == null ? void 0 : _a.role) === "indicator.unreach") {
-    createOnlineIndicatorFromOfflineIndicator(entity);
+    entity.attributes.device_class = "connectivity";
+    entity.context.STATE.getParser = (e, _attr, state) => {
+      e.state = (state == null ? void 0 : state.val) ? "off" : "on";
+    };
+    entity.context.STATE.historyParser = (_iobId, state) => {
+      return (state == null ? void 0 : state.val) ? "off" : "on";
+    };
   }
   return [entity];
 }
 class BinarySensorConverter extends import_converter.Converter {
-  /**
-   * Return entities for the detected binary sensor type.
-   * Called by the inherited Converter.convert() template method.
-   *
-   * @param params - conversion parameters
-   */
   static convertEntities(params) {
     switch (params.controls.type) {
       case import_type_detector.Types.motion:

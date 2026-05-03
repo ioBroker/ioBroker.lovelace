@@ -31,34 +31,14 @@ __export(camera_exports, {
   CameraConverter: () => CameraConverter
 });
 module.exports = __toCommonJS(camera_exports);
-var import_crypto = __toESM(require("crypto"));
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
-var import_utils = require("../entities/utils");
+var import_cameraEntity = require("../entities/cameraEntity");
 const adapterData = require("../../../lib/dataSingleton");
 class CameraConverter extends import_converter.default {
   /** @inheritdoc */
   static convertEntities(params) {
-    const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
-    const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[params.id], "camera", forcedEntityId);
-    entity.context.STATE = { getId: null };
-    entity.context.ATTRIBUTES = [];
-    entity.attributes.icon = "mdi:camera-outline";
-    const state = controls.states.find((s) => s.id && s.name === "URL");
-    if (state == null ? void 0 : state.id) {
-      entity.context.STATE = { getValue: "on" };
-      entity.context.ATTRIBUTES = [{ getId: state.id, attribute: "url" }];
-      entity.attributes.code_format = "number";
-      entity.attributes.access_token = import_crypto.default.createHmac(
-        "sha256",
-        (import_crypto.default.webcrypto.getRandomValues(new Uint32Array(1))[0] * 1e9).toString()
-      ).update(Date.now().toString()).digest("hex");
-      entity.attributes.model_name = "Simulated URL";
-      entity.attributes.brand = "ioBroker";
-      entity.attributes.motion_detection = false;
-      (0, import_utils.addID2entity)(state.id, entity);
-    }
-    return [entity];
+    return [new import_cameraEntity.CameraEntity(params)];
   }
 }
 import_converter.default.converters[import_type_detector.Types.image] = CameraConverter;
@@ -129,7 +109,7 @@ adapterData.services.camera = {
         example: "/tmp/snapshot_{{ entity_id.name }}.mp4",
         selector: { text: null },
         name: "Filename",
-        description: "Template of a filename. Variable available is `entity_id`. Must be mp4."
+        description: "Template of a filename. Variable available is `entity_id`."
       },
       duration: {
         default: 30,

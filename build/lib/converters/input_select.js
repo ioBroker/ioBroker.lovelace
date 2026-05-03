@@ -21,7 +21,6 @@ __export(input_select_exports, {
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(input_select_exports);
-var import_utils = require("../entities/utils");
 const adapterData = require("../../../lib/dataSingleton");
 async function fillInputSelectEntity(stateId, entity, objects) {
   var _a, _b, _c;
@@ -100,7 +99,7 @@ async function fillInputSelectEntity(stateId, entity, objects) {
       });
     }
   });
-  (0, import_utils.addID2entity)(stateId, entity);
+  entity.addID2entity(stateId);
 }
 async function processManualEntity(id, _obj, entity, objects, custom) {
   var _a, _b;

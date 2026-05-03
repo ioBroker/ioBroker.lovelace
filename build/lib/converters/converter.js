@@ -19,11 +19,12 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var converter_exports = {};
 __export(converter_exports, {
   Converter: () => Converter,
+  Entity: () => import_baseEntity.BaseEntity,
   default: () => converter_default
 });
 module.exports = __toCommonJS(converter_exports);
 var import_indicators = require("./indicators");
-var import_types = require("@iobroker/types");
+var import_baseEntity = require("../entities/baseEntity");
 class Converter {
   /**
    * Registry of TypeScript converter subclasses keyed by device type.
@@ -157,6 +158,7 @@ class Converter {
 var converter_default = Converter;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  Converter
+  Converter,
+  Entity
 });
 //# sourceMappingURL=converter.js.map

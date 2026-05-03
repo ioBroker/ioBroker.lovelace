@@ -1,7 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { utils } = require('../../../lib/entities/utils') as {
-    utils: { removeEntity: (entity: EntityLike, newEntityId: string) => void };
-};
+import { BaseEntity } from '../entities/baseEntity';
 
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string, data?: unknown) => void;
@@ -336,7 +333,7 @@ class EntityRegistry {
                 changes[key] = entityWithId[key] || null;
                 entityWithId[key] = newData[key];
                 if (key === 'new_entity_id') {
-                    utils.removeEntity(entity, newData[key] as string);
+                    (entity as unknown as BaseEntity).unregister(newData[key] as string);
                     delete entityWithId.new_entity_id;
                 }
             }

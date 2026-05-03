@@ -24,7 +24,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var import_express = __toESM(require("express"));
 var utils = __toESM(require("@iobroker/adapter-core"));
 var import_webserver = require("@iobroker/webserver");
-const ApiServer = require("./lib/server");
+var import_server = __toESM(require("./lib/server"));
 const words = require("../admin/words");
 let adapter;
 function startAdapter(options) {
@@ -204,7 +204,7 @@ async function main(adp) {
     adp.config.leConfig = leConfig;
     adp.webServer = (_a = await initWebServer(adp.config)) != null ? _a : null;
     if (adp.webServer) {
-      adp.apiServer = new ApiServer({
+      adp.apiServer = new import_server.default({
         adapter: adp,
         server: adp.webServer.server,
         app: adp.webServer.app,
@@ -214,7 +214,7 @@ async function main(adp) {
   } else {
     adp.webServer = (_b = await initWebServer(adp.config)) != null ? _b : null;
     if (adp.webServer) {
-      adp.apiServer = new ApiServer({
+      adp.apiServer = new import_server.default({
         adapter: adp,
         server: adp.webServer.server,
         app: adp.webServer.app,

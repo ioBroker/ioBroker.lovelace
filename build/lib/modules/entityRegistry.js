@@ -1,5 +1,4 @@
 "use strict";
-const { utils } = require("../../../lib/entities/utils");
 class EntityRegistry {
   _entries = {};
   _entityCategories = { 0: "config", 1: "diagnostic" };
@@ -264,7 +263,7 @@ class EntityRegistry {
         changes[key] = entityWithId[key] || null;
         entityWithId[key] = newData[key];
         if (key === "new_entity_id") {
-          utils.removeEntity(entity, newData[key]);
+          entity.unregister(newData[key]);
           delete entityWithId.new_entity_id;
         }
       }

@@ -28,40 +28,25 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var switch_exports = {};
 __export(switch_exports, {
-  SwitchConverter: () => SwitchConverter
+  SwitchConverter: () => SwitchConverter,
+  processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(switch_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
-var import_utils = require("../entities/utils");
+var import_switchEntity = require("../entities/switchEntity");
 const adapterData = require("../../../lib/dataSingleton");
 class SwitchConverter extends import_converter.default {
   /** @inheritdoc */
   static convertEntities(params) {
-    const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
-    const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[params.id], "switch", forcedEntityId);
-    entity.context.STATE = { setId: null, getId: null };
-    let state = controls.states.find((s) => s.id && s.name === "SET");
-    if (state == null ? void 0 : state.id) {
-      entity.context.STATE.setId = state.id;
-      entity.context.STATE.getId = state.id;
-      if (controls.type === import_type_detector.Types.socket) {
-        entity.attributes.icon = "mdi:power-socket-eu";
-        entity.attributes.device_class = "outlet";
-      } else {
-        entity.attributes.device_class = "switch";
-      }
-      (0, import_utils.addID2entity)(state.id, entity);
-    }
-    state = controls.states.find((s) => s.id && s.name === "ACTUAL");
-    if (state == null ? void 0 : state.id) {
-      if (!state.id.startsWith("zigbee.") || !state.id.endsWith(".available") || !state.id.endsWith(".device_query")) {
-        entity.context.STATE.getId = state.id;
-        (0, import_utils.addID2entity)(state.id, entity);
-      }
-    }
-    return [entity];
+    return [new import_switchEntity.SwitchEntity(params)];
   }
+}
+function processManualEntity(_id, obj, entity, _objects, custom) {
+  var _a, _b;
+  const common = obj.common;
+  entity.attributes.assumed_state = (_b = (_a = custom.attr_assumed_state) != null ? _a : custom.assumed_state) != null ? _b : !!common && !common.read;
+  return [entity];
 }
 import_converter.default.converters[import_type_detector.Types.socket] = SwitchConverter;
 import_converter.default.converters[import_type_detector.Types.button] = SwitchConverter;
@@ -87,6 +72,7 @@ adapterData.services.switch = {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  SwitchConverter
+  SwitchConverter,
+  processManualEntity
 });
 //# sourceMappingURL=switch.js.map

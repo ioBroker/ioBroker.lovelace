@@ -22,16 +22,12 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_crypto = __toESM(require("crypto"));
+var import_todoEntity = require("../entities/todoEntity");
 const WS_OPEN = 1;
-const { updateTimestamps, processCommon } = require("../../../lib/entities/utils");
 const TodoItemStatus = {
   NeedsAction: "needs_action",
   Completed: "completed"
 };
-const CREATE_TODO_ITEM = 1;
-const DELETE_TODO_ITEM = 2;
-const UPDATE_TODO_ITEM = 4;
-const MOVE_TODO_ITEM = 8;
 class TodoModule {
   adapter;
   entityData;
@@ -232,7 +228,7 @@ class TodoModule {
             item.due = item.due || null;
             item.description = item.description || null;
           }
-          updateTimestamps(entity, state);
+          entity.updateTimestamp(state, true);
         } catch (e) {
           this.adapter.log.warn(
             `Cannot parse todo items of ${ioBrokerId}: ${String(state.val)}, ${String(e)}`
@@ -380,38 +376,7 @@ class TodoModule {
    * @param _customPart - custom settings (unused)
    */
   async processManualEntity(iobId, iobObj, entity, _objects, _customPart) {
-    entity.attributes.icon = "mdi:cart";
-    entity.attributes.supported_features = CREATE_TODO_ITEM | DELETE_TODO_ITEM | UPDATE_TODO_ITEM | MOVE_TODO_ITEM;
-    entity.context.STATE = {
-      getId: entity.context.id,
-      setId: entity.context.id,
-      getParser: (ent, _attr, state) => {
-        if (state && state.val) {
-          try {
-            const items = JSON.parse(state.val);
-            ent.state = String(items.length);
-          } catch (e) {
-            this.adapter.log.warn(
-              `Cannot parse todo items of ${ent.context.id}: ${String(state.val)}, ${String(e)}`
-            );
-            ent.state = "unknown";
-          }
-        } else {
-          ent.state = 0;
-        }
-      },
-      historyParser: (_id, value) => {
-        try {
-          const items = JSON.parse(value);
-          return String(items.length);
-        } catch (e) {
-          this.adapter.log.warn(
-            `Cannot parse todo items of ${entity.context.id}: ${String(value)}, ${String(e)}`
-          );
-          return "unknown";
-        }
-      }
-    };
+    import_todoEntity.TodoEntity.augment(entity);
     const todoList = await this._getTodoList(entity);
     entity.state = String(todoList.items.length);
     return [entity];
@@ -423,11 +388,12 @@ class TodoModule {
     let entityShoppingList = this.entityData.entityId2Entity["todo.shoppinglist"];
     if (!entityShoppingList) {
       const iobObj = await this.adapter.getObjectAsync("control.shopping_list");
-      entityShoppingList = processCommon("Shopping List", null, null, iobObj, "todo", "todo.shoppinglist");
-      await this.processManualEntity("Shopping List", iobObj, entityShoppingList, null, null);
-      this.entityData.entities.push(entityShoppingList);
-      this.entityData.entityId2Entity[entityShoppingList.entity_id] = entityShoppingList;
-      this.entityData.iobID2entity[iobObj._id] = [entityShoppingList];
+      const entity = new import_todoEntity.TodoEntity("Shopping List", iobObj, "todo.shoppinglist");
+      const todoList = await this._getTodoList(entity);
+      entity.state = String(todoList.items.length);
+      this.entityData.entities.push(entity);
+      this.entityData.entityId2Entity[entity.entity_id] = entity;
+      this.entityData.iobID2entity[iobObj._id] = [entity];
     }
     this.adapter.log.debug("modules/todo: init done.");
   }

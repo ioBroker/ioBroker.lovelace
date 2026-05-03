@@ -36,43 +36,24 @@ __export(sensor_exports, {
 module.exports = __toCommonJS(sensor_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
-var import_utils = require("../entities/utils");
-const adapterData = require("../../../lib/dataSingleton");
+var import_sensorEntity = require("../entities/sensorEntity");
 function createHumiditySensor(stateId, name, room, func, obj, forcedEntityId) {
-  const entity = (0, import_utils.processCommon)(name, room, func, obj, "sensor", forcedEntityId);
-  entity.context.STATE = { getId: stateId };
-  entity.attributes.device_class = "humidity";
-  entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || "%";
-  (0, import_utils.addID2entity)(stateId, entity);
-  return entity;
+  return import_sensorEntity.SensorEntity.humidity(stateId, name, room, func, obj, forcedEntityId);
 }
 function createTemperatureSensor(stateId, name, room, func, obj, forcedEntityId) {
-  const entity = (0, import_utils.processCommon)(name, room, func, obj, "sensor", forcedEntityId);
-  entity.context.STATE = { getId: stateId };
-  entity.attributes.device_class = "temperature";
-  entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || "\xB0C";
-  (0, import_utils.addID2entity)(stateId, entity);
-  return entity;
+  return import_sensorEntity.SensorEntity.temperature(stateId, name, room, func, obj, forcedEntityId);
 }
 class SensorConverter extends import_converter.default {
   /** @inheritdoc */
   static convertEntities(params) {
     const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
     if (controls.type === import_type_detector.Types.windowTilt) {
-      return SensorConverter._convertWindowTilt(params);
+      return [import_sensorEntity.SensorEntity.windowTilt(params)];
     }
     if (controls.type === import_type_detector.Types.humidity) {
       const state2 = controls.states.find((s) => s.id && s.name === "ACTUAL");
       if (state2 == null ? void 0 : state2.id) {
-        const entity = createHumiditySensor(
-          state2.id,
-          friendlyName,
-          room,
-          func,
-          objects[params.id],
-          forcedEntityId
-        );
-        return [entity];
+        return [import_sensorEntity.SensorEntity.humidity(state2.id, friendlyName, room, func, objects[params.id], forcedEntityId)];
       }
       return [];
     }
@@ -80,7 +61,7 @@ class SensorConverter extends import_converter.default {
     let state = controls.states.find((s) => s.id && s.name === "ACTUAL");
     let tempEntity;
     if (state == null ? void 0 : state.id) {
-      tempEntity = createTemperatureSensor(
+      tempEntity = import_sensorEntity.SensorEntity.temperature(
         state.id,
         friendlyName,
         room,
@@ -93,44 +74,12 @@ class SensorConverter extends import_converter.default {
     state = controls.states.find((s) => s.id && s.name === "SECOND");
     if (state == null ? void 0 : state.id) {
       const humForcedId = tempEntity ? `${tempEntity.entity_id}_Humidity` : void 0;
-      entities.push(createHumiditySensor(state.id, friendlyName, room, func, objects[params.id], humForcedId));
+      entities.push(import_sensorEntity.SensorEntity.humidity(state.id, friendlyName, room, func, objects[params.id], humForcedId));
     }
-    return entities.filter((e) => e !== void 0);
-  }
-  static _convertWindowTilt(params) {
-    var _a, _b;
-    const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
-    const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[params.id], "sensor", forcedEntityId);
-    entity.context.STATE = { getId: null };
-    entity.attributes.icon = "mdi:window-maximize";
-    entity.attributes.device_class = "window";
-    const state = controls.states.find((s) => s.id && s.name === "ACTUAL");
-    if (state == null ? void 0 : state.id) {
-      const stateId = state.id;
-      entity.context.STATE.getId = stateId;
-      entity.context.STATE.states = ((_a = objects[stateId]) == null ? void 0 : _a.common) ? (_b = objects[stateId].common.states) != null ? _b : null : null;
-      entity.context.STATE.historyParser = (_iobId, iobState) => {
-        const val = iobState == null ? void 0 : iobState.val;
-        let str;
-        const stateMap = entity.context.STATE.states;
-        if (stateMap) {
-          str = stateMap[val] ? stateMap[val].toLowerCase() : "error";
-        } else {
-          str = val === 0 ? "closed" : val === 1 ? "tilted" : "open";
-        }
-        const wordEntry = adapterData.words[str];
-        return wordEntry ? wordEntry[adapterData.lang] || wordEntry.en : str;
-      };
-      entity.context.STATE.getParser = (_entity, _attr, iobState) => {
-        const s = iobState || { val: null };
-        _entity.state = _entity.context.STATE.historyParser(stateId, s);
-      };
-      (0, import_utils.addID2entity)(stateId, entity);
-    }
-    return [entity];
+    return entities;
   }
 }
-function processManualEntity(id, obj, entity, objects, custom) {
+function processManualEntity(_id, _obj, entity, _objects, custom) {
   entity.attributes.device_class = custom.attr_device_class;
   entity.attributes.unit_of_measurement = custom.attr_unit_of_measurement || entity.attributes.unit_of_measurement;
   return [entity];

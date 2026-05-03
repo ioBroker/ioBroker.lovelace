@@ -21,7 +21,6 @@ __export(fan_exports, {
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(fan_exports);
-var import_utils = require("../entities/utils");
 const adapterData = require("../../../lib/dataSingleton");
 function augmentPresetMode(presetModeId, stateId, entity, objects) {
   var _a, _b, _c;
@@ -127,7 +126,7 @@ function processManualEntity(id, _obj, entity, objects, custom) {
     states.preset_mode = (_b = states.speed) != null ? _b : id;
   }
   delete states.speed;
-  (0, import_utils.fillEntityFromStates)(states, entity, objects);
+  entity.fillFromStates(states, objects);
   if (states.preset_mode) {
     augmentPresetMode(states.preset_mode, states.state, entity, objects);
   }

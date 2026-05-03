@@ -28,6 +28,7 @@ __export(utils_exports, {
   findEntitiesFromEnumChange: () => findEntitiesFromEnumChange,
   findEnumForId: () => findEnumForId,
   getEnumName: () => getEnumName,
+  getObjectIcon: () => getObjectIcon,
   getParentIDs: () => getParentIDs,
   getSmartName: () => getSmartName,
   processCommon: () => processCommon,
@@ -36,8 +37,8 @@ __export(utils_exports, {
   updateTimestamps: () => updateTimestamps
 });
 module.exports = __toCommonJS(utils_exports);
+var import_baseEntity = require("./baseEntity");
 var import_entity_id = require("./entity_id");
-var import_friendly_name = require("./friendly_name");
 const entityData = require("../../../lib/dataSingleton");
 async function createObjectsFromArrayOfIds(ids) {
   const objects = {};
@@ -89,6 +90,10 @@ function findEnumForId(enums, id) {
   return void 0;
 }
 function getSmartName(objects, id, lang) {
+  if (!lang) {
+    entityData.log.warn(`getSmartName falling back to en as default for ${id}. Please fix.`);
+    lang = "en";
+  }
   const object = id ? objects[id] : objects;
   if (!object || !object.common || !object.common.smartName) {
     return void 0;
@@ -165,7 +170,7 @@ function extractValidEntityIds(str, alreadyPresentEntityIds = []) {
     match = entityRegEx.exec(str);
   }
 }
-function _getObjectIcon(obj, prefix) {
+function getObjectIcon(obj, prefix) {
   prefix = prefix || ".";
   if (!obj || !obj.common || !obj.common.icon) {
     return null;
@@ -204,48 +209,11 @@ function _getObjectIcon(obj, prefix) {
   }
   return icon;
 }
-function addID2entity(id, entity) {
-  if (!entity.context.ids) {
-    entity.context.ids = [];
-  }
-  const ids = entity.context.ids;
-  if (!ids.includes(id)) {
-    ids.push(id);
-  }
-}
 function removeEntity(entity, newId) {
   if (!entity) {
     return;
   }
-  if (newId) {
-    entityData.entityId2Entity[newId] = entity;
-  } else {
-    delete entityData.entityId2Entity[entity.entity_id];
-  }
-  if (!newId) {
-    let foundIndex = entityData.entities.findIndex((x) => x.entity_id === entity.entity_id);
-    while (foundIndex !== -1) {
-      entityData.entities.splice(foundIndex, 1);
-      foundIndex = entityData.entities.findIndex((x) => x.entity_id === entity.entity_id);
-    }
-  }
-  if (!newId && entity.attributes.entity_picture) {
-    const urlIndex = entityData.entityIconUrls.findIndex((x) => x === entity.attributes.entity_picture);
-    if (urlIndex !== -1) {
-      entityData.entityIconUrls.splice(urlIndex, 1);
-    }
-  }
-  for (const key of Object.keys(entityData.iobID2entity)) {
-    const entities = entityData.iobID2entity[key];
-    let foundIndex = entities.findIndex((x) => x.entity_id === entity.entity_id);
-    while (foundIndex !== -1) {
-      entities.splice(foundIndex, 1);
-      foundIndex = entities.findIndex((x) => x.entity_id === entity.entity_id);
-    }
-    if (newId) {
-      entities.push(newId);
-    }
-  }
+  entity.unregister(newId);
 }
 function findEntitiesFromEnumChange(newEnum, oldEnum) {
   var _a, _b;
@@ -275,75 +243,8 @@ function findEntitiesFromEnumChange(newEnum, oldEnum) {
   }
   return { ids, entities };
 }
-function processCommon(name, room, func, obj, entityType, entity_id) {
-  var _a, _b, _c, _d;
-  const objId = (_a = obj == null ? void 0 : obj._id) != null ? _a : "";
-  const entity = {
-    entity_id: (0, import_entity_id.getEntityId)(entityType, entity_id, obj),
-    attributes: {
-      friendly_name: (0, import_friendly_name.getFriendlyName)(name, obj, getEnumName(room), getEnumName(func))
-    },
-    state: "unknown",
-    //make sure times are initialized:
-    last_changed: 0,
-    last_updated: 0,
-    context: {
-      id: objId,
-      type: (0, import_entity_id.getEntityType)(entityType, entity_id, obj),
-      room: getEnumName(room),
-      roomId: room ? room._id : null,
-      func: getEnumName(func),
-      funcId: func ? func._id : null,
-      ids: [objId],
-      stateType: (_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.type,
-      deviceId: objId,
-      aliases: obj ? ((_c = getSmartName(obj, objId, entityData.lang)) == null ? void 0 : _c.split(",")) || [] : []
-    }
-  };
-  if ((obj == null ? void 0 : obj.common) && obj.common.unit) {
-    entity.attributes.unit_of_measurement = obj.common.unit;
-  }
-  if ((obj == null ? void 0 : obj.common) && obj.common.icon) {
-    entity.attributes.entity_picture = (_d = _getObjectIcon(obj)) != null ? _d : void 0;
-  }
-  if (objId) {
-    addID2entity(objId, entity);
-  }
-  return entity;
-}
 function fillEntityFromStates(states, entity, objects) {
-  var _a;
-  entity.context.STATE = { setId: states.state || void 0, getId: states.stateRead || states.state || "" };
-  if (entity.context.STATE.getId) {
-    entity.context.id = entity.context.STATE.getId;
-  } else if (entity.context.STATE.setId) {
-    entity.context.id = entity.context.STATE.setId;
-  }
-  if (!entity.context.ATTRIBUTES) {
-    entity.context.ATTRIBUTES = [];
-  }
-  for (const key of Object.keys(states)) {
-    const id = states[key];
-    const obj = objects ? objects[id] : null;
-    if (id) {
-      addID2entity(id, entity);
-      if (!key.endsWith("Read")) {
-        if (key !== "state" && key !== "stateRead") {
-          const attrs = entity.context.ATTRIBUTES;
-          const attr = attrs.find((a) => a.attribute === key);
-          if (!attr) {
-            attrs.push({
-              attribute: key,
-              getId: states[`${key}Read`] || id,
-              setId: ((_a = obj == null ? void 0 : obj.common) == null ? void 0 : _a.write) ? id : void 0
-            });
-          } else {
-            attr.setId = id;
-          }
-        }
-      }
-    }
-  }
+  entity.fillFromStates(states, objects);
 }
 function autoDetermineEntityType(obj) {
   if (obj.common) {
@@ -373,26 +274,16 @@ function autoDetermineEntityType(obj) {
   }
 }
 function fillEntityIntoCaches(entity) {
-  const foundIndex = entityData.entities.findIndex((x) => x.entity_id === entity.entity_id);
-  if (foundIndex !== -1) {
-    entityData.log.warn(
-      `Got duplicate for entity ${entity.entity_id}. Overwriting old value. Was for ${entityData.entities[foundIndex].context.id} and new one is for ${entity.context.id}`
-    );
-    entityData.entities[foundIndex] = entity;
-  } else {
-    entityData.entities.push(entity);
-  }
-  entityData.entityId2Entity[entity.entity_id] = entity;
-  const ids = entity.context.ids;
-  for (const id of ids || []) {
-    entityData.iobID2entity[id] = entityData.iobID2entity[id] || [];
-    const foundIdx = entityData.iobID2entity[id].findIndex((e) => e.entity_id === entity.entity_id);
-    if (foundIdx === -1) {
-      entityData.iobID2entity[id].push(entity);
-    } else {
-      entityData.iobID2entity[id][foundIdx] = entity;
-    }
-  }
+  entity.registerInCaches();
+}
+function updateTimestamps(entity, state) {
+  entity.updateTimestamp(state, true);
+}
+function addID2entity(id, entity) {
+  entity.addID2entity(id);
+}
+function processCommon(name, room, func, obj, entityType, entity_id) {
+  return new import_baseEntity.BaseEntity(name, room, func, obj, entityType, entity_id);
 }
 function createEntityNameFromCustom(obj, namespace) {
   var _a;
@@ -410,45 +301,6 @@ function createEntityNameFromCustom(obj, namespace) {
     return `${custom[namespace].entity}.${custom[namespace].name}`;
   }
 }
-function updateTimestamps(entity, state, newTS = false) {
-  let lc;
-  let lu;
-  if (!state) {
-    lc = Date.now();
-    lu = Date.now();
-  } else {
-    lu = state.ts || Date.now();
-    lc = state.lc || state.ts || Date.now();
-  }
-  const stateId = state ? state._id : "";
-  try {
-    const ts = new Date(lc).getTime();
-    if (isNaN(ts)) {
-      throw new Error("Invalid Date");
-    }
-  } catch (e) {
-    entityData.adapter.log.debug(`Invalid lc time for ${stateId} in ${entity.entity_id}: ${String(e)}`);
-    lc = Date.now();
-  }
-  try {
-    const ts = new Date(lu).getTime();
-    if (isNaN(ts)) {
-      throw new Error("Invalid Date");
-    }
-  } catch (e) {
-    entityData.adapter.log.debug(`Invalid lu time for ${stateId} in ${entity.entity_id}: ${String(e)}`);
-    lu = Date.now();
-  }
-  const lcKey = newTS ? "lc" : "last_changed";
-  const luKey = newTS ? "lu" : "last_updated";
-  const entityRecord = entity;
-  if (lc / 1e3 > entityRecord[lcKey] || isNaN(entityRecord[lcKey]) || new Date(entityRecord[lcKey] * 1e3).toString() === "Invalid Date") {
-    entityRecord[lcKey] = lc / 1e3;
-  }
-  if (lu / 1e3 > entityRecord[luKey] || isNaN(entityRecord[luKey]) || new Date(entityRecord[luKey] * 1e3).toString() === "Invalid Date") {
-    entityRecord[luKey] = lu / 1e3;
-  }
-}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   addID2entity,
@@ -461,6 +313,7 @@ function updateTimestamps(entity, state, newTS = false) {
   findEntitiesFromEnumChange,
   findEnumForId,
   getEnumName,
+  getObjectIcon,
   getParentIDs,
   getSmartName,
   processCommon,

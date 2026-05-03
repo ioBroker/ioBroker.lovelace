@@ -25,120 +25,43 @@ __export(indicators_exports, {
   processWorking: () => processWorking
 });
 module.exports = __toCommonJS(indicators_exports);
-var import_utils = require("../entities/utils");
-function createOnlineIndicatorFromOfflineIndicator(entity) {
-  entity.attributes.device_class = "connectivity";
-  entity.context.STATE.getParser = (_entity, _attr, state) => {
-    _entity.state = (state == null ? void 0 : state.val) ? "off" : "on";
-  };
-  entity.context.STATE.historyParser = (_iobId, state) => {
-    return (state == null ? void 0 : state.val) ? "off" : "on";
-  };
+var import_binarySensorEntity = require("../entities/binarySensorEntity");
+function makeIndicator(parameters, stateName, iobType, deviceClass, inverted = false) {
+  const state = parameters.controls.states.find((s) => s.id && s.name === stateName);
+  if (!(state == null ? void 0 : state.id)) {
+    return null;
+  }
+  return new import_binarySensorEntity.BinarySensorEntity(parameters, {
+    stateId: state.id,
+    sourceObj: parameters.objects[state.id],
+    deviceClass,
+    iobType,
+    inverted
+  });
 }
 function processBattery(parameters) {
-  const state = parameters.controls.states.find((s) => s.id && s.name === "LOWBAT");
-  if (state == null ? void 0 : state.id) {
-    const entity = (0, import_utils.processCommon)(
-      parameters.friendlyName,
-      parameters.room,
-      parameters.func,
-      parameters.objects[state.id],
-      "binary_sensor",
-      parameters.forcedEntityId
-    );
-    entity.context.STATE = { getId: state.id };
-    entity.context.iobType = "LOWBAT";
-    entity.attributes.device_class = "battery";
-    return entity;
-  }
-  return null;
+  return makeIndicator(parameters, "LOWBAT", "LOWBAT", "battery");
 }
 function connectivityIndicator(parameters) {
   const offlineState = parameters.controls.states.find((s) => s.id && (s.name === "UNREACH" || s.name === "OFFLINE"));
   if (offlineState == null ? void 0 : offlineState.id) {
-    const entity = (0, import_utils.processCommon)(
-      parameters.friendlyName,
-      parameters.room,
-      parameters.func,
-      parameters.objects[offlineState.id],
-      "binary_sensor",
-      parameters.forcedEntityId
-    );
-    entity.context.STATE = { getId: offlineState.id };
-    entity.context.iobType = "OFFLINE";
-    createOnlineIndicatorFromOfflineIndicator(entity);
-    return entity;
+    return new import_binarySensorEntity.BinarySensorEntity(parameters, {
+      stateId: offlineState.id,
+      sourceObj: parameters.objects[offlineState.id],
+      iobType: "OFFLINE",
+      inverted: true
+    });
   }
-  const connectedState = parameters.controls.states.find((s) => s.id && s.name === "CONNECTED");
-  if (connectedState == null ? void 0 : connectedState.id) {
-    const entity = (0, import_utils.processCommon)(
-      parameters.friendlyName,
-      parameters.room,
-      parameters.func,
-      parameters.objects[connectedState.id],
-      "binary_sensor",
-      parameters.forcedEntityId
-    );
-    entity.context.STATE = { getId: connectedState.id };
-    entity.context.iobType = "CONNECTED";
-    entity.attributes.device_class = "connectivity";
-    return entity;
-  }
-  return null;
+  return makeIndicator(parameters, "CONNECTED", "CONNECTED", "connectivity");
 }
 function processError(parameters) {
-  const state = parameters.controls.states.find((s) => s.id && s.name === "ERROR");
-  if (state == null ? void 0 : state.id) {
-    const entity = (0, import_utils.processCommon)(
-      parameters.friendlyName,
-      parameters.room,
-      parameters.func,
-      parameters.objects[state.id],
-      "binary_sensor",
-      parameters.forcedEntityId
-    );
-    entity.context.STATE = { getId: state.id };
-    entity.context.iobType = "ERROR";
-    entity.attributes.device_class = "problem";
-    return entity;
-  }
-  return null;
+  return makeIndicator(parameters, "ERROR", "ERROR", "problem");
 }
 function processMaintenance(parameters) {
-  const state = parameters.controls.states.find((s) => s.id && s.name === "MAINTAIN");
-  if (state == null ? void 0 : state.id) {
-    const entity = (0, import_utils.processCommon)(
-      parameters.friendlyName,
-      parameters.room,
-      parameters.func,
-      parameters.objects[state.id],
-      "binary_sensor",
-      parameters.forcedEntityId
-    );
-    entity.context.STATE = { getId: state.id };
-    entity.context.iobType = "MAINTAIN";
-    entity.attributes.device_class = "update";
-    return entity;
-  }
-  return null;
+  return makeIndicator(parameters, "MAINTAIN", "MAINTAIN", "update");
 }
 function processWorking(parameters) {
-  const state = parameters.controls.states.find((s) => s.id && s.name === "WORKING");
-  if (state == null ? void 0 : state.id) {
-    const entity = (0, import_utils.processCommon)(
-      parameters.friendlyName,
-      parameters.room,
-      parameters.func,
-      parameters.objects[state.id],
-      "binary_sensor",
-      parameters.forcedEntityId
-    );
-    entity.context.STATE = { getId: state.id };
-    entity.context.iobType = "WORKING";
-    entity.attributes.device_class = "running";
-    return entity;
-  }
-  return null;
+  return makeIndicator(parameters, "WORKING", "WORKING", "running");
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

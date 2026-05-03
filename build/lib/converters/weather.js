@@ -33,125 +33,12 @@ __export(weather_exports, {
 module.exports = __toCommonJS(weather_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
-var import_utils = require("../entities/utils");
+var import_weatherEntity = require("../entities/weatherEntity");
 const adapterData = require("../../../lib/dataSingleton");
 class WeatherConverter extends import_converter.default {
   /** @inheritdoc */
   static convertEntities(params) {
-    const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
-    const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[params.id], "weather", forcedEntityId);
-    entity.context.STATE = { getId: null };
-    entity.context.ATTRIBUTES = [];
-    let state = controls.states.find((s) => s.id && s.name === "ICON");
-    if (state == null ? void 0 : state.id) {
-      entity.context.STATE.getId = state.id;
-      (0, import_utils.addID2entity)(state.id, entity);
-    }
-    state = controls.states.find((s) => s.id && s.name === "TEMP");
-    if (state == null ? void 0 : state.id) {
-      entity.context.ATTRIBUTES.push({ attribute: "temperature", getId: state.id });
-      (0, import_utils.addID2entity)(state.id, entity);
-    } else {
-      state = controls.states.find((s) => s.id && s.name === "TEMP_MAX");
-      if (state == null ? void 0 : state.id) {
-        entity.context.ATTRIBUTES.push({ attribute: "temperature", getId: state.id });
-        (0, import_utils.addID2entity)(state.id, entity);
-      }
-    }
-    for (const [stateName, attrName] of [
-      ["PRESSURE", "pressure"],
-      ["HUMIDITY", "humidity"],
-      ["WIND_SPEED", "wind_speed"],
-      ["WIND_DIRECTION", "wind_bearing"],
-      ["PRECIPITATION_CHANCE", "precipitation_probability"],
-      ["PRECIPITATION", "precipitation"]
-    ]) {
-      state = controls.states.find((s) => s.id && s.name === stateName);
-      if (state == null ? void 0 : state.id) {
-        entity.context.ATTRIBUTES.push({ attribute: attrName, getId: state.id });
-        (0, import_utils.addID2entity)(state.id, entity);
-      }
-    }
-    for (const [bare, zeroed, attr] of [
-      ["TIME_SUNRISE", "TIME_SUNRISE0", "sunrise"],
-      ["TIME_SUNSET", "TIME_SUNSET0", "sunset"],
-      ["STATE", "STATE0", "state_desc"]
-    ]) {
-      state = controls.states.find((s) => s.id && s.name === bare);
-      if (state == null ? void 0 : state.id) {
-        entity.context.ATTRIBUTES.push({ attribute: attr, getId: state.id });
-        (0, import_utils.addID2entity)(state.id, entity);
-      } else {
-        state = controls.states.find((s) => s.id && s.name === zeroed);
-        if (state == null ? void 0 : state.id) {
-          entity.context.ATTRIBUTES.push({ attribute: attr, getId: state.id });
-          (0, import_utils.addID2entity)(state.id, entity);
-          state.id = null;
-        }
-      }
-    }
-    let hassCounter = -1;
-    for (let day = 0; day < 9; day++) {
-      const postFix = day ? String(day) : "";
-      let somethingFound = false;
-      let dayShiftId;
-      const tryAdd = (name, attribute) => {
-        state = controls.states.find((s) => s.id && s.name === name);
-        if (state == null ? void 0 : state.id) {
-          if (!somethingFound) {
-            hassCounter++;
-            somethingFound = true;
-          }
-          dayShiftId = dayShiftId != null ? dayShiftId : state.id;
-          entity.context.ATTRIBUTES.push({ attribute, getId: state.id });
-          (0, import_utils.addID2entity)(state.id, entity);
-        }
-      };
-      state = controls.states.find((s) => s.id && s.name === `ICON${postFix}`);
-      if (state == null ? void 0 : state.id) {
-        hassCounter++;
-        somethingFound = true;
-        dayShiftId = state.id;
-        entity.context.ATTRIBUTES.push({ attribute: `forecast.${hassCounter}.condition`, getId: state.id });
-        (0, import_utils.addID2entity)(state.id, entity);
-      }
-      tryAdd(`TEMP_MAX${postFix}`, `forecast.${hassCounter}.temperature`);
-      if (!somethingFound || !entity.context.ATTRIBUTES.find((a) => a.attribute === `forecast.${hassCounter}.temperature`)) {
-        tryAdd(`TEMP${postFix}`, `forecast.${hassCounter}.temperature`);
-      }
-      tryAdd(`TEMP_MIN${postFix}`, `forecast.${hassCounter}.templow`);
-      tryAdd(`PRECIPITATION_CHANCE${postFix}`, `forecast.${hassCounter}.precipitation_probability`);
-      tryAdd(`PRECIPITATION${postFix}`, `forecast.${hassCounter}.precipitation`);
-      tryAdd(`HUMIDITY${postFix}`, `forecast.${hassCounter}.humidity`);
-      if (somethingFound) {
-        state = controls.states.find((s) => s.id && s.name === `DATE${postFix}`);
-        if (state == null ? void 0 : state.id) {
-          entity.context.ATTRIBUTES.push({ attribute: `forecast.${hassCounter}.datetime`, getId: state.id });
-          (0, import_utils.addID2entity)(state.id, entity);
-        } else if (dayShiftId) {
-          const capturedShift = day;
-          const capturedHassCounter = hassCounter;
-          entity.context.ATTRIBUTES.push({
-            attribute: `forecast.${capturedHassCounter}.datetime`,
-            dayShift: capturedShift,
-            getId: dayShiftId,
-            getParser: (_entity, attr, iobState) => {
-              let date = /* @__PURE__ */ new Date();
-              if (iobState == null ? void 0 : iobState.ts) {
-                date = new Date(iobState.ts);
-              }
-              if (attr.dayShift) {
-                date.setDate(date.getDate() + attr.dayShift);
-              }
-              (0, import_utils.setJsonAttribute)(_entity.attributes, attr.attribute, date.toISOString());
-            }
-          });
-        }
-      } else if (hassCounter >= 0) {
-        break;
-      }
-    }
-    return [entity];
+    return [new import_weatherEntity.WeatherEntity(params)];
   }
 }
 import_converter.default.converters[import_type_detector.Types.weatherForecast] = WeatherConverter;

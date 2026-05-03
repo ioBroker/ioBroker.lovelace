@@ -21,7 +21,6 @@ __export(alarm_control_panel_exports, {
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(alarm_control_panel_exports);
-var import_utils = require("../entities/utils");
 const adapterData = require("../../../lib/dataSingleton");
 function parseAlarmState(entity, attrMap, state) {
   if (!state) {
@@ -45,7 +44,7 @@ function parseAlarmState(entity, attrMap, state) {
 }
 function fillAlarmControlPanelFromStates(states, objects, entity) {
   var _a, _b, _c, _d;
-  (0, import_utils.fillEntityFromStates)(states, entity, objects);
+  entity.fillFromStates(states, objects);
   entity.attributes.code_format = "number";
   if (states.state) {
     const obj = objects[states.state];
@@ -62,21 +61,20 @@ function fillAlarmControlPanelFromStates(states, objects, entity) {
     }
     entity.context.STATE.setId = states.state;
     entity.context.STATE.getId = states.state;
-    (0, import_utils.addID2entity)(states.state, entity);
+    entity.addID2entity(states.state);
   }
   if (states.arm_state) {
     const id = states.arm_state;
     const obj = objects[id];
-    entity.context.ATTRIBUTES = [
-      {
-        attribute: "arm_state",
-        getId: id,
-        setId: id,
-        map: (_c = (_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.states) != null ? _c : void 0,
-        getParser: (ent, attr, state) => parseAlarmState(ent, attr.map, state)
-      }
-    ];
-    (0, import_utils.addID2entity)(id, entity);
+    entity.context.ATTRIBUTES = entity.context.ATTRIBUTES.filter((a) => a.attribute !== "arm_state");
+    entity.context.ATTRIBUTES.push({
+      attribute: "arm_state",
+      getId: id,
+      setId: id,
+      map: (_c = (_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.states) != null ? _c : void 0,
+      getParser: (ent, attr, state) => parseAlarmState(ent, attr.map, state)
+    });
+    entity.addID2entity(id);
   }
   entity.context.STATE.getParser = (ent, _attrName, state) => parseAlarmState(ent, void 0, state);
   const processCommand = async (ent, _command, data, user) => {
@@ -140,11 +138,11 @@ function fillAlarmControlPanelFromStates(states, objects, entity) {
   }
   return [entity];
 }
-async function processManualEntity(id, obj, entity, objects, custom) {
+function processManualEntity(id, obj, entity, objects, custom) {
   var _a;
   const states = (_a = custom.states) != null ? _a : { state: id };
   objects[id] = obj;
-  return new Promise((resolve) => resolve(fillAlarmControlPanelFromStates(states, objects, entity)));
+  return fillAlarmControlPanelFromStates(states, objects, entity);
 }
 adapterData.services.alarm_control_panel = {
   alarm_arm_away: {

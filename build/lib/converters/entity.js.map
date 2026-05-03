@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/converters/entity.ts"],
+  "sourcesContent": ["/**\n * Backward-compat re-export shim. The Entity class and supporting types now live\n * under src/lib/entities/baseEntity.ts as `BaseEntity`. This file keeps the older\n * `Entity` export working for files that still import from './entity'.\n */\nexport type {\n    EntityState,\n    EntityAttribute,\n    EntityCommand,\n    InputDateTimeCapabilities,\n    ServiceCallData,\n    ServiceCallTarget,\n} from '../entities/baseEntity';\nexport { BaseEntity, BaseEntity as Entity, processCommon } from '../entities/baseEntity';\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAaA,wBAAgE;",
+  "names": []
+}

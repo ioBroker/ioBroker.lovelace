@@ -21,7 +21,6 @@ __export(input_datetime_exports, {
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(input_datetime_exports);
-var import_utils = require("../entities/utils");
 const adapterData = require("../../../lib/dataSingleton");
 function pad0(n) {
   return n < 10 ? `0${n}` : String(n);
@@ -125,7 +124,7 @@ function fillInputDatetimeEntity(stateId, isString, entity) {
     has_date: attrs.has_date,
     has_time: attrs.has_time
   };
-  (0, import_utils.addID2entity)(stateId, entity);
+  entity.addID2entity(stateId);
 }
 function processManualEntity(id, _obj, entity, objects, custom) {
   var _a, _b, _c, _d;

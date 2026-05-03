@@ -27,6 +27,7 @@ var import_node_path = __toESM(require("node:path"));
 var import_adapter_core = require("@iobroker/adapter-core");
 var import_autoEntities = require("./modules/autoEntities");
 var utils = __toESM(require("./entities/utils"));
+var import_baseEntity = require("./entities/baseEntity");
 var import_friendly_name = require("./entities/friendly_name");
 var import_genericConverter = require("./converters/genericConverter");
 var import_converter = require("./converters/converter");
@@ -98,43 +99,27 @@ const staticOptions = {
   // 31 days
 };
 class WebServer {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   log;
   lang;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   detector;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   words;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   templateStates;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   systemConfig;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _lovelaceConfig;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _ressourceConfig;
   _requestableFiles;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _subscribed;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _server;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _app;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _auth_flows;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _themes;
   _currentTheme;
   _currentThemeDark;
   _darkMode;
   _objectData;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _modules;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _wss;
   _indexHtml;
   _clearInterval;
@@ -173,8 +158,8 @@ class WebServer {
       //id -> object storage
       ids: [],
       //array of object ids.
-      rooms: [],
-      functions: [],
+      rooms: {},
+      functions: {},
       roomNames: {},
       //id -> name storage
       funcNames: {},
@@ -190,7 +175,7 @@ class WebServer {
       }),
       conversation: new import_conversation.default({
         adapter: this.adapter,
-        sendResponse: this._sendResponse,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
         lang: this.lang,
         words: this.words
       }),
@@ -200,8 +185,7 @@ class WebServer {
           const entities = [];
           this._flatJSON(this._lovelaceConfig ? this._lovelaceConfig.views : {}, entities);
           return entities;
-        },
-        webSocketServer: this._wss
+        }
       }),
       notifications: new import_persistentNotifications.default({
         adapter: this.adapter,
@@ -220,24 +204,24 @@ class WebServer {
       entityRegistry: new import_entityRegistry.default({
         adapter: this.adapter,
         entityData,
-        sendResponse: this._sendResponse,
-        sendUpdate: this._sendUpdate.bind(this)
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        sendUpdate: (type, data) => this._sendUpdate(type, data)
       }),
       dashboard: new import_dashboard.default({
         adapter: this.adapter,
-        sendResponse: this._sendResponse,
-        sendUpdate: this._sendUpdate.bind(this)
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        sendUpdate: (type) => this._sendUpdate(type)
       }),
       deviceRegistry: new import_deviceRegistry.default({
         adapter: this.adapter,
         entityData,
-        sendResponse: this._sendResponse
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
       }),
       areaRegistry: new import_areaRegistry.default({
         adapter: this.adapter,
         rooms: this._objectData.rooms,
-        sendResponse: this._sendResponse,
-        sendUpdate: this._sendUpdate.bind(this)
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        sendUpdate: (type) => this._sendUpdate(type)
       })
     };
     this._modules.history = new import_history.default({
@@ -285,9 +269,9 @@ class WebServer {
       this.adapter.subscribeStates("instances.*");
       this.adapter.subscribeStates("conversation");
       this._init();
-      for (const module2 of Object.values(this._modules)) {
-        if (typeof module2.augmentServices === "function") {
-          module2.augmentServices(entityData.services);
+      for (const mod of Object.values(this._modules)) {
+        if (typeof mod.augmentServices === "function") {
+          mod.augmentServices(entityData.services);
         }
       }
       if (this.config.auth !== false) {
@@ -312,7 +296,7 @@ class WebServer {
   async _readAllEntities() {
     const smartDevices = await this._updateDevices();
     for (const entity of smartDevices) {
-      utils.fillEntityIntoCaches(entity);
+      entity.registerInCaches();
     }
     await this._getManualEntities();
     for (const entity of entityData.entities) {
@@ -378,7 +362,7 @@ class WebServer {
         const entities = await this._processManualEntity(id);
         for (const entity of entities) {
           created.push(entity);
-          utils.fillEntityIntoCaches(entity);
+          entity.registerInCaches();
         }
       }
       this._modules.entityRegistry.handleUpdatedEntities(created, false);
@@ -413,13 +397,13 @@ class WebServer {
       const custom = obj.common.custom[this.adapter.namespace] || {};
       const entityType = custom.entity || utils.autoDetermineEntityType(obj);
       const entity_id = utils.createEntityNameFromCustom(obj, this.adapter.namespace);
-      const entity = utils.processCommon(null, null, null, obj, entityType, entity_id);
+      const entity = new import_baseEntity.BaseEntity(null, null, null, obj, entityType, entity_id);
       if (custom.attr_assumed_state && ["switch", "light", "cover", "climate", "fan", "humidifier", "group", "water_heater"].includes(
         entityType
       )) {
         entity.attributes.assumed_state = true;
       }
-      entity.context.STATE = { getId: id, setId: id };
+      entity.context.STATE = { getId: id, setId: id, attribute: "state" };
       if (obj && obj.common && obj.common.states && ["string", "number"].includes(obj.common.type)) {
         entity.context.STATE.map2lovelace = obj.common.states;
         if (!(obj.common.states instanceof Array)) {
@@ -429,10 +413,10 @@ class WebServer {
           );
         }
       }
-      utils.addID2entity(id, entity);
+      entity.addID2entity(id);
       if (custom.states && custom.states.stateRead) {
         entity.context.STATE.getId = custom.states.stateRead;
-        utils.addID2entity(custom.states.stateRead, entity);
+        entity.addID2entity(custom.states.stateRead);
       }
       entity.isManual = true;
       if (custom.states) {
@@ -454,7 +438,7 @@ class WebServer {
             }
           }
         }
-        utils.fillEntityFromStates(custom.states, entity);
+        entity.fillFromStates(custom.states);
       }
       for (const key of Object.keys(custom)) {
         if (key.startsWith("attr_")) {
@@ -476,7 +460,7 @@ class WebServer {
       } else if (entityType === "geo_location") {
         return converterGeoLocation.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "camera") {
-        entity.context.STATE = { getValue: "on" };
+        entity.context.STATE = { getValue: "on", getId: null, attribute: "state" };
         entity.context.ATTRIBUTES = [{ getId: id, attribute: "url" }];
         entity.attributes.code_format = "number";
         entity.attributes.access_token = import_node_crypto.default.createHmac(
@@ -507,7 +491,7 @@ class WebServer {
       } else if (entityType === "switch") {
         return converterSwitch.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "timer") {
-        entity.context.STATE = { getId: null, setId: null };
+        entity.context.STATE = { getId: null, setId: null, attribute: "state" };
         entity.context.lastValue = null;
         entity.attributes.remaining = 0;
         entity.context.ATTRIBUTES = [
@@ -540,7 +524,7 @@ class WebServer {
           }
         ];
       }
-      utils.addID2entity(id, entity);
+      entity.addID2entity(id);
       return [entity];
     } catch (e) {
       this.adapter.log.error(`Could not process manual entity ${id}: ${e.toString()} - ${e.stack}`);
@@ -701,9 +685,9 @@ class WebServer {
       return this._sendResponse(ws, data.id);
     }
     let handled = false;
-    for (const module2 of Object.values(this._modules)) {
-      if (typeof module2.processServiceCall === "function") {
-        handled = await module2.processServiceCall(ws, data) || handled;
+    for (const mod of Object.values(this._modules)) {
+      if (typeof mod.processServiceCall === "function") {
+        handled = await mod.processServiceCall(ws, data) || handled;
       }
     }
     if (handled) {
@@ -844,7 +828,7 @@ class WebServer {
         if (state) {
           if (entity.context.STATE.getId === id) {
             updated = true;
-            utils.updateTimestamps(entity, state);
+            entity.updateTimestamp(state, true);
             if (entity.context.STATE.getParser) {
               entity.context.STATE.getParser(entity, "state", state);
             } else {
@@ -855,15 +839,14 @@ class WebServer {
             const attributes = entity.context.ATTRIBUTES.filter((e) => e.getId === id);
             for (const attr of attributes) {
               updated = true;
-              utils.updateTimestamps(entity, state);
+              entity.updateTimestamp(state, false);
               if (attr.getParser) {
                 attr.getParser(entity, attr, state);
               } else {
                 utils.setJsonAttribute(
                   entity.attributes,
                   attr.attribute,
-                  (0, import_genericConverter.iobState2EntityState)(entity, state.val, attr.attribute),
-                  this.log
+                  (0, import_genericConverter.iobState2EntityState)(entity, state.val, attr.attribute)
                 );
               }
             }
@@ -875,9 +858,9 @@ class WebServer {
         this.updateEntityInFrontend(entity, state);
       });
     }
-    for (const module2 of Object.values(this._modules)) {
-      if (typeof module2.onStateChange === "function") {
-        module2.onStateChange(id, state, this._wss);
+    for (const mod of Object.values(this._modules)) {
+      if (typeof mod.onStateChange === "function") {
+        mod.onStateChange(id, state, this._wss);
       }
     }
   }
@@ -1025,8 +1008,8 @@ class WebServer {
       this._objectData.usedKeys = [];
       this.log.debug(`Done processIobState, got ${entities.length} new entities.`);
       for (const entity of entities) {
-        utils.removeEntity(entity);
-        utils.fillEntityIntoCaches(entity);
+        entity.unregister();
+        entity.registerInCaches();
       }
       return entities;
     }
@@ -2562,9 +2545,9 @@ ${hideScript.join("\n")}
         this._sendResponse(ws, message.id, { type: "pong" });
       } else {
         let result = false;
-        for (const module2 of Object.values(this._modules)) {
-          if (typeof module2.processMessage === "function") {
-            result = await module2.processMessage(ws, message) || result;
+        for (const mod of Object.values(this._modules)) {
+          if (typeof mod.processMessage === "function") {
+            result = await mod.processMessage(ws, message) || result;
           }
         }
         if (!result) {
@@ -2600,6 +2583,17 @@ ${hideScript.join("\n")}
     }
   }
   /**
+   * Mark an ioBroker object id as needing an update (entity recreation).
+   * Pushes the id into the updatedIds queue which is processed by the update timer.
+   *
+   * @param id ioBroker object id to mark for update.
+   */
+  _markForUpdate(id) {
+    if (!this._objectData.updatedIds.includes(id)) {
+      this._objectData.updatedIds.push(id);
+    }
+  }
+  /**
    * Update entity (by deleting and recreating it)
    *
    * @param {string} id of entity.context.id -> main id / device id.
@@ -2614,7 +2608,7 @@ ${hideScript.join("\n")}
       for (let i = entities.length - 1; i >= 0; i--) {
         const entity = entities[i];
         if (entity.context.id === id) {
-          utils.removeEntity(entity);
+          entity.unregister();
           this.log.debug(`Object ${id} deleted, ${entity.entity_id} with deleted, too.`);
           entities.splice(i, 1);
         }
@@ -2626,7 +2620,7 @@ ${hideScript.join("\n")}
         );
         for (const entity of entities) {
           if (entity.isManual) {
-            utils.removeEntity(entity);
+            entity.unregister();
           }
         }
         this.log.debug(`Object ${id} changed, required update of manual entity.`);
@@ -2678,11 +2672,11 @@ ${hideScript.join("\n")}
           for (const entity of affectedEntities) {
             if (entity) {
               this.log.debug(`${id} changed, ${entity.entity_id} affected.`);
-              this._markForUpdate(entity.context.id, this._objectData.objects[entity.context.id], entity);
+              this._markForUpdate(entity.context.id);
             }
           }
           for (const id2 of ids) {
-            this._markForUpdate(id2, this._objectData.objects[id2]);
+            this._markForUpdate(id2);
           }
           utils.getEnumName(obj, this.lang, true);
           this._objectData.rooms[id] = obj;
@@ -2696,11 +2690,11 @@ ${hideScript.join("\n")}
           for (const entity of affectedEntities) {
             if (entity) {
               this.log.debug(`${id} changed, ${entity.entity_id} affected.`);
-              this._markForUpdate(entity.context.id, this._objectData.objects[entity.context.id], entity);
+              this._markForUpdate(entity.context.id);
             }
           }
           for (const id2 of ids) {
-            this._markForUpdate(id2, this._objectData.objects[id2]);
+            this._markForUpdate(id2);
           }
           utils.getEnumName(obj, this.lang, true);
           this._objectData.functions[id] = obj;
@@ -2748,7 +2742,7 @@ ${hideScript.join("\n")}
         this._updateTimer = null;
         this._objectData.updatedIds.sort();
         const needUpdate = [];
-        this.log.debug(`Update timer expired, ${this._objectData.updatedIds.size} objects to look at.`);
+        this.log.debug(`Update timer expired, ${this._objectData.updatedIds.length} objects to look at.`);
         const idsTypeDetectorProcessed = /* @__PURE__ */ new Set();
         for (const id2 of this._objectData.updatedIds) {
           if (!id2) {
@@ -2770,9 +2764,9 @@ ${hideScript.join("\n")}
         }
       }, this.config.updateTimeout || 5e3);
     }
-    for (const module2 of Object.values(this._modules)) {
-      if (typeof module2.onObjectChange === "function") {
-        module2.onObjectChange(id, obj);
+    for (const mod of Object.values(this._modules)) {
+      if (typeof mod.onObjectChange === "function") {
+        mod.onObjectChange(id, obj);
       }
     }
   }
@@ -2794,9 +2788,9 @@ ${hideScript.join("\n")}
     this._clearInterval = null;
     this._updateTimer && clearTimeout(this._updateTimer);
     this._updateTimer = null;
-    for (const module2 of Object.values(this._modules)) {
-      if (typeof module2.cleanup === "function") {
-        module2.cleanup();
+    for (const mod of Object.values(this._modules)) {
+      if (typeof mod.cleanup === "function") {
+        mod.cleanup();
       }
     }
   }

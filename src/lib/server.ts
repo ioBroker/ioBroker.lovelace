@@ -1,4 +1,3 @@
-// @ts-nocheck -- TypeScript migration in progress: imports/exports/class structure converted; full typing is incremental
 
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -6,6 +5,7 @@ import path from 'node:path';
 import { EXIT_CODES } from '@iobroker/adapter-core';
 import { handleAutoEntitiesCard } from './modules/autoEntities';
 import * as utils from './entities/utils';
+import { BaseEntity } from './entities/baseEntity';
 import { getFriendlyName } from './entities/friendly_name';
 import { iobState2EntityState, numericDeviceClasses as NUMERIC_DEVICE_CLASSES } from './converters/genericConverter';
 import { Converter } from './converters/converter';
@@ -205,9 +205,9 @@ class WebServer {
         objects: Record<string, any>;
         ids: string[];
 
-        rooms: any[];
+        rooms: Record<string, ioBroker.Object>;
 
-        functions: any[];
+        functions: Record<string, ioBroker.Object>;
         roomNames: Record<string, string>;
         funcNames: Record<string, string>;
         updatedIds: string[];
@@ -260,8 +260,8 @@ class WebServer {
         this._objectData = {
             objects: {}, //id -> object storage
             ids: [], //array of object ids.
-            rooms: [],
-            functions: [],
+            rooms: {},
+            functions: {},
             roomNames: {}, //id -> name storage
             funcNames: {},
             updatedIds: [], //temporary storage for updated ids
@@ -276,18 +276,17 @@ class WebServer {
             }),
             conversation: new ConversationModule({
                 adapter: this.adapter,
-                sendResponse: this._sendResponse,
+                sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
                 lang: this.lang,
                 words: this.words,
             }),
             logbook: new LogbookModule({
                 adapter: this.adapter,
                 getUsedEntityIDs: () => {
-                    const entities = [];
+                    const entities: string[] = [];
                     this._flatJSON(this._lovelaceConfig ? this._lovelaceConfig.views : {}, entities);
                     return entities;
                 },
-                webSocketServer: this._wss,
             }),
             notifications: new PersistentNotifications({
                 adapter: this.adapter,
@@ -305,24 +304,24 @@ class WebServer {
             entityRegistry: new EntityRegistry({
                 adapter: this.adapter,
                 entityData: entityData,
-                sendResponse: this._sendResponse,
-                sendUpdate: this._sendUpdate.bind(this),
+                sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
+                sendUpdate: (type: string, data?: unknown) => this._sendUpdate(type, data),
             }),
             dashboard: new DashboardModule({
                 adapter: this.adapter,
-                sendResponse: this._sendResponse,
-                sendUpdate: this._sendUpdate.bind(this),
+                sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
+                sendUpdate: (type: string) => this._sendUpdate(type),
             }),
             deviceRegistry: new DeviceRegistryModule({
                 adapter: this.adapter,
                 entityData,
-                sendResponse: this._sendResponse,
+                sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
             }),
             areaRegistry: new AreaRegistryModule({
                 adapter: this.adapter,
                 rooms: this._objectData.rooms,
-                sendResponse: this._sendResponse,
-                sendUpdate: this._sendUpdate.bind(this),
+                sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
+                sendUpdate: (type: string) => this._sendUpdate(type),
             }),
         };
         this._modules.history = new HistoryModule({
@@ -349,7 +348,7 @@ class WebServer {
             this._modules.dashboard.init(),
             this.adapter
                 .getForeignObjectAsync('system.config')
-                .then(config => {
+                .then((config: any) => {
                     this.lang = this.config.language || config.common.language;
                     entityData.lang = this.lang;
                     this.systemConfig = config.common;
@@ -358,7 +357,7 @@ class WebServer {
 
                     return this.adapter.getObjectAsync('configuration');
                 })
-                .then(config => {
+                .then((config: any) => {
                     if (config && config.native && config.native.title) {
                         this._lovelaceConfig = config.native;
                     } else {
@@ -379,9 +378,9 @@ class WebServer {
                 this.adapter.subscribeStates('instances.*');
                 this.adapter.subscribeStates('conversation');
                 this._init();
-                for (const module of Object.values(this._modules)) {
-                    if (typeof module.augmentServices === 'function') {
-                        module.augmentServices(entityData.services);
+                for (const mod of Object.values(this._modules) as any[]) {
+                    if (typeof mod.augmentServices === 'function') {
+                        mod.augmentServices(entityData.services);
                     }
                 }
 
@@ -410,8 +409,7 @@ class WebServer {
     async _readAllEntities() {
         const smartDevices = await this._updateDevices();
         for (const entity of smartDevices) {
-            //fill entity into
-            utils.fillEntityIntoCaches(entity);
+            entity.registerInCaches();
         }
         await this._getManualEntities(); //creates manual entities.
         //now all entities are created. Check for icon urls:
@@ -481,11 +479,11 @@ class WebServer {
                 const entities = await this._processManualEntity(id);
                 for (const entity of entities) {
                     created.push(entity);
-                    utils.fillEntityIntoCaches(entity);
+                    entity.registerInCaches();
                 }
             }
             this._modules.entityRegistry.handleUpdatedEntities(created, false);
-        } catch (e) {
+        } catch (e: any) {
             this.adapter.log.error(`Could not get object view for getAllEntities: ${e.toString()} - ${e.stack}`);
         }
     }
@@ -499,7 +497,7 @@ class WebServer {
      * @param {string} id of ioBroker object
      * @returns {Promise<{context: {id: string, type: string}, attributes: {friendly_name: string}, entity_id: string}[]|entity[]|*[]>} manual entity
      */
-    async _processManualEntity(id) {
+    async _processManualEntity(id: string) {
         try {
             const obj = await this.adapter.getForeignObjectAsync(id);
             if (!this._objectData.objects[id]) {
@@ -522,7 +520,7 @@ class WebServer {
             //const forcedEntityId = this._modules.entityRegistry.getEntityId(id);
             const entity_id = utils.createEntityNameFromCustom(obj, this.adapter.namespace); //maybe use forced id if no id set in object... but does that happen at all?
 
-            const entity = utils.processCommon(null, null, null, obj, entityType, entity_id);
+            const entity = new BaseEntity(null, null, null, obj, entityType, entity_id);
 
             if (
                 custom.attr_assumed_state &&
@@ -533,21 +531,21 @@ class WebServer {
                 entity.attributes.assumed_state = true;
             }
 
-            entity.context.STATE = { getId: id, setId: id };
+            entity.context.STATE = { getId: id, setId: id, attribute: 'state' as const };
             if (obj && obj.common && obj.common.states && ['string', 'number'].includes(obj.common.type)) {
                 entity.context.STATE.map2lovelace = obj.common.states;
                 if (!(obj.common.states instanceof Array)) {
                     entity.context.STATE.map2iob = {};
                     Object.keys(obj.common.states).forEach(
-                        k => (entity.context.STATE.map2iob[obj.common.states[k]] = k),
+                        k => (entity.context.STATE.map2iob![obj.common.states[k]] = k),
                     );
                 }
             }
 
-            utils.addID2entity(id, entity);
+            entity.addID2entity(id);
             if (custom.states && custom.states.stateRead) {
                 entity.context.STATE.getId = custom.states.stateRead;
-                utils.addID2entity(custom.states.stateRead, entity);
+                entity.addID2entity(custom.states.stateRead);
             }
             entity.isManual = true;
             if (custom.states) {
@@ -560,18 +558,18 @@ class WebServer {
                 custom.states.state = id;
 
                 //get objects of all necessary additional ids here:
-                for (const stateId of Object.values(custom.states)) {
+                for (const stateId of Object.values(custom.states) as string[]) {
                     if (!this._objectData.objects[stateId]) {
                         try {
                             this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
-                        } catch (e) {
+                        } catch (e: any) {
                             this.adapter.log.warn(
                                 `Could not get object ${stateId} for manual entity ${entity_id} please check config in ${id}. Error: ${e}`,
                             );
                         }
                     }
                 }
-                utils.fillEntityFromStates(custom.states, entity);
+                entity.fillFromStates(custom.states);
             }
             for (const key of Object.keys(custom)) {
                 if (key.startsWith('attr_')) {
@@ -594,7 +592,7 @@ class WebServer {
             } else if (entityType === 'geo_location') {
                 return converterGeoLocation.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'camera') {
-                entity.context.STATE = { getValue: 'on' };
+                entity.context.STATE = { getValue: 'on', getId: null, attribute: 'state' as const };
                 entity.context.ATTRIBUTES = [{ getId: id, attribute: 'url' }];
                 entity.attributes.code_format = 'number';
                 entity.attributes.access_token = crypto
@@ -630,7 +628,7 @@ class WebServer {
                 return converterSwitch.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'timer') {
                 // - timer => STATE idle/paused/active, attributes: [remaining]
-                entity.context.STATE = { getId: null, setId: null }; // will be simulated
+                entity.context.STATE = { getId: null, setId: null, attribute: 'state' as const }; // will be simulated
                 entity.context.lastValue = null;
                 entity.attributes.remaining = 0;
                 entity.context.ATTRIBUTES = [
@@ -660,7 +658,7 @@ class WebServer {
                             if (typeof state.val === 'string' && state.val.indexOf(':') !== -1) {
                                 entity.attributes.remaining = state.val;
                             } else {
-                                state.val = parseInt(state.val, 10);
+                                state.val = parseInt(state.val as string, 10);
                                 const hours = Math.floor(state.val / 3600);
                                 const minutes = Math.floor((state.val % 3600) / 60);
                                 const seconds = state.val % 60;
@@ -671,10 +669,10 @@ class WebServer {
                 ];
             }
 
-            utils.addID2entity(id, entity);
+            entity.addID2entity(id);
 
             return [entity];
-        } catch (e) {
+        } catch (e: any) {
             this.adapter.log.error(`Could not process manual entity ${id}: ${e.toString()} - ${e.stack}`);
         }
         return [];
@@ -688,26 +686,26 @@ class WebServer {
      * @param {string} entity_id entity id connected to the call. Required to be a single id in this function.
      * @returns {Promise<void>} resolves when done.
      */
-    async _processSingleCall(ws, data, entity_id) {
+    async _processSingleCall(ws: any, data: any, entity_id: string) {
         const user = this._modules.person.getUserIDFromName(ws.__auth?.username);
 
         const entity = entityData.entityId2Entity[entity_id];
         const id = entity.context.STATE.setId;
 
         if (entity.context.COMMANDS) {
-            const command = entity.context.COMMANDS.find(c => c.service === data.service);
+            const command = entity.context.COMMANDS.find((c: any) => c.service === data.service);
             if (command && command.parseCommand) {
                 return command
                     .parseCommand(entity, command, data, user)
-                    .then(result => this._sendResponse(ws, data.id, result))
-                    .catch(e => this._sendResponse(ws, data.id, { result: false, error: e.message || e }));
+                    .then((result: any) => this._sendResponse(ws, data.id, result))
+                    .catch((e: any) => this._sendResponse(ws, data.id, { result: false, error: e.message || e }));
             }
         }
 
         if (data.service === 'toggle') {
             this.log.debug(`toggle ${id}`);
 
-            this.adapter.getForeignState(id, { user }, (err, state) =>
+            this.adapter.getForeignState(id, { user }, (err: any, state: any) =>
                 this.adapter.setForeignState(id, state ? !state.val : true, false, { user }, () =>
                     this._sendResponse(ws, data.id),
                 ),
@@ -736,7 +734,7 @@ class WebServer {
 
             if (data.service_data.temperature !== undefined) {
                 if (entity.context.ATTRIBUTES) {
-                    const attr = entity.context.ATTRIBUTES.find(attr => attr.attribute === 'temperature');
+                    const attr = entity.context.ATTRIBUTES.find((attr: any) => attr.attribute === 'temperature');
                     if (attr) {
                         return this.adapter.setForeignState(
                             attr.setId,
@@ -841,7 +839,7 @@ class WebServer {
      * @param data data of the service call
      * @returns {Promise<void>} resolves when done.
      */
-    async _processCall(ws, data) {
+    async _processCall(ws: any, data: any) {
         if (!data.service) {
             this.log.warn('Invalid service call. Make sure service looks like domain.service_name');
             return;
@@ -854,9 +852,9 @@ class WebServer {
 
         //do that here, because no entity_id in service call!
         let handled = false;
-        for (const module of Object.values(this._modules)) {
-            if (typeof module.processServiceCall === 'function') {
-                handled = (await module.processServiceCall(ws, data)) || handled;
+        for (const mod of Object.values(this._modules) as any[]) {
+            if (typeof mod.processServiceCall === 'function') {
+                handled = (await mod.processServiceCall(ws, data)) || handled;
             }
         }
         if (handled) {
@@ -889,10 +887,10 @@ class WebServer {
      * @returns {Promise<void>}
      */
     async _getAllStates() {
-        let entity = entityData.entities.find(e => e.state === undefined);
+        let entity = entityData.entities.find((e: any) => e.state === undefined);
         while (entity) {
             await this._getStatesForEntity(entity);
-            entity = entityData.entities.find(e => e.state === undefined);
+            entity = entityData.entities.find((e: any) => e.state === undefined);
         }
     }
 
@@ -903,7 +901,7 @@ class WebServer {
      * @param {object} entity entity to get states for
      * @returns {Promise<void>} resolves when done.
      */
-    async _getStatesForEntity(entity) {
+    async _getStatesForEntity(entity: any) {
         entity.state = entity.state || 'unknown';
         if (entity.context.STATE && entity.context.STATE.getId) {
             try {
@@ -916,7 +914,7 @@ class WebServer {
                     entity.last_changed = Date.now() / 1000;
                     entity.last_updated = entity.last_changed;
                 }
-            } catch (e) {
+            } catch (e: any) {
                 this.adapter.log.error(`Could not get state ${entity.context.STATE.getId}: ${e} - ${e.stack}`);
             }
         } else if (entity.context.type === 'switch') {
@@ -930,12 +928,12 @@ class WebServer {
 
         //handle attributes:
         if (entity.context.ATTRIBUTES) {
-            const ids = entity.context.ATTRIBUTES.map(entry => entry.getId || '');
+            const ids = entity.context.ATTRIBUTES.map((entry: any) => entry.getId || '');
             try {
                 const states = await this.adapter.getForeignStatesAsync(ids);
                 if (ids && ids.length) {
                     entity.attributes = entity.attributes || {};
-                    ids.forEach((id, i) => {
+                    ids.forEach((id: any, i: any) => {
                         const attribute = entity.context.ATTRIBUTES[i].attribute;
                         if (attribute === 'remaining' && entity.context.type === 'timer') {
                             if (!states[id].val) {
@@ -949,7 +947,7 @@ class WebServer {
                         }
                     });
                 }
-            } catch (e) {
+            } catch (e: any) {
                 this.adapter.log.error(`Could not update state: ${e} - ${e.stack}`);
             }
         }
@@ -963,7 +961,7 @@ class WebServer {
      * @param forceUpdate force entity.state update of all clients
      * @returns {Promise<void>} resolves when done.
      */
-    async onStateChange(id, state, forceUpdate = false) {
+    async onStateChange(id: string, state: any, forceUpdate = false) {
         if (state) {
             if (
                 id === `${this.adapter.namespace}.control.theme` ||
@@ -982,11 +980,11 @@ class WebServer {
             }
         }
 
-        const changedStates = {};
+        const changedStates: Record<string, boolean> = {};
         this._wss &&
-            this._wss.clients.forEach(client => {
+            this._wss.clients.forEach((client: any) => {
                 if (client.__templates && client.readyState === WebSocket.OPEN) {
-                    client.__templates.forEach(t => {
+                    client.__templates.forEach((t: any) => {
                         if (t.ids.includes(id)) {
                             const _state = state || { val: null };
                             if (
@@ -1011,13 +1009,13 @@ class WebServer {
 
         const entities = entityData.iobID2entity[id];
         if (entities) {
-            entities.forEach(entity => {
+            entities.forEach((entity: any) => {
                 let updated = false;
                 if (state) {
                     // {id: 2, type: "event", "event": {"event_type": "state_changed", "data": {"entity_id": "sun.sun", "old_state": {"entity_id": "sun.sun", "state": "above_horizon", "attributes": {"next_dawn": "2019-05-17T02:57:08+00:00", "next_dusk": "2019-05-16T19:44:32+00:00", "next_midnight": "2019-05-16T23:21:40+00:00", "next_noon": "2019-05-17T11:21:38+00:00", "next_rising": "2019-05-17T03:36:58+00:00", "next_setting": "2019-05-16T19:04:54+00:00", "elevation": 54.81, "azimuth": 216.35, "friendly_name": "Sun"}, "last_changed": "2019-05-16T09:09:53.424242+00:00", "last_updated": "2019-05-16T12:46:30.001390+00:00", "context": {id: "05356b1a7df54b2f939d3c7f8a3e05b4", "parent_id": null, "user_id": null}}, "new_state": {"entity_id": "sun.sun", "state": "above_horizon", "attributes": {"next_dawn": "2019-05-17T02:57:08+00:00", "next_dusk": "2019-05-16T19:44:32+00:00", "next_midnight": "2019-05-16T23:21:40+00:00", "next_noon": "2019-05-17T11:21:38+00:00", "next_rising": "2019-05-17T03:36:58+00:00", "next_setting": "2019-05-16T19:04:54+00:00", "elevation": 54.71, "azimuth": 216.72, "friendly_name": "Sun"}, "last_changed": "2019-05-16T09:09:53.424242+00:00", "last_updated": "2019-05-16T12:47:30.000414+00:00", "context": {id: "e738dc26af1d48b4964c6d9805179595", "parent_id": null, "user_id": null}}}, "origin": "LOCAL", "time_fired": "2019-05-16T12:47:30.000414+00:00", "context": {id: "e738dc26af1d48b4964c6d9805179595", "parent_id": null, "user_id": null}}}
                     if (entity.context.STATE.getId === id) {
                         updated = true;
-                        utils.updateTimestamps(entity, state);
+                        entity.updateTimestamp(state, true);
 
                         if (entity.context.STATE.getParser) {
                             entity.context.STATE.getParser(entity, 'state', state);
@@ -1028,11 +1026,10 @@ class WebServer {
 
                     //can have identical id for state and attributes.
                     if (entity.context.ATTRIBUTES) {
-                        const attributes = entity.context.ATTRIBUTES.filter(e => e.getId === id);
+                        const attributes = entity.context.ATTRIBUTES.filter((e: any) => e.getId === id);
                         for (const attr of attributes) {
                             updated = true;
-                            //only update if newer than already present time.
-                            utils.updateTimestamps(entity, state);
+                            entity.updateTimestamp(state, false);
 
                             if (attr.getParser) {
                                 attr.getParser(entity, attr, state);
@@ -1041,7 +1038,6 @@ class WebServer {
                                     entity.attributes,
                                     attr.attribute,
                                     iobState2EntityState(entity, state.val, attr.attribute),
-                                    this.log,
                                 );
                             }
                         }
@@ -1057,9 +1053,9 @@ class WebServer {
         }
 
         //check modules:
-        for (const module of Object.values(this._modules)) {
-            if (typeof module.onStateChange === 'function') {
-                module.onStateChange(id, state, this._wss);
+        for (const mod of Object.values(this._modules) as any[]) {
+            if (typeof mod.onStateChange === 'function') {
+                mod.onStateChange(id, state, this._wss);
             }
         }
     }
@@ -1070,11 +1066,11 @@ class WebServer {
      * @param entity entity that changed.
      * @param state ioBroker state, used to get the timestamp.
      */
-    updateEntityInFrontend(entity, state) {
-        const t = {
+    updateEntityInFrontend(entity: any, state?: any) {
+        const t: any = {
             type: 'event',
             event: {
-                a: {},
+                a: {} as Record<string, unknown>,
                 event_type: 'subscribe_entities',
                 origin: 'LOCAL',
                 time_fired: state ? state.ts : entity.lu || entity.last_updated || Date.now() / 1000,
@@ -1083,9 +1079,9 @@ class WebServer {
         t.event.a[entity.entity_id] = this._getShortEntity(entity);
 
         this._wss &&
-            this._wss.clients.forEach(ws => {
+            this._wss.clients.forEach((ws: any) => {
                 if (ws._subscribes && ws._subscribes.subscribe_entities) {
-                    ws._subscribes.subscribe_entities.forEach(id => {
+                    ws._subscribes.subscribe_entities.forEach((id: any) => {
                         t.id = id;
                         ws.send(JSON.stringify(t));
                     });
@@ -1106,7 +1102,7 @@ class WebServer {
      * @param existingEntities array of created entities if any
      * @returns {Promise<void>} resolves when done.
      */
-    async _processIobState(ids, objects, id, room, func, existingEntities) {
+    async _processIobState(ids: string[], objects: Record<string, any>, id: string, room: any, func: any, existingEntities: any[]) {
         if (!id) {
             return;
         }
@@ -1140,13 +1136,13 @@ class WebServer {
                     func,
                     objects,
                     existingEntities,
-                    adapter: this,
+                    adapter: this as any,
                     entityRegistry: this._modules.entityRegistry,
                 });
             } else {
                 this.adapter.log.debug(`[Type-Detector] Nothing found for ${options.id}`);
             }
-        } catch (e) {
+        } catch (e: any) {
             this.adapter.log.error(`[Type-Detector] Cannot process "${id}": ${e} stack: ${e.stack}`);
             throw e;
         }
@@ -1190,7 +1186,7 @@ class WebServer {
      * @param {string} id of the main object (i.e., device)
      * @returns {Promise<*[]>} array of created entities if any
      */
-    async _createOneDevice(id) {
+    async _createOneDevice(id: string) {
         if (this.adapter.config.aliasOnly) {
             if (!id.startsWith('alias.0.')) {
                 this.log.debug(
@@ -1200,8 +1196,8 @@ class WebServer {
             }
         }
 
-        const foundRoom = utils.findEnumForId(Object.values(this._objectData.rooms), id);
-        const foundFunc = utils.findEnumForId(Object.values(this._objectData.functions), id);
+        const foundRoom = utils.findEnumForId(Object.values(this._objectData.rooms) as ioBroker.EnumObject[], id);
+        const foundFunc = utils.findEnumForId(Object.values(this._objectData.functions) as ioBroker.EnumObject[], id);
 
         if (foundRoom && foundFunc) {
             if (this._objectData.ids.length !== Object.keys(this._objectData.objects).length) {
@@ -1209,7 +1205,7 @@ class WebServer {
                 this._objectData.ids.sort();
             }
 
-            const entities = [];
+            const entities: any[] = [];
             this.log.debug('Starting processIobState', foundRoom._id, foundFunc._id);
             await this._processIobState(
                 this._objectData.ids,
@@ -1223,8 +1219,8 @@ class WebServer {
             this.log.debug(`Done processIobState, got ${entities.length} new entities.`);
 
             for (const entity of entities) {
-                utils.removeEntity(entity); //during update -> make sure old entity is gone.
-                utils.fillEntityIntoCaches(entity);
+                entity.unregister(); //during update -> make sure old entity is gone.
+                entity.registerInCaches();
             }
 
             return entities;
@@ -1238,7 +1234,7 @@ class WebServer {
      * @returns {Promise<*[]>} array of entities created
      */
     async _updateDevices() {
-        const result = [];
+        const result: any[] = [];
         try {
             await this._readObjects();
 
@@ -1286,7 +1282,7 @@ class WebServer {
             }
 
             this._objectData.usedKeys = [];
-        } catch (e) {
+        } catch (e: any) {
             this.adapter.log.error(`Could not create auto entities: ${e.stack}`);
         }
 
@@ -1308,7 +1304,7 @@ class WebServer {
 
         if (Object.keys(this._objectData.objects).length < 10) {
             try {
-                const params = {};
+                const params: Record<string, string> = {};
                 if (this.adapter.config.aliasOnly) {
                     params.startkey = 'alias.0.';
                     params.endkey = 'alias.0.\u9999';
@@ -1376,7 +1372,7 @@ class WebServer {
                         }
                     }
                 }
-            } catch (e) {
+            } catch (e: any) {
                 this.adapter.log.error(
                     `Failed to get states / channels / devices / enums, entity generation won't work: ${e.toString()} - ${e.stack}`,
                 );
@@ -1426,7 +1422,7 @@ class WebServer {
                     }
                 }
             }
-        } catch (err) {
+        } catch (err: any) {
             if (err.message !== 'Not exists') {
                 //prevent error if there are no cards at all.
                 this.log.warn(`Could not load custom cards: ${err}`);
@@ -1441,7 +1437,7 @@ class WebServer {
      * @param obj frontend configuration
      * @param entities array to store entities
      */
-    _flatJSON(obj, entities) {
+    _flatJSON(obj: any, entities: any[]) {
         for (const key of Object.keys(obj)) {
             if (key === 'type' && obj[key] === 'custom:auto-entities') {
                 handleAutoEntitiesCard(obj, entities, entityData.entities); //add entities from auto-entities card. But also check for entities field, which is supported.
@@ -1472,8 +1468,8 @@ class WebServer {
      * @returns {Promise<void>} resolve when done.
      */
     async _manageSubscribesFromConfig() {
-        const entities = [];
-        const promises = [];
+        const entities: any[] = [];
+        const promises: Promise<any>[] = [];
 
         if (this._lovelaceConfig.views) {
             // iterate through all objects to get all nested entities Ids
@@ -1495,8 +1491,8 @@ class WebServer {
         //         }
         //     }));
 
-        let ids = [];
-        entities.forEach(entityId => {
+        let ids: string[] = [];
+        entities.forEach((entityId: any) => {
             const entity = entityData.entityId2Entity[entityId];
             if (!entity) {
                 return;
@@ -1505,7 +1501,7 @@ class WebServer {
                 ids.push(entity.context.STATE.getId);
             }
             if (entity.context.ATTRIBUTES) {
-                entity.context.ATTRIBUTES.forEach(attr => {
+                entity.context.ATTRIBUTES.forEach((attr: any) => {
                     if (attr.getId && ids.indexOf(attr.getId) === -1) {
                         ids.push(attr.getId);
                     }
@@ -1516,7 +1512,7 @@ class WebServer {
         // check all sockets
         this._wss &&
             this._wss.clients.forEach(
-                client => client.__templates && client.__templates.forEach(t => (ids = ids.concat(t.ids))),
+                (client: any) => client.__templates && client.__templates.forEach((t: any) => (ids = ids.concat(t.ids))),
             );
 
         const deleted = this._subscribed.filter(id => ids.indexOf(id) === -1);
@@ -1738,7 +1734,7 @@ class WebServer {
      * @param res response to use to send the result with.
      * @returns {Promise<void>} resolve when done.
      */
-    async onCards(req, res) {
+    async onCards(req: any, res: any) {
         let file = req.url.replace('hacsfiles', 'cards');
         file = file.replace('/cards/_static_', '/lovelace/static_cards/');
         const pos = file.indexOf('?');
@@ -1763,7 +1759,7 @@ class WebServer {
             );
             res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
             res.send(data);
-        } catch (err) {
+        } catch (err: any) {
             this.log.warn(`Could not read card ${file}: ${err}`);
             res.status(404).send('File not found');
         }
@@ -1775,7 +1771,7 @@ class WebServer {
      * @param req request with body containing the auth code and action.
      * @param res response to send the result with.
      */
-    onAuth(req, res) {
+    onAuth(req: any, res: any) {
         const now = Date.now();
         console.log(`[Auth] ${JSON.stringify(req.body)}`);
         if (req.body.action === 'revoke') {
@@ -1872,7 +1868,7 @@ class WebServer {
         //setup theme selection button:
         try {
             this._themes = yaml.safeLoad(this.config.themes || '') || {};
-        } catch (depError) {
+        } catch (depError: any) {
             if (depError.message.includes('yaml.safeLoad') && depError.message.includes('removed')) {
                 this._themes = yaml.load(this.config.themes || '') || {};
             } else {
@@ -1880,7 +1876,7 @@ class WebServer {
                 this._themes = {};
             }
         }
-        const states = { default: 'default' };
+        const states: Record<string, string> = { default: 'default' };
         for (const themeName of Object.keys(this._themes)) {
             states[themeName] = themeName;
         }
@@ -1934,7 +1930,7 @@ class WebServer {
      * @param res response to send the file with
      * @returns {Promise<void>} resolves when done.
      */
-    async _sendFile(req, res) {
+    async _sendFile(req: any, res: any) {
         let url = req.url;
         url = url.split('/');
         // Skip first /
@@ -1962,7 +1958,7 @@ class WebServer {
                 res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
                 res.status(200).send(image.file);
             }
-        } catch (err) {
+        } catch (err: any) {
             res.contentType('text/html');
             res.status(404).send(`File ${url} not found: ${err}`);
         }
@@ -1973,7 +1969,7 @@ class WebServer {
      *
      * @param stateValue string identifying the file, usually the content of a state (like cover image)
      */
-    addRequestableFile(stateValue) {
+    addRequestableFile(stateValue: any) {
         if (stateValue) {
             if (!this._requestableFiles.includes(stateValue)) {
                 this._requestableFiles.push(stateValue);
@@ -1987,7 +1983,7 @@ class WebServer {
      *
      * @param stateValue string identifying the file, usually the content of a state (like cover image)
      */
-    removeRequestableFile(stateValue) {
+    removeRequestableFile(stateValue: any) {
         if (stateValue) {
             const index = this._requestableFiles.indexOf(stateValue);
             if (index >= 0) {
@@ -2002,7 +1998,7 @@ class WebServer {
      * @param {string} flowId the flow id
      * @returns {{data_schema: [{name: string, type: string, required: boolean},{name: string, type: string, required: boolean}], description_placeholders: null, errors: {}, flow_id: *, handler: string[], last_step: null, step_id: string, type: string}} the flow
      */
-    _getAuthFlow(flowId) {
+    _getAuthFlow(flowId: any): Record<string, any> {
         return {
             data_schema: [
                 { name: 'username', type: 'string', required: true },
@@ -2030,7 +2026,7 @@ class WebServer {
         this._app.use(bodyParser.urlencoded({ extended: false }));
 
         // on http://localhost:3000/auth/authorize?response_type=code&client_id=http%3A%2F%2Flocalhost%3A3000%2F&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flovelace%3Fauth_callback%3D1&state=eyJoYXNzVXJsIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIiwiY2xpZW50SWQiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAvIn0%3D
-        this._app.get('/auth/authorize', (req, res) => {
+        this._app.get('/auth/authorize', (req: any, res: any) => {
             this.log.debug('PRO-debug: auth/authorize - started.');
             /*res.redirect(
                 302,
@@ -2040,7 +2036,7 @@ class WebServer {
             res.send(this._renderAuthorize());
         });
 
-        this._app.use('/auth/providers', (req, res) => {
+        this._app.use('/auth/providers', (req: any, res: any) => {
             res.json({
                 providers: [
                     {
@@ -2053,23 +2049,23 @@ class WebServer {
             });
         });
 
-        this._app.post('/auth/login_flow', (req, res) => {
+        this._app.post('/auth/login_flow', (req: any, res: any) => {
             console.log(`/auth/login_flow${JSON.stringify(req.query)}${JSON.stringify(req.body)}`);
             this.log.debug('PRO-debug: /auth/login_flow');
 
             generateRandomToken((_err, token) => {
-                this._auth_flows[token] = { ts: Date.now() };
+                this._auth_flows[token!] = { ts: Date.now() };
 
                 res.json(this._getAuthFlow(token));
             });
         });
 
-        this._app.delete('/auth/login_flow/:id', (req, res) => {
+        this._app.delete('/auth/login_flow/:id', (req: any, res: any) => {
             delete this._auth_flows[req.params.id];
             res.status(200).json({ message: 'Flow aborted' });
         });
 
-        this._app.post('/auth/login_flow/:id', (req, res) => {
+        this._app.post('/auth/login_flow/:id', (req: any, res: any) => {
             if (this.config.auth === false) {
                 res.status(200).json({
                     description: null,
@@ -2092,19 +2088,19 @@ class WebServer {
                 return;
             }
 
-            let s = '';
-            req.on('data', d => (s += d.toString()));
+            let s: any = '';
+            req.on('data', (d: any) => (s += d.toString()));
             req.on('end', () => {
                 try {
                     s = JSON.parse(s);
-                } catch (e) {
+                } catch (e: any) {
                     this.log.warn(`Cannot parse with data: ${s} - ${e} - ${e.stack}`);
                 }
 
                 console.log(`/auth/login_flow/:id${JSON.stringify(req.query)}${JSON.stringify(req.params)}`);
                 //console.log(s);
 
-                this.adapter.checkPassword(s.username, s.password, result => {
+                this.adapter.checkPassword(s.username, s.password, (result: any) => {
                     const ourResult = this._getAuthFlow(req.params.id);
 
                     if (result) {
@@ -2137,7 +2133,7 @@ class WebServer {
             { code: 'grant_type', maxCount: 1 },
         ]);
 
-        this._app.post('/auth/token', cpUpload, (req, res) => this.onAuth(req, res));
+        this._app.post('/auth/token', cpUpload, (req: any, res: any) => this.onAuth(req, res));
 
         /*const token = this._app.oauth.token();
         this._app.post('/auth/token', (req,res,next) => {
@@ -2146,7 +2142,7 @@ class WebServer {
 
         const pagesWithAuth = [/^\/adapter\//, /^\/state\//, /^\/api\/history\//, /^\/api\/calendars\//];
 
-        this._app.use((req, res, next) => {
+        this._app.use((req: any, res: any, next: any) => {
             if (req.url.includes('authorize.html')) {
                 this.log.debug('authorize.html');
                 res.send(this._renderAuthorize());
@@ -2190,7 +2186,7 @@ class WebServer {
         });
 
         //handle local images that are content of some states:
-        this._app.use(async (req, res, next) => {
+        this._app.use(async (req: any, res: any, next: any) => {
             if (this._requestableFiles.includes(req.url)) {
                 if (!req._user) {
                     //sadly frontend does not send auth info with most request.... :-/
@@ -2203,7 +2199,7 @@ class WebServer {
         });
 
         //handle static files here.
-        this._app.use(async (req, res, next) => {
+        this._app.use(async (req: any, res: any, next: any) => {
             //console.log('url', req.url);
             if (req.url.endsWith('/')) {
                 //index:
@@ -2271,15 +2267,15 @@ class WebServer {
         });
 
         //do we need  that at all?
-        //this._app.get('/lovelace/:id', (req, res) => res.send(this._renderIndex()));
-        //this._app.get('/profile/:id', (req, res) => res.send(this._renderIndex()));
+        //this._app.get('/lovelace/:id', (req: any, res: any) => res.send(this._renderIndex()));
+        //this._app.get('/profile/:id', (req: any, res: any) => res.send(this._renderIndex()));
 
-        this._app.get('/adapter/*adapter', async (req, res) => {
+        this._app.get('/adapter/*adapter', async (req: any, res: any) => {
             await this._replyWithImage(req, res);
         });
 
         // Init read from states
-        this._app.get('/state/*state', async (req, res) => {
+        this._app.get('/state/*state', async (req: any, res: any) => {
             try {
                 const fileName = req.url.split('/', 3)[2].split('?', 2);
                 const obj = await this.adapter.getForeignObjectAsync(fileName[0]);
@@ -2299,7 +2295,7 @@ class WebServer {
                 } else {
                     res.status(404).send(`404 Not found. File ${fileName[0]} not found`);
                 }
-            } catch (e) {
+            } catch (e: any) {
                 try {
                     this.log.warn(`Error serving states: ${e}`);
                     res.status(500).send(`500. Error${e}`);
@@ -2310,21 +2306,21 @@ class WebServer {
             }
         });
 
-        this._app.get('/api/history/period/:start', async (req, res) => {
+        this._app.get('/api/history/period/:start', async (req: any, res: any) => {
             this._modules.history.processRequest(req, res);
         });
-        this._app.get('/api/person/*person', async (req, res) => {
+        this._app.get('/api/person/*person', async (req: any, res: any) => {
             this._modules.person.processRequest(req, res);
         });
-        this._app.get('/api/camera_proxy_stream/:entity_id', async (req, res) => {
+        this._app.get('/api/camera_proxy_stream/:entity_id', async (req: any, res: any) => {
             await this._replyWithImage(req, res);
         });
 
-        this._app.get('/api/camera_proxy/:entity_id', async (req, res) => {
+        this._app.get('/api/camera_proxy/:entity_id', async (req: any, res: any) => {
             await this._replyWithImage(req, res);
         });
 
-        this._app.get('/api/calendars/:entity_id', async (req, res) => {
+        this._app.get('/api/calendars/:entity_id', async (req: any, res: any) => {
             //this.log.debug('Calendar for ' + req.params.entity_id + ' from ' + req.query.start + ' to ' + req.query.end);
             const entity = entityData.entityId2Entity[req.params.entity_id];
             if (!entity) {
@@ -2345,7 +2341,7 @@ class WebServer {
                     if (typeof state.val === 'string') {
                         try {
                             events = JSON.parse(state.val);
-                        } catch (e) {
+                        } catch (e: any) {
                             this.log.warn(`Could not process calendar entries. Make sure it is JSON and array: ${e}`);
                         }
                     }
@@ -2369,7 +2365,7 @@ class WebServer {
                         this.log.warn(`Could not process calendar entries. Make sure it is JSON and array.`);
                     }
                 }
-            } catch (e) {
+            } catch (e: any) {
                 this.log.error(`Could not get state ${entity.context.STATE.getId}: ${e}`);
             }
 
@@ -2377,7 +2373,7 @@ class WebServer {
             res.json([]);
         });
 
-        this._app.use((req, res) => {
+        this._app.use((req: any, res: any) => {
             this.log.info(`Unknown request for ${req.url}`);
             //res.send('unknown');
             res.send(this._renderIndex());
@@ -2387,11 +2383,11 @@ class WebServer {
         this._wss = new WebSocket.Server({ server: this._server });
 
         if (this.config.auth !== false) {
-            this.adapter.getState('session', (err, state) => {
+            this.adapter.getState('session', (err: any, state: any) => {
                 if (state && state.val) {
                     try {
                         state = JSON.parse(state.val);
-                    } catch (e) {
+                    } catch (e: any) {
                         this.log.error(`Cannot parse session: ${state}: ${e} - ${e.stack}`);
                         return;
                     }
@@ -2400,7 +2396,7 @@ class WebServer {
             });
         }
 
-        this._wss.on('connection', async ws => await this._initConnection(ws));
+        this._wss.on('connection', async (ws: any) => await this._initConnection(ws));
     }
 
     /**
@@ -2409,7 +2405,7 @@ class WebServer {
      * @param urlPath {string|undefined} optional url path of the dashboard to get config for.
      * @returns {Record<string, any>} configuration object
      */
-    _getLayoutConfig(urlPath) {
+    _getLayoutConfig(urlPath?: any) {
         if (urlPath) {
             return this._modules.dashboard.getConfig(urlPath);
         }
@@ -2422,14 +2418,14 @@ class WebServer {
      * @param config configuration to store
      * @param urlPath {string|undefined} optional url path of the dashboard to store config for.
      */
-    async _setLayoutConfig(config, urlPath) {
+    async _setLayoutConfig(config: any, urlPath?: any) {
         if (urlPath) {
             await this._modules.dashboard.storeConfig(urlPath, config);
         } else {
-            this.adapter.getObject('configuration', (err, obj) => {
+            this.adapter.getObject('configuration', (err: any, obj: any) => {
                 if (JSON.stringify(obj.native) !== JSON.stringify(config)) {
                     obj.native = config;
-                    this.adapter.setObject('configuration', obj, err => {
+                    this.adapter.setObject('configuration', obj, (err: any) => {
                         err && this.log.error(`Cannot save config: ${err}`);
                         this._sendUpdate('lovelace_updated');
                     });
@@ -2444,7 +2440,7 @@ class WebServer {
      * @param ws websocket connection
      * @returns {Promise<{is_admin: boolean, credentials: [{auth_provider_id: null, auth_provider_type: string}], is_owner: boolean, name: (string|undefined), mfa_modules: [{name: string, id: string, enabled: boolean}], id: string}>} user object
      */
-    async _getCurrentUser(ws) {
+    async _getCurrentUser(ws: any) {
         const user = this._modules.person.getUserIDFromName(ws.__auth.username);
         const userObj = {
             id: user,
@@ -2479,7 +2475,7 @@ class WebServer {
                     );
                 }
             }
-        } catch (err) {
+        } catch (err: any) {
             this.log.warn(`Could not get user ${user}: ${err.stack ? err.stack : err}`);
         }
 
@@ -2492,7 +2488,7 @@ class WebServer {
      * @param {string} lang language to read the translations in
      * @returns {Record<string, string>} translations as object
      */
-    _getTranslations(lang) {
+    _getTranslations(lang: any) {
         //TODO: why does this only return de?? :-( Is this used at all?
         if (!lang || !['de', 'en', 'ru'].includes(lang)) {
             lang = 'en';
@@ -2509,7 +2505,7 @@ class WebServer {
      * @param id id of the request
      * @param [result] optional result to send
      */
-    _sendResponse(ws, id, result) {
+    _sendResponse(ws: any, id: unknown, result?: unknown) {
         ws.send(JSON.stringify({ id: Number(id), type: 'result', success: true, result: result || null }));
     }
 
@@ -2519,11 +2515,11 @@ class WebServer {
      * @param eventType eventType as string
      * @param data optional data to send
      */
-    _sendUpdate(eventType, data) {
+    _sendUpdate(eventType: string, data?: unknown) {
         if (this._wss && this._wss.clients && this._wss.clients.size) {
-            this._wss.clients.forEach(ws => {
+            this._wss.clients.forEach((ws: any) => {
                 if (ws._subscribes && ws._subscribes[eventType]) {
-                    const t = {
+                    const t: any = {
                         type: 'event',
                         event: {
                             event_type: eventType,
@@ -2532,7 +2528,7 @@ class WebServer {
                             time_fired: Date.now() / 1000,
                         },
                     };
-                    ws._subscribes[eventType].forEach(id => {
+                    ws._subscribes[eventType].forEach((id: any) => {
                         t.id = id;
                         ws.send(JSON.stringify(t));
                     });
@@ -2547,10 +2543,10 @@ class WebServer {
      * @param eventType eventType as string
      * @returns {*[]} possible empty array of clients
      */
-    getClientsWithSubscription(eventType) {
-        const clients = [];
+    getClientsWithSubscription(eventType: any) {
+        const clients: any[] = [];
         if (this._wss && this._wss.clients && this._wss.clients.size) {
-            this._wss.clients.forEach(ws => {
+            this._wss.clients.forEach((ws: any) => {
                 if (ws._subscribes && ws._subscribes[eventType]) {
                     clients.push(ws);
                 }
@@ -2566,7 +2562,7 @@ class WebServer {
      * @param res response to send the image with
      * @returns {Promise<void>} resolves when done.
      */
-    async _replyWithImage(req, res) {
+    async _replyWithImage(req: any, res: any) {
         this.log.debug(
             `Get image for ${req.url} and entity ${req.params?.entity_id} with token=${req.query?.token} and signed=${req.query?.signed}`,
         );
@@ -2585,7 +2581,7 @@ class WebServer {
                 content = Buffer.from(data.content, 'base64');
             }
             res.send(content);
-        } catch (err) {
+        } catch (err: any) {
             this.log.warn(`Error in _getImage: ${err} - ${err.stack}`);
             res.status(404).json({ error: err });
         }
@@ -2601,7 +2597,7 @@ class WebServer {
      * @param reqUser user that requested the image
      * @returns {Promise<{content_type: (*|string), content: string}>} image as base64 string
      */
-    async _getImage(entity_id, token, access_token, url, reqUser) {
+    async _getImage(entity_id: any, token: any, access_token?: any, url?: any, reqUser?: any) {
         const entity = entityData.entityId2Entity[entity_id];
         let id;
         let userName; // will be ignored in case of no authentication enabled.
@@ -2635,7 +2631,7 @@ class WebServer {
         if (entity?.context.STATE.getId) {
             id = entity.context.STATE.getId;
         } else if (entity?.context.ATTRIBUTES) {
-            const attr = entity.context.ATTRIBUTES.find(attr => attr.attribute === 'url');
+            const attr = entity.context.ATTRIBUTES.find((attr: any) => attr.attribute === 'url');
             if (attr) {
                 id = attr.getId;
             }
@@ -2695,7 +2691,7 @@ class WebServer {
                 //ignore user here, let's read files as admin, always. User usually has no access to those files.
                 //in case of auth, token is checked above.
                 image = await this.adapter.readFileAsync(id, url);
-            } catch (err) {
+            } catch (err: any) {
                 throw new Error(`Cannot download image: ${err}`);
             }
             if (image) {
@@ -2721,7 +2717,7 @@ class WebServer {
      * @param entity old entity.
      * @returns {{a: (*|boolean|NamedNodeMap|ActiveX.IXMLDOMNamedNodeMap|ActiveX.ISchemaItemCollection), s, lc: (*|number), lu: (*|number)}} short entity
      */
-    _getShortEntity(entity) {
+    _getShortEntity(entity: any) {
         return {
             s: entity.state,
             a: entity.attributes,
@@ -2736,12 +2732,12 @@ class WebServer {
      * @param ws - websocket connection
      * @returns {Promise<void>} - nothing
      */
-    async _initConnection(ws) {
+    async _initConnection(ws: any) {
         ws._subscribes = {};
         ws.__templates = [];
-        let testTimer = null;
+        let testTimer: any = null;
 
-        ws.on('error', e => {
+        ws.on('error', (e: any) => {
             console.error(`Error: ${e}`);
             //this.log.debug(`PRO-debug: ws error: ${e} - ${e.stack}`);
             clearInterval(testTimer);
@@ -2755,7 +2751,7 @@ class WebServer {
         }
 
         //connection is up, let's add a simple event
-        ws.on('message', async message => {
+        ws.on('message', async (message: any) => {
             //this.log.debug('PRO-debug: ws message received');
             if (typeof message !== 'string') {
                 //try to convert to string here?
@@ -2768,7 +2764,7 @@ class WebServer {
             try {
                 message = JSON.parse(message);
                 //console.log(message);
-            } catch (e) {
+            } catch (e: any) {
                 this.log.debug(
                     `Could not parse message: ${message} with type ${typeof message}, got error ${e} with stack ${e.stack}`,
                 );
@@ -2855,7 +2851,7 @@ class WebServer {
                             } else {
                                 //filter out all that are just the same number and where sub.id matches the number.
                                 ws._subscribes[event_type] = ws._subscribes[event_type].filter(
-                                    sub => sub !== message.subscription && sub.id !== message.subscription,
+                                    (sub: any) => sub !== message.subscription && sub.id !== message.subscription,
                                 );
                             }
 
@@ -2882,12 +2878,12 @@ class WebServer {
                 }
                 //this._sendResponse(ws, message.id);
                 //new combined message:
-                const subscribeEntitiesResponse = [
+                const subscribeEntitiesResponse: any[] = [
                     { id: message.id, type: 'result', success: true, result: null },
-                    { id: message.id, type: 'event', event: { a: {} } },
+                    { id: message.id, type: 'event', event: { a: {} as Record<string, unknown> } },
                 ];
                 for (const entity of entityData.entities) {
-                    subscribeEntitiesResponse[1].event.a[entity.entity_id] = this._getShortEntity(entity);
+                    (subscribeEntitiesResponse[1].event.a as Record<string, unknown>)[entity.entity_id] = this._getShortEntity(entity);
                 }
                 ws.send(JSON.stringify(subscribeEntitiesResponse));
             } else if (message.type === 'supported_features') {
@@ -2907,9 +2903,9 @@ class WebServer {
                 this.log.debug(`Sign: ${message.path}`);
                 try {
                     const [path, query] = message.path.split('?');
-                    const search = {};
+                    const search: Record<string, string> = {};
                     if (query) {
-                        query.split('&').forEach(item => {
+                        query.split('&').forEach((item: any) => {
                             const parts = item.split('=');
                             search[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1] || '');
                         });
@@ -2920,7 +2916,7 @@ class WebServer {
                         .map(attr => `${encodeURIComponent(attr)}=${encodeURIComponent(search[attr])}`)
                         .join('&');
                     this._sendResponse(ws, message.id, { path: `${path}?${url}` });
-                } catch (e) {
+                } catch (e: any) {
                     this.log.error(e);
                 }
             } else if (message.type === 'frontend/get_themes') {
@@ -2964,12 +2960,12 @@ class WebServer {
                 this._sendResponse(ws, message.id, []);
             } else if (message.type === 'entity/source') {
                 //a record of entity_id -> { domain: 'whatever created that entity' }
-                const sources = {};
+                const sources: Record<string, { domain: string }> = {};
                 for (const entity of entityData.entities) {
                     if (entity.entity_id === 'zone.home') {
                         sources[entity.entity_id] = { domain: 'constant' };
                     } else {
-                        sources[entity.entity_id] = { domain: entity.isManual ? 'iob_manual' : 'iob_automatic' };
+                        sources[entity.entity_id] = { domain: (entity as any).isManual ? 'iob_manual' : 'iob_automatic' };
                     }
                 }
             } else if (message.type === 'camera_thumbnail') {
@@ -2977,7 +2973,7 @@ class WebServer {
                 try {
                     const data = await this._getImage(message.entity_id, null, null);
                     this._sendResponse(ws, message.id, data);
-                } catch (err) {
+                } catch (err: any) {
                     this.log.warn(`Error in camera_thumbnail: ${err} - ${err.stack}`);
                     this._sendResponse(ws, message.id);
                 }
@@ -2989,13 +2985,13 @@ class WebServer {
                 const template = message.template;
                 this._sendResponse(ws, message.id);
 
-                const obj = { template, ids: [], id: message.id };
+                const obj: { template: any; ids: string[]; id: any } = { template, ids: [], id: message.id };
                 ws.__templates && ws.__templates.push(obj);
 
                 const vars = bindings.extractBinding(template);
                 const promises = [];
 
-                const processId = async id => {
+                const processId = async (id: string) => {
                     if (obj.ids.indexOf(id) !== -1) {
                         return;
                     }
@@ -3010,7 +3006,7 @@ class WebServer {
 
                     try {
                         this.templateStates[id] = await this.adapter.getForeignStateAsync(id);
-                    } catch (e) {
+                    } catch (e: any) {
                         this.log.warning(`Cannot get state ${id}: ${e} in template ${template}`);
                     }
                 };
@@ -3031,7 +3027,7 @@ class WebServer {
                                     }
                                 }
                             }
-                        } catch (e) {
+                        } catch (e: any) {
                             this.log.warning(
                                 `Cannot process variable ${JSON.stringify(v)}: ${e} in template ${template}`,
                             );
@@ -3063,9 +3059,9 @@ class WebServer {
             } else {
                 //check modules:
                 let result = false;
-                for (const module of Object.values(this._modules)) {
-                    if (typeof module.processMessage === 'function') {
-                        result = (await module.processMessage(ws, message)) || result;
+                for (const mod of Object.values(this._modules) as any[]) {
+                    if (typeof mod.processMessage === 'function') {
+                        result = (await mod.processMessage(ws, message)) || result;
                     }
                 }
                 if (!result) {
@@ -3097,10 +3093,22 @@ class WebServer {
      *
      * @param cb callback
      */
-    _saveAuth(cb) {
+    _saveAuth(cb?: () => void) {
         if (this.config.auth !== false) {
             console.log('auth stored.');
             this.adapter.setState('session', JSON.stringify(this._auth_flows), true, cb);
+        }
+    }
+
+    /**
+     * Mark an ioBroker object id as needing an update (entity recreation).
+     * Pushes the id into the updatedIds queue which is processed by the update timer.
+     *
+     * @param id ioBroker object id to mark for update.
+     */
+    _markForUpdate(id: string): void {
+        if (!this._objectData.updatedIds.includes(id)) {
+            this._objectData.updatedIds.push(id);
         }
     }
 
@@ -3112,7 +3120,7 @@ class WebServer {
      * @param {Array<object>} entitiesNeedsUpdate array of entities that need update, entities might be added here.
      * @returns {Promise<any[]>} resolves with array of created entities.
      */
-    async _updateById(id, idsAutomaticallyProcessed, entitiesNeedsUpdate) {
+    async _updateById(id: string, idsAutomaticallyProcessed: Set<string>, entitiesNeedsUpdate: any[]) {
         const entities = entityData.iobID2entity[id] || [];
         const obj = this._objectData.objects[id];
 
@@ -3123,7 +3131,7 @@ class WebServer {
                 // if main object of an entity is deleted, delete entity, too. Otherwise update of device should handle it.
                 const entity = entities[i];
                 if (entity.context.id === id) {
-                    utils.removeEntity(entity);
+                    entity.unregister();
                     this.log.debug(`Object ${id} deleted, ${entity.entity_id} with deleted, too.`);
                     entities.splice(i, 1);
                     // "update" needed on deletion, currently, because it will mostly only update entity data with stuff from registry.
@@ -3138,7 +3146,7 @@ class WebServer {
                 );
                 for (const entity of entities) {
                     if (entity.isManual) {
-                        utils.removeEntity(entity);
+                        entity.unregister();
                     }
                 }
                 this.log.debug(`Object ${id} changed, required update of manual entity.`);
@@ -3174,7 +3182,7 @@ class WebServer {
      * @param obj object itself
      * @returns {Promise<void>} resolves when done.
      */
-    async onObjectChange(id, obj) {
+    async onObjectChange(id: string, obj: any) {
         console.log('onObjectChange', id, obj);
         if (obj) {
             if (obj.type === 'state' || obj.type === 'channel' || obj.type === 'device') {
@@ -3192,17 +3200,17 @@ class WebServer {
             } else if (obj.type === 'enum') {
                 if (id.startsWith('enum.rooms.')) {
                     const { ids, entities: affectedEntities } = utils.findEntitiesFromEnumChange(
-                        obj,
-                        this._objectData.rooms[id],
+                        obj as ioBroker.EnumObject,
+                        this._objectData.rooms[id] as ioBroker.EnumObject | undefined,
                     );
                     for (const entity of affectedEntities) {
                         if (entity) {
                             this.log.debug(`${id} changed, ${entity.entity_id} affected.`);
-                            this._markForUpdate(entity.context.id, this._objectData.objects[entity.context.id], entity);
+                            this._markForUpdate(entity.context.id);
                         }
                     }
                     for (const id of ids) {
-                        this._markForUpdate(id, this._objectData.objects[id]);
+                        this._markForUpdate(id);
                     }
                     utils.getEnumName(obj, this.lang, true);
                     this._objectData.rooms[id] = obj;
@@ -3210,17 +3218,17 @@ class WebServer {
                 }
                 if (id.startsWith('enum.functions.')) {
                     const { ids, entities: affectedEntities } = utils.findEntitiesFromEnumChange(
-                        obj,
-                        this._objectData.functions[id],
+                        obj as ioBroker.EnumObject,
+                        this._objectData.functions[id] as ioBroker.EnumObject | undefined,
                     );
                     for (const entity of affectedEntities) {
                         if (entity) {
                             this.log.debug(`${id} changed, ${entity.entity_id} affected.`);
-                            this._markForUpdate(entity.context.id, this._objectData.objects[entity.context.id], entity);
+                            this._markForUpdate(entity.context.id);
                         }
                     }
                     for (const id of ids) {
-                        this._markForUpdate(id, this._objectData.objects[id]);
+                        this._markForUpdate(id);
                     }
                     utils.getEnumName(obj, this.lang, true);
                     this._objectData.functions[id] = obj;
@@ -3273,9 +3281,9 @@ class WebServer {
             this._updateTimer = setTimeout(async () => {
                 this._updateTimer = null;
                 this._objectData.updatedIds.sort(); //make sure parents are processed first.
-                const needUpdate = [];
-                this.log.debug(`Update timer expired, ${this._objectData.updatedIds.size} objects to look at.`);
-                const idsTypeDetectorProcessed = new Set(); //makes sure we do not process an id twice with type-detector.
+                const needUpdate: any[] = [];
+                this.log.debug(`Update timer expired, ${this._objectData.updatedIds.length} objects to look at.`);
+                const idsTypeDetectorProcessed = new Set<string>(); //makes sure we do not process an id twice with type-detector.
                 // Need to check:
                 // + check if manual -> if so, just update manual entity and be done.
                 // + find parent Devices, if necessary
@@ -3308,9 +3316,9 @@ class WebServer {
             }, this.config.updateTimeout || 5000);
         }
 
-        for (const module of Object.values(this._modules)) {
-            if (typeof module.onObjectChange === 'function') {
-                module.onObjectChange(id, obj);
+        for (const mod of Object.values(this._modules) as any[]) {
+            if (typeof mod.onObjectChange === 'function') {
+                mod.onObjectChange(id, obj);
             }
         }
     }
@@ -3333,9 +3341,9 @@ class WebServer {
         this._clearInterval = null;
         this._updateTimer && clearTimeout(this._updateTimer);
         this._updateTimer = null;
-        for (const module of Object.values(this._modules)) {
-            if (typeof module.cleanup === 'function') {
-                module.cleanup();
+        for (const mod of Object.values(this._modules) as any[]) {
+            if (typeof mod.cleanup === 'function') {
+                mod.cleanup();
             }
         }
     }

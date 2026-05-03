@@ -33,48 +33,12 @@ __export(lock_exports, {
 module.exports = __toCommonJS(lock_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
-var import_utils = require("../entities/utils");
+var import_lockEntity = require("../entities/lockEntity");
 const adapterData = require("../../../lib/dataSingleton");
 class LockConverter extends import_converter.default {
   /** @inheritdoc */
   static convertEntities(params) {
-    const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
-    const entity = (0, import_utils.processCommon)(friendlyName, room, func, objects[params.id], "lock", forcedEntityId);
-    entity.context.STATE = { setId: null, getId: null };
-    let state = controls.states.find((s) => s.id && s.name === "SET");
-    if (state == null ? void 0 : state.id) {
-      entity.context.STATE.setId = state.id;
-      entity.context.STATE.getId = state.id;
-      (0, import_utils.addID2entity)(state.id, entity);
-    }
-    state = controls.states.find((s) => s.id && s.name === "ACTUAL");
-    if (state == null ? void 0 : state.id) {
-      entity.context.STATE.getId = state.id;
-      (0, import_utils.addID2entity)(state.id, entity);
-    }
-    state = controls.states.find((s) => s.id && s.name === "OPEN");
-    if (state == null ? void 0 : state.id) {
-      const openId = state.id;
-      entity.attributes.supported_features = 1;
-      entity.context.COMMANDS = [
-        {
-          service: "open",
-          setId: openId,
-          parseCommand: (_entity, command, _data, _user) => {
-            return new Promise((resolve, reject) => {
-              adapterData.adapter.setForeignState(
-                command.setId,
-                true,
-                false,
-                { user: _user },
-                (err) => err ? reject(err) : resolve(void 0)
-              );
-            });
-          }
-        }
-      ];
-    }
-    return [entity];
+    return [new import_lockEntity.LockEntity(params)];
   }
 }
 import_converter.default.converters[import_type_detector.Types.lock] = LockConverter;
