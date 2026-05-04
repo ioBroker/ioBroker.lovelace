@@ -98,6 +98,9 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 
 ## Cleanup (after all conversions)
 
+- [ ] Check if new converter code is semantical identical to original JS version
+- [ ] Do we have tests for all converters? If not, add them.
+- [ ] Convert unit tests to TypeScript (i.e. *.test.js to .test.ts) and update test runner config
 - [ ] Delete `lib/converters/binary_sensor.js` (superseded by TS version)
 - [ ] Remove `Converter.legacyConverters` from `converter.ts`
 - [ ] Remove `allowJs` / `checkJs` from `tsconfig.build.json`
