@@ -93,6 +93,7 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 - [x] fixed alarm_control_panel ATTRIBUTES array overwrite (uses filter+push instead of assignment)
 - [x] converters separated from entity construction: entity logic lives in `src/lib/entities/`, converters in `src/lib/converters/`
 - [ ] integrate utils.ts standalone shims into entity classes fully (blocked by server.ts migration below)
+- [ ] Derive module base class or interface from existing modules and use that one in server.ts. 
 
 ---
 
