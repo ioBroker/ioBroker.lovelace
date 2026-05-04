@@ -1,4 +1,3 @@
-
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import path from 'node:path';
@@ -60,7 +59,6 @@ const entityData = require('./dataSingleton');
 const bindings = require('./bindings');
 
 const ChannelDetector = require('@iobroker/type-detector').default;
-
 
 const ignoreIds = [/^system\./, /^script\./];
 
@@ -359,7 +357,7 @@ class WebServer {
                 this.adapter.subscribeStates('instances.*');
                 this.adapter.subscribeStates('conversation');
                 this._init();
-                for (const mod of Object.values(this._modules) as any[]) {
+                for (const mod of Object.values(this._modules)) {
                     if (typeof mod.augmentServices === 'function') {
                         mod.augmentServices(entityData.services);
                     }
@@ -385,7 +383,7 @@ class WebServer {
     /**
      * Generate all entities from object database using type-detector and custom settings.
      *
-     * @returns {Promise<void>} resolves, when done.
+     * @returns resolves, when done.
      */
     async _readAllEntities() {
         const smartDevices = await this._updateDevices();
@@ -437,7 +435,7 @@ class WebServer {
     /**
      * Generates entities from custom settings (TODO: name is misguiding!!)
      *
-     * @returns {Promise<void>} resolves, when done.
+     * @returns resolves, when done.
      */
     async _getManualEntities() {
         try {
@@ -475,8 +473,8 @@ class WebServer {
     /**
      * Create manual entities from custom-part. Process one object here.
      *
-     * @param {string} id of ioBroker object
-     * @returns {Promise<{context: {id: string, type: string}, attributes: {friendly_name: string}, entity_id: string}[]|entity[]|*[]>} manual entity
+     * @param id of ioBroker object
+     * @returns manual entity
      */
     async _processManualEntity(id: string) {
         try {
@@ -539,7 +537,7 @@ class WebServer {
                 custom.states.state = id;
 
                 //get objects of all necessary additional ids here:
-                for (const stateId of Object.values(custom.states) as string[]) {
+                for (const stateId of Object.values(custom.states)) {
                     if (!this._objectData.objects[stateId]) {
                         try {
                             this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
@@ -663,9 +661,9 @@ class WebServer {
      * Process a single service call from the frontend.
      *
      * @param ws websocket connection to the frontend
-     * @param {Record<string,any>} data data of the service call
-     * @param {string} entity_id entity id connected to the call. Required to be a single id in this function.
-     * @returns {Promise<void>} resolves when done.
+     * @param data data of the service call
+     * @param entity_id entity id connected to the call. Required to be a single id in this function.
+     * @returns resolves when done.
      */
     async _processSingleCall(ws: any, data: any, entity_id: string) {
         const user = this._modules.person.getUserIDFromName(ws.__auth?.username);
@@ -818,7 +816,7 @@ class WebServer {
      *
      * @param ws websocket connection to the frontend
      * @param data data of the service call
-     * @returns {Promise<void>} resolves when done.
+     * @returns resolves when done.
      */
     async _processCall(ws: any, data: any) {
         if (!data.service) {
@@ -833,7 +831,7 @@ class WebServer {
 
         //do that here, because no entity_id in service call!
         let handled = false;
-        for (const mod of Object.values(this._modules) as any[]) {
+        for (const mod of Object.values(this._modules)) {
             if (typeof mod.processServiceCall === 'function') {
                 handled = (await mod.processServiceCall(ws, data)) || handled;
             }
@@ -865,7 +863,7 @@ class WebServer {
     /**
      * Get states for all entities and fill entity states / attributes during startup.
      *
-     * @returns {Promise<void>}
+     * @returns
      */
     async _getAllStates() {
         let entity = entityData.entities.find((e: any) => e.state === undefined);
@@ -879,8 +877,8 @@ class WebServer {
      * Read states from iobroker state database and fill entity states / attributes.
      * Usually done to read initial values.
      *
-     * @param {object} entity entity to get states for
-     * @returns {Promise<void>} resolves when done.
+     * @param entity entity to get states for
+     * @returns resolves when done.
      */
     async _getStatesForEntity(entity: any) {
         entity.state = entity.state || 'unknown';
@@ -940,7 +938,7 @@ class WebServer {
      * @param id id of the state
      * @param state new state object
      * @param forceUpdate force entity.state update of all clients
-     * @returns {Promise<void>} resolves when done.
+     * @returns resolves when done.
      */
     async onStateChange(id: string, state: any, forceUpdate = false) {
         if (state) {
@@ -1034,7 +1032,7 @@ class WebServer {
         }
 
         //check modules:
-        for (const mod of Object.values(this._modules) as any[]) {
+        for (const mod of Object.values(this._modules)) {
             if (typeof mod.onStateChange === 'function') {
                 mod.onStateChange(id, state, this._wss);
             }
@@ -1081,9 +1079,16 @@ class WebServer {
      * @param room room object assigned to object
      * @param func func object assigned to object
      * @param existingEntities array of created entities if any
-     * @returns {Promise<void>} resolves when done.
+     * @returns resolves when done.
      */
-    async _processIobState(ids: string[], objects: Record<string, any>, id: string, room: any, func: any, existingEntities: any[]) {
+    async _processIobState(
+        ids: string[],
+        objects: Record<string, any>,
+        id: string,
+        room: any,
+        func: any,
+        existingEntities: any[],
+    ) {
         if (!id) {
             return;
         }
@@ -1164,8 +1169,8 @@ class WebServer {
     /**
      * Create one entity from type-detector
      *
-     * @param {string} id of the main object (i.e., device)
-     * @returns {Promise<*[]>} array of created entities if any
+     * @param id of the main object (i.e., device)
+     * @returns array of created entities if any
      */
     async _createOneDevice(id: string) {
         if (this.adapter.config.aliasOnly) {
@@ -1212,7 +1217,7 @@ class WebServer {
     /**
      * Update all devices from type-detector
      *
-     * @returns {Promise<*[]>} array of entities created
+     * @returns array of entities created
      */
     async _updateDevices() {
         const result: any[] = [];
@@ -1278,7 +1283,7 @@ class WebServer {
     /**
      * Read all objects from object database that are required to create entities from type-detector results.
      *
-     * @returns {Promise<Record<string, ioBroker.Object>>} all objects
+     * @returns all objects
      */
     async _readObjects() {
         const objects = this._objectData.objects;
@@ -1366,7 +1371,7 @@ class WebServer {
      * Add custom cards as resources so that frontend nows about them.
      * Also lists browser_mod and possibly other static cards.
      *
-     * @returns {Promise<void>} resolves when done.
+     * @returns resolves when done.
      */
     async _listFiles() {
         try {
@@ -1446,7 +1451,7 @@ class WebServer {
     /**
      * Subscribe to ioBroker state changes based on frontend configuration.
      *
-     * @returns {Promise<void>} resolve when done.
+     * @returns resolve when done.
      */
     async _manageSubscribesFromConfig() {
         const entities: any[] = [];
@@ -1493,7 +1498,8 @@ class WebServer {
         // check all sockets
         this._wss &&
             this._wss.clients.forEach(
-                (client: any) => client.__templates && client.__templates.forEach((t: any) => (ids = ids.concat(t.ids))),
+                (client: any) =>
+                    client.__templates && client.__templates.forEach((t: any) => (ids = ids.concat(t.ids))),
             );
 
         const deleted = this._subscribed.filter(id => ids.indexOf(id) === -1);
@@ -1524,7 +1530,7 @@ class WebServer {
     /**
      * Render the index html file on request. May replace some stuff.
      *
-     * @returns {*} index html.
+     * @returns index html.
      */
     _renderIndex() {
         if (this._indexHtml) {
@@ -1573,7 +1579,7 @@ class WebServer {
     /**
      * Creates manifest object based on language.
      *
-     * @returns {{theme_color: string, background_color: string, display: string, name: string, start_url: string, description: string, short_name: string, dir: string, icons: [{sizes: string, src: string, type: string},{sizes: string, src: string, type: string},{sizes: string, src: string, type: string},{sizes: string, src: string, type: string}], lang: string}} manifest object.
+     * @returns manifest object.
      */
     _renderManifest() {
         let lang = 'en-US';
@@ -1621,7 +1627,7 @@ class WebServer {
     /**
      * Rendes the authorize page.
      *
-     * @returns {string} authorize page html
+     * @returns authorize page html
      */
     _renderAuthorize() {
         let html = fs.readFileSync(`${getRootPath()}authorize.html`).toString('utf-8');
@@ -1632,7 +1638,7 @@ class WebServer {
     /**
      * Returns lovelace / HASS config for the frontent.
      *
-     * @returns {{elevation: number, country: any, components: string[], latitude: number, safe_mode: boolean, language: (*|string), time_zone, internal_url: null, version: string, unit_system: {volume: string, mass: string, length: string, accumulated_precipitation: string, temperature: (any|string), wind_speed: string, pressure: string}, location_name: string, external_url: null, currency: (any|string), state: string, config_source: string, longitude: number}} config
+     * @returns config
      */
     _getConfig() {
         const tzone = jstz.determine().name();
@@ -1687,7 +1693,7 @@ class WebServer {
     /**
      * Returns themes and the ones currently selected in config / object.
      *
-     * @returns {{themes: (*|{}), default_theme: (*|string), darkMode: boolean, default_dark_theme: (*|string)}} themes
+     * @returns themes
      */
     _getThemes() {
         return {
@@ -1701,7 +1707,7 @@ class WebServer {
     /**
      * Somehow this seem to just be the entities?
      *
-     * @returns {[]} entity array.
+     * @returns entity array.
      */
     getHassStates() {
         // parse config for entity_ids
@@ -1713,7 +1719,7 @@ class WebServer {
      *
      * @param req request with url.
      * @param res response to use to send the result with.
-     * @returns {Promise<void>} resolve when done.
+     * @returns resolve when done.
      */
     async onCards(req: any, res: any) {
         let file = req.url.replace('hacsfiles', 'cards');
@@ -1843,7 +1849,7 @@ class WebServer {
     /**
      * Parse themes stored in config and set the current theme.
      *
-     * @returns {Promise<void>} resolves when done.
+     * @returns resolves when done.
      */
     async _initThemes() {
         //setup theme selection button:
@@ -1909,7 +1915,7 @@ class WebServer {
      *
      * @param req request with url
      * @param res response to send the file with
-     * @returns {Promise<void>} resolves when done.
+     * @returns resolves when done.
      */
     async _sendFile(req: any, res: any) {
         let url = req.url;
@@ -1976,8 +1982,8 @@ class WebServer {
     /**
      * Gets an auth flow object to send to UI for login form / login errors.
      *
-     * @param {string} flowId the flow id
-     * @returns {{data_schema: [{name: string, type: string, required: boolean},{name: string, type: string, required: boolean}], description_placeholders: null, errors: {}, flow_id: *, handler: string[], last_step: null, step_id: string, type: string}} the flow
+     * @param flowId the flow id
+     * @returns the flow
      */
     _getAuthFlow(flowId: any): Record<string, any> {
         return {
@@ -2384,7 +2390,7 @@ class WebServer {
      * Return the stored configuration.
      *
      * @param urlPath {string|undefined} optional url path of the dashboard to get config for.
-     * @returns {Record<string, any>} configuration object
+     * @returns configuration object
      */
     _getLayoutConfig(urlPath?: any) {
         if (urlPath) {
@@ -2419,7 +2425,7 @@ class WebServer {
      * From websocket connection get the username and create HASS user object.
      *
      * @param ws websocket connection
-     * @returns {Promise<{is_admin: boolean, credentials: [{auth_provider_id: null, auth_provider_type: string}], is_owner: boolean, name: (string|undefined), mfa_modules: [{name: string, id: string, enabled: boolean}], id: string}>} user object
+     * @returns user object
      */
     async _getCurrentUser(ws: any) {
         const user = this._modules.person.getUserIDFromName(ws.__auth.username);
@@ -2466,8 +2472,8 @@ class WebServer {
     /**
      * Read translations from the filesystem.
      *
-     * @param {string} lang language to read the translations in
-     * @returns {Record<string, string>} translations as object
+     * @param lang language to read the translations in
+     * @returns translations as object
      */
     _getTranslations(lang: any) {
         //TODO: why does this only return de?? :-( Is this used at all?
@@ -2522,7 +2528,7 @@ class WebServer {
      * Return all connected websocket clients that subsribed to a certain event type.
      *
      * @param eventType eventType as string
-     * @returns {*[]} possible empty array of clients
+     * @returns possible empty array of clients
      */
     getClientsWithSubscription(eventType: any) {
         const clients: any[] = [];
@@ -2541,7 +2547,7 @@ class WebServer {
      *
      * @param req incoming request
      * @param res response to send the image with
-     * @returns {Promise<void>} resolves when done.
+     * @returns resolves when done.
      */
     async _replyWithImage(req: any, res: any) {
         this.log.debug(
@@ -2576,7 +2582,7 @@ class WebServer {
      * @param access_token access token to check if the user is logged in.
      * @param url optional url to the image, if no entity is used.
      * @param reqUser user that requested the image
-     * @returns {Promise<{content_type: (*|string), content: string}>} image as base64 string
+     * @returns image as base64 string
      */
     async _getImage(entity_id: any, token: any, access_token?: any, url?: any, reqUser?: any) {
         const entity = entityData.entityId2Entity[entity_id];
@@ -2696,7 +2702,7 @@ class WebServer {
      * Somehow introduced in newer versions of Home Assistant.
      *
      * @param entity old entity.
-     * @returns {{a: (*|boolean|NamedNodeMap|ActiveX.IXMLDOMNamedNodeMap|ActiveX.ISchemaItemCollection), s, lc: (*|number), lu: (*|number)}} short entity
+     * @returns short entity
      */
     _getShortEntity(entity: any) {
         return {
@@ -2711,7 +2717,7 @@ class WebServer {
      * Client connected and established a websocket connection. Initialize server here.
      *
      * @param ws - websocket connection
-     * @returns {Promise<void>} - nothing
+     * @returns - nothing
      */
     async _initConnection(ws: any) {
         ws._subscribes = {};
@@ -2864,7 +2870,8 @@ class WebServer {
                     { id: message.id, type: 'event', event: { a: {} as Record<string, unknown> } },
                 ];
                 for (const entity of entityData.entities) {
-                    (subscribeEntitiesResponse[1].event.a as Record<string, unknown>)[entity.entity_id] = this._getShortEntity(entity);
+                    (subscribeEntitiesResponse[1].event.a as Record<string, unknown>)[entity.entity_id] =
+                        this._getShortEntity(entity);
                 }
                 ws.send(JSON.stringify(subscribeEntitiesResponse));
             } else if (message.type === 'supported_features') {
@@ -2946,7 +2953,9 @@ class WebServer {
                     if (entity.entity_id === 'zone.home') {
                         sources[entity.entity_id] = { domain: 'constant' };
                     } else {
-                        sources[entity.entity_id] = { domain: (entity as any).isManual ? 'iob_manual' : 'iob_automatic' };
+                        sources[entity.entity_id] = {
+                            domain: entity.isManual ? 'iob_manual' : 'iob_automatic',
+                        };
                     }
                 }
             } else if (message.type === 'camera_thumbnail') {
@@ -3040,7 +3049,7 @@ class WebServer {
             } else {
                 //check modules:
                 let result = false;
-                for (const mod of Object.values(this._modules) as any[]) {
+                for (const mod of Object.values(this._modules)) {
                     if (typeof mod.processMessage === 'function') {
                         result = (await mod.processMessage(ws, message)) || result;
                     }
@@ -3096,10 +3105,10 @@ class WebServer {
     /**
      * Update entity (by deleting and recreating it)
      *
-     * @param {string} id of entity.context.id -> main id / device id.
-     * @param {Set<string>} idsAutomaticallyProcessed set of ids which were already automatically processed, ids might be added here.
-     * @param {Array<object>} entitiesNeedsUpdate array of entities that need update, entities might be added here.
-     * @returns {Promise<any[]>} resolves with array of created entities.
+     * @param id of entity.context.id -> main id / device id.
+     * @param idsAutomaticallyProcessed set of ids which were already automatically processed, ids might be added here.
+     * @param entitiesNeedsUpdate array of entities that need update, entities might be added here.
+     * @returns resolves with array of created entities.
      */
     async _updateById(id: string, idsAutomaticallyProcessed: Set<string>, entitiesNeedsUpdate: any[]) {
         const entities = entityData.iobID2entity[id] || [];
@@ -3161,7 +3170,7 @@ class WebServer {
      *
      * @param id of object
      * @param obj object itself
-     * @returns {Promise<void>} resolves when done.
+     * @returns resolves when done.
      */
     async onObjectChange(id: string, obj: any) {
         console.log('onObjectChange', id, obj);
@@ -3218,9 +3227,9 @@ class WebServer {
             }
         } else {
             delete this._objectData.objects[id];
-            // eslint-disable-next-line @typescript-eslint/no-array-delete
+
             delete this._objectData.rooms[id];
-            // eslint-disable-next-line @typescript-eslint/no-array-delete
+
             delete this._objectData.functions[id];
             const foundIndex = this._objectData.ids.indexOf(id);
             if (foundIndex !== -1) {
@@ -3297,7 +3306,7 @@ class WebServer {
             }, this.config.updateTimeout || 5000);
         }
 
-        for (const mod of Object.values(this._modules) as any[]) {
+        for (const mod of Object.values(this._modules)) {
             if (typeof mod.onObjectChange === 'function') {
                 mod.onObjectChange(id, obj);
             }
@@ -3322,7 +3331,7 @@ class WebServer {
         this._clearInterval = null;
         this._updateTimer && clearTimeout(this._updateTimer);
         this._updateTimer = null;
-        for (const mod of Object.values(this._modules) as any[]) {
+        for (const mod of Object.values(this._modules)) {
             if (typeof mod.cleanup === 'function') {
                 mod.cleanup();
             }

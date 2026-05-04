@@ -1,4 +1,4 @@
-import { BaseEntity } from '../entities/baseEntity';
+import type { BaseEntity } from '../entities/baseEntity';
 
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string, data?: unknown) => void;

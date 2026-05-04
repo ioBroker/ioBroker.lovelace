@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { BaseEntity } from '../entities/baseEntity';
+import type { BaseEntity } from '../entities/baseEntity';
 import { TodoEntity } from '../entities/todoEntity';
 
 const WS_OPEN = 1; // WebSocket.OPEN
@@ -8,7 +8,6 @@ const TodoItemStatus = {
     NeedsAction: 'needs_action',
     Completed: 'completed',
 } as const;
-
 
 interface TodoItem {
     summary?: string;
@@ -454,7 +453,7 @@ class TodoModule {
      * Initialize the module.
      */
     async init(): Promise<void> {
-        let entityShoppingList = this.entityData.entityId2Entity['todo.shoppinglist'];
+        const entityShoppingList = this.entityData.entityId2Entity['todo.shoppinglist'];
         if (!entityShoppingList) {
             const iobObj = await this.adapter.getObjectAsync('control.shopping_list');
             const entity = new TodoEntity('Shopping List', iobObj, 'todo.shoppinglist');

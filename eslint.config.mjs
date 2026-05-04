@@ -10,11 +10,12 @@ export default [
         ignores: [
             '.dev-server/',
             '.vscode/',
+            '.claude/',
             //'**.test.js',
             //'test/**/*.js',
             '*.config.mjs',
-            'build',
-            'dist',
+            'build/',
+            'dist/',
             'admin/words.js',
             'admin/admin.d.ts',
             '**/adapter-config.d.ts',
@@ -30,8 +31,6 @@ export default [
         rules: {
             'no-else-return': 'off',
             'jsdoc/require-jsdoc': 1,
-            'jsdoc/no-types': 'off',
-            'no-redundant-jsdoc': 'off',
         },
     },
 
