@@ -31,6 +31,21 @@ var import_baseEntity = require("./entities/baseEntity");
 var import_friendly_name = require("./entities/friendly_name");
 var import_genericConverter = require("./converters/genericConverter");
 var import_converter = require("./converters/converter");
+var converterSwitch = __toESM(require("./converters/switch"));
+var converterBinarySensors = __toESM(require("./converters/binary_sensor"));
+var converterSensors = __toESM(require("./converters/sensor"));
+var converterGeoLocation = __toESM(require("./converters/geo_location"));
+var converterDatetime = __toESM(require("./converters/input_datetime"));
+var converterAlarmCP = __toESM(require("./converters/alarm_control_panel"));
+var converterInputSelect = __toESM(require("./converters/input_select"));
+var convertFan = __toESM(require("./converters/fan"));
+var converterClimate = __toESM(require("./converters/climate"));
+var converterLight = __toESM(require("./converters/light"));
+var import_lock = require("./converters/lock");
+var import_camera = require("./converters/camera");
+var import_weather = require("./converters/weather");
+var import_cover = require("./converters/cover");
+var import_media_player = require("./converters/media_player");
 var import_browser_mod = __toESM(require("./modules/browser_mod"));
 var import_history = __toESM(require("./modules/history"));
 var import_conversation = __toESM(require("./modules/conversation"));
@@ -54,23 +69,6 @@ const jstz = require("jstimezonedetect");
 const entityData = require("./dataSingleton");
 const bindings = require("./bindings");
 const ChannelDetector = require("@iobroker/type-detector").default;
-const converterSwitch = require("../converters/switch");
-const converterBinarySensors = require("../converters/binary_sensor");
-const converterSensors = require("../converters/sensor");
-const converterGeoLocation = require("../converters/geo_location");
-const converterDatetime = require("../converters/input_datetime");
-const converterAlarmCP = require("../converters/alarm_control_panel");
-const converterInputSelect = require("../converters/input_select");
-const convertFan = require("../converters/fan");
-const converterClimate = require("../converters/climate");
-const converterLight = require("../converters/light");
-const _registeredConverters = {
-  converterLock: require("../converters/lock"),
-  converterCamera: require("../converters/camera"),
-  converterWeather: require("../converters/weather"),
-  converterCover: require("../converters/cover"),
-  converterMediaPlayer: require("../converters/media_player")
-};
 const ignoreIds = [/^system\./, /^script\./];
 const TIMEOUT_PASSWORD_ENTER = 18e4;
 const TIMEOUT_AUTH_CODE = 1e4;

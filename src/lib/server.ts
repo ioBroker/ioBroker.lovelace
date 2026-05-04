@@ -9,6 +9,21 @@ import { BaseEntity } from './entities/baseEntity';
 import { getFriendlyName } from './entities/friendly_name';
 import { iobState2EntityState, numericDeviceClasses as NUMERIC_DEVICE_CLASSES } from './converters/genericConverter';
 import { Converter } from './converters/converter';
+import * as converterSwitch from './converters/switch';
+import * as converterBinarySensors from './converters/binary_sensor';
+import * as converterSensors from './converters/sensor';
+import * as converterGeoLocation from './converters/geo_location';
+import * as converterDatetime from './converters/input_datetime';
+import * as converterAlarmCP from './converters/alarm_control_panel';
+import * as converterInputSelect from './converters/input_select';
+import * as convertFan from './converters/fan';
+import * as converterClimate from './converters/climate';
+import * as converterLight from './converters/light';
+import './converters/lock';
+import './converters/camera';
+import './converters/weather';
+import './converters/cover';
+import './converters/media_player';
 import BrowserModModule from './modules/browser_mod';
 import HistoryModule from './modules/history';
 import ConversationModule from './modules/conversation';
@@ -46,40 +61,6 @@ const bindings = require('./bindings');
 
 const ChannelDetector = require('@iobroker/type-detector').default;
 
-// Converter modules — loaded for side-effects (self-registration on Converter.converters)
-
-const converterSwitch = require('../converters/switch');
-// Load compiled TS converters to trigger Converter.converters self-registration.
-// Phase 2 & 3: binary_sensor, switch, lock, sensor, geo_location, camera, weather, cover
-//   are registered transitively when converter.ts is loaded above.
-// Phase 4: alarm_control_panel, climate, media_player, light are also loaded transitively,
-//   but we require them explicitly here for processManualEntity access.
-
-const converterBinarySensors = require('../converters/binary_sensor');
-
-const converterSensors = require('../converters/sensor');
-
-const converterGeoLocation = require('../converters/geo_location');
-
-const converterDatetime = require('../converters/input_datetime');
-
-const converterAlarmCP = require('../converters/alarm_control_panel');
-
-const converterInputSelect = require('../converters/input_select');
-
-const convertFan = require('../converters/fan');
-
-const converterClimate = require('../converters/climate');
-
-const converterLight = require('../converters/light');
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _registeredConverters = {
-    converterLock: require('../converters/lock'),
-    converterCamera: require('../converters/camera'),
-    converterWeather: require('../converters/weather'),
-    converterCover: require('../converters/cover'),
-    converterMediaPlayer: require('../converters/media_player'),
-};
 
 const ignoreIds = [/^system\./, /^script\./];
 
