@@ -101,8 +101,16 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 
 - [ ] Check if new converter code is semantical identical to original JS version
 - [ ] Do we have tests for all converters? If not, add them.
-- [ ] Convert unit tests to TypeScript (i.e. *.test.js to .test.ts) and update test runner config
+- [x] Convert unit tests to TypeScript (i.e. *.test.js to .test.ts) and update test runner config
+  - `src/lib/entities/entity_id.test.ts` ✓
+  - `src/lib/entities/friendly_name.test.ts` ✓
+  - `src/lib/entities/utils.test.ts` ✓
+  - `src/lib/modules/dashboard.test.ts` ✓
+  - `src/lib/modules/entityRegistry.test.ts` ✓
+  - `src/lib/converters/sensor.test.ts` ✓
+  - `src/lib/converters/switch.test.ts` ✓
+- [ ] Delete old `lib/**/*.test.js` files (superseded by TS versions above)
 - [ ] Delete `lib/converters/binary_sensor.js` (superseded by TS version)
 - [ ] Remove `Converter.legacyConverters` from `converter.ts`
-- [ ] Remove `allowJs` / `checkJs` from `tsconfig.build.json`
+- [x] Remove `allowJs` from `tsconfig.build.json` (done; `checkJs: false` must stay to suppress legacy JS errors)
 - [ ] Consolidate test scripts (`test:unit` + `test:ts` → single runner)
