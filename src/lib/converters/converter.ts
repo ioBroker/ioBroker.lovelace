@@ -78,12 +78,8 @@ export type ConverterParameters = {
  *
  * 1. Create `src/lib/converters/<type>.ts`, extend Converter, override convertEntities().
  * 2. At the bottom of the file, register: `Converter.converters[Types.xxx] = MyConverter;`
- * 3. Ensure server.js requires the compiled file so the registration runs.
+ * 3. Import the file in server.ts so the self-registration runs at startup.
  *
- * ## Legacy JS converters
- *
- * Converters not yet migrated to TypeScript are kept in legacyConverters and are called
- * with the old positional-argument signature.  They will be removed as migration proceeds.
  */
 export class Converter {
     /**
@@ -118,7 +114,7 @@ export class Converter {
     /**
      * Main entry point called from server.js.
      * Iterates over all detected controls and dispatches each one to the right converter.
-     * TypeScript subclasses in Converter.converters take priority over legacyConverters.
+     * Dispatches each control to the matching TypeScript converter subclass.
      *
      * @param controls - array of PatternControls returned by type-detector
      * @param baseParams - all parameters except 'controls'

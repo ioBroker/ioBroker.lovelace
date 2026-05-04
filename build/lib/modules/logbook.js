@@ -1,7 +1,7 @@
 "use strict";
 const WS_OPEN = 1;
 const entityDataSingleton = require("../../../lib/dataSingleton");
-const { iobState2EntityState } = require("../../../lib/converters/genericConverter");
+const { iobState2EntityState } = require("../converters/genericConverter");
 class LogbookModule {
   adapter;
   getUsedEntityIDs;

@@ -55,7 +55,7 @@ class Converter {
   /**
    * Main entry point called from server.js.
    * Iterates over all detected controls and dispatches each one to the right converter.
-   * TypeScript subclasses in Converter.converters take priority over legacyConverters.
+   * Dispatches each control to the matching TypeScript converter subclass.
    *
    * @param controls - array of PatternControls returned by type-detector
    * @param baseParams - all parameters except 'controls'

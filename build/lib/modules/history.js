@@ -1,7 +1,21 @@
 "use strict";
 const WS_OPEN = 1;
-const { iobState2EntityState } = require("../../../lib/converters/genericConverter");
-const { updateTimestamps } = require("../../../lib/entities/utils");
+const { iobState2EntityState } = require("../converters/genericConverter");
+function applyHistoryTimestamps(entry, state) {
+  var _a, _b, _c, _d, _e;
+  let lu = (_a = state.ts) != null ? _a : Date.now();
+  let lc = (_c = (_b = state.lc) != null ? _b : state.ts) != null ? _c : Date.now();
+  if (isNaN(new Date(lc).getTime())) lc = Date.now();
+  if (isNaN(new Date(lu).getTime())) lu = Date.now();
+  const entryLc = (_d = entry.lc) != null ? _d : 0;
+  const entryLu = (_e = entry.lu) != null ? _e : 0;
+  if (lc / 1e3 > entryLc || isNaN(entryLc) || new Date(entryLc * 1e3).toString() === "Invalid Date") {
+    entry.lc = lc / 1e3;
+  }
+  if (lu / 1e3 > entryLu || isNaN(entryLu) || new Date(entryLu * 1e3).toString() === "Invalid Date") {
+    entry.lu = lu / 1e3;
+  }
+}
 async function getHistory(adapter, entities, start, end, noAttributes, user) {
   var _a;
   const totalResult = {};
@@ -87,7 +101,7 @@ async function getHistory(adapter, entities, start, end, noAttributes, user) {
               lc: 1,
               lu: 1
             };
-            updateTimestamps(result, e, true);
+            applyHistoryTimestamps(result, e);
             historyPerEntity.push(result);
           }
           if (!noAttributes && entity.context.ATTRIBUTES) {
@@ -109,7 +123,7 @@ async function getHistory(adapter, entities, start, end, noAttributes, user) {
                       attributeValues
                     )
                   };
-                  updateTimestamps(data, result, true);
+                  applyHistoryTimestamps(data, result);
                   historyPerEntity.push(data);
                 }
               }

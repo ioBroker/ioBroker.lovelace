@@ -1,12 +1,8 @@
 const WS_OPEN = 1; // WebSocket.OPEN
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { iobState2EntityState } = require('../../../lib/converters/genericConverter') as {
+const { iobState2EntityState } = require('../converters/genericConverter') as {
     iobState2EntityState: (entity: EntityLike, val: unknown) => unknown;
-};
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { updateTimestamps } = require('../../../lib/entities/utils') as {
-    updateTimestamps: (target: Record<string, unknown>, source: unknown, fromHistory?: boolean) => void;
 };
 
 interface EntityAttribute {
@@ -72,6 +68,21 @@ type AdapterWithConfig = ioBroker.Adapter & {
 type PersonModuleInterface = {
     getUserIDFromName(name: string | undefined): string;
 };
+
+function applyHistoryTimestamps(entry: HistoryEntry, state: { ts?: number; lc?: number }): void {
+    let lu = state.ts ?? Date.now();
+    let lc = state.lc ?? state.ts ?? Date.now();
+    if (isNaN(new Date(lc).getTime())) lc = Date.now();
+    if (isNaN(new Date(lu).getTime())) lu = Date.now();
+    const entryLc = entry.lc ?? 0;
+    const entryLu = entry.lu ?? 0;
+    if (lc / 1000 > entryLc || isNaN(entryLc) || new Date(entryLc * 1000).toString() === 'Invalid Date') {
+        entry.lc = lc / 1000;
+    }
+    if (lu / 1000 > entryLu || isNaN(entryLu) || new Date(entryLu * 1000).toString() === 'Invalid Date') {
+        entry.lu = lu / 1000;
+    }
+}
 
 /**
  * Get history from history instances.
@@ -190,7 +201,7 @@ async function getHistory(
                             lc: 1,
                             lu: 1,
                         };
-                        updateTimestamps(result as Record<string, unknown>, e, true);
+                        applyHistoryTimestamps(result, e);
                         historyPerEntity.push(result);
                     }
 
@@ -218,7 +229,7 @@ async function getHistory(
                                                   attributeValues,
                                               ),
                                     };
-                                    updateTimestamps(data as Record<string, unknown>, result, true);
+                                    applyHistoryTimestamps(data, result);
                                     historyPerEntity.push(data);
                                 }
                             }

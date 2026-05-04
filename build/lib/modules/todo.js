@@ -385,7 +385,7 @@ class TodoModule {
    * Initialize the module.
    */
   async init() {
-    let entityShoppingList = this.entityData.entityId2Entity["todo.shoppinglist"];
+    const entityShoppingList = this.entityData.entityId2Entity["todo.shoppinglist"];
     if (!entityShoppingList) {
       const iobObj = await this.adapter.getObjectAsync("control.shopping_list");
       const entity = new import_todoEntity.TodoEntity("Shopping List", iobObj, "todo.shoppinglist");

@@ -5,7 +5,7 @@ const entityDataSingleton = require('../../../lib/dataSingleton') as {
     entityId2Entity: Record<string, EntityLike>;
 };
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { iobState2EntityState } = require('../../../lib/converters/genericConverter') as {
+const { iobState2EntityState } = require('../converters/genericConverter') as {
     iobState2EntityState: (entity: EntityLike, val: unknown) => unknown;
 };
 

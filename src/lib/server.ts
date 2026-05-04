@@ -193,7 +193,7 @@ class WebServer {
         usedKeys: string[];
     };
 
-    private _modules: any;
+    private _modules: Record<string, any>;
 
     private _wss: any;
     private _indexHtml: string | undefined;
@@ -537,7 +537,7 @@ class WebServer {
                 custom.states.state = id;
 
                 //get objects of all necessary additional ids here:
-                for (const stateId of Object.values(custom.states)) {
+                for (const stateId of Object.values(custom.states as Record<string, string>)) {
                     if (!this._objectData.objects[stateId]) {
                         try {
                             this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
