@@ -35,6 +35,22 @@ import EntityRegistry from './modules/entityRegistry';
 import DashboardModule from './modules/dashboard';
 import DeviceRegistryModule from './modules/deviceRegistry';
 import AreaRegistryModule from './modules/areaRegistry';
+import type { IModule } from './modules/iModule';
+
+type Modules = {
+    browserMod: InstanceType<typeof BrowserModModule>;
+    conversation: InstanceType<typeof ConversationModule>;
+    logbook: InstanceType<typeof LogbookModule>;
+    notifications: InstanceType<typeof PersistentNotifications>;
+    todo: InstanceType<typeof TodoModule>;
+    person: InstanceType<typeof PersonModule>;
+    entityRegistry: InstanceType<typeof EntityRegistry>;
+    dashboard: InstanceType<typeof DashboardModule>;
+    deviceRegistry: InstanceType<typeof DeviceRegistryModule>;
+    areaRegistry: InstanceType<typeof AreaRegistryModule>;
+    history: InstanceType<typeof HistoryModule>;
+    statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
+};
 
 // Modules without TypeScript types — keep as require
 
@@ -54,9 +70,9 @@ const axios = require('axios');
 
 const jstz = require('jstimezonedetect');
 
-const entityData = require('./dataSingleton');
+const entityData = require('../../lib/dataSingleton');
 
-const bindings = require('./bindings');
+const bindings = require('../../lib/bindings');
 
 const ChannelDetector = require('@iobroker/type-detector').default;
 
@@ -64,7 +80,7 @@ const ignoreIds = [/^system\./, /^script\./];
 
 const TIMEOUT_PASSWORD_ENTER = 180000; // 3 min
 const TIMEOUT_AUTH_CODE = 10000; // 10sec
-const ROOT_DIR = '../hass_frontend';
+const ROOT_DIR = '../../hass_frontend';
 
 //frontend expects only YYYY.MM.DD -> omit the rest.
 const VERSION = fs
@@ -193,7 +209,7 @@ class WebServer {
         usedKeys: string[];
     };
 
-    private _modules: Record<string, any>;
+    private _modules!: Modules;
 
     private _wss: any;
     private _indexHtml: string | undefined;
@@ -248,6 +264,7 @@ class WebServer {
         };
 
         //initialize modules.
+        const person = new PersonModule({ adapter: this.adapter });
         this._modules = {
             browserMod: new BrowserModModule({
                 adapter: this.adapter,
@@ -274,12 +291,10 @@ class WebServer {
             todo: new TodoModule({
                 adapter: this.adapter,
                 entityData: entityData,
-                server: this, //for legacy shopping list.. is that still used at all?
+                server: this,
                 getWebsocketServer: () => this._wss,
             }),
-            person: new PersonModule({
-                adapter: this.adapter,
-            }),
+            person,
             entityRegistry: new EntityRegistry({
                 adapter: this.adapter,
                 entityData: entityData,
@@ -302,19 +317,19 @@ class WebServer {
                 sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
                 sendUpdate: (type: string) => this._sendUpdate(type),
             }),
+            history: new HistoryModule({
+                adapter: this.adapter,
+                entityData: entityData,
+                personModule: person,
+            }),
+            statisticsRecorder: new StatisticsRecorderModule({
+                adapter: this.adapter,
+                server: this,
+                log: this.log,
+                personModule: person,
+                dataSingleton: entityData,
+            }),
         };
-        this._modules.history = new HistoryModule({
-            adapter: this.adapter,
-            entityData: entityData,
-            personModule: this._modules.person,
-        });
-        this._modules.statisticsRecorder = new StatisticsRecorderModule({
-            adapter: this.adapter,
-            server: this,
-            log: this.log,
-            personModule: this._modules.person,
-            dataSingleton: entityData,
-        });
 
         if (this.adapter.config.updateTimeout !== undefined) {
             this.adapter.config.updateTimeout = Math.max(100, Math.min(this.adapter.config.updateTimeout, 30000));
@@ -340,7 +355,7 @@ class WebServer {
                     if (config && config.native && config.native.title) {
                         this._lovelaceConfig = config.native;
                     } else {
-                        this._lovelaceConfig = require('./defaultConfig');
+                        this._lovelaceConfig = require('../../lib/defaultConfig');
                     }
                 })
                 .then(() => this._modules.browserMod.init(this._lovelaceConfig)),
@@ -357,10 +372,8 @@ class WebServer {
                 this.adapter.subscribeStates('instances.*');
                 this.adapter.subscribeStates('conversation');
                 this._init();
-                for (const mod of Object.values(this._modules)) {
-                    if (typeof mod.augmentServices === 'function') {
-                        mod.augmentServices(entityData.services);
-                    }
+                for (const mod of Object.values(this._modules) as IModule[]) {
+                    mod.augmentServices?.(entityData.services);
                 }
 
                 // check every minute
@@ -439,21 +452,18 @@ class WebServer {
      */
     async _getManualEntities() {
         try {
-            const doc = await this.adapter.getObjectViewAsync('system', 'custom', {});
-            const ids = [];
-            if (doc && doc.rows) {
-                for (let i = 0, l = doc.rows.length; i < l; i++) {
-                    if (doc.rows[i].value) {
-                        const id = doc.rows[i].id;
-                        if (doc.rows[i].value[this.adapter.namespace]) {
-                            ids.push(id);
-                        }
-                    }
+            // Build the list from _objectData.objects (already loaded by _readObjects()) rather than
+            // the 'custom' view, whose index can be stale after rapid setObject calls in tests.
+            const ids: string[] = [];
+            for (const id of Object.keys(this._objectData.objects)) {
+                const obj = this._objectData.objects[id];
+                if (obj?.common?.custom?.[this.adapter.namespace]) {
+                    ids.push(id);
                 }
             }
             ids.push(`${this.adapter.namespace}.control.alarm`);
 
-            const created = [];
+            const created: BaseEntity[] = [];
             for (const id of ids) {
                 const entities = await this._processManualEntity(id);
                 for (const entity of entities) {
@@ -461,7 +471,10 @@ class WebServer {
                     entity.registerInCaches();
                 }
             }
-            this._modules.entityRegistry.handleUpdatedEntities(created, false);
+            this._modules.entityRegistry.handleUpdatedEntities(
+                created as unknown as Parameters<typeof this._modules.entityRegistry.handleUpdatedEntities>[0],
+                false,
+            );
         } catch (e: any) {
             this.adapter.log.error(`Could not get object view for getAllEntities: ${e.toString()} - ${e.stack}`);
         }
@@ -478,7 +491,12 @@ class WebServer {
      */
     async _processManualEntity(id: string) {
         try {
-            const obj = await this.adapter.getForeignObjectAsync(id);
+            // Prefer the in-process object cache (kept current by onObjectChange) to
+            // avoid stale data from some DB view implementations.
+            const obj = this._objectData.objects[id] ?? (await this.adapter.getForeignObjectAsync(id));
+            if (!obj) {
+                return [];
+            }
             if (!this._objectData.objects[id]) {
                 this._objectData.objects[id] = obj;
             }
@@ -492,6 +510,9 @@ class WebServer {
                     state: id,
                     arm_state: `${this.adapter.namespace}.control.alarm_arm_state`,
                 };
+            } else if (!obj.common?.custom?.[this.adapter.namespace]) {
+                // Object has no custom settings for this namespace — skip silently.
+                return [];
             }
             const custom = obj.common.custom[this.adapter.namespace] || {};
             const entityType = custom.entity || utils.autoDetermineEntityType(obj);
@@ -602,7 +623,13 @@ class WebServer {
             } else if (entityType === 'fan') {
                 return convertFan.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'todo') {
-                return this._modules.todo.processManualEntity(id, obj, entity, this._objectData.objects, custom);
+                return this._modules.todo.processManualEntity(
+                    id,
+                    obj,
+                    entity as unknown as Parameters<typeof this._modules.todo.processManualEntity>[2],
+                    this._objectData.objects,
+                    custom,
+                ) as unknown as BaseEntity[];
             } else if (entityType === 'switch') {
                 return converterSwitch.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'timer') {
@@ -831,10 +858,8 @@ class WebServer {
 
         //do that here, because no entity_id in service call!
         let handled = false;
-        for (const mod of Object.values(this._modules)) {
-            if (typeof mod.processServiceCall === 'function') {
-                handled = (await mod.processServiceCall(ws, data)) || handled;
-            }
+        for (const mod of Object.values(this._modules) as IModule[]) {
+            handled = ((await mod.processServiceCall?.(ws, data as Record<string, unknown>)) ?? false) || handled;
         }
         if (handled) {
             return; //already processed.
@@ -866,10 +891,8 @@ class WebServer {
      * @returns
      */
     async _getAllStates() {
-        let entity = entityData.entities.find((e: any) => e.state === undefined);
-        while (entity) {
+        for (const entity of entityData.entities) {
             await this._getStatesForEntity(entity);
-            entity = entityData.entities.find((e: any) => e.state === undefined);
         }
     }
 
@@ -1032,10 +1055,8 @@ class WebServer {
         }
 
         //check modules:
-        for (const mod of Object.values(this._modules)) {
-            if (typeof mod.onStateChange === 'function') {
-                mod.onStateChange(id, state, this._wss);
-            }
+        for (const mod of Object.values(this._modules) as IModule[]) {
+            mod.onStateChange?.(id, state, this._wss);
         }
     }
 
@@ -1461,7 +1482,7 @@ class WebServer {
             // iterate through all objects to get all nested entities Ids
             this._flatJSON(this._lovelaceConfig.views, entities);
 
-            promises.push(this._modules.browserMod.handeUpdatedConfig(this._lovelaceConfig));
+            this._modules.browserMod.handeUpdatedConfig(this._lovelaceConfig);
         }
 
         // this._lovelaceConfig.views && this._lovelaceConfig.views.forEach(view =>
@@ -1548,7 +1569,7 @@ class WebServer {
             } else if (!style && lines[i].trim().match(/<style>/)) {
                 style = true;
                 nLines.push(lines[i]);
-                nLines.push(fs.readFileSync(`${__dirname}/../assets/style.css`).toString('utf-8'));
+                nLines.push(fs.readFileSync(`${__dirname}/../../assets/style.css`).toString('utf-8'));
                 continue;
             } else if (lines[i].trim().match(/<\/body>/)) {
                 const hideScript = [];
@@ -1684,7 +1705,7 @@ class WebServer {
             configObj.components.push('history'); //only activate history in frontend if history instance is selected.
         }
 
-        const componentsWithIcons = require('./componentsWithIcons.json');
+        const componentsWithIcons = require('../../lib/componentsWithIcons.json');
         configObj.components.push(...componentsWithIcons);
 
         return configObj;
@@ -2223,7 +2244,7 @@ class WebServer {
                 //iobroker icons:
                 const filePath = req.url.replace(/.*\/static\/icons\//, '');
                 res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(path.join(__dirname, '/../assets/icons/', filePath));
+                res.sendFile(path.join(__dirname, '/../../assets/icons/', filePath));
             } else if (req.url.includes('/images/')) {
                 //static images:
                 const filePath = req.url.replace(/.*\/images\//, 'static/images/');
@@ -2236,7 +2257,7 @@ class WebServer {
                 res.sendFile(`${getRootPath()}${filePath}`);
             } else if (req.url.endsWith('favicon.ico')) {
                 res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(path.resolve(`${__dirname}/../assets/icons/favicon.ico`));
+                res.sendFile(path.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
             } else {
                 //try to load file from root:
                 //remove .. from the path to avoid exiting root dir.
@@ -2481,7 +2502,7 @@ class WebServer {
             lang = 'en';
         }
         return {
-            resources: require(`./translations/${lang}.json`),
+            resources: require(`../../lib/translations/${lang}.json`),
         };
     }
 
@@ -2830,11 +2851,14 @@ class WebServer {
                 } else if (!message.event_type) {
                     ws._subscribes &&
                         Object.keys(ws._subscribes).forEach(event_type => {
-                            if (
-                                this._modules[event_type] &&
-                                typeof this._modules[event_type].removeSubscription === 'function'
-                            ) {
-                                this._modules[event_type].removeSubscription(ws, message.subscription);
+                            const dynMod = (this._modules as Record<string, unknown>)[event_type] as
+                                | Record<string, unknown>
+                                | undefined;
+                            if (dynMod && typeof dynMod.removeSubscription === 'function') {
+                                (dynMod.removeSubscription as (ws: unknown, sub: unknown) => void)(
+                                    ws,
+                                    message.subscription,
+                                );
                             } else {
                                 //filter out all that are just the same number and where sub.id matches the number.
                                 ws._subscribes[event_type] = ws._subscribes[event_type].filter(
@@ -3049,10 +3073,8 @@ class WebServer {
             } else {
                 //check modules:
                 let result = false;
-                for (const mod of Object.values(this._modules)) {
-                    if (typeof mod.processMessage === 'function') {
-                        result = (await mod.processMessage(ws, message)) || result;
-                    }
+                for (const mod of Object.values(this._modules) as IModule[]) {
+                    result = ((await mod.processMessage?.(ws, message)) ?? false) || result;
                 }
                 if (!result) {
                     this.log.info(`Unknown request: ${JSON.stringify(message)}`);
@@ -3108,15 +3130,20 @@ class WebServer {
      * @param id of entity.context.id -> main id / device id.
      * @param idsAutomaticallyProcessed set of ids which were already automatically processed, ids might be added here.
      * @param entitiesNeedsUpdate array of entities that need update, entities might be added here.
-     * @returns resolves with array of created entities.
+     * @returns true if any entity was created, updated, or deleted.
      */
-    async _updateById(id: string, idsAutomaticallyProcessed: Set<string>, entitiesNeedsUpdate: any[]) {
+    async _updateById(
+        id: string,
+        idsAutomaticallyProcessed: Set<string>,
+        entitiesNeedsUpdate: any[],
+    ): Promise<boolean> {
         const entities = entityData.iobID2entity[id] || [];
         const obj = this._objectData.objects[id];
 
         if (!obj) {
             // object deleted:
             // we have an entity that is missing its object -> need to delete.
+            let deleted = false;
             for (let i = entities.length - 1; i >= 0; i--) {
                 // if main object of an entity is deleted, delete entity, too. Otherwise update of device should handle it.
                 const entity = entities[i];
@@ -3124,9 +3151,10 @@ class WebServer {
                     entity.unregister();
                     this.log.debug(`Object ${id} deleted, ${entity.entity_id} with deleted, too.`);
                     entities.splice(i, 1);
-                    // "update" needed on deletion, currently, because it will mostly only update entity data with stuff from registry.
+                    deleted = true;
                 }
             }
+            return deleted;
         } else {
             // object not deleted, either new or changed.
             // update manual device:
@@ -3140,18 +3168,32 @@ class WebServer {
                     }
                 }
                 this.log.debug(`Object ${id} changed, required update of manual entity.`);
-                return this._processManualEntity(id);
+                const manualEntities = await this._processManualEntity(id);
+                for (const entity of manualEntities) {
+                    entity.registerInCaches();
+                    entitiesNeedsUpdate.push(entity);
+                }
+                return true;
             }
 
             // check what type-detector says to this object(s), if we are allowed to process it automatically:
             if (!idsAutomaticallyProcessed.has(id)) {
-                const entities = await this._createOneDevice(id);
+                // Unregister old entities whose main ioBroker id is this one, so they don't
+                // linger in the caches when the new entity gets a different entity_id.
+                let unregisteredAny = false;
+                for (const oldEntity of [...entities]) {
+                    if (oldEntity.context.id === id) {
+                        oldEntity.unregister();
+                        unregisteredAny = true;
+                    }
+                }
+                const newEntities = await this._createOneDevice(id);
                 if (entities.length) {
                     for (const entity of entities) {
                         this.log.debug(`Object ${id} changed, updated entity ${entity.entity_id}.`);
                         entitiesNeedsUpdate.push(entity);
                         // make sure we don't run type-detector on any of the child ids of this entity. All processed.
-                        for (const id of entity.context.ids) {
+                        for (const id of entity.iobIds) {
                             idsAutomaticallyProcessed.add(id);
                         }
                     }
@@ -3160,9 +3202,10 @@ class WebServer {
                     this.log.debug(`Object ${id} did change, got no updated entities.`);
                 }
                 idsAutomaticallyProcessed.add(id);
+                return unregisteredAny || (newEntities as BaseEntity[]).length > 0;
             }
         }
-        return [];
+        return false;
     }
 
     /**
@@ -3226,6 +3269,15 @@ class WebServer {
                 }
             }
         } else {
+            // Compute parent ids BEFORE removing from objects cache (getParentIDs needs the cache).
+            const parentIdsOfDeleted = utils.getParentIDs(id, this._objectData.objects);
+            // Also find parent devices via entities registered for this sub-state id.
+            for (const entity of entityData.iobID2entity[id] || []) {
+                if (entity.context.id !== id && !parentIdsOfDeleted.includes(entity.context.id)) {
+                    parentIdsOfDeleted.push(entity.context.id);
+                }
+            }
+
             delete this._objectData.objects[id];
 
             delete this._objectData.rooms[id];
@@ -3236,6 +3288,11 @@ class WebServer {
                 this._objectData.ids.splice(foundIndex, 1);
             }
             this.log.debug(`${id} deleted.`);
+
+            // Queue parent device ids for re-detection.
+            for (const parentId of parentIdsOfDeleted) {
+                this._markForUpdate(parentId);
+            }
         }
 
         if (id === `${this.adapter.namespace}.configuration`) {
@@ -3258,8 +3315,8 @@ class WebServer {
             if (!this._objectData.updatedIds.includes(id)) {
                 this._objectData.updatedIds.push(id);
             }
-            //also store parents:
-            const parentIds = utils.getParentIDs(id, this._objectData.objects);
+            //also store parents (for updates, objects cache is still intact):
+            const parentIds = obj ? utils.getParentIDs(id, this._objectData.objects) : [];
             for (const id of parentIds) {
                 if (!this._objectData.updatedIds.includes(id)) {
                     this._objectData.updatedIds.push(id);
@@ -3270,9 +3327,11 @@ class WebServer {
             this._updateTimer && clearTimeout(this._updateTimer);
             this._updateTimer = setTimeout(async () => {
                 this._updateTimer = null;
-                this._objectData.updatedIds.sort(); //make sure parents are processed first.
+                // Drain the queue first so new changes during processing get queued for the next run.
+                const idsToProcess = this._objectData.updatedIds.splice(0);
+                idsToProcess.sort(); //make sure parents are processed first.
                 const needUpdate: any[] = [];
-                this.log.debug(`Update timer expired, ${this._objectData.updatedIds.length} objects to look at.`);
+                this.log.debug(`Update timer expired, ${idsToProcess.length} objects to look at.`);
                 const idsTypeDetectorProcessed = new Set<string>(); //makes sure we do not process an id twice with type-detector.
                 // Need to check:
                 // + check if manual -> if so, just update manual entity and be done.
@@ -3282,15 +3341,19 @@ class WebServer {
                 // + also check if other id's are included in any of the entities and remember that they were automatically processed.
                 // most of this is done in _updateById.
 
-                for (const id of this._objectData.updatedIds) {
+                let anyEntityChanged = false;
+                for (const id of idsToProcess) {
                     if (!id) {
                         continue;
                     }
-                    await this._updateById(id, idsTypeDetectorProcessed, needUpdate);
+                    const changed = await this._updateById(id, idsTypeDetectorProcessed, needUpdate);
+                    if (changed) {
+                        anyEntityChanged = true;
+                    }
                 }
                 this.log.debug(`Update processing done, ${needUpdate.length} entities need update.`);
 
-                if (needUpdate.length > 0) {
+                if (needUpdate.length > 0 || anyEntityChanged) {
                     for (const entity of needUpdate) {
                         // read state from iob DB and update entity state / attributes:
                         await this._getStatesForEntity(entity);
@@ -3306,10 +3369,8 @@ class WebServer {
             }, this.config.updateTimeout || 5000);
         }
 
-        for (const mod of Object.values(this._modules)) {
-            if (typeof mod.onObjectChange === 'function') {
-                mod.onObjectChange(id, obj);
-            }
+        for (const mod of Object.values(this._modules) as IModule[]) {
+            mod.onObjectChange?.(id, obj);
         }
     }
 
@@ -3331,10 +3392,8 @@ class WebServer {
         this._clearInterval = null;
         this._updateTimer && clearTimeout(this._updateTimer);
         this._updateTimer = null;
-        for (const mod of Object.values(this._modules)) {
-            if (typeof mod.cleanup === 'function') {
-                mod.cleanup();
-            }
+        for (const mod of Object.values(this._modules) as IModule[]) {
+            mod.cleanup?.();
         }
     }
 }

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/modules/iModule.ts"],
+  "sourcesContent": ["/**\n * Optional interface for modules registered in WebServer._modules.\n * Each method is optional \u2014 modules implement only the methods they need.\n * Used as the common type for module iteration in server.ts.\n */\nexport interface IModule {\n    /** Add module-specific service descriptors to the shared services map. */\n    augmentServices?(services: Record<string, unknown>): void;\n    /** Handle an incoming HA service call (e.g. notify.send_message). Returns true if handled. */\n    processServiceCall?(ws: unknown, data: Record<string, unknown>): Promise<boolean> | boolean;\n    /** React to an ioBroker state change. */\n    onStateChange?(id: string, state: ioBroker.State | null | undefined, wss?: unknown): Promise<unknown> | void;\n    /** Handle an incoming WebSocket message. Returns true if handled. */\n    processMessage?(ws: unknown, message: Record<string, unknown>): Promise<boolean> | boolean;\n    /** React to an ioBroker object change. */\n    onObjectChange?(id: string, obj: ioBroker.Object | null | undefined): void;\n    /** Release resources (timers, subscriptions). */\n    cleanup?(): void | Promise<void>;\n    /** One-time initialisation called after all modules are constructed. */\n    init?(): Promise<void>;\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

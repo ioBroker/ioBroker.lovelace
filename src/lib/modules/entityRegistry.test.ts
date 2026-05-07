@@ -128,7 +128,11 @@ describe('modules/entityRegistry', function () {
         it('creates a basic entry with correct fields', function () {
             const registry = makeRegistry();
             const entity = makeEntity();
-            const entry = (registry as Record<string, unknown> & { _createEntryFromEntity: (e: unknown) => Record<string, unknown> })._createEntryFromEntity(entity);
+            const entry = (
+                registry as Record<string, unknown> & {
+                    _createEntryFromEntity: (e: unknown) => Record<string, unknown>;
+                }
+            )._createEntryFromEntity(entity);
 
             expect(entry.entity_id).to.equal('binary_sensor.test');
             expect(entry.platform).to.equal('binary_sensor');
@@ -153,11 +157,19 @@ describe('modules/entityRegistry', function () {
                     unit_of_measurement: '°C',
                 },
             });
-            const entry = (registry as Record<string, unknown> & { _createEntryFromEntity: (e: unknown) => Record<string, unknown> })._createEntryFromEntity(entity);
+            const entry = (
+                registry as Record<string, unknown> & {
+                    _createEntryFromEntity: (e: unknown) => Record<string, unknown>;
+                }
+            )._createEntryFromEntity(entity);
             expect(entry.options).to.have.property('sensor');
             expect((entry.options as Record<string, Record<string, unknown>>).sensor.display_precision).to.equal(1);
-            expect((entry.options as Record<string, Record<string, unknown>>).sensor.suggested_display_precision).to.equal(2);
-            expect((entry.options as Record<string, Record<string, unknown>>).sensor.unit_of_measurement).to.equal('°C');
+            expect(
+                (entry.options as Record<string, Record<string, unknown>>).sensor.suggested_display_precision,
+            ).to.equal(2);
+            expect((entry.options as Record<string, Record<string, unknown>>).sensor.unit_of_measurement).to.equal(
+                '°C',
+            );
         });
 
         it('creates light options for light platform', function () {
@@ -167,8 +179,14 @@ describe('modules/entityRegistry', function () {
                 platform: 'light',
                 attributes: { friendly_name: 'RGB Light', favorite_colors: ['#ff0000'] },
             });
-            const entry = (registry as Record<string, unknown> & { _createEntryFromEntity: (e: unknown) => Record<string, unknown> })._createEntryFromEntity(entity);
-            expect((entry.options as Record<string, Record<string, unknown>>).light.favorite_colors).to.deep.equal(['#ff0000']);
+            const entry = (
+                registry as Record<string, unknown> & {
+                    _createEntryFromEntity: (e: unknown) => Record<string, unknown>;
+                }
+            )._createEntryFromEntity(entity);
+            expect((entry.options as Record<string, Record<string, unknown>>).light.favorite_colors).to.deep.equal([
+                '#ff0000',
+            ]);
         });
 
         it('creates lock options for lock platform', function () {
@@ -177,13 +195,21 @@ describe('modules/entityRegistry', function () {
                 platform: 'lock',
                 attributes: { friendly_name: 'Door Lock', default_code: '1234' },
             });
-            const entry = (registry as Record<string, unknown> & { _createEntryFromEntity: (e: unknown) => Record<string, unknown> })._createEntryFromEntity(entity);
+            const entry = (
+                registry as Record<string, unknown> & {
+                    _createEntryFromEntity: (e: unknown) => Record<string, unknown>;
+                }
+            )._createEntryFromEntity(entity);
             expect((entry.options as Record<string, Record<string, unknown>>).lock.default_code).to.equal('1234');
         });
 
         it('has null options for platforms without special handling', function () {
             const registry = makeRegistry();
-            const entry = (registry as Record<string, unknown> & { _createEntryFromEntity: (e: unknown) => Record<string, unknown> })._createEntryFromEntity(makeEntity());
+            const entry = (
+                registry as Record<string, unknown> & {
+                    _createEntryFromEntity: (e: unknown) => Record<string, unknown>;
+                }
+            )._createEntryFromEntity(makeEntity());
             expect(entry.options).to.be.null;
         });
     });

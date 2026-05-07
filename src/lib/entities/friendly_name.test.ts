@@ -21,13 +21,19 @@ describe('entities/friendly_name', function () {
 
     it('smartName (object) uses configured language', function () {
         entityData.lang = 'de';
-        const obj = { common: { name: 'ignored', smartName: { en: 'English', de: 'Deutsch' } }, _id: 'ignored' } as ioBroker.Object;
+        const obj = {
+            common: { name: 'ignored', smartName: { en: 'English', de: 'Deutsch' } },
+            _id: 'ignored',
+        } as ioBroker.Object;
         expect(getFriendlyName(null, obj, null, null)).to.equal('Deutsch');
     });
 
     it('smartName (object) falls back to English', function () {
         entityData.lang = 'fr';
-        const obj = { common: { name: 'ignored', smartName: { en: 'English', de: 'Deutsch' } }, _id: 'ignored' } as ioBroker.Object;
+        const obj = {
+            common: { name: 'ignored', smartName: { en: 'English', de: 'Deutsch' } },
+            _id: 'ignored',
+        } as ioBroker.Object;
         expect(getFriendlyName(null, obj, null, null)).to.equal('English');
     });
 

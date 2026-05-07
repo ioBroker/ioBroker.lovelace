@@ -4,5 +4,5 @@
 if (module.parent) {
     module.exports = require('./build/main');
 } else {
-    require('./build/main');
+    require('./build/main')();
 }

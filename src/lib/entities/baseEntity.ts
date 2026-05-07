@@ -59,7 +59,7 @@ export type EntityState = {
      * Converts a historical ioBroker state value to an entity.state string.
      * Used by HistoryModule when replaying state history.
      */
-    historyParser?: (iobId: string, state: ioBroker.State) => string;
+    historyParser?: (iobId: string, val: ioBroker.StateValue) => string;
     /** Maximum raw ioBroker value; used for percentage/range scaling (e.g. cover position). */
     max?: number;
     /** Minimum raw ioBroker value; used for percentage/range scaling. */
@@ -120,7 +120,7 @@ export type EntityAttribute = {
      * ioBroker state id to read this attribute from.
      * null/undefined until assigned (legacy JS converters may start with null).
      */
-    getId: string | null;
+    getId?: string | null;
     /** ioBroker state id to write when the attribute is set from HA. Only set when writable. */
     setId?: string | null;
     /**
@@ -360,12 +360,6 @@ export class BaseEntity {
             setId: states.state || null,
             getId: states.stateRead || states.state || null,
         };
-        // make context.id point to main state. Still have deviceId which points to device object.
-        if (this.context.STATE.getId) {
-            this.context.id = this.context.STATE.getId;
-        } else if (this.context.STATE.setId) {
-            this.context.id = this.context.STATE.setId;
-        }
 
         this.context.ATTRIBUTES = this.context.ATTRIBUTES ?? [];
         for (const key of Object.keys(states)) {

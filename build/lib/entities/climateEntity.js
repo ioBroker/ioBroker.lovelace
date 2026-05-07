@@ -130,7 +130,7 @@ function applyClimateStates(states, objects, entity, iobType) {
       ent.state = ent.attributes.hvac_mode;
       ent.attributes.hvac_action = void 0;
     };
-    entity.context.STATE.historyParser = (_id, state) => (state == null ? void 0 : state.val) ? iobType === import_type_detector.Types.airCondition ? "cool" : "heat" : "off";
+    entity.context.STATE.historyParser = (_id, val) => val ? iobType === import_type_detector.Types.airCondition ? "cool" : "heat" : "off";
   }
   if (states.hvac_mode) {
     const hvac_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "hvac_mode");
@@ -209,7 +209,7 @@ function applyClimateStates(states, objects, entity, iobType) {
     }
     const preset_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "preset_mode");
     if (preset_attr) {
-      preset_attr.getId = null;
+      delete preset_attr.getId;
     }
     entity.context.COMMANDS.push({
       service: "set_preset_mode",

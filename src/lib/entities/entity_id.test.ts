@@ -34,7 +34,10 @@ describe('entities/entity_id', function () {
         });
 
         it('uses English name from multilingual object', function () {
-            const obj = { common: { name: { en: 'English Name', de: 'Deutscher Name' } }, _id: 'ignored' } as ioBroker.Object;
+            const obj = {
+                common: { name: { en: 'English Name', de: 'Deutscher Name' } },
+                _id: 'ignored',
+            } as ioBroker.Object;
             expect(getEntityId('sensor', null, obj)).to.equal('sensor.English_Name');
         });
 

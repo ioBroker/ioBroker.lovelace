@@ -18,26 +18,19 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var utils_exports = {};
 __export(utils_exports, {
-  addID2entity: () => addID2entity,
   autoDetermineEntityType: () => autoDetermineEntityType,
   createEntityNameFromCustom: () => createEntityNameFromCustom,
   createObjectsFromArrayOfIds: () => createObjectsFromArrayOfIds,
   extractValidEntityIds: () => extractValidEntityIds,
-  fillEntityFromStates: () => fillEntityFromStates,
-  fillEntityIntoCaches: () => fillEntityIntoCaches,
   findEntitiesFromEnumChange: () => findEntitiesFromEnumChange,
   findEnumForId: () => findEnumForId,
   getEnumName: () => getEnumName,
   getObjectIcon: () => getObjectIcon,
   getParentIDs: () => getParentIDs,
   getSmartName: () => getSmartName,
-  processCommon: () => processCommon,
-  removeEntity: () => removeEntity,
-  setJsonAttribute: () => setJsonAttribute,
-  updateTimestamps: () => updateTimestamps
+  setJsonAttribute: () => setJsonAttribute
 });
 module.exports = __toCommonJS(utils_exports);
-var import_baseEntity = require("./baseEntity");
 var import_entity_id = require("./entity_id");
 const entityData = require("../../../lib/dataSingleton");
 async function createObjectsFromArrayOfIds(ids) {
@@ -209,12 +202,6 @@ function getObjectIcon(obj, prefix) {
   }
   return icon;
 }
-function removeEntity(entity, newId) {
-  if (!entity) {
-    return;
-  }
-  entity.unregister(newId);
-}
 function findEntitiesFromEnumChange(newEnum, oldEnum) {
   var _a, _b;
   const membersNew = ((_a = newEnum == null ? void 0 : newEnum.common) == null ? void 0 : _a.members) || [];
@@ -243,9 +230,6 @@ function findEntitiesFromEnumChange(newEnum, oldEnum) {
   }
   return { ids, entities };
 }
-function fillEntityFromStates(states, entity, objects) {
-  entity.fillFromStates(states, objects);
-}
 function autoDetermineEntityType(obj) {
   if (obj.common) {
     if (obj.common.write) {
@@ -273,18 +257,6 @@ function autoDetermineEntityType(obj) {
     return "sensor";
   }
 }
-function fillEntityIntoCaches(entity) {
-  entity.registerInCaches();
-}
-function updateTimestamps(entity, state) {
-  entity.updateTimestamp(state, true);
-}
-function addID2entity(id, entity) {
-  entity.addID2entity(id);
-}
-function processCommon(name, room, func, obj, entityType, entity_id) {
-  return new import_baseEntity.BaseEntity(name, room, func, obj, entityType, entity_id);
-}
 function createEntityNameFromCustom(obj, namespace) {
   var _a;
   const custom = (_a = obj.common) == null ? void 0 : _a.custom;
@@ -303,22 +275,16 @@ function createEntityNameFromCustom(obj, namespace) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  addID2entity,
   autoDetermineEntityType,
   createEntityNameFromCustom,
   createObjectsFromArrayOfIds,
   extractValidEntityIds,
-  fillEntityFromStates,
-  fillEntityIntoCaches,
   findEntitiesFromEnumChange,
   findEnumForId,
   getEnumName,
   getObjectIcon,
   getParentIDs,
   getSmartName,
-  processCommon,
-  removeEntity,
-  setJsonAttribute,
-  updateTimestamps
+  setJsonAttribute
 });
 //# sourceMappingURL=utils.js.map

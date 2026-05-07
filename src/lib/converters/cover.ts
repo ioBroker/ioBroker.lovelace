@@ -76,7 +76,7 @@ adapterData.services.cover = {
         target: { entity: [{ domain: ['cover'] }] },
     },
     close_cover_tilt: {
-        name: 'Closes tilt',
+        name: 'Close tilt',
         description: 'Closes the tilt of a cover entity.',
         fields: {},
         target: { entity: [{ domain: ['cover'] }] },

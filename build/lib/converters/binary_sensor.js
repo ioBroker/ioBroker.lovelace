@@ -56,8 +56,8 @@ function processManualEntity(_id, obj, entity, _objects, custom) {
     entity.context.STATE.getParser = (e, _attr, state) => {
       e.state = (state == null ? void 0 : state.val) ? "off" : "on";
     };
-    entity.context.STATE.historyParser = (_iobId, state) => {
-      return (state == null ? void 0 : state.val) ? "off" : "on";
+    entity.context.STATE.historyParser = (_iobId, val) => {
+      return val ? "off" : "on";
     };
   }
   return [entity];

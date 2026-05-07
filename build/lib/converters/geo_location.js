@@ -42,8 +42,9 @@ class GeoLocationConverter extends import_converter.default {
   }
 }
 function processManualEntity(_id, _obj, entity, objects, custom) {
-  var _a;
+  var _a, _b;
   const states = (_a = custom.states) != null ? _a : {};
+  entity.attributes.source = (_b = custom.attr_source) != null ? _b : "gps";
   (0, import_geoLocationEntity.applyGeoLocationStates)(states, objects, entity);
   return [entity];
 }

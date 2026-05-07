@@ -121,11 +121,6 @@ class BaseEntity {
       setId: states.state || null,
       getId: states.stateRead || states.state || null
     };
-    if (this.context.STATE.getId) {
-      this.context.id = this.context.STATE.getId;
-    } else if (this.context.STATE.setId) {
-      this.context.id = this.context.STATE.setId;
-    }
     this.context.ATTRIBUTES = (_a = this.context.ATTRIBUTES) != null ? _a : [];
     for (const key of Object.keys(states)) {
       const id = states[key];

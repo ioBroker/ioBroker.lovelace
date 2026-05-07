@@ -89,8 +89,7 @@ export class SensorEntity extends BaseEntity {
                 ? ((objects[stateId].common.states as Record<string | number, string> | undefined) ?? null)
                 : null;
 
-            entity.context.STATE.historyParser = (_iobId: string, iobState: ioBroker.State): string => {
-                const val = iobState?.val;
+            entity.context.STATE.historyParser = (_iobId: string, val: ioBroker.StateValue): string => {
                 let str: string;
                 const stateMap = entity.context.STATE.states;
                 if (stateMap) {
@@ -104,7 +103,7 @@ export class SensorEntity extends BaseEntity {
 
             entity.context.STATE.getParser = (e, _attr, iobState): void => {
                 const s = iobState || ({ val: null } as ioBroker.State);
-                e.state = e.context.STATE.historyParser!(stateId, s);
+                e.state = e.context.STATE.historyParser!(stateId, s.val);
             };
 
             entity.addID2entity(stateId);

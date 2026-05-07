@@ -1,4 +1,4 @@
-import { BaseEntity } from './baseEntity';
+import type { BaseEntity } from './baseEntity';
 import { getEntityId } from './entity_id';
 
 interface EntityData {
@@ -287,20 +287,6 @@ export function getObjectIcon(obj: ioBroker.Object, prefix?: string): string | n
 }
 
 /**
- * Removes entity from cached storages or re-keys it under a new entity_id.
- * Backward-compat shim — prefer `entity.unregister(newId?)` directly on a BaseEntity.
- *
- * @param entity - entity to remove
- * @param newId - if set, the entity is re-keyed under this new id instead of being removed.
- */
-export function removeEntity(entity: BaseEntity | null | undefined, newId?: string): void {
-    if (!entity) {
-        return;
-    }
-    entity.unregister(newId);
-}
-
-/**
  * Find all entities that are affected by a change in an enum (or that are members of an enum, if oldEnum is empty)
  *
  * @param newEnum - updated enum
@@ -343,22 +329,6 @@ export function findEntitiesFromEnumChange(
 }
 
 /**
- * Fill an entity's STATE/ATTRIBUTES from a `{state, stateRead, ...}` map.
- * Backward-compat shim — prefer `entity.fillFromStates(states, objects)`.
- *
- * @param states - ids of ioBroker states; "state" → entity.state, others → attributes.
- * @param entity - entity to fill
- * @param objects - optional objects cache to determine writeability of attributes.
- */
-export function fillEntityFromStates(
-    states: Record<string, string>,
-    entity: BaseEntity,
-    objects?: Record<string, ioBroker.Object>,
-): void {
-    entity.fillFromStates(states, objects);
-}
-
-/**
  * Determine entity type if none set.
  *
  * @param obj - ioBroker object to determine entity type for
@@ -390,60 +360,6 @@ export function autoDetermineEntityType(obj: ioBroker.Object): string {
     } else {
         return 'sensor'; //sensor can be everything.
     }
-}
-
-/**
- * Register an entity in the dataSingleton caches.
- * Backward-compat shim — prefer `entity.registerInCaches()`.
- *
- * @param entity - entity to fill into caches
- */
-export function fillEntityIntoCaches(entity: BaseEntity): void {
-    entity.registerInCaches();
-}
-
-/**
- * Update timestamps on an entity from an ioBroker state.
- * Backward-compat shim — prefer `entity.updateTimestamp(state, isStateChange)`.
- *
- * @param entity - entity to update
- * @param state - ioBroker state to read timestamps from
- */
-export function updateTimestamps(entity: BaseEntity, state: ioBroker.State | null | undefined): void {
-    entity.updateTimestamp(state, true);
-}
-
-/**
- * Track an ioBroker state id on an entity.
- * Backward-compat shim — prefer `entity.addID2entity(id)`.
- *
- * @param id - ioBroker state id
- * @param entity - entity to register the id on
- */
-export function addID2entity(id: string, entity: BaseEntity): void {
-    entity.addID2entity(id);
-}
-
-/**
- * Build a bare entity from common parameters.
- * Backward-compat shim — prefer `new BaseEntity(...)` (or a per-domain subclass).
- *
- * @param name - friendly name; if empty, taken from object or generated from room & func or id
- * @param room - room enum object (used for friendly-name generation)
- * @param func - function enum object (used for friendly-name generation)
- * @param obj - ioBroker object — used for id, name, icon, unit, lovelace-specific settings
- * @param entityType - lovelace domain of the entity (e.g. 'light', 'sensor')
- * @param entity_id - predefined entity id; if empty, generated from name
- */
-export function processCommon(
-    name: string | null | undefined,
-    room: ioBroker.EnumObject | null | undefined,
-    func: ioBroker.EnumObject | null | undefined,
-    obj: ioBroker.Object | undefined,
-    entityType: string,
-    entity_id?: string | null,
-): BaseEntity {
-    return new BaseEntity(name, room, func, obj, entityType, entity_id);
 }
 
 /**

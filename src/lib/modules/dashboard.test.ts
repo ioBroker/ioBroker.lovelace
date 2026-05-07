@@ -11,7 +11,7 @@ function makeAdapter(): ioBroker.Adapter {
     } as unknown as ioBroker.Adapter;
 }
 
-function makeDashboard(overrides: Record<string, unknown> = {}): InstanceType<typeof DashboardModule> {
+function makeDashboard(overrides: Record<string, unknown> = {}): any {
     return new DashboardModule({
         adapter: makeAdapter(),
         sendResponse: () => {},
@@ -30,7 +30,7 @@ describe('modules/dashboard', function () {
         it('returns stored config for known url_path', function () {
             const dashboard = makeDashboard();
             const config = { views: [{ title: 'Home' }] };
-            (dashboard as Record<string, unknown>)._dashboardConfigs['lovelace'] = config;
+            dashboard._dashboardConfigs.lovelace = config;
             expect(dashboard.getConfig('lovelace')).to.deep.equal(config);
         });
     });
@@ -61,17 +61,14 @@ describe('modules/dashboard', function () {
 
         it('appends counter to resolve collision with existing dashboard', function () {
             const dashboard = makeDashboard();
-            (dashboard as Record<string, unknown>)._dashboards = [{ id: 'dashboard_home' }];
+            dashboard._dashboards = [{ id: 'dashboard_home' }];
             const id = dashboard.findDashboardId({ title: 'Home' });
             expect(id).to.equal('dashboard_home_1');
         });
 
         it('increments counter until unique id is found', function () {
             const dashboard = makeDashboard();
-            (dashboard as Record<string, unknown>)._dashboards = [
-                { id: 'dashboard_home' },
-                { id: 'dashboard_home_1' },
-            ];
+            dashboard._dashboards = [{ id: 'dashboard_home' }, { id: 'dashboard_home_1' }];
             const id = dashboard.findDashboardId({ title: 'Home' });
             expect(id).to.equal('dashboard_home_1_2');
         });
@@ -87,7 +84,7 @@ describe('modules/dashboard', function () {
 
         it('adds each dashboard as a panel keyed by url_path', function () {
             const dashboard = makeDashboard();
-            (dashboard as Record<string, unknown>)._dashboards = [
+            dashboard._dashboards = [
                 {
                     url_path: 'lovelace',
                     title: 'Home',
@@ -111,7 +108,7 @@ describe('modules/dashboard', function () {
 
         it('sets title and icon to null when show_in_sidebar is false', function () {
             const dashboard = makeDashboard();
-            (dashboard as Record<string, unknown>)._dashboards = [
+            dashboard._dashboards = [
                 {
                     url_path: 'hidden',
                     title: 'Hidden',
@@ -130,7 +127,7 @@ describe('modules/dashboard', function () {
 
         it('adds multiple dashboards as separate panels', function () {
             const dashboard = makeDashboard();
-            (dashboard as Record<string, unknown>)._dashboards = [
+            dashboard._dashboards = [
                 {
                     url_path: 'lovelace',
                     title: 'Home',

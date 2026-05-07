@@ -83,7 +83,7 @@
     "test:unit": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
     "test:package": "mocha test/package --exit",
     "test:integration": "mocha test/integration --timeout 30000 --exit",
-    "test": "npm run test:unit && npm run test:package",
+    "test": "npm run test:ts && npm run test:package",
     "lint": "eslint -c eslint.config.mjs .",
     "check": "tsc --noEmit",
     "coverage": "nyc npm run test:ts",

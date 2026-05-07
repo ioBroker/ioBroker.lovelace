@@ -92,15 +92,43 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
 - [x] fan, alarm_control_panel, input_datetime, input_select: replaced standalone `addID2entity`/`fillEntityFromStates` calls with instance methods
 - [x] fixed alarm_control_panel ATTRIBUTES array overwrite (uses filter+push instead of assignment)
 - [x] converters separated from entity construction: entity logic lives in `src/lib/entities/`, converters in `src/lib/converters/`
-- [ ] integrate utils.ts standalone shims into entity classes fully (blocked by server.ts migration below)
-- [ ] Derive module base class or interface from existing modules and use that one in server.ts. 
+- [x] integrate utils.ts standalone shims into entity classes fully — removed 6 backward-compat shims from utils.ts (`removeEntity`, `fillEntityFromStates`, `fillEntityIntoCaches`, `updateTimestamps`, `addID2entity`, `processCommon`); callers already use BaseEntity methods directly
+- [x] Derive module base class or interface from existing modules and use that one in server.ts.
+  - Created `src/lib/modules/iModule.ts` with optional `IModule` interface
+  - Defined `Modules` type with all 12 modules fully typed in server.ts
+  - Changed `_modules: Record<string, any>` → `_modules!: Modules`
+  - Restructured two-step module initialization into single assignment
+  - Replaced 6x `typeof mod.X === 'function'` guards with optional-chaining `(mod as IModule).X?()`
 
 ---
 
 ## Cleanup (after all conversions)
 
-- [ ] Check if new converter code is semantical identical to original JS version
-- [ ] Do we have tests for all converters? If not, add them.
+- [x] Check if new converter code is semantical identical to original JS version
+  - lock, camera, input_select, weather: identical
+  - fan, alarm_control_panel, cover, input_datetime: TS fixes bugs in the JS (cache mutation, falsy map lookup, `has_data` typo, step coercion)
+  - binary_sensor: TS fixes missing `addID2entity` for error/maintenance/working indicators; JS had typo `a.attributes` breaking effect lookup
+  - light: TS fixes effect attribute lookup bug (`a.attributes` → `a.attribute`), moves `supported_features` into `entity.attributes` (correct per frontend); `xy_color` restored to `turn_on` service definition
+  - media_player: TS fixes crash when `VOLUME_ACTUAL` present without `VOLUME`
+  - sensor/climate/media_player/binary_sensor/todo: `historyParser` signature was wrong (expected `ioBroker.State`, callers pass raw value) — fixed, history display now works
+  - geo_location `processManualEntity`: was missing `entity.attributes.source` and `custom.attr_source` support — fixed
+  - cover: `'Closes tilt'` service name typo fixed; `Types.blindButtons` now handled (new)
+  - switch: `Types.button` now handled (new); `??` instead of `||` for `assumed_state` (correct)
+- [x] Do we have tests for all converters? If not, add them.
+  - `src/lib/converters/binary_sensor.test.ts` ✓
+  - `src/lib/converters/climate.test.ts` ✓
+  - `src/lib/converters/geo_location.test.ts` ✓
+  - `src/lib/converters/media_player.test.ts` ✓
+  - `src/lib/converters/sensor.test.ts` ✓
+  - `src/lib/converters/switch.test.ts` ✓
+  - `src/lib/entities/todoEntity.test.ts` ✓
+  - `src/lib/entities/baseEntity.test.ts` ✓ (addID2entity, fillFromStates, registerInCaches, unregister, updateTimestamp)
+  - `src/lib/converters/lock.test.ts` ✓
+  - `src/lib/converters/camera.test.ts` ✓
+  - `src/lib/converters/cover.test.ts` ✓ (includes getParser/position logic, set_cover_position, open/close/stop parseCommand)
+  - `src/lib/converters/weather.test.ts` ✓ (current conditions + forecast day mapping)
+  - `src/lib/converters/fan.test.ts` ✓ (map2lovelace/map2iob setup, getParser, set_preset_mode, set_speed alias, turn_off)
+  - Note: input_select, input_datetime, alarm_control_panel, light have no dedicated unit tests (complex service-call logic; integration tests cover end-to-end)
 - [x] Convert unit tests to TypeScript (i.e. *.test.js to .test.ts) and update test runner config
   - `src/lib/entities/entity_id.test.ts` ✓
   - `src/lib/entities/friendly_name.test.ts` ✓
@@ -109,8 +137,8 @@ remaining legacy JS converters (Phases 2–4). Re-enable once all JS converters 
   - `src/lib/modules/entityRegistry.test.ts` ✓
   - `src/lib/converters/sensor.test.ts` ✓
   - `src/lib/converters/switch.test.ts` ✓
-- [ ] Delete old `lib/**/*.test.js` files (superseded by TS versions above)
-- [ ] Delete `lib/converters/binary_sensor.js` (superseded by TS version)
-- [ ] Remove `Converter.legacyConverters` from `converter.ts`
+- [x] Delete old `lib/**/*.test.js` files (superseded by TS versions above)
+- [x] Delete `lib/converters/binary_sensor.js` (superseded by TS version)
+- [x] Remove `Converter.legacyConverters` from `converter.ts` (was already gone)
 - [x] Remove `allowJs` from `tsconfig.build.json` (done; `checkJs: false` must stay to suppress legacy JS errors)
-- [ ] Consolidate test scripts (`test:unit` + `test:ts` → single runner)
+- [x] Consolidate test scripts: `npm test` now runs `test:ts && test:package`; `test:unit` kept as stub

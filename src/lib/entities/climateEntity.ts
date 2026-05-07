@@ -143,8 +143,8 @@ export function applyClimateStates(
             ent.state = ent.attributes.hvac_mode as string;
             ent.attributes.hvac_action = undefined;
         };
-        entity.context.STATE.historyParser = (_id, state) =>
-            state?.val ? (iobType === Types.airCondition ? 'cool' : 'heat') : 'off';
+        entity.context.STATE.historyParser = (_id, val) =>
+            val ? (iobType === Types.airCondition ? 'cool' : 'heat') : 'off';
     }
 
     if (states.hvac_mode) {
@@ -224,7 +224,7 @@ export function applyClimateStates(
 
         const preset_attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'preset_mode');
         if (preset_attr) {
-            preset_attr.getId = null;
+            delete preset_attr.getId;
         }
 
         entity.context.COMMANDS.push({

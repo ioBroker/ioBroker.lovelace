@@ -92,6 +92,14 @@ adapterData.services.light = {
         name: "Hue/Sat color",
         description: "Color in hue/sat format. A list of two integers. Hue is 0-360 and Sat is 0-100."
       },
+      xy_color: {
+        filter: { attribute: { supported_color_modes: ["hs", "xy", "rgb", "rgbw", "rgbww"] } },
+        advanced: true,
+        example: "[0.52, 0.43]",
+        selector: { object: null },
+        name: "XY-color",
+        description: "Color in XY-format. A list of two decimal numbers between 0 and 1."
+      },
       color_temp: {
         filter: { attribute: { supported_color_modes: ["color_temp", "hs", "xy", "rgb", "rgbw", "rgbww"] } },
         selector: { color_temp: { unit: "mired", min: 153, max: 500 } },

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { processCommon } from './utils';
+import { processCommon } from './baseEntity';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const entityData = require('../../../lib/dataSingleton');
@@ -54,9 +54,7 @@ describe('converters/utils', function () {
                 } as ioBroker.Object;
                 entityData.lang = 'de';
                 const entity = processCommon(null, null, null, obj, entityType);
-                expect(entity.entity_id).to.equal(
-                    `${entityType}.${'a common name'.replace(/[^a-z\d]/gi, '_')}`,
-                );
+                expect(entity.entity_id).to.equal(`${entityType}.${'a common name'.replace(/[^a-z\d]/gi, '_')}`);
             });
 
             it('from non english common.name if only one language is present', function () {
@@ -67,9 +65,7 @@ describe('converters/utils', function () {
                 } as ioBroker.Object;
                 entityData.lang = 'de';
                 const entity = processCommon(null, null, null, obj, entityType);
-                expect(entity.entity_id).to.equal(
-                    `${entityType}.${'a common name'.replace(/[^a-z\d]/gi, '_')}`,
-                );
+                expect(entity.entity_id).to.equal(`${entityType}.${'a common name'.replace(/[^a-z\d]/gi, '_')}`);
             });
 
             it('from instance-specific name', function () {
@@ -90,9 +86,7 @@ describe('converters/utils', function () {
                 const predefinedEntityId = 'predefined id is ignored because there is no dot';
                 const obj = { common: { name: 'this is used instead' }, _id: 'ignored' } as ioBroker.Object;
                 const entity = processCommon(null, null, null, obj, entityType, predefinedEntityId);
-                expect(entity.entity_id).to.equal(
-                    `${entityType}.${'this is used instead'.replace(/[^a-z\d]/gi, '_')}`,
-                );
+                expect(entity.entity_id).to.equal(`${entityType}.${'this is used instead'.replace(/[^a-z\d]/gi, '_')}`);
             });
 
             it('from predefined entity ID argument with dots', function () {
@@ -119,9 +113,7 @@ describe('converters/utils', function () {
                     _id: 'ignored',
                 } as ioBroker.Object;
                 const entity = processCommon(null, null, null, obj, entityType);
-                expect(entity.entity_id).to.equal(
-                    `${entityType}.${'a common name'.replace(/[^a-z\d]/gi, '_')}`,
-                );
+                expect(entity.entity_id).to.equal(`${entityType}.${'a common name'.replace(/[^a-z\d]/gi, '_')}`);
             });
         });
 
@@ -356,7 +348,7 @@ describe('converters/utils', function () {
             },
             native: {},
             _id: id,
-        } as ioBroker.Object;
+        } as unknown as ioBroker.Object;
         const entity = processCommon(null, null, null, obj, 'climate', entity_id);
         expectEntity(entity, entity_id, id, commonName, 'light');
         expect(entity.attributes.unit_of_measurement, '%');
@@ -376,7 +368,7 @@ describe('converters/utils', function () {
             },
             native: {},
             _id: id,
-        } as ioBroker.Object;
+        } as unknown as ioBroker.Object;
         const entity = processCommon(null, null, null, obj, 'climate', entity_id);
         expectEntity(entity, entity_id, id, commonName, 'light');
         expect(entity.attributes.unit_of_measurement, '%');

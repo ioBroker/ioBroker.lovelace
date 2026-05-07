@@ -69,8 +69,8 @@ export function processManualEntity(
         entity.context.STATE.getParser = (e, _attr, state): void => {
             e.state = state?.val ? 'off' : 'on';
         };
-        entity.context.STATE.historyParser = (_iobId: string, state: ioBroker.State): string => {
-            return state?.val ? 'off' : 'on';
+        entity.context.STATE.historyParser = (_iobId: string, val: ioBroker.StateValue): string => {
+            return val ? 'off' : 'on';
         };
     }
     return [entity];

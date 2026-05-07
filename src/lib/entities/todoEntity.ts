@@ -45,13 +45,13 @@ export class TodoEntity extends BaseEntity {
                     ent.state = '0';
                 }
             },
-            historyParser: (_id, state): string => {
+            historyParser: (_id, val): string => {
                 try {
-                    const items = JSON.parse(state.val as string) as unknown[];
+                    const items = JSON.parse(val as string) as unknown[];
                     return String(items.length);
                 } catch (e) {
                     entityData.log.warn(
-                        `Cannot parse todo items of ${entity.context.id}: ${String(state.val)}, ${String(e)}`,
+                        `Cannot parse todo items of ${entity.context.id}: ${String(val)}, ${String(e)}`,
                     );
                     return 'unknown';
                 }

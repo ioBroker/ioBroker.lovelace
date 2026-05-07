@@ -72,8 +72,12 @@ type PersonModuleInterface = {
 function applyHistoryTimestamps(entry: HistoryEntry, state: { ts?: number; lc?: number }): void {
     let lu = state.ts ?? Date.now();
     let lc = state.lc ?? state.ts ?? Date.now();
-    if (isNaN(new Date(lc).getTime())) lc = Date.now();
-    if (isNaN(new Date(lu).getTime())) lu = Date.now();
+    if (isNaN(new Date(lc).getTime())) {
+        lc = Date.now();
+    }
+    if (isNaN(new Date(lu).getTime())) {
+        lu = Date.now();
+    }
     const entryLc = entry.lc ?? 0;
     const entryLu = entry.lu ?? 0;
     if (lc / 1000 > entryLc || isNaN(entryLc) || new Date(entryLc * 1000).toString() === 'Invalid Date') {

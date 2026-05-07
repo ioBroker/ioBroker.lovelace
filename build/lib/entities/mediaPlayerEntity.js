@@ -91,8 +91,7 @@ class MediaPlayerEntity extends import_baseEntity.BaseEntity {
           ent.state = "idle";
         }
       };
-      this.context.STATE.historyParser = (_id, st) => {
-        const val = st == null ? void 0 : st.val;
+      this.context.STATE.historyParser = (_id, val) => {
         if (val === true || val === 1 || val === "play") {
           return "playing";
         }

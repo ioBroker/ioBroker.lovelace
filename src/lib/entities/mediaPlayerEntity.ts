@@ -104,8 +104,7 @@ export class MediaPlayerEntity extends BaseEntity {
                     ent.state = 'idle';
                 }
             };
-            this.context.STATE.historyParser = (_id, st) => {
-                const val = st?.val;
+            this.context.STATE.historyParser = (_id, val) => {
                 if (val === true || val === 1 || val === 'play') {
                     return 'playing';
                 }

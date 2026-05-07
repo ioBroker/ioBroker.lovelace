@@ -27,6 +27,7 @@ export function processManualEntity(
     custom: Record<string, unknown>,
 ): ioBrokerEntity[] {
     const states = (custom.states as GeoStates | undefined) ?? {};
+    entity.attributes.source = (custom.attr_source as string | undefined) ?? 'gps';
     applyGeoLocationStates(states, objects, entity);
     return [entity];
 }

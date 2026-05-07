@@ -62,8 +62,8 @@ class BinarySensorEntity extends import_baseEntity.BaseEntity {
     this.context.STATE.getParser = (entity, _attr, state) => {
       entity.state = (state == null ? void 0 : state.val) ? "off" : "on";
     };
-    this.context.STATE.historyParser = (_iobId, state) => {
-      return (state == null ? void 0 : state.val) ? "off" : "on";
+    this.context.STATE.historyParser = (_iobId, val) => {
+      return val ? "off" : "on";
     };
   }
 }

@@ -6,7 +6,10 @@
       "read": true,
       "write": false,
       "role": "sensor.window",
-      "type": "boolean"
+      "type": "boolean",
+      "custom": {
+        "lovelace.0": null
+      }
     },
     "native": {},
     "_id": "adapter.0.binary_sensor.motions.withoutCustom",

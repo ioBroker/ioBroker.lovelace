@@ -77,8 +77,7 @@ class SensorEntity extends import_baseEntity.BaseEntity {
       const stateId = state.id;
       entity.context.STATE.getId = stateId;
       entity.context.STATE.states = ((_a = objects[stateId]) == null ? void 0 : _a.common) ? (_b = objects[stateId].common.states) != null ? _b : null : null;
-      entity.context.STATE.historyParser = (_iobId, iobState) => {
-        const val = iobState == null ? void 0 : iobState.val;
+      entity.context.STATE.historyParser = (_iobId, val) => {
         let str;
         const stateMap = entity.context.STATE.states;
         if (stateMap) {
@@ -91,7 +90,7 @@ class SensorEntity extends import_baseEntity.BaseEntity {
       };
       entity.context.STATE.getParser = (e, _attr, iobState) => {
         const s = iobState || { val: null };
-        e.state = e.context.STATE.historyParser(stateId, s);
+        e.state = e.context.STATE.historyParser(stateId, s.val);
       };
       entity.addID2entity(stateId);
     }
