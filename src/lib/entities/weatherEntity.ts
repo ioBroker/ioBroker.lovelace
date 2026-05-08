@@ -10,6 +10,7 @@ import type { ConverterParameters } from '../converters/converter';
  * precipitation, humidity, etc.).
  */
 export class WeatherEntity extends BaseEntity {
+    /** @param params - converter parameters */
     constructor(params: ConverterParameters) {
         const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
         super(friendlyName, room, func, objects[id], 'weather', forcedEntityId);

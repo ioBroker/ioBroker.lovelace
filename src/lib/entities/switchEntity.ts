@@ -9,6 +9,7 @@ import type { ConverterParameters } from '../converters/converter';
  * a known zigbee availability/query state, it is ignored as a state source.
  */
 export class SwitchEntity extends BaseEntity {
+    /** @param params - converter parameters */
     constructor(params: ConverterParameters) {
         const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
         super(friendlyName, room, func, objects[id], 'switch', forcedEntityId);

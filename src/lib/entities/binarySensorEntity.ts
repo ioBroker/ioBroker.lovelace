@@ -39,6 +39,7 @@ export interface BinarySensorOptions {
  * since they all share the same on/off state plus a device_class.
  */
 export class BinarySensorEntity extends BaseEntity {
+    /** @param params - converter parameters; @param opts - optional device-class and source-object overrides */
     constructor(params: ConverterParameters, opts: BinarySensorOptions = {}) {
         const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
         const obj = opts.sourceObj ?? objects[id];

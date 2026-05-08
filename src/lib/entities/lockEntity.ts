@@ -13,6 +13,7 @@ const adapterData = require('../../../lib/dataSingleton') as {
  * "open" service) from controls.states.
  */
 export class LockEntity extends BaseEntity {
+    /** @param params - converter parameters */
     constructor(params: ConverterParameters) {
         const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
         super(friendlyName, room, func, objects[id], 'lock', forcedEntityId);

@@ -6,7 +6,7 @@ const DashboardModule = require('../modules/dashboard');
 function makeAdapter(): ioBroker.Adapter {
     return {
         log: { debug: () => {} },
-        getObjectAsync: async () => ({ native: { dashboards: [], dashboardConfigs: {} } }),
+        getObjectAsync: () => Promise.resolve({ native: { dashboards: [], dashboardConfigs: {} } }),
         setObject: async () => {},
     } as unknown as ioBroker.Adapter;
 }

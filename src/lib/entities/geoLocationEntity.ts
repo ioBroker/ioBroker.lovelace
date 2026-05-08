@@ -6,11 +6,17 @@ import type { ConverterParameters } from '../converters/converter';
  * Each key maps to the corresponding ioBroker state id.
  */
 export interface GeoStates {
+    /** ioBroker state id for combined "lat;lon" GPS string */
     gps?: string;
+    /** ioBroker state id for latitude */
     latitude?: string;
+    /** ioBroker state id for longitude */
     longitude?: string;
+    /** ioBroker state id for radius */
     radius?: string;
+    /** ioBroker state id for GPS accuracy */
     gps_accuracy?: string;
+    /** ioBroker state id for battery level */
     battery?: string;
 }
 
@@ -99,6 +105,7 @@ export function applyGeoLocationStates(
  * and translates "lat;lon" strings into separate latitude / longitude attributes.
  */
 export class GeoLocationEntity extends BaseEntity {
+    /** @param params - converter parameters */
     constructor(params: ConverterParameters) {
         const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
         super(friendlyName, room, func, objects[id], 'geo_location', forcedEntityId);

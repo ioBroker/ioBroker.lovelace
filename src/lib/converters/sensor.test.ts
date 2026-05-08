@@ -71,7 +71,7 @@ describe('converters/sensor', function () {
         it('maps raw value 0 → closed, 1 → tilted, 2 → open', function () {
             const params = makeParameters([{ id: STATE_ID, name: 'ACTUAL' }]);
             const entity = SensorConverter.convertEntities(params)[0];
-            const hp = entity.context.STATE?.historyParser!;
+            const hp = entity.context.STATE!.historyParser;
             expect(hp('', 0)).to.equal('closed');
             expect(hp('', 1)).to.equal('tilted');
             expect(hp('', 2)).to.equal('open');
@@ -83,7 +83,7 @@ describe('converters/sensor', function () {
             const params = makeParameters([{ id: STATE_ID, name: 'ACTUAL' }]);
             params.objects[STATE_ID] = obj as unknown as ioBroker.Object;
             const entity = SensorConverter.convertEntities(params)[0];
-            const hp = entity.context.STATE?.historyParser!;
+            const hp = entity.context.STATE!.historyParser;
             expect(hp('', 0)).to.equal('closed');
             expect(hp('', 1)).to.equal('tilted');
         });

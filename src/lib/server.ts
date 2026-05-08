@@ -888,7 +888,7 @@ class WebServer {
     /**
      * Get states for all entities and fill entity states / attributes during startup.
      *
-     * @returns
+     * @returns resolves when all entity states have been populated
      */
     async _getAllStates() {
         for (const entity of entityData.entities) {
@@ -2963,7 +2963,7 @@ class WebServer {
                 //might wait for first result, though... :-(
                 //small hack:
                 message.type = 'config/device_registry/list';
-                await this._modules.deviceRegistry.processMessage(ws, message);
+                this._modules.deviceRegistry.processMessage(ws, message);
             } else if (message.type === 'config_entries/flow/progress') {
                 //no idea, what that is meant to be, but HASS sends empty array, too. ;-)
                 this._sendResponse(ws, message.id, []);

@@ -13,7 +13,6 @@ const HUM_ID = `${DEVICE_ID}.humidity`;
 // Forecast: day 0 uses bare names (postFix=''), day 1 uses suffix '1'
 // ICON (bare, no suffix) → forecast.0.condition when found in the forecast loop
 // TEMP_MAX (bare)        → forecast.0.temperature
-const TEMP_MAX1_ID = `${DEVICE_ID}.temp_max1`; // state name 'TEMP_MAX1' (day 1)
 
 function makeObj(id: string): ioBroker.Object {
     return {

@@ -74,6 +74,7 @@ function parsePlayPauseStopCommand(
  * supported_features bits.
  */
 export class MediaPlayerEntity extends BaseEntity {
+    /** @param params - converter parameters */
     constructor(params: ConverterParameters) {
         const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
         super(friendlyName, room, func, objects[id], 'media_player', forcedEntityId);

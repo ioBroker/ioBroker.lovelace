@@ -44,7 +44,7 @@ describe('converters/climate', function () {
         it('thermostat: raw true → heat, false → off', function () {
             const params = makeParameters([{ id: POWER_ID, name: 'POWER' }], Types.thermostat);
             const entity = ClimateConverter.convertEntities(params)[0];
-            const hp = entity.context.STATE?.historyParser!;
+            const hp = entity.context.STATE!.historyParser;
             expect(hp('', true)).to.equal('heat');
             expect(hp('', false)).to.equal('off');
         });
@@ -52,7 +52,7 @@ describe('converters/climate', function () {
         it('airCondition: raw true → cool, false → off', function () {
             const params = makeParameters([{ id: POWER_ID, name: 'POWER' }], Types.airCondition);
             const entity = ClimateConverter.convertEntities(params)[0];
-            const hp = entity.context.STATE?.historyParser!;
+            const hp = entity.context.STATE!.historyParser;
             expect(hp('', true)).to.equal('cool');
             expect(hp('', false)).to.equal('off');
         });

@@ -81,6 +81,7 @@ export function processManualEntity(
  * motion, door, window, and fire alarm.
  */
 export class BinarySensorConverter extends Converter {
+    /** @param params - converter parameters */
     static override convertEntities(params: ConverterParameters): ioBrokerEntity[] {
         switch (params.controls.type) {
             case Types.motion:

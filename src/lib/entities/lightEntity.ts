@@ -69,9 +69,9 @@ function clearOrRestoreAttributes(entity: BaseEntity): void {
 }
 
 /**
- * @param states
- * @param objects
- * @param entity
+ * @param states - state-id map for light properties
+ * @param objects - ioBroker objects cache
+ * @param entity - entity to augment in-place
  * @internal
  */
 function lightAddState(
@@ -110,9 +110,9 @@ function lightAddState(
 }
 
 /**
- * @param states
- * @param objects
- * @param entity
+ * @param states - state-id map for light properties
+ * @param objects - ioBroker objects cache
+ * @param entity - entity to augment in-place
  * @internal
  */
 function lightAddColorTemperature(
@@ -195,9 +195,9 @@ function lightAddColorTemperature(
 }
 
 /**
- * @param states
- * @param objects
- * @param entity
+ * @param states - state-id map for light properties
+ * @param objects - ioBroker objects cache
+ * @param entity - entity to augment in-place
  * @internal
  */
 function lightAddBrightness(
@@ -267,9 +267,9 @@ function lightAddBrightness(
 }
 
 /**
- * @param states
- * @param objects
- * @param entity
+ * @param states - state-id map for light properties
+ * @param objects - ioBroker objects cache
+ * @param entity - entity to augment in-place
  * @internal
  */
 function lightAddHueAndSat(
@@ -338,9 +338,9 @@ function lightAddHueAndSat(
 }
 
 /**
- * @param states
- * @param _objects
- * @param entity
+ * @param states - state-id map for light properties
+ * @param _objects - ioBroker objects cache (unused)
+ * @param entity - entity to augment in-place
  * @internal
  */
 function lightAddRGBSingle(
@@ -415,9 +415,9 @@ function lightAddRGBSingle(
 }
 
 /**
- * @param states
- * @param objects
- * @param entity
+ * @param states - state-id map for light properties
+ * @param objects - ioBroker objects cache
+ * @param entity - entity to augment in-place
  * @internal
  */
 function lightAddRGB(
@@ -476,7 +476,7 @@ function lightAddRGB(
 /**
  * Convert a 0-255 number to a two-digit uppercase hex string.
  *
- * @param num
+ * @param num - integer value 0-255
  */
 function numToHex(num: number): string {
     const clamped = Math.min(Math.max(Math.round(num), 0), 255);
@@ -484,9 +484,9 @@ function numToHex(num: number): string {
 }
 
 /**
- * @param data
- * @param entity
- * @param user
+ * @param data - service call payload
+ * @param entity - entity being updated
+ * @param user - ioBroker user for state writes
  * @internal
  */
 async function setLightAdvancedAttributesToIOBStates(
@@ -612,10 +612,10 @@ async function setLightAdvancedAttributesToIOBStates(
 }
 
 /**
- * @param entity
- * @param command
- * @param data
- * @param user
+ * @param entity - entity to act on
+ * @param command - parsed command from the COMMANDS array
+ * @param data - service call payload
+ * @param user - ioBroker user for state writes
  * @internal
  */
 async function handleTurnOnCmd(
