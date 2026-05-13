@@ -25,6 +25,11 @@ var import_baseEntity = require("./baseEntity");
 const entityData = require("../../../lib/dataSingleton");
 const SUPPORTED_FEATURES = 1 | 2 | 4 | 8;
 class TodoEntity extends import_baseEntity.BaseEntity {
+  /**
+   * @param name - friendly name
+   * @param obj - ioBroker object
+   * @param entityId - forced entity_id
+   */
   constructor(name, obj, entityId) {
     super(name, null, null, obj != null ? obj : void 0, "todo", entityId);
     TodoEntity.augment(this);

@@ -38,8 +38,10 @@ function generateAccessToken() {
   return import_crypto.default.createHmac("sha256", (import_crypto.default.webcrypto.getRandomValues(new Uint32Array(1))[0] * 1e9).toString()).update(Date.now().toString()).digest("hex");
 }
 function applyCameraUrlAttributes(entity, urlStateId) {
-  entity.context.STATE.getValue = "on";
-  entity.context.STATE.getId = null;
+  entity.context.STATE.getId = urlStateId;
+  entity.context.STATE.getParser = (ent, _attr, state) => {
+    ent.state = state.val ? "on" : "off";
+  };
   entity.context.ATTRIBUTES = [{ getId: urlStateId, attribute: "url" }];
   entity.attributes.code_format = "number";
   entity.attributes.access_token = generateAccessToken();

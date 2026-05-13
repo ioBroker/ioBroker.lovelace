@@ -63,6 +63,7 @@ function processManualEntity(_id, obj, entity, _objects, custom) {
   return [entity];
 }
 class BinarySensorConverter extends import_converter.Converter {
+  /** @param params - converter parameters */
   static convertEntities(params) {
     switch (params.controls.type) {
       case import_type_detector.Types.motion:

@@ -63,6 +63,7 @@ function parsePlayPauseStopCommand(entity, command, _data, user) {
   return adapterData.adapter.setForeignStateAsync(id, val, false, { user });
 }
 class MediaPlayerEntity extends import_baseEntity.BaseEntity {
+  /** @param params - converter parameters */
   constructor(params) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;

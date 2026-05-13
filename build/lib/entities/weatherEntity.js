@@ -24,6 +24,7 @@ module.exports = __toCommonJS(weatherEntity_exports);
 var import_baseEntity = require("./baseEntity");
 var import_utils = require("./utils");
 class WeatherEntity extends import_baseEntity.BaseEntity {
+  /** @param params - converter parameters */
   constructor(params) {
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
     super(friendlyName, room, func, objects[id], "weather", forcedEntityId);

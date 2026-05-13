@@ -41,7 +41,7 @@ describe('converters/media_player', function () {
         it('raw true/1/"play" → playing', function () {
             const params = makeParameters([{ id: STATE_ID, name: 'STATE' }]);
             const entity = MediaPlayerConverter.convertEntities(params)[0];
-            const hp = entity.context.STATE!.historyParser;
+            const hp = entity.context.STATE.historyParser!;
             expect(hp('', true)).to.equal('playing');
             expect(hp('', 1)).to.equal('playing');
             expect(hp('', 'play')).to.equal('playing');
@@ -50,7 +50,7 @@ describe('converters/media_player', function () {
         it('raw false/0/"pause" → paused', function () {
             const params = makeParameters([{ id: STATE_ID, name: 'STATE' }]);
             const entity = MediaPlayerConverter.convertEntities(params)[0];
-            const hp = entity.context.STATE!.historyParser;
+            const hp = entity.context.STATE.historyParser!;
             expect(hp('', false)).to.equal('paused');
             expect(hp('', 0)).to.equal('paused');
             expect(hp('', 'pause')).to.equal('paused');
@@ -59,7 +59,7 @@ describe('converters/media_player', function () {
         it('raw "stop"/2/null → idle', function () {
             const params = makeParameters([{ id: STATE_ID, name: 'STATE' }]);
             const entity = MediaPlayerConverter.convertEntities(params)[0];
-            const hp = entity.context.STATE!.historyParser;
+            const hp = entity.context.STATE.historyParser!;
             expect(hp('', 'stop')).to.equal('idle');
             expect(hp('', 2)).to.equal('idle');
             expect(hp('', null)).to.equal('idle');

@@ -356,7 +356,10 @@ class WebServer {
           entity.registerInCaches();
         }
       }
-      this._modules.entityRegistry.handleUpdatedEntities(created, false);
+      this._modules.entityRegistry.handleUpdatedEntities(
+        created,
+        false
+      );
     } catch (e) {
       this.adapter.log.error(`Could not get object view for getAllEntities: ${e.toString()} - ${e.stack}`);
     }
@@ -484,7 +487,13 @@ class WebServer {
       } else if (entityType === "fan") {
         return convertFan.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "todo") {
-        return this._modules.todo.processManualEntity(id, obj, entity, this._objectData.objects, custom);
+        return this._modules.todo.processManualEntity(
+          id,
+          obj,
+          entity,
+          this._objectData.objects,
+          custom
+        );
       } else if (entityType === "switch") {
         return converterSwitch.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "timer") {
@@ -708,7 +717,7 @@ class WebServer {
   /**
    * Get states for all entities and fill entity states / attributes during startup.
    *
-   * @returns
+   * @returns resolves when all entity states have been populated
    */
   async _getAllStates() {
     for (const entity of entityData.entities) {
@@ -761,7 +770,7 @@ class WebServer {
               }
               entity.context.lastValue = states[id].val;
             } else {
-              this.onStateChange(id, states[id]);
+              void this.onStateChange(id, states[id]);
             }
           });
         }
@@ -854,7 +863,7 @@ class WebServer {
       });
     }
     for (const mod of Object.values(this._modules)) {
-      (_a = mod.onStateChange) == null ? void 0 : _a.call(mod, id, state, this._wss);
+      void ((_a = mod.onStateChange) == null ? void 0 : _a.call(mod, id, state, this._wss));
     }
   }
   /**
@@ -1893,7 +1902,7 @@ ${hideScript.join("\n")}
       }
     });
     this._app.get("/api/history/period/:start", async (req, res) => {
-      this._modules.history.processRequest(req, res);
+      void this._modules.history.processRequest(req, res);
     });
     this._app.get("/api/person/*person", async (req, res) => {
       this._modules.person.processRequest(req, res);
@@ -2358,7 +2367,10 @@ ${hideScript.join("\n")}
           ws._subscribes && Object.keys(ws._subscribes).forEach((event_type) => {
             const dynMod = this._modules[event_type];
             if (dynMod && typeof dynMod.removeSubscription === "function") {
-              dynMod.removeSubscription(ws, message.subscription);
+              dynMod.removeSubscription(
+                ws,
+                message.subscription
+              );
             } else {
               ws._subscribes[event_type] = ws._subscribes[event_type].filter(
                 (sub) => sub !== message.subscription && sub.id !== message.subscription
@@ -2423,7 +2435,7 @@ ${hideScript.join("\n")}
       } else if (message.type === "frontend/get_themes") {
         this._sendResponse(ws, message.id, this._getThemes());
       } else if (message.type === "auth/current_user") {
-        this._getCurrentUser(ws).then((data) => this._sendResponse(ws, message.id, data));
+        void this._getCurrentUser(ws).then((data) => this._sendResponse(ws, message.id, data));
       } else if (message.type === "frontend/get_user_data") {
         this.log.debug(`Get USER Data: ${message.key}`);
         this._sendResponse(ws, message.id, { value: { language: this.lang } });
@@ -2435,7 +2447,7 @@ ${hideScript.join("\n")}
         this._sendResponse(ws, message.id, this._getLayoutConfig(message.url_path));
       } else if (message.type === "lovelace/config/save") {
         this.log.debug(`save config: ${JSON.stringify(message)}`);
-        this._setLayoutConfig(message.config, message.url_path);
+        void this._setLayoutConfig(message.config, message.url_path);
         this._sendResponse(ws, message.id);
       } else if (message.type === "lovelace/resources") {
         this._sendResponse(ws, message.id, this._ressourceConfig);
@@ -2448,7 +2460,7 @@ ${hideScript.join("\n")}
       } else if (message.type === "config_entries/subscribe") {
         this._sendResponse(ws, message.id, null);
         message.type = "config/device_registry/list";
-        await this._modules.deviceRegistry.processMessage(ws, message);
+        this._modules.deviceRegistry.processMessage(ws, message);
       } else if (message.type === "config_entries/flow/progress") {
         this._sendResponse(ws, message.id, []);
       } else if (message.type === "manifest/list") {
@@ -2520,7 +2532,7 @@ ${hideScript.join("\n")}
             }
           }
         }
-        Promise.all(promises).then(() => {
+        void Promise.all(promises).then(() => {
           const t = {
             id: message.id,
             type: "event",
@@ -2814,7 +2826,7 @@ ${hideScript.join("\n")}
     this._updateTimer && clearTimeout(this._updateTimer);
     this._updateTimer = null;
     for (const mod of Object.values(this._modules)) {
-      (_a = mod.cleanup) == null ? void 0 : _a.call(mod);
+      void ((_a = mod.cleanup) == null ? void 0 : _a.call(mod));
     }
   }
 }

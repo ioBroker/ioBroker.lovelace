@@ -12,7 +12,11 @@ const SUPPORTED_FEATURES = 1 | 2 | 4 | 8; // CREATE_TODO_ITEM | DELETE_TODO_ITEM
  * `context.STATE.getParser` parses the JSON array stored in the ioBroker state.
  */
 export class TodoEntity extends BaseEntity {
-    /** @param name - friendly name; @param obj - ioBroker object; @param entityId - forced entity_id */
+    /**
+     * @param name - friendly name
+     * @param obj - ioBroker object
+     * @param entityId - forced entity_id
+     */
     constructor(name: string | null | undefined, obj: ioBroker.Object | null | undefined, entityId: string) {
         super(name, null, null, obj ?? undefined, 'todo', entityId);
         TodoEntity.augment(this);

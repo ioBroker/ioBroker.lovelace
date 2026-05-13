@@ -24,6 +24,7 @@ module.exports = __toCommonJS(switchEntity_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_baseEntity = require("./baseEntity");
 class SwitchEntity extends import_baseEntity.BaseEntity {
+  /** @param params - converter parameters */
   constructor(params) {
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
     super(friendlyName, room, func, objects[id], "switch", forcedEntityId);

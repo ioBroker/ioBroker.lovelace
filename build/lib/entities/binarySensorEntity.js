@@ -23,6 +23,10 @@ __export(binarySensorEntity_exports, {
 module.exports = __toCommonJS(binarySensorEntity_exports);
 var import_baseEntity = require("./baseEntity");
 class BinarySensorEntity extends import_baseEntity.BaseEntity {
+  /**
+   * @param params - converter parameters
+   * @param opts - optional device-class and source-object overrides
+   */
   constructor(params, opts = {}) {
     var _a, _b;
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;

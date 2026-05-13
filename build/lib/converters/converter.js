@@ -84,10 +84,20 @@ class Converter {
    * @param params - conversion parameters
    */
   static _processEntities(entities, params) {
+    var _a, _b;
     if (!(entities == null ? void 0 : entities.length)) {
       return;
     }
     const { existingEntities, adapter, entityRegistry, controls } = params;
+    for (const entity of entities) {
+      if (!((_a = entity == null ? void 0 : entity.context.STATE) == null ? void 0 : _a.getId)) {
+        continue;
+      }
+      const stored = entityRegistry.getEntityId(entity.context.STATE.getId);
+      if (stored) {
+        entity.entity_id = stored;
+      }
+    }
     const mainEntity = entities.find((x) => x == null ? void 0 : x.entity_id);
     if (mainEntity) {
       entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
@@ -102,9 +112,7 @@ class Converter {
       const existing = existingEntities.find((e) => e.entity_id === entity.entity_id);
       if (existing) {
         if (entity.context.id !== existing.context.id) {
-          entityRegistry.storeEntityId(existing.context.id, existing.entity_id);
           entity.entity_id = `${entity.entity_id}_${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
-          entityRegistry.storeEntityId(entity.context.id, entity.entity_id);
           adapter.log.debug(
             `Duplicates found for ${existing.entity_id}, solved by renaming second to ${entity.entity_id}`
           );
@@ -114,6 +122,9 @@ class Converter {
           );
           continue;
         }
+      }
+      if ((_b = entity.context.STATE) == null ? void 0 : _b.getId) {
+        entityRegistry.storeEntityId(entity.context.STATE.getId, entity.entity_id);
       }
       existingEntities.push(entity);
       adapter.log.debug(

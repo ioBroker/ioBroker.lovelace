@@ -24,6 +24,7 @@ module.exports = __toCommonJS(lockEntity_exports);
 var import_baseEntity = require("./baseEntity");
 const adapterData = require("../../../lib/dataSingleton");
 class LockEntity extends import_baseEntity.BaseEntity {
+  /** @param params - converter parameters */
   constructor(params) {
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
     super(friendlyName, room, func, objects[id], "lock", forcedEntityId);

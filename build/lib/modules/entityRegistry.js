@@ -137,10 +137,10 @@ class EntityRegistry {
     }
     entity.entity_id = entry.entity_id;
     this.entityData.entityId2Entity[entry.entity_id] = entity;
-    entity.attributes.friendly_name = entry.name || entry.original_name;
-    entity.attributes.icon = entry.icon || entry.original_icon;
-    entity.platform = entry.platform;
-    entity.attributes.device_class = entry.device_class || entry.original_device_class;
+    entity.attributes.friendly_name = entry.name || entry.original_name || entity.attributes.friendly_name;
+    entity.attributes.icon = entry.icon || entry.original_icon || entity.attributes.icon;
+    entity.platform = entry.platform || entity.platform;
+    entity.attributes.device_class = entry.device_class || entry.original_device_class || entity.attributes.device_class;
     if (entry.options) {
       for (const platform of Object.keys(entry.options)) {
         if (entry.options[platform]) {
@@ -154,6 +154,7 @@ class EntityRegistry {
   }
   /**
    * Get the entity id from the ioBroker id.
+   * Returns a previously persisted entity_id for the given ioBroker state id.
    *
    * @param iobId - ioBroker object id
    */
@@ -162,14 +163,17 @@ class EntityRegistry {
     return (_a = this._entries[iobId]) == null ? void 0 : _a.entity_id;
   }
   /**
-   * Store the entity id in the registry.
+   * Persist an entity_id for the given ioBroker state id so it survives adapter restarts.
    *
    * @param iobId - ioBroker object id
    * @param entityId - HA entity id to store
    */
   storeEntityId(iobId, entityId) {
-    this._entries[iobId] = this._entries[iobId] || {};
-    this._entries[iobId].entity_id = entityId;
+    if (this._entries[iobId]) {
+      this._entries[iobId].entity_id = entityId;
+    } else {
+      this._entries[iobId] = { entity_id: entityId };
+    }
   }
   /**
    * Process incoming messages from the frontend.

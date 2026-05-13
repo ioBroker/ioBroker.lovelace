@@ -945,7 +945,7 @@ class WebServer {
                             }
                             entity.context.lastValue = states[id].val;
                         } else {
-                            this.onStateChange(id, states[id]);
+                            void this.onStateChange(id, states[id]);
                         }
                     });
                 }
@@ -1056,7 +1056,7 @@ class WebServer {
 
         //check modules:
         for (const mod of Object.values(this._modules) as IModule[]) {
-            mod.onStateChange?.(id, state, this._wss);
+            void mod.onStateChange?.(id, state, this._wss);
         }
     }
 
@@ -2315,7 +2315,7 @@ class WebServer {
         });
 
         this._app.get('/api/history/period/:start', async (req: any, res: any) => {
-            this._modules.history.processRequest(req, res);
+            void this._modules.history.processRequest(req, res);
         });
         this._app.get('/api/person/*person', async (req: any, res: any) => {
             this._modules.person.processRequest(req, res);
@@ -2934,7 +2934,7 @@ class WebServer {
             } else if (message.type === 'frontend/get_themes') {
                 this._sendResponse(ws, message.id, this._getThemes());
             } else if (message.type === 'auth/current_user') {
-                this._getCurrentUser(ws).then(data => this._sendResponse(ws, message.id, data));
+                void this._getCurrentUser(ws).then(data => this._sendResponse(ws, message.id, data));
             } else if (message.type === 'frontend/get_user_data') {
                 this.log.debug(`Get USER Data: ${message.key}`);
                 this._sendResponse(ws, message.id, { value: { language: this.lang } });
@@ -2946,7 +2946,7 @@ class WebServer {
                 this._sendResponse(ws, message.id, this._getLayoutConfig(message.url_path));
             } else if (message.type === 'lovelace/config/save') {
                 this.log.debug(`save config: ${JSON.stringify(message)}`);
-                this._setLayoutConfig(message.config, message.url_path);
+                void this._setLayoutConfig(message.config, message.url_path);
                 this._sendResponse(ws, message.id);
             } else if (message.type === 'lovelace/resources') {
                 this._sendResponse(ws, message.id, this._ressourceConfig);
@@ -3049,7 +3049,7 @@ class WebServer {
                     }
                 }
 
-                Promise.all(promises).then(() => {
+                void Promise.all(promises).then(() => {
                     const t = {
                         id: message.id,
                         type: 'event',
@@ -3393,7 +3393,7 @@ class WebServer {
         this._updateTimer && clearTimeout(this._updateTimer);
         this._updateTimer = null;
         for (const mod of Object.values(this._modules) as IModule[]) {
-            mod.cleanup?.();
+            void mod.cleanup?.();
         }
     }
 }

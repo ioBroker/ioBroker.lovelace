@@ -70,12 +70,12 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
             },
 
             objectChange: (id: string, obj: ioBroker.Object | null | undefined) => {
-                adapter.apiServer.onObjectChange(id, obj);
+                void adapter.apiServer.onObjectChange(id, obj);
             },
 
             stateChange: (id: string, state: ioBroker.State | null | undefined) => {
                 if (state) {
-                    adapter.apiServer.onStateChange(id, state);
+                    void adapter.apiServer.onStateChange(id, state);
                 } else {
                     adapter.log.info(`state ${id} deleted`);
                 }
@@ -86,7 +86,7 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                     obj.callback &&
                         adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
                 } else if (obj.command === 'send') {
-                    adapter.apiServer
+                    void adapter.apiServer
                         .onStateChange(`${adapter.namespace}.notifications.add`, {
                             val: obj.message,
                             ack: false,

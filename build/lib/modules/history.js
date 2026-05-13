@@ -5,8 +5,12 @@ function applyHistoryTimestamps(entry, state) {
   var _a, _b, _c, _d, _e;
   let lu = (_a = state.ts) != null ? _a : Date.now();
   let lc = (_c = (_b = state.lc) != null ? _b : state.ts) != null ? _c : Date.now();
-  if (isNaN(new Date(lc).getTime())) lc = Date.now();
-  if (isNaN(new Date(lu).getTime())) lu = Date.now();
+  if (isNaN(new Date(lc).getTime())) {
+    lc = Date.now();
+  }
+  if (isNaN(new Date(lu).getTime())) {
+    lu = Date.now();
+  }
   const entryLc = (_d = entry.lc) != null ? _d : 0;
   const entryLu = (_e = entry.lu) != null ? _e : 0;
   if (lc / 1e3 > entryLc || isNaN(entryLc) || new Date(entryLc * 1e3).toString() === "Invalid Date") {

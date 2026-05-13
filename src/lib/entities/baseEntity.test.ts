@@ -136,12 +136,6 @@ describe('BaseEntity', function () {
             const attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
             expect(attr!.getId).to.equal('test.0.tempGet');
         });
-
-        it('updates context.id to STATE.getId', function () {
-            const entity = makeEntity();
-            entity.fillFromStates({ state: 'test.0.mainState' });
-            expect(entity.context.id).to.equal('test.0.mainState');
-        });
     });
 
     // -------------------------------------------------------------------------

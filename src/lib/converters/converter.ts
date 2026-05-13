@@ -150,12 +150,27 @@ export class Converter {
         }
         const { existingEntities, adapter, entityRegistry, controls } = params;
 
-        // Add indicator entities for the primary device entity
+        // Step 1: restore any previously persisted entity_ids keyed by STATE.getId.
+        // Must run before indicator generation so indicators derive names from the stable main entity id.
+        // Entities with no STATE.getId (e.g. camera, geo_location) are skipped — their entity_ids are
+        // deterministic and we must not pull a sibling entity's stored id via a shared context.id.
+        for (const entity of entities) {
+            if (!entity?.context.STATE?.getId) {
+                continue;
+            }
+            const stored = entityRegistry.getEntityId(entity.context.STATE.getId);
+            if (stored) {
+                entity.entity_id = stored;
+            }
+        }
+
+        // Step 2: add indicator entities for the primary device entity (uses restored entity_id above)
         const mainEntity = entities.find((x: BaseEntity | null | undefined) => x?.entity_id);
         if (mainEntity) {
             entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
         }
 
+        // Step 3: duplicate detection, persistence, and registration
         for (const entity of entities) {
             if (!entity) {
                 continue;
@@ -167,10 +182,9 @@ export class Converter {
             const existing = existingEntities.find(e => e.entity_id === entity.entity_id);
             if (existing) {
                 if (entity.context.id !== existing.context.id) {
-                    // Different ioBroker device — resolve collision by renaming the new entity
-                    entityRegistry.storeEntityId(existing.context.id, existing.entity_id);
+                    // Different ioBroker device — resolve collision by renaming the new entity.
+                    // The existing entity's id was already stored when it was first registered.
                     entity.entity_id = `${entity.entity_id}_${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
-                    entityRegistry.storeEntityId(entity.context.id, entity.entity_id);
                     adapter.log.debug(
                         `Duplicates found for ${existing.entity_id}, solved by renaming second to ${entity.entity_id}`,
                     );
@@ -180,6 +194,13 @@ export class Converter {
                     );
                     continue;
                 }
+            }
+
+            // Persist the final entity_id keyed by STATE.getId so it survives restarts.
+            // Skip entities with no STATE.getId (e.g. camera, geo_location) — they have
+            // deterministic entity_ids and must not overwrite a sibling entity's entry via context.id.
+            if (entity.context.STATE?.getId) {
+                entityRegistry.storeEntityId(entity.context.STATE.getId, entity.entity_id);
             }
 
             existingEntities.push(entity);

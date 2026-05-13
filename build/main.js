@@ -50,11 +50,11 @@ function startAdapter(options) {
         }
       },
       objectChange: (id, obj) => {
-        adapter.apiServer.onObjectChange(id, obj);
+        void adapter.apiServer.onObjectChange(id, obj);
       },
       stateChange: (id, state) => {
         if (state) {
-          adapter.apiServer.onStateChange(id, state);
+          void adapter.apiServer.onStateChange(id, state);
         } else {
           adapter.log.info(`state ${id} deleted`);
         }
@@ -63,7 +63,7 @@ function startAdapter(options) {
         if (obj.command === "browse") {
           obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
         } else if (obj.command === "send") {
-          adapter.apiServer.onStateChange(`${adapter.namespace}.notifications.add`, {
+          void adapter.apiServer.onStateChange(`${adapter.namespace}.notifications.add`, {
             val: obj.message,
             ack: false
           }).then(

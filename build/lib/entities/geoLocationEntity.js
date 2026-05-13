@@ -23,6 +23,25 @@ __export(geoLocationEntity_exports, {
 });
 module.exports = __toCommonJS(geoLocationEntity_exports);
 var import_baseEntity = require("./baseEntity");
+const entityData = require("../../../lib/dataSingleton");
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const toRad = (d) => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+function distanceFromHome(lat, lon) {
+  var _a, _b, _c;
+  const home = (_a = entityData.entityId2Entity) == null ? void 0 : _a["zone.home"];
+  const homeLat = (_b = home == null ? void 0 : home.attributes) == null ? void 0 : _b.latitude;
+  const homeLon = (_c = home == null ? void 0 : home.attributes) == null ? void 0 : _c.longitude;
+  if (!isFinite(lat) || !isFinite(lon) || homeLat == null || !isFinite(homeLat) || homeLon == null || !isFinite(homeLon)) {
+    return null;
+  }
+  return haversineKm(lat, lon, homeLat, homeLon).toFixed(1);
+}
 function parseGps(entity, _attr, iobState) {
   var _a;
   const value = ((_a = iobState == null ? void 0 : iobState.val) != null ? _a : "").toString();
@@ -38,47 +57,92 @@ function parseGps(entity, _attr, iobState) {
 function applyGeoLocationStates(states, objects, entity) {
   entity.fillFromStates(states, objects);
   entity.attributes.icon = "mdi:crosshairs-gps";
-  if (!states.gps) {
-    return;
-  }
-  const gpsAttr = entity.context.ATTRIBUTES.find((a) => a.attribute === "gps");
-  if (gpsAttr) {
-    gpsAttr.getParser = parseGps;
-  }
-  if (!states.latitude) {
-    entity.context.ATTRIBUTES.push({
-      attribute: "latitude",
-      getId: states.gps,
-      getParser: parseGps,
-      historyParser: (_id, val) => {
-        var _a;
-        const str = (val != null ? val : "").toString();
-        let parts = str.split(";");
-        if (parts.length !== 2) {
-          parts = str.split(",");
-        }
-        return (_a = parts[0]) != null ? _a : "";
+  entity.attributes.unit_of_measurement = "km";
+  if (states.gps) {
+    entity.context.STATE.getId = states.gps;
+    entity.context.STATE.getParser = (ent, _attr, state) => {
+      var _a;
+      const value = ((_a = state == null ? void 0 : state.val) != null ? _a : "").toString();
+      let parts = value.split(";");
+      if (parts.length !== 2) {
+        parts = value.split(",");
       }
-    });
-  }
-  if (!states.longitude) {
-    entity.context.ATTRIBUTES.push({
-      attribute: "longitude",
-      getId: states.gps,
-      getParser: parseGps,
-      historyParser: (_id, val) => {
-        var _a;
-        const str = (val != null ? val : "").toString();
-        let parts = str.split(";");
-        if (parts.length !== 2) {
-          parts = str.split(",");
+      if (parts.length === 2) {
+        const lat = parseFloat(parts[0]);
+        const lon = parseFloat(parts[1]);
+        ent.attributes.latitude = lat;
+        ent.attributes.longitude = lon;
+        const dist = distanceFromHome(lat, lon);
+        if (dist !== null) {
+          ent.state = dist;
         }
-        return (_a = parts[1]) != null ? _a : "";
       }
-    });
+    };
+    const gpsAttr = entity.context.ATTRIBUTES.find((a) => a.attribute === "gps");
+    if (gpsAttr) {
+      gpsAttr.getParser = parseGps;
+    }
+    if (!states.latitude) {
+      entity.context.ATTRIBUTES.push({
+        attribute: "latitude",
+        getId: states.gps,
+        getParser: parseGps,
+        historyParser: (_id, val) => {
+          var _a;
+          const str = (val != null ? val : "").toString();
+          let parts = str.split(";");
+          if (parts.length !== 2) {
+            parts = str.split(",");
+          }
+          return (_a = parts[0]) != null ? _a : "";
+        }
+      });
+    }
+    if (!states.longitude) {
+      entity.context.ATTRIBUTES.push({
+        attribute: "longitude",
+        getId: states.gps,
+        getParser: parseGps,
+        historyParser: (_id, val) => {
+          var _a;
+          const str = (val != null ? val : "").toString();
+          let parts = str.split(";");
+          if (parts.length !== 2) {
+            parts = str.split(",");
+          }
+          return (_a = parts[1]) != null ? _a : "";
+        }
+      });
+    }
+  } else {
+    if (states.latitude) {
+      entity.context.STATE.getId = states.latitude;
+      entity.context.STATE.getParser = (ent, _attr, state) => {
+        const lat = parseFloat(state.val);
+        ent.attributes.latitude = lat;
+        const dist = distanceFromHome(lat, ent.attributes.longitude);
+        if (dist !== null) {
+          ent.state = dist;
+        }
+      };
+    }
+    if (states.longitude) {
+      const lonAttr = entity.context.ATTRIBUTES.find((a) => a.attribute === "longitude");
+      if (lonAttr) {
+        lonAttr.getParser = (ent, _attr, state) => {
+          const lon = parseFloat(state.val);
+          ent.attributes.longitude = lon;
+          const dist = distanceFromHome(ent.attributes.latitude, lon);
+          if (dist !== null) {
+            ent.state = dist;
+          }
+        };
+      }
+    }
   }
 }
 class GeoLocationEntity extends import_baseEntity.BaseEntity {
+  /** @param params - converter parameters */
   constructor(params) {
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
     super(friendlyName, room, func, objects[id], "geo_location", forcedEntityId);

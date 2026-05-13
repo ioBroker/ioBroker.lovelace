@@ -19,6 +19,14 @@ exports.runTests = function (suite) {
             tools.clearClient();
             //get harness && entities here.
             harness = getHarness();
+
+            // Provide valid home coordinates so distanceFromHome can compute a real distance.
+            // Using Hamburg city centre (lat=53.55, lon=10.0) as the home location.
+            const sysConfig = await harness.objects.getObjectAsync('system.config');
+            sysConfig.common.latitude = 53.55;
+            sysConfig.common.longitude = 10.0;
+            await harness.objects.setObjectAsync('system.config', sysConfig);
+
             objects = await tools.loadMultipleObjects(jsonFiles);
             entities = await tools.startAndGetEntities(harness, objects, idsWithEnums, initialStates);
         });
@@ -41,17 +49,29 @@ exports.runTests = function (suite) {
             expect(entity).to.have.nested.property('attributes.latitude', 53.7);
             expect(entity).to.have.nested.property('attributes.longitude', 7.18);
             expect(entity).to.have.nested.property('attributes.gps_accuracy', 15);
+            expect(entity).to.have.nested.property('attributes.unit_of_measurement', 'km');
+            // state = distance from home (numeric string with 1 decimal place)
+            expect(parseFloat(entity.state)).to.be.a('number').and.not.be.NaN;
+
+            const stateBeforeLatChange = entity.state;
             await tools.validateStateChange(
                 harness,
                 entity.entity_id,
                 async () => await harness.states.setStateAsync(`${deviceId}.latitude`, 54.7, true),
-                entity => expect(entity).to.have.nested.property('attributes.latitude', 54.7),
+                entity => {
+                    expect(entity).to.have.nested.property('attributes.latitude', 54.7);
+                    expect(parseFloat(entity.state)).to.be.a('number').and.not.be.NaN;
+                    expect(entity.state).to.not.equal(stateBeforeLatChange);
+                },
             );
             await tools.validateStateChange(
                 harness,
                 entity.entity_id,
                 async () => await harness.states.setStateAsync(`${deviceId}.longitude`, 7.13, true),
-                entity => expect(entity).to.have.nested.property('attributes.longitude', 7.13),
+                entity => {
+                    expect(entity).to.have.nested.property('attributes.longitude', 7.13);
+                    expect(parseFloat(entity.state)).to.be.a('number').and.not.be.NaN;
+                },
             );
             await tools.validateStateChange(
                 harness,
@@ -74,6 +94,10 @@ exports.runTests = function (suite) {
 
             expect(entity).to.have.nested.property('attributes.latitude', 54.7);
             expect(entity).to.have.nested.property('attributes.longitude', 7.15);
+            expect(entity).to.have.nested.property('attributes.unit_of_measurement', 'km');
+            expect(parseFloat(entity.state)).to.be.a('number').and.not.be.NaN;
+
+            const stateBeforeGpsChange = entity.state;
             await tools.validateStateChange(
                 harness,
                 entity.entity_id,
@@ -81,6 +105,8 @@ exports.runTests = function (suite) {
                 entity => {
                     expect(entity).to.have.nested.property('attributes.latitude', 53.7);
                     expect(entity).to.have.nested.property('attributes.longitude', 7.13);
+                    expect(parseFloat(entity.state)).to.be.a('number').and.not.be.NaN;
+                    expect(entity.state).to.not.equal(stateBeforeGpsChange);
                 },
             );
         });
