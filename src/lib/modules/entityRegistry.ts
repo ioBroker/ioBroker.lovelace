@@ -208,7 +208,8 @@ class EntityRegistry {
         entity.attributes.friendly_name = entry.name || entry.original_name || entity.attributes.friendly_name;
         entity.attributes.icon = entry.icon || entry.original_icon || entity.attributes.icon;
         entity.platform = entry.platform || entity.platform;
-        entity.attributes.device_class = entry.device_class || entry.original_device_class || entity.attributes.device_class;
+        entity.attributes.device_class =
+            entry.device_class || entry.original_device_class || entity.attributes.device_class;
         if (entry.options) {
             for (const platform of Object.keys(entry.options)) {
                 if (entry.options[platform]) {
@@ -228,7 +229,7 @@ class EntityRegistry {
      * @param iobId - ioBroker object id
      */
     getEntityId(iobId: string): string | undefined {
-        return this._entries[iobId]?.entity_id as string | undefined;
+        return this._entries[iobId]?.entity_id;
     }
 
     /**

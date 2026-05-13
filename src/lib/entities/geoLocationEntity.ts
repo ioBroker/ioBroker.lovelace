@@ -1,9 +1,7 @@
 import { BaseEntity, type EntityAttribute } from './baseEntity';
 import type { ConverterParameters } from '../converters/converter';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const entityData: { entityId2Entity: Record<string, { attributes: Record<string, unknown> }> } =
-    require('../../../lib/dataSingleton');
+import entityData from '../../../lib/dataSingleton';
 
 /**
  * State-id map used to fill in the geo_location entity attributes.
@@ -24,15 +22,20 @@ export interface GeoStates {
     battery?: string;
 }
 
-/** Haversine great-circle distance in km. */
+/**
+ * Haversine great-circle distance in km.
+ *
+ * @param lat1 - first latitude
+ * @param lon1 - first longitude
+ * @param lat2 - second latitude
+ * @param lon2 - second longitude
+ */
 function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371;
     const toRad = (d: number): number => (d * Math.PI) / 180;
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
-    const a =
-        Math.sin(dLat / 2) ** 2 +
-        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
@@ -44,10 +47,18 @@ function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): nu
  * @param lon - longitude of the entity
  */
 function distanceFromHome(lat: number, lon: number): string | null {
-    const home = entityData.entityId2Entity?.['zone.home'];
+    const entityId2Entity = entityData.entityId2Entity as Record<string, { attributes: Record<string, unknown> }>;
+    const home = entityId2Entity?.['zone.home'];
     const homeLat = home?.attributes?.latitude as number | undefined;
     const homeLon = home?.attributes?.longitude as number | undefined;
-    if (!isFinite(lat) || !isFinite(lon) || homeLat == null || !isFinite(homeLat) || homeLon == null || !isFinite(homeLon)) {
+    if (
+        !isFinite(lat) ||
+        !isFinite(lon) ||
+        homeLat == null ||
+        !isFinite(homeLat) ||
+        homeLon == null ||
+        !isFinite(homeLon)
+    ) {
         return null;
     }
     return haversineKm(lat, lon, homeLat, homeLon).toFixed(1);

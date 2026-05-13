@@ -1,7 +1,9 @@
 "use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -15,6 +17,14 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var geoLocationEntity_exports = {};
 __export(geoLocationEntity_exports, {
@@ -23,7 +33,7 @@ __export(geoLocationEntity_exports, {
 });
 module.exports = __toCommonJS(geoLocationEntity_exports);
 var import_baseEntity = require("./baseEntity");
-const entityData = require("../../../lib/dataSingleton");
+var import_dataSingleton = __toESM(require("../../../lib/dataSingleton"));
 function haversineKm(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const toRad = (d) => d * Math.PI / 180;
@@ -33,10 +43,11 @@ function haversineKm(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 function distanceFromHome(lat, lon) {
-  var _a, _b, _c;
-  const home = (_a = entityData.entityId2Entity) == null ? void 0 : _a["zone.home"];
-  const homeLat = (_b = home == null ? void 0 : home.attributes) == null ? void 0 : _b.latitude;
-  const homeLon = (_c = home == null ? void 0 : home.attributes) == null ? void 0 : _c.longitude;
+  var _a, _b;
+  const entityId2Entity = import_dataSingleton.default.entityId2Entity;
+  const home = entityId2Entity == null ? void 0 : entityId2Entity["zone.home"];
+  const homeLat = (_a = home == null ? void 0 : home.attributes) == null ? void 0 : _a.latitude;
+  const homeLon = (_b = home == null ? void 0 : home.attributes) == null ? void 0 : _b.longitude;
   if (!isFinite(lat) || !isFinite(lon) || homeLat == null || !isFinite(homeLat) || homeLon == null || !isFinite(homeLon)) {
     return null;
   }

@@ -55,7 +55,14 @@ describe('converters/camera', function () {
         it('context.STATE.getParser sets entity.state to "on" for truthy URL value', function () {
             const params = makeParameters([{ id: URL_ID, name: 'URL' }]);
             const entity = new CameraEntity(params);
-            const state = { val: 'http://example.com/img.jpg', ts: 0, lc: 0, ack: true, from: '', q: 0 } as ioBroker.State;
+            const state = {
+                val: 'http://example.com/img.jpg',
+                ts: 0,
+                lc: 0,
+                ack: true,
+                from: '',
+                q: 0,
+            } as ioBroker.State;
 
             entity.context.STATE.getParser!(entity, 'state', state);
             expect(entity.state).to.equal('on');
