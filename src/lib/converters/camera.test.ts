@@ -45,18 +45,29 @@ describe('converters/camera', function () {
     });
 
     describe('with URL state', function () {
-        it('context.STATE.getValue === "on"', function () {
+        it('context.STATE.getId === URL_ID', function () {
             const params = makeParameters([{ id: URL_ID, name: 'URL' }]);
             const entity = new CameraEntity(params);
 
-            expect(entity.context.STATE.getValue).to.equal('on');
+            expect(entity.context.STATE.getId).to.equal(URL_ID);
         });
 
-        it('context.STATE.getId === null', function () {
+        it('context.STATE.getParser sets entity.state to "on" for truthy URL value', function () {
             const params = makeParameters([{ id: URL_ID, name: 'URL' }]);
             const entity = new CameraEntity(params);
+            const state = { val: 'http://example.com/img.jpg', ts: 0, lc: 0, ack: true, from: '', q: 0 } as ioBroker.State;
 
-            expect(entity.context.STATE.getId).to.be.null;
+            entity.context.STATE.getParser!(entity, 'state', state);
+            expect(entity.state).to.equal('on');
+        });
+
+        it('context.STATE.getParser sets entity.state to "off" for empty URL value', function () {
+            const params = makeParameters([{ id: URL_ID, name: 'URL' }]);
+            const entity = new CameraEntity(params);
+            const state = { val: '', ts: 0, lc: 0, ack: true, from: '', q: 0 } as ioBroker.State;
+
+            entity.context.STATE.getParser!(entity, 'state', state);
+            expect(entity.state).to.equal('off');
         });
 
         it('ATTRIBUTES has one entry with attribute "url" and correct getId', function () {
