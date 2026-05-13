@@ -475,7 +475,8 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso) Typescript now... hopefully everything still works. If not, please report.
 * (Garfonso) Improved loading images from other adapters.
-* (Garfonso) Reworked entity creation a lot. Hopefully everything still works. If not, please report.
+* (Garfonso) Reworked entity creation a lot. Hopefully everything still works. If not, please report. Should solve duplicate entities issues.
+* (Garfonso) Geo_location now calculates the distance from home in state.
 
 ### 5.0.5 (2025-12-21)
 * (Garfonso) added missing roles to instance objects
