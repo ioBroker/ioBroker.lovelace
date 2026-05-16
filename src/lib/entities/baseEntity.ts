@@ -464,8 +464,8 @@ export class BaseEntity {
         if (!state) {
             if (isStateChange) {
                 if (this.state !== 'unknown') {
-                    this.last_changed = Date.now();
-                    this.last_updated = Date.now();
+                    this.last_changed = Date.now() / 1000;
+                    this.last_updated = Date.now() / 1000;
                 }
                 this.state = 'unknown';
             }
@@ -478,8 +478,9 @@ export class BaseEntity {
         if (state.lc && isNaN(new Date(state.lc).getTime())) {
             state.lc = Date.now();
         }
-        const lu = state.ts || Date.now();
-        const lc = state.lc || state.ts || Date.now();
+        // Store as Unix seconds (matching the legacy plain-object format consumed by _getShortEntity).
+        const lu = (state.ts || Date.now()) / 1000;
+        const lc = (state.lc || state.ts || Date.now()) / 1000;
 
         if (lu > this.last_updated) {
             this.last_updated = lu;
@@ -539,8 +540,8 @@ export class BaseEntity {
         return {
             entity_id: this.entity_id,
             state: this.state,
-            last_updated: new Date(this.last_updated).toISOString(),
-            last_changed: new Date(this.last_changed).toISOString(),
+            last_updated: new Date(this.last_updated * 1000).toISOString(),
+            last_changed: new Date(this.last_changed * 1000).toISOString(),
             attributes: this.attributes,
             context: {
                 id: this.context.id,
@@ -555,8 +556,8 @@ export class BaseEntity {
         return {
             s: this.state,
             a: this.attributes,
-            lc: this.last_changed / 1000,
-            lu: this.last_updated / 1000,
+            lc: this.last_changed,
+            lu: this.last_updated,
         };
     }
 }

@@ -284,7 +284,7 @@ describe('BaseEntity', function () {
             const ts = Date.now() - 5000;
             const state = { ts, lc: ts, val: 'on', ack: true, from: '', q: 0 } as ioBroker.State;
             entity.updateTimestamp(state, true);
-            expect(entity.last_updated).to.equal(ts);
+            expect(entity.last_updated).to.equal(ts / 1000);
         });
 
         it('updates last_changed when isStateChange is true', function () {
@@ -293,7 +293,7 @@ describe('BaseEntity', function () {
             const lc = Date.now() - 3000;
             const state = { ts, lc, val: 'on', ack: true, from: '', q: 0 } as ioBroker.State;
             entity.updateTimestamp(state, true);
-            expect(entity.last_changed).to.equal(lc);
+            expect(entity.last_changed).to.equal(lc / 1000);
         });
 
         it('does not update last_changed when isStateChange is false', function () {
@@ -308,7 +308,7 @@ describe('BaseEntity', function () {
 
         it('does not decrease last_updated if existing value is newer', function () {
             const entity = makeEntity();
-            const futureTs = Date.now() + 10000;
+            const futureTs = (Date.now() + 10000) / 1000;
             entity.last_updated = futureTs;
             const state = { ts: Date.now(), lc: Date.now(), val: 'on', ack: true, from: '', q: 0 } as ioBroker.State;
             entity.updateTimestamp(state, true);
