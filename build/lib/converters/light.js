@@ -48,6 +48,8 @@ import_converter.default.converters[import_type_detector.Types.ct] = LightConver
 import_converter.default.converters[import_type_detector.Types.hue] = LightConverter;
 import_converter.default.converters[import_type_detector.Types.rgb] = LightConverter;
 import_converter.default.converters[import_type_detector.Types.rgbSingle] = LightConverter;
+import_converter.default.converters[import_type_detector.Types.rgbwSingle] = LightConverter;
+import_converter.default.converters[import_type_detector.Types.cie] = LightConverter;
 function processManualEntity(id, obj, entity, objects, custom) {
   var _a, _b;
   const states = (_a = custom.states) != null ? _a : {

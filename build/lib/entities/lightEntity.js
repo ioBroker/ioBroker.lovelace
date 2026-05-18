@@ -32,6 +32,7 @@ const COLOR_TEMP = "color_temp";
 const HS = "hs";
 const RGB = "rgb";
 const RGBW = "rgbw";
+const XY = "xy";
 const SUPPORT_EFFECT = 4;
 const attributesToNullOnOff = [
   "color_mode",
@@ -380,6 +381,80 @@ function lightAddRGB(states, objects, entity) {
     entity.context.STATE.storedValues.rgbw_color = [255, 255, 255, 255];
   }
 }
+function lightAddRGBWSingle(states, _objects, entity) {
+  if (!states.rgbw_single) {
+    return;
+  }
+  const attribute = entity.context.ATTRIBUTES.find((a) => a.attribute === "rgbw_single");
+  if (!attribute) {
+    return;
+  }
+  attribute.getParser = (ent, _attr, state) => {
+    let targetAttributes = ent.attributes;
+    if (ent.state !== "on") {
+      targetAttributes = ent.context.STATE.storedValues;
+    }
+    let str = state == null ? void 0 : state.val;
+    if (!str) {
+      str = "#FFFFFFFF";
+    }
+    if (str[0] === "#") {
+      str = str.substring(1);
+    }
+    if (!/^[\da-fA-F]{6}/.test(str)) {
+      adapterData.log.error(`Malformed RGBW string ${str} \u2014 expecting at least six hex digits.`);
+      return;
+    }
+    const r = parseInt(str.substring(0, 2), 16);
+    const g = parseInt(str.substring(2, 4), 16);
+    const b = parseInt(str.substring(4, 6), 16);
+    const w = str.length >= 8 ? parseInt(str.substring(6, 8), 16) : 0;
+    targetAttributes.rgbw_color = [r, g, b, w];
+    targetAttributes.rgb_color = [r, g, b];
+    targetAttributes.color_mode = RGBW;
+  };
+  entity.attributes.rgbw_color = [null, null, null, null];
+  entity.context.STATE.storedValues.rgbw_color = [255, 255, 255, 255];
+  entity.attributes.rgb_color = [null, null, null];
+  entity.context.STATE.storedValues.rgb_color = [255, 255, 255];
+  entity.attributes.supported_color_modes.push(RGBW);
+}
+function lightAddCIE(states, _objects, entity) {
+  if (!states.xy_color) {
+    return;
+  }
+  const attribute = entity.context.ATTRIBUTES.find((a) => a.attribute === "xy_color");
+  if (!attribute) {
+    return;
+  }
+  attribute.getParser = (ent, _attr, state) => {
+    let targetAttributes = ent.attributes;
+    if (ent.state !== "on") {
+      targetAttributes = ent.context.STATE.storedValues;
+    }
+    const val = state == null ? void 0 : state.val;
+    if (val === void 0 || val === null) {
+      targetAttributes.xy_color = [0.3127, 0.329];
+      targetAttributes.color_mode = XY;
+      return;
+    }
+    let x, y;
+    if (typeof val === "string") {
+      const parts = val.split(",").map(parseFloat);
+      [x, y] = parts;
+    } else if (Array.isArray(val)) {
+      [x, y] = val;
+    } else {
+      adapterData.log.error(`Malformed CIE value ${String(val)} \u2014 expected "x,y" string or [x, y] array.`);
+      return;
+    }
+    targetAttributes.xy_color = [x, y];
+    targetAttributes.color_mode = XY;
+  };
+  entity.attributes.xy_color = [null, null];
+  entity.context.STATE.storedValues.xy_color = [0.3127, 0.329];
+  entity.attributes.supported_color_modes.push(XY);
+}
 function numToHex(num) {
   const clamped = Math.min(Math.max(Math.round(num), 0), 255);
   return Number(clamped).toString(16).toUpperCase().padStart(2, "0");
@@ -444,15 +519,33 @@ async function setLightAdvancedAttributesToIOBStates(data, entity, user) {
     entity.attributes.color_mode = HS;
   }
   if (sd.rgbw_color) {
-    const attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "white");
-    await adapterData.adapter.setForeignStateAsync(
-      attr.getId,
-      sd.rgbw_color[3] / 255 * ((_f = attr.max) != null ? _f : 255),
-      false,
-      { user }
-    );
-    sd.rgb_color = sd.rgbw_color;
-    entity.attributes.color_mode = RGBW;
+    const rgbwSingleAttr = entity.context.ATTRIBUTES.find((a) => a.attribute === "rgbw_single");
+    if (rgbwSingleAttr) {
+      const [r, g, b, w] = sd.rgbw_color;
+      const hexStr = `#${numToHex(r)}${numToHex(g)}${numToHex(b)}${numToHex(w)}`;
+      await adapterData.adapter.setForeignStateAsync(rgbwSingleAttr.getId, hexStr, false, { user });
+      entity.attributes.rgbw_color = sd.rgbw_color;
+      entity.attributes.color_mode = RGBW;
+    } else {
+      const attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "white");
+      await adapterData.adapter.setForeignStateAsync(
+        attr.getId,
+        sd.rgbw_color[3] / 255 * ((_f = attr.max) != null ? _f : 255),
+        false,
+        { user }
+      );
+      sd.rgb_color = sd.rgbw_color;
+      entity.attributes.color_mode = RGBW;
+    }
+  }
+  if (sd.xy_color) {
+    const xyAttr = entity.context.ATTRIBUTES.find((a) => a.attribute === "xy_color");
+    if (xyAttr) {
+      const [x, y] = sd.xy_color;
+      await adapterData.adapter.setForeignStateAsync(xyAttr.getId, `${x},${y}`, false, { user });
+      entity.attributes.xy_color = sd.xy_color;
+      entity.attributes.color_mode = XY;
+    }
   }
   if (sd.rgb_color) {
     const [r, g, b] = sd.rgb_color;
@@ -521,6 +614,8 @@ function convertControlToStates(control) {
     case import_type_detector.Types.rgbSingle:
     case import_type_detector.Types.hue:
     case import_type_detector.Types.ct:
+    case import_type_detector.Types.rgbwSingle:
+    case import_type_detector.Types.cie:
       states.state = findState("ON");
       states.stateRead = findState("ON_ACTUAL");
       states.brightness = (_a = findState("DIMMER")) != null ? _a : findState("BRIGHTNESS");
@@ -547,6 +642,8 @@ function convertControlToStates(control) {
   states.green = findState("GREEN");
   states.blue = findState("BLUE");
   states.white = findState("WHITE");
+  states.rgbw_single = findState("RGBW");
+  states.xy_color = findState("CIE");
   return states;
 }
 function applyLightStates(states, objects, entity) {
@@ -594,6 +691,8 @@ function applyLightStates(states, objects, entity) {
   lightAddHueAndSat(states, objects, entity);
   lightAddRGBSingle(states, objects, entity);
   lightAddRGB(states, objects, entity);
+  lightAddRGBWSingle(states, objects, entity);
+  lightAddCIE(states, objects, entity);
   if (states.effect) {
     const effect_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "effect");
     if (effect_attr) {

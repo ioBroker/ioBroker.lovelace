@@ -21,6 +21,8 @@ Converter.converters[Types.ct] = LightConverter;
 Converter.converters[Types.hue] = LightConverter;
 Converter.converters[Types.rgb] = LightConverter;
 Converter.converters[Types.rgbSingle] = LightConverter;
+Converter.converters[Types.rgbwSingle] = LightConverter;
+Converter.converters[Types.cie] = LightConverter;
 
 /**
  * Apply light wiring to a manually-configured entity.

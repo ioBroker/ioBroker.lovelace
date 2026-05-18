@@ -15,6 +15,7 @@ const COLOR_TEMP = 'color_temp';
 const HS = 'hs';
 const RGB = 'rgb';
 const RGBW = 'rgbw';
+const XY = 'xy';
 
 const SUPPORT_EFFECT = 4;
 
@@ -474,6 +475,114 @@ function lightAddRGB(
 }
 
 /**
+ * Wire up a single RGBW state (rgbwSingle type) — all four channels in one hex string.
+ * Expected ioBroker format: `#RRGGBBWW` (8 hex digits).
+ *
+ * @param states - state-id map for light properties
+ * @param _objects - ioBroker objects cache (unused)
+ * @param entity - entity to augment in-place
+ * @internal
+ */
+function lightAddRGBWSingle(
+    states: Record<string, string | undefined>,
+    _objects: Record<string, ioBroker.Object>,
+    entity: BaseEntity,
+): void {
+    if (!states.rgbw_single) {
+        return;
+    }
+
+    const attribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'rgbw_single');
+    if (!attribute) {
+        return;
+    }
+
+    attribute.getParser = (ent, _attr, state): void => {
+        let targetAttributes: Record<string, unknown> = ent.attributes;
+        if (ent.state !== 'on') {
+            targetAttributes = ent.context.STATE.storedValues!;
+        }
+        let str = state?.val as string | null | undefined;
+        if (!str) {
+            str = '#FFFFFFFF';
+        }
+        if (str[0] === '#') {
+            str = str.substring(1);
+        }
+        if (!/^[\da-fA-F]{6}/.test(str)) {
+            adapterData.log.error(`Malformed RGBW string ${str} — expecting at least six hex digits.`);
+            return;
+        }
+        const r = parseInt(str.substring(0, 2), 16);
+        const g = parseInt(str.substring(2, 4), 16);
+        const b = parseInt(str.substring(4, 6), 16);
+        const w = str.length >= 8 ? parseInt(str.substring(6, 8), 16) : 0;
+        targetAttributes.rgbw_color = [r, g, b, w];
+        targetAttributes.rgb_color = [r, g, b];
+        targetAttributes.color_mode = RGBW;
+    };
+
+    entity.attributes.rgbw_color = [null, null, null, null];
+    entity.context.STATE.storedValues!.rgbw_color = [255, 255, 255, 255];
+    entity.attributes.rgb_color = [null, null, null];
+    entity.context.STATE.storedValues!.rgb_color = [255, 255, 255];
+    (entity.attributes.supported_color_modes as string[]).push(RGBW);
+}
+
+/**
+ * Wire up a CIE XY color state.
+ * Expected ioBroker format: `"x,y"` string or `[x, y]` array (values 0–1).
+ *
+ * @param states - state-id map for light properties
+ * @param _objects - ioBroker objects cache (unused)
+ * @param entity - entity to augment in-place
+ * @internal
+ */
+function lightAddCIE(
+    states: Record<string, string | undefined>,
+    _objects: Record<string, ioBroker.Object>,
+    entity: BaseEntity,
+): void {
+    if (!states.xy_color) {
+        return;
+    }
+
+    const attribute = entity.context.ATTRIBUTES.find(a => a.attribute === 'xy_color');
+    if (!attribute) {
+        return;
+    }
+
+    attribute.getParser = (ent, _attr, state): void => {
+        let targetAttributes: Record<string, unknown> = ent.attributes;
+        if (ent.state !== 'on') {
+            targetAttributes = ent.context.STATE.storedValues!;
+        }
+        const val = state?.val;
+        if (val === undefined || val === null) {
+            targetAttributes.xy_color = [0.3127, 0.329]; // D65 white point
+            targetAttributes.color_mode = XY;
+            return;
+        }
+        let x: number, y: number;
+        if (typeof val === 'string') {
+            const parts = val.split(',').map(parseFloat);
+            [x, y] = parts;
+        } else if (Array.isArray(val)) {
+            [x, y] = val as unknown as [number, number];
+        } else {
+            adapterData.log.error(`Malformed CIE value ${String(val)} — expected "x,y" string or [x, y] array.`);
+            return;
+        }
+        targetAttributes.xy_color = [x, y];
+        targetAttributes.color_mode = XY;
+    };
+
+    entity.attributes.xy_color = [null, null];
+    entity.context.STATE.storedValues!.xy_color = [0.3127, 0.329];
+    (entity.attributes.supported_color_modes as string[]).push(XY);
+}
+
+/**
  * Convert a 0-255 number to a two-digit uppercase hex string.
  *
  * @param num - integer value 0-255
@@ -556,15 +665,34 @@ async function setLightAdvancedAttributesToIOBStates(
     }
 
     if (sd.rgbw_color) {
-        const attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'white')!;
-        await adapterData.adapter.setForeignStateAsync(
-            attr.getId!,
-            ((sd.rgbw_color as number[])[3] / 255) * (attr.max ?? 255),
-            false,
-            { user },
-        );
-        sd.rgb_color = sd.rgbw_color;
-        entity.attributes.color_mode = RGBW;
+        const rgbwSingleAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'rgbw_single');
+        if (rgbwSingleAttr) {
+            const [r, g, b, w] = sd.rgbw_color as [number, number, number, number];
+            const hexStr = `#${numToHex(r)}${numToHex(g)}${numToHex(b)}${numToHex(w)}`;
+            await adapterData.adapter.setForeignStateAsync(rgbwSingleAttr.getId!, hexStr, false, { user });
+            entity.attributes.rgbw_color = sd.rgbw_color;
+            entity.attributes.color_mode = RGBW;
+        } else {
+            const attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'white')!;
+            await adapterData.adapter.setForeignStateAsync(
+                attr.getId!,
+                ((sd.rgbw_color as number[])[3] / 255) * (attr.max ?? 255),
+                false,
+                { user },
+            );
+            sd.rgb_color = sd.rgbw_color;
+            entity.attributes.color_mode = RGBW;
+        }
+    }
+
+    if (sd.xy_color) {
+        const xyAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'xy_color');
+        if (xyAttr) {
+            const [x, y] = sd.xy_color as [number, number];
+            await adapterData.adapter.setForeignStateAsync(xyAttr.getId!, `${x},${y}`, false, { user });
+            entity.attributes.xy_color = sd.xy_color;
+            entity.attributes.color_mode = XY;
+        }
     }
 
     if (sd.rgb_color) {
@@ -658,6 +786,8 @@ export function convertControlToStates(control: {
         case Types.rgbSingle:
         case Types.hue:
         case Types.ct:
+        case Types.rgbwSingle:
+        case Types.cie:
             states.state = findState('ON');
             states.stateRead = findState('ON_ACTUAL');
             states.brightness = findState('DIMMER') ?? findState('BRIGHTNESS');
@@ -684,6 +814,8 @@ export function convertControlToStates(control: {
     states.green = findState('GREEN');
     states.blue = findState('BLUE');
     states.white = findState('WHITE');
+    states.rgbw_single = findState('RGBW');
+    states.xy_color = findState('CIE');
     return states;
 }
 
@@ -744,6 +876,8 @@ export function applyLightStates(
     lightAddHueAndSat(states, objects, entity);
     lightAddRGBSingle(states, objects, entity);
     lightAddRGB(states, objects, entity);
+    lightAddRGBWSingle(states, objects, entity);
+    lightAddCIE(states, objects, entity);
 
     if (states.effect) {
         const effect_attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'effect');
