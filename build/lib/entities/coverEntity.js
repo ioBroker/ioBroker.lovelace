@@ -21,6 +21,7 @@ __export(coverEntity_exports, {
   CoverEntity: () => CoverEntity
 });
 module.exports = __toCommonJS(coverEntity_exports);
+var import_type_detector = require("@iobroker/type-detector");
 var import_baseEntity = require("./baseEntity");
 const adapterData = require("../../../lib/dataSingleton");
 class CoverSliderEntity extends import_baseEntity.BaseEntity {
@@ -245,10 +246,94 @@ class CoverEntity extends import_baseEntity.BaseEntity {
    * @returns [coverEntity, sliderEntity?] — slider only when a SET state was found.
    */
   static build(params) {
+    var _a, _b, _c, _d;
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
     const entity = new CoverEntity(friendlyName, room, func, objects[id], forcedEntityId);
     adapterData.log.debug(`Creating blind of type ${controls.type} for ${params.id}`);
     const entities = [entity];
+    if (controls.type === import_type_detector.Types.gate) {
+      entity.attributes.device_class = "gate";
+      entity.attributes.icon = "mdi:gate";
+      const setState = controls.states.find((s) => s.id && s.name === "SET");
+      if (setState == null ? void 0 : setState.id) {
+        entity.context.STATE.setId = setState.id;
+        entity.context.STATE.getId = setState.id;
+        entity.addID2entity(setState.id);
+        entity.context.STATE.getParser = (ent, _attr, iobState) => {
+          if (iobState) {
+            ent.state = iobState.val ? "open" : "closed";
+          }
+        };
+        entity.context.COMMANDS.push({
+          service: "open_cover",
+          setId: setState.id,
+          parseCommand: (ent, command, _data, user) => new Promise((resolve, reject) => {
+            ent.state = "opening";
+            adapterData.adapter.setForeignState(
+              command.setId,
+              true,
+              false,
+              { user },
+              (err) => err ? reject(err) : resolve()
+            );
+          })
+        });
+        entity.attributes.supported_features |= 1;
+        entity.context.COMMANDS.push({
+          service: "close_cover",
+          setId: setState.id,
+          parseCommand: (ent, command, _data, user) => new Promise((resolve, reject) => {
+            ent.state = "closing";
+            adapterData.adapter.setForeignState(
+              command.setId,
+              false,
+              false,
+              { user },
+              (err) => err ? reject(err) : resolve()
+            );
+          })
+        });
+        entity.attributes.supported_features |= 2;
+        entity.context.COMMANDS.push({
+          service: "toggle",
+          setId: setState.id,
+          parseCommand: (ent, command, _data, user) => new Promise((resolve, reject) => {
+            const open = ent.state === "open" || ent.state === "opening";
+            ent.state = open ? "closing" : "opening";
+            adapterData.adapter.setForeignState(
+              command.setId,
+              !open,
+              false,
+              { user },
+              (err) => err ? reject(err) : resolve()
+            );
+          })
+        });
+      }
+      const actualState = controls.states.find((s) => s.id && s.name === "ACTUAL");
+      if (actualState == null ? void 0 : actualState.id) {
+        const actualId = actualState.id;
+        const common = (_b = (_a = objects[actualId]) == null ? void 0 : _a.common) != null ? _b : {};
+        const max = (_c = common.max) != null ? _c : 100;
+        const min = (_d = common.min) != null ? _d : 0;
+        entity.context.STATE.getId = actualId;
+        entity.addID2entity(actualId);
+        entity.context.STATE.getParser = (ent, _attr, iobState) => {
+          if (!iobState) {
+            return;
+          }
+          const val = iobState.val;
+          if (val != null) {
+            const position = (val - min) / (max - min) * 100;
+            ent.attributes.current_position = position;
+            ent.state = val === min ? "closed" : val === max ? "open" : String(position);
+          }
+        };
+        entity.attributes.supported_features |= 4;
+      }
+      addCommand(entity, controls, "STOP", "stop_cover", 8);
+      return entities;
+    }
     if (addBlindLevel(entities, controls, objects, "SET", room, func, objects[params.id], forcedEntityId)) {
       entity.context.STATE.invert = !!adapterData.adapter.config.blindsInvert;
     }
@@ -273,11 +358,11 @@ class CoverEntity extends import_baseEntity.BaseEntity {
         service: "open_cover",
         setId: entity.context.STATE.setId,
         parseCommand: (ent, command, _data, user) => new Promise((resolve, reject) => {
-          var _a, _b;
+          var _a2, _b2;
           ent.state = "opening";
           adapterData.adapter.setForeignState(
             command.setId,
-            ent.context.STATE.invert ? (_a = ent.context.STATE.min) != null ? _a : 0 : (_b = ent.context.STATE.max) != null ? _b : 100,
+            ent.context.STATE.invert ? (_a2 = ent.context.STATE.min) != null ? _a2 : 0 : (_b2 = ent.context.STATE.max) != null ? _b2 : 100,
             false,
             { user },
             (err) => err ? reject(err) : resolve()
@@ -291,11 +376,11 @@ class CoverEntity extends import_baseEntity.BaseEntity {
         service: "close_cover",
         setId: entity.context.STATE.setId,
         parseCommand: (ent, command, _data, user) => new Promise((resolve, reject) => {
-          var _a, _b;
+          var _a2, _b2;
           ent.state = "closing";
           adapterData.adapter.setForeignState(
             command.setId,
-            ent.context.STATE.invert ? (_a = ent.context.STATE.max) != null ? _a : 100 : (_b = ent.context.STATE.min) != null ? _b : 0,
+            ent.context.STATE.invert ? (_a2 = ent.context.STATE.max) != null ? _a2 : 100 : (_b2 = ent.context.STATE.min) != null ? _b2 : 0,
             false,
             { user },
             (err) => err ? reject(err) : resolve()

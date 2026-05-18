@@ -17,6 +17,7 @@ export class CoverConverter extends Converter {
 
 Converter.converters[Types.blind] = CoverConverter;
 Converter.converters[Types.blindButtons] = CoverConverter;
+Converter.converters[Types.gate] = CoverConverter;
 
 adapterData.services.cover = {
     set_cover_tilt_position: {

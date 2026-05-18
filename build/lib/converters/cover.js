@@ -43,6 +43,7 @@ class CoverConverter extends import_converter.default {
 }
 import_converter.default.converters[import_type_detector.Types.blind] = CoverConverter;
 import_converter.default.converters[import_type_detector.Types.blindButtons] = CoverConverter;
+import_converter.default.converters[import_type_detector.Types.gate] = CoverConverter;
 adapterData.services.cover = {
   set_cover_tilt_position: {
     name: "Set tilt position",
