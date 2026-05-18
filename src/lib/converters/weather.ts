@@ -14,6 +14,7 @@ export class WeatherConverter extends Converter {
 }
 
 Converter.converters[Types.weatherForecast] = WeatherConverter;
+Converter.converters[Types.weatherCurrent] = WeatherConverter;
 
 // Weather services are registered for completeness but not actually handled — removed immediately.
 adapterData.services.weather = {

@@ -22,9 +22,11 @@ __export(binary_sensor_exports, {
   connectivityIndicator: () => import_indicators.connectivityIndicator,
   default: () => binary_sensor_default,
   processBattery: () => import_indicators.processBattery,
+  processButtonSensor: () => processButtonSensor,
   processDoor: () => processDoor,
   processError: () => import_indicators.processError,
   processFireAlarm: () => processFireAlarm,
+  processFloodAlarm: () => processFloodAlarm,
   processMaintenance: () => import_indicators.processMaintenance,
   processManualEntity: () => processManualEntity,
   processMotion: () => processMotion,
@@ -47,6 +49,12 @@ function processWindow(parameters) {
 }
 function processFireAlarm(parameters) {
   return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "smoke" })];
+}
+function processFloodAlarm(parameters) {
+  return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "moisture" })];
+}
+function processButtonSensor(parameters) {
+  return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "button" })];
 }
 function processManualEntity(_id, obj, entity, _objects, custom) {
   var _a;
@@ -74,6 +82,10 @@ class BinarySensorConverter extends import_converter.Converter {
         return processWindow(params);
       case import_type_detector.Types.fireAlarm:
         return processFireAlarm(params);
+      case import_type_detector.Types.floodAlarm:
+        return processFloodAlarm(params);
+      case import_type_detector.Types.buttonSensor:
+        return processButtonSensor(params);
       default:
         return [];
     }
@@ -83,11 +95,15 @@ import_converter.Converter.converters[import_type_detector.Types.motion] = Binar
 import_converter.Converter.converters[import_type_detector.Types.door] = BinarySensorConverter;
 import_converter.Converter.converters[import_type_detector.Types.window] = BinarySensorConverter;
 import_converter.Converter.converters[import_type_detector.Types.fireAlarm] = BinarySensorConverter;
+import_converter.Converter.converters[import_type_detector.Types.floodAlarm] = BinarySensorConverter;
+import_converter.Converter.converters[import_type_detector.Types.buttonSensor] = BinarySensorConverter;
 var binary_sensor_default = {
   processMotion,
   processDoor,
   processWindow,
   processFireAlarm,
+  processFloodAlarm,
+  processButtonSensor,
   processManualEntity,
   BinarySensorConverter
 };
@@ -96,9 +112,11 @@ var binary_sensor_default = {
   BinarySensorConverter,
   connectivityIndicator,
   processBattery,
+  processButtonSensor,
   processDoor,
   processError,
   processFireAlarm,
+  processFloodAlarm,
   processMaintenance,
   processManualEntity,
   processMotion,

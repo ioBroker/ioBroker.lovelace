@@ -43,6 +43,24 @@ export function processFireAlarm(parameters: ConverterParameters): ioBrokerEntit
 }
 
 /**
+ * Create a flood alarm (moisture) binary_sensor entity.
+ *
+ * @param parameters - conversion parameters
+ */
+export function processFloodAlarm(parameters: ConverterParameters): ioBrokerEntity[] {
+    return [new BinarySensorEntity(parameters, { deviceClass: 'moisture' })];
+}
+
+/**
+ * Create a button sensor binary_sensor entity.
+ *
+ * @param parameters - conversion parameters
+ */
+export function processButtonSensor(parameters: ConverterParameters): ioBrokerEntity[] {
+    return [new BinarySensorEntity(parameters, { deviceClass: 'button' })];
+}
+
+/**
  * Apply manual entity configuration to a pre-created binary_sensor entity.
  * Called from server.js for user-configured (non-auto-detected) entities.
  *
@@ -92,6 +110,10 @@ export class BinarySensorConverter extends Converter {
                 return processWindow(params);
             case Types.fireAlarm:
                 return processFireAlarm(params);
+            case Types.floodAlarm:
+                return processFloodAlarm(params);
+            case Types.buttonSensor:
+                return processButtonSensor(params);
             default:
                 return [];
         }
@@ -102,12 +124,16 @@ Converter.converters[Types.motion] = BinarySensorConverter;
 Converter.converters[Types.door] = BinarySensorConverter;
 Converter.converters[Types.window] = BinarySensorConverter;
 Converter.converters[Types.fireAlarm] = BinarySensorConverter;
+Converter.converters[Types.floodAlarm] = BinarySensorConverter;
+Converter.converters[Types.buttonSensor] = BinarySensorConverter;
 
 export default {
     processMotion,
     processDoor,
     processWindow,
     processFireAlarm,
+    processFloodAlarm,
+    processButtonSensor,
     processManualEntity,
     BinarySensorConverter,
 };

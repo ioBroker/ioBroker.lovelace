@@ -41,6 +41,9 @@ class WeatherEntity extends import_baseEntity.BaseEntity {
       this.addID2entity(state.id);
     } else {
       state = controls.states.find((s) => s.id && s.name === "TEMP_MAX");
+      if (!(state == null ? void 0 : state.id)) {
+        state = controls.states.find((s) => s.id && s.name === "ACTUAL");
+      }
       if (state == null ? void 0 : state.id) {
         this.context.ATTRIBUTES.push({ attribute: "temperature", getId: state.id });
         this.addID2entity(state.id);
@@ -76,6 +79,13 @@ class WeatherEntity extends import_baseEntity.BaseEntity {
           this.addID2entity(state.id);
           state.id = null;
         }
+      }
+    }
+    if (!this.context.ATTRIBUTES.find((a) => a.attribute === "state_desc")) {
+      state = controls.states.find((s) => s.id && s.name === "WEATHER");
+      if (state == null ? void 0 : state.id) {
+        this.context.ATTRIBUTES.push({ attribute: "state_desc", getId: state.id });
+        this.addID2entity(state.id);
       }
     }
     let hassCounter = -1;

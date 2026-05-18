@@ -31,6 +31,10 @@ export class WeatherEntity extends BaseEntity {
             this.addID2entity(state.id);
         } else {
             state = controls.states.find(s => s.id && s.name === 'TEMP_MAX');
+            if (!state?.id) {
+                // weatherCurrent uses ACTUAL for current temperature
+                state = controls.states.find(s => s.id && s.name === 'ACTUAL');
+            }
             if (state?.id) {
                 this.context.ATTRIBUTES.push({ attribute: 'temperature', getId: state.id });
                 this.addID2entity(state.id);
@@ -69,6 +73,15 @@ export class WeatherEntity extends BaseEntity {
                     this.addID2entity(state.id);
                     state.id = null as unknown as string; // consumed — prevent re-detection in forecast loop
                 }
+            }
+        }
+
+        // weatherCurrent uses WEATHER for the condition state instead of STATE
+        if (!this.context.ATTRIBUTES.find(a => a.attribute === 'state_desc')) {
+            state = controls.states.find(s => s.id && s.name === 'WEATHER');
+            if (state?.id) {
+                this.context.ATTRIBUTES.push({ attribute: 'state_desc', getId: state.id });
+                this.addID2entity(state.id);
             }
         }
 

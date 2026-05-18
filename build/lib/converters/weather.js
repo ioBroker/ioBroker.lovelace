@@ -42,6 +42,7 @@ class WeatherConverter extends import_converter.default {
   }
 }
 import_converter.default.converters[import_type_detector.Types.weatherForecast] = WeatherConverter;
+import_converter.default.converters[import_type_detector.Types.weatherCurrent] = WeatherConverter;
 adapterData.services.weather = {
   get_forecast: {
     name: "Get forecast",

@@ -61,6 +61,24 @@ class SensorEntity extends import_baseEntity.BaseEntity {
     return entity;
   }
   /**
+   * Build an illuminance sensor from a known state id.
+   *
+   * @param stateId - ioBroker state id to read illuminance from
+   * @param name - friendly name
+   * @param room - room enum object
+   * @param func - function enum object
+   * @param obj - ioBroker object for the state
+   * @param forcedEntityId - optional entity_id override
+   */
+  static illuminance(stateId, name, room, func, obj, forcedEntityId) {
+    const entity = new SensorEntity(name, room, func, obj, forcedEntityId);
+    entity.context.STATE.getId = stateId;
+    entity.attributes.device_class = "illuminance";
+    entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || "lx";
+    entity.addID2entity(stateId);
+    return entity;
+  }
+  /**
    * Build a windowTilt sensor (closed / tilted / open) from converter parameters.
    *
    * @param params - converter parameters

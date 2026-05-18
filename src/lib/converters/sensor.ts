@@ -64,6 +64,16 @@ export class SensorConverter extends Converter {
             return [];
         }
 
+        if (controls.type === Types.illuminance) {
+            const state = controls.states.find(s => s.id && s.name === 'ACTUAL');
+            if (state?.id) {
+                return [
+                    SensorEntity.illuminance(state.id, friendlyName, room, func, objects[params.id], forcedEntityId),
+                ];
+            }
+            return [];
+        }
+
         // Types.temperature
         const entities: ioBrokerEntity[] = [];
 
@@ -116,3 +126,4 @@ export function processManualEntity(
 Converter.converters[Types.windowTilt] = SensorConverter;
 Converter.converters[Types.temperature] = SensorConverter;
 Converter.converters[Types.humidity] = SensorConverter;
+Converter.converters[Types.illuminance] = SensorConverter;

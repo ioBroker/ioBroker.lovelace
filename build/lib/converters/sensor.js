@@ -57,6 +57,15 @@ class SensorConverter extends import_converter.default {
       }
       return [];
     }
+    if (controls.type === import_type_detector.Types.illuminance) {
+      const state2 = controls.states.find((s) => s.id && s.name === "ACTUAL");
+      if (state2 == null ? void 0 : state2.id) {
+        return [
+          import_sensorEntity.SensorEntity.illuminance(state2.id, friendlyName, room, func, objects[params.id], forcedEntityId)
+        ];
+      }
+      return [];
+    }
     const entities = [];
     let state = controls.states.find((s) => s.id && s.name === "ACTUAL");
     let tempEntity;
@@ -87,6 +96,7 @@ function processManualEntity(_id, _obj, entity, _objects, custom) {
 import_converter.default.converters[import_type_detector.Types.windowTilt] = SensorConverter;
 import_converter.default.converters[import_type_detector.Types.temperature] = SensorConverter;
 import_converter.default.converters[import_type_detector.Types.humidity] = SensorConverter;
+import_converter.default.converters[import_type_detector.Types.illuminance] = SensorConverter;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   SensorConverter,
