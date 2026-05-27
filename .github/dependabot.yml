@@ -14,3 +14,10 @@ updates:
       - dependency-name: "@types/node"
         update-types:
           - "version-update:semver-major"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'cron'
+      timezone: 'Europe/Berlin'
+      cronjob: '18 2 17 * *'
+    open-pull-requests-limit: 15
