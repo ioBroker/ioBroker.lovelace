@@ -60,7 +60,7 @@ describe('converters/cover', function () {
     });
 
     describe('CoverEntity.build — no states', function () {
-        it('returns one entity (no slider) when no SET state', function () {
+        it('returns one entity when no SET state', function () {
             const params = makeParameters([]);
             const entities = CoverEntity.build(params);
             expect(entities).to.have.lengthOf(1);
@@ -100,22 +100,16 @@ describe('converters/cover', function () {
     });
 
     describe('CoverEntity.build — with SET state', function () {
-        it('returns two entities (cover + slider)', function () {
+        it('returns one entity when SET state present', function () {
             const params = makeParameters([{ id: SET_ID, name: 'SET' }]);
             const entities = CoverEntity.build(params);
-            expect(entities).to.have.lengthOf(2);
+            expect(entities).to.have.lengthOf(1);
         });
 
         it('first entity is cover domain', function () {
             const params = makeParameters([{ id: SET_ID, name: 'SET' }]);
             const entities = CoverEntity.build(params);
             expect(entities[0].entity_id).to.match(/^cover\./);
-        });
-
-        it('second entity is input_number domain (slider)', function () {
-            const params = makeParameters([{ id: SET_ID, name: 'SET' }]);
-            const entities = CoverEntity.build(params);
-            expect(entities[1].entity_id).to.match(/^input_number\./);
         });
 
         it('STATE.setId equals SET state id', function () {

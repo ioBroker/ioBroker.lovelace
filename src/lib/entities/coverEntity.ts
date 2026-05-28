@@ -10,32 +10,6 @@ const adapterData = require('../../../lib/dataSingleton') as {
 };
 
 /**
- * Companion slider entity for the cover. Exposed as a separate `input_number` so
- * dashboards can drive cover position without a tilt/position widget.
- */
-class CoverSliderEntity extends BaseEntity {
-    constructor(
-        name: string | undefined,
-        room: ioBroker.EnumObject | undefined,
-        func: ioBroker.EnumObject | undefined,
-        obj: ioBroker.Object | undefined,
-        forcedEntityId: string | undefined,
-        stateId: string,
-        common: Record<string, unknown>,
-    ) {
-        super(name, room, func, obj, 'input_number', forcedEntityId);
-        this.context.STATE.setId = stateId;
-        this.context.STATE.getId = stateId;
-        this.attributes.icon = 'mdi:window-shutter';
-        this.attributes.mode = 'slider';
-        this.attributes.min = (common.min as number | undefined) ?? 0;
-        this.attributes.max = (common.max as number | undefined) ?? 100;
-        this.attributes.step = (common.step as number | undefined) ?? 1;
-        this.addID2entity(stateId);
-    }
-}
-
-/**
  * Handler for set_cover_position / set_cover_tilt_position service calls.
  *
  * @param entity - the cover entity
@@ -121,46 +95,26 @@ function addCommand(
 }
 
 /**
- * Add a SET/ACTUAL level state to the cover entity and create the companion slider.
+ * Wire the SET/ACTUAL position states onto a cover entity.
  *
- * @param entities - entity array; entities[0] is the cover (slider is appended)
+ * @param entity - the cover entity to wire
  * @param control - type-detector PatternControl
  * @param objects - ioBroker objects cache
  * @param setStateName - name of the SET state (e.g. 'SET')
- * @param room - room enum (for slider)
- * @param func - function enum (for slider)
- * @param obj - ioBroker object for the device
- * @param forcedEntityId - optional forced entity_id for the slider
  * @returns true when the named state was found
  */
 function addBlindLevel(
-    entities: BaseEntity[],
+    entity: BaseEntity,
     control: PatternControl,
     objects: Record<string, ioBroker.Object>,
     setStateName: string,
-    room: ioBroker.EnumObject | undefined,
-    func: ioBroker.EnumObject | undefined,
-    obj: ioBroker.Object | undefined,
-    forcedEntityId: string | undefined,
 ): boolean {
     const state = control.states.find(s => s.id && s.name === setStateName);
     if (!state?.id) {
         return false;
     }
     const stateId = state.id;
-    const entity = entities[0];
     const common = (objects[stateId]?.common ?? {}) as Record<string, unknown>;
-
-    const slider = new CoverSliderEntity(
-        entity.attributes.friendly_name,
-        room,
-        func,
-        obj,
-        forcedEntityId,
-        stateId,
-        common,
-    );
-    entities.push(slider);
 
     entity.context.STATE.setId = stateId;
     entity.context.STATE.getId = stateId;
@@ -243,8 +197,6 @@ function addBlindLevel(
     if (getState?.id) {
         entity.context.STATE.getId = getState.id;
         entity.addID2entity(getState.id);
-        slider.context.STATE.getId = getState.id;
-        slider.addID2entity(getState.id);
     }
 
     return true;
@@ -307,25 +259,21 @@ function addTiltLevel(
 }
 
 /**
- * CoverEntity — single class for the Home Assistant `cover` domain (blinds).
- *
- * Returns itself plus a companion `input_number` slider when a SET state is found.
- * Use the static factory `CoverEntity.build(params)` for the (entity + slider) tuple.
+ * CoverEntity — single class for the Home Assistant `cover` domain.
+ * Use the static factory `CoverEntity.build(params)`.
  */
 export class CoverEntity extends BaseEntity {
     /**
-     * Build a cover and (optionally) a companion slider for the given params.
+     * Build a cover entity for the given params.
      *
      * @param params - converter parameters
-     * @returns [coverEntity, sliderEntity?] — slider only when a SET state was found.
+     * @returns array containing the cover entity
      */
     static build(params: ConverterParameters): BaseEntity[] {
         const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
         const entity = new CoverEntity(friendlyName, room, func, objects[id], forcedEntityId);
 
         adapterData.log.debug(`Creating blind of type ${controls.type} for ${params.id}`);
-
-        const entities: BaseEntity[] = [entity];
 
         if (controls.type === Types.gate) {
             entity.attributes.device_class = 'gate';
@@ -407,10 +355,10 @@ export class CoverEntity extends BaseEntity {
             }
 
             addCommand(entity, controls, 'STOP', 'stop_cover', 8);
-            return entities;
+            return [entity];
         }
 
-        if (addBlindLevel(entities, controls, objects, 'SET', room, func, objects[params.id], forcedEntityId)) {
+        if (addBlindLevel(entity, controls, objects, 'SET')) {
             entity.context.STATE.invert = !!(adapterData.adapter.config as Record<string, unknown>).blindsInvert;
         }
 
@@ -470,7 +418,7 @@ export class CoverEntity extends BaseEntity {
             (entity.attributes as Record<string, number>).supported_features |= 2;
         }
 
-        return entities;
+        return [entity];
     }
 
     private constructor(

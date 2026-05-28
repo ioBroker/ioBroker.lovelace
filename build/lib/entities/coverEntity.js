@@ -24,20 +24,6 @@ module.exports = __toCommonJS(coverEntity_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_baseEntity = require("./baseEntity");
 const adapterData = require("../../../lib/dataSingleton");
-class CoverSliderEntity extends import_baseEntity.BaseEntity {
-  constructor(name, room, func, obj, forcedEntityId, stateId, common) {
-    var _a, _b, _c;
-    super(name, room, func, obj, "input_number", forcedEntityId);
-    this.context.STATE.setId = stateId;
-    this.context.STATE.getId = stateId;
-    this.attributes.icon = "mdi:window-shutter";
-    this.attributes.mode = "slider";
-    this.attributes.min = (_a = common.min) != null ? _a : 0;
-    this.attributes.max = (_b = common.max) != null ? _b : 100;
-    this.attributes.step = (_c = common.step) != null ? _c : 1;
-    this.addID2entity(stateId);
-  }
-}
 function handleSetAndTiltCommand(entity, command, data, user) {
   return new Promise((resolve, reject) => {
     if (data.service_data.position >= 0) {
@@ -99,25 +85,14 @@ function addCommand(entity, control, stateName, serviceName, featureBit, onWrite
   entity.attributes.supported_features |= featureBit;
   return true;
 }
-function addBlindLevel(entities, control, objects, setStateName, room, func, obj, forcedEntityId) {
+function addBlindLevel(entity, control, objects, setStateName) {
   var _a, _b, _c, _d;
   const state = control.states.find((s) => s.id && s.name === setStateName);
   if (!(state == null ? void 0 : state.id)) {
     return false;
   }
   const stateId = state.id;
-  const entity = entities[0];
   const common = (_b = (_a = objects[stateId]) == null ? void 0 : _a.common) != null ? _b : {};
-  const slider = new CoverSliderEntity(
-    entity.attributes.friendly_name,
-    room,
-    func,
-    obj,
-    forcedEntityId,
-    stateId,
-    common
-  );
-  entities.push(slider);
   entity.context.STATE.setId = stateId;
   entity.context.STATE.getId = stateId;
   entity.addID2entity(stateId);
@@ -194,8 +169,6 @@ function addBlindLevel(entities, control, objects, setStateName, room, func, obj
   if (getState == null ? void 0 : getState.id) {
     entity.context.STATE.getId = getState.id;
     entity.addID2entity(getState.id);
-    slider.context.STATE.getId = getState.id;
-    slider.addID2entity(getState.id);
   }
   return true;
 }
@@ -240,17 +213,16 @@ function addTiltLevel(entity, control, objects, setStateName) {
 }
 class CoverEntity extends import_baseEntity.BaseEntity {
   /**
-   * Build a cover and (optionally) a companion slider for the given params.
+   * Build a cover entity for the given params.
    *
    * @param params - converter parameters
-   * @returns [coverEntity, sliderEntity?] — slider only when a SET state was found.
+   * @returns array containing the cover entity
    */
   static build(params) {
     var _a, _b, _c, _d;
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
     const entity = new CoverEntity(friendlyName, room, func, objects[id], forcedEntityId);
     adapterData.log.debug(`Creating blind of type ${controls.type} for ${params.id}`);
-    const entities = [entity];
     if (controls.type === import_type_detector.Types.gate) {
       entity.attributes.device_class = "gate";
       entity.attributes.icon = "mdi:gate";
@@ -332,9 +304,9 @@ class CoverEntity extends import_baseEntity.BaseEntity {
         entity.attributes.supported_features |= 4;
       }
       addCommand(entity, controls, "STOP", "stop_cover", 8);
-      return entities;
+      return [entity];
     }
-    if (addBlindLevel(entities, controls, objects, "SET", room, func, objects[params.id], forcedEntityId)) {
+    if (addBlindLevel(entity, controls, objects, "SET")) {
       entity.context.STATE.invert = !!adapterData.adapter.config.blindsInvert;
     }
     if (addTiltLevel(entity, controls, objects, "TILT_SET")) {
@@ -389,7 +361,7 @@ class CoverEntity extends import_baseEntity.BaseEntity {
       });
       entity.attributes.supported_features |= 2;
     }
-    return entities;
+    return [entity];
   }
   constructor(name, room, func, obj, forcedEntityId) {
     super(name, room, func, obj, "cover", forcedEntityId);
