@@ -2629,7 +2629,7 @@ ${hideScript.join("\n")}
           `Processing change in ${id} with manual settings, removing ${entities.length} old entities in order to recreate.`
         );
         for (const entity of entities) {
-          if (entity.isManual) {
+          if (entity.isManual || entity.context.id === id) {
             entity.unregister();
           }
         }
