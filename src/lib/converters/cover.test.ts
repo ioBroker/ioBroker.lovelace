@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 import { CoverEntity } from '../entities/coverEntity';
 import type { ConverterParameters } from './converter';
 

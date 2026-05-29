@@ -528,9 +528,7 @@ export class MediaPlayerEntity extends BaseEntity {
                 attribute: 'entity_picture',
                 getId: state.id,
                 getParser: (ent, _attr, st): void => {
-                    adapterData.server?.removeRequestableFile(
-                        ent.attributes.entity_picture as string | null | undefined,
-                    );
+                    adapterData.server?.removeRequestableFile(ent.attributes.entity_picture);
                     ent.attributes.entity_picture = st?.val as string | undefined;
                     if (ent.attributes.entity_picture && ent.attributes.entity_picture.startsWith('/')) {
                         if (!ent.attributes.entity_picture.includes('?')) {

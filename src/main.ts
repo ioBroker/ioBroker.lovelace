@@ -154,9 +154,7 @@ async function initWebServer(settings: AdapterConfig): Promise<ServerBundle | nu
         }
         try {
             const webserver = new WebServer({ app: server.app, adapter, secure: settings.secure });
-            server.server = (await webserver.init()) as (http.Server | https.Server) & {
-                __server?: ServerBundle;
-            };
+            server.server = await webserver.init();
         } catch (err) {
             adapter.log.error(`Cannot create web-server: ${String(err)}`);
             if (adapter.terminate) {

@@ -146,7 +146,7 @@ class TodoModule {
         const msgType = message.type as string;
         if (msgType && (msgType.startsWith('todo/') || msgType.startsWith('shopping_list/'))) {
             if (msgType === 'todo/item/subscribe') {
-                ws._subscribes.todo = (ws._subscribes.todo as unknown[]) || [];
+                ws._subscribes.todo = ws._subscribes.todo || [];
 
                 const result = [
                     { id: message.id, type: 'result', success: true, result: null },

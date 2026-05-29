@@ -159,7 +159,7 @@ class PersistentNotificationsModule {
      */
     private async _clearNotification(id?: unknown): Promise<Record<string, NotificationInfo>> {
         if (id) {
-            const key = String(id as string | number);
+            const key = String(id);
             if (this._notifications[key]) {
                 const removedNotifications: Record<string, NotificationInfo> = {};
                 removedNotifications[key] = this._notifications[key];

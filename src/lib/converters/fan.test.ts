@@ -94,7 +94,7 @@ describe('converters/fan', function () {
                 ack: true,
                 from: '',
                 lc: Date.now(),
-            } as ioBroker.State);
+            });
             expect(entity.attributes.preset_mode).to.equal('medium');
             expect(entity.attributes.speed).to.equal('medium');
             expect(entity.state).to.equal('on');
@@ -109,7 +109,7 @@ describe('converters/fan', function () {
                 ack: true,
                 from: '',
                 lc: Date.now(),
-            } as ioBroker.State);
+            });
             expect(entity.attributes.preset_mode).to.equal('off');
             expect(entity.state).to.equal('off');
         });
@@ -123,7 +123,7 @@ describe('converters/fan', function () {
                 ack: true,
                 from: '',
                 lc: Date.now(),
-            } as ioBroker.State);
+            });
             expect(entity.attributes.preset_mode).to.equal('high');
             expect(entity.state).to.equal('on');
         });

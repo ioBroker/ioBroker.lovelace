@@ -149,7 +149,7 @@ export function getEnumName(obj: ioBroker.EnumObject | null | undefined, lang?: 
         return enumNameCache[obj._id];
     }
 
-    let name: string | undefined = getSmartName(obj as unknown as ioBroker.Object, null, lang ?? 'en');
+    let name: string | undefined = getSmartName(obj, null, lang ?? 'en');
     name = name || (obj?.common?.name as string | undefined);
 
     if (name && typeof name === 'object') {

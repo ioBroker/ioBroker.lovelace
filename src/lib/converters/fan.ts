@@ -1,4 +1,4 @@
-import type { ioBrokerEntity, EntityAttribute, ServiceCallData } from './converter';
+import type { ioBrokerEntity, ServiceCallData } from './converter';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData = require('../../../lib/dataSingleton') as {
@@ -28,14 +28,7 @@ function augmentPresetMode(
     entity: ioBrokerEntity,
     objects: Record<string, ioBroker.Object>,
 ): void {
-    const attr = entity.context.ATTRIBUTES?.find(a => a.attribute === 'preset_mode') as
-        | (EntityAttribute & {
-              isStringArray?: boolean;
-              isNumber?: boolean;
-              map2lovelace?: Record<string | number, string | number>;
-              map2iob?: Record<string, string | number>;
-          })
-        | undefined;
+    const attr = entity.context.ATTRIBUTES?.find(a => a.attribute === 'preset_mode');
     if (!attr) {
         return;
     }

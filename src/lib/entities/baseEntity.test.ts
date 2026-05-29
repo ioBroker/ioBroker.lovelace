@@ -249,7 +249,7 @@ describe('BaseEntity', function () {
             entity.registerInCaches();
             entity.unregister('sensor.rekey3_new');
             const entries = entityData.iobID2entity['test.0.rekey3'];
-            expect(entries).to.include('sensor.rekey3_new' as unknown as BaseEntity);
+            expect(entries).to.include('sensor.rekey3_new');
         });
 
         it('removes old entity_id from iobID2entity entries when rekeying', function () {

@@ -12,7 +12,7 @@ import {
     processManualEntity,
 } from './binary_sensor';
 import type { ConverterParameters, ioBrokerEntity } from './converter';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const entityData = require('../../../lib/dataSingleton');
@@ -22,7 +22,7 @@ const DEVICE_ID = 'device.0.test';
 const STATE_ID = `${DEVICE_ID}.actual`;
 
 function makeObj(id: string, name = 'Test Device'): ioBroker.Object {
-    return { _id: id, type: 'device', common: { name, role: '' }, native: {} } as ioBroker.Object;
+    return { _id: id, type: 'device', common: { name, role: '' }, native: {} };
 }
 
 function makeParameters(

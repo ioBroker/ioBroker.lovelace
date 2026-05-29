@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 import { SwitchConverter } from './switch';
 import type { ConverterParameters } from './converter';
 
@@ -9,7 +9,7 @@ const SET_ID = `${DEVICE_ID}.state`;
 const ACTUAL_ID = `${DEVICE_ID}.readState`;
 
 function makeObj(id: string, name = 'Test Device'): ioBroker.Object {
-    return { _id: id, type: 'device', common: { name, role: '' }, native: {} } as ioBroker.Object;
+    return { _id: id, type: 'device', common: { name, role: '' }, native: {} };
 }
 
 function makeParameters(
@@ -77,7 +77,7 @@ describe('converters/switch', function () {
             controls: {
                 states: [{ id: buttonStateId, name: 'SET' }],
                 type: Types.button,
-            } as unknown as PatternControl,
+            },
             friendlyName: undefined,
             room: undefined,
             func: undefined,

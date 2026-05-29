@@ -80,12 +80,7 @@ export function applyClimateStates(
                 if (hvac_attr) {
                     const target = hvac_attr.lovelaceToIob?.[value];
                     if (target !== undefined) {
-                        await adapterData.adapter.setForeignStateAsync(
-                            hvac_attr.setId!,
-                            target as ioBroker.StateValue,
-                            false,
-                            { user },
-                        );
+                        await adapterData.adapter.setForeignStateAsync(hvac_attr.setId!, target, false, { user });
                     }
                 }
                 ent.attributes.hvac_action = undefined;
@@ -113,7 +108,7 @@ export function applyClimateStates(
                 } else if (ent.context.iobMode !== undefined) {
                     ent.attributes.hvac_mode =
                         hvac_attr.iobToLovelace?.[ent.context.iobMode as string | number] ??
-                        String(ent.context.iobMode as string | number);
+                        String(ent.context.iobMode);
                 } else {
                     adapterData.log.warn(
                         `No mode for ${ent.entity_id} received, yet. Asking database. Will delay update.`,
@@ -414,9 +409,9 @@ export function applyClimateStates(
         });
 
         const tempCommon = (objects[states.temperature]?.common ?? {}) as Record<string, unknown>;
-        entity.attributes.min_temp = (tempCommon.min as number | undefined) ?? 7;
-        entity.attributes.max_temp = (tempCommon.max as number | undefined) ?? 35;
-        entity.attributes.target_temp_step = (tempCommon.step as number | undefined) ?? 1;
+        entity.attributes.min_temp = tempCommon.min ?? 7;
+        entity.attributes.max_temp = tempCommon.max ?? 35;
+        entity.attributes.target_temp_step = tempCommon.step ?? 1;
     }
 }
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 import { SensorConverter } from './sensor';
 import type { ConverterParameters } from './converter';
 
@@ -8,7 +8,7 @@ const DEVICE_ID = 'test.window_with_tilt';
 const STATE_ID = `${DEVICE_ID}.state`;
 
 function makeObj(id: string, name = 'Test Device'): ioBroker.Object {
-    return { _id: id, type: 'device', common: { name, role: '' }, native: {} } as ioBroker.Object;
+    return { _id: id, type: 'device', common: { name, role: '' }, native: {} };
 }
 
 function makeParameters(
@@ -81,7 +81,7 @@ describe('converters/sensor', function () {
             const obj = makeObj(STATE_ID, 'ACTUAL') as ioBroker.StateObject;
             (obj.common as unknown as Record<string, unknown>).states = { 0: 'Closed', 1: 'Tilted', 2: 'Open' };
             const params = makeParameters([{ id: STATE_ID, name: 'ACTUAL' }]);
-            params.objects[STATE_ID] = obj as unknown as ioBroker.Object;
+            params.objects[STATE_ID] = obj;
             const entity = SensorConverter.convertEntities(params)[0];
             const hp = entity.context.STATE.historyParser!;
             expect(hp('', 0)).to.equal('closed');

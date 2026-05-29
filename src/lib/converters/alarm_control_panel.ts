@@ -69,7 +69,7 @@ function fillAlarmControlPanelFromStates(
                     adapterData.adapter.namespace
                 ];
                 if (nsCustom) {
-                    entity.attributes.code_format = (nsCustom.code_format as string) ?? 'number';
+                    entity.attributes.code_format = nsCustom.code_format ?? 'number';
                 }
             }
             entity.context.STATE.isBoolean = obj.common.type === 'boolean';
@@ -121,7 +121,7 @@ function fillAlarmControlPanelFromStates(
                     `No code is defined! To provide the code add to object ${stateId} native.alarm_code with desired code`,
                 );
                 throw new Error('iobroker misconfigured.');
-            } else if (String(obj.native.alarm_code) !== String(sd.code as number | string)) {
+            } else if (String(obj.native.alarm_code) !== String(sd.code)) {
                 throw new Error('invalid code');
             }
         }

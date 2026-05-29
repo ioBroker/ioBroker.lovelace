@@ -1,8 +1,8 @@
 // Root tsconfig to set the settings and power editor support for all TS files
 {
   // To update the compilation target, install a different version of @tsconfig/node... and reference it here
-  // https://github.com/tsconfig/bases#node-20-tsconfigjson
-  "extends": "@tsconfig/node20/tsconfig.json",
+  // https://github.com/tsconfig/bases#node-22-tsconfigjson
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
     // do not compile anything, this file is just to configure type checking
     // the compilation is configured in tsconfig.build.json

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 import { WeatherEntity } from '../entities/weatherEntity';
 import type { ConverterParameters } from './converter';
 

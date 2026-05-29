@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 import { MediaPlayerConverter } from './media_player';
 import type { ConverterParameters } from './converter';
 

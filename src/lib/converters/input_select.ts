@@ -68,10 +68,10 @@ async function fillInputSelectEntity(
 
     entity.context.STATE.getParser = (ent, _attr, iobState): void => {
         const s = iobState ?? ({ val: null } as ioBroker.State);
-        ent.attributes.initial = (s.val ?? 'unknown') as string;
+        ent.attributes.initial = s.val ?? 'unknown';
         const m = ent.context.STATE.map2lovelace;
         if (m) {
-            ent.attributes.initial = (m[s.val as string | number] ?? s.val ?? 'unknown') as string;
+            ent.attributes.initial = m[s.val as string | number] ?? s.val ?? 'unknown';
         }
         ent.state = ent.attributes.initial as string;
     };

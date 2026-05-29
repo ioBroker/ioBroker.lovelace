@@ -227,7 +227,7 @@ async function getHistory(
                                         a: noAttributes
                                             ? {}
                                             : getAttributeValues(
-                                                  result as ioBroker.State,
+                                                  result,
                                                   attributesResult,
                                                   attributesUsed,
                                                   attributeValues,
@@ -376,7 +376,7 @@ class HistoryModule {
         for (const [entity_id, states] of Object.entries(newResult)) {
             const entityResult = [];
             for (const state of states) {
-                const ts = _convertStateTStoISOString(state as { lu?: number; lc?: number });
+                const ts = _convertStateTStoISOString(state);
                 entityResult.push({
                     entity_id,
                     state: String(state.s),

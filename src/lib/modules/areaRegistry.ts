@@ -44,7 +44,7 @@ class AreaRegistry {
                 ? name
                 : (name as Record<string, string>)[this.adapter.lang] ||
                   (name as Record<string, string>).en ||
-                  (name as Record<string, string>)[Object.keys(name as Record<string, string>)[0]];
+                  (name as Record<string, string>)[Object.keys(name)[0]];
         return {
             area_id: room._id,
             name: nameStr,

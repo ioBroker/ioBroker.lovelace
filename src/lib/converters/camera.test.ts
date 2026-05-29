@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 import { CameraEntity } from '../entities/cameraEntity';
 import type { ConverterParameters } from './converter';
 
@@ -8,7 +8,7 @@ const DEVICE_ID = 'test.camera_device';
 const URL_ID = `${DEVICE_ID}.url`;
 
 function makeObj(id: string, name = 'Test Device'): ioBroker.Object {
-    return { _id: id, type: 'device', common: { name, role: '' }, native: {} } as ioBroker.Object;
+    return { _id: id, type: 'device', common: { name, role: '' }, native: {} };
 }
 
 function makeParameters(

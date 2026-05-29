@@ -1,5 +1,4 @@
-import type { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { Types, PatternControl } from '@iobroker/type-detector';
 import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
 import type { BaseEntity } from '../entities/baseEntity';
 

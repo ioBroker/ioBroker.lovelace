@@ -1,5 +1,5 @@
 import { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 import { BaseEntity, type EntityCommand } from './baseEntity';
 import type { ConverterParameters } from '../converters/converter';
 

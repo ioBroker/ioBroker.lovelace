@@ -160,8 +160,8 @@ function lightAddColorTemperature(
         targetAttributes.color_mode = COLOR_TEMP;
     };
 
-    entity.attributes.max_color_temp_kelvin = (tempCommon.max as number | undefined) ?? iobMaxValueKelvin;
-    entity.attributes.min_color_temp_kelvin = (tempCommon.min as number | undefined) ?? iobMinValueKelvin;
+    entity.attributes.max_color_temp_kelvin = tempCommon.max ?? iobMaxValueKelvin;
+    entity.attributes.min_color_temp_kelvin = tempCommon.min ?? iobMinValueKelvin;
 
     if (attribute.convert_to_mired || (entity.attributes.max_color_temp_kelvin as number) < 1000) {
         attribute.convert_to_mired = true;
@@ -184,10 +184,8 @@ function lightAddColorTemperature(
     }
 
     if (attribute.convert_to_mired) {
-        entity.attributes.max_mireds =
-            (tempCommon.max as number | undefined) ?? 1e6 / (entity.attributes.min_color_temp_kelvin as number);
-        entity.attributes.min_mireds =
-            (tempCommon.min as number | undefined) ?? 1e6 / (entity.attributes.max_color_temp_kelvin as number);
+        entity.attributes.max_mireds = tempCommon.max ?? 1e6 / (entity.attributes.min_color_temp_kelvin as number);
+        entity.attributes.min_mireds = tempCommon.min ?? 1e6 / (entity.attributes.max_color_temp_kelvin as number);
     } else {
         entity.attributes.max_mireds = 1e6 / (entity.attributes.min_color_temp_kelvin as number);
         entity.attributes.min_mireds = 1e6 / (entity.attributes.max_color_temp_kelvin as number);

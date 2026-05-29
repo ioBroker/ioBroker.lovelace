@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Types } from '@iobroker/type-detector';
-import type { PatternControl } from '@iobroker/type-detector/types';
+import type { PatternControl } from '@iobroker/type-detector';
 import { LockEntity } from '../entities/lockEntity';
 import type { ConverterParameters } from './converter';
 
@@ -10,7 +10,7 @@ const ACTUAL_ID = `${DEVICE_ID}.actual`;
 const OPEN_ID = `${DEVICE_ID}.open`;
 
 function makeObj(id: string, name = 'Test Device'): ioBroker.Object {
-    return { _id: id, type: 'device', common: { name, role: '' }, native: {} } as ioBroker.Object;
+    return { _id: id, type: 'device', common: { name, role: '' }, native: {} };
 }
 
 function makeParameters(

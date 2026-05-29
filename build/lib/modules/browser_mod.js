@@ -645,13 +645,9 @@ class BrowserModModule {
       }
       for (const id of Object.keys(this.objects)) {
         if (id.startsWith(`${this.adapter.namespace}.${instancesPath}`) && id.endsWith(".path")) {
-          this.adapter.extendObject(
-            id,
-            { common: { type: "string", states: this.knownViewsStates } },
-            () => {
-              this.adapter.log.debug(`Updated ${id}`);
-            }
-          );
+          this.adapter.extendObject(id, { common: { type: "string", states: this.knownViewsStates } }, () => {
+            this.adapter.log.debug(`Updated ${id}`);
+          });
         }
       }
     }

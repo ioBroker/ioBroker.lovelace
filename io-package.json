@@ -120,7 +120,7 @@
     ],
     "licenseInformation": {
       "license": "Apache-2.0",
-      "link": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/LICENSE",
+      "link": "https://www.apache.org/licenses/LICENSE-2.0",
       "type": "free"
     },
     "platform": "Javascript/Node.js",
@@ -132,7 +132,7 @@
     "loglevel": "info",
     "mode": "daemon",
     "type": "visualization",
-    "compact": true,
+    "compact": false,
     "adminUI": {
       "config": "materialize"
     },
@@ -266,7 +266,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.6.17"
+        "admin": ">=7.6.20"
       }
     ]
   },
@@ -382,7 +382,9 @@
       "common": {
         "name": "Oauth2 Session",
         "type": "json",
-        "role": "state"
+        "role": "state",
+        "read": true,
+        "write": false
       },
       "native": {}
     },
@@ -405,7 +407,9 @@
           "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
         },
         "type": "string",
-        "role": "text"
+        "role": "text",
+        "read": true,
+        "write": true
       },
       "native": {}
     },
@@ -454,7 +458,7 @@
         "type": "number",
         "write": true,
         "read": true,
-        "role": "text",
+        "role": "state",
         "desc": "Set/Read alarm arm status",
         "def": 0,
         "states": {
@@ -510,6 +514,7 @@
       "type": "state",
       "common": {
         "name": "Dark Mode",
+        "type": "boolean",
         "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
         "write": true,
         "read": true,
@@ -531,7 +536,7 @@
       "common": {
         "name": "alarm",
         "type": "json",
-        "role": "text",
+        "role": "state",
         "write": true,
         "read": true,
         "desc": "List of notifications"

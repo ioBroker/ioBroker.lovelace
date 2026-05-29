@@ -118,7 +118,7 @@ class BrowserModModule {
                     common: {
                         name: browserId,
                         statusStates: { onlineId: `${ioBrokerDeviceId}.online` },
-                    } as ioBroker.DeviceCommon,
+                    },
                     native: { instance: browserId },
                 });
                 this.adapter.log.info(`New browser_mod instance ${browserId}`);
@@ -223,7 +223,7 @@ class BrowserModModule {
                     read: false,
                     write: true,
                     role: 'json',
-                } as ioBroker.StateCommon,
+                },
                 native: { instance: browserId },
             });
         }
@@ -287,7 +287,7 @@ class BrowserModModule {
                     write: false,
                     role: 'indicator.reachable',
                     def: true,
-                } as ioBroker.StateCommon,
+                },
                 native: { instance: browserId },
             });
         }
@@ -737,13 +737,9 @@ class BrowserModModule {
 
             for (const id of Object.keys(this.objects)) {
                 if (id.startsWith(`${this.adapter.namespace}.${instancesPath}`) && id.endsWith('.path')) {
-                    this.adapter.extendObject(
-                        id,
-                        { common: { type: 'string', states: this.knownViewsStates } } as Partial<ioBroker.StateObject>,
-                        () => {
-                            this.adapter.log.debug(`Updated ${id}`);
-                        },
-                    );
+                    this.adapter.extendObject(id, { common: { type: 'string', states: this.knownViewsStates } }, () => {
+                        this.adapter.log.debug(`Updated ${id}`);
+                    });
                 }
             }
         }
