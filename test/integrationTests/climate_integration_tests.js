@@ -1,7 +1,7 @@
 /* global it before describe */
 const tools = require('./testTools');
 const expect = require('chai').expect;
-const climate = require('../../lib/converters/climate');
+const climate = require('../../build/lib/entities/climateEntity');
 
 exports.runTests = function (suite) {
     suite('climate', getHarness => {
