@@ -472,7 +472,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.
 * (Garfonso) Improved loading images from other adapters.
 * (Garfonso) Reworked entity creation a lot. Hopefully everything still works. If not, please report. Should solve duplicate entities issues.
