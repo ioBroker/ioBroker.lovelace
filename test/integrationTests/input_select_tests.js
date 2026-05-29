@@ -26,7 +26,7 @@ exports.runTests = function (suite) {
 
         it('input_select should be created and controllable', async () => {
             const deviceObj = objects[deviceId];
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_select', deviceId, deviceObj.name);
             expect(entity).to.have.property('entity_id', 'input_select.input_select_with_states');
@@ -97,7 +97,7 @@ exports.runTests = function (suite) {
             await harness.states.setStateAsync(deviceId, 0, true);
             const entities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             console.log(entities);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_select', deviceId, deviceObj.name);
@@ -168,7 +168,7 @@ exports.runTests = function (suite) {
             await harness.states.setStateAsync(deviceId, 'state0', true);
             const entities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_select', deviceId, deviceObj.name);
             expect(entity).to.have.property('entity_id', 'input_select.input_select_with_states');
@@ -236,7 +236,7 @@ exports.runTests = function (suite) {
             await harness.states.setStateAsync(deviceId, 'state0', true);
             const entities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_select', deviceId, deviceObj.name);
             expect(entity).to.have.property('entity_id', 'input_select.input_select_with_states');

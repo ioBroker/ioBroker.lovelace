@@ -6,7 +6,8 @@ const EntityRegistry = require('../modules/entityRegistry');
 function makeAdapter(): ioBroker.Adapter {
     return {
         log: { debug: () => {}, warn: () => {} },
-        getObjectAsync: () => Promise.resolve({ native: { entities: {}, entityCategories: {} } }),
+        getObjectAsync: () =>
+            Promise.resolve({ native: { entries: {}, iobIdToEntityId: {}, entityCategories: {} } }),
         setObject: async () => {},
     } as unknown as ioBroker.Adapter;
 }
@@ -51,31 +52,31 @@ function makeRegistry(overrides: Record<string, unknown> = {}): InstanceType<typ
 }
 
 describe('modules/entityRegistry', function () {
-    describe('getEntityId / storeEntityId', function () {
-        it('returns undefined for unknown ioBroker id', function () {
+    describe('reserveEntityId / getReservedEntityId', function () {
+        it('returns undefined for unknown composite key', function () {
             const registry = makeRegistry();
-            expect(registry.getEntityId('adapter.0.unknown')).to.be.undefined;
+            expect(registry.getReservedEntityId('light.adapter.0.unknown')).to.be.undefined;
         });
 
-        it('round-trips stored entity id', function () {
+        it('round-trips reserved entity id', function () {
             const registry = makeRegistry();
-            registry.storeEntityId('adapter.0.device', 'light.living_room');
-            expect(registry.getEntityId('adapter.0.device')).to.equal('light.living_room');
+            registry.reserveEntityId('light.adapter.0.device', 'light.living_room');
+            expect(registry.getReservedEntityId('light.adapter.0.device')).to.equal('light.living_room');
         });
 
-        it('overwrites previously stored entity id', function () {
+        it('overwrites previously reserved entity id', function () {
             const registry = makeRegistry();
-            registry.storeEntityId('adapter.0.device', 'light.old');
-            registry.storeEntityId('adapter.0.device', 'light.new');
-            expect(registry.getEntityId('adapter.0.device')).to.equal('light.new');
+            registry.reserveEntityId('light.adapter.0.device', 'light.old');
+            registry.reserveEntityId('light.adapter.0.device', 'light.new');
+            expect(registry.getReservedEntityId('light.adapter.0.device')).to.equal('light.new');
         });
 
-        it('stores multiple ids independently', function () {
+        it('stores multiple composite keys independently', function () {
             const registry = makeRegistry();
-            registry.storeEntityId('adapter.0.device1', 'light.one');
-            registry.storeEntityId('adapter.0.device2', 'switch.two');
-            expect(registry.getEntityId('adapter.0.device1')).to.equal('light.one');
-            expect(registry.getEntityId('adapter.0.device2')).to.equal('switch.two');
+            registry.reserveEntityId('light.adapter.0.device1', 'light.one');
+            registry.reserveEntityId('switch.adapter.0.device2', 'switch.two');
+            expect(registry.getReservedEntityId('light.adapter.0.device1')).to.equal('light.one');
+            expect(registry.getReservedEntityId('switch.adapter.0.device2')).to.equal('switch.two');
         });
     });
 
@@ -217,7 +218,9 @@ describe('modules/entityRegistry', function () {
     describe('updateEntityFromRegistry', function () {
         it('does nothing when entity is marked as manual', function () {
             const registry = makeRegistry();
-            registry.storeEntityId('adapter.0.device', 'binary_sensor.updated');
+            (registry as Record<string, unknown>)._entries = {
+                'binary_sensor.test': { entity_id: 'binary_sensor.updated' },
+            };
             const entity = makeEntity({ isManual: true });
             const originalId = entity.entity_id;
             registry.updateEntityFromRegistry(entity);
@@ -235,7 +238,7 @@ describe('modules/entityRegistry', function () {
         it('updates entity_id, name, and icon from stored entry', function () {
             const registry = makeRegistry();
             (registry as Record<string, unknown>)._entries = {
-                'adapter.0.device': {
+                'binary_sensor.test': {
                     entity_id: 'binary_sensor.updated',
                     name: 'Updated Name',
                     original_name: 'Original Name',
@@ -261,7 +264,7 @@ describe('modules/entityRegistry', function () {
         it('falls back to original_name when name is null', function () {
             const registry = makeRegistry();
             (registry as Record<string, unknown>)._entries = {
-                'adapter.0.device': {
+                'binary_sensor.test': {
                     entity_id: 'binary_sensor.test',
                     name: null,
                     original_name: 'Original',

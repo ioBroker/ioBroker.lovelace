@@ -271,7 +271,7 @@ exports.runTests = function (suite) {
             await tools.delay(1000); //fails online -> wait a little more for state updates to be processed.
             const entities = await tools.sendToAsync(harness, 'lovelace.0', 'browse'); //Get updated entities.
 
-            const entity = entities.find(e => e.context.id === deviceId && e.entity_id.startsWith('weather.'));
+            const entity = entities.find(e => e.context.deviceId === deviceId && e.entity_id.startsWith('weather.'));
             expect(entity).to.be.ok;
             console.log('Got entity:');
             console.dir(entity, { depth: null });
@@ -438,7 +438,7 @@ exports.runTests = function (suite) {
             await tools.delay(1000); //fails online -> wait a little more for state updates to be processed.
             const entities = await tools.sendToAsync(harness, 'lovelace.0', 'browse'); //Get updated entities.
 
-            const entity = entities.find(e => e.context.id === deviceId && e.entity_id.startsWith('weather.'));
+            const entity = entities.find(e => e.context.deviceId === deviceId && e.entity_id.startsWith('weather.'));
             expect(entity).to.be.ok;
 
             expect(entity).to.have.property('state', 'iconURL');
@@ -674,7 +674,7 @@ exports.runTests = function (suite) {
             await tools.delay(1000); //fails online -> wait a little more for state updates to be processed.
             const entities = await tools.sendToAsync(harness, 'lovelace.0', 'browse'); //Get updated entities.
 
-            const entity = entities.find(e => e.context.id === deviceId && e.entity_id.startsWith('weather.'));
+            const entity = entities.find(e => e.context.deviceId === deviceId && e.entity_id.startsWith('weather.'));
             expect(entity).to.be.ok;
 
             expect(entity).to.have.property('state', 'iconURL');

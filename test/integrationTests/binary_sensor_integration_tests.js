@@ -54,7 +54,7 @@ exports.runTests = function (suite) {
         describe('motion sensors', () => {
             it('detects zigbee motion detector', async () => {
                 const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
-                const binarySensor = entities.find(e => e.context.id === deviceId);
+                const binarySensor = entities.find(e => e.context.deviceId === deviceId);
                 expect(binarySensor).to.be.ok;
                 expectMotion(binarySensor, deviceId, objects[deviceId].common.name, `${deviceId}.occupancy`);
             });
@@ -62,7 +62,7 @@ exports.runTests = function (suite) {
             it('detects Motion Sensor with battery', async () => {
                 const deviceId = 'adapter.0.binary_sensor.motions.WithBatteryWarning';
 
-                const binarySensor = entities.find(e => e.context.id === deviceId);
+                const binarySensor = entities.find(e => e.context.deviceId === deviceId);
                 const battery = entities.find(e => e.context.id === `${deviceId}.batteryWarning`);
                 expect(binarySensor).to.be.ok;
                 expect(battery).to.be.ok;
@@ -72,7 +72,7 @@ exports.runTests = function (suite) {
 
             it('detects Motion Sensor with battery and prevents id clash', async () => {
                 const deviceId = 'adapter.0.binary_sensor.motions.withIdClash';
-                const binarySensor = entities.find(e => e.context.id === deviceId);
+                const binarySensor = entities.find(e => e.context.deviceId === deviceId);
                 const battery = entities.find(e => e.context.id === `${deviceId}.LOW_BAT`);
                 expect(binarySensor).to.be.ok;
                 expect(battery).to.be.ok;
@@ -91,7 +91,7 @@ exports.runTests = function (suite) {
                 const deviceId = 'adapter.0.binary_sensor.firealarms.homematic';
                 const alarmId = 'adapter.0.binary_sensor.firealarms.homematic.1.STATE';
                 const batteryId = 'adapter.0.binary_sensor.firealarms.homematic.1.LOWBAT';
-                const binarySensor = entities.find(e => e.context.id === deviceId);
+                const binarySensor = entities.find(e => e.context.deviceId === deviceId);
                 const battery = entities.find(e => e.context.id === batteryId);
                 expect(binarySensor).to.be.ok;
                 expect(battery).to.be.ok;

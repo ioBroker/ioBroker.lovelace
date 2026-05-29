@@ -32,6 +32,11 @@ class Converter {
    */
   static converters = {};
   /**
+   * Tracks duplicate-iob-id reports already logged this run so we don't spam
+   * the log on every redetection pass.
+   */
+  static _loggedDuplicateIobIds = /* @__PURE__ */ new Set();
+  /**
    * Override in subclasses to return the HA entities for this device type.
    * Called by the base class convert() after resolving forcedEntityId.
    *
@@ -48,8 +53,7 @@ class Converter {
    * @param params - conversion parameters (controls is a single PatternControl)
    */
   static convert(params) {
-    const forcedEntityId = params.entityRegistry.getEntityId(params.id);
-    const entities = this.convertEntities({ ...params, forcedEntityId });
+    const entities = this.convertEntities(params);
     Converter._processEntities(entities, params);
   }
   /**
@@ -84,23 +88,28 @@ class Converter {
    * @param params - conversion parameters
    */
   static _processEntities(entities, params) {
-    var _a, _b;
+    var _a;
     if (!(entities == null ? void 0 : entities.length)) {
       return;
     }
     const { existingEntities, adapter, entityRegistry, controls } = params;
     for (const entity of entities) {
-      if (!((_a = entity == null ? void 0 : entity.context.STATE) == null ? void 0 : _a.getId)) {
+      if (!entity) {
         continue;
       }
-      const stored = entityRegistry.getEntityId(entity.context.STATE.getId);
-      if (stored) {
-        entity.entity_id = stored;
+      const reserved = entityRegistry.getReservedEntityId(Converter._registryKey(entity));
+      if (reserved) {
+        entity.entity_id = reserved;
       }
     }
     const mainEntity = entities.find((x) => x == null ? void 0 : x.entity_id);
     if (mainEntity) {
       entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
+    }
+    for (const entity of entities) {
+      if (((_a = entity == null ? void 0 : entity.context.STATE) == null ? void 0 : _a.getId) && entity.context.STATE.getId !== entity.context.id) {
+        entity.context.id = entity.context.STATE.getId;
+      }
     }
     for (const entity of entities) {
       if (!entity) {
@@ -112,25 +121,59 @@ class Converter {
       const existing = existingEntities.find((e) => e.entity_id === entity.entity_id);
       if (existing) {
         if (entity.context.id !== existing.context.id) {
-          entity.entity_id = `${entity.entity_id}_${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
+          const newId = Converter._resolveCollision(entity, existingEntities);
           adapter.log.debug(
-            `Duplicates found for ${existing.entity_id}, solved by renaming second to ${entity.entity_id}`
+            `Duplicates found for ${existing.entity_id}, solved by renaming second to ${newId}`
           );
+          entity.entity_id = newId;
         } else {
-          adapter.log.warn(
-            `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${controls.type}, ${params.id}`
-          );
+          const dupKey = `${entity.entity_id}|${entity.context.id}`;
+          if (!Converter._loggedDuplicateIobIds.has(dupKey)) {
+            Converter._loggedDuplicateIobIds.add(dupKey);
+            adapter.log.info(
+              `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${controls.type}, ${params.id}`
+            );
+          }
           continue;
         }
       }
-      if ((_b = entity.context.STATE) == null ? void 0 : _b.getId) {
-        entityRegistry.storeEntityId(entity.context.STATE.getId, entity.entity_id);
-      }
+      entityRegistry.reserveEntityId(Converter._registryKey(entity), entity.entity_id);
       existingEntities.push(entity);
       adapter.log.debug(
         `[Type-Detector] Created auto device: ${entity.entity_id} - ${controls.type} - ${params.id}`
       );
     }
+  }
+  /**
+   * Build the registry composite key for an entity:
+   * `${entityType}.${STATE.getId ?? context.id}`.
+   * Works before or after the context.id rewrite step.
+   *
+   * @param entity - entity to derive the key for
+   */
+  static _registryKey(entity) {
+    var _a, _b;
+    const type = entity.entity_id.split(".")[0];
+    const stableId = (_b = (_a = entity.context.STATE) == null ? void 0 : _a.getId) != null ? _b : entity.context.id;
+    return `${type}.${stableId}`;
+  }
+  /**
+   * Generate a deterministic, non-colliding entity_id for an entity that clashes
+   * with an existing entity_id. Uses the last segment of context.id as suffix,
+   * falling back to a counter if the suffix-augmented id still collides.
+   *
+   * @param entity - entity needing a new entity_id (its current entity_id collides)
+   * @param existingEntities - already-registered entities to check against
+   */
+  static _resolveCollision(entity, existingEntities) {
+    const base = entity.entity_id;
+    const lastSeg = entity.context.id.split(".").pop().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+    let candidate = lastSeg ? `${base}_${lastSeg}` : `${base}_2`;
+    let counter = 2;
+    while (existingEntities.some((e) => e.entity_id === candidate)) {
+      candidate = lastSeg ? `${base}_${lastSeg}_${counter++}` : `${base}_${counter++}`;
+    }
+    return candidate;
   }
   /**
    * Generate indicator entities (battery, connectivity, error, maintenance, working)

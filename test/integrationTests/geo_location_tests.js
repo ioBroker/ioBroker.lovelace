@@ -42,7 +42,7 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.geo_location.twoStates';
             const deviceObj = objects[deviceId];
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'geo_location', deviceId, deviceObj.name);
 
@@ -88,7 +88,7 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.geo_location.singleState';
             const deviceObj = objects[deviceId];
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'geo_location', deviceId, deviceObj.name);
 

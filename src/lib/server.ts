@@ -3145,9 +3145,9 @@ class WebServer {
             // we have an entity that is missing its object -> need to delete.
             let deleted = false;
             for (let i = entities.length - 1; i >= 0; i--) {
-                // if main object of an entity is deleted, delete entity, too. Otherwise update of device should handle it.
+                // if main object of an entity (or its device root) is deleted, delete entity, too.
                 const entity = entities[i];
-                if (entity.context.id === id) {
+                if (entity.context.id === id || entity.context.deviceId === id) {
                     entity.unregister();
                     this.log.debug(`Object ${id} deleted, ${entity.entity_id} with deleted, too.`);
                     entities.splice(i, 1);
@@ -3163,7 +3163,7 @@ class WebServer {
                     `Processing change in ${id} with manual settings, removing ${entities.length} old entities in order to recreate.`,
                 );
                 for (const entity of entities) {
-                    if (entity.isManual || entity.context.id === id) {
+                    if (entity.isManual || entity.context.id === id || entity.context.deviceId === id) {
                         entity.unregister();
                     }
                 }
@@ -3178,11 +3178,14 @@ class WebServer {
 
             // check what type-detector says to this object(s), if we are allowed to process it automatically:
             if (!idsAutomaticallyProcessed.has(id)) {
-                // Unregister old entities whose main ioBroker id is this one, so they don't
-                // linger in the caches when the new entity gets a different entity_id.
+                // Unregister old entities whose device root (or own main id) is this one,
+                // so they don't linger in the caches when the new entity gets a different entity_id.
+                // Sub-state object changes (id != device root) leave entities alone — they
+                // can't be auto-recreated from a leaf state, and the parent device update
+                // path is responsible for full recreation.
                 let unregisteredAny = false;
                 for (const oldEntity of [...entities]) {
-                    if (oldEntity.context.id === id) {
+                    if (oldEntity.context.deviceId === id) {
                         oldEntity.unregister();
                         unregisteredAny = true;
                     }
@@ -3239,7 +3242,9 @@ class WebServer {
                     for (const entity of affectedEntities) {
                         if (entity) {
                             this.log.debug(`${id} changed, ${entity.entity_id} affected.`);
-                            this._markForUpdate(entity.context.id);
+                            // Mark the device root for re-evaluation; context.id may be a state id
+                            // (when STATE.getId is set) which would not be re-detected on its own.
+                            this._markForUpdate(entity.context.deviceId || entity.context.id);
                         }
                     }
                     for (const id of ids) {
@@ -3257,7 +3262,9 @@ class WebServer {
                     for (const entity of affectedEntities) {
                         if (entity) {
                             this.log.debug(`${id} changed, ${entity.entity_id} affected.`);
-                            this._markForUpdate(entity.context.id);
+                            // Mark the device root for re-evaluation; context.id may be a state id
+                            // (when STATE.getId is set) which would not be re-detected on its own.
+                            this._markForUpdate(entity.context.deviceId || entity.context.id);
                         }
                     }
                     for (const id of ids) {

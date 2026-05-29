@@ -29,13 +29,13 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.light.OnlyOnOff'; //working on onOffLamp.
             const deviceObj = JSON.parse(JSON.stringify(objects[deviceId]));
 
-            const onOffLamp = entities.find(e => e.context.id === deviceId);
+            const onOffLamp = entities.find(e => e.context.deviceId === deviceId);
             expect(onOffLamp).to.be.ok;
             expect(onOffLamp).has.nested.property('attributes.friendly_name', deviceObj.common.smartName);
 
             deviceObj.common.smartName = 'Smartname changed';
             const newEntities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
-            const newOnOffLamp = newEntities.find(e => e.context.id === deviceId);
+            const newOnOffLamp = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newOnOffLamp).to.be.ok;
             expect(newOnOffLamp).has.nested.property('attributes.friendly_name', deviceObj.common.smartName);
         });
@@ -45,13 +45,13 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.light.OnlyOnOff'; //working on onOffLamp.
             const deviceObj = JSON.parse(JSON.stringify(objects[deviceId]));
 
-            const onOffLamp = entities.find(e => e.context.id === deviceId);
+            const onOffLamp = entities.find(e => e.context.deviceId === deviceId);
             expect(onOffLamp).to.be.ok;
             expect(onOffLamp).has.nested.property('attributes.friendly_name', deviceObj.common.smartName);
 
             deviceObj.common.name = 'Name changed';
             const newEntities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
-            const newOnOffLamp = newEntities.find(e => e.context.id === deviceId);
+            const newOnOffLamp = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newOnOffLamp).to.be.ok;
             expect(newOnOffLamp).has.nested.property('attributes.friendly_name', deviceObj.common.smartName);
         });
@@ -62,13 +62,13 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.binary_sensor.motions.zigbee'; //working on sensor.
             const deviceObj = objects[deviceId];
 
-            const sensor = entities.find(e => e.context.id === deviceId);
+            const sensor = entities.find(e => e.context.deviceId === deviceId);
             expect(sensor).to.be.ok;
             expect(sensor).has.nested.property('attributes.friendly_name', deviceObj.common.name);
 
             deviceObj.common.name = 'Name changed';
             const newEntities = await tools.waitForEntitiesUpdate(harness, [deviceObj]);
-            const newSensor = newEntities.find(e => e.context.id === deviceId);
+            const newSensor = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newSensor).to.be.ok;
             expect(newSensor).has.nested.property('attributes.friendly_name', deviceObj.common.name);
         });
@@ -77,14 +77,14 @@ exports.runTests = function (suite) {
         idsWithEnums.push('adapter.0.light.rgbSingleWithHue');
         it('should switch lamp from rgb to hue if rgb state deleted', async () => {
             const deviceId = 'adapter.0.light.rgbSingleWithHue'; //working on color lamp
-            const lamp = entities.find(e => e.context.id === deviceId);
+            const lamp = entities.find(e => e.context.deviceId === deviceId);
             expect(lamp).to.be.ok;
             expect(lamp).to.have.nested.property('context.iobType', 'rgbSingle');
 
             await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
             await harness.objects.delObjectAsync(`${deviceId}.color`);
             const newEntities = await tools.waitForEntitiesUpdate(harness, []);
-            const newLamp = newEntities.find(e => e.context.id === deviceId);
+            const newLamp = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newLamp).to.be.ok;
             expect(newLamp).to.have.nested.property('context.iobType', 'hue');
         });
@@ -92,7 +92,7 @@ exports.runTests = function (suite) {
         //uses '../testData/binary_sensor_motion_zigbee.json'
         it('should delete entity if objects deleted', async () => {
             const deviceId = 'adapter.0.binary_sensor.motions.zigbee';
-            const shouldBeThere = entities.find(e => e.context.id === deviceId);
+            const shouldBeThere = entities.find(e => e.context.deviceId === deviceId);
             expect(shouldBeThere).to.be.ok;
 
             await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
@@ -102,7 +102,7 @@ exports.runTests = function (suite) {
                 }
             }
             const newEntities = await tools.waitForEntitiesUpdate(harness, []);
-            const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
+            const shouldNotBeThere = newEntities.find(e => e.context.deviceId === deviceId);
             expect(shouldNotBeThere).to.not.be.ok;
         });
 
@@ -110,7 +110,7 @@ exports.runTests = function (suite) {
         idsWithEnums.push('adapter.0.light.ColorTemp');
         it('should delete entity if removed from function enum', async () => {
             const deviceId = 'adapter.0.light.ColorTemp';
-            const shouldBeThere = entities.find(e => e.context.id === deviceId);
+            const shouldBeThere = entities.find(e => e.context.deviceId === deviceId);
             expect(shouldBeThere).to.be.ok;
 
             const funcEnum = await harness.objects.getObjectAsync('enum.functions.testfunc');
@@ -118,7 +118,7 @@ exports.runTests = function (suite) {
             funcEnum.common.members.splice(foundIndex, 1);
 
             const newEntities = await tools.waitForEntitiesUpdate(harness, [funcEnum]);
-            const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
+            const shouldNotBeThere = newEntities.find(e => e.context.deviceId === deviceId);
             expect(shouldNotBeThere).to.not.be.ok;
         });
 
@@ -126,7 +126,7 @@ exports.runTests = function (suite) {
         idsWithEnums.push('adapter.0.light.BrightnessWithState');
         it('should delete entity if removed from room enum', async () => {
             const deviceId = 'adapter.0.light.BrightnessWithState';
-            const shouldBeThere = entities.find(e => e.context.id === deviceId);
+            const shouldBeThere = entities.find(e => e.context.deviceId === deviceId);
             expect(shouldBeThere).to.be.ok;
 
             const roomEnum = await harness.objects.getObjectAsync('enum.rooms.testroom');
@@ -135,7 +135,7 @@ exports.runTests = function (suite) {
             await harness.objects.setObjectAsync(roomEnum._id, roomEnum);
 
             const newEntities = await tools.waitForEntitiesUpdate(harness, [roomEnum]);
-            const shouldNotBeThere = newEntities.find(e => e.context.id === deviceId);
+            const shouldNotBeThere = newEntities.find(e => e.context.deviceId === deviceId);
             expect(shouldNotBeThere).to.not.be.ok;
         });
 
@@ -145,9 +145,9 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.light.rgbSingleWithHue';
             const deviceId2 = 'adapter.0.light.OnlyOnOff';
             const entities = await tools.waitForEntitiesUpdate(harness, [objects[deviceId], objects[deviceId2]]);
-            const shouldBeThere = entities.find(e => e.context.id === deviceId);
+            const shouldBeThere = entities.find(e => e.context.deviceId === deviceId);
             expect(shouldBeThere).to.be.ok;
-            expect(entities.find(e => e.context.id === deviceId2)).to.be.ok;
+            expect(entities.find(e => e.context.deviceId === deviceId2)).to.be.ok;
 
             //move deviceId from test room to new created room:
             const roomEnum = await harness.objects.getObjectAsync('enum.rooms.testroom');
@@ -173,8 +173,8 @@ exports.runTests = function (suite) {
                 funcEnum,
                 secondFuncEnum,
             ]);
-            expect(newEntities.find(e => e.context.id === deviceId)).to.be.ok;
-            expect(newEntities.find(e => e.context.id === deviceId2)).to.be.ok;
+            expect(newEntities.find(e => e.context.deviceId === deviceId)).to.be.ok;
+            expect(newEntities.find(e => e.context.deviceId === deviceId2)).to.be.ok;
         });
     });
 };

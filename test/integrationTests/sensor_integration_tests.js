@@ -34,13 +34,13 @@ exports.runTests = function (suite) {
                 const deviceId2 = 'adapter.0.sensor.zigbee_with_temp_and_humidity_clash_second';
 
                 const t1 = entities.find(
-                    e => e.context.id === deviceId1 && e.attributes.device_class === 'temperature',
+                    e => e.context.deviceId === deviceId1 && e.attributes.device_class === 'temperature',
                 );
                 const t2 = entities.find(
-                    e => e.context.id === deviceId2 && e.attributes.device_class === 'temperature',
+                    e => e.context.deviceId === deviceId2 && e.attributes.device_class === 'temperature',
                 );
-                const h1 = entities.find(e => e.context.id === deviceId1 && e.attributes.device_class === 'humidity');
-                const h2 = entities.find(e => e.context.id === deviceId2 && e.attributes.device_class === 'humidity');
+                const h1 = entities.find(e => e.context.deviceId === deviceId1 && e.attributes.device_class === 'humidity');
+                const h2 = entities.find(e => e.context.deviceId === deviceId2 && e.attributes.device_class === 'humidity');
                 expect(t1).to.be.ok;
                 expect(t2).to.be.ok;
                 expect(h1).to.be.ok;

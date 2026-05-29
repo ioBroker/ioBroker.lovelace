@@ -27,7 +27,7 @@ exports.runTests = function (suite) {
         jsonFiles.push('../testData/binary_sensor_custom_settings.json');
         it('entity should be created', async () => {
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'binary_sensor', deviceId, objects[deviceId].common.name, { getId: deviceId });
             expect(entity).to.have.nested.property('attributes.device_class', 'connectivity');
@@ -36,7 +36,7 @@ exports.runTests = function (suite) {
         jsonFiles.push('../testData/custom_test_no_custom.json');
         it('entity should not be created', async () => {
             const deviceId = 'adapter.0.binary_sensor.motions.withoutCustom';
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.not.ok;
         });
 
@@ -47,13 +47,13 @@ exports.runTests = function (suite) {
                 JSON.stringify(objects['adapter.0.binary_sensor.motions.withCustom'].common.custom),
             );
             custom.name = 'binary_sensor_without_custom';
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.not.ok;
 
             const obj = JSON.parse(JSON.stringify(objects[deviceId]));
             obj.common.custom = custom;
             const newEntities = await tools.waitForEntitiesUpdate(harness, [obj]);
-            const newEntity = newEntities.find(e => e.context.id === deviceId);
+            const newEntity = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newEntity).to.be.ok;
         });
 
@@ -71,7 +71,7 @@ exports.runTests = function (suite) {
                 },
             };
             const newEntities = await tools.waitForEntitiesUpdate(harness, [obj]);
-            const newEntity = newEntities.find(e => e.context.id === deviceId);
+            const newEntity = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newEntity).to.be.ok;
             tools.expectEntity(newEntity, 'binary_sensor', deviceId, objects[deviceId].common.name, {
                 getId: deviceId,
@@ -86,7 +86,7 @@ exports.runTests = function (suite) {
             const obj = JSON.parse(JSON.stringify(objects[deviceId]));
             obj.common.custom['lovelace.0'] = null;
             const newEntities = await tools.waitForEntitiesUpdate(harness, [obj]);
-            const newEntity = newEntities.find(e => e.context.id === deviceId);
+            const newEntity = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newEntity).to.be.not.ok;
         });
 
@@ -95,26 +95,26 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             const entities = await tools.waitForEntitiesUpdate(harness, [objects[deviceId]]);
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
 
             await harness.states.setStateAsync('lovelace.0.info.entitiesUpdated', false);
             await harness.objects.delObjectAsync(deviceId);
             const newEntities = await tools.waitForEntitiesUpdate(harness, []);
-            const newEntity = newEntities.find(e => e.context.id === deviceId);
+            const newEntity = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newEntity).to.be.not.ok;
         });
 
         it('entity should stay if object changed but keeps custom', async () => {
             const deviceId = 'adapter.0.binary_sensor.motions.withCustom';
             const entities = await tools.waitForEntitiesUpdate(harness, [objects[deviceId]]);
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
 
             const obj = objects[deviceId];
             obj.common.name = 'New Name';
             const newEntities = await tools.waitForEntitiesUpdate(harness, [obj]);
-            const newEntity = newEntities.find(e => e.context.id === deviceId);
+            const newEntity = newEntities.find(e => e.context.deviceId === deviceId);
             expect(newEntity).to.be.ok;
             expect(newEntity).to.have.nested.property('attributes.friendly_name', 'New Name');
         });
@@ -128,11 +128,11 @@ exports.runTests = function (suite) {
             await harness.objects.setObjectAsync('enum.rooms.testroom', enums['enum.rooms.testroom']);
             await harness.objects.setObjectAsync('enum.functions.testfunc', enums['enum.functions.testfunc']);
             const entities = await tools.waitForEntitiesUpdate(harness, [objects[deviceId]]);
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             expect(entity).to.have.nested.property('attributes.device_class', 'connectivity'); //should not be window as auto detected!!
             // exactly one entity for this device — manual entity must have displaced the auto-detected one
-            expect(entities.filter(e => e.context.id === deviceId)).to.have.lengthOf(1);
+            expect(entities.filter(e => e.context.deviceId === deviceId)).to.have.lengthOf(1);
         });
 
         jsonFiles.push('../testData/binary_sensor_custom_different_name.json');
@@ -174,7 +174,7 @@ exports.runTests = function (suite) {
             const remainingAutoEntity = entities.find(e => e.entity_id === 'binary_sensor.different_name_auto');
             expect(remainingAutoEntity).to.be.not.ok;
             // exactly one entity for deviceId
-            expect(entities.filter(e => e.context.id === deviceId)).to.have.lengthOf(1);
+            expect(entities.filter(e => e.context.deviceId === deviceId)).to.have.lengthOf(1);
         });
     });
 };

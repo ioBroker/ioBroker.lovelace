@@ -200,7 +200,9 @@ exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, val
         expect(entity).to.have.nested.property('attributes.friendly_name', name);
     }
     expect(entity).to.have.nested.property('context.STATE');
-    expect(entity).to.have.nested.property('context.id', ioBrokerDeviceId);
+    // ioBrokerDeviceId is either the device root (main entity) or the state id (indicator).
+    // context.id holds the state id when STATE.getId is set, otherwise the device root.
+    expect(entity.context.id === ioBrokerDeviceId || entity.context.deviceId === ioBrokerDeviceId).to.be.true;
     expect(entity).to.have.nested.property('context.type', entityType);
     if (values && values.getId) {
         expect(entity).to.have.nested.property('context.STATE.getId', values.getId);
@@ -210,6 +212,20 @@ exports.expectEntity = function (entity, entityType, ioBrokerDeviceId, name, val
     }
     expect(entity).to.have.property('entity_id');
     expect(entity.entity_id.startsWith(`${entityType}.`)).to.be.true;
+};
+
+const INDICATOR_IOB_TYPES = /^(LOWBAT|UNREACH|OFFLINE|CONNECTED|ERROR|MAINTAIN|WORKING)$/;
+
+/**
+ * Find the main (non-indicator) entity for a given ioBroker device id.
+ * Indicator entities (battery / connectivity / error / maintenance / working) share
+ * the same context.deviceId as the main entity; filter them out by their iobType.
+ *
+ * @param {Array<object>} entities - entity list from the adapter
+ * @param {string} deviceId - ioBroker device root id
+ */
+exports.findMain = function (entities, deviceId) {
+    return entities.find(e => e.context.deviceId === deviceId && !INDICATOR_IOB_TYPES.test(e.context.iobType));
 };
 
 /**

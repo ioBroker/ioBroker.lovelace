@@ -1,6 +1,18 @@
 "use strict";
 class EntityRegistry {
+  /**
+   * Frontend registry entries keyed by HA entity_id. Holds per-entity overrides
+   * (name, icon, device_class, area_id, ...) set via the frontend's
+   * `config/entity_registry/update` message.
+   */
   _entries = {};
+  /**
+   * Composite-key → HA entity_id index for deterministic clash resolution.
+   * Key format: `${entityType}.${stableIobId}` where stableIobId is STATE.getId
+   * when set, otherwise context.id. Survives restarts so colliding entities keep
+   * their generated entity_ids.
+   */
+  _iobIdToEntityId = {};
   _entityCategories = { 0: "config", 1: "diagnostic" };
   adapter;
   entityData;
@@ -130,7 +142,7 @@ class EntityRegistry {
       return;
     }
     if (!entry) {
-      entry = this._entries[entity.context.id];
+      entry = this._entries[entity.entity_id];
       if (!entry) {
         return;
       }
@@ -153,27 +165,23 @@ class EntityRegistry {
     }
   }
   /**
-   * Get the entity id from the ioBroker id.
-   * Returns a previously persisted entity_id for the given ioBroker state id.
+   * Look up a reserved entity_id for a composite key.
+   * Key format: `${entityType}.${stableIobId}`.
    *
-   * @param iobId - ioBroker object id
+   * @param key - composite key
    */
-  getEntityId(iobId) {
-    var _a;
-    return (_a = this._entries[iobId]) == null ? void 0 : _a.entity_id;
+  getReservedEntityId(key) {
+    return this._iobIdToEntityId[key];
   }
   /**
-   * Persist an entity_id for the given ioBroker state id so it survives adapter restarts.
+   * Reserve an entity_id under a composite key for deterministic clash resolution.
+   * Key format: `${entityType}.${stableIobId}`.
    *
-   * @param iobId - ioBroker object id
-   * @param entityId - HA entity id to store
+   * @param key - composite key
+   * @param entityId - HA entity id to reserve
    */
-  storeEntityId(iobId, entityId) {
-    if (this._entries[iobId]) {
-      this._entries[iobId].entity_id = entityId;
-    } else {
-      this._entries[iobId] = { entity_id: entityId };
-    }
+  reserveEntityId(key, entityId) {
+    this._iobIdToEntityId[key] = entityId;
   }
   /**
    * Process incoming messages from the frontend.
@@ -182,6 +190,7 @@ class EntityRegistry {
    * @param message - the message from the frontend
    */
   processMessage(ws, message) {
+    var _a, _b;
     if (message.type === "config/entity_registry/list_for_display") {
       const entities = [];
       for (const entity of this.entityData.entities) {
@@ -267,7 +276,21 @@ class EntityRegistry {
         changes[key] = entityWithId[key] || null;
         entityWithId[key] = newData[key];
         if (key === "new_entity_id") {
-          entity.unregister(newData[key]);
+          const oldEntityId = entity.entity_id;
+          const newEntityId = newData[key];
+          const stableIobId = (_b = (_a = entity.context.STATE) == null ? void 0 : _a.getId) != null ? _b : entity.context.id;
+          const oldKey = `${oldEntityId.split(".")[0]}.${stableIobId}`;
+          const newKey = `${newEntityId.split(".")[0]}.${stableIobId}`;
+          delete this._iobIdToEntityId[oldKey];
+          this._iobIdToEntityId[newKey] = newEntityId;
+          if (this._entries[oldEntityId]) {
+            this._entries[newEntityId] = this._entries[oldEntityId];
+            delete this._entries[oldEntityId];
+          } else {
+            this._entries[newEntityId] = entityWithId;
+          }
+          entityWithId.entity_id = newEntityId;
+          entity.unregister(newEntityId);
           delete entityWithId.new_entity_id;
         }
       }
@@ -302,7 +325,8 @@ class EntityRegistry {
   async loadEntityRegistry() {
     const storage = await this.adapter.getObjectAsync("entityRegistry");
     const native = storage == null ? void 0 : storage.native;
-    this._entries = (native == null ? void 0 : native.entities) || {};
+    this._entries = (native == null ? void 0 : native.entries) || {};
+    this._iobIdToEntityId = (native == null ? void 0 : native.iobIdToEntityId) || {};
     this._entityCategories = (native == null ? void 0 : native.entityCategories) || {
       0: "config",
       1: "diagnostic"
@@ -316,7 +340,8 @@ class EntityRegistry {
     if (!storage.native) {
       storage.native = {};
     }
-    storage.native.entities = this._entries;
+    storage.native.entries = this._entries;
+    storage.native.iobIdToEntityId = this._iobIdToEntityId;
     storage.native.entityCategories = this._entityCategories;
     await this.adapter.setObject("entityRegistry", storage);
   }
@@ -332,7 +357,36 @@ class EntityRegistry {
    */
   async init() {
     await this.loadEntityRegistry();
+    await this.cleanupStaleReservations();
     this.adapter.log.debug("modules/entityRegistry: init done.");
+  }
+  /**
+   * Drop reservations whose ioBroker object no longer exists.
+   * Handles deletes that happened while the adapter wasn't running.
+   */
+  async cleanupStaleReservations() {
+    const stale = [];
+    for (const key of Object.keys(this._iobIdToEntityId)) {
+      const dotIdx = key.indexOf(".");
+      if (dotIdx < 0) {
+        stale.push(key);
+        continue;
+      }
+      const iobId = key.substring(dotIdx + 1);
+      try {
+        const obj = await this.adapter.getForeignObjectAsync(iobId);
+        if (!obj) {
+          stale.push(key);
+        }
+      } catch {
+      }
+    }
+    for (const key of stale) {
+      delete this._iobIdToEntityId[key];
+    }
+    if (stale.length) {
+      this.adapter.log.debug(`Dropped ${stale.length} stale entity_id reservation(s).`);
+    }
   }
 }
 module.exports = EntityRegistry;

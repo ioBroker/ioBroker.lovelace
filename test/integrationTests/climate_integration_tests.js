@@ -32,7 +32,7 @@ exports.runTests = function (suite) {
                 const deviceId = 'adapter.0.climate.thermostat.No_Mode';
                 const deviceObj = objects[deviceId];
 
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name, {
                     getId: `${deviceId}.power`,
@@ -75,7 +75,7 @@ exports.runTests = function (suite) {
                 //2
                 const deviceId = 'adapter.0.climate.thermostat.target_power_current_temp';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name, {
                     getId: `${deviceId}.power`,
@@ -121,7 +121,7 @@ exports.runTests = function (suite) {
                 //3
                 const deviceId = 'adapter.0.climate.thermostat.target_power_humidity';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name, {
                     getId: `${deviceId}.power`,
@@ -187,7 +187,7 @@ exports.runTests = function (suite) {
                 //4
                 const deviceId = 'adapter.0.climate.thermostat.target_power_current_temp_humidity';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name, {
                     getId: `${deviceId}.power`,
@@ -259,7 +259,7 @@ exports.runTests = function (suite) {
                 //5
                 const deviceId = 'adapter.0.climate.thermostat.Minimal';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -307,7 +307,7 @@ exports.runTests = function (suite) {
                 //6
                 const deviceId = 'adapter.0.climate.thermostat.ModeDefault';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -351,7 +351,7 @@ exports.runTests = function (suite) {
                 //7
                 const deviceId = 'adapter.0.climate.thermostat.ModeFull';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -450,7 +450,7 @@ exports.runTests = function (suite) {
                 const deviceId = 'adapter.0.climate.thermostat.ModeAndPower';
                 const deviceObj = objects[deviceId];
 
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -582,7 +582,7 @@ exports.runTests = function (suite) {
                 //9
                 const deviceId = 'adapter.0.climate.thermostat.WithBoostAndParty';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -699,7 +699,7 @@ exports.runTests = function (suite) {
                 //1
                 const deviceId = 'adapter.0.aircondition.ModeAndFan';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -794,7 +794,7 @@ exports.runTests = function (suite) {
                 //2
                 const deviceId = 'adapter.0.aircondition.ModeAndSwing';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -882,7 +882,7 @@ exports.runTests = function (suite) {
                 //3
                 const deviceId = 'adapter.0.aircondition.mode_full_and_fan_without_states';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -970,7 +970,7 @@ exports.runTests = function (suite) {
                 //4
                 const deviceId = 'adapter.0.aircondition.mode_full_and_swing_without_states';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -1053,7 +1053,7 @@ exports.runTests = function (suite) {
                 //5
                 const deviceId = 'adapter.0.aircondition.Full';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -1081,7 +1081,7 @@ exports.runTests = function (suite) {
                 //6
                 const deviceId = 'adapter.0.aircondition.BinarySwing';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 
@@ -1152,7 +1152,7 @@ exports.runTests = function (suite) {
                 //7 uses objects of 5.
                 const deviceId = 'adapter.0.aircondition.Full';
                 const deviceObj = objects[deviceId];
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
 

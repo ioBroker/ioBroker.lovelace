@@ -2615,7 +2615,7 @@ ${hideScript.join("\n")}
       let deleted = false;
       for (let i = entities.length - 1; i >= 0; i--) {
         const entity = entities[i];
-        if (entity.context.id === id) {
+        if (entity.context.id === id || entity.context.deviceId === id) {
           entity.unregister();
           this.log.debug(`Object ${id} deleted, ${entity.entity_id} with deleted, too.`);
           entities.splice(i, 1);
@@ -2629,7 +2629,7 @@ ${hideScript.join("\n")}
           `Processing change in ${id} with manual settings, removing ${entities.length} old entities in order to recreate.`
         );
         for (const entity of entities) {
-          if (entity.isManual || entity.context.id === id) {
+          if (entity.isManual || entity.context.id === id || entity.context.deviceId === id) {
             entity.unregister();
           }
         }
@@ -2644,7 +2644,7 @@ ${hideScript.join("\n")}
       if (!idsAutomaticallyProcessed.has(id)) {
         let unregisteredAny = false;
         for (const oldEntity of [...entities]) {
-          if (oldEntity.context.id === id) {
+          if (oldEntity.context.deviceId === id) {
             oldEntity.unregister();
             unregisteredAny = true;
           }
@@ -2696,7 +2696,7 @@ ${hideScript.join("\n")}
           for (const entity of affectedEntities) {
             if (entity) {
               this.log.debug(`${id} changed, ${entity.entity_id} affected.`);
-              this._markForUpdate(entity.context.id);
+              this._markForUpdate(entity.context.deviceId || entity.context.id);
             }
           }
           for (const id2 of ids) {
@@ -2714,7 +2714,7 @@ ${hideScript.join("\n")}
           for (const entity of affectedEntities) {
             if (entity) {
               this.log.debug(`${id} changed, ${entity.entity_id} affected.`);
-              this._markForUpdate(entity.context.id);
+              this._markForUpdate(entity.context.deviceId || entity.context.id);
             }
           }
           for (const id2 of ids) {

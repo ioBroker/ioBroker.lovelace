@@ -52,13 +52,13 @@ export type ConverterParameters = {
      */
     entityRegistry: {
         /**
-         * Get a previously stored entity_id override for the given ioBroker id.
+         * Look up the reserved entity_id for a composite key (`${entityType}.${stableIobId}`).
          */
-        getEntityId(iobId: string): string | undefined;
+        getReservedEntityId(key: string): string | undefined;
         /**
-         * Persist an entity_id assignment for the given ioBroker id.
+         * Reserve an entity_id under a composite key for deterministic clash resolution.
          */
-        storeEntityId(iobId: string, entityId: string): void;
+        reserveEntityId(key: string, entityId: string): void;
     };
     /**
      * A predetermined entity_id to use, overrides the auto-generated one.
@@ -89,6 +89,12 @@ export class Converter {
     static converters: Partial<Record<Types, typeof Converter>> = {};
 
     /**
+     * Tracks duplicate-iob-id reports already logged this run so we don't spam
+     * the log on every redetection pass.
+     */
+    static _loggedDuplicateIobIds = new Set<string>();
+
+    /**
      * Override in subclasses to return the HA entities for this device type.
      * Called by the base class convert() after resolving forcedEntityId.
      *
@@ -106,8 +112,7 @@ export class Converter {
      * @param params - conversion parameters (controls is a single PatternControl)
      */
     static convert(params: ConverterParameters): void {
-        const forcedEntityId = params.entityRegistry.getEntityId(params.id);
-        const entities = this.convertEntities({ ...params, forcedEntityId });
+        const entities = this.convertEntities(params);
         Converter._processEntities(entities, params);
     }
 
@@ -150,27 +155,36 @@ export class Converter {
         }
         const { existingEntities, adapter, entityRegistry, controls } = params;
 
-        // Step 1: restore any previously persisted entity_ids keyed by STATE.getId.
-        // Must run before indicator generation so indicators derive names from the stable main entity id.
-        // Entities with no STATE.getId (e.g. camera, geo_location) are skipped — their entity_ids are
-        // deterministic and we must not pull a sibling entity's stored id via a shared context.id.
+        // Step 1: restore any previously reserved entity_ids by composite key.
+        // Composite key = `${entityType}.${STATE.getId ?? context.id}`. Stable across restarts.
         for (const entity of entities) {
-            if (!entity?.context.STATE?.getId) {
+            if (!entity) {
                 continue;
             }
-            const stored = entityRegistry.getEntityId(entity.context.STATE.getId);
-            if (stored) {
-                entity.entity_id = stored;
+            const reserved = entityRegistry.getReservedEntityId(Converter._registryKey(entity));
+            if (reserved) {
+                entity.entity_id = reserved;
             }
         }
 
-        // Step 2: add indicator entities for the primary device entity (uses restored entity_id above)
+        // Step 2: add indicator entities for the primary device entity.
+        // Must run before context.id rewrite so indicator.context.deviceId points at the
+        // device root (mainEntity.context.id is still the device id at this point).
         const mainEntity = entities.find((x: BaseEntity | null | undefined) => x?.entity_id);
         if (mainEntity) {
             entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
         }
 
-        // Step 3: duplicate detection, persistence, and registration
+        // Step 3: rewrite context.id to STATE.getId where set. Makes context.id unique per
+        // entity (two sensors from one device get distinct context.ids) and lets the registry
+        // composite key disambiguate clashes.
+        for (const entity of entities) {
+            if (entity?.context.STATE?.getId && entity.context.STATE.getId !== entity.context.id) {
+                entity.context.id = entity.context.STATE.getId;
+            }
+        }
+
+        // Step 4: duplicate detection, deterministic resolution, reservation, registration.
         for (const entity of entities) {
             if (!entity) {
                 continue;
@@ -182,32 +196,66 @@ export class Converter {
             const existing = existingEntities.find(e => e.entity_id === entity.entity_id);
             if (existing) {
                 if (entity.context.id !== existing.context.id) {
-                    // Different ioBroker device — resolve collision by renaming the new entity.
-                    // The existing entity's id was already stored when it was first registered.
-                    entity.entity_id = `${entity.entity_id}_${String.fromCharCode(65 + Math.floor(Math.random() * 26))}${String.fromCharCode(65 + Math.floor(Math.random() * 26))}`;
+                    const newId = Converter._resolveCollision(entity, existingEntities);
                     adapter.log.debug(
-                        `Duplicates found for ${existing.entity_id}, solved by renaming second to ${entity.entity_id}`,
+                        `Duplicates found for ${existing.entity_id}, solved by renaming second to ${newId}`,
                     );
+                    entity.entity_id = newId;
                 } else {
-                    adapter.log.warn(
-                        `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${controls.type}, ${params.id}`,
-                    );
+                    const dupKey = `${entity.entity_id}|${entity.context.id}`;
+                    if (!Converter._loggedDuplicateIobIds.has(dupKey)) {
+                        Converter._loggedDuplicateIobIds.add(dupKey);
+                        adapter.log.info(
+                            `Duplicate entities for identical iob ids? ${entity.entity_id}, ${entity.context.id}, ${controls.type}, ${params.id}`,
+                        );
+                    }
                     continue;
                 }
             }
 
-            // Persist the final entity_id keyed by STATE.getId so it survives restarts.
-            // Skip entities with no STATE.getId (e.g. camera, geo_location) — they have
-            // deterministic entity_ids and must not overwrite a sibling entity's entry via context.id.
-            if (entity.context.STATE?.getId) {
-                entityRegistry.storeEntityId(entity.context.STATE.getId, entity.entity_id);
-            }
-
+            entityRegistry.reserveEntityId(Converter._registryKey(entity), entity.entity_id);
             existingEntities.push(entity);
             adapter.log.debug(
                 `[Type-Detector] Created auto device: ${entity.entity_id} - ${controls.type} - ${params.id}`,
             );
         }
+    }
+
+    /**
+     * Build the registry composite key for an entity:
+     * `${entityType}.${STATE.getId ?? context.id}`.
+     * Works before or after the context.id rewrite step.
+     *
+     * @param entity - entity to derive the key for
+     */
+    static _registryKey(entity: BaseEntity): string {
+        const type = entity.entity_id.split('.')[0];
+        const stableId = entity.context.STATE?.getId ?? entity.context.id;
+        return `${type}.${stableId}`;
+    }
+
+    /**
+     * Generate a deterministic, non-colliding entity_id for an entity that clashes
+     * with an existing entity_id. Uses the last segment of context.id as suffix,
+     * falling back to a counter if the suffix-augmented id still collides.
+     *
+     * @param entity - entity needing a new entity_id (its current entity_id collides)
+     * @param existingEntities - already-registered entities to check against
+     */
+    static _resolveCollision(entity: BaseEntity, existingEntities: BaseEntity[]): string {
+        const base = entity.entity_id;
+        const lastSeg = entity.context.id
+            .split('.')
+            .pop()!
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '_')
+            .replace(/^_+|_+$/g, '');
+        let candidate = lastSeg ? `${base}_${lastSeg}` : `${base}_2`;
+        let counter = 2;
+        while (existingEntities.some(e => e.entity_id === candidate)) {
+            candidate = lastSeg ? `${base}_${lastSeg}_${counter++}` : `${base}_${counter++}`;
+        }
+        return candidate;
     }
 
     /**
