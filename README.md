@@ -479,6 +479,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Geo_location now calculates the distance from home.
 * (Garfonso/Claude) *BREAKING* Remove input_number entity for blinds. If you need it, you can create it manually.
 * (Garfonso/Claude) Add support for additional type-detector types: flood alarm, button (sensor), illuminance, current weather, gate, cie, rgbwSingle
+* (Garfonso) node 22 required now. Please update if you are still on node 18 or 20.
 
 ### 5.0.5 (2025-12-21)
 * (Garfonso) added missing roles to instance objects
