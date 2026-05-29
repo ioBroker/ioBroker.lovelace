@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "5.0.5",
+    "version": "6.0.0",
     "news": {
       "6.0.0": {
         "en": "Migration to TypeScript complete. Please report any regressions.\nImproved loading of images from other adapters.\nReworked entity creation significantly. Should solve duplicate entity issues. Please report any regressions.\ngeo_location now calculates the distance from home as a state.\n*BREAKING* Removed the input_number entity for blinds. You can create it manually if needed.\nAdded support for additional type-detector types: flood alarm, button (sensor), illuminance, current weather, gate, cie, rgbwSingle.",
