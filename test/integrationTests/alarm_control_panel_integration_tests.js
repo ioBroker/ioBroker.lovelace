@@ -30,7 +30,7 @@ exports.runTests = function (suite) {
             const deviceId = 'adapter.0.alarm_control_panel.noArmState';
             const deviceObj = objects[deviceId];
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'alarm_control_panel', deviceId, deviceObj.name);
 

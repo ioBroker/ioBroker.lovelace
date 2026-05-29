@@ -1,0 +1,33 @@
+{
+  "adapter.0.binary_sensor.motions.differentName": {
+    "type": "device",
+    "common": {
+      "name": "different name auto"
+    },
+    "native": {},
+    "_id": "adapter.0.binary_sensor.motions.differentName",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.binary_sensor.motions.differentName.ACTUAL": {
+    "type": "state",
+    "common": {
+      "name": "different name auto state",
+      "read": true,
+      "write": false,
+      "role": "sensor.window",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.binary_sensor.motions.differentName.ACTUAL",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

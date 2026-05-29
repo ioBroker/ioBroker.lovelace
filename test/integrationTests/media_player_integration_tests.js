@@ -30,7 +30,7 @@ exports.runTests = function (suite) {
                 const deviceId = 'adapter.0.media_player.musiccast';
                 //const deviceObj = objects[deviceId];
 
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 //tools.expectEntity(entity, 'media_player', deviceId, deviceObj.name);
                 //TODO: music cast not yet working. Investigate. :-)
@@ -42,7 +42,7 @@ exports.runTests = function (suite) {
                 const deviceId = 'adapter.0.media_player.sonos';
                 const deviceObj = objects[deviceId];
 
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'media_player', deviceId, deviceObj.name);
             });

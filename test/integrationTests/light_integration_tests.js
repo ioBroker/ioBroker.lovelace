@@ -29,7 +29,7 @@ exports.runTests = function (suite) {
             initialStates.push({ id: 'adapter.0.light.OnlyOnOff.state', val: true });
             it('entity for only on/off should be created and switched on/off', async () => {
                 const deviceId = 'adapter.0.light.OnlyOnOff';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
 
@@ -78,7 +78,7 @@ exports.runTests = function (suite) {
             initialStates.push({ id: 'adapter.0.light.BrightnessNoState.brightness', val: 0 });
             it('entity for only brightness', async () => {
                 const deviceId = 'adapter.0.light.BrightnessNoState';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
 
@@ -230,7 +230,7 @@ exports.runTests = function (suite) {
                 await harness.states.setStateAsync(obj._id, 10, true);
                 const entities = await tools.waitForEntitiesUpdate(harness, [obj]);
 
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
 
@@ -363,7 +363,7 @@ exports.runTests = function (suite) {
             );
             it('entity should switch brightness and on/off', async () => {
                 const deviceId = 'adapter.0.light.BrightnessWithState';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
 
@@ -421,7 +421,7 @@ exports.runTests = function (suite) {
             );
             it('entity subscribe and read dimmer brightness actual and on actual', async () => {
                 const deviceId = 'adapter.0.light.BrightnessWithActual';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
 
@@ -500,7 +500,7 @@ exports.runTests = function (suite) {
             );
             it('colortemp kelvin', async () => {
                 const deviceId = 'adapter.0.light.ColorTemp';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
@@ -575,7 +575,7 @@ exports.runTests = function (suite) {
                 await harness.states.setStateAsync(`${deviceId}.state`, true, true);
                 await harness.states.setStateAsync(`${deviceId}.ct`, 183, true);
                 const entities = await tools.waitForEntitiesUpdate(harness, [ctObj]);
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
@@ -628,7 +628,7 @@ exports.runTests = function (suite) {
                 await harness.states.setStateAsync(`${deviceId}.state`, true, true);
                 await harness.states.setStateAsync(`${deviceId}.ct`, 3000, true);
                 const entities = await tools.waitForEntitiesUpdate(harness, [ctObj]);
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
@@ -681,7 +681,7 @@ exports.runTests = function (suite) {
                 await harness.states.setStateAsync(`${deviceId}.state`, true, true);
                 await harness.states.setStateAsync(`${deviceId}.ct`, 153, true);
                 const entities = await tools.waitForEntitiesUpdate(harness, [ctObj]);
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'color_temp');
@@ -729,7 +729,7 @@ exports.runTests = function (suite) {
             );
             it('color lamp rgbSingle', async () => {
                 const deviceId = 'adapter.0.light.rgbSingle';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'rgb_color');
@@ -817,7 +817,7 @@ exports.runTests = function (suite) {
             );
             it('color lamp hue and saturation', async () => {
                 const deviceId = 'adapter.0.light.Hue';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
 
@@ -897,7 +897,7 @@ exports.runTests = function (suite) {
                 const entities = await tools.waitForEntitiesUpdate(harness, [obj]); //recreate entity.
                 await tools.addEntitiesToConfiguration(harness, entities);
 
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
 
@@ -968,7 +968,7 @@ exports.runTests = function (suite) {
             );
             it('color lamp rgbw', async () => {
                 const deviceId = 'adapter.0.light.rgbw';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
 
@@ -1015,7 +1015,7 @@ exports.runTests = function (suite) {
             initialStates.push({ id: 'adapter.0.light.CustomBrightness', val: 0 });
             it('custom brightness should control on/off correctly', async () => {
                 const deviceId = 'adapter.0.light.CustomBrightness';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
 
                 expect(entity).to.have.property('state', 'off');
@@ -1110,7 +1110,7 @@ exports.runTests = function (suite) {
             initialStates.push({ id: 'adapter.0.light.Custom', val: false });
             it('custom state should control correctly', async () => {
                 const deviceId = 'adapter.0.light.Custom';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
 
                 expect(entity).to.have.property('state', 'off');
@@ -1165,7 +1165,7 @@ exports.runTests = function (suite) {
             );
             it('zigbee rgbSingle should be controllable', async () => {
                 const deviceId = 'zigbee.0.zigbeeColor'; //MUST start with zigbee in order to have working zigbee workaround.
-                const entity = entities.find(e => e.context.id === deviceId && e.entity_id.startsWith('light')); //prevent device_query.
+                const entity = entities.find(e => e.context.deviceId === deviceId && e.entity_id.startsWith('light')); //prevent device_query.
                 expect(entity).to.be.ok;
                 tools.expectEntity(entity, 'light', deviceId);
                 const ctAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'rgb_color');
@@ -1254,7 +1254,7 @@ exports.runTests = function (suite) {
             );
             it('wled does not work', async () => {
                 const deviceId = 'adapter.0.light.wled_rgbw';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 if (entity) {
                     //detects something, but no light...
                     expect(entity.entity_id).to.not.include('light.');
@@ -1268,7 +1268,7 @@ exports.runTests = function (suite) {
                 //TODO: color_temp has wrong role, or no role at all...
                 //TODO: color seems to be rgbw -> needs new type. But expects rgb(R,G,B,W) as string.. strange.
                 const deviceId = 'adapter.0.light.homematic_color';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
 
                 const rgbAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'rgb_color');
@@ -1286,7 +1286,7 @@ exports.runTests = function (suite) {
             initialStates.push({ id: 'adapter.0.light.homematic_color.LEVEL', val: 100 });
             it('hue color is correclty created', async () => {
                 const deviceId = 'adapter.0.light.hue_color';
-                const entity = entities.find(e => e.context.id === deviceId);
+                const entity = entities.find(e => e.context.deviceId === deviceId);
                 expect(entity).to.be.ok;
 
                 const rgbAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'red');

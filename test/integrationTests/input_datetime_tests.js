@@ -27,7 +27,7 @@ exports.runTests = function (suite) {
         const deviceId = 'adapter.0.input_datetime.custom_test';
         it('input_datetime should be created and controllable', async () => {
             const deviceObj = objects[deviceId];
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_datetime', deviceId, deviceObj.name);
 
@@ -85,7 +85,7 @@ exports.runTests = function (suite) {
             deviceObj.common.custom['lovelace.0'].has_date = false;
             const entities = await waitForEntitiesUpdate(harness, [deviceObj]); //update attribute.
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_datetime', deviceId, deviceObj.name);
             expect(entity).to.have.nested.property('attributes.has_time', true);
@@ -98,7 +98,7 @@ exports.runTests = function (suite) {
             deviceObj.common.custom['lovelace.0'].attr_has_date = false;
             const entities = await waitForEntitiesUpdate(harness, [deviceObj]); //update attribute.
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_datetime', deviceId, deviceObj.name);
 
@@ -112,7 +112,7 @@ exports.runTests = function (suite) {
             deviceObj.common.custom['lovelace.0'].attr_has_time = true;
             const entities = await waitForEntitiesUpdate(harness, [deviceObj]); //update attribute.
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_datetime', deviceId, deviceObj.name);
 
@@ -126,7 +126,7 @@ exports.runTests = function (suite) {
             deviceObj.common.custom['lovelace.0'].attr_has_time = false;
             const entities = await waitForEntitiesUpdate(harness, [deviceObj]); //update attribute.
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_datetime', deviceId, deviceObj.name);
 
@@ -140,7 +140,7 @@ exports.runTests = function (suite) {
             await harness.states.setStateAsync(deviceId, 0, true);
             const entities = await waitForEntitiesUpdate(harness, [deviceObj]); //update attribute.
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_datetime', deviceId, deviceObj.name);
 
@@ -185,7 +185,7 @@ exports.runTests = function (suite) {
             await harness.states.setStateAsync(deviceId, 0, true);
             const entities = await waitForEntitiesUpdate(harness, [deviceObj]); //update attribute.
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_datetime', deviceId, deviceObj.name);
 
@@ -243,7 +243,7 @@ exports.runTests = function (suite) {
             await harness.states.setStateAsync(deviceId, '2022-04-10 13:15', true);
             const entities = await waitForEntitiesUpdate(harness, [deviceObj]); //update attribute.
 
-            const entity = entities.find(e => e.context.id === deviceId);
+            const entity = entities.find(e => e.context.deviceId === deviceId);
             expect(entity).to.be.ok;
             tools.expectEntity(entity, 'input_datetime', deviceId, deviceObj.name);
 

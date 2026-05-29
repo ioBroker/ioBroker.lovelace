@@ -1,0 +1,6 @@
+{
+    "typescriptOutDir": "build",
+    "typescriptRaw": {
+        "outbase": "src"
+    }
+}
