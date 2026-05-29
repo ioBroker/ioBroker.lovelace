@@ -24,6 +24,20 @@ module.exports = __toCommonJS(coverEntity_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_baseEntity = require("./baseEntity");
 const adapterData = require("../../../lib/dataSingleton");
+class CoverSliderEntity extends import_baseEntity.BaseEntity {
+  constructor(name, room, func, obj, stateId, common) {
+    var _a, _b, _c;
+    super(name, room, func, obj, "input_number");
+    this.context.STATE.setId = stateId;
+    this.context.STATE.getId = stateId;
+    this.attributes.icon = "mdi:window-shutter";
+    this.attributes.mode = "slider";
+    this.attributes.min = (_a = common.min) != null ? _a : 0;
+    this.attributes.max = (_b = common.max) != null ? _b : 100;
+    this.attributes.step = (_c = common.step) != null ? _c : 1;
+    this.addID2entity(stateId);
+  }
+}
 function handleSetAndTiltCommand(entity, command, data, user) {
   return new Promise((resolve, reject) => {
     if (data.service_data.position >= 0) {
@@ -85,14 +99,17 @@ function addCommand(entity, control, stateName, serviceName, featureBit, onWrite
   entity.attributes.supported_features |= featureBit;
   return true;
 }
-function addBlindLevel(entity, control, objects, setStateName) {
+function addBlindLevel(entities, control, objects, setStateName, room, func, obj) {
   var _a, _b, _c, _d;
   const state = control.states.find((s) => s.id && s.name === setStateName);
   if (!(state == null ? void 0 : state.id)) {
     return false;
   }
   const stateId = state.id;
+  const entity = entities[0];
   const common = (_b = (_a = objects[stateId]) == null ? void 0 : _a.common) != null ? _b : {};
+  const slider = new CoverSliderEntity(entity.attributes.friendly_name, room, func, obj, stateId, common);
+  entities.push(slider);
   entity.context.STATE.setId = stateId;
   entity.context.STATE.getId = stateId;
   entity.addID2entity(stateId);
@@ -169,6 +186,8 @@ function addBlindLevel(entity, control, objects, setStateName) {
   if (getState == null ? void 0 : getState.id) {
     entity.context.STATE.getId = getState.id;
     entity.addID2entity(getState.id);
+    slider.context.STATE.getId = getState.id;
+    slider.addID2entity(getState.id);
   }
   return true;
 }
@@ -213,15 +232,16 @@ function addTiltLevel(entity, control, objects, setStateName) {
 }
 class CoverEntity extends import_baseEntity.BaseEntity {
   /**
-   * Build a cover entity for the given params.
+   * Build a cover entity and (for blinds with a SET state) a companion input_number slider.
    *
    * @param params - converter parameters
-   * @returns array containing the cover entity
+   * @returns [cover, slider?] — slider only when SET state present and not a gate
    */
   static build(params) {
     var _a, _b, _c, _d;
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
     const entity = new CoverEntity(friendlyName, room, func, objects[id], forcedEntityId);
+    const entities = [entity];
     adapterData.log.debug(`Creating blind of type ${controls.type} for ${params.id}`);
     if (controls.type === import_type_detector.Types.gate) {
       entity.attributes.device_class = "gate";
@@ -304,9 +324,9 @@ class CoverEntity extends import_baseEntity.BaseEntity {
         entity.attributes.supported_features |= 4;
       }
       addCommand(entity, controls, "STOP", "stop_cover", 8);
-      return [entity];
+      return entities;
     }
-    if (addBlindLevel(entity, controls, objects, "SET")) {
+    if (addBlindLevel(entities, controls, objects, "SET", room, func, objects[params.id])) {
       entity.context.STATE.invert = !!adapterData.adapter.config.blindsInvert;
     }
     if (addTiltLevel(entity, controls, objects, "TILT_SET")) {
@@ -361,7 +381,7 @@ class CoverEntity extends import_baseEntity.BaseEntity {
       });
       entity.attributes.supported_features |= 2;
     }
-    return [entity];
+    return entities;
   }
   constructor(name, room, func, obj, forcedEntityId) {
     super(name, room, func, obj, "cover", forcedEntityId);
