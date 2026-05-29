@@ -99,7 +99,8 @@ function applyClimateStates(states, objects, entity, iobType) {
         if (!s.val) {
           ent.attributes.hvac_mode = "off";
         } else if (ent.context.iobMode !== void 0) {
-          ent.attributes.hvac_mode = (_b2 = (_a2 = hvac_attr.iobToLovelace) == null ? void 0 : _a2[ent.context.iobMode]) != null ? _b2 : String(ent.context.iobMode);
+          const mode = ent.context.iobMode;
+          ent.attributes.hvac_mode = (_b2 = (_a2 = hvac_attr.iobToLovelace) == null ? void 0 : _a2[mode]) != null ? _b2 : String(mode);
         } else {
           adapterData.log.warn(
             `No mode for ${ent.entity_id} received, yet. Asking database. Will delay update.`

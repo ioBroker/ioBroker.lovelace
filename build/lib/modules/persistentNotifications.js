@@ -124,7 +124,8 @@ class PersistentNotificationsModule {
    */
   async _clearNotification(id) {
     if (id) {
-      const key = String(id);
+      const idVal = id;
+      const key = String(idVal);
       if (this._notifications[key]) {
         const removedNotifications = {};
         removedNotifications[key] = this._notifications[key];

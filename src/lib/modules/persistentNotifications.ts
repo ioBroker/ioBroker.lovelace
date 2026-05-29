@@ -159,7 +159,8 @@ class PersistentNotificationsModule {
      */
     private async _clearNotification(id?: unknown): Promise<Record<string, NotificationInfo>> {
         if (id) {
-            const key = String(id);
+            const idVal = id as string | number;
+            const key = String(idVal);
             if (this._notifications[key]) {
                 const removedNotifications: Record<string, NotificationInfo> = {};
                 removedNotifications[key] = this._notifications[key];

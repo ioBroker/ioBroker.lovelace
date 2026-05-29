@@ -21,7 +21,7 @@ exports.getNumConstEntities = function () {
  * Async waits for delay t.
  *
  * @param {number} t time in milliseconds
- * @param {any} [val] value to return on timeout
+ * @param {unknown} [val] value to return on timeout
  * @returns {Promise<void>} resolves after t milliseconds.
  */
 exports.delay = function (t, val) {
@@ -325,8 +325,8 @@ async function setupClient() {
  *
  * @param harness {object} - instance of ioBroker harness
  * @param {string} entity_id id of entity that should be watched for changes.
- * @param {Function} changeState function that changes iobroker state -> must return promise / be async!
- * @param {Function} validator function that validates changed state, will get complete new entity.
+ * @param {() => Promise<void>} changeState function that changes iobroker state -> must return promise / be async!
+ * @param {(entity: object) => void} validator function that validates changed state, will get complete new entity.
  * @returns {Promise<unknown>} - resolves after state change.
  */
 exports.validateStateChange = async function (harness, entity_id, changeState, validator) {
@@ -385,9 +385,9 @@ exports.validateStateChange = async function (harness, entity_id, changeState, v
  *
  * @param harness {object} - instance of ioBroker harness
  * @param entity {object} - entity to emulate service call for.
- * @param {Function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
+ * @param {(message: object) => void} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
  * @param {string} [ioBrokerId] - set of ids of state to check for changes.
- * @param validator {Function} - function that validates changed state, will get complete new entity.
+ * @param validator {(state: ioBroker.State|null) => void} - function that validates changed state, will get complete new entity.
  * @returns {Promise<ioBroker.State|null>} - resolves after state change.
  */
 exports.validateUIInput = async function (harness, entity, prepareMessageFunc, ioBrokerId, validator) {
@@ -407,9 +407,9 @@ exports.validateUIInput = async function (harness, entity, prepareMessageFunc, i
  *
  * @param harness {object} - instance of ioBroker harness
  * @param entity {object} - entity to emulate service call for.
- * @param {Function} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
+ * @param {(message: object) => void} prepareMessageFunc - prepare message (will receive message object) -> fill in domain, service, and service_data.
  * @param {Array<string>} [ioBrokerIds] - set of ids of state to check for changes.
- * @param validator {Function} - function that validates changed state, will get complete new entity.
+ * @param validator {(state: ioBroker.State|null) => void} - function that validates changed state, will get complete new entity.
  * @returns {Promise<ioBroker.State|null>} - resolves after state change.
  */
 exports.validateMultiUIInput = async function (harness, entity, prepareMessageFunc, ioBrokerIds, validator) {

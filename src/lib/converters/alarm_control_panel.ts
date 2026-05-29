@@ -115,13 +115,14 @@ function fillAlarmControlPanelFromStates(
             if (sd == null || sd.code == null) {
                 throw new Error('code is empty');
             }
+            const code = sd.code as string | number;
             const obj = await adapterData.adapter.getForeignObjectAsync(stateId);
             if (!obj?.native?.alarm_code) {
                 adapterData.log.warn(
                     `No code is defined! To provide the code add to object ${stateId} native.alarm_code with desired code`,
                 );
                 throw new Error('iobroker misconfigured.');
-            } else if (String(obj.native.alarm_code) !== String(sd.code)) {
+            } else if (String(obj.native.alarm_code) !== String(code)) {
                 throw new Error('invalid code');
             }
         }

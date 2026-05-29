@@ -106,9 +106,8 @@ export function applyClimateStates(
                 if (!s.val) {
                     ent.attributes.hvac_mode = 'off';
                 } else if (ent.context.iobMode !== undefined) {
-                    ent.attributes.hvac_mode =
-                        hvac_attr.iobToLovelace?.[ent.context.iobMode as string | number] ??
-                        String(ent.context.iobMode);
+                    const mode = ent.context.iobMode as string | number;
+                    ent.attributes.hvac_mode = hvac_attr.iobToLovelace?.[mode] ?? String(mode);
                 } else {
                     adapterData.log.warn(
                         `No mode for ${ent.entity_id} received, yet. Asking database. Will delay update.`,
