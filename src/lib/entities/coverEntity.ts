@@ -28,9 +28,9 @@ class CoverSliderEntity extends BaseEntity {
         this.context.STATE.getId = stateId;
         this.attributes.icon = 'mdi:window-shutter';
         this.attributes.mode = 'slider';
-        this.attributes.min = (common.min as number | undefined) ?? 0;
-        this.attributes.max = (common.max as number | undefined) ?? 100;
-        this.attributes.step = (common.step as number | undefined) ?? 1;
+        this.attributes.min = common.min ?? 0;
+        this.attributes.max = common.max ?? 100;
+        this.attributes.step = common.step ?? 1;
         this.addID2entity(stateId);
     }
 }
@@ -150,7 +150,7 @@ function addBlindLevel(
     const entity = entities[0];
     const common = (objects[stateId]?.common ?? {}) as Record<string, unknown>;
 
-    const slider = new CoverSliderEntity(entity.attributes.friendly_name as string, room, func, obj, stateId, common);
+    const slider = new CoverSliderEntity(entity.attributes.friendly_name, room, func, obj, stateId, common);
     entities.push(slider);
 
     entity.context.STATE.setId = stateId;
