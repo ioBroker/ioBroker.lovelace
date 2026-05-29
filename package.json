@@ -79,7 +79,7 @@
     "prebuild:ts": "rimraf build",
     "build:ts": "build-adapter ts",
     "watch:ts": "build-adapter ts --watch",
-    "test:ts": "TS_NODE_TRANSPILE_ONLY=true TS_NODE_PROJECT=tsconfig.test.json node node_modules/.bin/mocha --require ts-node/register --require test/mocha.setup.js \"src/**/*.test.ts\"",
+    "test:ts": "mocha --require test/ts-env-setup.js --require ts-node/register --require test/mocha.setup.js \"src/**/*.test.ts\"",
     "test:unit": "npm run test:ts",
     "test:package": "mocha test/package --exit",
     "test:integration": "mocha test/integration --timeout 30000 --exit",
