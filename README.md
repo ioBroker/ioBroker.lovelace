@@ -472,14 +472,13 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 6.0.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.
 * (Garfonso) Improved loading images from other adapters.
 * (Garfonso) Reworked entity creation a lot. Hopefully everything still works. If not, please report. Should solve duplicate entities issues.
 * (Garfonso/Claude) Geo_location now calculates the distance from home.
 * (Garfonso/Claude) *BREAKING* Remove input_number entity for blinds. If you need it, you can create it manually.
 * (Garfonso/Claude) Add support for additional type-detector types: flood alarm, button (sensor), illuminance, current weather, gate, cie, rgbwSingle
-* (Garfonso) node 22 required now. Please update if you are still on node 18 or 20.
 
 ### 5.0.5 (2025-12-21)
 * (Garfonso) added missing roles to instance objects
@@ -502,17 +501,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) script entities now can be used again.
 * (Garfonso) subscribe to all object ids in a template.
 * (Garfonso) Update dependencies.
-
-### 5.0.0 (2025-04-10)
-* (Garfonso) Updated frontend to 20250401.0
-* (Garfonso) Updated browser_mod to 2.3.3
-* (Garfonso) Add statistics recorder
-* (Garfonso) Add entity registry, use it to solve id clashes. In the future, store entity settings here.
-* (Garfonso) Limit the number of stored browser instances
-* (Garfonso) Improved caching behavior. Might solve iobroker.pro issue... hopefully?
-* (Garfonso) Prevent crash with some edge cases with light entities
-* (Garfonso) experimental dashboard support.
-* (Garfonso) Allow to show sidebar via object in instances. VERY experimental. A lot of stuff does not yet work. But allows to configure dashboards and also browser mod.
 
 ## License
 
