@@ -1,15 +1,4 @@
 # Older Changes
-## 5.0.0 (2025-04-10)
-* (Garfonso) Updated frontend to 20250401.0
-* (Garfonso) Updated browser_mod to 2.3.3
-* (Garfonso) Add statistics recorder
-* (Garfonso) Add entity registry, use it to solve id clashes. In the future, store entity settings here.
-* (Garfonso) Limit the number of stored browser instances
-* (Garfonso) Improved caching behavior. Might solve iobroker.pro issue... hopefully?
-* (Garfonso) Prevent crash with some edge cases with light entities
-* (Garfonso) experimental dashboard support.
-* (Garfonso) Allow to show sidebar via object in instances. VERY experimental. A lot of stuff does not yet work. But allows to configure dashboards and also browser mod.
-
 ## 4.1.15 (2025-03-10)
 * (Garfonso) repaired image loading, again.
 
