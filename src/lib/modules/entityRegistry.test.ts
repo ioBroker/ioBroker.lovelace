@@ -6,8 +6,7 @@ const EntityRegistry = require('../modules/entityRegistry');
 function makeAdapter(): ioBroker.Adapter {
     return {
         log: { debug: () => {}, warn: () => {} },
-        getObjectAsync: () =>
-            Promise.resolve({ native: { entries: {}, iobIdToEntityId: {}, entityCategories: {} } }),
+        getObjectAsync: () => Promise.resolve({ native: { entries: {}, iobIdToEntityId: {}, entityCategories: {} } }),
         setObject: async () => {},
     } as unknown as ioBroker.Adapter;
 }

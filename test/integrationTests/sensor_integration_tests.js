@@ -39,8 +39,12 @@ exports.runTests = function (suite) {
                 const t2 = entities.find(
                     e => e.context.deviceId === deviceId2 && e.attributes.device_class === 'temperature',
                 );
-                const h1 = entities.find(e => e.context.deviceId === deviceId1 && e.attributes.device_class === 'humidity');
-                const h2 = entities.find(e => e.context.deviceId === deviceId2 && e.attributes.device_class === 'humidity');
+                const h1 = entities.find(
+                    e => e.context.deviceId === deviceId1 && e.attributes.device_class === 'humidity',
+                );
+                const h2 = entities.find(
+                    e => e.context.deviceId === deviceId2 && e.attributes.device_class === 'humidity',
+                );
                 expect(t1).to.be.ok;
                 expect(t2).to.be.ok;
                 expect(h1).to.be.ok;
