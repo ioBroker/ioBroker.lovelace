@@ -339,6 +339,7 @@ class WebServer {
             this._modules.todo.init(),
             this._modules.person.init(),
             this._modules.entityRegistry.init(),
+            this._modules.areaRegistry.init(),
             this._modules.dashboard.init(),
             this.adapter
                 .getForeignObjectAsync('system.config')
@@ -3097,24 +3098,24 @@ class WebServer {
             } else if (message.type === 'ping') {
                 this._sendResponse(ws, message.id, { type: 'pong' });
             } else if (message.type === 'brands/access_token') {
-                this.log.debug(`brands/access_token not supported`);
-                ws.send(
-                    JSON.stringify({
-                        id: message.id,
-                        type: 'result',
-                        success: false,
-                        error: { code: 'unknown_command' },
-                    }),
-                );
+                // Return empty token — stops the 7-retry backoff loop, brand logo URLs simply 404
+                this._sendResponse(ws, message.id, { token: '' });
             } else if (message.type === 'labs/subscribe') {
-                this.log.debug(`labs/subscribe not supported (feature: ${message.preview_feature})`);
+                // Return disabled feature — prevents unhandled rejections on every dialog/panel open
                 ws.send(
-                    JSON.stringify({
-                        id: message.id,
-                        type: 'result',
-                        success: false,
-                        error: { code: 'unknown_command' },
-                    }),
+                    JSON.stringify([
+                        { id: message.id, type: 'result', success: true, result: null },
+                        {
+                            id: message.id,
+                            type: 'event',
+                            event: {
+                                domain: message.domain,
+                                preview_feature: message.preview_feature,
+                                enabled: false,
+                                is_built_in: true,
+                            },
+                        },
+                    ]),
                 );
             } else {
                 //check modules:

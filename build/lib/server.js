@@ -239,6 +239,7 @@ class WebServer {
       this._modules.todo.init(),
       this._modules.person.init(),
       this._modules.entityRegistry.init(),
+      this._modules.areaRegistry.init(),
       this._modules.dashboard.init(),
       this.adapter.getForeignObjectAsync("system.config").then((config) => {
         this.lang = this.config.language || config.common.language;
@@ -2579,24 +2580,22 @@ ${hideScript.join("\n")}
       } else if (message.type === "ping") {
         this._sendResponse(ws, message.id, { type: "pong" });
       } else if (message.type === "brands/access_token") {
-        this.log.debug(`brands/access_token not supported`);
-        ws.send(
-          JSON.stringify({
-            id: message.id,
-            type: "result",
-            success: false,
-            error: { code: "unknown_command" }
-          })
-        );
+        this._sendResponse(ws, message.id, { token: "" });
       } else if (message.type === "labs/subscribe") {
-        this.log.debug(`labs/subscribe not supported (feature: ${message.preview_feature})`);
         ws.send(
-          JSON.stringify({
-            id: message.id,
-            type: "result",
-            success: false,
-            error: { code: "unknown_command" }
-          })
+          JSON.stringify([
+            { id: message.id, type: "result", success: true, result: null },
+            {
+              id: message.id,
+              type: "event",
+              event: {
+                domain: message.domain,
+                preview_feature: message.preview_feature,
+                enabled: false,
+                is_built_in: true
+              }
+            }
+          ])
         );
       } else {
         let result = false;
