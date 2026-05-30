@@ -390,6 +390,14 @@
       "native": {}
     },
     {
+      "_id": "energyPrefs",
+      "type": "channel",
+      "common": {
+        "name": "Storage for energy dashboard preferences"
+      },
+      "native": {}
+    },
+    {
       "_id": "dashboardStorage",
       "type": "channel",
       "common": {

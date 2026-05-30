@@ -35,6 +35,7 @@ import EntityRegistry from './modules/entityRegistry';
 import DashboardModule from './modules/dashboard';
 import DeviceRegistryModule from './modules/deviceRegistry';
 import AreaRegistryModule from './modules/areaRegistry';
+import EnergyModule from './modules/energyModule';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -48,6 +49,7 @@ type Modules = {
     dashboard: InstanceType<typeof DashboardModule>;
     deviceRegistry: InstanceType<typeof DeviceRegistryModule>;
     areaRegistry: InstanceType<typeof AreaRegistryModule>;
+    energy: InstanceType<typeof EnergyModule>;
     history: InstanceType<typeof HistoryModule>;
     statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
 };
@@ -317,6 +319,10 @@ class WebServer {
                 sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
                 sendUpdate: (type: string) => this._sendUpdate(type),
             }),
+            energy: new EnergyModule({
+                adapter: this.adapter,
+                sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
+            }),
             history: new HistoryModule({
                 adapter: this.adapter,
                 entityData: entityData,
@@ -340,6 +346,7 @@ class WebServer {
             this._modules.person.init(),
             this._modules.entityRegistry.init(),
             this._modules.areaRegistry.init(),
+            this._modules.energy.init(),
             this._modules.dashboard.init(),
             this.adapter
                 .getForeignObjectAsync('system.config')
@@ -3097,6 +3104,8 @@ class WebServer {
                 this._sendResponse(ws, message.id, { numeric_device_classes: NUMERIC_DEVICE_CLASSES });
             } else if (message.type === 'ping') {
                 this._sendResponse(ws, message.id, { type: 'pong' });
+            } else if (message.type === 'vacuum/get_segments') {
+                this._sendResponse(ws, message.id, { segments: [] });
             } else if (message.type === 'brands/access_token') {
                 // Return empty token — stops the 7-retry backoff loop, brand logo URLs simply 404
                 this._sendResponse(ws, message.id, { token: '' });

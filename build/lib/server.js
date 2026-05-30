@@ -58,6 +58,7 @@ var import_entityRegistry = __toESM(require("./modules/entityRegistry"));
 var import_dashboard = __toESM(require("./modules/dashboard"));
 var import_deviceRegistry = __toESM(require("./modules/deviceRegistry"));
 var import_areaRegistry = __toESM(require("./modules/areaRegistry"));
+var import_energyModule = __toESM(require("./modules/energyModule"));
 const WebSocket = require("ws");
 const bodyParser = require("body-parser");
 const PANELS = require("./panels");
@@ -219,6 +220,10 @@ class WebServer {
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
         sendUpdate: (type) => this._sendUpdate(type)
       }),
+      energy: new import_energyModule.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
+      }),
       history: new import_history.default({
         adapter: this.adapter,
         entityData,
@@ -240,6 +245,7 @@ class WebServer {
       this._modules.person.init(),
       this._modules.entityRegistry.init(),
       this._modules.areaRegistry.init(),
+      this._modules.energy.init(),
       this._modules.dashboard.init(),
       this.adapter.getForeignObjectAsync("system.config").then((config) => {
         this.lang = this.config.language || config.common.language;
@@ -2579,6 +2585,8 @@ ${hideScript.join("\n")}
         this._sendResponse(ws, message.id, { numeric_device_classes: import_genericConverter.numericDeviceClasses });
       } else if (message.type === "ping") {
         this._sendResponse(ws, message.id, { type: "pong" });
+      } else if (message.type === "vacuum/get_segments") {
+        this._sendResponse(ws, message.id, { segments: [] });
       } else if (message.type === "brands/access_token") {
         this._sendResponse(ws, message.id, { token: "" });
       } else if (message.type === "labs/subscribe") {
