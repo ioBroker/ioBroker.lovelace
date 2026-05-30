@@ -2975,6 +2975,8 @@ class WebServer {
             } else if (message.type === 'frontend/get_translations') {
                 this.log.debug(`Get translations: ${message.language}`);
                 this._sendResponse(ws, message.id, this._getTranslations(message.language));
+            } else if (message.type === 'lovelace/info') {
+                this._sendResponse(ws, message.id, { resource_mode: 'storage' });
             } else if (message.type === 'lovelace/config') {
                 this.log.debug(`get config: ${JSON.stringify(message)}`);
                 this._sendResponse(ws, message.id, this._getLayoutConfig(message.url_path));
