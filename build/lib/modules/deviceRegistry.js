@@ -56,10 +56,14 @@ class DeviceRegistry {
   processMessage(ws, message) {
     if (message.type === "config/device_registry/list") {
       const entries = [];
+      const seen = /* @__PURE__ */ new Set();
       for (const entity of this.entityData.entities) {
-        if (entity.context.id === entity.context.deviceId) {
-          entries.push(this._createEntryFromEntity(entity));
+        const deviceId = entity.context.deviceId;
+        if (!deviceId || seen.has(deviceId)) {
+          continue;
         }
+        seen.add(deviceId);
+        entries.push(this._createEntryFromEntity(entity));
       }
       this.sendResponse(ws, message.id, entries);
       return true;
