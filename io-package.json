@@ -382,6 +382,14 @@
       "native": {}
     },
     {
+      "_id": "areaRegistry",
+      "type": "channel",
+      "common": {
+        "name": "Storage for area registry"
+      },
+      "native": {}
+    },
+    {
       "_id": "dashboardStorage",
       "type": "channel",
       "common": {

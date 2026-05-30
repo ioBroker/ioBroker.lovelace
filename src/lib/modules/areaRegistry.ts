@@ -9,6 +9,7 @@ class AreaRegistry {
     private rooms: Record<string, ioBroker.Object>;
     private sendResponse: SendResponseFn;
     private sendUpdate: SendUpdateFn;
+    private _sortOrder: string[] = [];
 
     /**
      * Constructor
@@ -29,6 +30,24 @@ class AreaRegistry {
         this.rooms = options.rooms;
         this.sendResponse = options.sendResponse;
         this.sendUpdate = options.sendUpdate;
+    }
+
+    async init(): Promise<void> {
+        const storage = await this.adapter.getObjectAsync('areaRegistry');
+        const native = (storage as ioBroker.Object & { native: Record<string, unknown> })?.native;
+        this._sortOrder = (native?.sortOrder as string[]) || [];
+        this.adapter.log.debug('modules/areaRegistry: init done.');
+    }
+
+    private async _save(): Promise<void> {
+        const storage = (await this.adapter.getObjectAsync('areaRegistry')) as ioBroker.AnyObject & {
+            native: Record<string, unknown>;
+        };
+        if (!storage?.native) {
+            return;
+        }
+        storage.native.sortOrder = this._sortOrder;
+        await this.adapter.setObject('areaRegistry', storage);
     }
 
     /**
@@ -58,6 +77,19 @@ class AreaRegistry {
         };
     }
 
+    private _sortedEntries(): Record<string, unknown>[] {
+        const all = Object.values(this.rooms).map(r => this._createEntryFromRoom(r));
+        if (this._sortOrder.length === 0) {
+            return all;
+        }
+        const indexed = new Map(this._sortOrder.map((id, i) => [id, i]));
+        return all.sort((a, b) => {
+            const ai = indexed.get(a.area_id as string) ?? Number.MAX_SAFE_INTEGER;
+            const bi = indexed.get(b.area_id as string) ?? Number.MAX_SAFE_INTEGER;
+            return ai - bi;
+        });
+    }
+
     /**
      * Process incoming messages from the frontend.
      *
@@ -67,11 +99,13 @@ class AreaRegistry {
      */
     processMessage(ws: unknown, message: Record<string, unknown>): boolean {
         if (message.type === 'config/area_registry/list') {
-            const entries = [];
-            for (const room of Object.values(this.rooms)) {
-                entries.push(this._createEntryFromRoom(room));
-            }
-            this.sendResponse(ws, message.id, entries);
+            this.sendResponse(ws, message.id, this._sortedEntries());
+            return true;
+        }
+        if (message.type === 'config/area_registry/reorder') {
+            this._sortOrder = (message.area_ids as string[]) || [];
+            void this._save();
+            this.sendUpdate('area_registry_updated');
             return true;
         }
         return false;
