@@ -1994,7 +1994,7 @@ ${hideScript.join("\n")}
    * @returns configuration object
    */
   _getLayoutConfig(urlPath) {
-    if (urlPath) {
+    if (urlPath && urlPath !== "lovelace") {
       return this._modules.dashboard.getConfig(urlPath);
     }
     return this._lovelaceConfig;
@@ -2006,7 +2006,7 @@ ${hideScript.join("\n")}
    * @param urlPath {string|undefined} optional url path of the dashboard to store config for.
    */
   async _setLayoutConfig(config, urlPath) {
-    if (urlPath) {
+    if (urlPath && urlPath !== "lovelace") {
       await this._modules.dashboard.storeConfig(urlPath, config);
     } else {
       this.adapter.getObject("configuration", (err, obj) => {

@@ -2422,7 +2422,9 @@ class WebServer {
      * @returns configuration object
      */
     _getLayoutConfig(urlPath?: any) {
-        if (urlPath) {
+        // The new frontend requests the default dashboard with its panel url_path ('lovelace')
+        // instead of null. Map 'lovelace' back to the main configuration object.
+        if (urlPath && urlPath !== 'lovelace') {
             return this._modules.dashboard.getConfig(urlPath);
         }
         return this._lovelaceConfig;
@@ -2435,7 +2437,7 @@ class WebServer {
      * @param urlPath {string|undefined} optional url path of the dashboard to store config for.
      */
     async _setLayoutConfig(config: any, urlPath?: any) {
-        if (urlPath) {
+        if (urlPath && urlPath !== 'lovelace') {
             await this._modules.dashboard.storeConfig(urlPath, config);
         } else {
             this.adapter.getObject('configuration', (err: any, obj: any) => {

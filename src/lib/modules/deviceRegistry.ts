@@ -3,7 +3,7 @@ type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 interface EntityLike {
     context: {
         id: string;
-        device_id?: string;
+        deviceId?: string;
         roomId?: string;
     };
     attributes: {
@@ -48,11 +48,11 @@ class DeviceRegistry {
      */
     private _createEntryFromEntity(entity: EntityLike): Record<string, unknown> {
         return {
-            id: entity.context.device_id,
+            id: entity.context.deviceId,
             config_entries: [],
             config_entries_subentries: {},
             connections: [],
-            identifiers: [[entity.attributes.friendly_name, entity.context.device_id]],
+            identifiers: [[entity.attributes.friendly_name, entity.context.deviceId]],
             manufacturer: null,
             model: null,
             model_id: null,
@@ -82,7 +82,7 @@ class DeviceRegistry {
         if (message.type === 'config/device_registry/list') {
             const entries = [];
             for (const entity of this.entityData.entities) {
-                if (entity.context.id === entity.context.device_id) {
+                if (entity.context.id === entity.context.deviceId) {
                     entries.push(this._createEntryFromEntity(entity));
                 }
             }
