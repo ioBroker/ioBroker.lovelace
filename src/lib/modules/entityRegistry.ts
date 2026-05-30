@@ -375,6 +375,7 @@ class EntityRegistry {
                 entity_id: entityWithId.entity_id,
                 changes,
             });
+            return true;
         }
 
         return false;
