@@ -1,0 +1,13 @@
+/*! Copyright 2026 Fonticons, Inc. - https://webawesome.com/license */
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */

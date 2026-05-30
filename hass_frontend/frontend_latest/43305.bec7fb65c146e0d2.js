@@ -1,0 +1,1 @@
+export const __rspack_esm_id=43305;export const __rspack_esm_ids=[43305];export const __webpack_modules__={36784(e,t,a){a.a(e,async function(e,c){try{a.r(t),a.d(t,{HaAddonSelector:()=>n});var s=a(62826),o=a(22441),_=a(48585),r=e([_]);_=(r.then?(await r)():r)[0];class n extends _.HaAppSelector{}n=(0,s.Cg)([(0,o.EM)("ha-selector-addon")],n),c()}catch(e){c(e)}})}};

@@ -428,14 +428,14 @@ Security must be taken from the current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20250306.0
+Used version of home-assistant-frontend@20260527.1
 Version of Browser Mod: 2.3.3
 
 ### How to build the new Lovelace version
 First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20250401.0) following files were modified:
+For now (20260527.1) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
 - `build-scripts/gulp/rspack.js` - Add new gulp task rspack-dev-app
 - `build-scripts/rspack.cjs` - disable source maps in prod build to reduce emitted file count.
