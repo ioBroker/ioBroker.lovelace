@@ -2935,6 +2935,32 @@ class WebServer {
                 this._sendResponse(ws, message.id, this._getThemes());
             } else if (message.type === 'auth/current_user') {
                 void this._getCurrentUser(ws).then(data => this._sendResponse(ws, message.id, data));
+            } else if (message.type === 'frontend/subscribe_user_data') {
+                this.log.debug(`Subscribe user data: ${message.key}`);
+                const userDataValue: Record<string, unknown> | null = message.key === 'core' ? { default_panel: 'lovelace' } : null;
+                ws.send(
+                    JSON.stringify([
+                        { id: message.id, type: 'result', success: true, result: null },
+                        { id: message.id, type: 'event', event: { value: userDataValue } },
+                    ]),
+                );
+            } else if (message.type === 'frontend/set_user_data') {
+                this.log.debug(`Set user data: ${message.key}`);
+                this._sendResponse(ws, message.id);
+            } else if (message.type === 'frontend/subscribe_system_data') {
+                this.log.debug(`Subscribe system data: ${message.key}`);
+                ws.send(
+                    JSON.stringify([
+                        { id: message.id, type: 'result', success: true, result: null },
+                        { id: message.id, type: 'event', event: { value: null } },
+                    ]),
+                );
+            } else if (message.type === 'frontend/get_system_data') {
+                this.log.debug(`Get system data: ${message.key}`);
+                this._sendResponse(ws, message.id, { value: null });
+            } else if (message.type === 'frontend/set_system_data') {
+                this.log.debug(`Set system data: ${message.key}`);
+                this._sendResponse(ws, message.id);
             } else if (message.type === 'frontend/get_user_data') {
                 this.log.debug(`Get USER Data: ${message.key}`);
                 this._sendResponse(ws, message.id, { value: { language: this.lang } });
@@ -3070,6 +3096,26 @@ class WebServer {
                 this._sendResponse(ws, message.id, { numeric_device_classes: NUMERIC_DEVICE_CLASSES });
             } else if (message.type === 'ping') {
                 this._sendResponse(ws, message.id, { type: 'pong' });
+            } else if (message.type === 'brands/access_token') {
+                this.log.debug(`brands/access_token not supported`);
+                ws.send(
+                    JSON.stringify({
+                        id: message.id,
+                        type: 'result',
+                        success: false,
+                        error: { code: 'unknown_command' },
+                    }),
+                );
+            } else if (message.type === 'labs/subscribe') {
+                this.log.debug(`labs/subscribe not supported (feature: ${message.preview_feature})`);
+                ws.send(
+                    JSON.stringify({
+                        id: message.id,
+                        type: 'result',
+                        success: false,
+                        error: { code: 'unknown_command' },
+                    }),
+                );
             } else {
                 //check modules:
                 let result = false;

@@ -9,7 +9,6 @@ const gulp = require('gulp');
 const fs = require('node:fs');
 const path = require('node:path');
 const cp = require('node:child_process');
-const translate = require('./lib/tools').translateText;
 
 const iopackage = require('./io-package.json');
 const fileName = 'words.js';
@@ -356,23 +355,6 @@ function languages2words(src) {
     writeWordJs(bigOne, src);
 }
 
-async function translateNotExisting(obj, baseText, yandex) {
-    let t = obj['en'];
-    if (!t) {
-        t = baseText;
-    }
-
-    if (t) {
-        for (const l in languages) {
-            if (!obj[l]) {
-                const time = Date.now();
-                obj[l] = await translate(t, l, yandex);
-                console.log(`en -> ${l} ${Date.now() - time} ms`);
-            }
-        }
-    }
-}
-
 function filesWalk(folder, func) {
     const files = fs.readdirSync(folder);
     files.forEach(file => {
@@ -387,76 +369,6 @@ function filesWalk(folder, func) {
 }
 
 //TASKS
-
-gulp.task('adminWords2languages', done => {
-    words2languages('./admin/');
-    done();
-});
-
-gulp.task('adminWords2languagesFlat', done => {
-    words2languagesFlat('./admin/');
-    done();
-});
-
-gulp.task('adminLanguagesFlat2words', done => {
-    languagesFlat2words('./admin/');
-    done();
-});
-
-gulp.task('adminLanguages2words', done => {
-    languages2words('./admin/');
-    done();
-});
-
-gulp.task('translate', async function () {
-    let yandex;
-    const i = process.argv.indexOf('--yandex');
-    if (i > -1) {
-        yandex = process.argv[i + 1];
-    }
-
-    if (iopackage && iopackage.common) {
-        if (iopackage.common.news) {
-            console.log('Translate News');
-            for (const k in iopackage.common.news) {
-                if (iopackage.common.news.hasOwnProperty(k)) {
-                    console.log(`News: ${k}`);
-                    const nw = iopackage.common.news[k];
-                    await translateNotExisting(nw, null, yandex);
-                }
-            }
-        }
-        if (iopackage.common.titleLang) {
-            console.log('Translate Title');
-            await translateNotExisting(iopackage.common.titleLang, iopackage.common.title, yandex);
-        }
-        if (iopackage.common.desc) {
-            console.log('Translate Description');
-            await translateNotExisting(iopackage.common.desc, null, yandex);
-        }
-
-        if (fs.existsSync('./admin/i18n/en/translations.json')) {
-            const enTranslations = require('./admin/i18n/en/translations.json');
-            for (const l in languages) {
-                console.log(`Translate Text: ${l}`);
-                let existing = {};
-                if (fs.existsSync(`./admin/i18n/${l}/translations.json`)) {
-                    existing = require(`./admin/i18n/${l}/translations.json`);
-                }
-                for (const t in enTranslations) {
-                    if (enTranslations.hasOwnProperty(t) && !existing[t]) {
-                        existing[t] = await translate(enTranslations[t], l, yandex);
-                    }
-                }
-                if (!fs.existsSync(`./admin/i18n/${l}/`)) {
-                    fs.mkdirSync(`./admin/i18n/${l}/`);
-                }
-                fs.writeFileSync(`./admin/i18n/${l}/translations.json`, JSON.stringify(existing, null, 4));
-            }
-        }
-    }
-    fs.writeFileSync('io-package.json', JSON.stringify(iopackage, null, 4));
-});
 
 gulp.task('rename', done => {
     filesWalk(`${__dirname}/hass_frontend`, fileName => {
@@ -535,8 +447,6 @@ gulp.task('rename', done => {
     }
     done();
 });
-
-gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages'));
 
 const devServerPath = `${__dirname}/.dev-server/default/`;
 const devserverIoBrokerPath = `${devServerPath}node_modules/iobroker.js-controller/iobroker.js`;
