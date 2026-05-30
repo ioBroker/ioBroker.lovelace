@@ -24,7 +24,7 @@ module.exports = __toCommonJS(panels_exports);
 const panels = {
   lovelace: {
     component_name: "lovelace",
-    icon: null,
+    icon: "mdi:view-dashboard",
     title: "states",
     config: { mode: "storage" },
     url_path: "lovelace",
