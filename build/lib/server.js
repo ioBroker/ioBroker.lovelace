@@ -2498,6 +2498,15 @@ ${hideScript.join("\n")}
         this._modules.deviceRegistry.processMessage(ws, message);
       } else if (message.type === "config_entries/flow/progress") {
         this._sendResponse(ws, message.id, []);
+      } else if (message.type === "config_entries/get") {
+        this._sendResponse(ws, message.id, []);
+      } else if (message.type === "config_entries/flow/subscribe") {
+        ws.send(
+          JSON.stringify([
+            { id: message.id, type: "result", success: true, result: null },
+            { id: message.id, type: "event", event: [] }
+          ])
+        );
       } else if (message.type === "manifest/list") {
         this._sendResponse(ws, message.id, []);
       } else if (message.type === "entity/source") {

@@ -3005,6 +3005,17 @@ class WebServer {
             } else if (message.type === 'config_entries/flow/progress') {
                 //no idea, what that is meant to be, but HASS sends empty array, too. ;-)
                 this._sendResponse(ws, message.id, []);
+            } else if (message.type === 'config_entries/get') {
+                // Devices & Services page asks for config entries (per domain). We have none.
+                this._sendResponse(ws, message.id, []);
+            } else if (message.type === 'config_entries/flow/subscribe') {
+                // Subscription for config flows in progress. We never have any.
+                ws.send(
+                    JSON.stringify([
+                        { id: message.id, type: 'result', success: true, result: null },
+                        { id: message.id, type: 'event', event: [] },
+                    ]),
+                );
             } else if (message.type === 'manifest/list') {
                 //no idea, what that is meant to be... HASS seems to send a lot of information about the available integrations..?
                 this._sendResponse(ws, message.id, []);
