@@ -398,6 +398,14 @@
       "native": {}
     },
     {
+      "_id": "userData",
+      "type": "channel",
+      "common": {
+        "name": "Storage for frontend user data (theme settings, sidebar order, …)"
+      },
+      "native": {}
+    },
+    {
       "_id": "dashboardStorage",
       "type": "channel",
       "common": {

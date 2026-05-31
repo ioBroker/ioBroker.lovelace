@@ -116,6 +116,8 @@ class WebServer {
   _themes;
   _currentTheme;
   _currentThemeDark;
+  /** Persistent frontend user-data: userKey -> dataKey -> value. Backs frontend/*_user_data. */
+  _userData = {};
   _darkMode;
   _objectData;
   _modules;
@@ -263,7 +265,8 @@ class WebServer {
       }).then(() => this._modules.browserMod.init(this._lovelaceConfig)),
       this._readAllEntities(),
       this._listFiles(),
-      this._initThemes()
+      this._initThemes(),
+      this._loadUserData()
     ];
     Promise.all(concurrentPromises).then(() => {
       var _a;
@@ -1418,6 +1421,59 @@ ${hideScript.join("\n")}
     return configObj;
   }
   /**
+   * Identify the frontend "user" for per-user data (theme settings, sidebar order, …).
+   * Uses the authenticated username, falling back to a shared default.
+   *
+   * @param ws - websocket connection
+   */
+  _getUserKey(ws) {
+    var _a;
+    return ((_a = ws == null ? void 0 : ws.__auth) == null ? void 0 : _a.username) || "_default";
+  }
+  /**
+   * Load persisted frontend user-data from the ioBroker object DB.
+   */
+  async _loadUserData() {
+    var _a;
+    try {
+      const obj = await this.adapter.getObjectAsync("userData");
+      this._userData = ((_a = obj == null ? void 0 : obj.native) == null ? void 0 : _a.userData) || {};
+    } catch (e) {
+      this.log.debug(`Could not load userData: ${e}`);
+      this._userData = {};
+    }
+  }
+  /**
+   * Persist frontend user-data to the ioBroker object DB.
+   */
+  async _saveUserData() {
+    try {
+      const obj = await this.adapter.getObjectAsync("userData");
+      if (obj) {
+        obj.native = obj.native || {};
+        obj.native.userData = this._userData;
+        await this.adapter.setObjectAsync("userData", obj);
+      }
+    } catch (e) {
+      this.log.warn(`Could not save userData: ${e}`);
+    }
+  }
+  /**
+   * Read a single frontend user-data value for the given connection and key.
+   * The 'core' key always carries default_panel so the frontend lands on the lovelace dashboard.
+   *
+   * @param ws - websocket connection
+   * @param key - user-data key (core, theme, sidebar, language, …)
+   */
+  _getUserDataValue(ws, key) {
+    var _a;
+    const stored = (_a = this._userData[this._getUserKey(ws)]) == null ? void 0 : _a[key];
+    if (key === "core") {
+      return { default_panel: "lovelace", ...stored || {} };
+    }
+    return stored != null ? stored : null;
+  }
+  /**
    * Returns themes and the ones currently selected in config / object.
    *
    * @returns themes
@@ -2300,7 +2356,7 @@ ${hideScript.join("\n")}
       ws.send(JSON.stringify({ type: "auth_required", ha_version: VERSION }));
     }
     ws.on("message", async (message) => {
-      var _a, _b;
+      var _a, _b, _c, _d, _e, _f;
       if (typeof message !== "string") {
         if (message instanceof Buffer) {
           message = message.toString("utf8");
@@ -2445,15 +2501,22 @@ ${hideScript.join("\n")}
         void this._getCurrentUser(ws).then((data) => this._sendResponse(ws, message.id, data));
       } else if (message.type === "frontend/subscribe_user_data") {
         this.log.debug(`Subscribe user data: ${message.key}`);
-        const userDataValue = message.key === "core" ? { default_panel: "lovelace" } : null;
         ws.send(
           JSON.stringify([
             { id: message.id, type: "result", success: true, result: null },
-            { id: message.id, type: "event", event: { value: userDataValue } }
+            {
+              id: message.id,
+              type: "event",
+              event: { value: this._getUserDataValue(ws, message.key) }
+            }
           ])
         );
       } else if (message.type === "frontend/set_user_data") {
         this.log.debug(`Set user data: ${message.key}`);
+        const userKey = this._getUserKey(ws);
+        this._userData[userKey] = this._userData[userKey] || {};
+        this._userData[userKey][message.key] = message.value;
+        void this._saveUserData();
         this._sendResponse(ws, message.id);
       } else if (message.type === "frontend/subscribe_system_data") {
         this.log.debug(`Subscribe system data: ${message.key}`);
@@ -2471,7 +2534,7 @@ ${hideScript.join("\n")}
         this._sendResponse(ws, message.id);
       } else if (message.type === "frontend/get_user_data") {
         this.log.debug(`Get USER Data: ${message.key}`);
-        this._sendResponse(ws, message.id, { value: { language: this.lang } });
+        this._sendResponse(ws, message.id, { value: this._getUserDataValue(ws, message.key) });
       } else if (message.type === "frontend/get_translations") {
         this.log.debug(`Get translations: ${message.language}`);
         this._sendResponse(ws, message.id, this._getTranslations(message.language));
@@ -2507,6 +2570,54 @@ ${hideScript.join("\n")}
             { id: message.id, type: "event", event: [] }
           ])
         );
+      } else if (message.type === "search/related") {
+        const related = {};
+        const itemType = message.item_type;
+        const itemId = message.item_id;
+        if (itemType === "device") {
+          const entityIds = [];
+          const areas = /* @__PURE__ */ new Set();
+          for (const entity of entityData.entities) {
+            if (((_a = entity.context) == null ? void 0 : _a.deviceId) === itemId) {
+              entityIds.push(entity.entity_id);
+              if (entity.context.roomId) {
+                areas.add(entity.context.roomId);
+              }
+            }
+          }
+          if (entityIds.length) {
+            related.entity = entityIds;
+          }
+          if (areas.size) {
+            related.area = [...areas];
+          }
+        } else if (itemType === "entity") {
+          const entity = entityData.entityId2Entity[itemId];
+          if ((_b = entity == null ? void 0 : entity.context) == null ? void 0 : _b.deviceId) {
+            related.device = [entity.context.deviceId];
+          }
+          if ((_c = entity == null ? void 0 : entity.context) == null ? void 0 : _c.roomId) {
+            related.area = [entity.context.roomId];
+          }
+        } else if (itemType === "area") {
+          const deviceIds = /* @__PURE__ */ new Set();
+          const entityIds = [];
+          for (const entity of entityData.entities) {
+            if (((_d = entity.context) == null ? void 0 : _d.roomId) === itemId) {
+              entityIds.push(entity.entity_id);
+              if (entity.context.deviceId) {
+                deviceIds.add(entity.context.deviceId);
+              }
+            }
+          }
+          if (deviceIds.size) {
+            related.device = [...deviceIds];
+          }
+          if (entityIds.length) {
+            related.entity = entityIds;
+          }
+        }
+        this._sendResponse(ws, message.id, related);
       } else if (message.type === "manifest/list") {
         this._sendResponse(ws, message.id, []);
       } else if (message.type === "entity/source") {
@@ -2619,7 +2730,7 @@ ${hideScript.join("\n")}
       } else {
         let result = false;
         for (const mod of Object.values(this._modules)) {
-          result = ((_b = await ((_a = mod.processMessage) == null ? void 0 : _a.call(mod, ws, message))) != null ? _b : false) || result;
+          result = ((_f = await ((_e = mod.processMessage) == null ? void 0 : _e.call(mod, ws, message))) != null ? _f : false) || result;
         }
         if (!result) {
           this.log.info(`Unknown request: ${JSON.stringify(message)}`);

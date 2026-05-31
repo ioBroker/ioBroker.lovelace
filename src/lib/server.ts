@@ -197,6 +197,8 @@ class WebServer {
     private _themes: any;
     private _currentTheme: string;
     private _currentThemeDark: string;
+    /** Persistent frontend user-data: userKey -> dataKey -> value. Backs frontend/*_user_data. */
+    private _userData: Record<string, Record<string, unknown>> = {};
     private _darkMode: boolean;
     private _objectData: {
         objects: Record<string, any>;
@@ -370,6 +372,7 @@ class WebServer {
             this._readAllEntities(),
             this._listFiles(),
             this._initThemes(),
+            this._loadUserData(),
         ];
 
         Promise.all(concurrentPromises)
@@ -1720,6 +1723,60 @@ class WebServer {
     }
 
     /**
+     * Identify the frontend "user" for per-user data (theme settings, sidebar order, …).
+     * Uses the authenticated username, falling back to a shared default.
+     *
+     * @param ws - websocket connection
+     */
+    _getUserKey(ws: any): string {
+        return ws?.__auth?.username || '_default';
+    }
+
+    /**
+     * Load persisted frontend user-data from the ioBroker object DB.
+     */
+    async _loadUserData() {
+        try {
+            const obj = await this.adapter.getObjectAsync('userData');
+            this._userData = (obj?.native?.userData as Record<string, Record<string, unknown>>) || {};
+        } catch (e: any) {
+            this.log.debug(`Could not load userData: ${e}`);
+            this._userData = {};
+        }
+    }
+
+    /**
+     * Persist frontend user-data to the ioBroker object DB.
+     */
+    async _saveUserData() {
+        try {
+            const obj = await this.adapter.getObjectAsync('userData');
+            if (obj) {
+                obj.native = obj.native || {};
+                obj.native.userData = this._userData;
+                await this.adapter.setObjectAsync('userData', obj);
+            }
+        } catch (e: any) {
+            this.log.warn(`Could not save userData: ${e}`);
+        }
+    }
+
+    /**
+     * Read a single frontend user-data value for the given connection and key.
+     * The 'core' key always carries default_panel so the frontend lands on the lovelace dashboard.
+     *
+     * @param ws - websocket connection
+     * @param key - user-data key (core, theme, sidebar, language, …)
+     */
+    _getUserDataValue(ws: any, key: string): unknown {
+        const stored = this._userData[this._getUserKey(ws)]?.[key];
+        if (key === 'core') {
+            return { default_panel: 'lovelace', ...(stored || {}) };
+        }
+        return stored ?? null;
+    }
+
+    /**
      * Returns themes and the ones currently selected in config / object.
      *
      * @returns themes
@@ -2947,15 +3004,22 @@ class WebServer {
                 void this._getCurrentUser(ws).then(data => this._sendResponse(ws, message.id, data));
             } else if (message.type === 'frontend/subscribe_user_data') {
                 this.log.debug(`Subscribe user data: ${message.key}`);
-                const userDataValue: Record<string, unknown> | null = message.key === 'core' ? { default_panel: 'lovelace' } : null;
                 ws.send(
                     JSON.stringify([
                         { id: message.id, type: 'result', success: true, result: null },
-                        { id: message.id, type: 'event', event: { value: userDataValue } },
+                        {
+                            id: message.id,
+                            type: 'event',
+                            event: { value: this._getUserDataValue(ws, message.key) },
+                        },
                     ]),
                 );
             } else if (message.type === 'frontend/set_user_data') {
                 this.log.debug(`Set user data: ${message.key}`);
+                const userKey = this._getUserKey(ws);
+                this._userData[userKey] = this._userData[userKey] || {};
+                this._userData[userKey][message.key] = message.value;
+                void this._saveUserData();
                 this._sendResponse(ws, message.id);
             } else if (message.type === 'frontend/subscribe_system_data') {
                 this.log.debug(`Subscribe system data: ${message.key}`);
@@ -2973,7 +3037,7 @@ class WebServer {
                 this._sendResponse(ws, message.id);
             } else if (message.type === 'frontend/get_user_data') {
                 this.log.debug(`Get USER Data: ${message.key}`);
-                this._sendResponse(ws, message.id, { value: { language: this.lang } });
+                this._sendResponse(ws, message.id, { value: this._getUserDataValue(ws, message.key) });
             } else if (message.type === 'frontend/get_translations') {
                 this.log.debug(`Get translations: ${message.language}`);
                 this._sendResponse(ws, message.id, this._getTranslations(message.language));
@@ -3016,6 +3080,57 @@ class WebServer {
                         { id: message.id, type: 'event', event: [] },
                     ]),
                 );
+            } else if (message.type === 'search/related') {
+                // Device/entity settings pages ask what is related to an item. Return a RelatedResult
+                // object (all fields optional arrays). Missing handler made the device page crash
+                // (`t.filter is not a function`) because the frontend got undefined instead of {}.
+                const related: Record<string, string[]> = {};
+                const itemType = message.item_type as string;
+                const itemId = message.item_id as string;
+                if (itemType === 'device') {
+                    const entityIds: string[] = [];
+                    const areas = new Set<string>();
+                    for (const entity of entityData.entities) {
+                        if (entity.context?.deviceId === itemId) {
+                            entityIds.push(entity.entity_id);
+                            if (entity.context.roomId) {
+                                areas.add(entity.context.roomId);
+                            }
+                        }
+                    }
+                    if (entityIds.length) {
+                        related.entity = entityIds;
+                    }
+                    if (areas.size) {
+                        related.area = [...areas];
+                    }
+                } else if (itemType === 'entity') {
+                    const entity = entityData.entityId2Entity[itemId];
+                    if (entity?.context?.deviceId) {
+                        related.device = [entity.context.deviceId];
+                    }
+                    if (entity?.context?.roomId) {
+                        related.area = [entity.context.roomId];
+                    }
+                } else if (itemType === 'area') {
+                    const deviceIds = new Set<string>();
+                    const entityIds: string[] = [];
+                    for (const entity of entityData.entities) {
+                        if (entity.context?.roomId === itemId) {
+                            entityIds.push(entity.entity_id);
+                            if (entity.context.deviceId) {
+                                deviceIds.add(entity.context.deviceId);
+                            }
+                        }
+                    }
+                    if (deviceIds.size) {
+                        related.device = [...deviceIds];
+                    }
+                    if (entityIds.length) {
+                        related.entity = entityIds;
+                    }
+                }
+                this._sendResponse(ws, message.id, related);
             } else if (message.type === 'manifest/list') {
                 //no idea, what that is meant to be... HASS seems to send a lot of information about the available integrations..?
                 this._sendResponse(ws, message.id, []);
