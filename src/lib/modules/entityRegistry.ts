@@ -274,14 +274,14 @@ class EntityRegistry {
             });
             return true;
         } else if (message.type === 'config/entity_registry/list') {
+            // Must return a bare array of full registry entries for ALL entities (the device page
+            // filters it by device_id). `list_for_display` is the one that returns { entities, ... }.
             const entities = [];
-            for (const id of Object.keys(this._entries)) {
-                entities.push(this._entries[id]);
+            for (const entity of this.entityData.entities) {
+                const stored = this._entries[entity.entity_id];
+                entities.push(stored || this._createEntryFromEntity(entity));
             }
-            this.sendResponse(ws, message.id, {
-                entities,
-                entity_categories: this._entityCategories,
-            });
+            this.sendResponse(ws, message.id, entities);
             return true;
         } else if (message.type === 'config/entity_registry/get') {
             const entityId = message.entity_id as string;
