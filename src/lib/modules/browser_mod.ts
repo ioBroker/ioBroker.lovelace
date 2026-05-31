@@ -30,6 +30,8 @@ interface BrowserModStorage {
     version: string;
     settings: BrowserSettings;
     user_settings: Record<string, unknown>;
+    /** Maps a login-session key (auth token / user) to a Browser ID for sync-session recall. */
+    sessions: Record<string, string>;
 }
 
 interface ClientEntry {
@@ -42,13 +44,18 @@ interface WsWithBrowserId {
     send(data: string): void;
     on(event: string, listener: (...args: unknown[]) => void): void;
     browserID?: string;
+    __auth?: { username?: string; access_token?: string };
 }
 
 type AdapterWithConfig = ioBroker.Adapter & {
     config: {
         maxBrowserInstances: number;
+        themes?: string;
     };
 };
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const yaml = require('js-yaml');
 
 /**
  * Support for browser_mod integration.
@@ -90,6 +97,7 @@ class BrowserModModule {
                 lockRegister: null,
             },
             user_settings: {},
+            sessions: {},
         };
 
         this.knownViews = [];
@@ -277,6 +285,57 @@ class BrowserModModule {
             });
         }
 
+        if (!this.objects[`${ioBrokerDeviceId}.set_theme`]) {
+            await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.set_theme`, {
+                type: 'state',
+                common: {
+                    name: { en: 'Set frontend theme', de: 'Frontend-Theme setzen' },
+                    desc: {
+                        en: 'Theme name (see dropdown). Advanced: JSON with fields theme, dark ("auto"/"light"/"dark"), primaryColor.',
+                        de: 'Theme-Name (siehe Auswahl). Erweitert: JSON mit Feldern theme, dark ("auto"/"light"/"dark"), primaryColor.',
+                    },
+                    type: 'string',
+                    read: false,
+                    write: true,
+                    role: 'text',
+                    states: this._getThemeStates(),
+                },
+                native: { instance: browserId },
+            });
+        }
+
+        if (!this.objects[`${ioBrokerDeviceId}.console`]) {
+            await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.console`, {
+                type: 'state',
+                common: {
+                    name: { en: 'Log message to browser console', de: 'Nachricht in Browser-Konsole ausgeben' },
+                    type: 'string',
+                    read: false,
+                    write: true,
+                    role: 'text',
+                },
+                native: { instance: browserId },
+            });
+        }
+
+        if (!this.objects[`${ioBrokerDeviceId}.change_browser_id`]) {
+            await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.change_browser_id`, {
+                type: 'state',
+                common: {
+                    name: { en: 'Change this Browser ID', de: 'Diese Browser-ID ändern' },
+                    desc: {
+                        en: 'New Browser ID as plain text, or JSON with fields: new_browser_id, register (bool), refresh (bool).',
+                        de: 'Neue Browser-ID als Text, oder JSON mit Feldern: new_browser_id, register (bool), refresh (bool).',
+                    },
+                    type: 'string',
+                    read: false,
+                    write: true,
+                    role: 'json',
+                },
+                native: { instance: browserId },
+            });
+        }
+
         if (!this.objects[`${ioBrokerDeviceId}.online`] && browserId) {
             await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.online`, {
                 type: 'state',
@@ -455,6 +514,33 @@ class BrowserModModule {
     }
 
     /**
+     * Derive a stable key for the current login session, used for sync-session Browser ID recall.
+     * Prefers the auth token, falls back to the username. Returns undefined when neither is known.
+     *
+     * @param ws - websocket connection
+     */
+    private _sessionKey(ws: WsWithBrowserId): string | undefined {
+        return ws.__auth?.access_token || ws.__auth?.username || undefined;
+    }
+
+    /**
+     * Build the `common.states` value→label map of theme names available for set_theme.
+     * Parses the same theme YAML the server uses, plus the built-in 'default'/'auto' entries.
+     */
+    private _getThemeStates(): Record<string, string> {
+        const states: Record<string, string> = { default: 'default', auto: 'auto' };
+        try {
+            const themes = (yaml.load(this.adapter.config.themes || '') as Record<string, unknown>) || {};
+            for (const themeName of Object.keys(themes)) {
+                states[themeName] = themeName;
+            }
+        } catch (e) {
+            this.adapter.log.debug(`Could not parse themes for set_theme states: ${String(e)}`);
+        }
+        return states;
+    }
+
+    /**
      * Process a message from a browser_mod instance.
      *
      * @param ws - websocket connection with browser id
@@ -558,15 +644,47 @@ class BrowserModModule {
                 this.adapter.log.debug(`Message from browser_mod: ${String(message.message)}`);
                 ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
             } else if (method === 'settings') {
-                if (message.key && this.browserModStorage.settings[message.key as string] !== undefined) {
-                    this.browserModStorage.settings[message.key as string] = message.value;
+                // Settings come in three scopes: global ({key,value}), per-user ({user,key,value})
+                // and per-browser. Store any key the frontend sends — new browser_mod versions add
+                // settings (kiosk mode, camera resolution, defaultDashboard, syncSession, …) that are
+                // not part of our initial seed, and the old `!== undefined` guard silently dropped them.
+                if (message.key) {
+                    if (message.user) {
+                        const user = message.user as string;
+                        const userSettings = (this.browserModStorage.user_settings[user] ||
+                            (this.browserModStorage.user_settings[user] = {})) as Record<string, unknown>;
+                        userSettings[message.key as string] = message.value;
+                    } else {
+                        this.browserModStorage.settings[message.key as string] = message.value;
+                    }
                     this.adapter.log.debug(
                         `Updated browser_mod settings: ${message.key as string} to ${String(message.value)}`,
                     );
                 }
                 ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
+            } else if (method === 'store_session') {
+                // Sync-session: tie this Browser ID to the login session so it can be recalled on
+                // other clients sharing the same login (e.g. Companion apps). browser_mod 2.13+.
+                const sessionKey = this._sessionKey(ws);
+                if (sessionKey && message.browserID) {
+                    this.browserModStorage.sessions[sessionKey] = message.browserID as string;
+                }
+                ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
+            } else if (method === 'delete_session') {
+                const sessionKey = this._sessionKey(ws);
+                if (sessionKey) {
+                    delete this.browserModStorage.sessions[sessionKey];
+                }
+                ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
             } else if (method === 'recall_id') {
-                ws.send(JSON.stringify({ id: message.id, type: 'result', success: true, result: ws.browserID }));
+                // The frontend expects { browserID, via_session }. If a sync-session mapping exists
+                // for this login, return it and flag via_session so the client enables sync mode.
+                const sessionKey = this._sessionKey(ws);
+                const sessionBrowserId = sessionKey ? this.browserModStorage.sessions[sessionKey] : undefined;
+                const result = sessionBrowserId
+                    ? { browserID: sessionBrowserId, via_session: true }
+                    : { browserID: ws.browserID ?? null };
+                ws.send(JSON.stringify({ id: message.id, type: 'result', success: true, result }));
             } else if (method === 'unregister') {
                 const browserId = message.browserID as string;
                 try {
@@ -686,6 +804,45 @@ class BrowserModModule {
                         }
                         break;
                     case 'refresh':
+                        break;
+                    case 'set_theme':
+                        if (state.val) {
+                            const valStr = state.val as string;
+                            try {
+                                const theme = JSON.parse(valStr) as Record<string, unknown>;
+                                for (const key of Object.keys(theme)) {
+                                    event[key] = theme[key];
+                                }
+                            } catch {
+                                // Plain string -> treat as theme name
+                                event.theme = valStr;
+                            }
+                        } else {
+                            return;
+                        }
+                        break;
+                    case 'console':
+                        if (state.val) {
+                            event.message = state.val;
+                        } else {
+                            return;
+                        }
+                        break;
+                    case 'change_browser_id':
+                        if (state.val) {
+                            const valStr = state.val as string;
+                            event.current_browser_id = browserId;
+                            try {
+                                const data = JSON.parse(valStr) as Record<string, unknown>;
+                                for (const key of Object.keys(data)) {
+                                    event[key] = data[key];
+                                }
+                            } catch {
+                                event.new_browser_id = valStr;
+                            }
+                        } else {
+                            return;
+                        }
                         break;
                     case 'hideHeader':
                         if (allDevices) {

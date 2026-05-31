@@ -1,5 +1,6 @@
 "use strict";
 const instancesPath = "instances.";
+const yaml = require("js-yaml");
 class BrowserModModule {
   adapter;
   objects;
@@ -34,7 +35,8 @@ class BrowserModModule {
         autoRegister: true,
         lockRegister: null
       },
-      user_settings: {}
+      user_settings: {},
+      sessions: {}
     };
     this.knownViews = [];
     this.knownViewsStates = {};
@@ -203,6 +205,54 @@ class BrowserModModule {
       await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.blackout`, {
         type: "state",
         common: { name: "Blackout screen", type: "boolean", read: false, write: true, role: "button" },
+        native: { instance: browserId }
+      });
+    }
+    if (!this.objects[`${ioBrokerDeviceId}.set_theme`]) {
+      await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.set_theme`, {
+        type: "state",
+        common: {
+          name: { en: "Set frontend theme", de: "Frontend-Theme setzen" },
+          desc: {
+            en: 'Theme name (see dropdown). Advanced: JSON with fields theme, dark ("auto"/"light"/"dark"), primaryColor.',
+            de: 'Theme-Name (siehe Auswahl). Erweitert: JSON mit Feldern theme, dark ("auto"/"light"/"dark"), primaryColor.'
+          },
+          type: "string",
+          read: false,
+          write: true,
+          role: "text",
+          states: this._getThemeStates()
+        },
+        native: { instance: browserId }
+      });
+    }
+    if (!this.objects[`${ioBrokerDeviceId}.console`]) {
+      await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.console`, {
+        type: "state",
+        common: {
+          name: { en: "Log message to browser console", de: "Nachricht in Browser-Konsole ausgeben" },
+          type: "string",
+          read: false,
+          write: true,
+          role: "text"
+        },
+        native: { instance: browserId }
+      });
+    }
+    if (!this.objects[`${ioBrokerDeviceId}.change_browser_id`]) {
+      await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.change_browser_id`, {
+        type: "state",
+        common: {
+          name: { en: "Change this Browser ID", de: "Diese Browser-ID \xE4ndern" },
+          desc: {
+            en: "New Browser ID as plain text, or JSON with fields: new_browser_id, register (bool), refresh (bool).",
+            de: "Neue Browser-ID als Text, oder JSON mit Feldern: new_browser_id, register (bool), refresh (bool)."
+          },
+          type: "string",
+          read: false,
+          write: true,
+          role: "json"
+        },
         native: { instance: browserId }
       });
     }
@@ -377,12 +427,39 @@ class BrowserModModule {
     );
   }
   /**
+   * Derive a stable key for the current login session, used for sync-session Browser ID recall.
+   * Prefers the auth token, falls back to the username. Returns undefined when neither is known.
+   *
+   * @param ws - websocket connection
+   */
+  _sessionKey(ws) {
+    var _a, _b;
+    return ((_a = ws.__auth) == null ? void 0 : _a.access_token) || ((_b = ws.__auth) == null ? void 0 : _b.username) || void 0;
+  }
+  /**
+   * Build the `common.states` value→label map of theme names available for set_theme.
+   * Parses the same theme YAML the server uses, plus the built-in 'default'/'auto' entries.
+   */
+  _getThemeStates() {
+    const states = { default: "default", auto: "auto" };
+    try {
+      const themes = yaml.load(this.adapter.config.themes || "") || {};
+      for (const themeName of Object.keys(themes)) {
+        states[themeName] = themeName;
+      }
+    } catch (e) {
+      this.adapter.log.debug(`Could not parse themes for set_theme states: ${String(e)}`);
+    }
+    return states;
+  }
+  /**
    * Process a message from a browser_mod instance.
    *
    * @param ws - websocket connection with browser id
    * @param message - the message from the frontend
    */
   async processMessage(ws, message) {
+    var _a;
     if (message.type && message.type.startsWith("browser_mod/")) {
       const method = message.type.split("/")[1];
       if (!message.browserID && method !== "recall_id") {
@@ -474,15 +551,36 @@ class BrowserModModule {
         this.adapter.log.debug(`Message from browser_mod: ${String(message.message)}`);
         ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
       } else if (method === "settings") {
-        if (message.key && this.browserModStorage.settings[message.key] !== void 0) {
-          this.browserModStorage.settings[message.key] = message.value;
+        if (message.key) {
+          if (message.user) {
+            const user = message.user;
+            const userSettings = this.browserModStorage.user_settings[user] || (this.browserModStorage.user_settings[user] = {});
+            userSettings[message.key] = message.value;
+          } else {
+            this.browserModStorage.settings[message.key] = message.value;
+          }
           this.adapter.log.debug(
             `Updated browser_mod settings: ${message.key} to ${String(message.value)}`
           );
         }
         ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
+      } else if (method === "store_session") {
+        const sessionKey = this._sessionKey(ws);
+        if (sessionKey && message.browserID) {
+          this.browserModStorage.sessions[sessionKey] = message.browserID;
+        }
+        ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
+      } else if (method === "delete_session") {
+        const sessionKey = this._sessionKey(ws);
+        if (sessionKey) {
+          delete this.browserModStorage.sessions[sessionKey];
+        }
+        ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
       } else if (method === "recall_id") {
-        ws.send(JSON.stringify({ id: message.id, type: "result", success: true, result: ws.browserID }));
+        const sessionKey = this._sessionKey(ws);
+        const sessionBrowserId = sessionKey ? this.browserModStorage.sessions[sessionKey] : void 0;
+        const result = sessionBrowserId ? { browserID: sessionBrowserId, via_session: true } : { browserID: (_a = ws.browserID) != null ? _a : null };
+        ws.send(JSON.stringify({ id: message.id, type: "result", success: true, result }));
       } else if (method === "unregister") {
         const browserId = message.browserID;
         try {
@@ -598,6 +696,44 @@ class BrowserModModule {
             }
             break;
           case "refresh":
+            break;
+          case "set_theme":
+            if (state.val) {
+              const valStr = state.val;
+              try {
+                const theme = JSON.parse(valStr);
+                for (const key of Object.keys(theme)) {
+                  event[key] = theme[key];
+                }
+              } catch {
+                event.theme = valStr;
+              }
+            } else {
+              return;
+            }
+            break;
+          case "console":
+            if (state.val) {
+              event.message = state.val;
+            } else {
+              return;
+            }
+            break;
+          case "change_browser_id":
+            if (state.val) {
+              const valStr = state.val;
+              event.current_browser_id = browserId;
+              try {
+                const data = JSON.parse(valStr);
+                for (const key of Object.keys(data)) {
+                  event[key] = data[key];
+                }
+              } catch {
+                event.new_browser_id = valStr;
+              }
+            } else {
+              return;
+            }
             break;
           case "hideHeader":
             if (allDevices) {
