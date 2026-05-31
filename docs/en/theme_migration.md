@@ -56,6 +56,22 @@ my_theme:
 You can also use fixed colors instead of `var(...)`, e.g.
 `ha-color-form-background: '#34294f'`.
 
+### Related: white accordions / expansion panels
+
+The same kind of new token affects expanded **accordions / expansion panels**
+(e.g. in the Browser Mod settings panel). Their header background uses
+`--ha-color-fill-neutral-normal-active`, which also defaults light. If you see
+white accordion headers, add:
+
+```yaml
+my_theme:
+  ha-color-fill-neutral-normal-active: 'var(--card-background-color)'
+  ha-color-fill-neutral-normal-hover: 'var(--light-primary-color)'
+```
+
+In general, the rule is the same for all of these: legacy-only themes don't
+override the new `--ha-color-*` tokens unless dark mode is active (see below).
+
 > For the *synthwave* theme, adding exactly these three lines is enough – it
 > already sets `card-background-color`, just not `ha-color-form-background`. The
 > current upstream version of the theme sets this variable itself.

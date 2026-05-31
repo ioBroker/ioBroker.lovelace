@@ -58,6 +58,23 @@ mein_theme:
 Du kannst statt der `var(...)` auch direkt feste Farben angeben, z. B.
 `ha-color-form-background: '#34294f'`.
 
+### Verwandt: weiße Accordions / Ausklapp-Bereiche
+
+Dieselbe Art neuer Variable betrifft aufgeklappte **Accordions / Ausklapp-Bereiche**
+(z. B. im Browser-Mod-Einstellungsbereich). Deren Kopfzeilen-Hintergrund nutzt
+`--ha-color-fill-neutral-normal-active`, das ebenfalls hell voreingestellt ist.
+Bei weißen Accordion-Kopfzeilen ergänze:
+
+```yaml
+mein_theme:
+  ha-color-fill-neutral-normal-active: 'var(--card-background-color)'
+  ha-color-fill-neutral-normal-hover: 'var(--light-primary-color)'
+```
+
+Die Regel ist überall dieselbe: Themes, die nur alte Variablen setzen,
+überschreiben die neuen `--ha-color-*`-Variablen nicht – außer der Dunkelmodus
+ist aktiv (siehe unten).
+
 > Beim *synthwave*-Theme reicht es genau, diese drei Zeilen zu ergänzen –
 > es hat `card-background-color` bereits gesetzt, aber nicht
 > `ha-color-form-background`. Die aktuelle Upstream-Version des Themes setzt diese
