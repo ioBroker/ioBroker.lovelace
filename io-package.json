@@ -374,7 +374,15 @@
       "native": {}
     },
     {
-      "_id": "entityRegistry",
+      "_id": "storage",
+      "type": "folder",
+      "common": {
+        "name": "Internal storage (registries, preferences, dashboards)"
+      },
+      "native": {}
+    },
+    {
+      "_id": "storage.entityRegistry",
       "type": "channel",
       "common": {
         "name": "Storage for entity registry"
@@ -382,7 +390,7 @@
       "native": {}
     },
     {
-      "_id": "areaRegistry",
+      "_id": "storage.areaRegistry",
       "type": "channel",
       "common": {
         "name": "Storage for area registry"
@@ -390,7 +398,7 @@
       "native": {}
     },
     {
-      "_id": "energyPrefs",
+      "_id": "storage.energyPrefs",
       "type": "channel",
       "common": {
         "name": "Storage for energy dashboard preferences"
@@ -398,7 +406,7 @@
       "native": {}
     },
     {
-      "_id": "userData",
+      "_id": "storage.userData",
       "type": "channel",
       "common": {
         "name": "Storage for frontend user data (theme settings, sidebar order, …)"
@@ -406,7 +414,7 @@
       "native": {}
     },
     {
-      "_id": "dashboardStorage",
+      "_id": "storage.dashboardStorage",
       "type": "channel",
       "common": {
         "name": "Storage for dashboards"
