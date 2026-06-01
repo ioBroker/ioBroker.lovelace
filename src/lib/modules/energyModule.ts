@@ -1,3 +1,4 @@
+import { STORAGE_PREFIX } from './storage';
 /**
  * Energy dashboard module.
  *
@@ -37,7 +38,12 @@ const EMPTY_PREFS: EnergyPreferences = {
 class EnergyModule {
     private adapter: ioBroker.Adapter;
     private sendResponse: SendResponseFn;
-    private _prefs: EnergyPreferences = { ...EMPTY_PREFS, energy_sources: [], device_consumption: [], device_consumption_water: [] };
+    private _prefs: EnergyPreferences = {
+        ...EMPTY_PREFS,
+        energy_sources: [],
+        device_consumption: [],
+        device_consumption_water: [],
+    };
 
     constructor(options: { adapter: ioBroker.Adapter; sendResponse: SendResponseFn }) {
         this.adapter = options.adapter;
@@ -45,21 +51,26 @@ class EnergyModule {
     }
 
     async init(): Promise<void> {
-        const storage = await this.adapter.getObjectAsync('energyPrefs');
+        const storage = await this.adapter.getObjectAsync(`${STORAGE_PREFIX}energyPrefs`);
         const native = (storage as ioBroker.Object & { native: Record<string, unknown> })?.native;
-        this._prefs = (native?.prefs as EnergyPreferences) || { ...EMPTY_PREFS, energy_sources: [], device_consumption: [], device_consumption_water: [] };
+        this._prefs = (native?.prefs as EnergyPreferences) || {
+            ...EMPTY_PREFS,
+            energy_sources: [],
+            device_consumption: [],
+            device_consumption_water: [],
+        };
         this.adapter.log.debug('modules/energyModule: init done.');
     }
 
     private async _save(): Promise<void> {
-        const storage = (await this.adapter.getObjectAsync('energyPrefs')) as ioBroker.AnyObject & {
+        const storage = (await this.adapter.getObjectAsync(`${STORAGE_PREFIX}energyPrefs`)) as ioBroker.AnyObject & {
             native: Record<string, unknown>;
         };
         if (!storage?.native) {
             return;
         }
         storage.native.prefs = this._prefs;
-        await this.adapter.setObject('energyPrefs', storage);
+        await this.adapter.setObject(`${STORAGE_PREFIX}energyPrefs`, storage);
     }
 
     /** Derive cost_sensors map from stored prefs: stat_energy_from → stat_cost */
@@ -81,7 +92,11 @@ class EnergyModule {
     }
 
     /** Build an empty validation result (no issues) for the current prefs */
-    private _emptyValidation() {
+    private _emptyValidation(): {
+        energy_sources: unknown[][];
+        device_consumption: unknown[][];
+        device_consumption_water: unknown[][];
+    } {
         return {
             energy_sources: this._prefs.energy_sources.map(() => []),
             device_consumption: this._prefs.device_consumption.map(() => []),
@@ -109,9 +124,14 @@ class EnergyModule {
             case 'energy/save_prefs': {
                 // message spreads Partial<EnergyPreferences> directly into the WS message
                 const updated: EnergyPreferences = {
-                    energy_sources: (message.energy_sources as EnergySource[] | undefined) ?? this._prefs.energy_sources,
-                    device_consumption: (message.device_consumption as DeviceConsumption[] | undefined) ?? this._prefs.device_consumption,
-                    device_consumption_water: (message.device_consumption_water as DeviceConsumption[] | undefined) ?? this._prefs.device_consumption_water,
+                    energy_sources:
+                        (message.energy_sources as EnergySource[] | undefined) ?? this._prefs.energy_sources,
+                    device_consumption:
+                        (message.device_consumption as DeviceConsumption[] | undefined) ??
+                        this._prefs.device_consumption,
+                    device_consumption_water:
+                        (message.device_consumption_water as DeviceConsumption[] | undefined) ??
+                        this._prefs.device_consumption_water,
                 };
                 this._prefs = updated;
                 void this._save();

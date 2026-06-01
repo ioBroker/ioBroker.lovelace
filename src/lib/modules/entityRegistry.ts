@@ -1,4 +1,5 @@
 import type { BaseEntity } from '../entities/baseEntity';
+import { STORAGE_PREFIX } from './storage';
 
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string, data?: unknown) => void;
@@ -401,7 +402,7 @@ class EntityRegistry {
      * Load the entity registry from the ioBroker object database.
      */
     async loadEntityRegistry(): Promise<void> {
-        const storage = await this.adapter.getObjectAsync('entityRegistry');
+        const storage = await this.adapter.getObjectAsync(`${STORAGE_PREFIX}entityRegistry`);
         const native = (storage as ioBroker.Object & { native: Record<string, unknown> })?.native;
         this._entries = (native?.entries as Record<string, RegistryEntry>) || {};
         this._iobIdToEntityId = (native?.iobIdToEntityId as Record<string, string>) || {};
@@ -415,7 +416,7 @@ class EntityRegistry {
      * Store the entity registry to the ioBroker object database.
      */
     async saveEntityRegistry(): Promise<void> {
-        const storage = (await this.adapter.getObjectAsync('entityRegistry')) as ioBroker.AnyObject & {
+        const storage = (await this.adapter.getObjectAsync(`${STORAGE_PREFIX}entityRegistry`)) as ioBroker.AnyObject & {
             native: Record<string, unknown>;
         };
         if (!storage.native) {
@@ -424,7 +425,7 @@ class EntityRegistry {
         storage.native.entries = this._entries;
         storage.native.iobIdToEntityId = this._iobIdToEntityId;
         storage.native.entityCategories = this._entityCategories;
-        await this.adapter.setObject('entityRegistry', storage);
+        await this.adapter.setObject(`${STORAGE_PREFIX}entityRegistry`, storage);
     }
 
     /**

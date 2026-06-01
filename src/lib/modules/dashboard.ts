@@ -1,3 +1,4 @@
+import { STORAGE_PREFIX } from './storage';
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string) => void;
 
@@ -41,7 +42,7 @@ class DashboardModule {
      * Load the dashboards from the ioBroker object database.
      */
     async loadDashboards(): Promise<void> {
-        const storage = await this.adapter.getObjectAsync('dashboardStorage');
+        const storage = await this.adapter.getObjectAsync(`${STORAGE_PREFIX}dashboardStorage`);
         this._dashboards =
             ((storage as ioBroker.Object & { native: Record<string, unknown> })?.native?.dashboards as Dashboard[]) ||
             [];
@@ -56,7 +57,9 @@ class DashboardModule {
      * Store the dashboards to the ioBroker object database.
      */
     async saveDashboards(): Promise<void> {
-        const storage = (await this.adapter.getObjectAsync('dashboardStorage')) as ioBroker.AnyObject & {
+        const storage = (await this.adapter.getObjectAsync(
+            `${STORAGE_PREFIX}dashboardStorage`,
+        )) as ioBroker.AnyObject & {
             native: Record<string, unknown>;
         };
         if (!storage.native) {
@@ -64,7 +67,7 @@ class DashboardModule {
         }
         storage.native.dashboards = this._dashboards;
         storage.native.dashboardConfigs = this._dashboardConfigs;
-        await this.adapter.setObject('dashboardStorage', storage);
+        await this.adapter.setObject(`${STORAGE_PREFIX}dashboardStorage`, storage);
     }
 
     /**

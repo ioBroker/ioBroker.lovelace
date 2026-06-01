@@ -1,3 +1,4 @@
+import { STORAGE_PREFIX } from './storage';
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string) => void;
 
@@ -33,21 +34,21 @@ class AreaRegistry {
     }
 
     async init(): Promise<void> {
-        const storage = await this.adapter.getObjectAsync('areaRegistry');
+        const storage = await this.adapter.getObjectAsync(`${STORAGE_PREFIX}areaRegistry`);
         const native = (storage as ioBroker.Object & { native: Record<string, unknown> })?.native;
         this._sortOrder = (native?.sortOrder as string[]) || [];
         this.adapter.log.debug('modules/areaRegistry: init done.');
     }
 
     private async _save(): Promise<void> {
-        const storage = (await this.adapter.getObjectAsync('areaRegistry')) as ioBroker.AnyObject & {
+        const storage = (await this.adapter.getObjectAsync(`${STORAGE_PREFIX}areaRegistry`)) as ioBroker.AnyObject & {
             native: Record<string, unknown>;
         };
         if (!storage?.native) {
             return;
         }
         storage.native.sortOrder = this._sortOrder;
-        await this.adapter.setObject('areaRegistry', storage);
+        await this.adapter.setObject(`${STORAGE_PREFIX}areaRegistry`, storage);
     }
 
     /**
