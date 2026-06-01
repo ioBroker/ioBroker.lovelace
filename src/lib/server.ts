@@ -40,6 +40,7 @@ import UserDataModule from './modules/userData';
 import ThemesModule from './modules/themes';
 import TemplateModule from './modules/template';
 import CompatModule from './modules/compat';
+import SearchModule from './modules/search';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -343,6 +344,10 @@ class WebServer {
             compat: new CompatModule({
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
                 listDevices: (ws, message) => void this._modules.deviceRegistry.processMessage(ws, message),
+            }),
+            search: new SearchModule({
+                sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
+                entityData,
             }),
             history: new HistoryModule({
                 adapter: this.adapter,
@@ -2879,6 +2884,8 @@ class WebServer {
                 this._sendResponse(ws, message.id, this._ressourceConfig);
             } else if (this._modules.compat.processMessage(ws, message)) {
                 // repairs/floors/labels/config_entries/manifest stubs handled by the compat module.
+            } else if (this._modules.search.processMessage(ws, message)) {
+                // search/related and entity/source handled by the search module.
             } else if (message.type === 'camera_thumbnail') {
                 this.log.warn(`camera_thumbnail ${message.entity_id} deprecated!!!`);
                 try {
