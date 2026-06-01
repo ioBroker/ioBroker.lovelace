@@ -1699,18 +1699,34 @@ class WebServer {
     }
 
     /**
-     *
-     */
-    }
-
-    /**
-     * Somehow this seem to just be the entities?
+     * Internal: returns the full internal entity objects. Used by main.ts message handlers
+     * (browse, checkIdForDuplicates) which need fields like isManual / context.id.
      *
      * @returns entity array.
      */
     getHassStates() {
         // parse config for entity_ids
         return entityData.entities;
+    }
+
+    /**
+     * Build the response for the frontend `get_states` message: a clean array of Home Assistant
+     * state objects. We deliberately do NOT send the raw internal entities - those carry adapter
+     * internals (context.STATE ioBroker ids, ATTRIBUTES/COMMANDS, etc.) the frontend doesn't need,
+     * and a non-serializable/circular field would break JSON.stringify (relevant once entities
+     * carry an adapter context reference).
+     *
+     * @returns array of HA HassEntity objects
+     */
+    _getFrontendStates() {
+        return entityData.entities.map((entity: any) => ({
+            entity_id: entity.entity_id,
+            state: entity.state,
+            attributes: entity.attributes,
+            last_changed: entity.last_changed,
+            last_updated: entity.last_updated,
+            context: { id: entity.context?.id ?? entity.entity_id, parent_id: null, user_id: null },
+        }));
     }
 
     /**
@@ -2813,7 +2829,7 @@ class WebServer {
                 this.log.debug(`supported_features message: ${JSON.stringify(message.features)}`);
                 this._sendResponse(ws, message.id);
             } else if (message.type === 'get_states') {
-                this._sendResponse(ws, message.id, this.getHassStates());
+                this._sendResponse(ws, message.id, this._getFrontendStates());
             } else if (message.type === 'get_config') {
                 this._sendResponse(ws, message.id, this._getConfig());
             } else if (message.type === 'get_services') {
