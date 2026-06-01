@@ -36,6 +36,7 @@ import DashboardModule from './modules/dashboard';
 import DeviceRegistryModule from './modules/deviceRegistry';
 import AreaRegistryModule from './modules/areaRegistry';
 import EnergyModule from './modules/energyModule';
+import UserDataModule from './modules/userData';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -50,6 +51,7 @@ type Modules = {
     deviceRegistry: InstanceType<typeof DeviceRegistryModule>;
     areaRegistry: InstanceType<typeof AreaRegistryModule>;
     energy: InstanceType<typeof EnergyModule>;
+    userData: InstanceType<typeof UserDataModule>;
     history: InstanceType<typeof HistoryModule>;
     statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
 };
@@ -198,7 +200,6 @@ class WebServer {
     private _currentTheme: string;
     private _currentThemeDark: string;
     /** Persistent frontend user-data: userKey -> dataKey -> value. Backs frontend/*_user_data. */
-    private _userData: Record<string, Record<string, unknown>> = {};
     private _darkMode: boolean;
     private _objectData: {
         objects: Record<string, any>;
@@ -325,6 +326,10 @@ class WebServer {
                 adapter: this.adapter,
                 sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
             }),
+            userData: new UserDataModule({
+                adapter: this.adapter,
+                sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
+            }),
             history: new HistoryModule({
                 adapter: this.adapter,
                 entityData: entityData,
@@ -350,6 +355,7 @@ class WebServer {
             this._modules.areaRegistry.init(),
             this._modules.energy.init(),
             this._modules.dashboard.init(),
+            storageReady.then(() => this._modules.userData.init()),
             this.adapter
                 .getForeignObjectAsync('system.config')
                 .then((config: any) => {
@@ -372,7 +378,6 @@ class WebServer {
             this._readAllEntities(),
             this._listFiles(),
             this._initThemes(),
-            this._loadUserData(),
         ];
 
         Promise.all(concurrentPromises)
@@ -1723,58 +1728,7 @@ class WebServer {
     }
 
     /**
-     * Identify the frontend "user" for per-user data (theme settings, sidebar order, …).
-     * Uses the authenticated username, falling back to a shared default.
      *
-     * @param ws - websocket connection
-     */
-    _getUserKey(ws: any): string {
-        return ws?.__auth?.username || '_default';
-    }
-
-    /**
-     * Load persisted frontend user-data from the ioBroker object DB.
-     */
-    async _loadUserData() {
-        try {
-            const obj = await this.adapter.getObjectAsync('userData');
-            this._userData = (obj?.native?.userData as Record<string, Record<string, unknown>>) || {};
-        } catch (e: any) {
-            this.log.debug(`Could not load userData: ${e}`);
-            this._userData = {};
-        }
-    }
-
-    /**
-     * Persist frontend user-data to the ioBroker object DB.
-     */
-    async _saveUserData() {
-        try {
-            const obj = await this.adapter.getObjectAsync('userData');
-            if (obj) {
-                obj.native = obj.native || {};
-                obj.native.userData = this._userData;
-                await this.adapter.setObjectAsync('userData', obj);
-            }
-        } catch (e: any) {
-            this.log.warn(`Could not save userData: ${e}`);
-        }
-    }
-
-    /**
-     * Read a single frontend user-data value for the given connection and key.
-     * The 'core' key always carries default_panel so the frontend lands on the lovelace dashboard.
-     *
-     * @param ws - websocket connection
-     * @param key - user-data key (core, theme, sidebar, language, …)
-     */
-    _getUserDataValue(ws: any, key: string): unknown {
-        const stored = this._userData[this._getUserKey(ws)]?.[key];
-        if (key === 'core') {
-            return { default_panel: 'lovelace', ...(stored || {}) };
-        }
-        return stored ?? null;
-    }
 
     /**
      * Returns themes and the ones currently selected in config / object.
@@ -3002,42 +2956,8 @@ class WebServer {
                 this._sendResponse(ws, message.id, this._getThemes());
             } else if (message.type === 'auth/current_user') {
                 void this._getCurrentUser(ws).then(data => this._sendResponse(ws, message.id, data));
-            } else if (message.type === 'frontend/subscribe_user_data') {
-                this.log.debug(`Subscribe user data: ${message.key}`);
-                ws.send(
-                    JSON.stringify([
-                        { id: message.id, type: 'result', success: true, result: null },
-                        {
-                            id: message.id,
-                            type: 'event',
-                            event: { value: this._getUserDataValue(ws, message.key) },
-                        },
-                    ]),
-                );
-            } else if (message.type === 'frontend/set_user_data') {
-                this.log.debug(`Set user data: ${message.key}`);
-                const userKey = this._getUserKey(ws);
-                this._userData[userKey] = this._userData[userKey] || {};
-                this._userData[userKey][message.key] = message.value;
-                void this._saveUserData();
-                this._sendResponse(ws, message.id);
-            } else if (message.type === 'frontend/subscribe_system_data') {
-                this.log.debug(`Subscribe system data: ${message.key}`);
-                ws.send(
-                    JSON.stringify([
-                        { id: message.id, type: 'result', success: true, result: null },
-                        { id: message.id, type: 'event', event: { value: null } },
-                    ]),
-                );
-            } else if (message.type === 'frontend/get_system_data') {
-                this.log.debug(`Get system data: ${message.key}`);
-                this._sendResponse(ws, message.id, { value: null });
-            } else if (message.type === 'frontend/set_system_data') {
-                this.log.debug(`Set system data: ${message.key}`);
-                this._sendResponse(ws, message.id);
-            } else if (message.type === 'frontend/get_user_data') {
-                this.log.debug(`Get USER Data: ${message.key}`);
-                this._sendResponse(ws, message.id, { value: this._getUserDataValue(ws, message.key) });
+            } else if (this._modules.userData.processMessage(ws, message)) {
+                // frontend/(get|set|subscribe)_(user|system)_data handled by the userData module.
             } else if (message.type === 'frontend/get_translations') {
                 this.log.debug(`Get translations: ${message.language}`);
                 this._sendResponse(ws, message.id, this._getTranslations(message.language));
