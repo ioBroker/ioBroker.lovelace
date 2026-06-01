@@ -42,6 +42,7 @@ import TemplateModule from './modules/template';
 import CompatModule from './modules/compat';
 import SearchModule from './modules/search';
 import ImageModule from './modules/image';
+import { migrateStorageObjects } from './modules/storage';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -60,6 +61,8 @@ type Modules = {
     themes: InstanceType<typeof ThemesModule>;
     template: InstanceType<typeof TemplateModule>;
     compat: InstanceType<typeof CompatModule>;
+    search: InstanceType<typeof SearchModule>;
+    image: InstanceType<typeof ImageModule>;
     history: InstanceType<typeof HistoryModule>;
     statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
 };
@@ -396,13 +399,19 @@ class WebServer {
             this.adapter.config.updateTimeout = Math.max(100, Math.min(this.adapter.config.updateTimeout, 30000));
         }
 
+        // Move legacy root storage objects into the `storage` folder before any module reads them.
+        const storageReady = migrateStorageObjects(this.adapter);
+        // Entity conversion relies on the registry's restored entity_id reservations
+        // (converter uses getReservedEntityId), so _readAllEntities must wait for this.
+        const entityRegistryReady = storageReady.then(() => this._modules.entityRegistry.init());
+
         const concurrentPromises = [
             this._modules.todo.init(),
             this._modules.person.init(),
-            this._modules.entityRegistry.init(),
-            this._modules.areaRegistry.init(),
-            this._modules.energy.init(),
-            this._modules.dashboard.init(),
+            entityRegistryReady,
+            storageReady.then(() => this._modules.areaRegistry.init()),
+            storageReady.then(() => this._modules.energy.init()),
+            storageReady.then(() => this._modules.dashboard.init()),
             storageReady.then(() => this._modules.userData.init()),
             this.adapter
                 .getForeignObjectAsync('system.config')
@@ -423,7 +432,7 @@ class WebServer {
                     }
                 })
                 .then(() => this._modules.browserMod.init(this._lovelaceConfig)),
-            this._readAllEntities(),
+            entityRegistryReady.then(() => this._readAllEntities()),
             this._listFiles(),
             this._modules.themes.init(),
         ];
