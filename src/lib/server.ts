@@ -41,6 +41,7 @@ import ThemesModule from './modules/themes';
 import TemplateModule from './modules/template';
 import CompatModule from './modules/compat';
 import SearchModule from './modules/search';
+import ImageModule from './modules/image';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -75,15 +76,10 @@ const multer = require('multer');
 
 const mime = require('mime');
 
-const yaml = require('js-yaml');
-
-const axios = require('axios');
 
 const jstz = require('jstimezonedetect');
 
 const entityData = require('../../lib/dataSingleton');
-
-const bindings = require('../../lib/bindings');
 
 const ChannelDetector = require('@iobroker/type-detector').default;
 
@@ -348,6 +344,39 @@ class WebServer {
             search: new SearchModule({
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
                 entityData,
+            }),
+            image: new ImageModule({
+                adapter: this.adapter,
+                entityData,
+                getUserIDFromName: (name: unknown) => this._modules.person.getUserIDFromName(name as string),
+                resolveUser: ({ entityId, token, accessToken, url, reqUser, entity }) => {
+                    let userName: string | undefined;
+                    if (
+                        this.config.auth !== false &&
+                        (token || accessToken) &&
+                        !this._requestableFiles.includes(url as string) &&
+                        !entityData.entityIconUrls.includes(url)
+                    ) {
+                        if (accessToken) {
+                            const now = Date.now();
+                            const flowId = Object.keys(this._auth_flows).find(
+                                fId =>
+                                    this._auth_flows[fId].access_token === accessToken &&
+                                    now - this._auth_flows[fId].ts < this._auth_flows[fId].auth_ttl,
+                            );
+                            if (!flowId) {
+                                throw new Error('Invalid token!');
+                            }
+                            userName = this._auth_flows[flowId].username;
+                        } else if (token && entity?.attributes.access_token !== token) {
+                            this.log.warn(`Invalid access token for ${entityId} - ${token as string}`);
+                            throw new Error(`Invalid access token for ${entityId} - ${token as string}`);
+                        } else {
+                            userName = reqUser as string | undefined;
+                        }
+                    }
+                    return userName;
+                },
             }),
             history: new HistoryModule({
                 adapter: this.adapter,
@@ -2214,7 +2243,7 @@ class WebServer {
         //this._app.get('/profile/:id', (req: any, res: any) => res.send(this._renderIndex()));
 
         this._app.get('/adapter/*adapter', async (req: any, res: any) => {
-            await this._replyWithImage(req, res);
+            await this._modules.image.replyWithImage(req, res);
         });
 
         // Init read from states
@@ -2256,11 +2285,11 @@ class WebServer {
             this._modules.person.processRequest(req, res);
         });
         this._app.get('/api/camera_proxy_stream/:entity_id', async (req: any, res: any) => {
-            await this._replyWithImage(req, res);
+            await this._modules.image.replyWithImage(req, res);
         });
 
         this._app.get('/api/camera_proxy/:entity_id', async (req: any, res: any) => {
-            await this._replyWithImage(req, res);
+            await this._modules.image.replyWithImage(req, res);
         });
 
         this._app.get('/api/calendars/:entity_id', async (req: any, res: any) => {
@@ -2501,161 +2530,6 @@ class WebServer {
     }
 
     /**
-     * Reply with image data to a request.
-     *
-     * @param req incoming request
-     * @param res response to send the image with
-     * @returns resolves when done.
-     */
-    async _replyWithImage(req: any, res: any) {
-        this.log.debug(
-            `Get image for ${req.url} and entity ${req.params?.entity_id} with token=${req.query?.token} and signed=${req.query?.signed}`,
-        );
-        try {
-            const data = await this._getImage(
-                req.params?.entity_id,
-                req.query?.token || 'empty',
-                req.params?.entity_id ? req.query?.signed : req.query?.token,
-                req.url,
-                req._user,
-            );
-            res.setHeader('content-type', data.content_type);
-            console.log(`Send image ${data.content_type} - ${data.content.length}`);
-            let content = data.content;
-            if (!data.content_type.includes('svg')) {
-                content = Buffer.from(data.content, 'base64');
-            }
-            res.send(content);
-        } catch (err: any) {
-            this.log.warn(`Error in _getImage: ${err} - ${err.stack}`);
-            res.status(404).json({ error: err });
-        }
-    }
-
-    /**
-     * Read an image from a state and return it as base64 encoded string.
-     *
-     * @param entity_id id of the entity
-     * @param token access token for the entity itself.
-     * @param access_token access token to check if the user is logged in.
-     * @param url optional url to the image, if no entity is used.
-     * @param reqUser user that requested the image
-     * @returns image as base64 string
-     */
-    async _getImage(entity_id: any, token: any, access_token?: any, url?: any, reqUser?: any) {
-        const entity = entityData.entityId2Entity[entity_id];
-        let id;
-        let userName; // will be ignored in case of no authentication enabled.
-        if (
-            this.config.auth !== false &&
-            (token || access_token) &&
-            !this._requestableFiles.includes(url) &&
-            !entityData.entityIconUrls.includes(url)
-        ) {
-            if (access_token) {
-                const now = Date.now();
-                const flowId = Object.keys(this._auth_flows).find(
-                    flowId =>
-                        this._auth_flows[flowId].access_token === access_token &&
-                        now - this._auth_flows[flowId].ts < this._auth_flows[flowId].auth_ttl,
-                );
-
-                if (!flowId) {
-                    throw new Error('Invalid token!');
-                } else {
-                    userName = this._auth_flows[flowId].username;
-                }
-            } else if (token && entity?.attributes.access_token !== token) {
-                this.log.warn(`Invalid access token for ${entity_id} - ${token}`);
-                throw new Error(`Invalid access token for ${entity_id} - ${token}`);
-            } else {
-                userName = reqUser;
-            }
-        }
-
-        if (entity?.context.STATE.getId) {
-            id = entity.context.STATE.getId;
-        } else if (entity?.context.ATTRIBUTES) {
-            const attr = entity.context.ATTRIBUTES.find((attr: any) => attr.attribute === 'url');
-            if (attr) {
-                id = attr.getId;
-            }
-        }
-        let result;
-        if (id) {
-            const user = this._modules.person.getUserIDFromName(userName);
-            const state = await this.adapter.getForeignStateAsync(id, { user });
-            if (state && state.val && typeof state.val === 'string') {
-                const val = state.val.split('?')[0] || '';
-                // if like /adapter/daswetter/icons/tiempo-weather/galeria1/3.png
-                if (val.startsWith('/adapter/')) {
-                    url = state.val;
-                } else if (state.val.startsWith('data')) {
-                    const dataUrl = state.val;
-                    const mimeType = dataUrl.substring(dataUrl.indexOf(':') + 1, dataUrl.indexOf(';'));
-                    const encoding = dataUrl.substring(dataUrl.indexOf(';') + 1, dataUrl.indexOf(','));
-
-                    if (encoding.localeCompare('base64', undefined, { sensitivity: 'base' }) !== 0) {
-                        this.log.warn(`Wrong encoding: ${encoding}`);
-                        throw new Error(`Wrong encoding: ${encoding}`);
-                    }
-                    const base64Data = dataUrl.split(',')[1];
-                    result = {
-                        content_type: mimeType || 'image/jpeg',
-                        content: base64Data,
-                    };
-                    return result;
-                } else {
-                    const resp = await axios(state.val, { responseType: 'arraybuffer' });
-                    result = {
-                        content_type: (mime.getType || mime.lookup).call(mime, val) || 'image/jpeg',
-                        content: Buffer.from(resp.data, 'binary').toString('base64'),
-                    };
-                    return result;
-                }
-            } else {
-                throw new Error(`State ${id} does not contain url to image`);
-            }
-        }
-        if (url) {
-            //try to get image from iobroker-data url:
-            url = url.replace(/^\/adapter\/([a-zA-Z0-9-_]+)(.admin)?\//, '/$1.admin/');
-            url = url.split('/');
-            // Skip first /
-            url.shift();
-            // Get ID
-            const id = url.shift();
-            url = url.join('/');
-            const pos = url.indexOf('?');
-            if (pos !== -1) {
-                url = url.substring(0, pos);
-            }
-
-            let image;
-            try {
-                //ignore user here, let's read files as admin, always. User usually has no access to those files.
-                //in case of auth, token is checked above.
-                image = await this.adapter.readFileAsync(id, url);
-            } catch (err: any) {
-                throw new Error(`Cannot download image: ${err}`);
-            }
-            if (image) {
-                if (image.file === null || image.file === undefined) {
-                    throw new Error('File empty or not found');
-                } else {
-                    image.mimeType =
-                        image.mimeType || (mime.getType || mime.lookup).call(image.mimeType, url) || 'image/jpeg';
-                    result = { content_type: image.mimeType, content: image.file.toString('base64') };
-                    return result;
-                }
-            }
-        }
-
-        //no id / no url
-        throw new Error(`No url attribute found for ${entity_id} or no url supplied ${url}`);
-    }
-
-    /**
      * Transforms an entity into a short version that can be sent to the client.
      * Somehow introduced in newer versions of Home Assistant.
      *
@@ -2889,7 +2763,7 @@ class WebServer {
             } else if (message.type === 'camera_thumbnail') {
                 this.log.warn(`camera_thumbnail ${message.entity_id} deprecated!!!`);
                 try {
-                    const data = await this._getImage(message.entity_id, null, null);
+                    const data = await this._modules.image.getImage(message.entity_id, null, null);
                     this._sendResponse(ws, message.id, data);
                 } catch (err: any) {
                     this.log.warn(`Error in camera_thumbnail: ${err} - ${err.stack}`);
