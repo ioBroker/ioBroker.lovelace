@@ -58,6 +58,14 @@ type AdapterWithConfig = ioBroker.Adapter & {
 const yaml = require('js-yaml');
 
 /**
+ * Version reported to the browser_mod frontend. Must match the version bundled in
+ * hass_frontend/static_cards/browser_mod.js (its internal `Mt` constant). If they differ,
+ * the frontend shows a "Browser Mod version mismatch" reload prompt. Bump this whenever the
+ * shipped browser_mod frontend is updated.
+ */
+const BROWSER_MOD_VERSION = '2.13.5';
+
+/**
  * Support for browser_mod integration.
  * This is now installed with lovelace by default to control the frontends from ioBroker states.
  */
@@ -82,7 +90,7 @@ class BrowserModModule {
         this.clients = {};
         this.browserModStorage = {
             browsers: {},
-            version: '2.0',
+            version: BROWSER_MOD_VERSION,
             settings: {
                 hideSidebar: true,
                 hideHeader: false,
@@ -514,6 +522,25 @@ class BrowserModModule {
     }
 
     /**
+     * Write the per-browser setting VALUES onto their mirror states. _checkObjects only seeds the
+     * objects with the global default in common.default; it never writes the state value. Used on
+     * (re)register and rename so the ioBroker states reflect the browser's actual settings.
+     *
+     * @param ioBrokerDeviceId - the browser's device path (e.g. instances.<id>)
+     * @param settings - the browser's settings, if known
+     */
+    private async _applySettingStates(ioBrokerDeviceId: string, settings?: BrowserSettings): Promise<void> {
+        if (!settings) {
+            return;
+        }
+        for (const key of ['hideSidebar', 'hideHeader'] as const) {
+            if (settings[key] !== undefined) {
+                await this.adapter.setStateAsync(`${ioBrokerDeviceId}.${key}`, !!settings[key], true);
+            }
+        }
+    }
+
+    /**
      * Derive a stable key for the current login session, used for sync-session Browser ID recall.
      * Prefers the auth token, falls back to the username. Returns undefined when neither is known.
      *
@@ -541,6 +568,67 @@ class BrowserModModule {
     }
 
     /**
+     * Handle a `browser_mod.*` service call from the frontend (e.g. browser_mod.notification,
+     * browser_mod.refresh). Translates it into a browser command and forwards it to the target
+     * browser(s). Without this, such calls fell through to the generic entity handler and produced
+     * a misleading "Unknown entity" warning.
+     *
+     * @param ws - websocket connection the call came in on
+     * @param data - the call_service payload
+     * @returns true if handled
+     */
+    processServiceCall(ws: WsWithBrowserId, data: Record<string, unknown>): boolean {
+        if (data.domain !== 'browser_mod') {
+            return false;
+        }
+        const service = data.service as string;
+        const serviceData: Record<string, unknown> = { ...((data.service_data as Record<string, unknown>) || {}) };
+
+        // A "version mismatch" notification means the shipped browser_mod frontend was replaced
+        // (e.g. the user installed their own browser_mod). It ships WITH ioBroker.lovelace.
+        if (
+            service === 'notification' &&
+            typeof serviceData.message === 'string' &&
+            serviceData.message.includes('version mismatch')
+        ) {
+            this.adapter.log.warn(
+                `browser_mod reports: "${serviceData.message}". The browser_mod frontend ships with ` +
+                    `ioBroker.lovelace (expected version ${BROWSER_MOD_VERSION}). Do NOT install your own ` +
+                    `browser_mod - remove it so the bundled version is used.`,
+            );
+        }
+
+        // Resolve the target browser. "THIS" means the calling browser.
+        let browserId = serviceData.browser_id as string | undefined;
+        if (browserId === 'THIS') {
+            browserId = ws.browserID;
+        }
+        delete serviceData.browser_id;
+
+        const event: Record<string, unknown> = {
+            event_type: 'browser_mod/command',
+            command: service,
+            origin: 'LOCAL',
+            time_fired: new Date().toISOString(),
+            ...serviceData,
+        };
+
+        if (browserId && this.clients[browserId]) {
+            const client = this.clients[browserId];
+            this._sendToClient(client, { type: 'event', event: { ...event, browserID: client.instance } });
+        } else {
+            // No specific connected target -> broadcast to all connected browsers.
+            for (const client of Object.values(this.clients)) {
+                this._sendToClient(client, { type: 'event', event: { ...event, browserID: client.instance } });
+            }
+        }
+
+        // Acknowledge so the frontend's call_service promise resolves.
+        ws.send(JSON.stringify({ id: data.id, type: 'result', success: true, result: { context: { id: null } } }));
+        return true;
+    }
+
+    /**
      * Process a message from a browser_mod instance.
      *
      * @param ws - websocket connection with browser id
@@ -560,9 +648,15 @@ class BrowserModModule {
                 await this._handleUpdate(ioBrokerDeviceId, message);
             } else if (method === 'connect') {
                 ws.on('close', async () => {
-                    this.adapter.log.debug(`Instance ${String(message.browserID)} disconnected.`);
-                    delete this.clients[message.browserID as string];
-                    await this.adapter.setStateAsync(`${ioBrokerDeviceId}.online`, false, true);
+                    // Use the current browserID from the ws: it may have been renamed (change_browser_id)
+                    // after connect, in which case message.browserID is stale.
+                    const currentId = ws.browserID || (message.browserID as string);
+                    this.adapter.log.debug(`Instance ${currentId} disconnected.`);
+                    delete this.clients[currentId];
+                    // Guard against the object having been deleted (rename) - avoid creating an orphan state.
+                    if (this.objects[`${this.adapter.namespace}.${instancesPath}${currentId}.online`]) {
+                        await this.adapter.setStateAsync(`${instancesPath}${currentId}.online`, false, true);
+                    }
                 });
 
                 this.adapter.log.debug(`Instance ${String(message.browserID)} connected.`);
@@ -603,28 +697,63 @@ class BrowserModModule {
 
                 const msgData = message.data as Record<string, unknown> | undefined;
                 if (msgData && msgData.browserID) {
-                    const newIoBrokerDeviceId = instancesPath + (msgData.browserID as string);
+                    const oldBrowserId = message.browserID as string;
+                    const newBrowserId = msgData.browserID as string;
+                    const newIoBrokerDeviceId = instancesPath + newBrowserId;
+                    // Drop stale OLD entries from the in-memory objects cache. Cache keys are fully
+                    // namespaced (lovelace.0.instances.OLD…), so the prefix must include the namespace.
+                    const oldPrefix = `${this.adapter.namespace}.${ioBrokerDeviceId}`;
                     for (const id of Object.keys(this.objects)) {
-                        if (id.startsWith(ioBrokerDeviceId)) {
+                        if (id.startsWith(oldPrefix)) {
                             delete this.objects[id];
                         }
                     }
                     try {
                         await this.adapter.delObjectAsync(ioBrokerDeviceId, { recursive: true });
-                        await this._checkObjects(newIoBrokerDeviceId, msgData.browserID as string);
+                        await this._checkObjects(newIoBrokerDeviceId, newBrowserId);
                     } catch (e) {
                         this.adapter.log.warn(
                             `Could not delete old instance objects in ${ioBrokerDeviceId}, please do so yourself. Error was: ${String(e)}`,
                         );
                     }
-                    delete this.browserModStorage.browsers[message.browserID as string];
-                    const newBrowserId = msgData.browserID as string;
+                    delete this.browserModStorage.browsers[oldBrowserId];
                     delete msgData.browserID;
                     this.browserModStorage.browsers[newBrowserId] = msgData as unknown as BrowserEntry;
+
+                    // Carry the per-browser setting VALUES over to the freshly created states. _checkObjects
+                    // only seeds the objects with the global default in common.default, it does not write the
+                    // state value, so without this the new browser's hideSidebar/hideHeader would reset.
+                    await this._applySettingStates(
+                        newIoBrokerDeviceId,
+                        msgData.settings as BrowserSettings | undefined,
+                    );
+
+                    // Move the live connection (if any) from the old id to the new one so the still-open
+                    // browser keeps being tracked, ws.browserID stays correct, and online is set on the
+                    // new device. Without this the renamed browser shows offline and the close handler
+                    // would clean up the wrong id.
+                    const liveClient = this.clients[oldBrowserId];
+                    if (liveClient) {
+                        delete this.clients[oldBrowserId];
+                        liveClient.instance = newBrowserId;
+                        liveClient.ws.browserID = newBrowserId;
+                        this.clients[newBrowserId] = liveClient;
+                    }
+                    if (this.clients[newBrowserId]) {
+                        // _checkObjects already created the object in the DB above, so this is safe
+                        // even if the in-memory objects cache hasn't caught up yet.
+                        await this.adapter.setStateAsync(`${newIoBrokerDeviceId}.online`, true, true);
+                    }
+                    this.adapter.log.info(`browser_mod instance renamed: ${oldBrowserId} -> ${newBrowserId}`);
                 } else {
                     try {
                         await this._checkObjects(ioBrokerDeviceId, message.browserID as string);
                         await this._cleanUpInstances();
+                        // Mirror the browser's reported settings onto the freshly created states.
+                        await this._applySettingStates(
+                            ioBrokerDeviceId,
+                            msgData?.settings as BrowserSettings | undefined,
+                        );
                     } catch (e) {
                         this.adapter.log.warn(
                             `Could not create objects for instance ${ioBrokerDeviceId}. Error was: ${String(e)}`,

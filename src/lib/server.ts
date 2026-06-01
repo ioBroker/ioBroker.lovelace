@@ -1611,6 +1611,12 @@ class WebServer {
                     hideScript.push('window.__tokenCache = {tokens: undefined, writeEnabled: false};');
                 }
                 nLines.push(`<script>\n${hideScript.join('\n')}\n</script>`);
+                // Load browser_mod globally (like HA's extra_module_url), not only as a Lovelace
+                // resource. Otherwise the custom /browser-mod panel renders empty on a direct
+                // reload, because Lovelace resources are only loaded on dashboard panels.
+                // The module self-inits behind a `window.browser_mod` guard, so the extra import
+                // on dashboard pages is a harmless no-op (cached by URL).
+                nLines.push(`<script type="module">import('/cards/_static_browser_mod.js');</script>`);
                 //deprecated.
                 //nLines.push('<script>\n' + fs.readFileSync(__dirname + '/../assets/index.js').toString('utf-8') + hideScript.join('\n') + '\n</script>');
             }
