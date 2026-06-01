@@ -37,6 +37,7 @@ import DeviceRegistryModule from './modules/deviceRegistry';
 import AreaRegistryModule from './modules/areaRegistry';
 import EnergyModule from './modules/energyModule';
 import UserDataModule from './modules/userData';
+import ThemesModule from './modules/themes';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -52,6 +53,7 @@ type Modules = {
     areaRegistry: InstanceType<typeof AreaRegistryModule>;
     energy: InstanceType<typeof EnergyModule>;
     userData: InstanceType<typeof UserDataModule>;
+    themes: InstanceType<typeof ThemesModule>;
     history: InstanceType<typeof HistoryModule>;
     statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
 };
@@ -196,7 +198,6 @@ class WebServer {
 
     private _auth_flows: any;
 
-    private _themes: any;
     private _currentTheme: string;
     private _currentThemeDark: string;
     /** Persistent frontend user-data: userKey -> dataKey -> value. Backs frontend/*_user_data. */
@@ -251,10 +252,6 @@ class WebServer {
         this._app = options.app;
         this._auth_flows = {};
         this.templateStates = {};
-        this._themes = {}; //themes storage
-        this._currentTheme = this.config.defaultTheme || 'default';
-        this._currentThemeDark = this.config.defaultThemeDark || 'default';
-        this._darkMode = false;
 
         //object data for updates:
         this._objectData = {
@@ -329,6 +326,10 @@ class WebServer {
             userData: new UserDataModule({
                 adapter: this.adapter,
                 sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
+            }),
+            themes: new ThemesModule({
+                adapter: this.adapter,
+                sendUpdate: (type: string) => this._sendUpdate(type),
             }),
             history: new HistoryModule({
                 adapter: this.adapter,
@@ -981,21 +982,7 @@ class WebServer {
      */
     async onStateChange(id: string, state: any, forceUpdate = false) {
         if (state) {
-            if (
-                id === `${this.adapter.namespace}.control.theme` ||
-                id === `${this.adapter.namespace}.control.themeDark`
-            ) {
-                const dark = id.includes('Dark');
-                if (this._themes[state.val] || state.val === 'default') {
-                    this[dark ? '_currentThemeDark' : '_currentTheme'] = state.val;
-                    this._sendUpdate('themes_updated');
-                }
-            } else if (id === `${this.adapter.namespace}.control.darkMode`) {
-                if (this._darkMode !== state.val) {
-                    this._darkMode = !!state.val;
-                    this._sendUpdate('themes_updated');
-                }
-            }
+            this._modules.themes.onStateChange(id, state);
         }
 
         const changedStates: Record<string, boolean> = {};
@@ -1729,19 +1716,7 @@ class WebServer {
 
     /**
      *
-
-    /**
-     * Returns themes and the ones currently selected in config / object.
-     *
-     * @returns themes
      */
-    _getThemes() {
-        return {
-            themes: this._themes,
-            default_theme: this._currentTheme || this.config.defaultTheme || 'default',
-            default_dark_theme: this._currentThemeDark || this.config.defaultThemeDark || 'default',
-            darkMode: this._darkMode,
-        };
     }
 
     /**
@@ -1884,70 +1859,6 @@ class WebServer {
                 });
             }
         }
-    }
-
-    /**
-     * Parse themes stored in config and set the current theme.
-     *
-     * @returns resolves when done.
-     */
-    async _initThemes() {
-        //setup theme selection button:
-        try {
-            this._themes = yaml.safeLoad(this.config.themes || '') || {};
-        } catch (depError: any) {
-            if (depError.message.includes('yaml.safeLoad') && depError.message.includes('removed')) {
-                this._themes = yaml.load(this.config.themes || '') || {};
-            } else {
-                this.log.error(`Cannot parse themes: ${depError}`);
-                this._themes = {};
-            }
-        }
-        const states: Record<string, string> = { default: 'default' };
-        for (const themeName of Object.keys(this._themes)) {
-            states[themeName] = themeName;
-        }
-        const themeState = await this.adapter.getObjectAsync(`${this.adapter.namespace}.control.theme`);
-        if (themeState && themeState.common) {
-            themeState.common.states = states;
-            await this.adapter.setObject(`${this.adapter.namespace}.control.theme`, themeState);
-        } else {
-            this.log.warn(`State ${this.adapter.namespace}.control.theme missing`);
-        }
-        const themeDarkState = await this.adapter.getObjectAsync(`${this.adapter.namespace}.control.themeDark`);
-        if (themeDarkState && themeDarkState.common) {
-            themeDarkState.common.states = states;
-            await this.adapter.setObject(`${this.adapter.namespace}.control.themeDark`, themeDarkState);
-        } else {
-            this.log.warn(`State ${this.adapter.namespace}.control.themeDark missing`);
-        }
-
-        const state = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.theme`);
-        // remember the currently selected theme, if valid. Select default otherwise.
-        if (state && (this._themes[state.val] || state.val === 'default')) {
-            this._currentTheme = state.val;
-        } else {
-            this._currentTheme = this.config.defaultTheme || 'default';
-            await this.adapter.setStateAsync(`${this.adapter.namespace}.control.theme`, this._currentTheme, true);
-        }
-        const darkSate = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.themeDark`);
-        //remember currently selected theme, if valid. Select default otherwise.
-        if (darkSate && (this._themes[darkSate.val] || darkSate.val === 'default')) {
-            this._currentThemeDark = darkSate.val;
-        } else {
-            this._currentThemeDark = this.config.defaultThemeDark || 'default';
-            await this.adapter.setStateAsync(
-                `${this.adapter.namespace}.control.themeDark`,
-                this._currentThemeDark,
-                true,
-            );
-        }
-
-        const darkModeState = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.darkMode`);
-        if (darkModeState) {
-            this._darkMode = !!darkModeState.val;
-        }
-        this.log.debug('themes: init done');
     }
 
     /**
@@ -2953,7 +2864,7 @@ class WebServer {
                     this.log.error(e);
                 }
             } else if (message.type === 'frontend/get_themes') {
-                this._sendResponse(ws, message.id, this._getThemes());
+                this._sendResponse(ws, message.id, this._modules.themes.getThemes());
             } else if (message.type === 'auth/current_user') {
                 void this._getCurrentUser(ws).then(data => this._sendResponse(ws, message.id, data));
             } else if (this._modules.userData.processMessage(ws, message)) {
