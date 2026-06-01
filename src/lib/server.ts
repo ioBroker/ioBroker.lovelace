@@ -39,6 +39,7 @@ import EnergyModule from './modules/energyModule';
 import UserDataModule from './modules/userData';
 import ThemesModule from './modules/themes';
 import TemplateModule from './modules/template';
+import CompatModule from './modules/compat';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -56,6 +57,7 @@ type Modules = {
     userData: InstanceType<typeof UserDataModule>;
     themes: InstanceType<typeof ThemesModule>;
     template: InstanceType<typeof TemplateModule>;
+    compat: InstanceType<typeof CompatModule>;
     history: InstanceType<typeof HistoryModule>;
     statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
 };
@@ -337,6 +339,10 @@ class WebServer {
                         this.log.debug(`IoB Subscribe on ${id}`);
                     }
                 },
+            }),
+            compat: new CompatModule({
+                sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
+                listDevices: (ws, message) => void this._modules.deviceRegistry.processMessage(ws, message),
             }),
             history: new HistoryModule({
                 adapter: this.adapter,
@@ -2855,100 +2861,8 @@ class WebServer {
                 this._sendResponse(ws, message.id);
             } else if (message.type === 'lovelace/resources') {
                 this._sendResponse(ws, message.id, this._ressourceConfig);
-            } else if (message.type === 'repairs/list_issues') {
-                this._sendResponse(ws, message.id, { issues: [] }); // always send an empty issue list for now.
-            } else if (message.type === 'config/floor_registry/list') {
-                this._sendResponse(ws, message.id, []); // always send an empty floor list for now.
-            } else if (message.type === 'config/label_registry/list') {
-                this._sendResponse(ws, message.id, []); // always send an empty label list for now.
-            } else if (message.type === 'config_entries/subscribe') {
-                //TODO: handle subscribe later...
-                //looks like: {"type":"config_entries/subscribe","type_filter":["device","hub","service","hardware"],"id":77}
-                this._sendResponse(ws, message.id, null);
-                //might wait for first result, though... :-(
-                //small hack:
-                message.type = 'config/device_registry/list';
-                this._modules.deviceRegistry.processMessage(ws, message);
-            } else if (message.type === 'config_entries/flow/progress') {
-                //no idea, what that is meant to be, but HASS sends empty array, too. ;-)
-                this._sendResponse(ws, message.id, []);
-            } else if (message.type === 'config_entries/get') {
-                // Devices & Services page asks for config entries (per domain). We have none.
-                this._sendResponse(ws, message.id, []);
-            } else if (message.type === 'config_entries/flow/subscribe') {
-                // Subscription for config flows in progress. We never have any.
-                ws.send(
-                    JSON.stringify([
-                        { id: message.id, type: 'result', success: true, result: null },
-                        { id: message.id, type: 'event', event: [] },
-                    ]),
-                );
-            } else if (message.type === 'search/related') {
-                // Device/entity settings pages ask what is related to an item. Return a RelatedResult
-                // object (all fields optional arrays). Missing handler made the device page crash
-                // (`t.filter is not a function`) because the frontend got undefined instead of {}.
-                const related: Record<string, string[]> = {};
-                const itemType = message.item_type as string;
-                const itemId = message.item_id as string;
-                if (itemType === 'device') {
-                    const entityIds: string[] = [];
-                    const areas = new Set<string>();
-                    for (const entity of entityData.entities) {
-                        if (entity.context?.deviceId === itemId) {
-                            entityIds.push(entity.entity_id);
-                            if (entity.context.roomId) {
-                                areas.add(entity.context.roomId);
-                            }
-                        }
-                    }
-                    if (entityIds.length) {
-                        related.entity = entityIds;
-                    }
-                    if (areas.size) {
-                        related.area = [...areas];
-                    }
-                } else if (itemType === 'entity') {
-                    const entity = entityData.entityId2Entity[itemId];
-                    if (entity?.context?.deviceId) {
-                        related.device = [entity.context.deviceId];
-                    }
-                    if (entity?.context?.roomId) {
-                        related.area = [entity.context.roomId];
-                    }
-                } else if (itemType === 'area') {
-                    const deviceIds = new Set<string>();
-                    const entityIds: string[] = [];
-                    for (const entity of entityData.entities) {
-                        if (entity.context?.roomId === itemId) {
-                            entityIds.push(entity.entity_id);
-                            if (entity.context.deviceId) {
-                                deviceIds.add(entity.context.deviceId);
-                            }
-                        }
-                    }
-                    if (deviceIds.size) {
-                        related.device = [...deviceIds];
-                    }
-                    if (entityIds.length) {
-                        related.entity = entityIds;
-                    }
-                }
-                this._sendResponse(ws, message.id, related);
-            } else if (message.type === 'manifest/list') {
-                //no idea, what that is meant to be... HASS seems to send a lot of information about the available integrations..?
-                this._sendResponse(ws, message.id, []);
-            } else if (message.type === 'entity/source') {
-                //a record of entity_id -> { domain: 'whatever created that entity' }
-                const sources: Record<string, { domain: string }> = {};
-                for (const entity of entityData.entities) {
-                    if (entity.entity_id === 'zone.home') {
-                        sources[entity.entity_id] = { domain: 'constant' };
-                    } else {
-                        sources[entity.entity_id] = {
-                            domain: entity.isManual ? 'iob_manual' : 'iob_automatic',
-                        };
-                    }
-                }
+            } else if (this._modules.compat.processMessage(ws, message)) {
+                // repairs/floors/labels/config_entries/manifest stubs handled by the compat module.
             } else if (message.type === 'camera_thumbnail') {
                 this.log.warn(`camera_thumbnail ${message.entity_id} deprecated!!!`);
                 try {
