@@ -38,6 +38,7 @@ import AreaRegistryModule from './modules/areaRegistry';
 import EnergyModule from './modules/energyModule';
 import UserDataModule from './modules/userData';
 import ThemesModule from './modules/themes';
+import TemplateModule from './modules/template';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -54,6 +55,7 @@ type Modules = {
     energy: InstanceType<typeof EnergyModule>;
     userData: InstanceType<typeof UserDataModule>;
     themes: InstanceType<typeof ThemesModule>;
+    template: InstanceType<typeof TemplateModule>;
     history: InstanceType<typeof HistoryModule>;
     statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
 };
@@ -179,9 +181,8 @@ class WebServer {
 
     detector: any;
 
-    words: any;
 
-    templateStates: any;
+    words: any;
 
     systemConfig: any;
 
@@ -198,10 +199,6 @@ class WebServer {
 
     private _auth_flows: any;
 
-    private _currentTheme: string;
-    private _currentThemeDark: string;
-    /** Persistent frontend user-data: userKey -> dataKey -> value. Backs frontend/*_user_data. */
-    private _darkMode: boolean;
     private _objectData: {
         objects: Record<string, any>;
         ids: string[];
@@ -251,7 +248,6 @@ class WebServer {
         this._server = options.server;
         this._app = options.app;
         this._auth_flows = {};
-        this.templateStates = {};
 
         //object data for updates:
         this._objectData = {
@@ -331,6 +327,17 @@ class WebServer {
                 adapter: this.adapter,
                 sendUpdate: (type: string) => this._sendUpdate(type),
             }),
+            template: new TemplateModule({
+                adapter: this.adapter,
+                sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
+                subscribeState: (id: string) => {
+                    if (this._subscribed.indexOf(id) === -1) {
+                        this._subscribed.push(id);
+                        this.adapter.subscribeForeignStates(id);
+                        this.log.debug(`IoB Subscribe on ${id}`);
+                    }
+                },
+            }),
             history: new HistoryModule({
                 adapter: this.adapter,
                 entityData: entityData,
@@ -378,7 +385,7 @@ class WebServer {
                 .then(() => this._modules.browserMod.init(this._lovelaceConfig)),
             this._readAllEntities(),
             this._listFiles(),
-            this._initThemes(),
+            this._modules.themes.init(),
         ];
 
         Promise.all(concurrentPromises)
@@ -985,32 +992,7 @@ class WebServer {
             this._modules.themes.onStateChange(id, state);
         }
 
-        const changedStates: Record<string, boolean> = {};
-        this._wss &&
-            this._wss.clients.forEach((client: any) => {
-                if (client.__templates && client.readyState === WebSocket.OPEN) {
-                    client.__templates.forEach((t: any) => {
-                        if (t.ids.includes(id)) {
-                            const _state = state || { val: null };
-                            if (
-                                changedStates[id] ||
-                                (this.templateStates[id] && this.templateStates[id].val !== _state.val)
-                            ) {
-                                this.templateStates[id] = _state;
-                                changedStates[id] = true;
-                                const event = {
-                                    id: t.id,
-                                    type: 'event',
-                                    event: {
-                                        result: bindings.formatBinding(t.template, this.templateStates),
-                                    },
-                                };
-                                client.send(JSON.stringify(event));
-                            }
-                        }
-                    });
-                }
-            });
+        this._modules.template.onStateChange(id, state, this._wss);
 
         const entities = entityData.iobID2entity[id];
         if (entities) {
@@ -1519,12 +1501,8 @@ class WebServer {
             }
         });
 
-        // check all sockets
-        this._wss &&
-            this._wss.clients.forEach(
-                (client: any) =>
-                    client.__templates && client.__templates.forEach((t: any) => (ids = ids.concat(t.ids))),
-            );
+        // include states referenced by active render_template subscriptions
+        ids = ids.concat(this._modules.template.collectSubscribedIds(this._wss));
 
         const deleted = this._subscribed.filter(id => ids.indexOf(id) === -1);
 
@@ -2674,7 +2652,7 @@ class WebServer {
      */
     async _initConnection(ws: any) {
         ws._subscribes = {};
-        ws.__templates = [];
+        this._modules.template.initWs(ws);
         let testTimer: any = null;
 
         ws.on('error', (e: any) => {
@@ -2803,13 +2781,7 @@ class WebServer {
                             }
                         });
 
-                    if (ws.__templates) {
-                        for (let i = ws.__templates.length - 1; i >= 0; i--) {
-                            if (ws.__templates[i].id === message.subscription) {
-                                ws.__templates.splice(i, 1);
-                            }
-                        }
-                    }
+                    this._modules.template.removeTemplate(ws, message.subscription);
                 }
 
                 this._sendResponse(ws, message.id);
@@ -2990,70 +2962,8 @@ class WebServer {
                 //{"type":"call_service","domain":"zone","service":"turn_off","service_data":{"entity_id":"zone.home"},"id":18}
                 await this._processCall(ws, message);
             } else if (message.type === 'render_template') {
-                //{"type":"render_template","template":"The **Markdown** ","variables":{"config":{"type":"markdown","content":"The **Markdown** card allows you to write any text. You can style it **bold**, *italicized*, ~strikethrough~ etc. You can do images, links, and more.\n\nFor more information see the [Markdown Cheatsheet](https://commonmark.org/help).","title":"Markdown"}},"id":11}
-                const template = message.template;
-                this._sendResponse(ws, message.id);
-
-                const obj: { template: any; ids: string[]; id: any } = { template, ids: [], id: message.id };
-                ws.__templates && ws.__templates.push(obj);
-
-                const vars = bindings.extractBinding(template);
-                const promises = [];
-
-                const processId = async (id: string) => {
-                    if (obj.ids.indexOf(id) !== -1) {
-                        return;
-                    }
-
-                    obj.ids.push(id);
-
-                    if (this._subscribed.indexOf(id) === -1) {
-                        this._subscribed.push(id);
-                        this.adapter.subscribeForeignStates(id);
-                        this.log.debug(`IoB Subscribe on ${id}`);
-                    }
-
-                    try {
-                        this.templateStates[id] = await this.adapter.getForeignStateAsync(id);
-                    } catch (e: any) {
-                        this.log.warning(`Cannot get state ${id}: ${e} in template ${template}`);
-                    }
-                };
-
-                // subscribe all variables and read their values
-                if (vars) {
-                    for (const v of vars) {
-                        try {
-                            promises.push(processId(v.systemOid));
-                            if (v.operations) {
-                                for (const op of v.operations) {
-                                    if (op.arg) {
-                                        for (const arg of op.arg) {
-                                            if (arg.systemOid) {
-                                                promises.push(processId(arg.systemOid));
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } catch (e: any) {
-                            this.log.warning(
-                                `Cannot process variable ${JSON.stringify(v)}: ${e} in template ${template}`,
-                            );
-                        }
-                    }
-                }
-
-                void Promise.all(promises).then(() => {
-                    const t = {
-                        id: message.id,
-                        type: 'event',
-                        event: {
-                            result: bindings.formatBinding(template, this.templateStates),
-                        },
-                    };
-                    ws.send(JSON.stringify(t));
-                });
+                //{"type":"render_template","template":"The **Markdown** ", ... ,"id":11}
+                this._modules.template.processMessage(ws, message);
             } else if (message.type === 'logger/log_info') {
                 this._sendResponse(
                     ws,
@@ -3111,7 +3021,7 @@ class WebServer {
             this.log.debug('Connection closed');
             //this.log.debug('PRO-debug: ws close');
             ws._subscribes = null;
-            ws.__templates = null;
+            this._modules.template.clearWs(ws);
             clearInterval(testTimer);
             testTimer = null;
         });
