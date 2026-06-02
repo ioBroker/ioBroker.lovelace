@@ -180,5 +180,8 @@
     "water_heater": "chauffe-eau",
     "weather": "conditions météorologiques",
     "weblink": "lien Web",
-    "Maximum browser instances to keep": "Instances de navigateur maximum à conserver"
+    "Maximum browser instances to keep": "Instances de navigateur maximum à conserver",
+    "Browser tab title": "Titre de l'onglet du navigateur",
+    "App name (home screen / PWA)": "Nom de l'app (écran d'accueil / PWA)",
+    "App short name (PWA)": "Nom court de l'app (PWA)"
 }

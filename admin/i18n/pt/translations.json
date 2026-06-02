@@ -180,5 +180,8 @@
     "water_heater": "aquecedor de água",
     "weather": "clima",
     "weblink": "link da web",
-    "Maximum browser instances to keep": "Instâncias máximas do navegador para manter"
+    "Maximum browser instances to keep": "Instâncias máximas do navegador para manter",
+    "Browser tab title": "Título da aba do navegador",
+    "App name (home screen / PWA)": "Nome do app (tela inicial / PWA)",
+    "App short name (PWA)": "Nome curto do app (PWA)"
 }

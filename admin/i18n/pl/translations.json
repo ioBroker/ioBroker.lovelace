@@ -180,5 +180,8 @@
     "water_heater": "podgrzewacz wody",
     "weather": "pogoda",
     "weblink": "link",
-    "Maximum browser instances to keep": "Maksymalne instancje przeglądarki do zachowania"
+    "Maximum browser instances to keep": "Maksymalne instancje przeglądarki do zachowania",
+    "Browser tab title": "Tytuł karty przeglądarki",
+    "App name (home screen / PWA)": "Nazwa aplikacji (ekran główny / PWA)",
+    "App short name (PWA)": "Krótka nazwa aplikacji (PWA)"
 }

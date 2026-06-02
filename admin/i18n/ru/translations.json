@@ -180,5 +180,8 @@
     "water_heater": "water_heater",
     "weather": "weather",
     "weblink": "weblink",
-    "Maximum browser instances to keep": "Максимальные экземпляры браузера, чтобы сохранить"
+    "Maximum browser instances to keep": "Максимальные экземпляры браузера, чтобы сохранить",
+    "Browser tab title": "Заголовок вкладки браузера",
+    "App name (home screen / PWA)": "Имя приложения (домашний экран / PWA)",
+    "App short name (PWA)": "Короткое имя приложения (PWA)"
 }

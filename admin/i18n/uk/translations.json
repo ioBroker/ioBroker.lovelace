@@ -180,5 +180,8 @@
     "water_heater": "нагрівач води",
     "weather": "погода",
     "weblink": "веб посилання",
-    "Maximum browser instances to keep": "Максимальні екземпляри браузера для збереження"
+    "Maximum browser instances to keep": "Максимальні екземпляри браузера для збереження",
+    "Browser tab title": "Заголовок вкладки браузера",
+    "App name (home screen / PWA)": "Назва застосунку (головний екран / PWA)",
+    "App short name (PWA)": "Коротка назва застосунку (PWA)"
 }

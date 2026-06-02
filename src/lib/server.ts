@@ -1691,6 +1691,24 @@ class WebServer {
         this._indexHtml = this._indexHtml.replace(/{{ use_oauth }}/g, '0'); // deprecated
         this._indexHtml = this._indexHtml.replace(/{{ theme_color }}/g, this._renderManifest().theme_color); // deprecated
         this._indexHtml = this._indexHtml.replace(/#THEMEC/g, this._renderManifest().theme_color);
+
+        // Configurable names (issue #663): the browser tab title and the PWA/home-screen name.
+        const escapeHtml = (s: string): string =>
+            s.replace(
+                /[&<>"]/g,
+                c => (({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }) as Record<string, string>)[c],
+            );
+        const browserTitle = escapeHtml((this.config.browserTitle as string) || 'ioBroker');
+        const pwaName = escapeHtml((this.config.pwaName as string) || 'ioBroker');
+        this._indexHtml = this._indexHtml.replace('<title>ioBroker</title>', `<title>${browserTitle}</title>`);
+        this._indexHtml = this._indexHtml.replace(
+            'name="apple-mobile-web-app-title" content="ioBroker"',
+            `name="apple-mobile-web-app-title" content="${pwaName}"`,
+        );
+        this._indexHtml = this._indexHtml.replace(
+            'name="application-name" content="ioBroker"',
+            `name="application-name" content="${pwaName}"`,
+        );
         return this._indexHtml;
     }
 
@@ -1735,8 +1753,8 @@ class WebServer {
                 },
             ],
             lang,
-            name: 'ioBroker',
-            short_name: 'IoB',
+            name: (this.config.pwaName as string) || 'ioBroker',
+            short_name: (this.config.pwaShortName as string) || 'IoB',
             start_url: '/?homescreen=1',
             theme_color: '#03A9F4',
         };

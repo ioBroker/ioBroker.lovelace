@@ -180,5 +180,8 @@
     "water_heater": "water heater",
     "weather": "weather",
     "weblink": "weblink",
-    "Maximum browser instances to keep": "Maximum browser instances to keep"
+    "Maximum browser instances to keep": "Maximum browser instances to keep",
+    "Browser tab title": "Browser tab title",
+    "App name (home screen / PWA)": "App name (home screen / PWA)",
+    "App short name (PWA)": "App short name (PWA)"
 }

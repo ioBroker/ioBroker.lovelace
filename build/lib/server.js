@@ -1380,6 +1380,21 @@ ${hideScript.join("\n")}
     this._indexHtml = this._indexHtml.replace(/{{ use_oauth }}/g, "0");
     this._indexHtml = this._indexHtml.replace(/{{ theme_color }}/g, this._renderManifest().theme_color);
     this._indexHtml = this._indexHtml.replace(/#THEMEC/g, this._renderManifest().theme_color);
+    const escapeHtml = (s) => s.replace(
+      /[&<>"]/g,
+      (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]
+    );
+    const browserTitle = escapeHtml(this.config.browserTitle || "ioBroker");
+    const pwaName = escapeHtml(this.config.pwaName || "ioBroker");
+    this._indexHtml = this._indexHtml.replace("<title>ioBroker</title>", `<title>${browserTitle}</title>`);
+    this._indexHtml = this._indexHtml.replace(
+      'name="apple-mobile-web-app-title" content="ioBroker"',
+      `name="apple-mobile-web-app-title" content="${pwaName}"`
+    );
+    this._indexHtml = this._indexHtml.replace(
+      'name="application-name" content="ioBroker"',
+      `name="application-name" content="${pwaName}"`
+    );
     return this._indexHtml;
   }
   /**
@@ -1422,8 +1437,8 @@ ${hideScript.join("\n")}
         }
       ],
       lang,
-      name: "ioBroker",
-      short_name: "IoB",
+      name: this.config.pwaName || "ioBroker",
+      short_name: this.config.pwaShortName || "IoB",
       start_url: "/?homescreen=1",
       theme_color: "#03A9F4"
     };

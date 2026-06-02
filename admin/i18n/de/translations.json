@@ -180,5 +180,8 @@
     "water_heater": "Wasserkocher",
     "weather": "Wetter",
     "weblink": "Weblink",
-    "Maximum browser instances to keep": "Maximale Anzahl an verwalteten Browser-Instanzen"
+    "Maximum browser instances to keep": "Maximale Anzahl an verwalteten Browser-Instanzen",
+    "Browser tab title": "Titel des Browser-Tabs",
+    "App name (home screen / PWA)": "App-Name (Startbildschirm / PWA)",
+    "App short name (PWA)": "Kurzer App-Name (PWA)"
 }

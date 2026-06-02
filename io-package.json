@@ -322,7 +322,10 @@
     "language": "",
     "updateTimeout": 5000,
     "logbookSource": "adapter",
-    "maxBrowserInstances": 10
+    "maxBrowserInstances": 10,
+    "browserTitle": "ioBroker",
+    "pwaName": "ioBroker",
+    "pwaShortName": "IoB"
   },
   "instanceObjects": [
     {

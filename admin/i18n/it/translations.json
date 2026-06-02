@@ -180,5 +180,8 @@
     "water_heater": "scaldabagno",
     "weather": "tempo metereologico",
     "weblink": "collegamento web",
-    "Maximum browser instances to keep": "Istanze massime del browser da mantenere"
+    "Maximum browser instances to keep": "Istanze massime del browser da mantenere",
+    "Browser tab title": "Titolo della scheda del browser",
+    "App name (home screen / PWA)": "Nome app (schermata home / PWA)",
+    "App short name (PWA)": "Nome breve app (PWA)"
 }

@@ -487,6 +487,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Support uploading images from the frontend (e.g. dashboard background pictures). (#607)
 * (Garfonso/Claude) Added media browser support (`media_source`): browse uploaded images and files from the `cards/` folder.
 * (Garfonso/Claude) Uploaded images can now be listed and deleted from the frontend (`image/list`, `image/delete`).
+* (Garfonso/Claude) The browser tab title and the PWA / home-screen app name can now be customized in the adapter settings. (#663)
 
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.

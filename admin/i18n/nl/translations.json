@@ -180,5 +180,8 @@
     "water_heater": "waterkoker",
     "weather": "weer",
     "weblink": "web link",
-    "Maximum browser instances to keep": "Maximale browserinstanties om te behouden"
+    "Maximum browser instances to keep": "Maximale browserinstanties om te behouden",
+    "Browser tab title": "Titel browsertabblad",
+    "App name (home screen / PWA)": "App-naam (startscherm / PWA)",
+    "App short name (PWA)": "Korte app-naam (PWA)"
 }
