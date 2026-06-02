@@ -473,7 +473,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
 * (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
 * (Garfonso/Claude) Added a `sun.sun` entity, calculated from the configured location. (#430)
@@ -500,14 +500,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) some light entities did not restore their proper state on switch on. Fixed.
 * (Garfonso) process folders-Objects for auto entities, too. (pirate-weather support)
 * (Garfonso) prepare support for effects in light entities (will need new type-detector version).
-
-### 5.0.1 (2025-09-09)
-* (Garfonso) settings from entity registry are now loaded on startup
-* (Garfonso) logbook: prevent entries from the future
-* (Garfonso) icons should now work as before, again.
-* (Garfonso) script entities now can be used again.
-* (Garfonso) subscribe to all object ids in a template.
-* (Garfonso) Update dependencies.
 
 ## License
 
