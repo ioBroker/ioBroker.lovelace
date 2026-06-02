@@ -1939,6 +1939,61 @@ ${hideScript.join("\n")}
     this._app.get("/api/camera_proxy/:entity_id", async (req, res) => {
       await this._modules.image.replyWithImage(req, res);
     });
+    const IMAGE_FOLDER = "uploaded_images";
+    this._app.post("/api/image/upload", multer().single("file"), async (req, res) => {
+      try {
+        if (!req.file) {
+          return res.status(400).json({ message: "no file" });
+        }
+        const user = this._modules.person.getUserIDFromName(req._user);
+        const id = import_node_crypto.default.randomUUID();
+        const meta = {
+          id,
+          filesize: req.file.size,
+          name: req.file.originalname,
+          uploaded_at: (/* @__PURE__ */ new Date()).toISOString(),
+          content_type: req.file.mimetype || "application/octet-stream"
+        };
+        await this.adapter.writeFileAsync(this.adapter.namespace, `${IMAGE_FOLDER}/${id}`, req.file.buffer, {
+          user
+        });
+        await this.adapter.writeFileAsync(
+          this.adapter.namespace,
+          `${IMAGE_FOLDER}/${id}.json`,
+          JSON.stringify(meta),
+          { user }
+        );
+        res.json(meta);
+      } catch (e) {
+        this.log.warn(`Image upload failed: ${e.message || e}`);
+        res.status(500).json({ message: "upload failed" });
+      }
+    });
+    const serveUploadedImage = async (req, res) => {
+      try {
+        const user = this._modules.person.getUserIDFromName(req._user);
+        const id = String(req.params.id).replace(/[^a-zA-Z0-9-]/g, "");
+        let contentType = "application/octet-stream";
+        try {
+          const metaFile = await this.adapter.readFileAsync(
+            this.adapter.namespace,
+            `${IMAGE_FOLDER}/${id}.json`,
+            { user }
+          );
+          contentType = JSON.parse(metaFile.file.toString()).content_type || contentType;
+        } catch {
+        }
+        const image = await this.adapter.readFileAsync(this.adapter.namespace, `${IMAGE_FOLDER}/${id}`, {
+          user
+        });
+        res.setHeader("Content-Type", image.mimeType || contentType);
+        res.send(image.file);
+      } catch {
+        res.status(404).json({ message: "not found" });
+      }
+    };
+    this._app.get("/api/image/serve/:id/:size", serveUploadedImage);
+    this._app.get("/api/image/serve/:id", serveUploadedImage);
     this._app.get("/api/calendars/:entity_id", async (req, res) => {
       const entity = entityData.entityId2Entity[req.params.entity_id];
       if (!entity) {
