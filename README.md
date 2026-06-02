@@ -473,6 +473,10 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Fixed possible issue with more_info dialog.
+* (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
+
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.
 * (Garfonso) Improved loading images from other adapters.

@@ -91,7 +91,7 @@ function iobState2EntityState(entity, val, attribute) {
     return dateStr === "Invalid Date" ? "unknown" : dateStr;
   } else if (type === "lock") {
     return val ? "unlocked" : "locked";
-  } else if (typeof val === "boolean" && type !== "media_player" && attribute === "state") {
+  } else if (typeof val === "boolean" && type !== "media_player" && !attribute) {
     return val ? "on" : "off";
   } else if (typeof val === "number" && entity.context.STATE && entity.context.STATE.map2lovelace) {
     const map = entity.context.STATE.map2lovelace;
@@ -99,7 +99,7 @@ function iobState2EntityState(entity, val, attribute) {
   } else if (attribute === "power") {
     return val ? "on" : "off";
   } else {
-    if (attribute === "state") {
+    if (!attribute) {
       return val === null || val === void 0 ? "unknown" : typeof val === "object" ? JSON.stringify(val) : String(val);
     } else {
       return val;

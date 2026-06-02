@@ -87,8 +87,10 @@ export function iobState2EntityState(
         return dateStr === 'Invalid Date' ? 'unknown' : dateStr;
     } else if (type === 'lock') {
         return val ? 'unlocked' : 'locked';
-    } else if (typeof val === 'boolean' && type !== 'media_player' && attribute === 'state') {
-        //attributes can have true/false.
+    } else if (typeof val === 'boolean' && type !== 'media_player' && !attribute) {
+        // Main entity state (called without an attribute name): any boolean domain not handled
+        // explicitly above (automation, script, ...) maps to on/off. Attribute values can legitimately
+        // stay true/false, so only the main-state call (no attribute) is converted here.
         return val ? 'on' : 'off';
     } else if (typeof val === 'number' && entity.context.STATE && entity.context.STATE.map2lovelace) {
         const map = entity.context.STATE.map2lovelace;
@@ -96,7 +98,7 @@ export function iobState2EntityState(
     } else if (attribute === 'power') {
         return val ? 'on' : 'off';
     } else {
-        if (attribute === 'state') {
+        if (!attribute) {
             return val === null || val === undefined
                 ? 'unknown'
                 : typeof val === 'object'
