@@ -2382,6 +2382,73 @@ class WebServer {
             await this._replyWithImage(req, res);
         });
 
+        // Image upload used by the frontend (e.g. dashboard background picture, ha-picture-upload).
+        // The browser POSTs multipart/form-data with field "file" and expects
+        // { id, filesize, name, uploaded_at, content_type }; later it loads the image from
+        // /api/image/serve/<id>/<size>. We store both into the adapter's file storage under
+        // "uploaded_images/" (binary + a .json sidecar holding the content type).
+        const IMAGE_FOLDER = 'uploaded_images';
+        this._app.post('/api/image/upload', multer().single('file'), async (req: any, res: any) => {
+            try {
+                if (!req.file) {
+                    return res.status(400).json({ message: 'no file' });
+                }
+                const user = this._modules.person.getUserIDFromName(req._user);
+                const id = crypto.randomUUID();
+                const meta = {
+                    id,
+                    filesize: req.file.size,
+                    name: req.file.originalname,
+                    uploaded_at: new Date().toISOString(),
+                    content_type: req.file.mimetype || 'application/octet-stream',
+                };
+                await this.adapter.writeFileAsync(this.adapter.namespace, `${IMAGE_FOLDER}/${id}`, req.file.buffer, {
+                    user,
+                });
+                await this.adapter.writeFileAsync(
+                    this.adapter.namespace,
+                    `${IMAGE_FOLDER}/${id}.json`,
+                    JSON.stringify(meta),
+                    { user },
+                );
+                res.json(meta);
+            } catch (e: any) {
+                this.log.warn(`Image upload failed: ${e.message || e}`);
+                res.status(500).json({ message: 'upload failed' });
+            }
+        });
+
+        // Express 5 (path-to-regexp v8) does not accept "/:size?"; register the sized and unsized
+        // variants explicitly. The frontend always requests /<id>/<size> (e.g. 512x512 or original),
+        // which we ignore and serve the original anyway.
+        const serveUploadedImage = async (req: any, res: any): Promise<void> => {
+            try {
+                const user = this._modules.person.getUserIDFromName(req._user);
+                const id = String(req.params.id).replace(/[^a-zA-Z0-9-]/g, ''); // uuid only, no path traversal
+                let contentType = 'application/octet-stream';
+                try {
+                    const metaFile = await this.adapter.readFileAsync(
+                        this.adapter.namespace,
+                        `${IMAGE_FOLDER}/${id}.json`,
+                        { user },
+                    );
+                    contentType = JSON.parse(metaFile.file.toString()).content_type || contentType;
+                } catch {
+                    // no sidecar -> fall back to octet-stream
+                }
+                const image = await this.adapter.readFileAsync(this.adapter.namespace, `${IMAGE_FOLDER}/${id}`, {
+                    user,
+                });
+                // We serve the original; the requested :size (e.g. 512x512) is ignored.
+                res.setHeader('Content-Type', image.mimeType || contentType);
+                res.send(image.file);
+            } catch {
+                res.status(404).json({ message: 'not found' });
+            }
+        };
+        this._app.get('/api/image/serve/:id/:size', serveUploadedImage);
+        this._app.get('/api/image/serve/:id', serveUploadedImage);
+
         this._app.get('/api/calendars/:entity_id', async (req: any, res: any) => {
             //this.log.debug('Calendar for ' + req.params.entity_id + ' from ' + req.query.start + ' to ' + req.query.end);
             const entity = entityData.entityId2Entity[req.params.entity_id];
