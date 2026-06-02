@@ -191,3 +191,11 @@ The WS `get_states` handler returns `_getFrontendStates()` — a clean array of 
 **Integration tests** in `test/integration` (objects loaded from `test/testData/*.json`) use the `@iobroker/testing` harness, which spins up a real in-process adapter. They take several minutes and need no separate dev-server — run `npm run test:integration`.
 
 After making changes, run lint + unit + integration: `npm run lint`, `npm run test:unit`, `npm run test:integration`.
+
+## Git & changelog conventions
+
+- **One commit per feature/fix.** Do not bundle unrelated changes in a single commit. When one source file unavoidably contains two features, split them with patch-level staging (`git apply --cached`) where practical.
+- **Changelog:** for every user-facing change add a line to `README.md` under the `### **WORK IN PROGRESS**` marker (right under `## Changelog`). Create that marker if it is missing. Format: `* (Garfonso/Claude) <what changed>. (#<issue>)`.
+- `build/` is committed alongside `src/` — always run `npm run build` before committing so the compiled output in the commit matches the source.
+- Commits are authored as `Garfonso <garfonso@mobo.info>` (matches repo history) and end with the `Co-Authored-By: Claude ...` trailer.
+- Before committing, run `npm run lint`, `npm run test:unit` and `npm run test:integration`.
