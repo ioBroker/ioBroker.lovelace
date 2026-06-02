@@ -32,10 +32,10 @@ __export(cameraEntity_exports, {
   applyCameraUrlAttributes: () => applyCameraUrlAttributes
 });
 module.exports = __toCommonJS(cameraEntity_exports);
-var import_crypto = __toESM(require("crypto"));
+var import_node_crypto = __toESM(require("node:crypto"));
 var import_baseEntity = require("./baseEntity");
 function generateAccessToken() {
-  return import_crypto.default.createHmac("sha256", (import_crypto.default.webcrypto.getRandomValues(new Uint32Array(1))[0] * 1e9).toString()).update(Date.now().toString()).digest("hex");
+  return import_node_crypto.default.createHmac("sha256", (import_node_crypto.default.webcrypto.getRandomValues(new Uint32Array(1))[0] * 1e9).toString()).update(Date.now().toString()).digest("hex");
 }
 function applyCameraUrlAttributes(entity, urlStateId) {
   entity.context.STATE.getId = urlStateId;

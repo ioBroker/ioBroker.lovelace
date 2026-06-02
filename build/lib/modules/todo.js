@@ -21,7 +21,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-var import_crypto = __toESM(require("crypto"));
+var import_node_crypto = __toESM(require("node:crypto"));
 var import_todoEntity = require("../entities/todoEntity");
 const WS_OPEN = 1;
 const TodoItemStatus = {
@@ -144,7 +144,7 @@ class TodoModule {
         const todoList = await this._getTodoList(entity);
         todoList.items.push({
           name: message.name,
-          uid: import_crypto.default.randomUUID(),
+          uid: import_node_crypto.default.randomUUID(),
           status: TodoItemStatus.NeedsAction,
           due: null,
           description: null
@@ -255,7 +255,7 @@ class TodoModule {
           const todoList = await this._getTodoList(entity);
           const item = {
             summary: serviceData.item,
-            uid: import_crypto.default.randomUUID(),
+            uid: import_node_crypto.default.randomUUID(),
             status: TodoItemStatus.NeedsAction,
             due: null,
             description: null

@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import { BaseEntity } from './baseEntity';
 import type { ConverterParameters } from '../converters/converter';
 
