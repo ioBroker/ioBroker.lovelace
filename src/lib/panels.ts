@@ -49,4 +49,3 @@ const panels = {
 };
 
 export default panels;
-module.exports = panels;
