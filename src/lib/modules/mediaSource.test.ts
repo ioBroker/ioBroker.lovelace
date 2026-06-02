@@ -6,21 +6,29 @@ const MediaSourceModule = require('./mediaSource');
 function makeModule(dirs: Record<string, { file: string; isDir: boolean }[]>): {
     mod: any;
     responses: any[];
+    deleted: string[];
 } {
     const responses: any[] = [];
+    const deleted: string[] = [];
     const adapter = {
         namespace: 'lovelace.0',
         readDirAsync: (_ns: string, folder: string) => Promise.resolve(dirs[folder] || []),
         readFileAsync: () =>
             Promise.resolve({
-                file: Buffer.from(JSON.stringify({ name: 'My Pic', content_type: 'image/png' })),
+                file: Buffer.from(
+                    JSON.stringify({ id: 'abc-123', name: 'My Pic', content_type: 'image/png', filesize: 10 }),
+                ),
             }),
+        delFileAsync: (_ns: string, path: string) => {
+            deleted.push(path);
+            return Promise.resolve();
+        },
     };
     const mod = new MediaSourceModule({
         adapter,
         sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result),
     });
-    return { mod, responses };
+    return { mod, responses, deleted };
 }
 
 describe('modules/mediaSource', function () {
@@ -92,5 +100,35 @@ describe('modules/mediaSource', function () {
             { type: 'media_source/resolve_media', media_content_id: 'media-source://lovelace_cards/bg.png', id: 1 },
         );
         expect(responses[0]).to.deep.equal({ url: '/cards/bg.png', mime_type: 'image/png' });
+    });
+
+    it('image/list returns the metadata of uploaded images', async function () {
+        const { mod, responses } = makeModule({
+            uploaded_images: [
+                { file: 'abc-123', isDir: false },
+                { file: 'abc-123.json', isDir: false },
+            ],
+        });
+        const handled = await mod.processMessage({}, { type: 'image/list', id: 1 });
+        expect(handled).to.equal(true);
+        expect(responses[0]).to.have.lengthOf(1);
+        expect(responses[0][0].name).to.equal('My Pic');
+        expect(responses[0][0].id).to.equal('abc-123');
+    });
+
+    it('image/delete removes the binary and the sidecar', async function () {
+        const { mod, deleted } = makeModule({});
+        const handled = await mod.processMessage({}, { type: 'image/delete', image_id: 'abc-123', id: 1 });
+        expect(handled).to.equal(true);
+        expect(deleted).to.include('uploaded_images/abc-123');
+        expect(deleted).to.include('uploaded_images/abc-123.json');
+    });
+
+    it('image/delete ignores path traversal in the id', async function () {
+        const { mod, deleted } = makeModule({});
+        await mod.processMessage({}, { type: 'image/delete', image_id: '../../etc/passwd', id: 1 });
+        // sanitised to "etcpasswd", never escaping the folder
+        expect(deleted.every(p => p.startsWith('uploaded_images/'))).to.equal(true);
+        expect(deleted.some(p => p.includes('..'))).to.equal(false);
     });
 });
