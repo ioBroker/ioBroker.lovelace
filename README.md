@@ -450,7 +450,7 @@ For now (20260527.1) following files were modified:
 - `src/entrypoints/core.ts` - add no auth option
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
-- `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link
+- `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `.husky/pre-commit` - remove git commit hooks.
 
