@@ -148,3 +148,11 @@ Each module is a class instantiated with `{ adapter, sendResponse, sendUpdate }`
 The project is migrating from plain JS to TypeScript. New converters go under `src/lib/converters/` as subclasses of `Converter`. The compiled output goes to `build/lib/converters/`. Legacy JS converters remain in `lib/converters/` and are called via `Converter.legacyConverters`.
 
 `tsconfig.build.json` has `allowJs: true` and `checkJs: true`, so it type-checks JS files that are transitively imported from TS. Pre-existing JS files in `lib/converters/` may have type errors — these are a known issue being resolved as files are migrated to TS.
+
+## Git & changelog conventions
+
+- **One commit per feature/fix.** Do not bundle unrelated changes in a single commit. When one source file unavoidably contains two features, split them with patch-level staging (`git apply --cached`) where practical.
+- **Changelog:** for every user-facing change add a line to `README.md` under the `### **WORK IN PROGRESS**` marker (right under `## Changelog`). Create that marker if it is missing. Format: `* (Garfonso/Claude) <what changed>. (#<issue>)`.
+- `build/` is committed alongside `src/` — always run `npm run build` before committing so the compiled output in the commit matches the source.
+- Commits are authored as `Garfonso <garfonso@mobo.info>` (matches repo history) and end with the `Co-Authored-By: Claude ...` trailer.
+- Before committing, run `npm run lint`, `npm run test:unit` and `npm run test:integration`.
