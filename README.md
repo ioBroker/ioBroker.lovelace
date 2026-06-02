@@ -479,6 +479,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Frontend user data (theme settings, dark mode, sidebar order, …) is now persisted, so it survives reloads.
 * (Garfonso/Claude) Add support for entity configuration from frontend. Even updates config on entity_id change.
 * (Garfonso/Claude) Add support for Lovelace dashboards. You can create and manage them from the frontend and can be switched from the menu. (disable hide sidebar)
+
+### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
 * (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
 * (Garfonso/Claude) Added a `sun.sun` entity, calculated from the configured location. (#430)
