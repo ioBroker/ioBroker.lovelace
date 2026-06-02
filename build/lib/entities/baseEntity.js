@@ -179,6 +179,7 @@ class BaseEntity {
    */
   unregister(newId) {
     if (newId) {
+      delete entityData.entityId2Entity[this.entity_id];
       entityData.entityId2Entity[newId] = this;
     } else {
       delete entityData.entityId2Entity[this.entity_id];
@@ -196,15 +197,14 @@ class BaseEntity {
         entityData.entityIconUrls.splice(urlIndex, 1);
       }
     }
-    for (const key of Object.keys(entityData.iobID2entity)) {
-      const entities = entityData.iobID2entity[key];
-      let foundIndex = entities.findIndex((x) => x.entity_id === this.entity_id);
-      while (foundIndex !== -1) {
-        entities.splice(foundIndex, 1);
-        foundIndex = entities.findIndex((x) => x.entity_id === this.entity_id);
-      }
-      if (newId) {
-        entities.push(newId);
+    if (!newId) {
+      for (const key of Object.keys(entityData.iobID2entity)) {
+        const entities = entityData.iobID2entity[key];
+        let foundIndex = entities.findIndex((x) => x.entity_id === this.entity_id);
+        while (foundIndex !== -1) {
+          entities.splice(foundIndex, 1);
+          foundIndex = entities.findIndex((x) => x.entity_id === this.entity_id);
+        }
       }
     }
   }

@@ -854,6 +854,10 @@ class WebServer {
     const entities = entityData.iobID2entity[id];
     if (entities) {
       entities.forEach((entity) => {
+        if (!entity || !entity.context) {
+          this.log.warn(`iobID2entity[${id}] contains an invalid entry - skipping.`);
+          return;
+        }
         let updated = false;
         if (state) {
           if (entity.context.STATE.getId === id) {

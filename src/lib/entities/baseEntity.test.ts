@@ -244,20 +244,31 @@ describe('BaseEntity', function () {
             expect(entityData.entities).to.include(entity);
         });
 
-        it('adds newId string into iobID2entity entries', function () {
+        it('removes the old entity_id from entityId2Entity when rekeying', function () {
             const entity = makeEntity('sensor.rekey3', 'test.0.rekey3');
             entity.registerInCaches();
             entity.unregister('sensor.rekey3_new');
-            const entries = entityData.iobID2entity['test.0.rekey3'];
-            expect(entries).to.include('sensor.rekey3_new');
+            expect(entityData.entityId2Entity['sensor.rekey3']).to.equal(undefined);
         });
 
-        it('removes old entity_id from iobID2entity entries when rekeying', function () {
+        it('keeps the entity (not a string) in its iobID2entity entries when rekeying', function () {
             const entity = makeEntity('sensor.rekey4', 'test.0.rekey4');
             entity.registerInCaches();
             entity.unregister('sensor.rekey4_new');
-            const entries = (entityData.iobID2entity['test.0.rekey4'] ?? []) as BaseEntity[];
-            expect(entries).to.not.include(entity);
+            const entries = entityData.iobID2entity['test.0.rekey4'];
+            expect(entries).to.include(entity);
+            expect(entries).to.not.include('sensor.rekey4_new');
+        });
+
+        it('does not pollute unrelated iobID2entity entries when rekeying', function () {
+            const other = makeEntity('sensor.other', 'test.0.other');
+            other.registerInCaches();
+            const entity = makeEntity('sensor.rekey5', 'test.0.rekey5');
+            entity.registerInCaches();
+            entity.unregister('sensor.rekey5_new');
+            const otherEntries = entityData.iobID2entity['test.0.other'];
+            expect(otherEntries).to.not.include('sensor.rekey5_new');
+            expect(otherEntries).to.include(other);
         });
     });
 
