@@ -480,6 +480,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Add support for entity configuration from frontend. Even updates config on entity_id change.
 * (Garfonso/Claude) Add support for Lovelace dashboards. You can create and manage them from the frontend and can be switched from the menu. (disable hide sidebar)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
+* (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
 
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.
