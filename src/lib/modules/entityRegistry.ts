@@ -3,6 +3,7 @@ import { STORAGE_PREFIX } from './storage';
 
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string, data?: unknown) => void;
+type RenameEntityIdFn = (oldEntityId: string, newEntityId: string) => void | Promise<void>;
 
 interface EntityLike {
     entity_id: string;
@@ -79,6 +80,7 @@ class EntityRegistry {
     private entityData: EntityData;
     private sendResponse: SendResponseFn;
     private sendUpdate: SendUpdateFn;
+    private renameEntityIdInConfigs?: RenameEntityIdFn;
 
     /**
      * Constructor
@@ -88,17 +90,20 @@ class EntityRegistry {
      * @param options.entityData - shared entity data singleton
      * @param options.sendResponse - function to send a response to a client
      * @param options.sendUpdate - function to broadcast an update event
+     * @param options.renameEntityIdInConfigs - rewrite a renamed entity_id in the stored lovelace configs
      */
     constructor(options: {
         adapter: ioBroker.Adapter;
         entityData: EntityData;
         sendResponse: SendResponseFn;
         sendUpdate: SendUpdateFn;
+        renameEntityIdInConfigs?: RenameEntityIdFn;
     }) {
         this.adapter = options.adapter;
         this.entityData = options.entityData;
         this.sendResponse = options.sendResponse;
         this.sendUpdate = options.sendUpdate;
+        this.renameEntityIdInConfigs = options.renameEntityIdInConfigs;
     }
 
     /**
@@ -367,6 +372,9 @@ class EntityRegistry {
                     entityWithId.entity_id = newEntityId;
                     (entity as unknown as BaseEntity).unregister(newEntityId);
                     delete entityWithId.new_entity_id;
+                    // Rewrite the old entity_id to the new one in the stored lovelace configs so
+                    // existing cards keep pointing at the renamed entity.
+                    void this.renameEntityIdInConfigs?.(oldEntityId, newEntityId);
                 }
             }
             this.updateEntityFromRegistry(entity, entityWithId);

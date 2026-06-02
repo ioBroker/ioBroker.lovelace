@@ -1,4 +1,5 @@
 import { STORAGE_PREFIX } from './storage';
+import { replaceEntityIdInConfig } from '../entities/utils';
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string) => void;
 
@@ -91,6 +92,26 @@ class DashboardModule {
     async storeConfig(urlPath: string, config: unknown): Promise<void> {
         this._dashboardConfigs[urlPath] = config;
         await this.saveDashboards();
+    }
+
+    /**
+     * Replace a renamed entity_id across all stored additional-dashboard configs.
+     *
+     * @param oldEntityId - previous HA entity_id
+     * @param newEntityId - new HA entity_id
+     * @returns true if any dashboard config changed (and was persisted)
+     */
+    async renameEntityId(oldEntityId: string, newEntityId: string): Promise<boolean> {
+        let changed = false;
+        for (const urlPath of Object.keys(this._dashboardConfigs)) {
+            if (replaceEntityIdInConfig(this._dashboardConfigs[urlPath], oldEntityId, newEntityId)) {
+                changed = true;
+            }
+        }
+        if (changed) {
+            await this.saveDashboards();
+        }
+        return changed;
     }
 
     /**

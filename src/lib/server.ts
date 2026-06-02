@@ -297,6 +297,7 @@ class WebServer {
                 entityData: entityData,
                 sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
                 sendUpdate: (type: string, data?: unknown) => this._sendUpdate(type, data),
+                renameEntityIdInConfigs: (oldId: string, newId: string) => this._renameEntityIdInConfigs(oldId, newId),
             }),
             dashboard: new DashboardModule({
                 adapter: this.adapter,
@@ -2417,6 +2418,29 @@ class WebServer {
                     });
                 }
             });
+        }
+    }
+
+    /**
+     * Rewrite a renamed entity_id in the stored lovelace configs (main dashboard + additional
+     * dashboards) so existing cards keep pointing at the renamed entity. Persists the changed
+     * configs and notifies open clients via `lovelace_updated`.
+     *
+     * @param oldEntityId - previous HA entity_id
+     * @param newEntityId - new HA entity_id
+     */
+    async _renameEntityIdInConfigs(oldEntityId: string, newEntityId: string): Promise<void> {
+        let mainChanged = false;
+        if (this._lovelaceConfig) {
+            mainChanged = utils.replaceEntityIdInConfig(this._lovelaceConfig, oldEntityId, newEntityId);
+            if (mainChanged) {
+                // _setLayoutConfig persists the main config and pushes 'lovelace_updated'.
+                await this._setLayoutConfig(this._lovelaceConfig);
+            }
+        }
+        const dashboardChanged = await this._modules.dashboard.renameEntityId(oldEntityId, newEntityId);
+        if (dashboardChanged && !mainChanged) {
+            this._sendUpdate('lovelace_updated');
         }
     }
 

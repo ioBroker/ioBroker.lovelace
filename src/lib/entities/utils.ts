@@ -235,6 +235,54 @@ export function extractValidEntityIds(str: string, alreadyPresentEntityIds: stri
 }
 
 /**
+ * Recursively replace every reference to oldEntityId with newEntityId inside a lovelace config
+ * (or any nested object/array), mutating it in place. The id is matched as a whole token, so
+ * `light.old` is replaced (also when embedded in templates/strings like `states('light.old')`)
+ * while `light.old2` is left untouched.
+ *
+ * @param node - config node to walk (mutated in place)
+ * @param oldEntityId - entity id to replace
+ * @param newEntityId - replacement entity id
+ * @returns true if at least one replacement was made
+ */
+export function replaceEntityIdInConfig(node: unknown, oldEntityId: string, newEntityId: string): boolean {
+    if (!oldEntityId || oldEntityId === newEntityId) {
+        return false;
+    }
+    const escaped = oldEntityId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // Do not match when the id is part of a longer entity id (id chars directly before/after).
+    const tokenRegEx = new RegExp(`(?<![a-zA-Z0-9А-Яа-я_.])${escaped}(?![a-zA-Z0-9А-Яа-я_.])`, 'g');
+    let changed = false;
+
+    const walk = (value: unknown): unknown => {
+        if (typeof value === 'string') {
+            const replaced = value.replace(tokenRegEx, newEntityId);
+            if (replaced !== value) {
+                changed = true;
+            }
+            return replaced;
+        }
+        if (Array.isArray(value)) {
+            for (let i = 0; i < value.length; i++) {
+                value[i] = walk(value[i]);
+            }
+            return value;
+        }
+        if (value && typeof value === 'object') {
+            const obj = value as Record<string, unknown>;
+            for (const key of Object.keys(obj)) {
+                obj[key] = walk(obj[key]);
+            }
+            return value;
+        }
+        return value;
+    };
+
+    walk(node);
+    return changed;
+}
+
+/**
  * Get Icon if object has one. Supports data:image, url, and local icon path.
  *
  * @param obj - ioBroker object
