@@ -345,10 +345,29 @@ class EntityRegistry {
             if (!entityWithId) {
                 entityWithId = this._createEntryFromEntity(entity);
             }
+            // Make sure the (possibly freshly created) entry is stored, otherwise edits to a
+            // never-before-changed entity would be lost.
+            this._entries[entityId] = entityWithId;
             const newData = JSON.parse(JSON.stringify(message)) as Record<string, unknown>;
             delete newData.id;
             delete newData.type;
             delete newData.entity_id;
+            // HA sends per-domain entity options as { options_domain, options } (e.g. a light's
+            // favorite_colors). Store them nested under entry.options[options_domain]; the frontend
+            // reads entity_entry.options.<domain>.<key> (e.g. options.light.favorite_colors), so a
+            // flat options object would never be picked up.
+            // Like HA's async_update_entity_options, the domain dict is REPLACED, not merged: a key
+            // set to undefined is dropped by the frontend's JSON.stringify, so a reset-to-default
+            // arrives as options: {} and must clear the previously stored values.
+            if (typeof newData.options_domain === 'string') {
+                const domain = newData.options_domain;
+                const opts = (newData.options as Record<string, unknown> | undefined) ?? {};
+                const existing = (entityWithId.options as Record<string, Record<string, unknown>> | null) ?? {};
+                existing[domain] = opts;
+                entityWithId.options = existing;
+                delete newData.options_domain;
+                delete newData.options;
+            }
             const changes: Record<string, unknown> = {};
             for (const key of Object.keys(newData)) {
                 changes[key] = entityWithId[key] || null;
@@ -378,6 +397,7 @@ class EntityRegistry {
                 }
             }
             this.updateEntityFromRegistry(entity, entityWithId);
+            void this.saveEntityRegistry();
             this.sendResponse(ws, message.id, { entity_entry: entityWithId });
             this.sendUpdate('entity_registry_updated', {
                 action: 'update',

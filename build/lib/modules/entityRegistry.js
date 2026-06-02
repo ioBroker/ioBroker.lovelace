@@ -194,7 +194,7 @@ class EntityRegistry {
    * @param message - the message from the frontend
    */
   processMessage(ws, message) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d, _e;
     if (message.type === "config/entity_registry/list_for_display") {
       const entities = [];
       for (const entity of this.entityData.entities) {
@@ -269,10 +269,20 @@ class EntityRegistry {
       if (!entityWithId) {
         entityWithId = this._createEntryFromEntity(entity);
       }
+      this._entries[entityId] = entityWithId;
       const newData = JSON.parse(JSON.stringify(message));
       delete newData.id;
       delete newData.type;
       delete newData.entity_id;
+      if (typeof newData.options_domain === "string") {
+        const domain = newData.options_domain;
+        const opts = (_a = newData.options) != null ? _a : {};
+        const existing = (_b = entityWithId.options) != null ? _b : {};
+        existing[domain] = opts;
+        entityWithId.options = existing;
+        delete newData.options_domain;
+        delete newData.options;
+      }
       const changes = {};
       for (const key of Object.keys(newData)) {
         changes[key] = entityWithId[key] || null;
@@ -280,7 +290,7 @@ class EntityRegistry {
         if (key === "new_entity_id") {
           const oldEntityId = entity.entity_id;
           const newEntityId = newData[key];
-          const stableIobId = (_b = (_a = entity.context.STATE) == null ? void 0 : _a.getId) != null ? _b : entity.context.id;
+          const stableIobId = (_d = (_c = entity.context.STATE) == null ? void 0 : _c.getId) != null ? _d : entity.context.id;
           const oldKey = `${oldEntityId.split(".")[0]}.${stableIobId}`;
           const newKey = `${newEntityId.split(".")[0]}.${stableIobId}`;
           delete this._iobIdToEntityId[oldKey];
@@ -294,10 +304,11 @@ class EntityRegistry {
           entityWithId.entity_id = newEntityId;
           entity.unregister(newEntityId);
           delete entityWithId.new_entity_id;
-          void ((_c = this.renameEntityIdInConfigs) == null ? void 0 : _c.call(this, oldEntityId, newEntityId));
+          void ((_e = this.renameEntityIdInConfigs) == null ? void 0 : _e.call(this, oldEntityId, newEntityId));
         }
       }
       this.updateEntityFromRegistry(entity, entityWithId);
+      void this.saveEntityRegistry();
       this.sendResponse(ws, message.id, { entity_entry: entityWithId });
       this.sendUpdate("entity_registry_updated", {
         action: "update",
