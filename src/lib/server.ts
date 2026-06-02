@@ -6,6 +6,7 @@ import { handleAutoEntitiesCard } from './modules/autoEntities';
 import * as utils from './entities/utils';
 import { BaseEntity } from './entities/baseEntity';
 import { getFriendlyName } from './entities/friendly_name';
+import { computeSunState } from './sun';
 import { iobState2EntityState, numericDeviceClasses as NUMERIC_DEVICE_CLASSES } from './converters/genericConverter';
 import { Converter } from './converters/converter';
 import * as converterSwitch from './converters/switch';
@@ -216,6 +217,8 @@ class WebServer {
     private _wss: any;
     private _indexHtml: string | undefined;
     private _clearInterval: ReturnType<typeof setInterval> | null | undefined;
+    private _sunInterval: ReturnType<typeof setInterval> | null | undefined;
+    private _sunLocationWarned: boolean | undefined;
     private _updateTimer: ReturnType<typeof setTimeout> | null | undefined;
 
     /**
@@ -451,6 +454,8 @@ class WebServer {
                 if (this.config.auth !== false) {
                     this._clearInterval = setInterval(() => this.clearAuth(), 60000);
                 }
+                // keep the synthetic sun.sun entity (elevation/azimuth/next_*) up to date
+                this._sunInterval = setInterval(() => this._updateSunEntity(), 60000);
                 this.adapter.setState('info.readyForClients', true, true);
                 this.log.debug('Initialization done.');
             })
@@ -1221,6 +1226,54 @@ class WebServer {
         entityHome.last_changed = (this.systemConfig.ts || Date.now()) / 1000;
         entityHome.last_updated = (this.systemConfig.ts || Date.now()) / 1000;
         this._modules.entityRegistry.handleUpdatedEntities([entityHome], false);
+
+        //sun.sun:
+        this._updateSunEntity();
+    }
+
+    /**
+     * Create/refresh the synthetic `sun.sun` entity (Home Assistant style) from the configured
+     * latitude/longitude using suncalc. The GPS position from system.config is enough to compute
+     * everything; ioBroker exposes no astro API to adapters. Does nothing when no location is set.
+     */
+    _updateSunEntity() {
+        const lat = parseFloat(this.systemConfig?.latitude);
+        const lng = parseFloat(this.systemConfig?.longitude);
+        if (isNaN(lat) || isNaN(lng)) {
+            // No location configured in ioBroker (System settings -> location). Without it the sun
+            // position cannot be computed, so sun.sun is not created.
+            if (!this._sunLocationWarned) {
+                this.log.info('No latitude/longitude in system.config - sun.sun entity is not created.');
+                this._sunLocationWarned = true;
+            }
+            return;
+        }
+        const { state, attributes } = computeSunState(lat, lng);
+
+        let sun = entityData.entityId2Entity['sun.sun'];
+        const isNew = !sun;
+        if (!sun) {
+            sun = {
+                entity_id: 'sun.sun',
+                state,
+                attributes: { friendly_name: 'Sun', icon: 'mdi:white-balance-sunny' },
+                context: { id: 'sun.sun', STATE: {}, type: 'sun' },
+            };
+            entityData.entities.push(sun);
+            entityData.entityId2Entity['sun.sun'] = sun;
+            this.log.debug(`Created sun.sun entity (lat ${lat}, lng ${lng}).`);
+        }
+
+        sun.state = state;
+        Object.assign(sun.attributes, attributes);
+        sun.last_changed = Date.now() / 1000;
+        sun.last_updated = Date.now() / 1000;
+
+        if (isNew) {
+            this._modules.entityRegistry.handleUpdatedEntities([sun], false);
+        } else {
+            this.updateEntityInFrontend(sun);
+        }
     }
 
     /**
@@ -3192,6 +3245,8 @@ class WebServer {
         });
         this._clearInterval && clearInterval(this._clearInterval);
         this._clearInterval = null;
+        this._sunInterval && clearInterval(this._sunInterval);
+        this._sunInterval = null;
         this._updateTimer && clearTimeout(this._updateTimer);
         this._updateTimer = null;
         for (const mod of Object.values(this._modules) as IModule[]) {

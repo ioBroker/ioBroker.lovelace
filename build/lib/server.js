@@ -29,6 +29,7 @@ var import_autoEntities = require("./modules/autoEntities");
 var utils = __toESM(require("./entities/utils"));
 var import_baseEntity = require("./entities/baseEntity");
 var import_friendly_name = require("./entities/friendly_name");
+var import_sun = require("./sun");
 var import_genericConverter = require("./converters/genericConverter");
 var import_converter = require("./converters/converter");
 var converterSwitch = __toESM(require("./converters/switch"));
@@ -121,6 +122,8 @@ class WebServer {
   _wss;
   _indexHtml;
   _clearInterval;
+  _sunInterval;
+  _sunLocationWarned;
   _updateTimer;
   /**
    * Constructor of the WebServer class.
@@ -330,6 +333,7 @@ class WebServer {
       if (this.config.auth !== false) {
         this._clearInterval = setInterval(() => this.clearAuth(), 6e4);
       }
+      this._sunInterval = setInterval(() => this._updateSunEntity(), 6e4);
       this.adapter.setState("info.readyForClients", true, true);
       this.log.debug("Initialization done.");
     }).catch((err) => {
@@ -1004,6 +1008,47 @@ class WebServer {
     entityHome.last_changed = (this.systemConfig.ts || Date.now()) / 1e3;
     entityHome.last_updated = (this.systemConfig.ts || Date.now()) / 1e3;
     this._modules.entityRegistry.handleUpdatedEntities([entityHome], false);
+    this._updateSunEntity();
+  }
+  /**
+   * Create/refresh the synthetic `sun.sun` entity (Home Assistant style) from the configured
+   * latitude/longitude using suncalc. The GPS position from system.config is enough to compute
+   * everything; ioBroker exposes no astro API to adapters. Does nothing when no location is set.
+   */
+  _updateSunEntity() {
+    var _a, _b;
+    const lat = parseFloat((_a = this.systemConfig) == null ? void 0 : _a.latitude);
+    const lng = parseFloat((_b = this.systemConfig) == null ? void 0 : _b.longitude);
+    if (isNaN(lat) || isNaN(lng)) {
+      if (!this._sunLocationWarned) {
+        this.log.info("No latitude/longitude in system.config - sun.sun entity is not created.");
+        this._sunLocationWarned = true;
+      }
+      return;
+    }
+    const { state, attributes } = (0, import_sun.computeSunState)(lat, lng);
+    let sun = entityData.entityId2Entity["sun.sun"];
+    const isNew = !sun;
+    if (!sun) {
+      sun = {
+        entity_id: "sun.sun",
+        state,
+        attributes: { friendly_name: "Sun", icon: "mdi:white-balance-sunny" },
+        context: { id: "sun.sun", STATE: {}, type: "sun" }
+      };
+      entityData.entities.push(sun);
+      entityData.entityId2Entity["sun.sun"] = sun;
+      this.log.debug(`Created sun.sun entity (lat ${lat}, lng ${lng}).`);
+    }
+    sun.state = state;
+    Object.assign(sun.attributes, attributes);
+    sun.last_changed = Date.now() / 1e3;
+    sun.last_updated = Date.now() / 1e3;
+    if (isNew) {
+      this._modules.entityRegistry.handleUpdatedEntities([sun], false);
+    } else {
+      this.updateEntityInFrontend(sun);
+    }
   }
   /**
    * Create one entity from type-detector
@@ -2644,6 +2689,8 @@ ${hideScript.join("\n")}
     });
     this._clearInterval && clearInterval(this._clearInterval);
     this._clearInterval = null;
+    this._sunInterval && clearInterval(this._sunInterval);
+    this._sunInterval = null;
     this._updateTimer && clearTimeout(this._updateTimer);
     this._updateTimer = null;
     for (const mod of Object.values(this._modules)) {
