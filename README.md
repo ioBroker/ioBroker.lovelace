@@ -485,6 +485,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
 * (Garfonso/Claude) Added a `sun.sun` entity, calculated from the configured location. (#430)
 * (Garfonso/Claude) Support uploading images from the frontend (e.g. dashboard background pictures). (#607)
+* (Garfonso/Claude) Added media browser support (`media_source`): browse uploaded images and files from the `cards/` folder.
 
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.

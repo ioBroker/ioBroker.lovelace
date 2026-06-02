@@ -42,6 +42,7 @@ import ThemesModule from './modules/themes';
 import PANELS from './panels';
 import TemplateModule from './modules/template';
 import CompatModule from './modules/compat';
+import MediaSourceModule from './modules/mediaSource';
 import SearchModule from './modules/search';
 import ImageModule from './modules/image';
 import { migrateStorageObjects } from './modules/storage';
@@ -63,6 +64,7 @@ type Modules = {
     themes: InstanceType<typeof ThemesModule>;
     template: InstanceType<typeof TemplateModule>;
     compat: InstanceType<typeof CompatModule>;
+    mediaSource: InstanceType<typeof MediaSourceModule>;
     search: InstanceType<typeof SearchModule>;
     image: InstanceType<typeof ImageModule>;
     history: InstanceType<typeof HistoryModule>;
@@ -344,6 +346,10 @@ class WebServer {
             compat: new CompatModule({
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
                 listDevices: (ws, message) => void this._modules.deviceRegistry.processMessage(ws, message),
+            }),
+            mediaSource: new MediaSourceModule({
+                adapter: this.adapter,
+                sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
             }),
             search: new SearchModule({
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),

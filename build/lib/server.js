@@ -65,6 +65,7 @@ var import_themes = __toESM(require("./modules/themes"));
 var import_panels = __toESM(require("./panels"));
 var import_template = __toESM(require("./modules/template"));
 var import_compat = __toESM(require("./modules/compat"));
+var import_mediaSource = __toESM(require("./modules/mediaSource"));
 var import_search = __toESM(require("./modules/search"));
 var import_image = __toESM(require("./modules/image"));
 var import_storage = require("./modules/storage");
@@ -244,6 +245,10 @@ class WebServer {
       compat: new import_compat.default({
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
         listDevices: (ws, message) => void this._modules.deviceRegistry.processMessage(ws, message)
+      }),
+      mediaSource: new import_mediaSource.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
       }),
       search: new import_search.default({
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
