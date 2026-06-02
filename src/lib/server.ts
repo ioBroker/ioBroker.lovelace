@@ -38,6 +38,7 @@ import AreaRegistryModule from './modules/areaRegistry';
 import EnergyModule from './modules/energyModule';
 import UserDataModule from './modules/userData';
 import ThemesModule from './modules/themes';
+import PANELS from './panels';
 import TemplateModule from './modules/template';
 import CompatModule from './modules/compat';
 import SearchModule from './modules/search';
@@ -73,12 +74,9 @@ const WebSocket = require('ws');
 
 const bodyParser = require('body-parser');
 
-const PANELS = require('./panels');
-
 const multer = require('multer');
 
 const mime = require('mime');
-
 
 const jstz = require('jstimezonedetect');
 
@@ -182,7 +180,6 @@ class WebServer {
     lang: string;
 
     detector: any;
-
 
     words: any;
 
@@ -2755,8 +2752,6 @@ class WebServer {
                 this._sendResponse(ws, message.id, this._modules.themes.getThemes());
             } else if (message.type === 'auth/current_user') {
                 void this._getCurrentUser(ws).then(data => this._sendResponse(ws, message.id, data));
-            } else if (this._modules.userData.processMessage(ws, message)) {
-                // frontend/(get|set|subscribe)_(user|system)_data handled by the userData module.
             } else if (message.type === 'frontend/get_translations') {
                 this.log.debug(`Get translations: ${message.language}`);
                 this._sendResponse(ws, message.id, this._getTranslations(message.language));
@@ -2771,10 +2766,6 @@ class WebServer {
                 this._sendResponse(ws, message.id);
             } else if (message.type === 'lovelace/resources') {
                 this._sendResponse(ws, message.id, this._ressourceConfig);
-            } else if (this._modules.compat.processMessage(ws, message)) {
-                // repairs/floors/labels/config_entries/manifest stubs handled by the compat module.
-            } else if (this._modules.search.processMessage(ws, message)) {
-                // search/related and entity/source handled by the search module.
             } else if (message.type === 'camera_thumbnail') {
                 this.log.warn(`camera_thumbnail ${message.entity_id} deprecated!!!`);
                 try {

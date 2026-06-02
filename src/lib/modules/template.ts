@@ -107,8 +107,20 @@ class TemplateModule {
      * @returns true (always handled)
      */
     processMessage(ws: WsWithTemplates, message: Record<string, unknown>): boolean {
+        // Only render_template is ours. The server's fallthrough loop offers EVERY unmatched message
+        // to every module, so without this guard we would send a spurious (empty) response to foreign
+        // messages like recorder/info or browser_mod/* - which the frontend then reads as a null
+        // result (e.g. checkDataBaseMigration crashing on `migration_in_progress` of null).
+        if (message.type !== 'render_template') {
+            return false;
+        }
         const template = message.template;
         this.sendResponse(ws, message.id);
+
+        if (typeof template !== 'string' || !template) {
+            this.adapter.log.warn(`Ignoring render_template without template string: ${JSON.stringify(message)}`);
+            return true;
+        }
 
         const obj: TemplateEntry = { template, ids: [], id: message.id };
         ws.__templates?.push(obj);
