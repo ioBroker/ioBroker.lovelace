@@ -4,12 +4,31 @@ const entityData: { lang: string } = require('../../../lib/dataSingleton');
 
 function specificLanguageOrFallback(hash: ioBroker.StringOrTranslated | undefined): string | undefined {
     if (typeof hash === 'object' && hash !== null) {
-        // Prefer language, use English as a fallback.
+        // Prefer language, use English as a fallback. If neither is present the caller falls through
+        // to the next name candidate (smartName falls back to common.name etc.). Crucially this never
+        // returns the raw object - that would leak into attributes.friendly_name and crash the
+        // frontend more-info dialog (it does string ops on the name).
         const map = hash as Record<string, string>;
         return map[entityData.lang] || map.en;
     }
 
     return hash;
+}
+
+/**
+ * Reduce a predefined name to a string. Unlike the language-or-fallback used for smartName/common.name,
+ * a predefined (user-provided) name is always honoured, so when neither the configured language nor
+ * English is present we fall back to any available translation rather than dropping it.
+ *
+ * @param name - the predefined name (string, translation object, or nullish)
+ * @returns the resolved string, or undefined when no name is given
+ */
+function reducePredefinedName(name: ioBroker.StringOrTranslated | null | undefined): string | undefined {
+    if (typeof name === 'object' && name !== null) {
+        const map = name as Record<string, string>;
+        return map[entityData.lang] || map.en || Object.values(map)[0];
+    }
+    return name ?? undefined;
 }
 
 type NameCandidate = (
@@ -27,7 +46,8 @@ const candidates: NameCandidate[] = [
      * @returns the friendly name
      */
     function (predefinedName) {
-        return predefinedName ?? undefined;
+        // predefinedName may itself be an ioBroker translation object, so reduce it to a string.
+        return reducePredefinedName(predefinedName);
     },
     /**
      * Select smart name from the ioBroker object, if available.

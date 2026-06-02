@@ -29,6 +29,13 @@ function specificLanguageOrFallback(hash) {
   }
   return hash;
 }
+function reducePredefinedName(name) {
+  if (typeof name === "object" && name !== null) {
+    const map = name;
+    return map[entityData.lang] || map.en || Object.values(map)[0];
+  }
+  return name != null ? name : void 0;
+}
 const candidates = [
   /**
    * Select predefined name — highest priority.
@@ -37,7 +44,7 @@ const candidates = [
    * @returns the friendly name
    */
   function(predefinedName) {
-    return predefinedName != null ? predefinedName : void 0;
+    return reducePredefinedName(predefinedName);
   },
   /**
    * Select smart name from the ioBroker object, if available.
