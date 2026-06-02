@@ -516,6 +516,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) subscribe to all object ids in a template.
 * (Garfonso) Update dependencies.
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 Copyright (c) 2019-2026, bluefox <dogafox@gmail.com>
