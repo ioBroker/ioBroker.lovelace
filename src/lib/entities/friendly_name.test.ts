@@ -72,4 +72,20 @@ describe('entities/friendly_name', function () {
     it('returns null/falsy when object itself is absent', function () {
         expect(getFriendlyName(null, null, null, null)).to.be.undefined;
     });
+
+    it('predefined name as translation object is reduced to a string', function () {
+        entityData.lang = 'de';
+        const predefined = { en: 'English', de: 'Deutsch' } as unknown as string;
+        const result = getFriendlyName(predefined, null, null, null);
+        expect(result).to.equal('Deutsch');
+        expect(result).to.be.a('string');
+    });
+
+    it('predefined name object falls back to the first translation when lang/en are missing', function () {
+        entityData.lang = 'fr';
+        const predefined = { it: 'Italiano' } as unknown as string;
+        const result = getFriendlyName(predefined, null, null, null);
+        expect(result).to.equal('Italiano');
+        expect(result).to.be.a('string');
+    });
 });
