@@ -2029,7 +2029,11 @@ ${hideScript.join("\n")}
       is_owner: user === "system.user.admin",
       is_admin: user === "system.user.admin",
       credentials: [{ auth_provider_type: "iobroker", auth_provider_id: null }],
-      mfa_modules: [{ id: "totp", name: "Authenticator app", enabled: false }]
+      // We do our own (ioBroker) auth and have no server-side MFA. Advertising a TOTP module
+      // here made the profile page offer "Authenticator app" setup, which then sent
+      // auth/setup_mfa (a flow we cannot service). An empty list is HA's own default and makes
+      // the profile simply show no MFA modules.
+      mfa_modules: []
     };
     try {
       const obj = await this.adapter.getForeignObjectAsync(user, { user });
@@ -2298,6 +2302,20 @@ ${hideScript.join("\n")}
         this._sendResponse(ws, message.id, this._modules.themes.getThemes());
       } else if (message.type === "auth/current_user") {
         void this._getCurrentUser(ws).then((data) => this._sendResponse(ws, message.id, data));
+      } else if (message.type === "auth/refresh_tokens") {
+        this._sendResponse(ws, message.id, []);
+      } else if (message.type === "auth/long_lived_access_token") {
+        ws.send(
+          JSON.stringify({
+            id: message.id,
+            type: "result",
+            success: false,
+            error: {
+              code: "not_supported",
+              message: "Long-lived access tokens are not supported by ioBroker.lovelace."
+            }
+          })
+        );
       } else if (message.type === "frontend/get_translations") {
         this.log.debug(`Get translations: ${message.language}`);
         this._sendResponse(ws, message.id, this._getTranslations(message.language));
