@@ -1,4 +1,6 @@
 "use strict";
+var import_storage = require("./storage");
+var import_utils = require("../entities/utils");
 class DashboardModule {
   _dashboards = [];
   _dashboardConfigs = {};
@@ -23,7 +25,7 @@ class DashboardModule {
    */
   async loadDashboards() {
     var _a, _b;
-    const storage = await this.adapter.getObjectAsync("dashboardStorage");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}dashboardStorage`);
     this._dashboards = ((_a = storage == null ? void 0 : storage.native) == null ? void 0 : _a.dashboards) || [];
     this._dashboardConfigs = ((_b = storage == null ? void 0 : storage.native) == null ? void 0 : _b.dashboardConfigs) || {};
   }
@@ -31,13 +33,15 @@ class DashboardModule {
    * Store the dashboards to the ioBroker object database.
    */
   async saveDashboards() {
-    const storage = await this.adapter.getObjectAsync("dashboardStorage");
+    const storage = await this.adapter.getObjectAsync(
+      `${import_storage.STORAGE_PREFIX}dashboardStorage`
+    );
     if (!storage.native) {
       storage.native = {};
     }
     storage.native.dashboards = this._dashboards;
     storage.native.dashboardConfigs = this._dashboardConfigs;
-    await this.adapter.setObject("dashboardStorage", storage);
+    await this.adapter.setObject(`${import_storage.STORAGE_PREFIX}dashboardStorage`, storage);
   }
   /**
    * Get config for a dashboard url path.
@@ -59,6 +63,25 @@ class DashboardModule {
   async storeConfig(urlPath, config) {
     this._dashboardConfigs[urlPath] = config;
     await this.saveDashboards();
+  }
+  /**
+   * Replace a renamed entity_id across all stored additional-dashboard configs.
+   *
+   * @param oldEntityId - previous HA entity_id
+   * @param newEntityId - new HA entity_id
+   * @returns true if any dashboard config changed (and was persisted)
+   */
+  async renameEntityId(oldEntityId, newEntityId) {
+    let changed = false;
+    for (const urlPath of Object.keys(this._dashboardConfigs)) {
+      if ((0, import_utils.replaceEntityIdInConfig)(this._dashboardConfigs[urlPath], oldEntityId, newEntityId)) {
+        changed = true;
+      }
+    }
+    if (changed) {
+      await this.saveDashboards();
+    }
+    return changed;
   }
   /**
    * Search a unique id for the dashboard.

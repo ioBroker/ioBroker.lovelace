@@ -59,16 +59,20 @@ var import_dashboard = __toESM(require("./modules/dashboard"));
 var import_deviceRegistry = __toESM(require("./modules/deviceRegistry"));
 var import_areaRegistry = __toESM(require("./modules/areaRegistry"));
 var import_energyModule = __toESM(require("./modules/energyModule"));
+var import_userData = __toESM(require("./modules/userData"));
+var import_themes = __toESM(require("./modules/themes"));
+var import_panels = __toESM(require("./panels"));
+var import_template = __toESM(require("./modules/template"));
+var import_compat = __toESM(require("./modules/compat"));
+var import_search = __toESM(require("./modules/search"));
+var import_image = __toESM(require("./modules/image"));
+var import_storage = require("./modules/storage");
 const WebSocket = require("ws");
 const bodyParser = require("body-parser");
-const PANELS = require("./panels");
 const multer = require("multer");
 const mime = require("mime");
-const yaml = require("js-yaml");
-const axios = require("axios");
 const jstz = require("jstimezonedetect");
 const entityData = require("../../lib/dataSingleton");
-const bindings = require("../../lib/bindings");
 const ChannelDetector = require("@iobroker/type-detector").default;
 const ignoreIds = [/^system\./, /^script\./];
 const TIMEOUT_PASSWORD_ENTER = 18e4;
@@ -104,7 +108,6 @@ class WebServer {
   lang;
   detector;
   words;
-  templateStates;
   systemConfig;
   _lovelaceConfig;
   _ressourceConfig;
@@ -113,12 +116,6 @@ class WebServer {
   _server;
   _app;
   _auth_flows;
-  _themes;
-  _currentTheme;
-  _currentThemeDark;
-  /** Persistent frontend user-data: userKey -> dataKey -> value. Backs frontend/*_user_data. */
-  _userData = {};
-  _darkMode;
   _objectData;
   _modules;
   _wss;
@@ -149,11 +146,6 @@ class WebServer {
     this._server = options.server;
     this._app = options.app;
     this._auth_flows = {};
-    this.templateStates = {};
-    this._themes = {};
-    this._currentTheme = this.config.defaultTheme || "default";
-    this._currentThemeDark = this.config.defaultThemeDark || "default";
-    this._darkMode = false;
     this._objectData = {
       objects: {},
       //id -> object storage
@@ -204,7 +196,8 @@ class WebServer {
         adapter: this.adapter,
         entityData,
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
-        sendUpdate: (type, data) => this._sendUpdate(type, data)
+        sendUpdate: (type, data) => this._sendUpdate(type, data),
+        renameEntityIdInConfigs: (oldId, newId) => this._renameEntityIdInConfigs(oldId, newId)
       }),
       dashboard: new import_dashboard.default({
         adapter: this.adapter,
@@ -226,6 +219,59 @@ class WebServer {
         adapter: this.adapter,
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
       }),
+      userData: new import_userData.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
+      }),
+      themes: new import_themes.default({
+        adapter: this.adapter,
+        sendUpdate: (type) => this._sendUpdate(type)
+      }),
+      template: new import_template.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        subscribeState: (id) => {
+          if (this._subscribed.indexOf(id) === -1) {
+            this._subscribed.push(id);
+            this.adapter.subscribeForeignStates(id);
+            this.log.debug(`IoB Subscribe on ${id}`);
+          }
+        }
+      }),
+      compat: new import_compat.default({
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        listDevices: (ws, message) => void this._modules.deviceRegistry.processMessage(ws, message)
+      }),
+      search: new import_search.default({
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        entityData
+      }),
+      image: new import_image.default({
+        adapter: this.adapter,
+        entityData,
+        getUserIDFromName: (name) => this._modules.person.getUserIDFromName(name),
+        resolveUser: ({ entityId, token, accessToken, url, reqUser, entity }) => {
+          let userName;
+          if (this.config.auth !== false && (token || accessToken) && !this._requestableFiles.includes(url) && !entityData.entityIconUrls.includes(url)) {
+            if (accessToken) {
+              const now = Date.now();
+              const flowId = Object.keys(this._auth_flows).find(
+                (fId) => this._auth_flows[fId].access_token === accessToken && now - this._auth_flows[fId].ts < this._auth_flows[fId].auth_ttl
+              );
+              if (!flowId) {
+                throw new Error("Invalid token!");
+              }
+              userName = this._auth_flows[flowId].username;
+            } else if (token && (entity == null ? void 0 : entity.attributes.access_token) !== token) {
+              this.log.warn(`Invalid access token for ${entityId} - ${token}`);
+              throw new Error(`Invalid access token for ${entityId} - ${token}`);
+            } else {
+              userName = reqUser;
+            }
+          }
+          return userName;
+        }
+      }),
       history: new import_history.default({
         adapter: this.adapter,
         entityData,
@@ -242,13 +288,16 @@ class WebServer {
     if (this.adapter.config.updateTimeout !== void 0) {
       this.adapter.config.updateTimeout = Math.max(100, Math.min(this.adapter.config.updateTimeout, 3e4));
     }
+    const storageReady = (0, import_storage.migrateStorageObjects)(this.adapter);
+    const entityRegistryReady = storageReady.then(() => this._modules.entityRegistry.init());
     const concurrentPromises = [
       this._modules.todo.init(),
       this._modules.person.init(),
-      this._modules.entityRegistry.init(),
-      this._modules.areaRegistry.init(),
-      this._modules.energy.init(),
-      this._modules.dashboard.init(),
+      entityRegistryReady,
+      storageReady.then(() => this._modules.areaRegistry.init()),
+      storageReady.then(() => this._modules.energy.init()),
+      storageReady.then(() => this._modules.dashboard.init()),
+      storageReady.then(() => this._modules.userData.init()),
       this.adapter.getForeignObjectAsync("system.config").then((config) => {
         this.lang = this.config.language || config.common.language;
         entityData.lang = this.lang;
@@ -263,10 +312,9 @@ class WebServer {
           this._lovelaceConfig = require("../../lib/defaultConfig");
         }
       }).then(() => this._modules.browserMod.init(this._lovelaceConfig)),
-      this._readAllEntities(),
+      entityRegistryReady.then(() => this._readAllEntities()),
       this._listFiles(),
-      this._initThemes(),
-      this._loadUserData()
+      this._modules.themes.init()
     ];
     Promise.all(concurrentPromises).then(() => {
       var _a;
@@ -800,41 +848,9 @@ class WebServer {
   async onStateChange(id, state, forceUpdate = false) {
     var _a;
     if (state) {
-      if (id === `${this.adapter.namespace}.control.theme` || id === `${this.adapter.namespace}.control.themeDark`) {
-        const dark = id.includes("Dark");
-        if (this._themes[state.val] || state.val === "default") {
-          this[dark ? "_currentThemeDark" : "_currentTheme"] = state.val;
-          this._sendUpdate("themes_updated");
-        }
-      } else if (id === `${this.adapter.namespace}.control.darkMode`) {
-        if (this._darkMode !== state.val) {
-          this._darkMode = !!state.val;
-          this._sendUpdate("themes_updated");
-        }
-      }
+      this._modules.themes.onStateChange(id, state);
     }
-    const changedStates = {};
-    this._wss && this._wss.clients.forEach((client) => {
-      if (client.__templates && client.readyState === WebSocket.OPEN) {
-        client.__templates.forEach((t) => {
-          if (t.ids.includes(id)) {
-            const _state = state || { val: null };
-            if (changedStates[id] || this.templateStates[id] && this.templateStates[id].val !== _state.val) {
-              this.templateStates[id] = _state;
-              changedStates[id] = true;
-              const event = {
-                id: t.id,
-                type: "event",
-                event: {
-                  result: bindings.formatBinding(t.template, this.templateStates)
-                }
-              };
-              client.send(JSON.stringify(event));
-            }
-          }
-        });
-      }
-    });
+    this._modules.template.onStateChange(id, state, this._wss);
     const entities = entityData.iobID2entity[id];
     if (entities) {
       entities.forEach((entity) => {
@@ -1247,9 +1263,7 @@ class WebServer {
         });
       }
     });
-    this._wss && this._wss.clients.forEach(
-      (client) => client.__templates && client.__templates.forEach((t) => ids = ids.concat(t.ids))
-    );
+    ids = ids.concat(this._modules.template.collectSubscribedIds(this._wss));
     const deleted = this._subscribed.filter((id) => ids.indexOf(id) === -1);
     deleted.forEach((id) => {
       this.log.debug(`IoB UnSubscribe on ${id}`);
@@ -1300,6 +1314,7 @@ class WebServer {
         nLines.push(`<script>
 ${hideScript.join("\n")}
 </script>`);
+        nLines.push(`<script type="module">import('/cards/_static_browser_mod.js');</script>`);
       }
       if (template) {
         continue;
@@ -1421,78 +1436,35 @@ ${hideScript.join("\n")}
     return configObj;
   }
   /**
-   * Identify the frontend "user" for per-user data (theme settings, sidebar order, …).
-   * Uses the authenticated username, falling back to a shared default.
-   *
-   * @param ws - websocket connection
-   */
-  _getUserKey(ws) {
-    var _a;
-    return ((_a = ws == null ? void 0 : ws.__auth) == null ? void 0 : _a.username) || "_default";
-  }
-  /**
-   * Load persisted frontend user-data from the ioBroker object DB.
-   */
-  async _loadUserData() {
-    var _a;
-    try {
-      const obj = await this.adapter.getObjectAsync("userData");
-      this._userData = ((_a = obj == null ? void 0 : obj.native) == null ? void 0 : _a.userData) || {};
-    } catch (e) {
-      this.log.debug(`Could not load userData: ${e}`);
-      this._userData = {};
-    }
-  }
-  /**
-   * Persist frontend user-data to the ioBroker object DB.
-   */
-  async _saveUserData() {
-    try {
-      const obj = await this.adapter.getObjectAsync("userData");
-      if (obj) {
-        obj.native = obj.native || {};
-        obj.native.userData = this._userData;
-        await this.adapter.setObjectAsync("userData", obj);
-      }
-    } catch (e) {
-      this.log.warn(`Could not save userData: ${e}`);
-    }
-  }
-  /**
-   * Read a single frontend user-data value for the given connection and key.
-   * The 'core' key always carries default_panel so the frontend lands on the lovelace dashboard.
-   *
-   * @param ws - websocket connection
-   * @param key - user-data key (core, theme, sidebar, language, …)
-   */
-  _getUserDataValue(ws, key) {
-    var _a;
-    const stored = (_a = this._userData[this._getUserKey(ws)]) == null ? void 0 : _a[key];
-    if (key === "core") {
-      return { default_panel: "lovelace", ...stored || {} };
-    }
-    return stored != null ? stored : null;
-  }
-  /**
-   * Returns themes and the ones currently selected in config / object.
-   *
-   * @returns themes
-   */
-  _getThemes() {
-    return {
-      themes: this._themes,
-      default_theme: this._currentTheme || this.config.defaultTheme || "default",
-      default_dark_theme: this._currentThemeDark || this.config.defaultThemeDark || "default",
-      darkMode: this._darkMode
-    };
-  }
-  /**
-   * Somehow this seem to just be the entities?
+   * Internal: returns the full internal entity objects. Used by main.ts message handlers
+   * (browse, checkIdForDuplicates) which need fields like isManual / context.id.
    *
    * @returns entity array.
    */
   getHassStates() {
     return entityData.entities;
+  }
+  /**
+   * Build the response for the frontend `get_states` message: a clean array of Home Assistant
+   * state objects. We deliberately do NOT send the raw internal entities - those carry adapter
+   * internals (context.STATE ioBroker ids, ATTRIBUTES/COMMANDS, etc.) the frontend doesn't need,
+   * and a non-serializable/circular field would break JSON.stringify (relevant once entities
+   * carry an adapter context reference).
+   *
+   * @returns array of HA HassEntity objects
+   */
+  _getFrontendStates() {
+    return entityData.entities.map((entity) => {
+      var _a, _b;
+      return {
+        entity_id: entity.entity_id,
+        state: entity.state,
+        attributes: entity.attributes,
+        last_changed: entity.last_changed,
+        last_updated: entity.last_updated,
+        context: { id: (_b = (_a = entity.context) == null ? void 0 : _a.id) != null ? _b : entity.entity_id, parent_id: null, user_id: null }
+      };
+    });
   }
   /**
    * Frontend requested a card. Read cards from the file system and send them.
@@ -1608,64 +1580,6 @@ ${hideScript.join("\n")}
         });
       }
     }
-  }
-  /**
-   * Parse themes stored in config and set the current theme.
-   *
-   * @returns resolves when done.
-   */
-  async _initThemes() {
-    try {
-      this._themes = yaml.safeLoad(this.config.themes || "") || {};
-    } catch (depError) {
-      if (depError.message.includes("yaml.safeLoad") && depError.message.includes("removed")) {
-        this._themes = yaml.load(this.config.themes || "") || {};
-      } else {
-        this.log.error(`Cannot parse themes: ${depError}`);
-        this._themes = {};
-      }
-    }
-    const states = { default: "default" };
-    for (const themeName of Object.keys(this._themes)) {
-      states[themeName] = themeName;
-    }
-    const themeState = await this.adapter.getObjectAsync(`${this.adapter.namespace}.control.theme`);
-    if (themeState && themeState.common) {
-      themeState.common.states = states;
-      await this.adapter.setObject(`${this.adapter.namespace}.control.theme`, themeState);
-    } else {
-      this.log.warn(`State ${this.adapter.namespace}.control.theme missing`);
-    }
-    const themeDarkState = await this.adapter.getObjectAsync(`${this.adapter.namespace}.control.themeDark`);
-    if (themeDarkState && themeDarkState.common) {
-      themeDarkState.common.states = states;
-      await this.adapter.setObject(`${this.adapter.namespace}.control.themeDark`, themeDarkState);
-    } else {
-      this.log.warn(`State ${this.adapter.namespace}.control.themeDark missing`);
-    }
-    const state = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.theme`);
-    if (state && (this._themes[state.val] || state.val === "default")) {
-      this._currentTheme = state.val;
-    } else {
-      this._currentTheme = this.config.defaultTheme || "default";
-      await this.adapter.setStateAsync(`${this.adapter.namespace}.control.theme`, this._currentTheme, true);
-    }
-    const darkSate = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.themeDark`);
-    if (darkSate && (this._themes[darkSate.val] || darkSate.val === "default")) {
-      this._currentThemeDark = darkSate.val;
-    } else {
-      this._currentThemeDark = this.config.defaultThemeDark || "default";
-      await this.adapter.setStateAsync(
-        `${this.adapter.namespace}.control.themeDark`,
-        this._currentThemeDark,
-        true
-      );
-    }
-    const darkModeState = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.darkMode`);
-    if (darkModeState) {
-      this._darkMode = !!darkModeState.val;
-    }
-    this.log.debug("themes: init done");
   }
   /**
    * Send a file requested from frontend.
@@ -1933,7 +1847,7 @@ ${hideScript.join("\n")}
       }
     });
     this._app.get("/adapter/*adapter", async (req, res) => {
-      await this._replyWithImage(req, res);
+      await this._modules.image.replyWithImage(req, res);
     });
     this._app.get("/state/*state", async (req, res) => {
       try {
@@ -1971,10 +1885,10 @@ ${hideScript.join("\n")}
       this._modules.person.processRequest(req, res);
     });
     this._app.get("/api/camera_proxy_stream/:entity_id", async (req, res) => {
-      await this._replyWithImage(req, res);
+      await this._modules.image.replyWithImage(req, res);
     });
     this._app.get("/api/camera_proxy/:entity_id", async (req, res) => {
-      await this._replyWithImage(req, res);
+      await this._modules.image.replyWithImage(req, res);
     });
     this._app.get("/api/calendars/:entity_id", async (req, res) => {
       const entity = entityData.entityId2Entity[req.params.entity_id];
@@ -2074,6 +1988,27 @@ ${hideScript.join("\n")}
           });
         }
       });
+    }
+  }
+  /**
+   * Rewrite a renamed entity_id in the stored lovelace configs (main dashboard + additional
+   * dashboards) so existing cards keep pointing at the renamed entity. Persists the changed
+   * configs and notifies open clients via `lovelace_updated`.
+   *
+   * @param oldEntityId - previous HA entity_id
+   * @param newEntityId - new HA entity_id
+   */
+  async _renameEntityIdInConfigs(oldEntityId, newEntityId) {
+    let mainChanged = false;
+    if (this._lovelaceConfig) {
+      mainChanged = utils.replaceEntityIdInConfig(this._lovelaceConfig, oldEntityId, newEntityId);
+      if (mainChanged) {
+        await this._setLayoutConfig(this._lovelaceConfig);
+      }
+    }
+    const dashboardChanged = await this._modules.dashboard.renameEntityId(oldEntityId, newEntityId);
+    if (dashboardChanged && !mainChanged) {
+      this._sendUpdate("lovelace_updated");
     }
   }
   /**
@@ -2188,140 +2123,6 @@ ${hideScript.join("\n")}
     return clients;
   }
   /**
-   * Reply with image data to a request.
-   *
-   * @param req incoming request
-   * @param res response to send the image with
-   * @returns resolves when done.
-   */
-  async _replyWithImage(req, res) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
-    this.log.debug(
-      `Get image for ${req.url} and entity ${(_a = req.params) == null ? void 0 : _a.entity_id} with token=${(_b = req.query) == null ? void 0 : _b.token} and signed=${(_c = req.query) == null ? void 0 : _c.signed}`
-    );
-    try {
-      const data = await this._getImage(
-        (_d = req.params) == null ? void 0 : _d.entity_id,
-        ((_e = req.query) == null ? void 0 : _e.token) || "empty",
-        ((_f = req.params) == null ? void 0 : _f.entity_id) ? (_g = req.query) == null ? void 0 : _g.signed : (_h = req.query) == null ? void 0 : _h.token,
-        req.url,
-        req._user
-      );
-      res.setHeader("content-type", data.content_type);
-      console.log(`Send image ${data.content_type} - ${data.content.length}`);
-      let content = data.content;
-      if (!data.content_type.includes("svg")) {
-        content = Buffer.from(data.content, "base64");
-      }
-      res.send(content);
-    } catch (err) {
-      this.log.warn(`Error in _getImage: ${err} - ${err.stack}`);
-      res.status(404).json({ error: err });
-    }
-  }
-  /**
-   * Read an image from a state and return it as base64 encoded string.
-   *
-   * @param entity_id id of the entity
-   * @param token access token for the entity itself.
-   * @param access_token access token to check if the user is logged in.
-   * @param url optional url to the image, if no entity is used.
-   * @param reqUser user that requested the image
-   * @returns image as base64 string
-   */
-  async _getImage(entity_id, token, access_token, url, reqUser) {
-    const entity = entityData.entityId2Entity[entity_id];
-    let id;
-    let userName;
-    if (this.config.auth !== false && (token || access_token) && !this._requestableFiles.includes(url) && !entityData.entityIconUrls.includes(url)) {
-      if (access_token) {
-        const now = Date.now();
-        const flowId = Object.keys(this._auth_flows).find(
-          (flowId2) => this._auth_flows[flowId2].access_token === access_token && now - this._auth_flows[flowId2].ts < this._auth_flows[flowId2].auth_ttl
-        );
-        if (!flowId) {
-          throw new Error("Invalid token!");
-        } else {
-          userName = this._auth_flows[flowId].username;
-        }
-      } else if (token && (entity == null ? void 0 : entity.attributes.access_token) !== token) {
-        this.log.warn(`Invalid access token for ${entity_id} - ${token}`);
-        throw new Error(`Invalid access token for ${entity_id} - ${token}`);
-      } else {
-        userName = reqUser;
-      }
-    }
-    if (entity == null ? void 0 : entity.context.STATE.getId) {
-      id = entity.context.STATE.getId;
-    } else if (entity == null ? void 0 : entity.context.ATTRIBUTES) {
-      const attr = entity.context.ATTRIBUTES.find((attr2) => attr2.attribute === "url");
-      if (attr) {
-        id = attr.getId;
-      }
-    }
-    let result;
-    if (id) {
-      const user = this._modules.person.getUserIDFromName(userName);
-      const state = await this.adapter.getForeignStateAsync(id, { user });
-      if (state && state.val && typeof state.val === "string") {
-        const val = state.val.split("?")[0] || "";
-        if (val.startsWith("/adapter/")) {
-          url = state.val;
-        } else if (state.val.startsWith("data")) {
-          const dataUrl = state.val;
-          const mimeType = dataUrl.substring(dataUrl.indexOf(":") + 1, dataUrl.indexOf(";"));
-          const encoding = dataUrl.substring(dataUrl.indexOf(";") + 1, dataUrl.indexOf(","));
-          if (encoding.localeCompare("base64", void 0, { sensitivity: "base" }) !== 0) {
-            this.log.warn(`Wrong encoding: ${encoding}`);
-            throw new Error(`Wrong encoding: ${encoding}`);
-          }
-          const base64Data = dataUrl.split(",")[1];
-          result = {
-            content_type: mimeType || "image/jpeg",
-            content: base64Data
-          };
-          return result;
-        } else {
-          const resp = await axios(state.val, { responseType: "arraybuffer" });
-          result = {
-            content_type: (mime.getType || mime.lookup).call(mime, val) || "image/jpeg",
-            content: Buffer.from(resp.data, "binary").toString("base64")
-          };
-          return result;
-        }
-      } else {
-        throw new Error(`State ${id} does not contain url to image`);
-      }
-    }
-    if (url) {
-      url = url.replace(/^\/adapter\/([a-zA-Z0-9-_]+)(.admin)?\//, "/$1.admin/");
-      url = url.split("/");
-      url.shift();
-      const id2 = url.shift();
-      url = url.join("/");
-      const pos = url.indexOf("?");
-      if (pos !== -1) {
-        url = url.substring(0, pos);
-      }
-      let image;
-      try {
-        image = await this.adapter.readFileAsync(id2, url);
-      } catch (err) {
-        throw new Error(`Cannot download image: ${err}`);
-      }
-      if (image) {
-        if (image.file === null || image.file === void 0) {
-          throw new Error("File empty or not found");
-        } else {
-          image.mimeType = image.mimeType || (mime.getType || mime.lookup).call(image.mimeType, url) || "image/jpeg";
-          result = { content_type: image.mimeType, content: image.file.toString("base64") };
-          return result;
-        }
-      }
-    }
-    throw new Error(`No url attribute found for ${entity_id} or no url supplied ${url}`);
-  }
-  /**
    * Transforms an entity into a short version that can be sent to the client.
    * Somehow introduced in newer versions of Home Assistant.
    *
@@ -2344,7 +2145,7 @@ ${hideScript.join("\n")}
    */
   async _initConnection(ws) {
     ws._subscribes = {};
-    ws.__templates = [];
+    this._modules.template.initWs(ws);
     let testTimer = null;
     ws.on("error", (e) => {
       console.error(`Error: ${e}`);
@@ -2356,7 +2157,7 @@ ${hideScript.join("\n")}
       ws.send(JSON.stringify({ type: "auth_required", ha_version: VERSION }));
     }
     ws.on("message", async (message) => {
-      var _a, _b, _c, _d, _e, _f;
+      var _a, _b;
       if (typeof message !== "string") {
         if (message instanceof Buffer) {
           message = message.toString("utf8");
@@ -2443,13 +2244,7 @@ ${hideScript.join("\n")}
               delete ws._subscribes[event_type];
             }
           });
-          if (ws.__templates) {
-            for (let i = ws.__templates.length - 1; i >= 0; i--) {
-              if (ws.__templates[i].id === message.subscription) {
-                ws.__templates.splice(i, 1);
-              }
-            }
-          }
+          this._modules.template.removeTemplate(ws, message.subscription);
         }
         this._sendResponse(ws, message.id);
       } else if (message.type === "subscribe_entities") {
@@ -2470,14 +2265,14 @@ ${hideScript.join("\n")}
         this.log.debug(`supported_features message: ${JSON.stringify(message.features)}`);
         this._sendResponse(ws, message.id);
       } else if (message.type === "get_states") {
-        this._sendResponse(ws, message.id, this.getHassStates());
+        this._sendResponse(ws, message.id, this._getFrontendStates());
       } else if (message.type === "get_config") {
         this._sendResponse(ws, message.id, this._getConfig());
       } else if (message.type === "get_services") {
         this._sendResponse(ws, message.id, entityData.services);
       } else if (message.type === "get_panels") {
-        this._modules.dashboard.addDashboardsToPanels(PANELS);
-        this._sendResponse(ws, message.id, PANELS);
+        this._modules.dashboard.addDashboardsToPanels(import_panels.default);
+        this._sendResponse(ws, message.id, import_panels.default);
       } else if (message.type === "auth/sign_path") {
         this.log.debug(`Sign: ${message.path}`);
         try {
@@ -2496,45 +2291,9 @@ ${hideScript.join("\n")}
           this.log.error(e);
         }
       } else if (message.type === "frontend/get_themes") {
-        this._sendResponse(ws, message.id, this._getThemes());
+        this._sendResponse(ws, message.id, this._modules.themes.getThemes());
       } else if (message.type === "auth/current_user") {
         void this._getCurrentUser(ws).then((data) => this._sendResponse(ws, message.id, data));
-      } else if (message.type === "frontend/subscribe_user_data") {
-        this.log.debug(`Subscribe user data: ${message.key}`);
-        ws.send(
-          JSON.stringify([
-            { id: message.id, type: "result", success: true, result: null },
-            {
-              id: message.id,
-              type: "event",
-              event: { value: this._getUserDataValue(ws, message.key) }
-            }
-          ])
-        );
-      } else if (message.type === "frontend/set_user_data") {
-        this.log.debug(`Set user data: ${message.key}`);
-        const userKey = this._getUserKey(ws);
-        this._userData[userKey] = this._userData[userKey] || {};
-        this._userData[userKey][message.key] = message.value;
-        void this._saveUserData();
-        this._sendResponse(ws, message.id);
-      } else if (message.type === "frontend/subscribe_system_data") {
-        this.log.debug(`Subscribe system data: ${message.key}`);
-        ws.send(
-          JSON.stringify([
-            { id: message.id, type: "result", success: true, result: null },
-            { id: message.id, type: "event", event: { value: null } }
-          ])
-        );
-      } else if (message.type === "frontend/get_system_data") {
-        this.log.debug(`Get system data: ${message.key}`);
-        this._sendResponse(ws, message.id, { value: null });
-      } else if (message.type === "frontend/set_system_data") {
-        this.log.debug(`Set system data: ${message.key}`);
-        this._sendResponse(ws, message.id);
-      } else if (message.type === "frontend/get_user_data") {
-        this.log.debug(`Get USER Data: ${message.key}`);
-        this._sendResponse(ws, message.id, { value: this._getUserDataValue(ws, message.key) });
       } else if (message.type === "frontend/get_translations") {
         this.log.debug(`Get translations: ${message.language}`);
         this._sendResponse(ws, message.id, this._getTranslations(message.language));
@@ -2549,92 +2308,10 @@ ${hideScript.join("\n")}
         this._sendResponse(ws, message.id);
       } else if (message.type === "lovelace/resources") {
         this._sendResponse(ws, message.id, this._ressourceConfig);
-      } else if (message.type === "repairs/list_issues") {
-        this._sendResponse(ws, message.id, { issues: [] });
-      } else if (message.type === "config/floor_registry/list") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "config/label_registry/list") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "config_entries/subscribe") {
-        this._sendResponse(ws, message.id, null);
-        message.type = "config/device_registry/list";
-        this._modules.deviceRegistry.processMessage(ws, message);
-      } else if (message.type === "config_entries/flow/progress") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "config_entries/get") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "config_entries/flow/subscribe") {
-        ws.send(
-          JSON.stringify([
-            { id: message.id, type: "result", success: true, result: null },
-            { id: message.id, type: "event", event: [] }
-          ])
-        );
-      } else if (message.type === "search/related") {
-        const related = {};
-        const itemType = message.item_type;
-        const itemId = message.item_id;
-        if (itemType === "device") {
-          const entityIds = [];
-          const areas = /* @__PURE__ */ new Set();
-          for (const entity of entityData.entities) {
-            if (((_a = entity.context) == null ? void 0 : _a.deviceId) === itemId) {
-              entityIds.push(entity.entity_id);
-              if (entity.context.roomId) {
-                areas.add(entity.context.roomId);
-              }
-            }
-          }
-          if (entityIds.length) {
-            related.entity = entityIds;
-          }
-          if (areas.size) {
-            related.area = [...areas];
-          }
-        } else if (itemType === "entity") {
-          const entity = entityData.entityId2Entity[itemId];
-          if ((_b = entity == null ? void 0 : entity.context) == null ? void 0 : _b.deviceId) {
-            related.device = [entity.context.deviceId];
-          }
-          if ((_c = entity == null ? void 0 : entity.context) == null ? void 0 : _c.roomId) {
-            related.area = [entity.context.roomId];
-          }
-        } else if (itemType === "area") {
-          const deviceIds = /* @__PURE__ */ new Set();
-          const entityIds = [];
-          for (const entity of entityData.entities) {
-            if (((_d = entity.context) == null ? void 0 : _d.roomId) === itemId) {
-              entityIds.push(entity.entity_id);
-              if (entity.context.deviceId) {
-                deviceIds.add(entity.context.deviceId);
-              }
-            }
-          }
-          if (deviceIds.size) {
-            related.device = [...deviceIds];
-          }
-          if (entityIds.length) {
-            related.entity = entityIds;
-          }
-        }
-        this._sendResponse(ws, message.id, related);
-      } else if (message.type === "manifest/list") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "entity/source") {
-        const sources = {};
-        for (const entity of entityData.entities) {
-          if (entity.entity_id === "zone.home") {
-            sources[entity.entity_id] = { domain: "constant" };
-          } else {
-            sources[entity.entity_id] = {
-              domain: entity.isManual ? "iob_manual" : "iob_automatic"
-            };
-          }
-        }
       } else if (message.type === "camera_thumbnail") {
         this.log.warn(`camera_thumbnail ${message.entity_id} deprecated!!!`);
         try {
-          const data = await this._getImage(message.entity_id, null, null);
+          const data = await this._modules.image.getImage(message.entity_id, null, null);
           this._sendResponse(ws, message.id, data);
         } catch (err) {
           this.log.warn(`Error in camera_thumbnail: ${err} - ${err.stack}`);
@@ -2643,60 +2320,7 @@ ${hideScript.join("\n")}
       } else if (message.type === "call_service") {
         await this._processCall(ws, message);
       } else if (message.type === "render_template") {
-        const template = message.template;
-        this._sendResponse(ws, message.id);
-        const obj = { template, ids: [], id: message.id };
-        ws.__templates && ws.__templates.push(obj);
-        const vars = bindings.extractBinding(template);
-        const promises = [];
-        const processId = async (id) => {
-          if (obj.ids.indexOf(id) !== -1) {
-            return;
-          }
-          obj.ids.push(id);
-          if (this._subscribed.indexOf(id) === -1) {
-            this._subscribed.push(id);
-            this.adapter.subscribeForeignStates(id);
-            this.log.debug(`IoB Subscribe on ${id}`);
-          }
-          try {
-            this.templateStates[id] = await this.adapter.getForeignStateAsync(id);
-          } catch (e) {
-            this.log.warning(`Cannot get state ${id}: ${e} in template ${template}`);
-          }
-        };
-        if (vars) {
-          for (const v of vars) {
-            try {
-              promises.push(processId(v.systemOid));
-              if (v.operations) {
-                for (const op of v.operations) {
-                  if (op.arg) {
-                    for (const arg of op.arg) {
-                      if (arg.systemOid) {
-                        promises.push(processId(arg.systemOid));
-                      }
-                    }
-                  }
-                }
-              }
-            } catch (e) {
-              this.log.warning(
-                `Cannot process variable ${JSON.stringify(v)}: ${e} in template ${template}`
-              );
-            }
-          }
-        }
-        void Promise.all(promises).then(() => {
-          const t = {
-            id: message.id,
-            type: "event",
-            event: {
-              result: bindings.formatBinding(template, this.templateStates)
-            }
-          };
-          ws.send(JSON.stringify(t));
-        });
+        this._modules.template.processMessage(ws, message);
       } else if (message.type === "logger/log_info") {
         this._sendResponse(
           ws,
@@ -2730,7 +2354,7 @@ ${hideScript.join("\n")}
       } else {
         let result = false;
         for (const mod of Object.values(this._modules)) {
-          result = ((_f = await ((_e = mod.processMessage) == null ? void 0 : _e.call(mod, ws, message))) != null ? _f : false) || result;
+          result = ((_b = await ((_a = mod.processMessage) == null ? void 0 : _a.call(mod, ws, message))) != null ? _b : false) || result;
         }
         if (!result) {
           this.log.info(`Unknown request: ${JSON.stringify(message)}`);
@@ -2748,7 +2372,7 @@ ${hideScript.join("\n")}
     ws.on("close", () => {
       this.log.debug("Connection closed");
       ws._subscribes = null;
-      ws.__templates = null;
+      this._modules.template.clearWs(ws);
       clearInterval(testTimer);
       testTimer = null;
     });

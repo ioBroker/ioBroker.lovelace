@@ -28,6 +28,7 @@ __export(utils_exports, {
   getObjectIcon: () => getObjectIcon,
   getParentIDs: () => getParentIDs,
   getSmartName: () => getSmartName,
+  replaceEntityIdInConfig: () => replaceEntityIdInConfig,
   setJsonAttribute: () => setJsonAttribute
 });
 module.exports = __toCommonJS(utils_exports);
@@ -163,6 +164,39 @@ function extractValidEntityIds(str, alreadyPresentEntityIds = []) {
     match = entityRegEx.exec(str);
   }
 }
+function replaceEntityIdInConfig(node, oldEntityId, newEntityId) {
+  if (!oldEntityId || oldEntityId === newEntityId) {
+    return false;
+  }
+  const escaped = oldEntityId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const tokenRegEx = new RegExp(`(?<![a-zA-Z0-9\u0410-\u042F\u0430-\u044F_.])${escaped}(?![a-zA-Z0-9\u0410-\u042F\u0430-\u044F_.])`, "g");
+  let changed = false;
+  const walk = (value) => {
+    if (typeof value === "string") {
+      const replaced = value.replace(tokenRegEx, newEntityId);
+      if (replaced !== value) {
+        changed = true;
+      }
+      return replaced;
+    }
+    if (Array.isArray(value)) {
+      for (let i = 0; i < value.length; i++) {
+        value[i] = walk(value[i]);
+      }
+      return value;
+    }
+    if (value && typeof value === "object") {
+      const obj = value;
+      for (const key of Object.keys(obj)) {
+        obj[key] = walk(obj[key]);
+      }
+      return value;
+    }
+    return value;
+  };
+  walk(node);
+  return changed;
+}
 function getObjectIcon(obj, prefix) {
   prefix = prefix || ".";
   if (!obj || !obj.common || !obj.common.icon) {
@@ -285,6 +319,7 @@ function createEntityNameFromCustom(obj, namespace) {
   getObjectIcon,
   getParentIDs,
   getSmartName,
+  replaceEntityIdInConfig,
   setJsonAttribute
 });
 //# sourceMappingURL=utils.js.map

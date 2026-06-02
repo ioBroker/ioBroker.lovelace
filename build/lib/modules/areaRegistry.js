@@ -1,4 +1,5 @@
 "use strict";
+var import_storage = require("./storage");
 class AreaRegistry {
   adapter;
   rooms;
@@ -21,18 +22,18 @@ class AreaRegistry {
     this.sendUpdate = options.sendUpdate;
   }
   async init() {
-    const storage = await this.adapter.getObjectAsync("areaRegistry");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}areaRegistry`);
     const native = storage == null ? void 0 : storage.native;
     this._sortOrder = (native == null ? void 0 : native.sortOrder) || [];
     this.adapter.log.debug("modules/areaRegistry: init done.");
   }
   async _save() {
-    const storage = await this.adapter.getObjectAsync("areaRegistry");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}areaRegistry`);
     if (!(storage == null ? void 0 : storage.native)) {
       return;
     }
     storage.native.sortOrder = this._sortOrder;
-    await this.adapter.setObject("areaRegistry", storage);
+    await this.adapter.setObject(`${import_storage.STORAGE_PREFIX}areaRegistry`, storage);
   }
   /**
    * Create area registry entry from a room object.

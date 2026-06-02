@@ -70,5 +70,4 @@ const panels = {
   }
 };
 var panels_default = panels;
-module.exports = panels;
 //# sourceMappingURL=panels.js.map

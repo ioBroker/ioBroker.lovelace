@@ -1,6 +1,7 @@
 "use strict";
 const instancesPath = "instances.";
 const yaml = require("js-yaml");
+const BROWSER_MOD_VERSION = "2.13.5";
 class BrowserModModule {
   adapter;
   objects;
@@ -21,7 +22,7 @@ class BrowserModModule {
     this.clients = {};
     this.browserModStorage = {
       browsers: {},
-      version: "2.0",
+      version: BROWSER_MOD_VERSION,
       settings: {
         hideSidebar: true,
         hideHeader: false,
@@ -427,6 +428,24 @@ class BrowserModModule {
     );
   }
   /**
+   * Write the per-browser setting VALUES onto their mirror states. _checkObjects only seeds the
+   * objects with the global default in common.default; it never writes the state value. Used on
+   * (re)register and rename so the ioBroker states reflect the browser's actual settings.
+   *
+   * @param ioBrokerDeviceId - the browser's device path (e.g. instances.<id>)
+   * @param settings - the browser's settings, if known
+   */
+  async _applySettingStates(ioBrokerDeviceId, settings) {
+    if (!settings) {
+      return;
+    }
+    for (const key of ["hideSidebar", "hideHeader"]) {
+      if (settings[key] !== void 0) {
+        await this.adapter.setStateAsync(`${ioBrokerDeviceId}.${key}`, !!settings[key], true);
+      }
+    }
+  }
+  /**
    * Derive a stable key for the current login session, used for sync-session Browser ID recall.
    * Prefers the auth token, falls back to the username. Returns undefined when neither is known.
    *
@@ -453,6 +472,50 @@ class BrowserModModule {
     return states;
   }
   /**
+   * Handle a `browser_mod.*` service call from the frontend (e.g. browser_mod.notification,
+   * browser_mod.refresh). Translates it into a browser command and forwards it to the target
+   * browser(s). Without this, such calls fell through to the generic entity handler and produced
+   * a misleading "Unknown entity" warning.
+   *
+   * @param ws - websocket connection the call came in on
+   * @param data - the call_service payload
+   * @returns true if handled
+   */
+  processServiceCall(ws, data) {
+    if (data.domain !== "browser_mod") {
+      return false;
+    }
+    const service = data.service;
+    const serviceData = { ...data.service_data || {} };
+    if (service === "notification" && typeof serviceData.message === "string" && serviceData.message.includes("version mismatch")) {
+      this.adapter.log.warn(
+        `browser_mod reports: "${serviceData.message}". The browser_mod frontend ships with ioBroker.lovelace (expected version ${BROWSER_MOD_VERSION}). Do NOT install your own browser_mod - remove it so the bundled version is used.`
+      );
+    }
+    let browserId = serviceData.browser_id;
+    if (browserId === "THIS") {
+      browserId = ws.browserID;
+    }
+    delete serviceData.browser_id;
+    const event = {
+      event_type: "browser_mod/command",
+      command: service,
+      origin: "LOCAL",
+      time_fired: (/* @__PURE__ */ new Date()).toISOString(),
+      ...serviceData
+    };
+    if (browserId && this.clients[browserId]) {
+      const client = this.clients[browserId];
+      this._sendToClient(client, { type: "event", event: { ...event, browserID: client.instance } });
+    } else {
+      for (const client of Object.values(this.clients)) {
+        this._sendToClient(client, { type: "event", event: { ...event, browserID: client.instance } });
+      }
+    }
+    ws.send(JSON.stringify({ id: data.id, type: "result", success: true, result: { context: { id: null } } }));
+    return true;
+  }
+  /**
    * Process a message from a browser_mod instance.
    *
    * @param ws - websocket connection with browser id
@@ -471,9 +534,12 @@ class BrowserModModule {
         await this._handleUpdate(ioBrokerDeviceId, message);
       } else if (method === "connect") {
         ws.on("close", async () => {
-          this.adapter.log.debug(`Instance ${String(message.browserID)} disconnected.`);
-          delete this.clients[message.browserID];
-          await this.adapter.setStateAsync(`${ioBrokerDeviceId}.online`, false, true);
+          const currentId = ws.browserID || message.browserID;
+          this.adapter.log.debug(`Instance ${currentId} disconnected.`);
+          delete this.clients[currentId];
+          if (this.objects[`${this.adapter.namespace}.${instancesPath}${currentId}.online`]) {
+            await this.adapter.setStateAsync(`${instancesPath}${currentId}.online`, false, true);
+          }
         });
         this.adapter.log.debug(`Instance ${String(message.browserID)} connected.`);
         this.clients[message.browserID] = {
@@ -510,28 +576,49 @@ class BrowserModModule {
         this.initialiseBrowserSettings(message.browserID, true);
         const msgData = message.data;
         if (msgData && msgData.browserID) {
-          const newIoBrokerDeviceId = instancesPath + msgData.browserID;
+          const oldBrowserId = message.browserID;
+          const newBrowserId = msgData.browserID;
+          const newIoBrokerDeviceId = instancesPath + newBrowserId;
+          const oldPrefix = `${this.adapter.namespace}.${ioBrokerDeviceId}`;
           for (const id of Object.keys(this.objects)) {
-            if (id.startsWith(ioBrokerDeviceId)) {
+            if (id.startsWith(oldPrefix)) {
               delete this.objects[id];
             }
           }
           try {
             await this.adapter.delObjectAsync(ioBrokerDeviceId, { recursive: true });
-            await this._checkObjects(newIoBrokerDeviceId, msgData.browserID);
+            await this._checkObjects(newIoBrokerDeviceId, newBrowserId);
           } catch (e) {
             this.adapter.log.warn(
               `Could not delete old instance objects in ${ioBrokerDeviceId}, please do so yourself. Error was: ${String(e)}`
             );
           }
-          delete this.browserModStorage.browsers[message.browserID];
-          const newBrowserId = msgData.browserID;
+          delete this.browserModStorage.browsers[oldBrowserId];
           delete msgData.browserID;
           this.browserModStorage.browsers[newBrowserId] = msgData;
+          await this._applySettingStates(
+            newIoBrokerDeviceId,
+            msgData.settings
+          );
+          const liveClient = this.clients[oldBrowserId];
+          if (liveClient) {
+            delete this.clients[oldBrowserId];
+            liveClient.instance = newBrowserId;
+            liveClient.ws.browserID = newBrowserId;
+            this.clients[newBrowserId] = liveClient;
+          }
+          if (this.clients[newBrowserId]) {
+            await this.adapter.setStateAsync(`${newIoBrokerDeviceId}.online`, true, true);
+          }
+          this.adapter.log.info(`browser_mod instance renamed: ${oldBrowserId} -> ${newBrowserId}`);
         } else {
           try {
             await this._checkObjects(ioBrokerDeviceId, message.browserID);
             await this._cleanUpInstances();
+            await this._applySettingStates(
+              ioBrokerDeviceId,
+              msgData == null ? void 0 : msgData.settings
+            );
           } catch (e) {
             this.adapter.log.warn(
               `Could not create objects for instance ${ioBrokerDeviceId}. Error was: ${String(e)}`

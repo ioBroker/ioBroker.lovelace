@@ -1,4 +1,5 @@
 "use strict";
+var import_storage = require("./storage");
 class EntityRegistry {
   /**
    * Frontend registry entries keyed by HA entity_id. Holds per-entity overrides
@@ -18,6 +19,7 @@ class EntityRegistry {
   entityData;
   sendResponse;
   sendUpdate;
+  renameEntityIdInConfigs;
   /**
    * Constructor
    *
@@ -26,12 +28,14 @@ class EntityRegistry {
    * @param options.entityData - shared entity data singleton
    * @param options.sendResponse - function to send a response to a client
    * @param options.sendUpdate - function to broadcast an update event
+   * @param options.renameEntityIdInConfigs - rewrite a renamed entity_id in the stored lovelace configs
    */
   constructor(options) {
     this.adapter = options.adapter;
     this.entityData = options.entityData;
     this.sendResponse = options.sendResponse;
     this.sendUpdate = options.sendUpdate;
+    this.renameEntityIdInConfigs = options.renameEntityIdInConfigs;
   }
   /**
    * Convert an entity registry entry to the format expected by the frontend for display.
@@ -190,7 +194,7 @@ class EntityRegistry {
    * @param message - the message from the frontend
    */
   processMessage(ws, message) {
-    var _a, _b;
+    var _a, _b, _c;
     if (message.type === "config/entity_registry/list_for_display") {
       const entities = [];
       for (const entity of this.entityData.entities) {
@@ -290,6 +294,7 @@ class EntityRegistry {
           entityWithId.entity_id = newEntityId;
           entity.unregister(newEntityId);
           delete entityWithId.new_entity_id;
+          void ((_c = this.renameEntityIdInConfigs) == null ? void 0 : _c.call(this, oldEntityId, newEntityId));
         }
       }
       this.updateEntityFromRegistry(entity, entityWithId);
@@ -322,7 +327,7 @@ class EntityRegistry {
    * Load the entity registry from the ioBroker object database.
    */
   async loadEntityRegistry() {
-    const storage = await this.adapter.getObjectAsync("entityRegistry");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}entityRegistry`);
     const native = storage == null ? void 0 : storage.native;
     this._entries = (native == null ? void 0 : native.entries) || {};
     this._iobIdToEntityId = (native == null ? void 0 : native.iobIdToEntityId) || {};
@@ -335,14 +340,14 @@ class EntityRegistry {
    * Store the entity registry to the ioBroker object database.
    */
   async saveEntityRegistry() {
-    const storage = await this.adapter.getObjectAsync("entityRegistry");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}entityRegistry`);
     if (!storage.native) {
       storage.native = {};
     }
     storage.native.entries = this._entries;
     storage.native.iobIdToEntityId = this._iobIdToEntityId;
     storage.native.entityCategories = this._entityCategories;
-    await this.adapter.setObject("entityRegistry", storage);
+    await this.adapter.setObject(`${import_storage.STORAGE_PREFIX}entityRegistry`, storage);
   }
   /**
    * Clean up, save the entity registry.

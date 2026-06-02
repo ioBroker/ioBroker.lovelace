@@ -1,4 +1,5 @@
 "use strict";
+var import_storage = require("./storage");
 const EMPTY_PREFS = {
   energy_sources: [],
   device_consumption: [],
@@ -7,24 +8,34 @@ const EMPTY_PREFS = {
 class EnergyModule {
   adapter;
   sendResponse;
-  _prefs = { ...EMPTY_PREFS, energy_sources: [], device_consumption: [], device_consumption_water: [] };
+  _prefs = {
+    ...EMPTY_PREFS,
+    energy_sources: [],
+    device_consumption: [],
+    device_consumption_water: []
+  };
   constructor(options) {
     this.adapter = options.adapter;
     this.sendResponse = options.sendResponse;
   }
   async init() {
-    const storage = await this.adapter.getObjectAsync("energyPrefs");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}energyPrefs`);
     const native = storage == null ? void 0 : storage.native;
-    this._prefs = (native == null ? void 0 : native.prefs) || { ...EMPTY_PREFS, energy_sources: [], device_consumption: [], device_consumption_water: [] };
+    this._prefs = (native == null ? void 0 : native.prefs) || {
+      ...EMPTY_PREFS,
+      energy_sources: [],
+      device_consumption: [],
+      device_consumption_water: []
+    };
     this.adapter.log.debug("modules/energyModule: init done.");
   }
   async _save() {
-    const storage = await this.adapter.getObjectAsync("energyPrefs");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}energyPrefs`);
     if (!(storage == null ? void 0 : storage.native)) {
       return;
     }
     storage.native.prefs = this._prefs;
-    await this.adapter.setObject("energyPrefs", storage);
+    await this.adapter.setObject(`${import_storage.STORAGE_PREFIX}energyPrefs`, storage);
   }
   /** Derive cost_sensors map from stored prefs: stat_energy_from → stat_cost */
   _getCostSensors() {
