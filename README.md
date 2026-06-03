@@ -474,7 +474,7 @@ After that checkout modified version in `./build` folder. Then.
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.1. See [migration guide in docs](docs/en/theme_migration.md).
+* (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.3. See [migration guide in docs](docs/en/theme_migration.md) for theme changes.
 * (Garfonso/Claude) **BREAKING:** Internal storage objects were moved into a new `storage` folder to declutter the object tree: `entityRegistry`, `areaRegistry`, `energyPrefs`, `userData` and `dashboardStorage` are now `storage.entityRegistry`, `storage.areaRegistry`, etc. The adapter migrates the data automatically on first start; the old objects are removed. If you referenced any of these object ids directly (scripts), update the paths. (`configuration` stays at the adapter root.)
 * (Garfonso/Claude) Frontend user data (theme settings, dark mode, sidebar order, …) is now persisted, so it survives reloads.
 * (Garfonso/Claude) Add support for entity configuration from frontend. Even updates config on entity_id change.
