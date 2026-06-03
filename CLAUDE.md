@@ -194,7 +194,7 @@ After making changes, run lint + unit + integration: `npm run lint`, `npm run te
 
 ## Git & changelog conventions
 
-- **One commit per feature/fix.** Do not bundle unrelated changes in a single commit. When one source file unavoidably contains two features, split them with patch-level staging (`git apply --cached`) where practical.
+- **One commit per feature/fix.** Do not bundle unrelated changes in a single commit. When one source file unavoidably contains two features, split them with patch-level staging (`git apply --cached`) where practical. If build contains changes from multiple features, omit build and commit a combined build commit after all feauture commits.
 - **Changelog:** for every user-facing change add a line to `README.md` under the `### **WORK IN PROGRESS**` marker (right under `## Changelog`). Create that marker if it is missing. Format: `* (Garfonso/Claude) <what changed>. (#<issue>)`.
 - `build/` is committed alongside `src/` — always run `npm run build` before committing so the compiled output in the commit matches the source.
 - Commits are authored as `Garfonso <garfonso@mobo.info>` (matches repo history) and end with the `Co-Authored-By: Claude ...` trailer.
