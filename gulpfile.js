@@ -26,6 +26,10 @@ function filesWalk(folder, func) {
 //TASKS
 gulp.task('rename', done => {
     filesWalk(`${__dirname}/hass_frontend`, fileName => {
+        // skip static cards
+        if (fileName.includes('/static_cards/')) {
+            return;
+        }
         if (fileName.endsWith('.js') || fileName.endsWith('.html') || fileName.endsWith('.json')) {
             const text = fs.readFileSync(fileName).toString('utf-8');
             let newText = text.replace(/Home Assistant/g, 'ioBroker');
