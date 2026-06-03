@@ -199,4 +199,44 @@ describe('modules/dashboard', function () {
             expect(panels.lovelace.title).to.equal('states');
         });
     });
+
+    describe('main lovelace board in dashboards list', function () {
+        function captureModule(): { dashboard: any; responses: any[] } {
+            const responses: any[] = [];
+            const dashboard = makeDashboard({
+                sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result),
+            });
+            return { dashboard, responses };
+        }
+
+        it('lists the main board first, reflecting overrides', async function () {
+            const { dashboard, responses } = captureModule();
+            dashboard._dashboards = [{ id: 'dashboard_x', url_path: 'x', title: 'X' }];
+            dashboard._panelOverrides = { lovelace: { title: 'My Home' } };
+            await dashboard.processMessage({}, { type: 'lovelace/dashboards/list', id: 1 });
+            const list = responses[0];
+            expect(list[0].id).to.equal('lovelace');
+            expect(list[0].url_path).to.equal('lovelace');
+            expect(list[0].title).to.equal('My Home');
+            expect(list[1].id).to.equal('dashboard_x');
+        });
+
+        it('updating the main board stores an override instead of adding a dashboard', async function () {
+            const { dashboard, responses } = captureModule();
+            const handled = await dashboard.processMessage(
+                {},
+                { type: 'lovelace/dashboards/update', dashboard_id: 'lovelace', title: 'Casa', id: 1 },
+            );
+            expect(handled).to.equal(true);
+            expect(dashboard._dashboards).to.have.lengthOf(0);
+            expect(dashboard._panelOverrides.lovelace.title).to.equal('Casa');
+            expect(responses[0].title).to.equal('Casa');
+        });
+
+        it('refuses to delete the main board', async function () {
+            const { dashboard, responses } = captureModule();
+            await dashboard.processMessage({}, { type: 'lovelace/dashboards/delete', dashboard_id: 'lovelace', id: 1 });
+            expect(responses[0]).to.deep.equal({ success: false });
+        });
+    });
 });

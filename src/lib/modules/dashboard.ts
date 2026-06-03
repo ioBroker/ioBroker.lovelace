@@ -1,5 +1,9 @@
 import { STORAGE_PREFIX } from './storage';
 import { replaceEntityIdInConfig } from '../entities/utils';
+
+/** url_path / id of the built-in main lovelace board. */
+const MAIN_BOARD = 'lovelace';
+
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string) => void;
 
@@ -202,11 +206,18 @@ class DashboardModule {
      */
     async processMessage(ws: unknown, message: Record<string, unknown>): Promise<boolean> {
         if (message.type === 'lovelace/dashboards/list') {
-            this.sendResponse(ws, message.id, this._dashboards);
+            // Include the main 'lovelace' board so it shows up (and can be renamed) in the frontend's
+            // dashboards list like the user-created ones; its edits are stored as a panel override.
+            this.sendResponse(ws, message.id, [this._mainBoardEntry(), ...this._dashboards]);
             return true;
         } else if (message.type === 'lovelace/dashboards/create' || message.type === 'lovelace/dashboards/update') {
+            if (message.dashboard_id === MAIN_BOARD || message.url_path === MAIN_BOARD) {
+                // The main board is a fixed panel, not a stored dashboard: keep its edits as an override.
+                await this._storePanelOverride(MAIN_BOARD, message);
+                this.sendResponse(ws, message.id, this._mainBoardEntry());
+                return true;
+            }
             const dashboard: Dashboard = this._dashboards.find(d => d.id === message.dashboard_id) || {};
-            console.log('dashboard', message);
             for (const key of Object.keys(message)) {
                 if (key !== 'type' && key !== 'id' && key !== 'dashboard_id') {
                     dashboard[key] = message[key] || dashboard[key];
@@ -223,30 +234,63 @@ class DashboardModule {
             return true;
         } else if (message.type === 'lovelace/dashboards/delete') {
             const dashboardId = message.dashboard_id as string;
-            this._dashboards = this._dashboards.filter(d => d.id !== dashboardId);
-            await this.saveDashboards();
-            this.sendUpdate('panels_updated');
-            this.sendResponse(ws, message.id, { success: true });
+            // The main board cannot be deleted (it is not a stored dashboard); ignore the request.
+            if (dashboardId !== MAIN_BOARD) {
+                this._dashboards = this._dashboards.filter(d => d.id !== dashboardId);
+                await this.saveDashboards();
+                this.sendUpdate('panels_updated');
+            }
+            this.sendResponse(ws, message.id, { success: dashboardId !== MAIN_BOARD });
             return true;
         } else if (message.type === 'frontend/update_panel') {
             // Edit of a fixed panel (e.g. the main 'lovelace' board): title/icon/require_admin/
             // show_in_sidebar. Stored as an override and applied in get_panels.
             const urlPath = message.url_path as string;
             if (urlPath) {
-                const ov = this._panelOverrides[urlPath] || {};
-                for (const key of ['title', 'icon', 'require_admin', 'show_in_sidebar']) {
-                    if (message[key] !== undefined) {
-                        ov[key] = message[key];
-                    }
-                }
-                this._panelOverrides[urlPath] = ov;
-                await this.saveDashboards();
-                this.sendUpdate('panels_updated');
+                await this._storePanelOverride(urlPath, message);
             }
             this.sendResponse(ws, message.id, null);
             return true;
         }
         return false;
+    }
+
+    /**
+     * Build the dashboards-list entry for the main 'lovelace' board from its panel defaults and any
+     * stored override.
+     *
+     * @returns the main board entry
+     */
+    private _mainBoardEntry(): Record<string, unknown> {
+        const ov = this._panelOverrides[MAIN_BOARD] || {};
+        return {
+            id: MAIN_BOARD,
+            url_path: MAIN_BOARD,
+            title: ov.title !== undefined ? ov.title : 'states',
+            icon: ov.icon !== undefined ? ov.icon : 'mdi:view-dashboard',
+            show_in_sidebar: ov.show_in_sidebar !== undefined ? ov.show_in_sidebar : true,
+            require_admin: ov.require_admin !== undefined ? ov.require_admin : false,
+            mode: 'storage',
+        };
+    }
+
+    /**
+     * Merge the editable panel fields (title/icon/require_admin/show_in_sidebar) from a message into
+     * the stored override for a panel, persist, and notify clients to reload their panels.
+     *
+     * @param urlPath - panel url_path (e.g. 'lovelace')
+     * @param source - message containing the new values
+     */
+    private async _storePanelOverride(urlPath: string, source: Record<string, unknown>): Promise<void> {
+        const ov = this._panelOverrides[urlPath] || {};
+        for (const key of ['title', 'icon', 'require_admin', 'show_in_sidebar']) {
+            if (source[key] !== undefined) {
+                ov[key] = source[key];
+            }
+        }
+        this._panelOverrides[urlPath] = ov;
+        await this.saveDashboards();
+        this.sendUpdate('panels_updated');
     }
 
     /**
