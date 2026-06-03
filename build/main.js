@@ -60,10 +60,12 @@ function startAdapter(options) {
         }
       },
       message: (obj) => {
+        var _a;
         if (obj.command === "browse") {
           obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
         } else if (obj.command === "regenerateEntityIds") {
-          void adapter.apiServer._regenerateAutoEntityIds().then(
+          const format = (_a = obj.message) == null ? void 0 : _a.format;
+          void adapter.apiServer._regenerateAutoEntityIds(format).then(
             (renamed) => obj.callback && adapter.sendTo(obj.from, obj.command, { renamed }, obj.callback)
           ).catch(
             (e) => obj.callback && adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback)

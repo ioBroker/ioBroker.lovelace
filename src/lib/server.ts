@@ -2600,9 +2600,15 @@ class WebServer {
      * Entities the user customized in the frontend (any registry override) and manual entities are
      * left untouched. Triggered by the admin "Regenerate entity IDs" button (onMessage).
      *
+     * @param format - optional auto-id format to apply ('name' | 'roomFunction' | 'iobId'); when given
+     *                 it overrides the running config (the admin sends the unsaved select value).
      * @returns the number of entities that were renamed
      */
-    async _regenerateAutoEntityIds(): Promise<number> {
+    async _regenerateAutoEntityIds(format?: string): Promise<number> {
+        if (format) {
+            entityData.autoEntityIdFormat = format;
+        }
+        entityData.autoEntityIdFormat = entityData.autoEntityIdFormat || 'name';
         // Registry key, replicating Converter._registryKey: `${type}.${STATE.getId ?? context.id}`.
         const keyOf = (e: any): string =>
             `${String(e.entity_id).split('.')[0]}.${e.context?.STATE?.getId ?? e.context?.id}`;

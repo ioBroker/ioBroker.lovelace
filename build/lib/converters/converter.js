@@ -24,7 +24,9 @@ __export(converter_exports, {
 });
 module.exports = __toCommonJS(converter_exports);
 var import_indicators = require("./indicators");
+var import_entity_id = require("../entities/entity_id");
 var import_baseEntity = require("../entities/baseEntity");
+const entityData = require("../../../lib/dataSingleton");
 class Converter {
   /**
    * Registry of TypeScript converter subclasses keyed by device type.
@@ -88,11 +90,21 @@ class Converter {
    * @param params - conversion parameters
    */
   static _processEntities(entities, params) {
-    var _a;
+    var _a, _b, _c;
     if (!(entities == null ? void 0 : entities.length)) {
       return;
     }
     const { existingEntities, adapter, entityRegistry, controls } = params;
+    if (entityData.autoEntityIdFormat === "iobId") {
+      for (const entity of entities) {
+        const stateId = (_b = (_a = entity == null ? void 0 : entity.context) == null ? void 0 : _a.STATE) == null ? void 0 : _b.getId;
+        if (entity && stateId) {
+          entity.entity_id = (0, import_entity_id.getEntityId)(entity.entity_id.split(".")[0], null, {
+            _id: stateId
+          });
+        }
+      }
+    }
     for (const entity of entities) {
       if (!entity) {
         continue;
@@ -107,7 +119,7 @@ class Converter {
       entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
     }
     for (const entity of entities) {
-      if (((_a = entity == null ? void 0 : entity.context.STATE) == null ? void 0 : _a.getId) && entity.context.STATE.getId !== entity.context.id) {
+      if (((_c = entity == null ? void 0 : entity.context.STATE) == null ? void 0 : _c.getId) && entity.context.STATE.getId !== entity.context.id) {
         entity.context.id = entity.context.STATE.getId;
       }
     }

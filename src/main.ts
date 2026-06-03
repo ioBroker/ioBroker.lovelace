@@ -94,8 +94,9 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                     obj.callback &&
                         adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
                 } else if (obj.command === 'regenerateEntityIds') {
+                    const format = (obj.message as { format?: string } | undefined)?.format;
                     void adapter.apiServer
-                        ._regenerateAutoEntityIds()
+                        ._regenerateAutoEntityIds(format)
                         .then(
                             (renamed: number) =>
                                 obj.callback && adapter.sendTo(obj.from, obj.command, { renamed }, obj.callback),

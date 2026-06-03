@@ -2142,10 +2142,16 @@ ${hideScript.join("\n")}
    * Entities the user customized in the frontend (any registry override) and manual entities are
    * left untouched. Triggered by the admin "Regenerate entity IDs" button (onMessage).
    *
+   * @param format - optional auto-id format to apply ('name' | 'roomFunction' | 'iobId'); when given
+   *                 it overrides the running config (the admin sends the unsaved select value).
    * @returns the number of entities that were renamed
    */
-  async _regenerateAutoEntityIds() {
+  async _regenerateAutoEntityIds(format) {
     var _a, _b;
+    if (format) {
+      entityData.autoEntityIdFormat = format;
+    }
+    entityData.autoEntityIdFormat = entityData.autoEntityIdFormat || "name";
     const keyOf = (e) => {
       var _a2, _b2, _c, _d;
       return `${String(e.entity_id).split(".")[0]}.${(_d = (_b2 = (_a2 = e.context) == null ? void 0 : _a2.STATE) == null ? void 0 : _b2.getId) != null ? _d : (_c = e.context) == null ? void 0 : _c.id}`;

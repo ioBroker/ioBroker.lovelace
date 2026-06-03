@@ -432,6 +432,8 @@
             if (!settings) return;
 
             if (!settings.lePort) settings.lePort = 80;
+            // Existing installations have no autoEntityIdFormat saved -> default to 'name'.
+            if (!settings.autoEntityIdFormat) settings.autoEntityIdFormat = 'name';
 
             //initilize modals.
             var elems = document.querySelectorAll('.modal');
@@ -568,7 +570,10 @@
                         if (!confirm(_('Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.'))) {
                             return;
                         }
-                        sendTo(null, 'regenerateEntityIds', null, function (res) {
+                        // Send the currently selected format. Saving restarts the adapter in the
+                        // background, so the running instance may still have the old config; using the
+                        // select value lets the regeneration apply the format the user just picked.
+                        sendTo(null, 'regenerateEntityIds', { format: $('#autoEntityIdFormat').val() }, function (res) {
                             if (res && res.error) {
                                 showMessage(_('Error') + ': ' + res.error, _('Error'), 'alert');
                             } else {
