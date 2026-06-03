@@ -21,6 +21,8 @@ interface AdapterConfig extends ioBroker.AdapterConfig {
     pwaName?: string;
     /** PWA short name (manifest.short_name). */
     pwaShortName?: string;
+    /** Auto entity_id format for newly created automatic entities. */
+    autoEntityIdFormat?: 'name' | 'roomFunction' | 'iobId';
     [key: string]: unknown;
 }
 
@@ -91,6 +93,18 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                 if (obj.command === 'browse') {
                     obj.callback &&
                         adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
+                } else if (obj.command === 'regenerateEntityIds') {
+                    void adapter.apiServer
+                        ._regenerateAutoEntityIds()
+                        .then(
+                            (renamed: number) =>
+                                obj.callback && adapter.sendTo(obj.from, obj.command, { renamed }, obj.callback),
+                        )
+                        .catch(
+                            (e: Error) =>
+                                obj.callback &&
+                                adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback),
+                        );
                 } else if (obj.command === 'send') {
                     void adapter.apiServer
                         .onStateChange(`${adapter.namespace}.notifications.add`, {

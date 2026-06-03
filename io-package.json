@@ -325,7 +325,8 @@
     "maxBrowserInstances": 10,
     "browserTitle": "ioBroker",
     "pwaName": "ioBroker",
-    "pwaShortName": "IoB"
+    "pwaShortName": "IoB",
+    "autoEntityIdFormat": "name"
   },
   "instanceObjects": [
     {

@@ -183,5 +183,12 @@
     "Maximum browser instances to keep": "最大浏览器实例保留",
     "Browser tab title": "浏览器标签标题",
     "App name (home screen / PWA)": "应用名称（主屏幕 / PWA）",
-    "App short name (PWA)": "应用简称（PWA）"
+    "App short name (PWA)": "应用简称（PWA）",
+    "Automatic entity_id format": "自动 entity_id 格式",
+    "From object name": "来自对象名称",
+    "From room and function": "来自房间和功能",
+    "From ioBroker object id": "来自 ioBroker 对象 id",
+    "Regenerate entity IDs": "重新生成 entity ID",
+    "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "使用配置的格式重新生成所有自动 entity_id 并更新仪表板？您重命名的实体将保留。",
+    "Renamed %s entities.": "已重命名 %s 个实体。"
 }

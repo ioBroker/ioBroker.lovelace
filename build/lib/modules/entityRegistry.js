@@ -302,9 +302,13 @@ class EntityRegistry {
             this._entries[newEntityId] = entityWithId;
           }
           entityWithId.entity_id = newEntityId;
+          entityWithId.userRenamed = true;
           entity.unregister(newEntityId);
           delete entityWithId.new_entity_id;
           void ((_e = this.renameEntityIdInConfigs) == null ? void 0 : _e.call(this, oldEntityId, newEntityId));
+          if (entity.isManual) {
+            void this._persistManualEntityRename(entity.context.id, newEntityId);
+          }
         }
       }
       this.updateEntityFromRegistry(entity, entityWithId);
@@ -359,6 +363,58 @@ class EntityRegistry {
     storage.native.iobIdToEntityId = this._iobIdToEntityId;
     storage.native.entityCategories = this._entityCategories;
     await this.adapter.setObject(`${import_storage.STORAGE_PREFIX}entityRegistry`, storage);
+  }
+  /**
+   * Persist a renamed manual entity back to its source object's custom config, so the new
+   * entity_id survives a restart (manual entities are regenerated from the object, not the
+   * registry). The new id's domain becomes `custom[ns].entity`, its local part `custom[ns].name`.
+   *
+   * @param objId - ioBroker object id of the manual entity (entity.context.id)
+   * @param newEntityId - the new HA entity_id (e.g. "switch.kitchen")
+   */
+  async _persistManualEntityRename(objId, newEntityId) {
+    try {
+      const obj = await this.adapter.getForeignObjectAsync(objId);
+      if (!(obj == null ? void 0 : obj.common)) {
+        return;
+      }
+      const ns = this.adapter.namespace;
+      const common = obj.common;
+      const custom = common.custom || {};
+      custom[ns] = custom[ns] || {};
+      const [domain, ...rest] = newEntityId.split(".");
+      custom[ns].entity = domain;
+      custom[ns].name = rest.join(".");
+      common.custom = custom;
+      await this.adapter.setForeignObjectAsync(objId, obj);
+      this.adapter.log.debug(`Persisted manual entity rename to ${newEntityId} on ${objId}.`);
+    } catch (e) {
+      this.adapter.log.warn(`Could not persist manual entity rename for ${objId}: ${String(e)}`);
+    }
+  }
+  /**
+   * Whether the given entity_id has a user override in the registry (icon, name, manual rename, …)
+   * and should therefore be left untouched by a bulk "regenerate entity ids" run.
+   *
+   * @param entityId - HA entity_id
+   * @returns true if the entity was customized by the user
+   */
+  isProtectedFromRegen(entityId) {
+    return !!this._entries[entityId];
+  }
+  /**
+   * Drop all reserved entity_ids except those that belong to protected (user-customized) entities.
+   * Cleared reservations let the entities regenerate with the currently configured auto-id format
+   * on the next conversion; protected ones keep their reserved id.
+   *
+   * @param protectedIds - set of entity_ids whose reservation must be kept
+   */
+  clearAutoReservations(protectedIds) {
+    for (const key of Object.keys(this._iobIdToEntityId)) {
+      if (!protectedIds.has(this._iobIdToEntityId[key])) {
+        delete this._iobIdToEntityId[key];
+      }
+    }
   }
   /**
    * Clean up, save the entity registry.

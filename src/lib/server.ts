@@ -244,6 +244,8 @@ class WebServer {
         entityData.log = this.adapter.log;
         entityData.words = this.words;
         entityData.server = this;
+        // Auto entity_id format for newly created automatic entities: 'name' | 'roomFunction' | 'iobId'.
+        entityData.autoEntityIdFormat = (this.config.autoEntityIdFormat as string) || 'name';
 
         //files that might be requested from frontend and are delivered using readFile. No authority check is applied here!
         this._requestableFiles = [];
@@ -2590,6 +2592,68 @@ class WebServer {
         if (dashboardChanged && !mainChanged) {
             this._sendUpdate('lovelace_updated');
         }
+    }
+
+    /**
+     * Re-generate the entity_ids of all automatic entities using the currently configured
+     * `autoEntityIdFormat`, then rewrite the stored lovelace configs for every changed id.
+     * Entities the user customized in the frontend (any registry override) and manual entities are
+     * left untouched. Triggered by the admin "Regenerate entity IDs" button (onMessage).
+     *
+     * @returns the number of entities that were renamed
+     */
+    async _regenerateAutoEntityIds(): Promise<number> {
+        // Registry key, replicating Converter._registryKey: `${type}.${STATE.getId ?? context.id}`.
+        const keyOf = (e: any): string =>
+            `${String(e.entity_id).split('.')[0]}.${e.context?.STATE?.getId ?? e.context?.id}`;
+
+        // Snapshot old ids of regenerate-able entities and collect protected (user-customized) ones.
+        const oldKeyToId: Record<string, string> = {};
+        const protectedIds = new Set<string>();
+        for (const e of entityData.entities as any[]) {
+            if (e.isManual || !e.context?.deviceId) {
+                continue; // manual entities + synthetic ones (zone.home/sun.sun) are not regenerated
+            }
+            if (this._modules.entityRegistry.isProtectedFromRegen(e.entity_id)) {
+                protectedIds.add(e.entity_id);
+                continue;
+            }
+            oldKeyToId[keyOf(e)] = e.entity_id;
+        }
+
+        // Clear the auto reservations (keep protected ones) so a fresh read uses the new format.
+        this._modules.entityRegistry.clearAutoReservations(protectedIds);
+
+        // Reset the entity caches in place (other modules hold the same references) and re-read.
+        entityData.entities.length = 0;
+        for (const k of Object.keys(entityData.entityId2Entity)) {
+            delete entityData.entityId2Entity[k];
+        }
+        for (const k of Object.keys(entityData.iobID2entity)) {
+            delete entityData.iobID2entity[k];
+        }
+        await this._readAllEntities();
+        this._updateConstantEntities();
+
+        // Diff old -> new by registry key and rewrite the configs for every changed entity_id.
+        let renamed = 0;
+        for (const e of entityData.entities as any[]) {
+            if (e.isManual || !e.context?.deviceId) {
+                continue;
+            }
+            const oldId = oldKeyToId[keyOf(e)];
+            if (oldId && oldId !== e.entity_id) {
+                await this._renameEntityIdInConfigs(oldId, e.entity_id);
+                renamed++;
+            }
+        }
+
+        await this._modules.entityRegistry.saveEntityRegistry();
+        this._sendUpdate('entity_registry_updated');
+        this._sendUpdate('lovelace_updated');
+        await this.adapter.setStateAsync('info.entitiesUpdated', true, true);
+        this.log.info(`Regenerated entity ids (format "${entityData.autoEntityIdFormat}"): ${renamed} renamed.`);
+        return renamed;
     }
 
     /**

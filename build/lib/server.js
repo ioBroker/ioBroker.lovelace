@@ -145,6 +145,7 @@ class WebServer {
     entityData.log = this.adapter.log;
     entityData.words = this.words;
     entityData.server = this;
+    entityData.autoEntityIdFormat = this.config.autoEntityIdFormat || "name";
     this._requestableFiles = [];
     this._subscribed = [];
     this._server = options.server;
@@ -2134,6 +2135,60 @@ ${hideScript.join("\n")}
     if (dashboardChanged && !mainChanged) {
       this._sendUpdate("lovelace_updated");
     }
+  }
+  /**
+   * Re-generate the entity_ids of all automatic entities using the currently configured
+   * `autoEntityIdFormat`, then rewrite the stored lovelace configs for every changed id.
+   * Entities the user customized in the frontend (any registry override) and manual entities are
+   * left untouched. Triggered by the admin "Regenerate entity IDs" button (onMessage).
+   *
+   * @returns the number of entities that were renamed
+   */
+  async _regenerateAutoEntityIds() {
+    var _a, _b;
+    const keyOf = (e) => {
+      var _a2, _b2, _c, _d;
+      return `${String(e.entity_id).split(".")[0]}.${(_d = (_b2 = (_a2 = e.context) == null ? void 0 : _a2.STATE) == null ? void 0 : _b2.getId) != null ? _d : (_c = e.context) == null ? void 0 : _c.id}`;
+    };
+    const oldKeyToId = {};
+    const protectedIds = /* @__PURE__ */ new Set();
+    for (const e of entityData.entities) {
+      if (e.isManual || !((_a = e.context) == null ? void 0 : _a.deviceId)) {
+        continue;
+      }
+      if (this._modules.entityRegistry.isProtectedFromRegen(e.entity_id)) {
+        protectedIds.add(e.entity_id);
+        continue;
+      }
+      oldKeyToId[keyOf(e)] = e.entity_id;
+    }
+    this._modules.entityRegistry.clearAutoReservations(protectedIds);
+    entityData.entities.length = 0;
+    for (const k of Object.keys(entityData.entityId2Entity)) {
+      delete entityData.entityId2Entity[k];
+    }
+    for (const k of Object.keys(entityData.iobID2entity)) {
+      delete entityData.iobID2entity[k];
+    }
+    await this._readAllEntities();
+    this._updateConstantEntities();
+    let renamed = 0;
+    for (const e of entityData.entities) {
+      if (e.isManual || !((_b = e.context) == null ? void 0 : _b.deviceId)) {
+        continue;
+      }
+      const oldId = oldKeyToId[keyOf(e)];
+      if (oldId && oldId !== e.entity_id) {
+        await this._renameEntityIdInConfigs(oldId, e.entity_id);
+        renamed++;
+      }
+    }
+    await this._modules.entityRegistry.saveEntityRegistry();
+    this._sendUpdate("entity_registry_updated");
+    this._sendUpdate("lovelace_updated");
+    await this.adapter.setStateAsync("info.entitiesUpdated", true, true);
+    this.log.info(`Regenerated entity ids (format "${entityData.autoEntityIdFormat}"): ${renamed} renamed.`);
+    return renamed;
   }
   /**
    * From websocket connection get the username and create HASS user object.

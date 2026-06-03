@@ -3,6 +3,8 @@
 const pinyin = require('pinyin').default;
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const transliterateRussianToEnglish: (str: string) => string = require('translit-rus-eng');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const entityData: { autoEntityIdFormat?: string } = require('../../../lib/dataSingleton');
 
 function maybeEnglishOrUntranslated(hash: ioBroker.StringOrTranslated | undefined): string {
     if (typeof hash === 'object' && hash !== null) {
@@ -87,6 +89,8 @@ function splitEntityId(
     entityType: string,
     entityId: string | null | undefined,
     obj: ioBroker.Object | undefined,
+    roomName?: string | null,
+    funcName?: string | null,
 ): [string, string] {
     let idPart: string;
 
@@ -95,7 +99,15 @@ function splitEntityId(
         entityType = parts.shift()!;
         idPart = parts.join('_');
     } else {
-        idPart = entityIdFromObject(obj);
+        // Configurable auto entity_id format (default: from the object name).
+        const format = entityData.autoEntityIdFormat || 'name';
+        if (format === 'roomFunction' && roomName && funcName) {
+            idPart = `${roomName} ${funcName}`;
+        } else if (format === 'iobId' && obj?._id) {
+            idPart = obj._id;
+        } else {
+            idPart = entityIdFromObject(obj);
+        }
     }
 
     return [entityType, replaceInvalidChars(idPart)];
@@ -107,14 +119,18 @@ function splitEntityId(
  * @param entityType - The entity type (e.g. 'light', 'sensor')
  * @param entityId - Optional pre-defined entity id (overrides auto-generation when it contains a dot)
  * @param obj - The ioBroker object
+ * @param roomName - Optional room name (used by the 'roomFunction' auto-id format)
+ * @param funcName - Optional function name (used by the 'roomFunction' auto-id format)
  * @returns The full entity id, e.g. 'light.living_room'
  */
 export function getEntityId(
     entityType: string,
     entityId: string | null | undefined,
     obj: ioBroker.Object | undefined,
+    roomName?: string | null,
+    funcName?: string | null,
 ): string {
-    return splitEntityId(entityType, entityId, obj).join('.');
+    return splitEntityId(entityType, entityId, obj, roomName, funcName).join('.');
 }
 
 /**

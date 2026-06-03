@@ -561,8 +561,25 @@
                     $btnRefresh.on('click', function () {
                         readEntities();
                     });
+
+                    var $btnRegen = $('.btn-regenerate-ids');
+                    $btnRegen.removeClass('disabled');
+                    $btnRegen.on('click', function () {
+                        if (!confirm(_('Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.'))) {
+                            return;
+                        }
+                        sendTo(null, 'regenerateEntityIds', null, function (res) {
+                            if (res && res.error) {
+                                showMessage(_('Error') + ': ' + res.error, _('Error'), 'alert');
+                            } else {
+                                showMessage(_('Renamed %s entities.').replace('%s', (res && res.renamed) || 0));
+                                readEntities();
+                            }
+                        });
+                    });
                 } else {
                     $btnRefresh.addClass('disabled');
+                    $('.btn-regenerate-ids').addClass('disabled');
                 }
             });
 
@@ -806,6 +823,17 @@
                     <input class="value" id="pwaShortName" type="text" />
                     <label class="translate" for="pwaShortName">App short name (PWA)</label>
                 </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m8 l5">
+                    <select class="value" id="autoEntityIdFormat">
+                        <option value="name" class="translate">From object name</option>
+                        <option value="roomFunction" class="translate">From room and function</option>
+                        <option value="iobId" class="translate">From ioBroker object id</option>
+                    </select>
+                    <label class="translate" for="autoEntityIdFormat">Automatic entity_id format</label>
+                </div>
+                <a class="waves-effect waves-light btn btn-regenerate-ids" style="margin-top: 5px;"><i class="material-icons left">autorenew</i><span class="translate">Regenerate entity IDs</span></a>
             </div>
             <div class="row">
                 <div class="input-field col s12 m9 l6">

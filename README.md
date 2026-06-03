@@ -428,7 +428,7 @@ Security must be taken from the current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20260527.1
+Used version of home-assistant-frontend@20260527.3
 Version of Browser Mod: 2.13.5
 
 ### How to build the new Lovelace version
@@ -488,6 +488,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Added media browser support (`media_source`): browse uploaded images and files from the `cards/` folder.
 * (Garfonso/Claude) Uploaded images can now be listed and deleted from the frontend (`image/list`, `image/delete`).
 * (Garfonso/Claude) The browser tab title and the PWA / home-screen app name can now be customized in the adapter settings. (#663)
+* (Garfonso/Claude) The automatic entity_id format is now configurable (object name / room + function / ioBroker id). A "Regenerate entity IDs" button in the settings applies a changed format to existing automatic entities and rewrites the dashboards; entities you renamed in the frontend are kept.
+* (Garfonso/Claude) Renaming a manually configured entity in the frontend now persists to the source object, so it survives a restart.
 
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.

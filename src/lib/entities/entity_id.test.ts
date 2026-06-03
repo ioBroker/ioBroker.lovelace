@@ -75,4 +75,36 @@ describe('entities/entity_id', function () {
             expect(getEntityType('switch', 'no_dot', obj)).to.equal('switch');
         });
     });
+
+    describe('autoEntityIdFormat', function () {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const entityData = require('../../../lib/dataSingleton');
+        afterEach(function () {
+            entityData.autoEntityIdFormat = 'name';
+        });
+
+        it('roomFunction format builds the id from room and function', function () {
+            entityData.autoEntityIdFormat = 'roomFunction';
+            const obj = { common: { name: 'My Light' }, _id: 'adapter.0.device' } as ioBroker.Object;
+            expect(getEntityId('light', null, obj, 'Living Room', 'Light')).to.equal('light.Living_Room_Light');
+        });
+
+        it('roomFunction falls back to the name when room/function are missing', function () {
+            entityData.autoEntityIdFormat = 'roomFunction';
+            const obj = { common: { name: 'My Light' }, _id: 'adapter.0.device' } as ioBroker.Object;
+            expect(getEntityId('light', null, obj, null, null)).to.equal('light.My_Light');
+        });
+
+        it('iobId format builds the id from the object id', function () {
+            entityData.autoEntityIdFormat = 'iobId';
+            const obj = { common: { name: 'My Light' }, _id: 'adapter.0.device.state' } as ioBroker.Object;
+            expect(getEntityId('light', null, obj, 'Living Room', 'Light')).to.equal('light.adapter_0_device_state');
+        });
+
+        it('name format (default) still uses common.name', function () {
+            entityData.autoEntityIdFormat = 'name';
+            const obj = { common: { name: 'My Light' }, _id: 'adapter.0.device' } as ioBroker.Object;
+            expect(getEntityId('light', null, obj, 'Living Room', 'Light')).to.equal('light.My_Light');
+        });
+    });
 });

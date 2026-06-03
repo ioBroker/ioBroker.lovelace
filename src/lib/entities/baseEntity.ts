@@ -302,7 +302,7 @@ export class BaseEntity {
         language?: string,
     ) {
         const objId = obj?._id ?? '';
-        this.entity_id = getEntityId(entityType, entity_id, obj);
+        this.entity_id = getEntityId(entityType, entity_id, obj, getEnumName(room), getEnumName(func));
         this.attributes = {
             friendly_name: getFriendlyName(name, obj, getEnumName(room), getEnumName(func)),
         };

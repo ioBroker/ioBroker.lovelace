@@ -183,5 +183,12 @@
     "Maximum browser instances to keep": "Instâncias máximas do navegador para manter",
     "Browser tab title": "Título da aba do navegador",
     "App name (home screen / PWA)": "Nome do app (tela inicial / PWA)",
-    "App short name (PWA)": "Nome curto do app (PWA)"
+    "App short name (PWA)": "Nome curto do app (PWA)",
+    "Automatic entity_id format": "Formato automático de entity_id",
+    "From object name": "Do nome do objeto",
+    "From room and function": "Do cômodo e função",
+    "From ioBroker object id": "Do id do objeto ioBroker",
+    "Regenerate entity IDs": "Regenerar entity IDs",
+    "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Regenerar todos os entity_ids automáticos com o formato configurado e atualizar os painéis? As entidades que você renomeou são mantidas.",
+    "Renamed %s entities.": "%s entidades renomeadas."
 }
