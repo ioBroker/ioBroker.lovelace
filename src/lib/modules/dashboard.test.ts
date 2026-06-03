@@ -151,4 +151,52 @@ describe('modules/dashboard', function () {
             expect(panels['lovelace-2'].require_admin).to.be.true;
         });
     });
+
+    describe('frontend/update_panel + applyPanelOverrides', function () {
+        it('stores a panel override and applies title/icon/require_admin to the panel', async function () {
+            const dashboard = makeDashboard();
+            const handled = await dashboard.processMessage(
+                {},
+                {
+                    type: 'frontend/update_panel',
+                    url_path: 'lovelace',
+                    title: 'My Home',
+                    icon: 'mdi:home-heart',
+                    require_admin: true,
+                    id: 1,
+                },
+            );
+            expect(handled).to.equal(true);
+
+            const panels: Record<string, Record<string, unknown>> = {
+                lovelace: { component_name: 'lovelace', title: 'states', icon: 'mdi:view-dashboard' },
+            };
+            dashboard.applyPanelOverrides(panels);
+            expect(panels.lovelace.title).to.equal('My Home');
+            expect(panels.lovelace.icon).to.equal('mdi:home-heart');
+            expect(panels.lovelace.require_admin).to.equal(true);
+        });
+
+        it('hides the panel from the sidebar (null title/icon) when show_in_sidebar is false', async function () {
+            const dashboard = makeDashboard();
+            await dashboard.processMessage(
+                {},
+                { type: 'frontend/update_panel', url_path: 'lovelace', show_in_sidebar: false, id: 1 },
+            );
+            const panels: Record<string, Record<string, unknown>> = {
+                lovelace: { title: 'states', icon: 'mdi:view-dashboard' },
+            };
+            dashboard.applyPanelOverrides(panels);
+            expect(panels.lovelace.title).to.equal(null);
+            expect(panels.lovelace.icon).to.equal(null);
+        });
+
+        it('ignores overrides for panels that do not exist', function () {
+            const dashboard = makeDashboard();
+            dashboard._panelOverrides = { nonexistent: { title: 'x' } };
+            const panels: Record<string, Record<string, unknown>> = { lovelace: { title: 'states' } };
+            dashboard.applyPanelOverrides(panels);
+            expect(panels.lovelace.title).to.equal('states');
+        });
+    });
 });

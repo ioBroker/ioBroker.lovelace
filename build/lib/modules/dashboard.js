@@ -4,6 +4,8 @@ var import_utils = require("../entities/utils");
 class DashboardModule {
   _dashboards = [];
   _dashboardConfigs = {};
+  /** Per-panel overrides (title/icon/require_admin/show_in_sidebar) keyed by url_path, e.g. 'lovelace'. */
+  _panelOverrides = {};
   adapter;
   sendResponse;
   sendUpdate;
@@ -24,10 +26,11 @@ class DashboardModule {
    * Load the dashboards from the ioBroker object database.
    */
   async loadDashboards() {
-    var _a, _b;
+    var _a, _b, _c;
     const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}dashboardStorage`);
     this._dashboards = ((_a = storage == null ? void 0 : storage.native) == null ? void 0 : _a.dashboards) || [];
     this._dashboardConfigs = ((_b = storage == null ? void 0 : storage.native) == null ? void 0 : _b.dashboardConfigs) || {};
+    this._panelOverrides = ((_c = storage == null ? void 0 : storage.native) == null ? void 0 : _c.panelOverrides) || {};
   }
   /**
    * Store the dashboards to the ioBroker object database.
@@ -41,6 +44,7 @@ class DashboardModule {
     }
     storage.native.dashboards = this._dashboards;
     storage.native.dashboardConfigs = this._dashboardConfigs;
+    storage.native.panelOverrides = this._panelOverrides;
     await this.adapter.setObject(`${import_storage.STORAGE_PREFIX}dashboardStorage`, storage);
   }
   /**
@@ -123,6 +127,35 @@ class DashboardModule {
     }
   }
   /**
+   * Apply stored per-panel overrides (title/icon/require_admin/show_in_sidebar) to the fixed panels,
+   * e.g. so the main 'lovelace' board can be renamed/hidden from the frontend (frontend/update_panel).
+   *
+   * @param panels - panels object to apply overrides to (mutated in place)
+   */
+  applyPanelOverrides(panels) {
+    for (const urlPath of Object.keys(this._panelOverrides)) {
+      const panel = panels[urlPath];
+      if (!panel) {
+        continue;
+      }
+      const ov = this._panelOverrides[urlPath];
+      if (ov.show_in_sidebar === false) {
+        panel.title = null;
+        panel.icon = null;
+      } else {
+        if (ov.title !== void 0) {
+          panel.title = ov.title;
+        }
+        if (ov.icon !== void 0) {
+          panel.icon = ov.icon;
+        }
+      }
+      if (ov.require_admin !== void 0) {
+        panel.require_admin = ov.require_admin;
+      }
+    }
+  }
+  /**
    * Process incoming messages from the frontend.
    *
    * @param ws - websocket connection to the client
@@ -155,6 +188,21 @@ class DashboardModule {
       await this.saveDashboards();
       this.sendUpdate("panels_updated");
       this.sendResponse(ws, message.id, { success: true });
+      return true;
+    } else if (message.type === "frontend/update_panel") {
+      const urlPath = message.url_path;
+      if (urlPath) {
+        const ov = this._panelOverrides[urlPath] || {};
+        for (const key of ["title", "icon", "require_admin", "show_in_sidebar"]) {
+          if (message[key] !== void 0) {
+            ov[key] = message[key];
+          }
+        }
+        this._panelOverrides[urlPath] = ov;
+        await this.saveDashboards();
+        this.sendUpdate("panels_updated");
+      }
+      this.sendResponse(ws, message.id, null);
       return true;
     }
     return false;

@@ -2973,6 +2973,7 @@ class WebServer {
                 this._sendResponse(ws, message.id, entityData.services);
             } else if (message.type === 'get_panels') {
                 this._modules.dashboard.addDashboardsToPanels(PANELS);
+                this._modules.dashboard.applyPanelOverrides(PANELS);
                 this._sendResponse(ws, message.id, PANELS);
             } else if (message.type === 'auth/sign_path') {
                 this.log.debug(`Sign: ${message.path}`);

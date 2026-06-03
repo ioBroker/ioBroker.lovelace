@@ -20,6 +20,8 @@ interface Dashboard {
 class DashboardModule {
     private _dashboards: Dashboard[] = [];
     private _dashboardConfigs: Record<string, unknown> = {};
+    /** Per-panel overrides (title/icon/require_admin/show_in_sidebar) keyed by url_path, e.g. 'lovelace'. */
+    private _panelOverrides: Record<string, Record<string, unknown>> = {};
 
     private adapter: ioBroker.Adapter;
     private sendResponse: SendResponseFn;
@@ -52,6 +54,11 @@ class DashboardModule {
                 string,
                 unknown
             >) || {};
+        this._panelOverrides =
+            ((storage as ioBroker.Object & { native: Record<string, unknown> })?.native?.panelOverrides as Record<
+                string,
+                Record<string, unknown>
+            >) || {};
     }
 
     /**
@@ -68,6 +75,7 @@ class DashboardModule {
         }
         storage.native.dashboards = this._dashboards;
         storage.native.dashboardConfigs = this._dashboardConfigs;
+        storage.native.panelOverrides = this._panelOverrides;
         await this.adapter.setObject(`${STORAGE_PREFIX}dashboardStorage`, storage);
     }
 
@@ -157,6 +165,36 @@ class DashboardModule {
     }
 
     /**
+     * Apply stored per-panel overrides (title/icon/require_admin/show_in_sidebar) to the fixed panels,
+     * e.g. so the main 'lovelace' board can be renamed/hidden from the frontend (frontend/update_panel).
+     *
+     * @param panels - panels object to apply overrides to (mutated in place)
+     */
+    applyPanelOverrides(panels: Record<string, unknown>): void {
+        for (const urlPath of Object.keys(this._panelOverrides)) {
+            const panel = panels[urlPath] as Record<string, unknown> | undefined;
+            if (!panel) {
+                continue;
+            }
+            const ov = this._panelOverrides[urlPath];
+            if (ov.show_in_sidebar === false) {
+                panel.title = null;
+                panel.icon = null;
+            } else {
+                if (ov.title !== undefined) {
+                    panel.title = ov.title;
+                }
+                if (ov.icon !== undefined) {
+                    panel.icon = ov.icon;
+                }
+            }
+            if (ov.require_admin !== undefined) {
+                panel.require_admin = ov.require_admin;
+            }
+        }
+    }
+
+    /**
      * Process incoming messages from the frontend.
      *
      * @param ws - websocket connection to the client
@@ -189,6 +227,23 @@ class DashboardModule {
             await this.saveDashboards();
             this.sendUpdate('panels_updated');
             this.sendResponse(ws, message.id, { success: true });
+            return true;
+        } else if (message.type === 'frontend/update_panel') {
+            // Edit of a fixed panel (e.g. the main 'lovelace' board): title/icon/require_admin/
+            // show_in_sidebar. Stored as an override and applied in get_panels.
+            const urlPath = message.url_path as string;
+            if (urlPath) {
+                const ov = this._panelOverrides[urlPath] || {};
+                for (const key of ['title', 'icon', 'require_admin', 'show_in_sidebar']) {
+                    if (message[key] !== undefined) {
+                        ov[key] = message[key];
+                    }
+                }
+                this._panelOverrides[urlPath] = ov;
+                await this.saveDashboards();
+                this.sendUpdate('panels_updated');
+            }
+            this.sendResponse(ws, message.id, null);
             return true;
         }
         return false;

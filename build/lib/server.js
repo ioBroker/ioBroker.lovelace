@@ -2461,6 +2461,7 @@ ${hideScript.join("\n")}
         this._sendResponse(ws, message.id, entityData.services);
       } else if (message.type === "get_panels") {
         this._modules.dashboard.addDashboardsToPanels(import_panels.default);
+        this._modules.dashboard.applyPanelOverrides(import_panels.default);
         this._sendResponse(ws, message.id, import_panels.default);
       } else if (message.type === "auth/sign_path") {
         this.log.debug(`Sign: ${message.path}`);
