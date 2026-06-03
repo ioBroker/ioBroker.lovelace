@@ -574,10 +574,13 @@
                         // background, so the running instance may still have the old config; using the
                         // select value lets the regeneration apply the format the user just picked.
                         sendTo(null, 'regenerateEntityIds', { format: $('#autoEntityIdFormat').val() }, function (res) {
-                            if (res && res.error) {
-                                showMessage(_('Error') + ': ' + res.error, _('Error'), 'alert');
+                            // Some setups deliver the payload wrapped in the message object.
+                            var data = res && res.message ? res.message : res;
+                            if (data && data.error) {
+                                showMessage(_('Error') + ': ' + data.error, _('Error'), 'alert');
                             } else {
-                                showMessage(_('Renamed %s entities.').replace('%s', (res && res.renamed) || 0));
+                                var count = data && data.renamed != null ? data.renamed : 0;
+                                showToast(null, _('Renamed %s entities.').replace('%s', count));
                                 readEntities();
                             }
                         });
