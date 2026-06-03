@@ -580,7 +580,8 @@
                                 showMessage(_('Error') + ': ' + data.error, _('Error'), 'alert');
                             } else {
                                 var count = data && data.renamed != null ? data.renamed : 0;
-                                showToast(null, _('Renamed %s entities.').replace('%s', count));
+                                const text = _('Renamed %s entities.', count);
+                                showMessage(text);
                                 readEntities();
                             }
                         });
