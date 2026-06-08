@@ -441,10 +441,10 @@ For now (20260527.1) following files were modified:
 - `build-scripts/rspack.cjs` - disable source maps in prod build to reduce emitted file count.
 - `src/data/icons.ts` - keep old icons, for now.
 - `src/data/weather.ts` - add support to display weather icon from url.
-- `src/dialogs/more-info/const.ts` - remove weather state & history
-- `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab
-- `src/dialogs/more-info/ha-more-info-history.ts` - remove `show more` link in history
-- `src/dialogs/more-info/ha-more-info-logbook.ts` - remove `show more` link in logbook
+- `src/dialogs/more-info/const.ts` - remove weather state & history, if is image
+- `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab  <!-- TODO: check -->
+- `src/dialogs/more-info/ha-more-info-history.ts` - remove `show more` link in history <!-- TODO: check -->
+- `src/dialogs/more-info/ha-more-info-logbook.ts` - remove `show more` link in logbook <!-- TODO: check -->
 - `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
 - `src/dialogs/voice-command-dialog/ha-voice-command-dialog.ts` - disable configuration of voice assistants
 - `src/entrypoints/core.ts` - add no auth option
@@ -491,6 +491,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) The automatic entity_id format is now configurable (object name / room + function / ioBroker id). A "Regenerate entity IDs" button in the settings applies a changed format to existing automatic entities and rewrites the dashboards; entities you renamed in the frontend are kept.
 * (Garfonso/Claude) Renaming a manually configured entity in the frontend now persists to the source object, so it survives a restart.
 * (Garfonso/Claude) The main "lovelace" dashboard can now be renamed/re-iconed/hidden from the frontend like the other dashboards (frontend/update_panel is stored and applied).
+* (Garfonso/Claude) Added the built-in History, Logbook and Energy panels to the sidebar.
 
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.
