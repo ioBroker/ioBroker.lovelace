@@ -369,14 +369,14 @@ describe('modules/entityRegistry', function () {
 
     describe('regenerate helpers', function () {
         it('isProtectedFromRegen is true only when a registry entry exists', function () {
-            const registry = makeRegistry() as any;
+            const registry = makeRegistry();
             registry._entries = { 'light.kept': { entity_id: 'light.kept', userRenamed: true } };
             expect(registry.isProtectedFromRegen('light.kept')).to.equal(true);
             expect(registry.isProtectedFromRegen('light.untouched')).to.equal(false);
         });
 
         it('clearAutoReservations keeps protected entity reservations and drops the rest', function () {
-            const registry = makeRegistry() as any;
+            const registry = makeRegistry();
             registry._iobIdToEntityId = {
                 'light.adapter.0.a': 'light.kept',
                 'light.adapter.0.b': 'light.auto',
