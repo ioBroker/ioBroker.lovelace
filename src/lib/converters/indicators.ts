@@ -1,5 +1,91 @@
 import type { ioBrokerEntity, ConverterParameters } from './converter';
 import { BinarySensorEntity } from '../entities/binarySensorEntity';
+import { SensorEntity } from '../entities/sensorEntity';
+
+/** Optional electricity states a device may expose (type-detector ElectricityPatterns) -> sensor specs. */
+const ELECTRICITY_SPECS: {
+    name: string;
+    suffix: string;
+    deviceClass: string;
+    unit: string;
+    stateClass: string;
+    label: string;
+}[] = [
+    {
+        name: 'ELECTRIC_POWER',
+        suffix: 'power',
+        deviceClass: 'power',
+        unit: 'W',
+        stateClass: 'measurement',
+        label: 'Power',
+    },
+    {
+        name: 'CURRENT',
+        suffix: 'current',
+        deviceClass: 'current',
+        unit: 'A',
+        stateClass: 'measurement',
+        label: 'Current',
+    },
+    {
+        name: 'VOLTAGE',
+        suffix: 'voltage',
+        deviceClass: 'voltage',
+        unit: 'V',
+        stateClass: 'measurement',
+        label: 'Voltage',
+    },
+    // value.power.consumption is an accumulating energy meter -> usable by the energy dashboard.
+    {
+        name: 'CONSUMPTION',
+        suffix: 'energy',
+        deviceClass: 'energy',
+        unit: 'kWh',
+        stateClass: 'total_increasing',
+        label: 'Energy',
+    },
+    {
+        name: 'FREQUENCY',
+        suffix: 'frequency',
+        deviceClass: 'frequency',
+        unit: 'Hz',
+        stateClass: 'measurement',
+        label: 'Frequency',
+    },
+];
+
+/**
+ * Build sensor entities for a device's optional electricity states (power, current, voltage,
+ * consumption/energy, frequency). The state's own unit is used when set, otherwise a default.
+ *
+ * @param parameters - converter parameters (controls.states is searched for the electricity states)
+ * @param baseName - the local part of the main entity's entity_id (used for the sensor ids/names)
+ * @returns the created electricity sensor entities (possibly empty)
+ */
+export function generateElectricitySensors(parameters: ConverterParameters, baseName: string): SensorEntity[] {
+    const entities: SensorEntity[] = [];
+    for (const spec of ELECTRICITY_SPECS) {
+        const state = parameters.controls.states.find(s => s.id && s.name === spec.name);
+        if (!state?.id) {
+            continue;
+        }
+        const name = `${parameters.friendlyName || baseName} ${spec.label}`;
+        entities.push(
+            SensorEntity.electricity(
+                state.id,
+                name,
+                parameters.room,
+                parameters.func,
+                parameters.objects?.[state.id],
+                `sensor.${baseName}_${spec.suffix}`,
+                spec.deviceClass,
+                spec.unit,
+                spec.stateClass,
+            ),
+        );
+    }
+    return entities;
+}
 
 /**
  * Build a binary_sensor indicator entity from a state name in controls.states.

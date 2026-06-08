@@ -1,5 +1,12 @@
 import type { Types, PatternControl } from '@iobroker/type-detector';
-import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
+import {
+    processBattery,
+    connectivityIndicator,
+    processError,
+    processMaintenance,
+    processWorking,
+    generateElectricitySensors,
+} from './indicators';
 import type { BaseEntity } from '../entities/baseEntity';
 import { getEntityId } from '../entities/entity_id';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -190,6 +197,12 @@ export class Converter {
         const mainEntity = entities.find((x: BaseEntity | null | undefined) => x?.entity_id);
         if (mainEntity) {
             entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
+            // Optional electricity states (power, current, voltage, consumption, frequency) -> sensors.
+            const electricitySensors = generateElectricitySensors(params, mainEntity.entity_id.split('.')[1]);
+            for (const sensor of electricitySensors) {
+                sensor.context.deviceId = mainEntity.context.id;
+            }
+            entities.push(...electricitySensors);
         }
 
         // Step 3: rewrite context.id to STATE.getId where set. Makes context.id unique per
