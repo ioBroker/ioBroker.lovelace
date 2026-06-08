@@ -171,6 +171,17 @@ class LogbookModule {
                 const entityIds = (message.entity_ids as string[]) || this.getUsedEntityIDs();
                 this.adapter.log.debug(`Logbook subscription ${String(message.id)} for ${JSON.stringify(entityIds)}`);
 
+                // A request that lies (partly) in the future or has an invalid/empty range has no
+                // history to return. Querying getHistory with start >= end can hang the history
+                // adapter (no callback), so Promise.all never resolves and the frontend spins
+                // forever -> answer with an empty, completed stream right away.
+                const queryEnd = Math.min(Date.now(), endTime);
+                if (Number.isNaN(startTime) || Number.isNaN(queryEnd) || startTime >= queryEnd) {
+                    this.sendLogbookResponse(ws, message.id, startTime, endTime, [], true);
+                    setTimeout(() => this.sendLogbookResponse(ws, message.id, startTime, endTime, []), 300);
+                    return true;
+                }
+
                 if (!this.adapter.config.history) {
                     this.adapter.log.warn(`History instance is not selected in the settings -> logbook won't work`);
                     this.sendLogbookResponse(ws, message.id, startTime, endTime, []);
@@ -182,7 +193,7 @@ class LogbookModule {
                 const results: { entity: EntityLike; state: ioBroker.State }[] = [];
                 const options = {
                     start: startTime,
-                    end: Math.min(Date.now(), endTime),
+                    end: queryEnd,
                     count: this.adapter.config.historyMaxCount,
                     aggregate: 'onchange',
                     from: true,

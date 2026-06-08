@@ -494,6 +494,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Added the built-in History, Logbook and Energy panels to the sidebar.
 * (Garfonso/Claude) Energy dashboard support: handle `recorder/list_statistic_ids` and `sensor/device_class_convertible_units` so the energy panel loads and can be configured.
 * (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets), usable in the energy dashboard.
+* (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend (it would load forever); it now answers with an empty, completed stream and skips the history query.
 
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.

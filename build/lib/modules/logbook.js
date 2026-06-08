@@ -108,6 +108,12 @@ class LogbookModule {
         const endTime = new Date(message.end_time).getTime();
         const entityIds = message.entity_ids || this.getUsedEntityIDs();
         this.adapter.log.debug(`Logbook subscription ${String(message.id)} for ${JSON.stringify(entityIds)}`);
+        const queryEnd = Math.min(Date.now(), endTime);
+        if (Number.isNaN(startTime) || Number.isNaN(queryEnd) || startTime >= queryEnd) {
+          this.sendLogbookResponse(ws, message.id, startTime, endTime, [], true);
+          setTimeout(() => this.sendLogbookResponse(ws, message.id, startTime, endTime, []), 300);
+          return true;
+        }
         if (!this.adapter.config.history) {
           this.adapter.log.warn(`History instance is not selected in the settings -> logbook won't work`);
           this.sendLogbookResponse(ws, message.id, startTime, endTime, []);
@@ -118,7 +124,7 @@ class LogbookModule {
         const results = [];
         const options = {
           start: startTime,
-          end: Math.min(Date.now(), endTime),
+          end: queryEnd,
           count: this.adapter.config.historyMaxCount,
           aggregate: "onchange",
           from: true,
