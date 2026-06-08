@@ -89,6 +89,20 @@ const ChannelDetector = require('@iobroker/type-detector').default;
 
 const ignoreIds = [/^system\./, /^script\./];
 
+// Units a sensor device_class can be displayed/converted to (sensor/device_class_convertible_units),
+// mirroring Home Assistant's unit converters. Mainly used by the energy dashboard setup.
+const CONVERTIBLE_UNITS: Record<string, string[]> = {
+    energy: ['Wh', 'kWh', 'MWh', 'GWh', 'TWh', 'J', 'kJ', 'MJ', 'GJ', 'cal', 'kcal', 'Mcal', 'Gcal'],
+    power: ['mW', 'W', 'kW', 'MW', 'GW', 'TW'],
+    gas: ['L', 'm³', 'ft³', 'CCF'],
+    water: ['L', 'mL', 'm³', 'ft³', 'CCF', 'gal', 'fl. oz.'],
+    volume: ['L', 'mL', 'm³', 'ft³', 'CCF', 'gal', 'fl. oz.'],
+    temperature: ['°C', '°F', 'K'],
+    pressure: ['Pa', 'hPa', 'kPa', 'bar', 'cbar', 'mbar', 'mmHg', 'inHg', 'psi'],
+    speed: ['m/s', 'km/h', 'mph', 'ft/s', 'kn'],
+    distance: ['km', 'm', 'cm', 'mm', 'mi', 'yd', 'in', 'ft', 'nmi'],
+};
+
 const TIMEOUT_PASSWORD_ENTER = 180000; // 3 min
 const TIMEOUT_AUTH_CODE = 10000; // 10sec
 const ROOT_DIR = '../../hass_frontend';
@@ -3056,6 +3070,11 @@ class WebServer {
             } else if (message.type === 'sensor/numeric_device_classes') {
                 //it seems frontend now asks backend for what device_classes are numeric. Ok. Let's use that. ;-)
                 this._sendResponse(ws, message.id, { numeric_device_classes: NUMERIC_DEVICE_CLASSES });
+            } else if (message.type === 'sensor/device_class_convertible_units') {
+                // Units a given device_class can be displayed in (used by the energy dashboard setup).
+                this._sendResponse(ws, message.id, {
+                    units: CONVERTIBLE_UNITS[message.device_class as string] || [],
+                });
             } else if (message.type === 'ping') {
                 this._sendResponse(ws, message.id, { type: 'pong' });
             } else if (message.type === 'vacuum/get_segments') {

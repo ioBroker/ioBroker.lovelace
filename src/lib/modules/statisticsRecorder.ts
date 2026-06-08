@@ -1,8 +1,10 @@
 interface EntityData {
+    entities: EntityLike[];
     entityId2Entity: Record<string, EntityLike>;
 }
 
 interface EntityLike {
+    entity_id?: string;
     context: {
         STATE: {
             getId?: string;
@@ -11,7 +13,32 @@ interface EntityLike {
     };
     attributes: {
         unit_of_measurement?: string;
+        device_class?: string;
     };
+}
+
+/**
+ * Map an ioBroker/HA device_class to a statistics unit_class (used for unit grouping/conversion in
+ * the energy dashboard). Energy/volume classes are "sum" statistics; everything else has no class.
+ *
+ * @param deviceClass - HA device_class (e.g. 'energy', 'power')
+ * @returns the unit_class or null
+ */
+function unitClassForDeviceClass(deviceClass: string | undefined): string | null {
+    switch (deviceClass) {
+        case 'energy':
+        case 'energy_storage':
+            return 'energy';
+        case 'power':
+            return 'power';
+        case 'gas':
+        case 'water':
+        case 'volume':
+        case 'volume_storage':
+            return 'volume';
+        default:
+            return null;
+    }
 }
 
 interface ServerWithSendResponse {
@@ -141,6 +168,38 @@ class StatisticsRecorder {
                         source: 'recorder',
                         statistics_unit_of_measurement: entity.attributes.unit_of_measurement,
                         unit_class: 'temperature',
+                    });
+                }
+                this.server._sendResponse(ws, message.id, result);
+                return true;
+            } else if (msgType === 'recorder/list_statistic_ids') {
+                // List the statistics the frontend can pick from (used e.g. by the energy dashboard).
+                // Every entity that has a unit is offered; energy/volume device classes are reported as
+                // "sum" statistics, everything else as arithmetic-mean statistics.
+                const filter = message.statistic_type as string | undefined; // 'sum' | 'mean' | undefined
+                const result = [];
+                for (const entity of this.dataSingleton.entities) {
+                    const unit = entity.attributes?.unit_of_measurement;
+                    if (!unit) {
+                        continue;
+                    }
+                    const unitClass = unitClassForDeviceClass(entity.attributes?.device_class);
+                    const isSum = unitClass === 'energy' || unitClass === 'volume';
+                    if (filter === 'sum' && !isSum) {
+                        continue;
+                    }
+                    if (filter === 'mean' && isSum) {
+                        continue;
+                    }
+                    result.push({
+                        statistic_id: entity.entity_id,
+                        display_unit_of_measurement: unit,
+                        has_sum: isSum,
+                        mean_type: isSum ? 0 : 1, // StatisticMeanType: NONE / ARITHMETIC
+                        name: null,
+                        source: 'recorder',
+                        statistics_unit_of_measurement: unit,
+                        unit_class: unitClass,
                     });
                 }
                 this.server._sendResponse(ws, message.id, result);
