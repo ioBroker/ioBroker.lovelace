@@ -355,7 +355,9 @@ class BrowserModModule {
         registered: true,
         locked: false,
         camera: false,
-        settings: this.browserModStorage.settings,
+        // Copy, not a reference: a shared object would let per-browser hideSidebar/hideHeader
+        // writes mutate the global defaults and every other browser's settings.
+        settings: { ...this.browserModStorage.settings },
         meta: "default"
       };
     }
@@ -892,14 +894,18 @@ class BrowserModModule {
           this.initialiseBrowserSettings(browserId);
           this.browserModStorage.browsers[browserId].last_seen = (onlineState == null ? void 0 : onlineState.lc) || 0;
           await this.adapter.setState(id, false, true);
-        } else if (id.endsWith("hideHeader")) {
-          const hideHeader = await this.adapter.getStateAsync(id);
-          if (hideHeader) {
-            if (id === `${this.adapter.namespace}.${instancesPath}hideHeader`) {
-              this.browserModStorage.settings.hideHeader = hideHeader.val;
-            } else {
-              this.initialiseBrowserSettings(browserId);
-              this.browserModStorage.browsers[id.split(".")[3]].settings.hideHeader = hideHeader.val;
+        } else {
+          for (const key of ["hideHeader", "hideSidebar"]) {
+            if (id.endsWith(key)) {
+              const settingState = await this.adapter.getStateAsync(id);
+              if (settingState) {
+                if (id === `${this.adapter.namespace}.${instancesPath}${key}`) {
+                  this.browserModStorage.settings[key] = settingState.val;
+                } else {
+                  this.initialiseBrowserSettings(browserId);
+                  this.browserModStorage.browsers[browserId].settings[key] = settingState.val;
+                }
+              }
             }
           }
         }

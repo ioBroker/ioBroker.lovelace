@@ -446,7 +446,9 @@ class BrowserModModule {
                 registered: true,
                 locked: false,
                 camera: false,
-                settings: this.browserModStorage.settings,
+                // Copy, not a reference: a shared object would let per-browser hideSidebar/hideHeader
+                // writes mutate the global defaults and every other browser's settings.
+                settings: { ...this.browserModStorage.settings },
                 meta: 'default',
             };
         }
@@ -1049,15 +1051,22 @@ class BrowserModModule {
                     this.initialiseBrowserSettings(browserId);
                     this.browserModStorage.browsers[browserId].last_seen = onlineState?.lc || 0;
                     await this.adapter.setState(id, false, true);
-                } else if (id.endsWith('hideHeader')) {
-                    const hideHeader = await this.adapter.getStateAsync(id);
-                    if (hideHeader) {
-                        if (id === `${this.adapter.namespace}.${instancesPath}hideHeader`) {
-                            this.browserModStorage.settings.hideHeader = hideHeader.val as boolean;
-                        } else {
-                            this.initialiseBrowserSettings(browserId);
-                            this.browserModStorage.browsers[id.split('.')[3]].settings.hideHeader =
-                                hideHeader.val as boolean;
+                } else {
+                    // Restore persisted hideHeader/hideSidebar into storage so they survive a restart.
+                    // (Both keys must be handled - missing hideSidebar here let it revert to the global
+                    //  default, and the next browser (re)register then overwrote the saved state.)
+                    for (const key of ['hideHeader', 'hideSidebar'] as const) {
+                        if (id.endsWith(key)) {
+                            const settingState = await this.adapter.getStateAsync(id);
+                            if (settingState) {
+                                if (id === `${this.adapter.namespace}.${instancesPath}${key}`) {
+                                    this.browserModStorage.settings[key] = settingState.val as boolean;
+                                } else {
+                                    this.initialiseBrowserSettings(browserId);
+                                    this.browserModStorage.browsers[browserId].settings[key] =
+                                        settingState.val as boolean;
+                                }
+                            }
                         }
                     }
                 }

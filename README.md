@@ -450,7 +450,8 @@ For now (20260527.1) following files were modified:
 - `src/entrypoints/core.ts` - add no auth option
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
-- `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button
+- `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button, open edit-panel dialog for lovelace boards, live dashboard title from hass.panels
+- `src/layouts/hass-router-page.ts` - guard updatePageEl against undefined route during rebuild (panel rename crash).
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `.husky/pre-commit` - remove git commit hooks.
 
@@ -479,6 +480,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Frontend user data (theme settings, dark mode, sidebar order, …) is now persisted, so it survives reloads.
 * (Garfonso/Claude) Add support for entity configuration from frontend. Even updates config on entity_id change.
 * (Garfonso/Claude) Add support for Lovelace dashboards. You can create and manage them from the frontend and can be switched from the menu. (disable hide sidebar)
+* (Garfonso/Claude) browser_mod: the per-browser `hideSidebar` setting is now restored on adapter start (like `hideHeader`) and no longer shares one object between browsers, so it no longer gets lost after a reload.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
