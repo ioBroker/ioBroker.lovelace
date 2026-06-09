@@ -481,6 +481,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Add support for entity configuration from frontend. Even updates config on entity_id change.
 * (Garfonso/Claude) Add support for Lovelace dashboards. You can create and manage them from the frontend and can be switched from the menu. (disable hide sidebar)
 * (Garfonso/Claude) browser_mod: the per-browser `hideSidebar` setting is now restored on adapter start (like `hideHeader`) and no longer shares one object between browsers, so it no longer gets lost after a reload.
+* (Garfonso/Claude) browser_mod: new browsers no longer hide the sidebar by default, so the dashboard switcher in the sidebar is reachable out of the box.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.

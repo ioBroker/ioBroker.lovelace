@@ -92,7 +92,7 @@ class BrowserModModule {
             browsers: {},
             version: BROWSER_MOD_VERSION,
             settings: {
-                hideSidebar: true,
+                hideSidebar: false,
                 hideHeader: false,
                 defaultPanel: null,
                 sidebarPanelOrder: null,

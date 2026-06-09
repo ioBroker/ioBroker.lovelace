@@ -10,7 +10,7 @@ function makeAdapter(): any {
         namespace: NS,
         config: { maxBrowserInstances: 50 },
         log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
-        getStateAsync: async (id: string) => {
+        getStateAsync: (id: string) => {
             if (id.endsWith('hideSidebar')) {
                 return { val: true };
             }
@@ -35,11 +35,11 @@ describe('modules/browser_mod hideSidebar persistence', function () {
         const mod: any = new BrowserModModule({ adapter: makeAdapter(), objects: {} });
         mod.initialiseBrowserSettings('A');
         // Mutating one browser must not touch the global defaults or another browser.
-        mod.browserModStorage.browsers.A.settings.hideSidebar = false;
+        mod.browserModStorage.browsers.A.settings.hideSidebar = true;
         mod.initialiseBrowserSettings('B');
 
-        expect(mod.browserModStorage.settings.hideSidebar).to.equal(true);
-        expect(mod.browserModStorage.browsers.B.settings.hideSidebar).to.equal(true);
+        expect(mod.browserModStorage.settings.hideSidebar).to.equal(false);
+        expect(mod.browserModStorage.browsers.B.settings.hideSidebar).to.equal(false);
         expect(mod.browserModStorage.browsers.A.settings).to.not.equal(mod.browserModStorage.settings);
     });
 
