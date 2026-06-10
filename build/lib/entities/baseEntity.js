@@ -65,16 +65,19 @@ class BaseEntity {
   constructor(name, room, func, obj, entityType, entity_id, language) {
     var _a, _b, _c, _d, _e, _f;
     const objId = (_a = obj == null ? void 0 : obj._id) != null ? _a : "";
-    this.entity_id = (0, import_entity_id.getEntityId)(entityType, entity_id, obj, (0, import_utils.getEnumName)(room), (0, import_utils.getEnumName)(func));
+    const lang = language != null ? language : entityData.lang;
+    const roomName = (0, import_utils.getEnumName)(room, lang);
+    const funcName = (0, import_utils.getEnumName)(func, lang);
+    this.entity_id = (0, import_entity_id.getEntityId)(entityType, entity_id, obj, roomName, funcName);
     this.attributes = {
-      friendly_name: (0, import_friendly_name.getFriendlyName)(name, obj, (0, import_utils.getEnumName)(room), (0, import_utils.getEnumName)(func))
+      friendly_name: (0, import_friendly_name.getFriendlyName)(name, obj, roomName, funcName)
     };
     this.context = {
       id: objId,
       type: (0, import_entity_id.getEntityType)(entityType, entity_id, obj),
-      room: (0, import_utils.getEnumName)(room),
+      room: roomName,
       roomId: room ? room._id : null,
-      func: (0, import_utils.getEnumName)(func),
+      func: funcName,
       funcId: func ? func._id : null,
       stateType: (_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.type,
       deviceId: objId,

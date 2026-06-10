@@ -408,6 +408,36 @@ describe('converters/utils', function () {
     });
 });
 
+describe('converters/utils translated room/function names', function () {
+    it('uses the configured language for room and function names', function () {
+        entityData.lang = 'de';
+        const room = {
+            _id: 'enum.rooms.transl_room',
+            common: { name: { en: 'Living room', de: 'Wohnzimmer' } },
+        } as unknown as ioBroker.EnumObject;
+        const func = {
+            _id: 'enum.functions.transl_func',
+            common: { name: { en: 'Light', de: 'Licht' } },
+        } as unknown as ioBroker.EnumObject;
+        const obj = { _id: 'a.transl.1', common: { name: 'Lamp' }, type: 'state' } as unknown as ioBroker.Object;
+
+        const entity = processCommon(null, room, func, obj, 'light', null, 'de');
+        expect(entity.context.room).to.equal('Wohnzimmer');
+        expect(entity.context.func).to.equal('Licht');
+    });
+
+    it('falls back to English when the language is missing', function () {
+        const room = {
+            _id: 'enum.rooms.transl_room_en',
+            common: { name: { en: 'Kitchen', de: 'Küche' } },
+        } as unknown as ioBroker.EnumObject;
+        const obj = { _id: 'a.transl.2', common: { name: 'Lamp' }, type: 'state' } as unknown as ioBroker.Object;
+
+        const entity = processCommon(null, room, null, obj, 'light', null, 'fr');
+        expect(entity.context.room).to.equal('Kitchen');
+    });
+});
+
 describe('converters/utils replaceEntityIdInConfig', function () {
     it('replaces entity in entity: field and entities array', function () {
         const config = {

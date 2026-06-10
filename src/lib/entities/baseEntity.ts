@@ -302,16 +302,22 @@ export class BaseEntity {
         language?: string,
     ) {
         const objId = obj?._id ?? '';
-        this.entity_id = getEntityId(entityType, entity_id, obj, getEnumName(room), getEnumName(func));
+        // Resolve room/function names in the configured language. Without passing lang, getEnumName
+        // falls back to 'en' (and caches that under the enum id), so translated names always showed
+        // their English variant.
+        const lang = language ?? entityData.lang;
+        const roomName = getEnumName(room, lang);
+        const funcName = getEnumName(func, lang);
+        this.entity_id = getEntityId(entityType, entity_id, obj, roomName, funcName);
         this.attributes = {
-            friendly_name: getFriendlyName(name, obj, getEnumName(room), getEnumName(func)),
+            friendly_name: getFriendlyName(name, obj, roomName, funcName),
         };
         this.context = {
             id: objId,
             type: getEntityType(entityType, entity_id, obj),
-            room: getEnumName(room),
+            room: roomName,
             roomId: room ? room._id : null,
-            func: getEnumName(func),
+            func: funcName,
             funcId: func ? func._id : null,
             stateType: (obj?.common as Record<string, unknown> | undefined)?.type as string | undefined,
             deviceId: objId,
