@@ -361,7 +361,6 @@ class WebServer {
             }),
             compat: new CompatModule({
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
-                listDevices: (ws, message) => void this._modules.deviceRegistry.processMessage(ws, message),
             }),
             mediaSource: new MediaSourceModule({
                 adapter: this.adapter,

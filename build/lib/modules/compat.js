@@ -1,11 +1,8 @@
 "use strict";
 class CompatModule {
   sendResponse;
-  /** Forward config_entries/subscribe to the device registry (the frontend wants devices there). */
-  listDevices;
   constructor(options) {
     this.sendResponse = options.sendResponse;
-    this.listDevices = options.listDevices;
   }
   /**
    * Handle a stub message.
@@ -27,7 +24,6 @@ class CompatModule {
         return true;
       case "config_entries/subscribe":
         this.sendResponse(ws, message.id, null);
-        this.listDevices(ws, { ...message, type: "config/device_registry/list" });
         return true;
       case "config_entries/flow/progress":
         this.sendResponse(ws, message.id, []);

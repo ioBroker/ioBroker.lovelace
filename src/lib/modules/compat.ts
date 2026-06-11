@@ -1,5 +1,4 @@
 type SendResponseFn = (ws: unknown, id: unknown, result?: unknown) => void;
-type SendRawFn = (ws: WsLike, message: Record<string, unknown>) => void;
 
 interface WsLike {
     send(data: string): void;
@@ -12,12 +11,9 @@ interface WsLike {
  */
 class CompatModule {
     private sendResponse: SendResponseFn;
-    /** Forward config_entries/subscribe to the device registry (the frontend wants devices there). */
-    private listDevices: SendRawFn;
 
-    constructor(options: { sendResponse: SendResponseFn; listDevices: SendRawFn }) {
+    constructor(options: { sendResponse: SendResponseFn }) {
         this.sendResponse = options.sendResponse;
-        this.listDevices = options.listDevices;
     }
 
     /**
@@ -40,9 +36,11 @@ class CompatModule {
                 return true;
             case 'config_entries/subscribe':
                 // {"type":"config_entries/subscribe","type_filter":["device","hub","service","hardware"],"id":77}
+                // A subscription: ack only. We have no config entries, so we send no follow-up event.
+                // (Do NOT also push a device list under this id - a second `result` on a subscription id
+                //  makes the frontend treat the subscription as failed and resubscribe forever. Devices
+                //  come from the page's own config/device_registry/list call.)
                 this.sendResponse(ws, message.id, null);
-                // The Devices & Services page expects devices here; forward to the device registry.
-                this.listDevices(ws, { ...message, type: 'config/device_registry/list' });
                 return true;
             case 'config_entries/flow/progress':
                 this.sendResponse(ws, message.id, []);

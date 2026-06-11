@@ -255,8 +255,7 @@ class WebServer {
         }
       }),
       compat: new import_compat.default({
-        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
-        listDevices: (ws, message) => void this._modules.deviceRegistry.processMessage(ws, message)
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
       }),
       mediaSource: new import_mediaSource.default({
         adapter: this.adapter,
