@@ -140,19 +140,17 @@ class DashboardModule {
         continue;
       }
       const ov = this._panelOverrides[urlPath];
-      if (ov.show_in_sidebar === false) {
-        panel.title = null;
-        panel.icon = null;
-      } else {
-        if (ov.title !== void 0) {
-          panel.title = ov.title;
-        }
-        if (ov.icon !== void 0) {
-          panel.icon = ov.icon;
-        }
+      if (ov.title !== void 0) {
+        panel.title = ov.title;
+      }
+      if (ov.icon !== void 0) {
+        panel.icon = ov.icon;
       }
       if (ov.require_admin !== void 0) {
         panel.require_admin = ov.require_admin;
+      }
+      if (ov.show_in_sidebar !== void 0) {
+        panel.show_in_sidebar = ov.show_in_sidebar;
       }
     }
   }

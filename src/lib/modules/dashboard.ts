@@ -180,20 +180,21 @@ class DashboardModule {
             if (!panel) {
                 continue;
             }
+            // Merge the override onto the static panel (from panels.ts). Do NOT null title/icon when
+            // hiding - that just made the panel lose its name and icon while still showing; the real
+            // hide is the show_in_sidebar field, which the frontend's sidebar filter honours.
             const ov = this._panelOverrides[urlPath];
-            if (ov.show_in_sidebar === false) {
-                panel.title = null;
-                panel.icon = null;
-            } else {
-                if (ov.title !== undefined) {
-                    panel.title = ov.title;
-                }
-                if (ov.icon !== undefined) {
-                    panel.icon = ov.icon;
-                }
+            if (ov.title !== undefined) {
+                panel.title = ov.title;
+            }
+            if (ov.icon !== undefined) {
+                panel.icon = ov.icon;
             }
             if (ov.require_admin !== undefined) {
                 panel.require_admin = ov.require_admin;
+            }
+            if (ov.show_in_sidebar !== undefined) {
+                panel.show_in_sidebar = ov.show_in_sidebar;
             }
         }
     }

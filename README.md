@@ -495,6 +495,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Basic Home Assistant Jinja2 template support (Markdown card, Mushroom-style cards, Developer Tools → Templates): `states()`, `is_state()`, `state_attr()`, `is_state_attr()`, `has_value()`, `now()`/`utcnow()` and Jinja control flow are evaluated against the live entities and re-rendered on change. (Not a full HA template environment - no entity-registry helpers, `expand`, or HA-specific filters.) ioBroker `{id}` bindings keep working as before.
 * (Garfonso/Claude) The Logbook and History sidebar panels can now be enabled via the frontend's "Edit Sidebar" (hidden by default, like in Home Assistant). Reordering/hiding sidebar panels is stored per browser.
 * (Garfonso/Claude) Settings → People no longer stays on a loading spinner: the `person/list` WebSocket request is now answered (with the ioBroker users as persons).
+* (Garfonso/Claude) Hiding a panel from the sidebar (frontend/update_panel) now sets `show_in_sidebar:false` and keeps the panel's name and icon, instead of nulling them - so the panel still shows correctly in the dashboards list.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.

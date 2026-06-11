@@ -177,7 +177,7 @@ describe('modules/dashboard', function () {
             expect(panels.lovelace.require_admin).to.equal(true);
         });
 
-        it('hides the panel from the sidebar (null title/icon) when show_in_sidebar is false', async function () {
+        it('hides the panel via show_in_sidebar:false while keeping title/icon', async function () {
             const dashboard = makeDashboard();
             await dashboard.processMessage(
                 {},
@@ -187,8 +187,10 @@ describe('modules/dashboard', function () {
                 lovelace: { title: 'states', icon: 'mdi:view-dashboard' },
             };
             dashboard.applyPanelOverrides(panels);
-            expect(panels.lovelace.title).to.equal(null);
-            expect(panels.lovelace.icon).to.equal(null);
+            expect(panels.lovelace.show_in_sidebar).to.equal(false);
+            // title/icon must survive so the dashboards list still shows name + icon.
+            expect(panels.lovelace.title).to.equal('states');
+            expect(panels.lovelace.icon).to.equal('mdi:view-dashboard');
         });
 
         it('ignores overrides for panels that do not exist', function () {
