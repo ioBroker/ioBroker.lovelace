@@ -1,6 +1,9 @@
 "use strict";
 const bindings = require("../../../lib/bindings");
 const WS_OPEN = 1;
+function looksLikeStateId(id) {
+  return typeof id === "string" && id.length > 0 && !/[\s"'`%(){}<>[\]]/.test(id);
+}
 class TemplateModule {
   adapter;
   sendResponse;
@@ -82,12 +85,12 @@ class TemplateModule {
     const vars = bindings.extractBinding(template);
     const promises = [];
     const processId = async (id) => {
-      if (obj.ids.includes(id)) {
+      if (!looksLikeStateId(id) || obj.ids.includes(id)) {
         return;
       }
       obj.ids.push(id);
-      this.subscribeState(id);
       try {
+        this.subscribeState(id);
         this.templateStates[id] = await this.adapter.getForeignStateAsync(id);
       } catch (e) {
         this.adapter.log.warn(`Cannot get state ${id}: ${String(e)} in template ${String(template)}`);
@@ -120,7 +123,12 @@ class TemplateModule {
         JSON.stringify({
           id: message.id,
           type: "event",
-          event: { result: bindings.formatBinding(template, this.templateStates) }
+          event: {
+            result: bindings.formatBinding(template, this.templateStates),
+            // The Developer Tools "Templates" page reads listeners.time and crashes if
+            // listeners is missing. We don't track HA-style listeners, so report none.
+            listeners: { all: false, domains: [], entities: [], time: false }
+          }
         })
       );
     });
@@ -151,7 +159,10 @@ class TemplateModule {
                 JSON.stringify({
                   id: t.id,
                   type: "event",
-                  event: { result: bindings.formatBinding(t.template, this.templateStates) }
+                  event: {
+                    result: bindings.formatBinding(t.template, this.templateStates),
+                    listeners: { all: false, domains: [], entities: [], time: false }
+                  }
                 })
               );
             }

@@ -354,7 +354,11 @@ class WebServer {
                 subscribeState: (id: string) => {
                     if (this._subscribed.indexOf(id) === -1) {
                         this._subscribed.push(id);
-                        this.adapter.subscribeForeignStates(id);
+                        // Never let a bad id (e.g. from a mis-parsed template) reject unhandled and
+                        // take the adapter down - log and move on.
+                        Promise.resolve(this.adapter.subscribeForeignStatesAsync(id)).catch(e =>
+                            this.log.warn(`Could not subscribe to ${id}: ${String(e)}`),
+                        );
                         this.log.debug(`IoB Subscribe on ${id}`);
                     }
                 },

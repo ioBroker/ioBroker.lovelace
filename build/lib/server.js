@@ -249,7 +249,9 @@ class WebServer {
         subscribeState: (id) => {
           if (this._subscribed.indexOf(id) === -1) {
             this._subscribed.push(id);
-            this.adapter.subscribeForeignStates(id);
+            Promise.resolve(this.adapter.subscribeForeignStatesAsync(id)).catch(
+              (e) => this.log.warn(`Could not subscribe to ${id}: ${String(e)}`)
+            );
             this.log.debug(`IoB Subscribe on ${id}`);
           }
         }

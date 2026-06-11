@@ -488,6 +488,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Fixed the "Devices & Services" settings page: `config_entries/subscribe` now acks and sends one empty initial event (an empty config-entries snapshot). It used to push a second result on the subscription id (endless resubscribe loop); a follow-up ack-only reply then left the page spinning because the frontend waits for that first event.
 * (Garfonso/Claude) Handle `frontend/get_icons` (returns empty icon resources) so entity/device lists render instead of throwing on the rejected icon lookup.
 * (Garfonso/Claude) Stub more frontend WS requests so settings pages stop logging "Unknown request": `config/category_registry/list`, `homeassistant/expose_entity/list`, `integration/descriptions`.
+* (Garfonso/Claude) Opening "Developer Tools → Templates" no longer crashes the adapter: a Jinja template was mis-parsed into a bogus state id whose subscription rejected uncaught. Invalid ids are now skipped, subscribe errors are caught, and `render_template` replies now include a `listeners` field (so the templates page itself stops erroring).
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.

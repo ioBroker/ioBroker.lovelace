@@ -3,6 +3,18 @@ const bindings = require('../../../lib/bindings');
 
 const WS_OPEN = 1; // WebSocket.OPEN
 
+/**
+ * A real ioBroker state id never contains whitespace or quote/bracket characters. The Home Assistant
+ * "Developer Tools -> Templates" page sends Jinja2 templates, which our ioBroker-binding parser
+ * mis-reads as bogus state ids; subscribing to those throws "not a valid ID pattern" and previously
+ * crashed the adapter. Reject anything that cannot be a plain state id.
+ *
+ * @param id - candidate state id extracted from a template
+ */
+function looksLikeStateId(id: unknown): id is string {
+    return typeof id === 'string' && id.length > 0 && !/[\s"'`%(){}<>[\]]/.test(id);
+}
+
 type SendResponseFn = (ws: unknown, id: unknown, result?: unknown) => void;
 /** Ask the server to subscribe a foreign state (it owns the shared `_subscribed` set). */
 type SubscribeStateFn = (id: string) => void;
@@ -129,12 +141,12 @@ class TemplateModule {
         const promises: Promise<void>[] = [];
 
         const processId = async (id: string): Promise<void> => {
-            if (obj.ids.includes(id)) {
+            if (!looksLikeStateId(id) || obj.ids.includes(id)) {
                 return;
             }
             obj.ids.push(id);
-            this.subscribeState(id);
             try {
+                this.subscribeState(id);
                 this.templateStates[id] = await this.adapter.getForeignStateAsync(id);
             } catch (e) {
                 this.adapter.log.warn(`Cannot get state ${id}: ${String(e)} in template ${String(template)}`);
@@ -169,7 +181,12 @@ class TemplateModule {
                 JSON.stringify({
                     id: message.id,
                     type: 'event',
-                    event: { result: bindings.formatBinding(template, this.templateStates) },
+                    event: {
+                        result: bindings.formatBinding(template, this.templateStates),
+                        // The Developer Tools "Templates" page reads listeners.time and crashes if
+                        // listeners is missing. We don't track HA-style listeners, so report none.
+                        listeners: { all: false, domains: [], entities: [], time: false },
+                    },
                 }),
             );
         });
@@ -201,7 +218,10 @@ class TemplateModule {
                                 JSON.stringify({
                                     id: t.id,
                                     type: 'event',
-                                    event: { result: bindings.formatBinding(t.template, this.templateStates) },
+                                    event: {
+                                        result: bindings.formatBinding(t.template, this.templateStates),
+                                        listeners: { all: false, domains: [], entities: [], time: false },
+                                    },
                                 }),
                             );
                         }
