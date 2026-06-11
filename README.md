@@ -492,6 +492,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Stub more frontend WS requests so settings pages stop logging "Unknown request": `config/category_registry/list`, `homeassistant/expose_entity/list`, `integration/descriptions`.
 * (Garfonso/Claude) Opening "Developer Tools → Templates" no longer crashes the adapter: a Jinja template was mis-parsed into a bogus state id whose subscription rejected uncaught. Invalid ids are now skipped, subscribe errors are caught, and `render_template` replies now include a `listeners` field (so the templates page itself stops erroring).
 * (Garfonso/Claude) Basic Home Assistant Jinja2 template support (Markdown card, Mushroom-style cards, Developer Tools → Templates): `states()`, `is_state()`, `state_attr()`, `is_state_attr()`, `has_value()`, `now()`/`utcnow()` and Jinja control flow are evaluated against the live entities and re-rendered on change. (Not a full HA template environment - no entity-registry helpers, `expand`, or HA-specific filters.) ioBroker `{id}` bindings keep working as before.
+* (Garfonso/Claude) The Logbook and History sidebar panels can now be enabled via the frontend's "Edit Sidebar" (hidden by default, like in Home Assistant). Reordering/hiding sidebar panels is stored per browser.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.

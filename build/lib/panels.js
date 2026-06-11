@@ -43,6 +43,11 @@ const panels = {
     default_visible: true,
     show_in_sidebar: true
   },
+  // Hidden by default, but the user can reveal them via the frontend's "Edit Sidebar":
+  //   show_in_sidebar:true  -> the sidebar drops show_in_sidebar:false panels BEFORE the hide/show
+  //                            logic, so this must be true or the panel can never be revealed.
+  //   default_visible:false -> not shown until the user adds it (then it lands in their panel order,
+  //                            persisted per browser in user data). Matches Home Assistant.
   logbook: {
     component_name: "logbook",
     icon: "mdi:format-list-bulleted-type",
@@ -50,7 +55,7 @@ const panels = {
     config: null,
     url_path: "logbook",
     require_admin: false,
-    default_visible: true,
+    default_visible: false,
     show_in_sidebar: true
   },
   history: {
@@ -60,7 +65,7 @@ const panels = {
     config: null,
     url_path: "history",
     require_admin: false,
-    default_visible: true,
+    default_visible: false,
     show_in_sidebar: true
   },
   config: {
