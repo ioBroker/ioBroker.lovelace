@@ -468,12 +468,12 @@ class BrowserModModule {
                 const browser = data.browser as Record<string, unknown>;
                 if (browser.battery_level) {
                     await this._checkObjects(ioBrokerDeviceId, message.browserID as string, true);
-                    await this.adapter.setStateAsync(
+                    await this.adapter.setState(
                         `${ioBrokerDeviceId}.battery.level`,
                         browser.battery_level as ioBroker.StateValue,
                         true,
                     );
-                    await this.adapter.setStateAsync(
+                    await this.adapter.setState(
                         `${ioBrokerDeviceId}.battery.charging`,
                         (browser.charging as boolean) || false,
                         true,
@@ -483,14 +483,14 @@ class BrowserModModule {
                     await this._cleanUpInstances();
                 }
                 if (browser.path) {
-                    await this.adapter.setStateAsync(
+                    await this.adapter.setState(
                         `${ioBrokerDeviceId}.path`,
                         browser.path as ioBroker.StateValue,
                         true,
                     );
                 }
                 if (browser.visibility) {
-                    await this.adapter.setStateAsync(
+                    await this.adapter.setState(
                         `${ioBrokerDeviceId}.visible`,
                         browser.visibility === 'visible',
                         true,
@@ -498,10 +498,10 @@ class BrowserModModule {
                 }
             }
             if (typeof data.activity === 'boolean') {
-                await this.adapter.setStateAsync(`${ioBrokerDeviceId}.activity`, data.activity, true);
+                await this.adapter.setState(`${ioBrokerDeviceId}.activity`, data.activity, true);
             }
             if (typeof data.screen_on === 'boolean') {
-                await this.adapter.setStateAsync(`${ioBrokerDeviceId}.blackout`, !data.screen_on, true);
+                await this.adapter.setState(`${ioBrokerDeviceId}.blackout`, !data.screen_on, true);
             }
         }
     }
