@@ -326,7 +326,7 @@ class BrowserModModule {
             });
         }
 
-        if (!this.objects[`${ioBrokerDeviceId}.change_browser_id`]) {
+        if (!this.objects[`${ioBrokerDeviceId}.change_browser_id`] && browserId) {
             await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.change_browser_id`, {
                 type: 'state',
                 common: {
@@ -336,12 +336,14 @@ class BrowserModModule {
                         de: 'Neue Browser-ID als Text, oder JSON mit Feldern: new_browser_id, register (bool), refresh (bool).',
                     },
                     type: 'string',
-                    read: false,
+                    read: true,
                     write: true,
-                    role: 'json',
+                    role: 'text',
                 },
                 native: { instance: browserId },
             });
+            // Prefill with the current id so the user just edits it instead of typing it from scratch.
+            await this.adapter.setStateAsync(`${ioBrokerDeviceId}.change_browser_id`, browserId, true);
         }
 
         if (!this.objects[`${ioBrokerDeviceId}.online`] && browserId) {

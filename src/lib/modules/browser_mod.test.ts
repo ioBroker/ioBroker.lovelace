@@ -78,4 +78,18 @@ describe('modules/browser_mod hideSidebar persistence', function () {
         expect(mod.browserModStorage.browsers.A.settings.hideSidebar).to.equal(false); // pushed to browser
         expect(setStates).to.deep.include(['instances.A.hideSidebar', false]); // mirrored to per-instance state
     });
+
+    it('seeds change_browser_id with the current browser id', async function () {
+        const setStates: [string, unknown][] = [];
+        const adapter = makeAdapter();
+        adapter.setStateAsync = (id: string, val: unknown) => {
+            setStates.push([id, val]);
+            return Promise.resolve();
+        };
+        const mod: any = new BrowserModModule({ adapter, objects: {} });
+
+        await mod._checkObjects('instances.blau', 'blau');
+
+        expect(setStates).to.deep.include(['lovelace.0.instances.blau.change_browser_id', 'blau']);
+    });
 });

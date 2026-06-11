@@ -491,6 +491,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Markdown and template-based cards can now use Home Assistant templates (`{{ states("…") }}`, `is_state`, `state_attr`, `now()`, …) on top of the existing ioBroker `{id}` bindings.
 * (Garfonso/Claude) The Logbook and History panels can be turned on from the sidebar's "Edit Sidebar".
 * (Garfonso/Claude) You can set whether the sidebar/header is hidden for new browsers via the `instances.hideSidebar` / `instances.hideHeader` states; changing them also applies to all currently connected browsers.
+* (Garfonso/Claude) The per-browser `change_browser_id` state is now pre-filled with the current Browser ID, so you can just edit it instead of typing it from scratch.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
