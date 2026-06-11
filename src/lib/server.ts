@@ -3034,6 +3034,12 @@ class WebServer {
             } else if (message.type === 'frontend/get_translations') {
                 this.log.debug(`Get translations: ${message.language}`);
                 this._sendResponse(ws, message.id, this._getTranslations(message.language));
+            } else if (message.type === 'frontend/get_icons') {
+                // The frontend fetches per-entity/-domain icon overrides. We have none; reply with empty
+                // resources so the icon lookup resolves (a missing/unknown_command reply rejects the
+                // cached promise, which then throws while rendering entity/device lists - e.g. the
+                // "Devices & Services" page).
+                this._sendResponse(ws, message.id, { resources: {} });
             } else if (message.type === 'lovelace/info') {
                 this._sendResponse(ws, message.id, { resource_mode: 'storage' });
             } else if (message.type === 'lovelace/config') {

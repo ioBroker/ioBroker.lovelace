@@ -452,6 +452,8 @@ For now (20260527.1) following files were modified:
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
 - `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button, open edit-panel dialog for lovelace boards, live dashboard title from hass.panels
 - `src/layouts/hass-router-page.ts` - guard updatePageEl against undefined route during rebuild (panel rename crash).
+- `src/panels/config/dashboard/ha-config-dashboard.ts` - hide settings sections (automations, apps, voice assistants, system).
+- `src/panels/config/developer-tools/ha-panel-developer-tools.ts` - remove yaml tab from developer tools.
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `.husky/pre-commit` - remove git commit hooks.
 
@@ -484,6 +486,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) browser_mod: new browsers no longer hide the sidebar by default, so the dashboard switcher in the sidebar is reachable out of the box.
 * (Garfonso/Claude) Room and function names with translations are now used in the configured language for entity names and ids, instead of always falling back to English. (#667)
 * (Garfonso/Claude) Fixed the "Devices & Services" settings page hanging in an endless loop: `config_entries/subscribe` no longer pushes a second result on the subscription id (which made the frontend resubscribe forever).
+* (Garfonso/Claude) Handle `frontend/get_icons` (returns empty icon resources) so entity/device lists render instead of throwing on the rejected icon lookup.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
