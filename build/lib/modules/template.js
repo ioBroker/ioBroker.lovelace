@@ -1,5 +1,7 @@
 "use strict";
+var import_jinja = require("./jinja");
 const bindings = require("../../../lib/bindings");
+const adapterData = require("../../../lib/dataSingleton");
 const WS_OPEN = 1;
 function looksLikeStateId(id) {
   return typeof id === "string" && id.length > 0 && !/[\s"'`%(){}<>[\]]/.test(id);
@@ -70,7 +72,7 @@ class TemplateModule {
    * @returns true (always handled)
    */
   processMessage(ws, message) {
-    var _a;
+    var _a, _b, _c, _d;
     if (message.type !== "render_template") {
       return false;
     }
@@ -80,9 +82,8 @@ class TemplateModule {
       this.adapter.log.warn(`Ignoring render_template without template string: ${JSON.stringify(message)}`);
       return true;
     }
-    const obj = { template, ids: [], id: message.id };
+    const obj = { template, ids: [], id: message.id, jinja: (0, import_jinja.isJinjaTemplate)(template) };
     (_a = ws.__templates) == null ? void 0 : _a.push(obj);
-    const vars = bindings.extractBinding(template);
     const promises = [];
     const processId = async (id) => {
       if (!looksLikeStateId(id) || obj.ids.includes(id)) {
@@ -96,25 +97,41 @@ class TemplateModule {
         this.adapter.log.warn(`Cannot get state ${id}: ${String(e)} in template ${String(template)}`);
       }
     };
-    if (vars) {
-      for (const v of vars) {
-        try {
-          promises.push(processId(v.systemOid));
-          if (v.operations) {
-            for (const op of v.operations) {
-              if (op.arg) {
-                for (const arg of op.arg) {
-                  if (arg.systemOid) {
-                    promises.push(processId(arg.systemOid));
+    if (obj.jinja) {
+      for (const entityId of (0, import_jinja.extractEntityIds)(template)) {
+        const entity = adapterData.entityId2Entity[entityId];
+        const getId = (_c = (_b = entity == null ? void 0 : entity.context) == null ? void 0 : _b.STATE) == null ? void 0 : _c.getId;
+        if (getId) {
+          promises.push(processId(getId));
+        }
+        for (const attr of ((_d = entity == null ? void 0 : entity.context) == null ? void 0 : _d.ATTRIBUTES) || []) {
+          if (attr.getId) {
+            promises.push(processId(attr.getId));
+          }
+        }
+      }
+    } else {
+      const vars = bindings.extractBinding(template);
+      if (vars) {
+        for (const v of vars) {
+          try {
+            promises.push(processId(v.systemOid));
+            if (v.operations) {
+              for (const op of v.operations) {
+                if (op.arg) {
+                  for (const arg of op.arg) {
+                    if (arg.systemOid) {
+                      promises.push(processId(arg.systemOid));
+                    }
                   }
                 }
               }
             }
+          } catch (e) {
+            this.adapter.log.warn(
+              `Cannot process variable ${JSON.stringify(v)}: ${String(e)} in template ${String(template)}`
+            );
           }
-        } catch (e) {
-          this.adapter.log.warn(
-            `Cannot process variable ${JSON.stringify(v)}: ${String(e)} in template ${String(template)}`
-          );
         }
       }
     }
@@ -124,7 +141,7 @@ class TemplateModule {
           id: message.id,
           type: "event",
           event: {
-            result: bindings.formatBinding(template, this.templateStates),
+            result: this._render(obj),
             // The Developer Tools "Templates" page reads listeners.time and crashes if
             // listeners is missing. We don't track HA-style listeners, so report none.
             listeners: { all: false, domains: [], entities: [], time: false }
@@ -133,6 +150,18 @@ class TemplateModule {
       );
     });
     return true;
+  }
+  /**
+   * Render a template entry to its result string: Jinja2 via nunjucks (against the live entity
+   * store), or the ioBroker {id} binding via lib/bindings.
+   *
+   * @param entry - the template entry
+   */
+  _render(entry) {
+    if (entry.jinja) {
+      return (0, import_jinja.renderJinja)(String(entry.template));
+    }
+    return bindings.formatBinding(entry.template, this.templateStates);
   }
   /**
    * On an ioBroker state change, push re-rendered template results to every client whose templates
@@ -160,7 +189,7 @@ class TemplateModule {
                   id: t.id,
                   type: "event",
                   event: {
-                    result: bindings.formatBinding(t.template, this.templateStates),
+                    result: this._render(t),
                     listeners: { all: false, domains: [], entities: [], time: false }
                   }
                 })

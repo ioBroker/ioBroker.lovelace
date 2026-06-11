@@ -1,5 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const bindings = require('../../../lib/bindings');
+import { isJinjaTemplate, renderJinja, extractEntityIds } from './jinja';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const adapterData = require('../../../lib/dataSingleton');
 
 const WS_OPEN = 1; // WebSocket.OPEN
 
@@ -23,6 +26,8 @@ interface TemplateEntry {
     template: unknown;
     ids: string[];
     id: unknown;
+    /** true for HA Jinja2 templates (rendered via nunjucks), false for ioBroker {id} bindings. */
+    jinja?: boolean;
 }
 
 interface WsWithTemplates {
@@ -134,10 +139,9 @@ class TemplateModule {
             return true;
         }
 
-        const obj: TemplateEntry = { template, ids: [], id: message.id };
+        const obj: TemplateEntry = { template, ids: [], id: message.id, jinja: isJinjaTemplate(template) };
         ws.__templates?.push(obj);
 
-        const vars = bindings.extractBinding(template);
         const promises: Promise<void>[] = [];
 
         const processId = async (id: string): Promise<void> => {
@@ -153,25 +157,43 @@ class TemplateModule {
             }
         };
 
-        if (vars) {
-            for (const v of vars) {
-                try {
-                    promises.push(processId(v.systemOid));
-                    if (v.operations) {
-                        for (const op of v.operations) {
-                            if (op.arg) {
-                                for (const arg of op.arg) {
-                                    if (arg.systemOid) {
-                                        promises.push(processId(arg.systemOid));
+        if (obj.jinja) {
+            // HA Jinja2 template: subscribe the ioBroker states behind every referenced entity (its
+            // main state + any attribute states) so we re-render when they change.
+            for (const entityId of extractEntityIds(template)) {
+                const entity = adapterData.entityId2Entity[entityId];
+                const getId = entity?.context?.STATE?.getId;
+                if (getId) {
+                    promises.push(processId(getId));
+                }
+                for (const attr of entity?.context?.ATTRIBUTES || []) {
+                    if (attr.getId) {
+                        promises.push(processId(attr.getId));
+                    }
+                }
+            }
+        } else {
+            const vars = bindings.extractBinding(template);
+            if (vars) {
+                for (const v of vars) {
+                    try {
+                        promises.push(processId(v.systemOid));
+                        if (v.operations) {
+                            for (const op of v.operations) {
+                                if (op.arg) {
+                                    for (const arg of op.arg) {
+                                        if (arg.systemOid) {
+                                            promises.push(processId(arg.systemOid));
+                                        }
                                     }
                                 }
                             }
                         }
+                    } catch (e) {
+                        this.adapter.log.warn(
+                            `Cannot process variable ${JSON.stringify(v)}: ${String(e)} in template ${String(template)}`,
+                        );
                     }
-                } catch (e) {
-                    this.adapter.log.warn(
-                        `Cannot process variable ${JSON.stringify(v)}: ${String(e)} in template ${String(template)}`,
-                    );
                 }
             }
         }
@@ -182,7 +204,7 @@ class TemplateModule {
                     id: message.id,
                     type: 'event',
                     event: {
-                        result: bindings.formatBinding(template, this.templateStates),
+                        result: this._render(obj),
                         // The Developer Tools "Templates" page reads listeners.time and crashes if
                         // listeners is missing. We don't track HA-style listeners, so report none.
                         listeners: { all: false, domains: [], entities: [], time: false },
@@ -191,6 +213,19 @@ class TemplateModule {
             );
         });
         return true;
+    }
+
+    /**
+     * Render a template entry to its result string: Jinja2 via nunjucks (against the live entity
+     * store), or the ioBroker {id} binding via lib/bindings.
+     *
+     * @param entry - the template entry
+     */
+    private _render(entry: TemplateEntry): unknown {
+        if (entry.jinja) {
+            return renderJinja(String(entry.template));
+        }
+        return bindings.formatBinding(entry.template, this.templateStates);
     }
 
     /**
@@ -219,7 +254,7 @@ class TemplateModule {
                                     id: t.id,
                                     type: 'event',
                                     event: {
-                                        result: bindings.formatBinding(t.template, this.templateStates),
+                                        result: this._render(t),
                                         listeners: { all: false, domains: [], entities: [], time: false },
                                     },
                                 }),

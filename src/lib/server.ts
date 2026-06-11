@@ -1069,7 +1069,9 @@ class WebServer {
             this._modules.themes.onStateChange(id, state);
         }
 
-        this._modules.template.onStateChange(id, state, this._wss);
+        // NOTE: template.onStateChange is intentionally NOT called here. The generic module loop at
+        // the end of this method already calls it - and it must run AFTER the entities below have been
+        // updated, so Jinja templates re-render against fresh entity state/attributes.
 
         const entities = entityData.iobID2entity[id];
         if (entities) {

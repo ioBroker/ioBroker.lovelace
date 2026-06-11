@@ -453,7 +453,9 @@ For now (20260527.1) following files were modified:
 - `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button, open edit-panel dialog for lovelace boards, live dashboard title from hass.panels
 - `src/layouts/hass-router-page.ts` - guard updatePageEl against undefined route during rebuild (panel rename crash).
 - `src/panels/config/dashboard/ha-config-dashboard.ts` - hide settings sections (automations, apps, voice assistants, system).
-- `src/panels/config/developer-tools/ha-panel-developer-tools.ts` - remove yaml tab from developer tools.
+- `src/panels/config/ha-panel-config.ts` - hide integrations tab in devices & services.
+- `src/panels/config/developer-tools/ha-panel-developer-tools.ts` - remove yaml, events and assist tabs from developer tools.
+- `src/panels/config/info/ha-config-info.ts` - hide doc/credits/community/license links in about (keep keyboard shortcuts).
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `.husky/pre-commit` - remove git commit hooks.
 
@@ -489,6 +491,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Handle `frontend/get_icons` (returns empty icon resources) so entity/device lists render instead of throwing on the rejected icon lookup.
 * (Garfonso/Claude) Stub more frontend WS requests so settings pages stop logging "Unknown request": `config/category_registry/list`, `homeassistant/expose_entity/list`, `integration/descriptions`.
 * (Garfonso/Claude) Opening "Developer Tools → Templates" no longer crashes the adapter: a Jinja template was mis-parsed into a bogus state id whose subscription rejected uncaught. Invalid ids are now skipped, subscribe errors are caught, and `render_template` replies now include a `listeners` field (so the templates page itself stops erroring).
+* (Garfonso/Claude) Basic Home Assistant Jinja2 template support (Markdown card, Mushroom-style cards, Developer Tools → Templates): `states()`, `is_state()`, `state_attr()`, `is_state_attr()`, `has_value()`, `now()`/`utcnow()` and Jinja control flow are evaluated against the live entities and re-rendered on change. (Not a full HA template environment - no entity-registry helpers, `expand`, or HA-specific filters.) ioBroker `{id}` bindings keep working as before.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.

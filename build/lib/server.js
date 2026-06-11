@@ -872,7 +872,6 @@ class WebServer {
     if (state) {
       this._modules.themes.onStateChange(id, state);
     }
-    this._modules.template.onStateChange(id, state, this._wss);
     const entities = entityData.iobID2entity[id];
     if (entities) {
       entities.forEach((entity) => {
