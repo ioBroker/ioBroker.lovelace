@@ -271,51 +271,41 @@ class BrowserModModule {
         native: { instance: browserId }
       });
     }
-    if (!this.objects[`${ioBrokerDeviceId}.hideHeader`]) {
-      await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.hideHeader`, {
+    await this._checkSettingState(ioBrokerDeviceId, browserId, "hideHeader", "Hide Header");
+    await this._checkSettingState(ioBrokerDeviceId, browserId, "hideSidebar", "Hide Sidebar");
+  }
+  /**
+   * Create (and on the root level, seed) the hideHeader / hideSidebar switch state, or - if it
+   * already exists - read its value into the browser_mod storage. The root object (no browserId,
+   * `instances.<key>`) is the "target all" default: its `def` and seeded value come from the global
+   * default and are read back on init as the default for new browsers; per-browser objects mirror
+   * that default.
+   *
+   * @param ioBrokerDeviceId - fully namespaced device id (root `instances` or `instances.<browserId>`)
+   * @param browserId - browser id, or undefined for the root "target all" object
+   * @param key - which setting (`hideHeader` or `hideSidebar`)
+   * @param name - display name for the object
+   */
+  async _checkSettingState(ioBrokerDeviceId, browserId, key, name) {
+    const stateId = `${ioBrokerDeviceId}.${key}`;
+    if (!this.objects[stateId]) {
+      const def = !!this.browserModStorage.settings[key];
+      await this.adapter.setObjectNotExistsAsync(stateId, {
         type: "state",
-        common: {
-          name: "Hide Header",
-          type: "boolean",
-          read: true,
-          write: true,
-          role: "switch",
-          default: this.browserModStorage.settings.hideHeader
-        },
+        common: { name, type: "boolean", read: true, write: true, role: "switch", def },
         native: { instance: browserId }
       });
-    } else {
-      const hideHeader = await this.adapter.getStateAsync(`${ioBrokerDeviceId}.hideHeader`);
-      if (hideHeader) {
-        if (browserId) {
-          this.initialiseBrowserSettings(browserId, true);
-          this.browserModStorage.browsers[browserId].settings.hideHeader = hideHeader.val;
-        } else {
-          this.browserModStorage.settings.hideHeader = hideHeader.val;
-        }
+      if (!browserId) {
+        await this.adapter.setStateAsync(stateId, def, true);
       }
-    }
-    if (!this.objects[`${ioBrokerDeviceId}.hideSidebar`]) {
-      await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.hideSidebar`, {
-        type: "state",
-        common: {
-          name: "Hide Sidebar",
-          type: "boolean",
-          read: true,
-          write: true,
-          role: "switch",
-          default: this.browserModStorage.settings.hideSidebar
-        },
-        native: { instance: browserId }
-      });
     } else {
-      const hideSidebar = await this.adapter.getStateAsync(`${ioBrokerDeviceId}.hideSidebar`);
-      if (hideSidebar) {
+      const settingState = await this.adapter.getStateAsync(stateId);
+      if (settingState) {
         if (browserId) {
           this.initialiseBrowserSettings(browserId, true);
-          this.browserModStorage.browsers[browserId].settings.hideSidebar = hideSidebar.val;
+          this.browserModStorage.browsers[browserId].settings[key] = settingState.val;
         } else {
-          this.browserModStorage.settings.hideSidebar = hideSidebar.val;
+          this.browserModStorage.settings[key] = settingState.val;
         }
       }
     }
@@ -430,8 +420,26 @@ class BrowserModModule {
     );
   }
   /**
+   * Apply a root "target all" setting change (hideHeader/hideSidebar) to every known browser: update
+   * its in-memory setting and its per-instance mirror state. The per-instance setState uses ack=true
+   * so it does not re-trigger onStateChange.
+   *
+   * @param key - which setting (`hideHeader` or `hideSidebar`)
+   * @param val - the new value
+   */
+  async _applyRootSettingToAll(key, val) {
+    for (const browserId of Object.keys(this.browserModStorage.browsers)) {
+      this.initialiseBrowserSettings(browserId);
+      this.browserModStorage.browsers[browserId].settings[key] = val;
+      const stateId = `${instancesPath}${browserId}.${key}`;
+      if (this.objects[`${this.adapter.namespace}.${stateId}`]) {
+        await this.adapter.setStateAsync(stateId, val, true);
+      }
+    }
+  }
+  /**
    * Write the per-browser setting VALUES onto their mirror states. _checkObjects only seeds the
-   * objects with the global default in common.default; it never writes the state value. Used on
+   * objects with the global default in common.def; it never writes the state value. Used on
    * (re)register and rename so the ioBroker states reflect the browser's actual settings.
    *
    * @param ioBrokerDeviceId - the browser's device path (e.g. instances.<id>)
@@ -825,13 +833,19 @@ class BrowserModModule {
             }
             break;
           case "hideHeader":
+          case "hideSidebar": {
+            const key = command;
+            const val = !!state.val;
             if (allDevices) {
-              this.browserModStorage.settings.hideHeader = state.val;
+              this.browserModStorage.settings[key] = val;
+              void this._applyRootSettingToAll(key, val);
             } else {
-              this.browserModStorage.browsers[browserId].hideHeader = state.val;
+              this.initialiseBrowserSettings(browserId);
+              this.browserModStorage.browsers[browserId].settings[key] = val;
             }
             event = { result: this.browserModStorage };
             break;
+          }
           default:
             return;
         }

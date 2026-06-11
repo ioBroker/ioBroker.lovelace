@@ -34,12 +34,12 @@ describe('modules/browser_mod hideSidebar persistence', function () {
     it('initialiseBrowserSettings copies the global settings (no shared reference)', function () {
         const mod: any = new BrowserModModule({ adapter: makeAdapter(), objects: {} });
         mod.initialiseBrowserSettings('A');
-        // Mutating one browser must not touch the global defaults or another browser.
-        mod.browserModStorage.browsers.A.settings.hideSidebar = true;
+        // Mutating one browser must not touch the global defaults or another browser (default: true).
+        mod.browserModStorage.browsers.A.settings.hideSidebar = false;
         mod.initialiseBrowserSettings('B');
 
-        expect(mod.browserModStorage.settings.hideSidebar).to.equal(false);
-        expect(mod.browserModStorage.browsers.B.settings.hideSidebar).to.equal(false);
+        expect(mod.browserModStorage.settings.hideSidebar).to.equal(true);
+        expect(mod.browserModStorage.browsers.B.settings.hideSidebar).to.equal(true);
         expect(mod.browserModStorage.browsers.A.settings).to.not.equal(mod.browserModStorage.settings);
     });
 
@@ -56,5 +56,26 @@ describe('modules/browser_mod hideSidebar persistence', function () {
 
         expect(mod.browserModStorage.browsers.A.settings.hideSidebar).to.equal(true);
         expect(mod.browserModStorage.settings.hideSidebar).to.equal(false);
+    });
+
+    it('a root "target all" write updates the default and every browser + per-instance state', async function () {
+        const setStates: [string, unknown][] = [];
+        const adapter = makeAdapter();
+        adapter.setStateAsync = (id: string, val: unknown) => {
+            setStates.push([id, val]);
+            return Promise.resolve();
+        };
+        const objects: Record<string, unknown> = { [`${NS}.instances.A.hideSidebar`]: {} };
+        const mod: any = new BrowserModModule({ adapter, objects });
+        mod.initialiseBrowserSettings('A');
+        mod.clients = { A: { subscribeId: 1, instance: 'A', ws: { send: () => {} } } };
+
+        // Root write: instances.hideSidebar (no browser id), not acked (user write).
+        mod.onStateChange(`${NS}.instances.hideSidebar`, { val: false, ack: false });
+        await new Promise(r => setTimeout(r, 5));
+
+        expect(mod.browserModStorage.settings.hideSidebar).to.equal(false); // new default
+        expect(mod.browserModStorage.browsers.A.settings.hideSidebar).to.equal(false); // pushed to browser
+        expect(setStates).to.deep.include(['instances.A.hideSidebar', false]); // mirrored to per-instance state
     });
 });
