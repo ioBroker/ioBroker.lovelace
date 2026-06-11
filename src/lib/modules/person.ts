@@ -51,6 +51,38 @@ class PersonModule {
     }
 
     /**
+     * Handle WebSocket messages. The Settings -> People page calls `person/list` and waits for
+     * `{ storage, config }`; an unanswered call leaves the page stuck on a loading spinner. Our
+     * persons mirror the ioBroker users, so we report them as `storage` persons and have no
+     * YAML-configured (`config`) ones.
+     *
+     * @param ws - websocket connection
+     * @param message - the message from the frontend
+     * @returns true if handled
+     */
+    processMessage(ws: { send(data: string): void }, message: Record<string, unknown>): boolean {
+        if (message.type === 'person/list') {
+            const storage = Object.entries(this.usersCache).map(([userId, user]) => ({
+                id: userId,
+                name: user.name,
+                user_id: userId,
+                device_trackers: [],
+                picture: user.picture ?? null,
+            }));
+            ws.send(
+                JSON.stringify({
+                    id: message.id,
+                    type: 'result',
+                    success: true,
+                    result: { storage, config: [] },
+                }),
+            );
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get a short list of users.
      *
      * @returns object with user id as key and name as value.
