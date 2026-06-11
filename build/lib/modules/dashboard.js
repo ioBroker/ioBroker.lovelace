@@ -1,7 +1,6 @@
 "use strict";
 var import_storage = require("./storage");
 var import_utils = require("../entities/utils");
-const MAIN_BOARD = "lovelace";
 class DashboardModule {
   _dashboards = [];
   _dashboardConfigs = {};
@@ -162,14 +161,9 @@ class DashboardModule {
    */
   async processMessage(ws, message) {
     if (message.type === "lovelace/dashboards/list") {
-      this.sendResponse(ws, message.id, [this._mainBoardEntry(), ...this._dashboards]);
+      this.sendResponse(ws, message.id, this._dashboards);
       return true;
     } else if (message.type === "lovelace/dashboards/create" || message.type === "lovelace/dashboards/update") {
-      if (message.dashboard_id === MAIN_BOARD || message.url_path === MAIN_BOARD) {
-        await this._storePanelOverride(MAIN_BOARD, message);
-        this.sendResponse(ws, message.id, this._mainBoardEntry());
-        return true;
-      }
       const dashboard = this._dashboards.find((d) => d.id === message.dashboard_id) || {};
       for (const key of Object.keys(message)) {
         if (key !== "type" && key !== "id" && key !== "dashboard_id") {
@@ -187,12 +181,10 @@ class DashboardModule {
       return true;
     } else if (message.type === "lovelace/dashboards/delete") {
       const dashboardId = message.dashboard_id;
-      if (dashboardId !== MAIN_BOARD) {
-        this._dashboards = this._dashboards.filter((d) => d.id !== dashboardId);
-        await this.saveDashboards();
-        this.sendUpdate("panels_updated");
-      }
-      this.sendResponse(ws, message.id, { success: dashboardId !== MAIN_BOARD });
+      this._dashboards = this._dashboards.filter((d) => d.id !== dashboardId);
+      await this.saveDashboards();
+      this.sendUpdate("panels_updated");
+      this.sendResponse(ws, message.id, { success: true });
       return true;
     } else if (message.type === "frontend/update_panel") {
       const urlPath = message.url_path;
@@ -203,24 +195,6 @@ class DashboardModule {
       return true;
     }
     return false;
-  }
-  /**
-   * Build the dashboards-list entry for the main 'lovelace' board from its panel defaults and any
-   * stored override.
-   *
-   * @returns the main board entry
-   */
-  _mainBoardEntry() {
-    const ov = this._panelOverrides[MAIN_BOARD] || {};
-    return {
-      id: MAIN_BOARD,
-      url_path: MAIN_BOARD,
-      title: ov.title !== void 0 ? ov.title : "states",
-      icon: ov.icon !== void 0 ? ov.icon : "mdi:view-dashboard",
-      show_in_sidebar: ov.show_in_sidebar !== void 0 ? ov.show_in_sidebar : true,
-      require_admin: ov.require_admin !== void 0 ? ov.require_admin : false,
-      mode: "storage"
-    };
   }
   /**
    * Merge the editable panel fields (title/icon/require_admin/show_in_sidebar) from a message into
