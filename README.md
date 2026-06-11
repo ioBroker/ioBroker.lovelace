@@ -428,7 +428,7 @@ Security must be taken from the current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20260527.5
+Used version of home-assistant-frontend@20260527.6
 Version of Browser Mod: 2.13.5
 
 ### How to build the new Lovelace version
@@ -452,11 +452,13 @@ For now (20260527.1) following files were modified:
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
 - `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button, open edit-panel dialog for lovelace boards, live dashboard title from hass.panels
 - `src/layouts/hass-router-page.ts` - guard updatePageEl against undefined route during rebuild (panel rename crash).
-- `src/panels/config/dashboard/ha-config-dashboard.ts` - hide settings sections (automations, apps, voice assistants, system).
+- `src/panels/config/dashboard/ha-config-dashboard.ts` - hide settings sections (automations, apps, voice assistants, system, people, tip).
 - `src/panels/config/ha-panel-config.ts` - hide integrations tab in devices & services, land devices & services tile on /config/devices.
 - `src/panels/config/developer-tools/ha-panel-developer-tools.ts` - remove yaml, events and assist tabs from developer tools.
 - `src/panels/config/developer-tools/developer-tools-router.ts` - default to states tab (yaml removed).
 - `src/panels/config/info/ha-config-info.ts` - hide doc/credits/community/license links in about (keep keyboard shortcuts).
+- `src/panels/config/lovelace/dashboards/ha-config-lovelace-dashboards.ts` - show fixed panels (incl. browser-mod) in built-in dashboards list.
+- `src/panels/profile/ha-panel-profile.ts` - hide security tab in user profile.
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `.husky/pre-commit` - remove git commit hooks.
 
@@ -480,21 +482,15 @@ After that checkout modified version in `./build` folder. Then.
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.3. See [migration guide in docs](docs/en/theme_migration.md) for theme changes.
+* (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.6. See [migration guide in docs](docs/en/theme_migration.md) for theme changes.
 * (Garfonso/Claude) **BREAKING:** Internal storage objects were moved into a new `storage` folder to declutter the object tree: `entityRegistry`, `areaRegistry`, `energyPrefs`, `userData` and `dashboardStorage` are now `storage.entityRegistry`, `storage.areaRegistry`, etc. The adapter migrates the data automatically on first start; the old objects are removed. If you referenced any of these object ids directly (scripts), update the paths. (`configuration` stays at the adapter root.)
-* (Garfonso/Claude) Frontend user data (theme settings, dark mode, sidebar order, …) is now persisted, so it survives reloads.
-* (Garfonso/Claude) Add support for entity configuration from frontend. Even updates config on entity_id change.
-* (Garfonso/Claude) Add support for Lovelace dashboards. You can create and manage them from the frontend and can be switched from the menu. (disable hide sidebar)
-* (Garfonso/Claude) browser_mod: the per-browser `hideSidebar` setting is now restored on adapter start (like `hideHeader`) and no longer shares one object between browsers, so it no longer gets lost after a reload.
-* (Garfonso/Claude) Room and function names with translations are now used in the configured language for entity names and ids, instead of always falling back to English. (#667)
-* (Garfonso/Claude) Fixed the "Devices & Services" settings page: `config_entries/subscribe` now acks and sends one empty initial event (an empty config-entries snapshot). It used to push a second result on the subscription id (endless resubscribe loop); a follow-up ack-only reply then left the page spinning because the frontend waits for that first event.
-* (Garfonso/Claude) Handle `frontend/get_icons` (returns empty icon resources) so entity/device lists render instead of throwing on the rejected icon lookup.
-* (Garfonso/Claude) Stub more frontend WS requests so settings pages stop logging "Unknown request": `config/category_registry/list`, `homeassistant/expose_entity/list`, `integration/descriptions`.
-* (Garfonso/Claude) Opening "Developer Tools → Templates" no longer crashes the adapter: a Jinja template was mis-parsed into a bogus state id whose subscription rejected uncaught. Invalid ids are now skipped, subscribe errors are caught, and `render_template` replies now include a `listeners` field (so the templates page itself stops erroring).
-* (Garfonso/Claude) Basic Home Assistant Jinja2 template support (Markdown card, Mushroom-style cards, Developer Tools → Templates): `states()`, `is_state()`, `state_attr()`, `is_state_attr()`, `has_value()`, `now()`/`utcnow()` and Jinja control flow are evaluated against the live entities and re-rendered on change. (Not a full HA template environment - no entity-registry helpers, `expand`, or HA-specific filters.) ioBroker `{id}` bindings keep working as before.
-* (Garfonso/Claude) The Logbook and History sidebar panels can now be enabled via the frontend's "Edit Sidebar" (hidden by default, like in Home Assistant). Reordering/hiding sidebar panels is stored per browser.
-* (Garfonso/Claude) Settings → People no longer stays on a loading spinner: the `person/list` WebSocket request is now answered (with the ioBroker users as persons).
-* (Garfonso/Claude) Hiding a panel from the sidebar (frontend/update_panel) now sets `show_in_sidebar:false` and keeps the panel's name and icon, instead of nulling them - so the panel still shows correctly in the dashboards list.
+* (Garfonso/Claude) Frontend user data (themes, dark mode, sidebar order, …) is now saved, so it survives reloads.
+* (Garfonso/Claude) Configure entities directly from the frontend (it also updates the config when you change an entity's id).
+* (Garfonso/Claude) Create and manage several Lovelace dashboards from the frontend and switch between them from the menu.
+* (Garfonso/Claude) Room and function names are now shown in your configured language instead of always English. (#667)
+* (Garfonso/Claude) Markdown and template-based cards can now use Home Assistant templates (`{{ states("…") }}`, `is_state`, `state_attr`, `now()`, …) on top of the existing ioBroker `{id}` bindings.
+* (Garfonso/Claude) The Logbook and History panels can be turned on from the sidebar's "Edit Sidebar".
+* (Garfonso/Claude) You can set whether the sidebar/header is hidden for new browsers via the `instances.hideSidebar` / `instances.hideHeader` states; changing them also applies to all currently connected browsers.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
