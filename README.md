@@ -486,7 +486,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Add support for entity configuration from frontend. Even updates config on entity_id change.
 * (Garfonso/Claude) Add support for Lovelace dashboards. You can create and manage them from the frontend and can be switched from the menu. (disable hide sidebar)
 * (Garfonso/Claude) browser_mod: the per-browser `hideSidebar` setting is now restored on adapter start (like `hideHeader`) and no longer shares one object between browsers, so it no longer gets lost after a reload.
-* (Garfonso/Claude) browser_mod: new browsers no longer hide the sidebar by default, so the dashboard switcher in the sidebar is reachable out of the box.
 * (Garfonso/Claude) Room and function names with translations are now used in the configured language for entity names and ids, instead of always falling back to English. (#667)
 * (Garfonso/Claude) Fixed the "Devices & Services" settings page: `config_entries/subscribe` now acks and sends one empty initial event (an empty config-entries snapshot). It used to push a second result on the subscription id (endless resubscribe loop); a follow-up ack-only reply then left the page spinning because the frontend waits for that first event.
 * (Garfonso/Claude) Handle `frontend/get_icons` (returns empty icon resources) so entity/device lists render instead of throwing on the rejected icon lookup.

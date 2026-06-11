@@ -24,7 +24,7 @@ class BrowserModModule {
       browsers: {},
       version: BROWSER_MOD_VERSION,
       settings: {
-        hideSidebar: false,
+        hideSidebar: true,
         hideHeader: false,
         defaultPanel: null,
         sidebarPanelOrder: null,
@@ -443,7 +443,7 @@ class BrowserModModule {
     }
     for (const key of ["hideSidebar", "hideHeader"]) {
       if (settings[key] !== void 0) {
-        await this.adapter.setStateAsync(`${ioBrokerDeviceId}.${key}`, !!settings[key], true);
+        await this.adapter.setState(`${ioBrokerDeviceId}.${key}`, !!settings[key], true);
       }
     }
   }
