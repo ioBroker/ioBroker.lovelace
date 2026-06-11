@@ -79,7 +79,7 @@ const panels = {
         url_path: 'browser-mod',
         require_admin: false,
         config_panel_domain: null,
-        default_visible: true,
+        default_visible: false,
         show_in_sidebar: true,
     },
 };
