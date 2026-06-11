@@ -23,7 +23,12 @@ class CompatModule {
         this.sendResponse(ws, message.id, []);
         return true;
       case "config_entries/subscribe":
-        this.sendResponse(ws, message.id, null);
+        ws.send(
+          JSON.stringify([
+            { id: message.id, type: "result", success: true, result: null },
+            { id: message.id, type: "event", event: [] }
+          ])
+        );
         return true;
       case "config_entries/flow/progress":
         this.sendResponse(ws, message.id, []);

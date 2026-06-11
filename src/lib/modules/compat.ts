@@ -36,11 +36,18 @@ class CompatModule {
                 return true;
             case 'config_entries/subscribe':
                 // {"type":"config_entries/subscribe","type_filter":["device","hub","service","hardware"],"id":77}
-                // A subscription: ack only. We have no config entries, so we send no follow-up event.
-                // (Do NOT also push a device list under this id - a second `result` on a subscription id
-                //  makes the frontend treat the subscription as failed and resubscribe forever. Devices
-                //  come from the page's own config/device_registry/list call.)
-                this.sendResponse(ws, message.id, null);
+                // A subscription. The frontend's config-entries collection only resolves once it has
+                // received the first `event` (an array of {type,entry} changes), so we must send an
+                // initial snapshot - an empty array, we have no config entries - right after the ack.
+                // Otherwise the "Devices & Services" page spins forever waiting for that first event.
+                // (Send an `event`, NOT a second `result`: a second result on a subscription id makes
+                //  the frontend treat the subscription as failed and resubscribe forever.)
+                ws.send(
+                    JSON.stringify([
+                        { id: message.id, type: 'result', success: true, result: null },
+                        { id: message.id, type: 'event', event: [] },
+                    ]),
+                );
                 return true;
             case 'config_entries/flow/progress':
                 this.sendResponse(ws, message.id, []);

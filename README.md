@@ -485,7 +485,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) browser_mod: the per-browser `hideSidebar` setting is now restored on adapter start (like `hideHeader`) and no longer shares one object between browsers, so it no longer gets lost after a reload.
 * (Garfonso/Claude) browser_mod: new browsers no longer hide the sidebar by default, so the dashboard switcher in the sidebar is reachable out of the box.
 * (Garfonso/Claude) Room and function names with translations are now used in the configured language for entity names and ids, instead of always falling back to English. (#667)
-* (Garfonso/Claude) Fixed the "Devices & Services" settings page hanging in an endless loop: `config_entries/subscribe` no longer pushes a second result on the subscription id (which made the frontend resubscribe forever).
+* (Garfonso/Claude) Fixed the "Devices & Services" settings page: `config_entries/subscribe` now acks and sends one empty initial event (an empty config-entries snapshot). It used to push a second result on the subscription id (endless resubscribe loop); a follow-up ack-only reply then left the page spinning because the frontend waits for that first event.
 * (Garfonso/Claude) Handle `frontend/get_icons` (returns empty icon resources) so entity/device lists render instead of throwing on the rejected icon lookup.
 
 ### 5.2.0 (2026-06-02)
