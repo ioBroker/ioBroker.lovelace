@@ -22,6 +22,15 @@ class CompatModule {
       case "config/label_registry/list":
         this.sendResponse(ws, message.id, []);
         return true;
+      case "config/category_registry/list":
+        this.sendResponse(ws, message.id, []);
+        return true;
+      case "homeassistant/expose_entity/list":
+        this.sendResponse(ws, message.id, { exposed_entities: {} });
+        return true;
+      case "integration/descriptions":
+        this.sendResponse(ws, message.id, {});
+        return true;
       case "config_entries/subscribe":
         ws.send(
           JSON.stringify([

@@ -25,3 +25,26 @@ describe('modules/compat config_entries/subscribe', function () {
         ]);
     });
 });
+
+describe('modules/compat empty stub replies', function () {
+    const cases: [string, unknown][] = [
+        ['config/category_registry/list', []],
+        ['homeassistant/expose_entity/list', { exposed_entities: {} }],
+        ['integration/descriptions', {}],
+        ['manifest/list', []],
+        ['config/floor_registry/list', []],
+        ['config/label_registry/list', []],
+        ['repairs/list_issues', { issues: [] }],
+    ];
+    for (const [type, expected] of cases) {
+        it(`${type} -> stub`, function () {
+            const responses: { id: unknown; result: unknown }[] = [];
+            const mod = new CompatModule({
+                sendResponse: (_ws: unknown, id: unknown, result: unknown) => responses.push({ id, result }),
+            });
+            const handled = mod.processMessage({ send: () => {} }, { type, id: 5 });
+            expect(handled).to.equal(true);
+            expect(responses).to.deep.equal([{ id: 5, result: expected }]);
+        });
+    }
+});

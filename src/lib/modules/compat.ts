@@ -34,6 +34,18 @@ class CompatModule {
             case 'config/label_registry/list':
                 this.sendResponse(ws, message.id, []);
                 return true;
+            case 'config/category_registry/list':
+                // Categories (per scope) for entities/automations. We have none -> bare array.
+                this.sendResponse(ws, message.id, []);
+                return true;
+            case 'homeassistant/expose_entity/list':
+                // Voice-assistant expose settings (Alexa/Google/conversation). None exposed.
+                this.sendResponse(ws, message.id, { exposed_entities: {} });
+                return true;
+            case 'integration/descriptions':
+                // Descriptions of integrations available to add. We are not Home Assistant -> none.
+                this.sendResponse(ws, message.id, {});
+                return true;
             case 'config_entries/subscribe':
                 // {"type":"config_entries/subscribe","type_filter":["device","hub","service","hardware"],"id":77}
                 // A subscription. The frontend's config-entries collection only resolves once it has

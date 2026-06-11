@@ -487,6 +487,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Room and function names with translations are now used in the configured language for entity names and ids, instead of always falling back to English. (#667)
 * (Garfonso/Claude) Fixed the "Devices & Services" settings page: `config_entries/subscribe` now acks and sends one empty initial event (an empty config-entries snapshot). It used to push a second result on the subscription id (endless resubscribe loop); a follow-up ack-only reply then left the page spinning because the frontend waits for that first event.
 * (Garfonso/Claude) Handle `frontend/get_icons` (returns empty icon resources) so entity/device lists render instead of throwing on the rejected icon lookup.
+* (Garfonso/Claude) Stub more frontend WS requests so settings pages stop logging "Unknown request": `config/category_registry/list`, `homeassistant/expose_entity/list`, `integration/descriptions`.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
