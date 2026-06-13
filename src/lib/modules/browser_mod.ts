@@ -483,18 +483,10 @@ class BrowserModModule {
                     await this._cleanUpInstances();
                 }
                 if (browser.path) {
-                    await this.adapter.setState(
-                        `${ioBrokerDeviceId}.path`,
-                        browser.path as ioBroker.StateValue,
-                        true,
-                    );
+                    await this.adapter.setState(`${ioBrokerDeviceId}.path`, browser.path as ioBroker.StateValue, true);
                 }
                 if (browser.visibility) {
-                    await this.adapter.setState(
-                        `${ioBrokerDeviceId}.visible`,
-                        browser.visibility === 'visible',
-                        true,
-                    );
+                    await this.adapter.setState(`${ioBrokerDeviceId}.visible`, browser.visibility === 'visible', true);
                 }
             }
             if (typeof data.activity === 'boolean') {
