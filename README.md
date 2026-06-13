@@ -484,14 +484,12 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.6. See [migration guide in docs](docs/en/theme_migration.md) for theme changes.
 * (Garfonso/Claude) **BREAKING:** Internal storage objects were moved into a new `storage` folder to declutter the object tree: `entityRegistry`, `areaRegistry`, `energyPrefs`, `userData` and `dashboardStorage` are now `storage.entityRegistry`, `storage.areaRegistry`, etc. The adapter migrates the data automatically on first start; the old objects are removed. If you referenced any of these object ids directly (scripts), update the paths. (`configuration` stays at the adapter root.)
-* (Garfonso/Claude) Frontend user data (themes, dark mode, sidebar order, …) is now saved, so it survives reloads.
-* (Garfonso/Claude) Configure entities directly from the frontend (it also updates the config when you change an entity's id).
-* (Garfonso/Claude) Create and manage several Lovelace dashboards from the frontend and switch between them from the menu.
+* (Garfonso/Claude) Frontend user data (themes, dark mode, sidebar order, …) is now saved.
+* (Garfonso/Claude) Configure entities directly from the frontend, including entity_id.
+* (Garfoson/Claude) Full dashboard support.
 * (Garfonso/Claude) Room and function names are now shown in your configured language instead of always English. (#667)
 * (Garfonso/Claude) Markdown and template-based cards can now use Home Assistant templates (`{{ states("…") }}`, `is_state`, `state_attr`, `now()`, …) on top of the existing ioBroker `{id}` bindings.
-* (Garfonso/Claude) The Logbook and History panels can be turned on from the sidebar's "Edit Sidebar".
 * (Garfonso/Claude) You can set whether the sidebar/header is hidden for new browsers via the `instances.hideSidebar` / `instances.hideHeader` states; changing them also applies to all currently connected browsers.
-* (Garfonso/Claude) The per-browser `change_browser_id` state is now pre-filled with the current Browser ID, so you can just edit it instead of typing it from scratch.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
