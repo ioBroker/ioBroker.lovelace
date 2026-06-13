@@ -492,11 +492,11 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) You can set whether the sidebar/header is hidden for new browsers via the `instances.hideSidebar` / `instances.hideHeader` states; changing them also applies to all currently connected browsers.
 * (Garfonso/Claude) The browser tab title and the PWA / home-screen app name can now be customized in the adapter settings. (#663)
 * (Garfonso/Claude) The automatic entity_id format is now configurable (object name / room + function / ioBroker id). A "Regenerate entity IDs" button in the settings applies a changed format to existing automatic entities and rewrites the dashboards; entities you renamed in the frontend are kept.
-* (Garfonso/Claude) Renaming a manually configured entity in the frontend now persists to the source object, so it survives a restart.
-* (Garfonso/Claude) The main "lovelace" dashboard can now be renamed/re-iconed/hidden from the frontend like the other dashboards (frontend/update_panel is stored and applied).
+* (Garfonso/Claude) Renaming a manually configured entity in the frontend persists to the source object, so it survives a restart.
+* (Garfonso/Claude) The main "lovelace" dashboard can now be renamed/re-iconed/hidden from the frontend like the other dashboards
 * (Garfonso/Claude) Energy dashboard support
-* (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets), usable in the energy dashboard.
-* (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend (it would load forever); it now answers with an empty, completed stream and skips the history query.
+* (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets).
+* (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
