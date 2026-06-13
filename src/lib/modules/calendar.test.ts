@@ -63,9 +63,20 @@ describe('modules/calendar', function () {
         expect(handled).to.equal(true);
         expect(responses).to.deep.equal([{ id: 9, result: null }]);
         expect(sent).to.have.lengthOf(1);
-        expect(sent[0]).to.deep.equal({ id: 9, type: 'event', event: { events: [
-            { start: '2026-06-13T08:00:00.000Z', end: '2026-06-13T09:00:00.000Z', summary: 'Restmüll', uid: '0' },
-        ] } });
+        expect(sent[0]).to.deep.equal({
+            id: 9,
+            type: 'event',
+            event: {
+                events: [
+                    {
+                        start: '2026-06-13T08:00:00.000Z',
+                        end: '2026-06-13T09:00:00.000Z',
+                        summary: 'Restmüll',
+                        uid: '0',
+                    },
+                ],
+            },
+        });
         expect(ws.__calendarSubs).to.have.lengthOf(1);
         expect(ws.__calendarSubs[0].getId).to.equal('cal.0.abfall');
     });

@@ -577,7 +577,7 @@ class EntityRegistry {
         // User overrides (custom name/icon/area/manual rename): entry.id is the ioBroker object id.
         const staleEntries: string[] = [];
         for (const entityId of Object.keys(this._entries)) {
-            const iobId = this._entries[entityId].id as string | undefined;
+            const iobId = this._entries[entityId].id;
             if (iobId && (await objectExists(iobId)) === false) {
                 staleEntries.push(entityId);
             }
