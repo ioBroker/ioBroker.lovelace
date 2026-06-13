@@ -93,19 +93,6 @@
         "pl": "BREAKING: Aktualizacja frontu do 20250401.0\nAktualizacja przeglądarki _ mod do 2.3.3\nDodaj rejestrator statystyk\nDodaj rejestr jednostek, użyj go do rozwiązywania starć ID. W przyszłości, przechowywać ustawienia podmiotów tutaj.\nOgranicz liczbę zapisanych instancji przeglądarki\nUlepszone zachowanie. Może rozwiąże sprawę iobrokera. pro issue... miejmy nadzieję?\nZapobieganie awarii z niektórych skrzyń krawędzi z lekkimi jednostkami\neksperymentalne wsparcie desek rozdzielczych.\nPozwala wyświetlać pasek boczny przez obiekt w instancjach. Bardzo eksperymentalne. Wiele rzeczy jeszcze nie działa. Ale pozwala na konfigurację desek rozdzielczych, a także mod przeglądarki.",
         "uk": "BREAKING: Оновлений фронтенд до 20250401.0\nОновлено браузер_mod до 2.3.3\nДодати рекордер статистики\nДодайте реєстр суб’єкта господарювання, використовуйте його для вирішення id-зітків. У майбутньому тут зберігати налаштування суб’єкта господарювання.\nОбмеження кількості збережених екземплярів браузера\nПокращена поведінка кешування. Мигий розчин iobroker. Про проблему... надії?\nЗапобігти збитку з деякими крайовими випадками зі світловими особами\nекспериментальна підтримка панелі приладів.\nДозволити показати бічну панель через об'єкт в екземплярах. ДУЖЕ експериментальний. Багато речей ще не працюють. Але дозволяє налаштовувати панельи і також моду браузера.",
         "zh-cn": "BREAKING: 更新前端为20250401.0\n更新浏览器_mod 到 2.3.3\n添加统计记录器\n添加实体注册, 用于解决 id 冲突 。 未来,在此存储实体设置 .\n限制存储浏览器实例数\n改进了潜伏行为 可能解决io经纪人。 有希望吗?\n防止轻实体发生一些边缘事故\n实验仪表板支持.\n允许通过对象显示边栏。 非常实验 很多东西还没用 但允许配置仪表板和浏览器mod."
-      },
-      "4.1.15": {
-        "en": "repaired image loading, again.",
-        "de": "Bilder laden nochmal verändert. Jetzt geht hoffentlich alles.",
-        "ru": "восстановлена загрузка изображения, опять же.",
-        "pt": "carga de imagem reparada, novamente.",
-        "nl": "hersteld beeld laden, opnieuw.",
-        "fr": "réparation de chargement d'image, encore.",
-        "it": "caricamento immagine riparato, di nuovo.",
-        "es": "reparado carga de imagen, otra vez.",
-        "pl": "ponownie naprawiono ładowanie obrazu.",
-        "uk": "ремонтувати завантаження зображень, знову.",
-        "zh-cn": "再次修复图像加载 ."
       }
     },
     "titleLang": {

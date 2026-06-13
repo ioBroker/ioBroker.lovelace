@@ -490,6 +490,14 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Room and function names are now shown in your configured language instead of always English. (#667)
 * (Garfonso/Claude) Markdown and template-based cards can now use Home Assistant templates (`{{ states("…") }}`, `is_state`, `state_attr`, `now()`, …) on top of the existing ioBroker `{id}` bindings.
 * (Garfonso/Claude) You can set whether the sidebar/header is hidden for new browsers via the `instances.hideSidebar` / `instances.hideHeader` states; changing them also applies to all currently connected browsers.
+* (Garfonso/Claude) The browser tab title and the PWA / home-screen app name can now be customized in the adapter settings. (#663)
+* (Garfonso/Claude) The automatic entity_id format is now configurable (object name / room + function / ioBroker id). A "Regenerate entity IDs" button in the settings applies a changed format to existing automatic entities and rewrites the dashboards; entities you renamed in the frontend are kept.
+* (Garfonso/Claude) Renaming a manually configured entity in the frontend now persists to the source object, so it survives a restart.
+* (Garfonso/Claude) The main "lovelace" dashboard can now be renamed/re-iconed/hidden from the frontend like the other dashboards (frontend/update_panel is stored and applied).
+* (Garfonso/Claude) Energy dashboard support
+* (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets), usable in the energy dashboard.
+* (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend (it would load forever); it now answers with an empty, completed stream and skips the history query.
+
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
@@ -498,14 +506,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Support uploading images from the frontend (e.g. dashboard background pictures). (#607)
 * (Garfonso/Claude) Added media browser support (`media_source`): browse uploaded images and files from the `cards/` folder.
 * (Garfonso/Claude) Uploaded images can now be listed and deleted from the frontend (`image/list`, `image/delete`).
-* (Garfonso/Claude) The browser tab title and the PWA / home-screen app name can now be customized in the adapter settings. (#663)
-* (Garfonso/Claude) The automatic entity_id format is now configurable (object name / room + function / ioBroker id). A "Regenerate entity IDs" button in the settings applies a changed format to existing automatic entities and rewrites the dashboards; entities you renamed in the frontend are kept.
-* (Garfonso/Claude) Renaming a manually configured entity in the frontend now persists to the source object, so it survives a restart.
-* (Garfonso/Claude) The main "lovelace" dashboard can now be renamed/re-iconed/hidden from the frontend like the other dashboards (frontend/update_panel is stored and applied).
-* (Garfonso/Claude) Added the built-in History, Logbook and Energy panels to the sidebar.
-* (Garfonso/Claude) Energy dashboard support: handle `recorder/list_statistic_ids` and `sensor/device_class_convertible_units` so the energy panel loads and can be configured.
-* (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets), usable in the energy dashboard.
-* (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend (it would load forever); it now answers with an empty, completed stream and skips the history query.
 
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.
