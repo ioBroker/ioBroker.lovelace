@@ -26,4 +26,6 @@ build/home-assistant-polymer/
 
 # Editor backup files
 *~
+
+# logs
 *.log
