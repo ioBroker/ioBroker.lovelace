@@ -280,4 +280,110 @@ describe('modules/entityRegistry', function () {
             expect((entity.attributes as Record<string, unknown>).friendly_name).to.equal('Original');
         });
     });
+
+    describe('config/entity_registry/update options (favorite_colors)', function () {
+        it('nests options under options_domain and returns them in entity_entry', function () {
+            const responses: { data: unknown }[] = [];
+            const entity = makeEntity({
+                entity_id: 'light.rgb',
+                platform: 'light',
+                attributes: { friendly_name: 'RGB', favorite_colors: [] },
+                context: { id: 'adapter.0.light.rgb' },
+            });
+            const entityData = { entities: [entity], entityId2Entity: { 'light.rgb': entity } };
+            const registry = new EntityRegistry({
+                adapter: makeAdapter(),
+                entityData,
+                sendResponse: (_ws: unknown, _id: unknown, data: unknown) => responses.push({ data }),
+                sendUpdate: () => {},
+            });
+
+            const colors = [['rgb_color', [255, 0, 0]]];
+            const handled = registry.processMessage(
+                {},
+                {
+                    type: 'config/entity_registry/update',
+                    entity_id: 'light.rgb',
+                    options_domain: 'light',
+                    options: { favorite_colors: colors },
+                    id: 1,
+                },
+            );
+
+            expect(handled).to.equal(true);
+            const entry = (responses[0].data as { entity_entry: Record<string, any> }).entity_entry;
+            // options must be nested under the domain, not flattened
+            expect(entry.options).to.have.property('light');
+            expect(entry.options.light.favorite_colors).to.deep.equal(colors);
+            expect(entry.options).to.not.have.property('favorite_colors');
+            // the helper key must not leak into the stored entry
+            expect(entry).to.not.have.property('options_domain');
+            // and the value propagates onto the entity attribute
+            expect((entity.attributes as Record<string, unknown>).favorite_colors).to.deep.equal(colors);
+        });
+
+        it('clears stored options on reset (empty options replaces, not merges)', function () {
+            const responses: { data: unknown }[] = [];
+            const entity = makeEntity({
+                entity_id: 'light.rgb',
+                platform: 'light',
+                attributes: { friendly_name: 'RGB', favorite_colors: [] },
+                context: { id: 'adapter.0.light.rgb' },
+            });
+            const entityData = { entities: [entity], entityId2Entity: { 'light.rgb': entity } };
+            const registry = new EntityRegistry({
+                adapter: makeAdapter(),
+                entityData,
+                sendResponse: (_ws: unknown, _id: unknown, data: unknown) => responses.push({ data }),
+                sendUpdate: () => {},
+            });
+
+            // set favorite colors
+            registry.processMessage(
+                {},
+                {
+                    type: 'config/entity_registry/update',
+                    entity_id: 'light.rgb',
+                    options_domain: 'light',
+                    options: { favorite_colors: [['rgb_color', [1, 2, 3]]] },
+                    id: 1,
+                },
+            );
+            // reset: frontend's `favorite_colors: undefined` is dropped by JSON, arriving as options: {}
+            registry.processMessage(
+                {},
+                {
+                    type: 'config/entity_registry/update',
+                    entity_id: 'light.rgb',
+                    options_domain: 'light',
+                    options: {},
+                    id: 2,
+                },
+            );
+
+            const entry = (responses[1].data as { entity_entry: Record<string, any> }).entity_entry;
+            expect(entry.options.light).to.deep.equal({});
+            expect(entry.options.light).to.not.have.property('favorite_colors');
+        });
+    });
+
+    describe('regenerate helpers', function () {
+        it('isProtectedFromRegen is true only when a registry entry exists', function () {
+            const registry = makeRegistry();
+            registry._entries = { 'light.kept': { entity_id: 'light.kept', userRenamed: true } };
+            expect(registry.isProtectedFromRegen('light.kept')).to.equal(true);
+            expect(registry.isProtectedFromRegen('light.untouched')).to.equal(false);
+        });
+
+        it('clearAutoReservations keeps protected entity reservations and drops the rest', function () {
+            const registry = makeRegistry();
+            registry._iobIdToEntityId = {
+                'light.adapter.0.a': 'light.kept',
+                'light.adapter.0.b': 'light.auto',
+                'switch.adapter.0.c': 'switch.auto',
+            };
+            registry.clearAutoReservations(new Set(['light.kept']));
+            expect(registry._iobIdToEntityId).to.deep.equal({ 'light.adapter.0.a': 'light.kept' });
+        });
+    });
 });

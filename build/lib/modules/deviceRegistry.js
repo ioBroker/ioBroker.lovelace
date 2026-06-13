@@ -24,11 +24,11 @@ class DeviceRegistry {
    */
   _createEntryFromEntity(entity) {
     return {
-      id: entity.context.device_id,
+      id: entity.context.deviceId,
       config_entries: [],
       config_entries_subentries: {},
       connections: [],
-      identifiers: [[entity.attributes.friendly_name, entity.context.device_id]],
+      identifiers: [[entity.attributes.friendly_name, entity.context.deviceId]],
       manufacturer: null,
       model: null,
       model_id: null,
@@ -56,10 +56,14 @@ class DeviceRegistry {
   processMessage(ws, message) {
     if (message.type === "config/device_registry/list") {
       const entries = [];
+      const seen = /* @__PURE__ */ new Set();
       for (const entity of this.entityData.entities) {
-        if (entity.context.id === entity.context.device_id) {
-          entries.push(this._createEntryFromEntity(entity));
+        const deviceId = entity.context.deviceId;
+        if (!deviceId || seen.has(deviceId)) {
+          continue;
         }
+        seen.add(deviceId);
+        entries.push(this._createEntryFromEntity(entity));
       }
       this.sendResponse(ws, message.id, entries);
       return true;

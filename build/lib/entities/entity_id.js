@@ -24,6 +24,7 @@ __export(entity_id_exports, {
 module.exports = __toCommonJS(entity_id_exports);
 const pinyin = require("pinyin").default;
 const transliterateRussianToEnglish = require("translit-rus-eng");
+const entityData = require("../../../lib/dataSingleton");
 function maybeEnglishOrUntranslated(hash) {
   if (typeof hash === "object" && hash !== null) {
     if (hash.en) {
@@ -68,19 +69,26 @@ function replaceInvalidChars(idPart) {
   idPart = transliterateGerman(idPart);
   return idPart.replace(/`/g, "").replace(/[^a-z\d]/gi, "_").replace(/_+/g, "_");
 }
-function splitEntityId(entityType, entityId, obj) {
+function splitEntityId(entityType, entityId, obj, roomName, funcName) {
   let idPart;
   if (entityId && entityId.includes(".")) {
     const parts = entityId.split(".");
     entityType = parts.shift();
     idPart = parts.join("_");
   } else {
-    idPart = entityIdFromObject(obj);
+    const format = entityData.autoEntityIdFormat || "name";
+    if (format === "roomFunction" && roomName && funcName) {
+      idPart = `${roomName} ${funcName}`;
+    } else if (format === "iobId" && (obj == null ? void 0 : obj._id)) {
+      idPart = obj._id;
+    } else {
+      idPart = entityIdFromObject(obj);
+    }
   }
   return [entityType, replaceInvalidChars(idPart)];
 }
-function getEntityId(entityType, entityId, obj) {
-  return splitEntityId(entityType, entityId, obj).join(".");
+function getEntityId(entityType, entityId, obj, roomName, funcName) {
+  return splitEntityId(entityType, entityId, obj, roomName, funcName).join(".");
 }
 function getEntityType(entityType, entityId, obj) {
   return splitEntityId(entityType, entityId, obj)[0];

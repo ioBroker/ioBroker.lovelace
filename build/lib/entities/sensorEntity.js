@@ -79,6 +79,29 @@ class SensorEntity extends import_baseEntity.BaseEntity {
     return entity;
   }
   /**
+   * Build a generic numeric sensor (power, current, voltage, energy, frequency, …) from a state id,
+   * using the object's own unit when set. Used for the optional electricity states of a device.
+   *
+   * @param stateId - ioBroker state id to read from
+   * @param name - friendly name
+   * @param room - room enum object
+   * @param func - function enum object
+   * @param obj - ioBroker object of the state (its common.unit is used when present)
+   * @param forcedEntityId - entity_id override
+   * @param deviceClass - HA sensor device_class (e.g. 'power', 'energy')
+   * @param defaultUnit - unit to use when the object has none
+   * @param stateClass - HA state_class ('measurement' or 'total_increasing')
+   */
+  static electricity(stateId, name, room, func, obj, forcedEntityId, deviceClass, defaultUnit, stateClass) {
+    const entity = new SensorEntity(name, room, func, obj, forcedEntityId);
+    entity.context.STATE.getId = stateId;
+    entity.attributes.device_class = deviceClass;
+    entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || defaultUnit;
+    entity.attributes.state_class = stateClass;
+    entity.addID2entity(stateId);
+    return entity;
+  }
+  /**
    * Build a windowTilt sensor (closed / tilted / open) from converter parameters.
    *
    * @param params - converter parameters

@@ -302,16 +302,22 @@ export class BaseEntity {
         language?: string,
     ) {
         const objId = obj?._id ?? '';
-        this.entity_id = getEntityId(entityType, entity_id, obj);
+        // Resolve room/function names in the configured language. Without passing lang, getEnumName
+        // falls back to 'en' (and caches that under the enum id), so translated names always showed
+        // their English variant.
+        const lang = language ?? entityData.lang;
+        const roomName = getEnumName(room, lang);
+        const funcName = getEnumName(func, lang);
+        this.entity_id = getEntityId(entityType, entity_id, obj, roomName, funcName);
         this.attributes = {
-            friendly_name: getFriendlyName(name, obj, getEnumName(room), getEnumName(func)),
+            friendly_name: getFriendlyName(name, obj, roomName, funcName),
         };
         this.context = {
             id: objId,
             type: getEntityType(entityType, entity_id, obj),
-            room: getEnumName(room),
+            room: roomName,
             roomId: room ? room._id : null,
-            func: getEnumName(func),
+            func: funcName,
             funcId: func ? func._id : null,
             stateType: (obj?.common as Record<string, unknown> | undefined)?.type as string | undefined,
             deviceId: objId,
@@ -421,6 +427,7 @@ export class BaseEntity {
      */
     unregister(newId?: string): void {
         if (newId) {
+            delete entityData.entityId2Entity[this.entity_id];
             entityData.entityId2Entity[newId] = this;
         } else {
             delete entityData.entityId2Entity[this.entity_id];
@@ -441,15 +448,17 @@ export class BaseEntity {
             }
         }
 
-        for (const key of Object.keys(entityData.iobID2entity)) {
-            const entities = entityData.iobID2entity[key];
-            let foundIndex = entities.findIndex(x => x.entity_id === this.entity_id);
-            while (foundIndex !== -1) {
-                entities.splice(foundIndex, 1);
-                foundIndex = entities.findIndex(x => x.entity_id === this.entity_id);
-            }
-            if (newId) {
-                entities.push(newId as unknown as BaseEntity);
+        // Only the remove case touches iobID2entity. On rename the entity keeps the same ioBroker
+        // state ids (iobID2entity keys are ioBroker ids, not HA entity_ids) and the same object
+        // reference - only entity_id (a property on that object) changes - so its entries stay valid.
+        if (!newId) {
+            for (const key of Object.keys(entityData.iobID2entity)) {
+                const entities = entityData.iobID2entity[key];
+                let foundIndex = entities.findIndex(x => x.entity_id === this.entity_id);
+                while (foundIndex !== -1) {
+                    entities.splice(foundIndex, 1);
+                    foundIndex = entities.findIndex(x => x.entity_id === this.entity_id);
+                }
             }
         }
     }

@@ -59,18 +59,35 @@ var import_entityRegistry = __toESM(require("./modules/entityRegistry"));
 var import_dashboard = __toESM(require("./modules/dashboard"));
 var import_deviceRegistry = __toESM(require("./modules/deviceRegistry"));
 var import_areaRegistry = __toESM(require("./modules/areaRegistry"));
+var import_energyModule = __toESM(require("./modules/energyModule"));
+var import_userData = __toESM(require("./modules/userData"));
+var import_themes = __toESM(require("./modules/themes"));
+var import_panels = __toESM(require("./panels"));
+var import_template = __toESM(require("./modules/template"));
+var import_compat = __toESM(require("./modules/compat"));
+var import_mediaSource = __toESM(require("./modules/mediaSource"));
+var import_search = __toESM(require("./modules/search"));
+var import_image = __toESM(require("./modules/image"));
+var import_storage = require("./modules/storage");
 const WebSocket = require("ws");
 const bodyParser = require("body-parser");
-const PANELS = require("./panels");
 const multer = require("multer");
 const mime = require("mime");
-const yaml = require("js-yaml");
-const axios = require("axios");
 const jstz = require("jstimezonedetect");
 const entityData = require("../../lib/dataSingleton");
-const bindings = require("../../lib/bindings");
 const ChannelDetector = require("@iobroker/type-detector").default;
 const ignoreIds = [/^system\./, /^script\./];
+const CONVERTIBLE_UNITS = {
+  energy: ["Wh", "kWh", "MWh", "GWh", "TWh", "J", "kJ", "MJ", "GJ", "cal", "kcal", "Mcal", "Gcal"],
+  power: ["mW", "W", "kW", "MW", "GW", "TW"],
+  gas: ["L", "m\xB3", "ft\xB3", "CCF"],
+  water: ["L", "mL", "m\xB3", "ft\xB3", "CCF", "gal", "fl. oz."],
+  volume: ["L", "mL", "m\xB3", "ft\xB3", "CCF", "gal", "fl. oz."],
+  temperature: ["\xB0C", "\xB0F", "K"],
+  pressure: ["Pa", "hPa", "kPa", "bar", "cbar", "mbar", "mmHg", "inHg", "psi"],
+  speed: ["m/s", "km/h", "mph", "ft/s", "kn"],
+  distance: ["km", "m", "cm", "mm", "mi", "yd", "in", "ft", "nmi"]
+};
 const TIMEOUT_PASSWORD_ENTER = 18e4;
 const TIMEOUT_AUTH_CODE = 1e4;
 const ROOT_DIR = "../../hass_frontend";
@@ -104,7 +121,6 @@ class WebServer {
   lang;
   detector;
   words;
-  templateStates;
   systemConfig;
   _lovelaceConfig;
   _ressourceConfig;
@@ -113,10 +129,6 @@ class WebServer {
   _server;
   _app;
   _auth_flows;
-  _themes;
-  _currentTheme;
-  _currentThemeDark;
-  _darkMode;
   _objectData;
   _modules;
   _wss;
@@ -144,16 +156,12 @@ class WebServer {
     entityData.log = this.adapter.log;
     entityData.words = this.words;
     entityData.server = this;
+    entityData.autoEntityIdFormat = this.config.autoEntityIdFormat || "name";
     this._requestableFiles = [];
     this._subscribed = [];
     this._server = options.server;
     this._app = options.app;
     this._auth_flows = {};
-    this.templateStates = {};
-    this._themes = {};
-    this._currentTheme = this.config.defaultTheme || "default";
-    this._currentThemeDark = this.config.defaultThemeDark || "default";
-    this._darkMode = false;
     this._objectData = {
       objects: {},
       //id -> object storage
@@ -204,7 +212,8 @@ class WebServer {
         adapter: this.adapter,
         entityData,
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
-        sendUpdate: (type, data) => this._sendUpdate(type, data)
+        sendUpdate: (type, data) => this._sendUpdate(type, data),
+        renameEntityIdInConfigs: (oldId, newId) => this._renameEntityIdInConfigs(oldId, newId)
       }),
       dashboard: new import_dashboard.default({
         adapter: this.adapter,
@@ -222,6 +231,68 @@ class WebServer {
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
         sendUpdate: (type) => this._sendUpdate(type)
       }),
+      energy: new import_energyModule.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
+      }),
+      userData: new import_userData.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
+      }),
+      themes: new import_themes.default({
+        adapter: this.adapter,
+        sendUpdate: (type) => this._sendUpdate(type)
+      }),
+      template: new import_template.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        subscribeState: (id) => {
+          if (this._subscribed.indexOf(id) === -1) {
+            this._subscribed.push(id);
+            Promise.resolve(this.adapter.subscribeForeignStatesAsync(id)).catch(
+              (e) => this.log.warn(`Could not subscribe to ${id}: ${String(e)}`)
+            );
+            this.log.debug(`IoB Subscribe on ${id}`);
+          }
+        }
+      }),
+      compat: new import_compat.default({
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
+      }),
+      mediaSource: new import_mediaSource.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
+      }),
+      search: new import_search.default({
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        entityData
+      }),
+      image: new import_image.default({
+        adapter: this.adapter,
+        entityData,
+        getUserIDFromName: (name) => this._modules.person.getUserIDFromName(name),
+        resolveUser: ({ entityId, token, accessToken, url, reqUser, entity }) => {
+          let userName;
+          if (this.config.auth !== false && (token || accessToken) && !this._requestableFiles.includes(url) && !entityData.entityIconUrls.includes(url)) {
+            if (accessToken) {
+              const now = Date.now();
+              const flowId = Object.keys(this._auth_flows).find(
+                (fId) => this._auth_flows[fId].access_token === accessToken && now - this._auth_flows[fId].ts < this._auth_flows[fId].auth_ttl
+              );
+              if (!flowId) {
+                throw new Error("Invalid token!");
+              }
+              userName = this._auth_flows[flowId].username;
+            } else if (token && (entity == null ? void 0 : entity.attributes.access_token) !== token) {
+              this.log.warn(`Invalid access token for ${entityId} - ${token}`);
+              throw new Error(`Invalid access token for ${entityId} - ${token}`);
+            } else {
+              userName = reqUser;
+            }
+          }
+          return userName;
+        }
+      }),
       history: new import_history.default({
         adapter: this.adapter,
         entityData,
@@ -238,12 +309,16 @@ class WebServer {
     if (this.adapter.config.updateTimeout !== void 0) {
       this.adapter.config.updateTimeout = Math.max(100, Math.min(this.adapter.config.updateTimeout, 3e4));
     }
+    const storageReady = (0, import_storage.migrateStorageObjects)(this.adapter);
+    const entityRegistryReady = storageReady.then(() => this._modules.entityRegistry.init());
     const concurrentPromises = [
       this._modules.todo.init(),
       this._modules.person.init(),
-      this._modules.entityRegistry.init(),
-      this._modules.areaRegistry.init(),
-      this._modules.dashboard.init(),
+      entityRegistryReady,
+      storageReady.then(() => this._modules.areaRegistry.init()),
+      storageReady.then(() => this._modules.energy.init()),
+      storageReady.then(() => this._modules.dashboard.init()),
+      storageReady.then(() => this._modules.userData.init()),
       this.adapter.getForeignObjectAsync("system.config").then((config) => {
         this.lang = this.config.language || config.common.language;
         entityData.lang = this.lang;
@@ -258,9 +333,9 @@ class WebServer {
           this._lovelaceConfig = require("../../lib/defaultConfig");
         }
       }).then(() => this._modules.browserMod.init(this._lovelaceConfig)),
-      this._readAllEntities(),
+      entityRegistryReady.then(() => this._readAllEntities()),
       this._listFiles(),
-      this._initThemes()
+      this._modules.themes.init()
     ];
     Promise.all(concurrentPromises).then(() => {
       var _a;
@@ -795,44 +870,15 @@ class WebServer {
   async onStateChange(id, state, forceUpdate = false) {
     var _a;
     if (state) {
-      if (id === `${this.adapter.namespace}.control.theme` || id === `${this.adapter.namespace}.control.themeDark`) {
-        const dark = id.includes("Dark");
-        if (this._themes[state.val] || state.val === "default") {
-          this[dark ? "_currentThemeDark" : "_currentTheme"] = state.val;
-          this._sendUpdate("themes_updated");
-        }
-      } else if (id === `${this.adapter.namespace}.control.darkMode`) {
-        if (this._darkMode !== state.val) {
-          this._darkMode = !!state.val;
-          this._sendUpdate("themes_updated");
-        }
-      }
+      this._modules.themes.onStateChange(id, state);
     }
-    const changedStates = {};
-    this._wss && this._wss.clients.forEach((client) => {
-      if (client.__templates && client.readyState === WebSocket.OPEN) {
-        client.__templates.forEach((t) => {
-          if (t.ids.includes(id)) {
-            const _state = state || { val: null };
-            if (changedStates[id] || this.templateStates[id] && this.templateStates[id].val !== _state.val) {
-              this.templateStates[id] = _state;
-              changedStates[id] = true;
-              const event = {
-                id: t.id,
-                type: "event",
-                event: {
-                  result: bindings.formatBinding(t.template, this.templateStates)
-                }
-              };
-              client.send(JSON.stringify(event));
-            }
-          }
-        });
-      }
-    });
     const entities = entityData.iobID2entity[id];
     if (entities) {
       entities.forEach((entity) => {
+        if (!entity || !entity.context) {
+          this.log.warn(`iobID2entity[${id}] contains an invalid entry - skipping.`);
+          return;
+        }
         let updated = false;
         if (state) {
           if (entity.context.STATE.getId === id) {
@@ -1283,9 +1329,7 @@ class WebServer {
         });
       }
     });
-    this._wss && this._wss.clients.forEach(
-      (client) => client.__templates && client.__templates.forEach((t) => ids = ids.concat(t.ids))
-    );
+    ids = ids.concat(this._modules.template.collectSubscribedIds(this._wss));
     const deleted = this._subscribed.filter((id) => ids.indexOf(id) === -1);
     deleted.forEach((id) => {
       this.log.debug(`IoB UnSubscribe on ${id}`);
@@ -1336,6 +1380,7 @@ class WebServer {
         nLines.push(`<script>
 ${hideScript.join("\n")}
 </script>`);
+        nLines.push(`<script type="module">import('/cards/_static_browser_mod.js');</script>`);
       }
       if (template) {
         continue;
@@ -1347,6 +1392,21 @@ ${hideScript.join("\n")}
     this._indexHtml = this._indexHtml.replace(/{{ use_oauth }}/g, "0");
     this._indexHtml = this._indexHtml.replace(/{{ theme_color }}/g, this._renderManifest().theme_color);
     this._indexHtml = this._indexHtml.replace(/#THEMEC/g, this._renderManifest().theme_color);
+    const escapeHtml = (s) => s.replace(
+      /[&<>"]/g,
+      (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]
+    );
+    const browserTitle = escapeHtml(this.config.browserTitle || "ioBroker");
+    const pwaName = escapeHtml(this.config.pwaName || "ioBroker");
+    this._indexHtml = this._indexHtml.replace("<title>ioBroker</title>", `<title>${browserTitle}</title>`);
+    this._indexHtml = this._indexHtml.replace(
+      'name="apple-mobile-web-app-title" content="ioBroker"',
+      `name="apple-mobile-web-app-title" content="${pwaName}"`
+    );
+    this._indexHtml = this._indexHtml.replace(
+      'name="application-name" content="ioBroker"',
+      `name="application-name" content="${pwaName}"`
+    );
     return this._indexHtml;
   }
   /**
@@ -1389,8 +1449,8 @@ ${hideScript.join("\n")}
         }
       ],
       lang,
-      name: "ioBroker",
-      short_name: "IoB",
+      name: this.config.pwaName || "ioBroker",
+      short_name: this.config.pwaShortName || "IoB",
       start_url: "/?homescreen=1",
       theme_color: "#03A9F4"
     };
@@ -1457,25 +1517,35 @@ ${hideScript.join("\n")}
     return configObj;
   }
   /**
-   * Returns themes and the ones currently selected in config / object.
-   *
-   * @returns themes
-   */
-  _getThemes() {
-    return {
-      themes: this._themes,
-      default_theme: this._currentTheme || this.config.defaultTheme || "default",
-      default_dark_theme: this._currentThemeDark || this.config.defaultThemeDark || "default",
-      darkMode: this._darkMode
-    };
-  }
-  /**
-   * Somehow this seem to just be the entities?
+   * Internal: returns the full internal entity objects. Used by main.ts message handlers
+   * (browse, checkIdForDuplicates) which need fields like isManual / context.id.
    *
    * @returns entity array.
    */
   getHassStates() {
     return entityData.entities;
+  }
+  /**
+   * Build the response for the frontend `get_states` message: a clean array of Home Assistant
+   * state objects. We deliberately do NOT send the raw internal entities - those carry adapter
+   * internals (context.STATE ioBroker ids, ATTRIBUTES/COMMANDS, etc.) the frontend doesn't need,
+   * and a non-serializable/circular field would break JSON.stringify (relevant once entities
+   * carry an adapter context reference).
+   *
+   * @returns array of HA HassEntity objects
+   */
+  _getFrontendStates() {
+    return entityData.entities.map((entity) => {
+      var _a, _b;
+      return {
+        entity_id: entity.entity_id,
+        state: entity.state,
+        attributes: entity.attributes,
+        last_changed: entity.last_changed,
+        last_updated: entity.last_updated,
+        context: { id: (_b = (_a = entity.context) == null ? void 0 : _a.id) != null ? _b : entity.entity_id, parent_id: null, user_id: null }
+      };
+    });
   }
   /**
    * Frontend requested a card. Read cards from the file system and send them.
@@ -1591,64 +1661,6 @@ ${hideScript.join("\n")}
         });
       }
     }
-  }
-  /**
-   * Parse themes stored in config and set the current theme.
-   *
-   * @returns resolves when done.
-   */
-  async _initThemes() {
-    try {
-      this._themes = yaml.safeLoad(this.config.themes || "") || {};
-    } catch (depError) {
-      if (depError.message.includes("yaml.safeLoad") && depError.message.includes("removed")) {
-        this._themes = yaml.load(this.config.themes || "") || {};
-      } else {
-        this.log.error(`Cannot parse themes: ${depError}`);
-        this._themes = {};
-      }
-    }
-    const states = { default: "default" };
-    for (const themeName of Object.keys(this._themes)) {
-      states[themeName] = themeName;
-    }
-    const themeState = await this.adapter.getObjectAsync(`${this.adapter.namespace}.control.theme`);
-    if (themeState && themeState.common) {
-      themeState.common.states = states;
-      await this.adapter.setObject(`${this.adapter.namespace}.control.theme`, themeState);
-    } else {
-      this.log.warn(`State ${this.adapter.namespace}.control.theme missing`);
-    }
-    const themeDarkState = await this.adapter.getObjectAsync(`${this.adapter.namespace}.control.themeDark`);
-    if (themeDarkState && themeDarkState.common) {
-      themeDarkState.common.states = states;
-      await this.adapter.setObject(`${this.adapter.namespace}.control.themeDark`, themeDarkState);
-    } else {
-      this.log.warn(`State ${this.adapter.namespace}.control.themeDark missing`);
-    }
-    const state = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.theme`);
-    if (state && (this._themes[state.val] || state.val === "default")) {
-      this._currentTheme = state.val;
-    } else {
-      this._currentTheme = this.config.defaultTheme || "default";
-      await this.adapter.setStateAsync(`${this.adapter.namespace}.control.theme`, this._currentTheme, true);
-    }
-    const darkSate = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.themeDark`);
-    if (darkSate && (this._themes[darkSate.val] || darkSate.val === "default")) {
-      this._currentThemeDark = darkSate.val;
-    } else {
-      this._currentThemeDark = this.config.defaultThemeDark || "default";
-      await this.adapter.setStateAsync(
-        `${this.adapter.namespace}.control.themeDark`,
-        this._currentThemeDark,
-        true
-      );
-    }
-    const darkModeState = await this.adapter.getStateAsync(`${this.adapter.namespace}.control.darkMode`);
-    if (darkModeState) {
-      this._darkMode = !!darkModeState.val;
-    }
-    this.log.debug("themes: init done");
   }
   /**
    * Send a file requested from frontend.
@@ -1916,7 +1928,7 @@ ${hideScript.join("\n")}
       }
     });
     this._app.get("/adapter/*adapter", async (req, res) => {
-      await this._replyWithImage(req, res);
+      await this._modules.image.replyWithImage(req, res);
     });
     this._app.get("/state/*state", async (req, res) => {
       try {
@@ -1954,10 +1966,10 @@ ${hideScript.join("\n")}
       this._modules.person.processRequest(req, res);
     });
     this._app.get("/api/camera_proxy_stream/:entity_id", async (req, res) => {
-      await this._replyWithImage(req, res);
+      await this._modules.image.replyWithImage(req, res);
     });
     this._app.get("/api/camera_proxy/:entity_id", async (req, res) => {
-      await this._replyWithImage(req, res);
+      await this._modules.image.replyWithImage(req, res);
     });
     const IMAGE_FOLDER = "uploaded_images";
     this._app.post("/api/image/upload", multer().single("file"), async (req, res) => {
@@ -2088,7 +2100,7 @@ ${hideScript.join("\n")}
    * @returns configuration object
    */
   _getLayoutConfig(urlPath) {
-    if (urlPath) {
+    if (urlPath && urlPath !== "lovelace") {
       return this._modules.dashboard.getConfig(urlPath);
     }
     return this._lovelaceConfig;
@@ -2100,7 +2112,7 @@ ${hideScript.join("\n")}
    * @param urlPath {string|undefined} optional url path of the dashboard to store config for.
    */
   async _setLayoutConfig(config, urlPath) {
-    if (urlPath) {
+    if (urlPath && urlPath !== "lovelace") {
       await this._modules.dashboard.storeConfig(urlPath, config);
     } else {
       this.adapter.getObject("configuration", (err, obj) => {
@@ -2113,6 +2125,87 @@ ${hideScript.join("\n")}
         }
       });
     }
+  }
+  /**
+   * Rewrite a renamed entity_id in the stored lovelace configs (main dashboard + additional
+   * dashboards) so existing cards keep pointing at the renamed entity. Persists the changed
+   * configs and notifies open clients via `lovelace_updated`.
+   *
+   * @param oldEntityId - previous HA entity_id
+   * @param newEntityId - new HA entity_id
+   */
+  async _renameEntityIdInConfigs(oldEntityId, newEntityId) {
+    let mainChanged = false;
+    if (this._lovelaceConfig) {
+      mainChanged = utils.replaceEntityIdInConfig(this._lovelaceConfig, oldEntityId, newEntityId);
+      if (mainChanged) {
+        await this._setLayoutConfig(this._lovelaceConfig);
+      }
+    }
+    const dashboardChanged = await this._modules.dashboard.renameEntityId(oldEntityId, newEntityId);
+    if (dashboardChanged && !mainChanged) {
+      this._sendUpdate("lovelace_updated");
+    }
+  }
+  /**
+   * Re-generate the entity_ids of all automatic entities using the currently configured
+   * `autoEntityIdFormat`, then rewrite the stored lovelace configs for every changed id.
+   * Entities the user customized in the frontend (any registry override) and manual entities are
+   * left untouched. Triggered by the admin "Regenerate entity IDs" button (onMessage).
+   *
+   * @param format - optional auto-id format to apply ('name' | 'roomFunction' | 'iobId'); when given
+   *                 it overrides the running config (the admin sends the unsaved select value).
+   * @returns the number of entities that were renamed
+   */
+  async _regenerateAutoEntityIds(format) {
+    var _a, _b;
+    if (format) {
+      entityData.autoEntityIdFormat = format;
+    }
+    entityData.autoEntityIdFormat = entityData.autoEntityIdFormat || "name";
+    const keyOf = (e) => {
+      var _a2, _b2, _c, _d;
+      return `${String(e.entity_id).split(".")[0]}.${(_d = (_b2 = (_a2 = e.context) == null ? void 0 : _a2.STATE) == null ? void 0 : _b2.getId) != null ? _d : (_c = e.context) == null ? void 0 : _c.id}`;
+    };
+    const oldKeyToId = {};
+    const protectedIds = /* @__PURE__ */ new Set();
+    for (const e of entityData.entities) {
+      if (e.isManual || !((_a = e.context) == null ? void 0 : _a.deviceId)) {
+        continue;
+      }
+      if (this._modules.entityRegistry.isProtectedFromRegen(e.entity_id)) {
+        protectedIds.add(e.entity_id);
+        continue;
+      }
+      oldKeyToId[keyOf(e)] = e.entity_id;
+    }
+    this._modules.entityRegistry.clearAutoReservations(protectedIds);
+    entityData.entities.length = 0;
+    for (const k of Object.keys(entityData.entityId2Entity)) {
+      delete entityData.entityId2Entity[k];
+    }
+    for (const k of Object.keys(entityData.iobID2entity)) {
+      delete entityData.iobID2entity[k];
+    }
+    await this._readAllEntities();
+    this._updateConstantEntities();
+    let renamed = 0;
+    for (const e of entityData.entities) {
+      if (e.isManual || !((_b = e.context) == null ? void 0 : _b.deviceId)) {
+        continue;
+      }
+      const oldId = oldKeyToId[keyOf(e)];
+      if (oldId && oldId !== e.entity_id) {
+        await this._renameEntityIdInConfigs(oldId, e.entity_id);
+        renamed++;
+      }
+    }
+    await this._modules.entityRegistry.saveEntityRegistry();
+    this._sendUpdate("entity_registry_updated");
+    this._sendUpdate("lovelace_updated");
+    await this.adapter.setStateAsync("info.entitiesUpdated", true, true);
+    this.log.info(`Regenerated entity ids (format "${entityData.autoEntityIdFormat}"): ${renamed} renamed.`);
+    return renamed;
   }
   /**
    * From websocket connection get the username and create HASS user object.
@@ -2128,7 +2221,11 @@ ${hideScript.join("\n")}
       is_owner: user === "system.user.admin",
       is_admin: user === "system.user.admin",
       credentials: [{ auth_provider_type: "iobroker", auth_provider_id: null }],
-      mfa_modules: [{ id: "totp", name: "Authenticator app", enabled: false }]
+      // We do our own (ioBroker) auth and have no server-side MFA. Advertising a TOTP module
+      // here made the profile page offer "Authenticator app" setup, which then sent
+      // auth/setup_mfa (a flow we cannot service). An empty list is HA's own default and makes
+      // the profile simply show no MFA modules.
+      mfa_modules: []
     };
     try {
       const obj = await this.adapter.getForeignObjectAsync(user, { user });
@@ -2226,140 +2323,6 @@ ${hideScript.join("\n")}
     return clients;
   }
   /**
-   * Reply with image data to a request.
-   *
-   * @param req incoming request
-   * @param res response to send the image with
-   * @returns resolves when done.
-   */
-  async _replyWithImage(req, res) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
-    this.log.debug(
-      `Get image for ${req.url} and entity ${(_a = req.params) == null ? void 0 : _a.entity_id} with token=${(_b = req.query) == null ? void 0 : _b.token} and signed=${(_c = req.query) == null ? void 0 : _c.signed}`
-    );
-    try {
-      const data = await this._getImage(
-        (_d = req.params) == null ? void 0 : _d.entity_id,
-        ((_e = req.query) == null ? void 0 : _e.token) || "empty",
-        ((_f = req.params) == null ? void 0 : _f.entity_id) ? (_g = req.query) == null ? void 0 : _g.signed : (_h = req.query) == null ? void 0 : _h.token,
-        req.url,
-        req._user
-      );
-      res.setHeader("content-type", data.content_type);
-      console.log(`Send image ${data.content_type} - ${data.content.length}`);
-      let content = data.content;
-      if (!data.content_type.includes("svg")) {
-        content = Buffer.from(data.content, "base64");
-      }
-      res.send(content);
-    } catch (err) {
-      this.log.warn(`Error in _getImage: ${err} - ${err.stack}`);
-      res.status(404).json({ error: err });
-    }
-  }
-  /**
-   * Read an image from a state and return it as base64 encoded string.
-   *
-   * @param entity_id id of the entity
-   * @param token access token for the entity itself.
-   * @param access_token access token to check if the user is logged in.
-   * @param url optional url to the image, if no entity is used.
-   * @param reqUser user that requested the image
-   * @returns image as base64 string
-   */
-  async _getImage(entity_id, token, access_token, url, reqUser) {
-    const entity = entityData.entityId2Entity[entity_id];
-    let id;
-    let userName;
-    if (this.config.auth !== false && (token || access_token) && !this._requestableFiles.includes(url) && !entityData.entityIconUrls.includes(url)) {
-      if (access_token) {
-        const now = Date.now();
-        const flowId = Object.keys(this._auth_flows).find(
-          (flowId2) => this._auth_flows[flowId2].access_token === access_token && now - this._auth_flows[flowId2].ts < this._auth_flows[flowId2].auth_ttl
-        );
-        if (!flowId) {
-          throw new Error("Invalid token!");
-        } else {
-          userName = this._auth_flows[flowId].username;
-        }
-      } else if (token && (entity == null ? void 0 : entity.attributes.access_token) !== token) {
-        this.log.warn(`Invalid access token for ${entity_id} - ${token}`);
-        throw new Error(`Invalid access token for ${entity_id} - ${token}`);
-      } else {
-        userName = reqUser;
-      }
-    }
-    if (entity == null ? void 0 : entity.context.STATE.getId) {
-      id = entity.context.STATE.getId;
-    } else if (entity == null ? void 0 : entity.context.ATTRIBUTES) {
-      const attr = entity.context.ATTRIBUTES.find((attr2) => attr2.attribute === "url");
-      if (attr) {
-        id = attr.getId;
-      }
-    }
-    let result;
-    if (id) {
-      const user = this._modules.person.getUserIDFromName(userName);
-      const state = await this.adapter.getForeignStateAsync(id, { user });
-      if (state && state.val && typeof state.val === "string") {
-        const val = state.val.split("?")[0] || "";
-        if (val.startsWith("/adapter/")) {
-          url = state.val;
-        } else if (state.val.startsWith("data")) {
-          const dataUrl = state.val;
-          const mimeType = dataUrl.substring(dataUrl.indexOf(":") + 1, dataUrl.indexOf(";"));
-          const encoding = dataUrl.substring(dataUrl.indexOf(";") + 1, dataUrl.indexOf(","));
-          if (encoding.localeCompare("base64", void 0, { sensitivity: "base" }) !== 0) {
-            this.log.warn(`Wrong encoding: ${encoding}`);
-            throw new Error(`Wrong encoding: ${encoding}`);
-          }
-          const base64Data = dataUrl.split(",")[1];
-          result = {
-            content_type: mimeType || "image/jpeg",
-            content: base64Data
-          };
-          return result;
-        } else {
-          const resp = await axios(state.val, { responseType: "arraybuffer" });
-          result = {
-            content_type: (mime.getType || mime.lookup).call(mime, val) || "image/jpeg",
-            content: Buffer.from(resp.data, "binary").toString("base64")
-          };
-          return result;
-        }
-      } else {
-        throw new Error(`State ${id} does not contain url to image`);
-      }
-    }
-    if (url) {
-      url = url.replace(/^\/adapter\/([a-zA-Z0-9-_]+)(.admin)?\//, "/$1.admin/");
-      url = url.split("/");
-      url.shift();
-      const id2 = url.shift();
-      url = url.join("/");
-      const pos = url.indexOf("?");
-      if (pos !== -1) {
-        url = url.substring(0, pos);
-      }
-      let image;
-      try {
-        image = await this.adapter.readFileAsync(id2, url);
-      } catch (err) {
-        throw new Error(`Cannot download image: ${err}`);
-      }
-      if (image) {
-        if (image.file === null || image.file === void 0) {
-          throw new Error("File empty or not found");
-        } else {
-          image.mimeType = image.mimeType || (mime.getType || mime.lookup).call(image.mimeType, url) || "image/jpeg";
-          result = { content_type: image.mimeType, content: image.file.toString("base64") };
-          return result;
-        }
-      }
-    }
-    throw new Error(`No url attribute found for ${entity_id} or no url supplied ${url}`);
-  }
-  /**
    * Transforms an entity into a short version that can be sent to the client.
    * Somehow introduced in newer versions of Home Assistant.
    *
@@ -2382,7 +2345,7 @@ ${hideScript.join("\n")}
    */
   async _initConnection(ws) {
     ws._subscribes = {};
-    ws.__templates = [];
+    this._modules.template.initWs(ws);
     let testTimer = null;
     ws.on("error", (e) => {
       console.error(`Error: ${e}`);
@@ -2481,13 +2444,7 @@ ${hideScript.join("\n")}
               delete ws._subscribes[event_type];
             }
           });
-          if (ws.__templates) {
-            for (let i = ws.__templates.length - 1; i >= 0; i--) {
-              if (ws.__templates[i].id === message.subscription) {
-                ws.__templates.splice(i, 1);
-              }
-            }
-          }
+          this._modules.template.removeTemplate(ws, message.subscription);
         }
         this._sendResponse(ws, message.id);
       } else if (message.type === "subscribe_entities") {
@@ -2508,14 +2465,15 @@ ${hideScript.join("\n")}
         this.log.debug(`supported_features message: ${JSON.stringify(message.features)}`);
         this._sendResponse(ws, message.id);
       } else if (message.type === "get_states") {
-        this._sendResponse(ws, message.id, this.getHassStates());
+        this._sendResponse(ws, message.id, this._getFrontendStates());
       } else if (message.type === "get_config") {
         this._sendResponse(ws, message.id, this._getConfig());
       } else if (message.type === "get_services") {
         this._sendResponse(ws, message.id, entityData.services);
       } else if (message.type === "get_panels") {
-        this._modules.dashboard.addDashboardsToPanels(PANELS);
-        this._sendResponse(ws, message.id, PANELS);
+        this._modules.dashboard.addDashboardsToPanels(import_panels.default);
+        this._modules.dashboard.applyPanelOverrides(import_panels.default);
+        this._sendResponse(ws, message.id, import_panels.default);
       } else if (message.type === "auth/sign_path") {
         this.log.debug(`Sign: ${message.path}`);
         try {
@@ -2534,41 +2492,30 @@ ${hideScript.join("\n")}
           this.log.error(e);
         }
       } else if (message.type === "frontend/get_themes") {
-        this._sendResponse(ws, message.id, this._getThemes());
+        this._sendResponse(ws, message.id, this._modules.themes.getThemes());
       } else if (message.type === "auth/current_user") {
         void this._getCurrentUser(ws).then((data) => this._sendResponse(ws, message.id, data));
-      } else if (message.type === "frontend/subscribe_user_data") {
-        this.log.debug(`Subscribe user data: ${message.key}`);
-        const userDataValue = message.key === "core" ? { default_panel: "lovelace" } : null;
+      } else if (message.type === "auth/refresh_tokens") {
+        this._sendResponse(ws, message.id, []);
+      } else if (message.type === "auth/long_lived_access_token") {
         ws.send(
-          JSON.stringify([
-            { id: message.id, type: "result", success: true, result: null },
-            { id: message.id, type: "event", event: { value: userDataValue } }
-          ])
+          JSON.stringify({
+            id: message.id,
+            type: "result",
+            success: false,
+            error: {
+              code: "not_supported",
+              message: "Long-lived access tokens are not supported by ioBroker.lovelace."
+            }
+          })
         );
-      } else if (message.type === "frontend/set_user_data") {
-        this.log.debug(`Set user data: ${message.key}`);
-        this._sendResponse(ws, message.id);
-      } else if (message.type === "frontend/subscribe_system_data") {
-        this.log.debug(`Subscribe system data: ${message.key}`);
-        ws.send(
-          JSON.stringify([
-            { id: message.id, type: "result", success: true, result: null },
-            { id: message.id, type: "event", event: { value: null } }
-          ])
-        );
-      } else if (message.type === "frontend/get_system_data") {
-        this.log.debug(`Get system data: ${message.key}`);
-        this._sendResponse(ws, message.id, { value: null });
-      } else if (message.type === "frontend/set_system_data") {
-        this.log.debug(`Set system data: ${message.key}`);
-        this._sendResponse(ws, message.id);
-      } else if (message.type === "frontend/get_user_data") {
-        this.log.debug(`Get USER Data: ${message.key}`);
-        this._sendResponse(ws, message.id, { value: { language: this.lang } });
       } else if (message.type === "frontend/get_translations") {
         this.log.debug(`Get translations: ${message.language}`);
         this._sendResponse(ws, message.id, this._getTranslations(message.language));
+      } else if (message.type === "frontend/get_icons") {
+        this._sendResponse(ws, message.id, { resources: {} });
+      } else if (message.type === "lovelace/info") {
+        this._sendResponse(ws, message.id, { resource_mode: "storage" });
       } else if (message.type === "lovelace/config") {
         this.log.debug(`get config: ${JSON.stringify(message)}`);
         this._sendResponse(ws, message.id, this._getLayoutConfig(message.url_path));
@@ -2578,35 +2525,10 @@ ${hideScript.join("\n")}
         this._sendResponse(ws, message.id);
       } else if (message.type === "lovelace/resources") {
         this._sendResponse(ws, message.id, this._ressourceConfig);
-      } else if (message.type === "repairs/list_issues") {
-        this._sendResponse(ws, message.id, { issues: [] });
-      } else if (message.type === "config/floor_registry/list") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "config/label_registry/list") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "config_entries/subscribe") {
-        this._sendResponse(ws, message.id, null);
-        message.type = "config/device_registry/list";
-        this._modules.deviceRegistry.processMessage(ws, message);
-      } else if (message.type === "config_entries/flow/progress") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "manifest/list") {
-        this._sendResponse(ws, message.id, []);
-      } else if (message.type === "entity/source") {
-        const sources = {};
-        for (const entity of entityData.entities) {
-          if (entity.entity_id === "zone.home") {
-            sources[entity.entity_id] = { domain: "constant" };
-          } else {
-            sources[entity.entity_id] = {
-              domain: entity.isManual ? "iob_manual" : "iob_automatic"
-            };
-          }
-        }
       } else if (message.type === "camera_thumbnail") {
         this.log.warn(`camera_thumbnail ${message.entity_id} deprecated!!!`);
         try {
-          const data = await this._getImage(message.entity_id, null, null);
+          const data = await this._modules.image.getImage(message.entity_id, null, null);
           this._sendResponse(ws, message.id, data);
         } catch (err) {
           this.log.warn(`Error in camera_thumbnail: ${err} - ${err.stack}`);
@@ -2615,60 +2537,7 @@ ${hideScript.join("\n")}
       } else if (message.type === "call_service") {
         await this._processCall(ws, message);
       } else if (message.type === "render_template") {
-        const template = message.template;
-        this._sendResponse(ws, message.id);
-        const obj = { template, ids: [], id: message.id };
-        ws.__templates && ws.__templates.push(obj);
-        const vars = bindings.extractBinding(template);
-        const promises = [];
-        const processId = async (id) => {
-          if (obj.ids.indexOf(id) !== -1) {
-            return;
-          }
-          obj.ids.push(id);
-          if (this._subscribed.indexOf(id) === -1) {
-            this._subscribed.push(id);
-            this.adapter.subscribeForeignStates(id);
-            this.log.debug(`IoB Subscribe on ${id}`);
-          }
-          try {
-            this.templateStates[id] = await this.adapter.getForeignStateAsync(id);
-          } catch (e) {
-            this.log.warning(`Cannot get state ${id}: ${e} in template ${template}`);
-          }
-        };
-        if (vars) {
-          for (const v of vars) {
-            try {
-              promises.push(processId(v.systemOid));
-              if (v.operations) {
-                for (const op of v.operations) {
-                  if (op.arg) {
-                    for (const arg of op.arg) {
-                      if (arg.systemOid) {
-                        promises.push(processId(arg.systemOid));
-                      }
-                    }
-                  }
-                }
-              }
-            } catch (e) {
-              this.log.warning(
-                `Cannot process variable ${JSON.stringify(v)}: ${e} in template ${template}`
-              );
-            }
-          }
-        }
-        void Promise.all(promises).then(() => {
-          const t = {
-            id: message.id,
-            type: "event",
-            event: {
-              result: bindings.formatBinding(template, this.templateStates)
-            }
-          };
-          ws.send(JSON.stringify(t));
-        });
+        this._modules.template.processMessage(ws, message);
       } else if (message.type === "logger/log_info") {
         this._sendResponse(
           ws,
@@ -2677,8 +2546,14 @@ ${hideScript.join("\n")}
         );
       } else if (message.type === "sensor/numeric_device_classes") {
         this._sendResponse(ws, message.id, { numeric_device_classes: import_genericConverter.numericDeviceClasses });
+      } else if (message.type === "sensor/device_class_convertible_units") {
+        this._sendResponse(ws, message.id, {
+          units: CONVERTIBLE_UNITS[message.device_class] || []
+        });
       } else if (message.type === "ping") {
         this._sendResponse(ws, message.id, { type: "pong" });
+      } else if (message.type === "vacuum/get_segments") {
+        this._sendResponse(ws, message.id, { segments: [] });
       } else if (message.type === "brands/access_token") {
         this._sendResponse(ws, message.id, { token: "" });
       } else if (message.type === "labs/subscribe") {
@@ -2718,7 +2593,7 @@ ${hideScript.join("\n")}
     ws.on("close", () => {
       this.log.debug("Connection closed");
       ws._subscribes = null;
-      ws.__templates = null;
+      this._modules.template.clearWs(ws);
       clearInterval(testTimer);
       testTimer = null;
     });

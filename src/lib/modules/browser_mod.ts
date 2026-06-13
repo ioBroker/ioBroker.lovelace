@@ -30,6 +30,8 @@ interface BrowserModStorage {
     version: string;
     settings: BrowserSettings;
     user_settings: Record<string, unknown>;
+    /** Maps a login-session key (auth token / user) to a Browser ID for sync-session recall. */
+    sessions: Record<string, string>;
 }
 
 interface ClientEntry {
@@ -42,13 +44,26 @@ interface WsWithBrowserId {
     send(data: string): void;
     on(event: string, listener: (...args: unknown[]) => void): void;
     browserID?: string;
+    __auth?: { username?: string; access_token?: string };
 }
 
 type AdapterWithConfig = ioBroker.Adapter & {
     config: {
         maxBrowserInstances: number;
+        themes?: string;
     };
 };
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const yaml = require('js-yaml');
+
+/**
+ * Version reported to the browser_mod frontend. Must match the version bundled in
+ * hass_frontend/static_cards/browser_mod.js (its internal `Mt` constant). If they differ,
+ * the frontend shows a "Browser Mod version mismatch" reload prompt. Bump this whenever the
+ * shipped browser_mod frontend is updated.
+ */
+const BROWSER_MOD_VERSION = '2.13.5';
 
 /**
  * Support for browser_mod integration.
@@ -75,7 +90,7 @@ class BrowserModModule {
         this.clients = {};
         this.browserModStorage = {
             browsers: {},
-            version: '2.0',
+            version: BROWSER_MOD_VERSION,
             settings: {
                 hideSidebar: true,
                 hideHeader: false,
@@ -90,6 +105,7 @@ class BrowserModModule {
                 lockRegister: null,
             },
             user_settings: {},
+            sessions: {},
         };
 
         this.knownViews = [];
@@ -277,6 +293,59 @@ class BrowserModModule {
             });
         }
 
+        if (!this.objects[`${ioBrokerDeviceId}.set_theme`]) {
+            await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.set_theme`, {
+                type: 'state',
+                common: {
+                    name: { en: 'Set frontend theme', de: 'Frontend-Theme setzen' },
+                    desc: {
+                        en: 'Theme name (see dropdown). Advanced: JSON with fields theme, dark ("auto"/"light"/"dark"), primaryColor.',
+                        de: 'Theme-Name (siehe Auswahl). Erweitert: JSON mit Feldern theme, dark ("auto"/"light"/"dark"), primaryColor.',
+                    },
+                    type: 'string',
+                    read: false,
+                    write: true,
+                    role: 'text',
+                    states: this._getThemeStates(),
+                },
+                native: { instance: browserId },
+            });
+        }
+
+        if (!this.objects[`${ioBrokerDeviceId}.console`]) {
+            await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.console`, {
+                type: 'state',
+                common: {
+                    name: { en: 'Log message to browser console', de: 'Nachricht in Browser-Konsole ausgeben' },
+                    type: 'string',
+                    read: false,
+                    write: true,
+                    role: 'text',
+                },
+                native: { instance: browserId },
+            });
+        }
+
+        if (!this.objects[`${ioBrokerDeviceId}.change_browser_id`] && browserId) {
+            await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.change_browser_id`, {
+                type: 'state',
+                common: {
+                    name: { en: 'Change this Browser ID', de: 'Diese Browser-ID ändern' },
+                    desc: {
+                        en: 'New Browser ID as plain text, or JSON with fields: new_browser_id, register (bool), refresh (bool).',
+                        de: 'Neue Browser-ID als Text, oder JSON mit Feldern: new_browser_id, register (bool), refresh (bool).',
+                    },
+                    type: 'string',
+                    read: true,
+                    write: true,
+                    role: 'text',
+                },
+                native: { instance: browserId },
+            });
+            // Prefill with the current id so the user just edits it instead of typing it from scratch.
+            await this.adapter.setStateAsync(`${ioBrokerDeviceId}.change_browser_id`, browserId, true);
+        }
+
         if (!this.objects[`${ioBrokerDeviceId}.online`] && browserId) {
             await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.online`, {
                 type: 'state',
@@ -292,52 +361,48 @@ class BrowserModModule {
             });
         }
 
-        if (!this.objects[`${ioBrokerDeviceId}.hideHeader`]) {
-            await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.hideHeader`, {
-                type: 'state',
-                common: {
-                    name: 'Hide Header',
-                    type: 'boolean',
-                    read: true,
-                    write: true,
-                    role: 'switch',
-                    default: this.browserModStorage.settings.hideHeader,
-                } as ioBroker.StateCommon,
-                native: { instance: browserId },
-            });
-        } else {
-            const hideHeader = await this.adapter.getStateAsync(`${ioBrokerDeviceId}.hideHeader`);
-            if (hideHeader) {
-                if (browserId) {
-                    this.initialiseBrowserSettings(browserId, true);
-                    this.browserModStorage.browsers[browserId].settings.hideHeader = hideHeader.val as boolean;
-                } else {
-                    this.browserModStorage.settings.hideHeader = hideHeader.val as boolean;
-                }
-            }
-        }
+        await this._checkSettingState(ioBrokerDeviceId, browserId, 'hideHeader', 'Hide Header');
+        await this._checkSettingState(ioBrokerDeviceId, browserId, 'hideSidebar', 'Hide Sidebar');
+    }
 
-        if (!this.objects[`${ioBrokerDeviceId}.hideSidebar`]) {
-            await this.adapter.setObjectNotExistsAsync(`${ioBrokerDeviceId}.hideSidebar`, {
+    /**
+     * Create (and on the root level, seed) the hideHeader / hideSidebar switch state, or - if it
+     * already exists - read its value into the browser_mod storage. The root object (no browserId,
+     * `instances.<key>`) is the "target all" default: its `def` and seeded value come from the global
+     * default and are read back on init as the default for new browsers; per-browser objects mirror
+     * that default.
+     *
+     * @param ioBrokerDeviceId - fully namespaced device id (root `instances` or `instances.<browserId>`)
+     * @param browserId - browser id, or undefined for the root "target all" object
+     * @param key - which setting (`hideHeader` or `hideSidebar`)
+     * @param name - display name for the object
+     */
+    private async _checkSettingState(
+        ioBrokerDeviceId: string,
+        browserId: string | undefined,
+        key: 'hideHeader' | 'hideSidebar',
+        name: string,
+    ): Promise<void> {
+        const stateId = `${ioBrokerDeviceId}.${key}`;
+        if (!this.objects[stateId]) {
+            const def = !!this.browserModStorage.settings[key];
+            await this.adapter.setObjectNotExistsAsync(stateId, {
                 type: 'state',
-                common: {
-                    name: 'Hide Sidebar',
-                    type: 'boolean',
-                    read: true,
-                    write: true,
-                    role: 'switch',
-                    default: this.browserModStorage.settings.hideSidebar,
-                } as ioBroker.StateCommon,
+                common: { name, type: 'boolean', read: true, write: true, role: 'switch', def },
                 native: { instance: browserId },
             });
+            if (!browserId) {
+                // Root "target all" default: give it a value so init reads it as the default.
+                await this.adapter.setStateAsync(stateId, def, true);
+            }
         } else {
-            const hideSidebar = await this.adapter.getStateAsync(`${ioBrokerDeviceId}.hideSidebar`);
-            if (hideSidebar) {
+            const settingState = await this.adapter.getStateAsync(stateId);
+            if (settingState) {
                 if (browserId) {
                     this.initialiseBrowserSettings(browserId, true);
-                    this.browserModStorage.browsers[browserId].settings.hideSidebar = hideSidebar.val as boolean;
+                    this.browserModStorage.browsers[browserId].settings[key] = settingState.val as boolean;
                 } else {
-                    this.browserModStorage.settings.hideSidebar = hideSidebar.val as boolean;
+                    this.browserModStorage.settings[key] = settingState.val as boolean;
                 }
             }
         }
@@ -379,7 +444,9 @@ class BrowserModModule {
                 registered: true,
                 locked: false,
                 camera: false,
-                settings: this.browserModStorage.settings,
+                // Copy, not a reference: a shared object would let per-browser hideSidebar/hideHeader
+                // writes mutate the global defaults and every other browser's settings.
+                settings: { ...this.browserModStorage.settings },
                 meta: 'default',
             };
         }
@@ -401,12 +468,12 @@ class BrowserModModule {
                 const browser = data.browser as Record<string, unknown>;
                 if (browser.battery_level) {
                     await this._checkObjects(ioBrokerDeviceId, message.browserID as string, true);
-                    await this.adapter.setStateAsync(
+                    await this.adapter.setState(
                         `${ioBrokerDeviceId}.battery.level`,
                         browser.battery_level as ioBroker.StateValue,
                         true,
                     );
-                    await this.adapter.setStateAsync(
+                    await this.adapter.setState(
                         `${ioBrokerDeviceId}.battery.charging`,
                         (browser.charging as boolean) || false,
                         true,
@@ -416,25 +483,17 @@ class BrowserModModule {
                     await this._cleanUpInstances();
                 }
                 if (browser.path) {
-                    await this.adapter.setStateAsync(
-                        `${ioBrokerDeviceId}.path`,
-                        browser.path as ioBroker.StateValue,
-                        true,
-                    );
+                    await this.adapter.setState(`${ioBrokerDeviceId}.path`, browser.path as ioBroker.StateValue, true);
                 }
                 if (browser.visibility) {
-                    await this.adapter.setStateAsync(
-                        `${ioBrokerDeviceId}.visible`,
-                        browser.visibility === 'visible',
-                        true,
-                    );
+                    await this.adapter.setState(`${ioBrokerDeviceId}.visible`, browser.visibility === 'visible', true);
                 }
             }
             if (typeof data.activity === 'boolean') {
-                await this.adapter.setStateAsync(`${ioBrokerDeviceId}.activity`, data.activity, true);
+                await this.adapter.setState(`${ioBrokerDeviceId}.activity`, data.activity, true);
             }
             if (typeof data.screen_on === 'boolean') {
-                await this.adapter.setStateAsync(`${ioBrokerDeviceId}.blackout`, !data.screen_on, true);
+                await this.adapter.setState(`${ioBrokerDeviceId}.blackout`, !data.screen_on, true);
             }
         }
     }
@@ -452,6 +511,132 @@ class BrowserModModule {
                 ...message,
             }),
         );
+    }
+
+    /**
+     * Apply a root "target all" setting change (hideHeader/hideSidebar) to every known browser: update
+     * its in-memory setting and its per-instance mirror state. The per-instance setState uses ack=true
+     * so it does not re-trigger onStateChange.
+     *
+     * @param key - which setting (`hideHeader` or `hideSidebar`)
+     * @param val - the new value
+     */
+    private async _applyRootSettingToAll(key: 'hideHeader' | 'hideSidebar', val: boolean): Promise<void> {
+        for (const browserId of Object.keys(this.browserModStorage.browsers)) {
+            this.initialiseBrowserSettings(browserId);
+            this.browserModStorage.browsers[browserId].settings[key] = val;
+            const stateId = `${instancesPath}${browserId}.${key}`;
+            if (this.objects[`${this.adapter.namespace}.${stateId}`]) {
+                await this.adapter.setStateAsync(stateId, val, true);
+            }
+        }
+    }
+
+    /**
+     * Write the per-browser setting VALUES onto their mirror states. _checkObjects only seeds the
+     * objects with the global default in common.def; it never writes the state value. Used on
+     * (re)register and rename so the ioBroker states reflect the browser's actual settings.
+     *
+     * @param ioBrokerDeviceId - the browser's device path (e.g. instances.<id>)
+     * @param settings - the browser's settings, if known
+     */
+    private async _applySettingStates(ioBrokerDeviceId: string, settings?: BrowserSettings): Promise<void> {
+        if (!settings) {
+            return;
+        }
+        for (const key of ['hideSidebar', 'hideHeader'] as const) {
+            if (settings[key] !== undefined) {
+                await this.adapter.setState(`${ioBrokerDeviceId}.${key}`, !!settings[key], true);
+            }
+        }
+    }
+
+    /**
+     * Derive a stable key for the current login session, used for sync-session Browser ID recall.
+     * Prefers the auth token, falls back to the username. Returns undefined when neither is known.
+     *
+     * @param ws - websocket connection
+     */
+    private _sessionKey(ws: WsWithBrowserId): string | undefined {
+        return ws.__auth?.access_token || ws.__auth?.username || undefined;
+    }
+
+    /**
+     * Build the `common.states` value→label map of theme names available for set_theme.
+     * Parses the same theme YAML the server uses, plus the built-in 'default'/'auto' entries.
+     */
+    private _getThemeStates(): Record<string, string> {
+        const states: Record<string, string> = { default: 'default', auto: 'auto' };
+        try {
+            const themes = (yaml.load(this.adapter.config.themes || '') as Record<string, unknown>) || {};
+            for (const themeName of Object.keys(themes)) {
+                states[themeName] = themeName;
+            }
+        } catch (e) {
+            this.adapter.log.debug(`Could not parse themes for set_theme states: ${String(e)}`);
+        }
+        return states;
+    }
+
+    /**
+     * Handle a `browser_mod.*` service call from the frontend (e.g. browser_mod.notification,
+     * browser_mod.refresh). Translates it into a browser command and forwards it to the target
+     * browser(s). Without this, such calls fell through to the generic entity handler and produced
+     * a misleading "Unknown entity" warning.
+     *
+     * @param ws - websocket connection the call came in on
+     * @param data - the call_service payload
+     * @returns true if handled
+     */
+    processServiceCall(ws: WsWithBrowserId, data: Record<string, unknown>): boolean {
+        if (data.domain !== 'browser_mod') {
+            return false;
+        }
+        const service = data.service as string;
+        const serviceData: Record<string, unknown> = { ...((data.service_data as Record<string, unknown>) || {}) };
+
+        // A "version mismatch" notification means the shipped browser_mod frontend was replaced
+        // (e.g. the user installed their own browser_mod). It ships WITH ioBroker.lovelace.
+        if (
+            service === 'notification' &&
+            typeof serviceData.message === 'string' &&
+            serviceData.message.includes('version mismatch')
+        ) {
+            this.adapter.log.warn(
+                `browser_mod reports: "${serviceData.message}". The browser_mod frontend ships with ` +
+                    `ioBroker.lovelace (expected version ${BROWSER_MOD_VERSION}). Do NOT install your own ` +
+                    `browser_mod - remove it so the bundled version is used.`,
+            );
+        }
+
+        // Resolve the target browser. "THIS" means the calling browser.
+        let browserId = serviceData.browser_id as string | undefined;
+        if (browserId === 'THIS') {
+            browserId = ws.browserID;
+        }
+        delete serviceData.browser_id;
+
+        const event: Record<string, unknown> = {
+            event_type: 'browser_mod/command',
+            command: service,
+            origin: 'LOCAL',
+            time_fired: new Date().toISOString(),
+            ...serviceData,
+        };
+
+        if (browserId && this.clients[browserId]) {
+            const client = this.clients[browserId];
+            this._sendToClient(client, { type: 'event', event: { ...event, browserID: client.instance } });
+        } else {
+            // No specific connected target -> broadcast to all connected browsers.
+            for (const client of Object.values(this.clients)) {
+                this._sendToClient(client, { type: 'event', event: { ...event, browserID: client.instance } });
+            }
+        }
+
+        // Acknowledge so the frontend's call_service promise resolves.
+        ws.send(JSON.stringify({ id: data.id, type: 'result', success: true, result: { context: { id: null } } }));
+        return true;
     }
 
     /**
@@ -474,9 +659,15 @@ class BrowserModModule {
                 await this._handleUpdate(ioBrokerDeviceId, message);
             } else if (method === 'connect') {
                 ws.on('close', async () => {
-                    this.adapter.log.debug(`Instance ${String(message.browserID)} disconnected.`);
-                    delete this.clients[message.browserID as string];
-                    await this.adapter.setStateAsync(`${ioBrokerDeviceId}.online`, false, true);
+                    // Use the current browserID from the ws: it may have been renamed (change_browser_id)
+                    // after connect, in which case message.browserID is stale.
+                    const currentId = ws.browserID || (message.browserID as string);
+                    this.adapter.log.debug(`Instance ${currentId} disconnected.`);
+                    delete this.clients[currentId];
+                    // Guard against the object having been deleted (rename) - avoid creating an orphan state.
+                    if (this.objects[`${this.adapter.namespace}.${instancesPath}${currentId}.online`]) {
+                        await this.adapter.setStateAsync(`${instancesPath}${currentId}.online`, false, true);
+                    }
                 });
 
                 this.adapter.log.debug(`Instance ${String(message.browserID)} connected.`);
@@ -517,28 +708,63 @@ class BrowserModModule {
 
                 const msgData = message.data as Record<string, unknown> | undefined;
                 if (msgData && msgData.browserID) {
-                    const newIoBrokerDeviceId = instancesPath + (msgData.browserID as string);
+                    const oldBrowserId = message.browserID as string;
+                    const newBrowserId = msgData.browserID as string;
+                    const newIoBrokerDeviceId = instancesPath + newBrowserId;
+                    // Drop stale OLD entries from the in-memory objects cache. Cache keys are fully
+                    // namespaced (lovelace.0.instances.OLD…), so the prefix must include the namespace.
+                    const oldPrefix = `${this.adapter.namespace}.${ioBrokerDeviceId}`;
                     for (const id of Object.keys(this.objects)) {
-                        if (id.startsWith(ioBrokerDeviceId)) {
+                        if (id.startsWith(oldPrefix)) {
                             delete this.objects[id];
                         }
                     }
                     try {
                         await this.adapter.delObjectAsync(ioBrokerDeviceId, { recursive: true });
-                        await this._checkObjects(newIoBrokerDeviceId, msgData.browserID as string);
+                        await this._checkObjects(newIoBrokerDeviceId, newBrowserId);
                     } catch (e) {
                         this.adapter.log.warn(
                             `Could not delete old instance objects in ${ioBrokerDeviceId}, please do so yourself. Error was: ${String(e)}`,
                         );
                     }
-                    delete this.browserModStorage.browsers[message.browserID as string];
-                    const newBrowserId = msgData.browserID as string;
+                    delete this.browserModStorage.browsers[oldBrowserId];
                     delete msgData.browserID;
                     this.browserModStorage.browsers[newBrowserId] = msgData as unknown as BrowserEntry;
+
+                    // Carry the per-browser setting VALUES over to the freshly created states. _checkObjects
+                    // only seeds the objects with the global default in common.default, it does not write the
+                    // state value, so without this the new browser's hideSidebar/hideHeader would reset.
+                    await this._applySettingStates(
+                        newIoBrokerDeviceId,
+                        msgData.settings as BrowserSettings | undefined,
+                    );
+
+                    // Move the live connection (if any) from the old id to the new one so the still-open
+                    // browser keeps being tracked, ws.browserID stays correct, and online is set on the
+                    // new device. Without this the renamed browser shows offline and the close handler
+                    // would clean up the wrong id.
+                    const liveClient = this.clients[oldBrowserId];
+                    if (liveClient) {
+                        delete this.clients[oldBrowserId];
+                        liveClient.instance = newBrowserId;
+                        liveClient.ws.browserID = newBrowserId;
+                        this.clients[newBrowserId] = liveClient;
+                    }
+                    if (this.clients[newBrowserId]) {
+                        // _checkObjects already created the object in the DB above, so this is safe
+                        // even if the in-memory objects cache hasn't caught up yet.
+                        await this.adapter.setStateAsync(`${newIoBrokerDeviceId}.online`, true, true);
+                    }
+                    this.adapter.log.info(`browser_mod instance renamed: ${oldBrowserId} -> ${newBrowserId}`);
                 } else {
                     try {
                         await this._checkObjects(ioBrokerDeviceId, message.browserID as string);
                         await this._cleanUpInstances();
+                        // Mirror the browser's reported settings onto the freshly created states.
+                        await this._applySettingStates(
+                            ioBrokerDeviceId,
+                            msgData?.settings as BrowserSettings | undefined,
+                        );
                     } catch (e) {
                         this.adapter.log.warn(
                             `Could not create objects for instance ${ioBrokerDeviceId}. Error was: ${String(e)}`,
@@ -558,15 +784,47 @@ class BrowserModModule {
                 this.adapter.log.debug(`Message from browser_mod: ${String(message.message)}`);
                 ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
             } else if (method === 'settings') {
-                if (message.key && this.browserModStorage.settings[message.key as string] !== undefined) {
-                    this.browserModStorage.settings[message.key as string] = message.value;
+                // Settings come in three scopes: global ({key,value}), per-user ({user,key,value})
+                // and per-browser. Store any key the frontend sends — new browser_mod versions add
+                // settings (kiosk mode, camera resolution, defaultDashboard, syncSession, …) that are
+                // not part of our initial seed, and the old `!== undefined` guard silently dropped them.
+                if (message.key) {
+                    if (message.user) {
+                        const user = message.user as string;
+                        const userSettings = (this.browserModStorage.user_settings[user] ||
+                            (this.browserModStorage.user_settings[user] = {})) as Record<string, unknown>;
+                        userSettings[message.key as string] = message.value;
+                    } else {
+                        this.browserModStorage.settings[message.key as string] = message.value;
+                    }
                     this.adapter.log.debug(
                         `Updated browser_mod settings: ${message.key as string} to ${String(message.value)}`,
                     );
                 }
                 ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
+            } else if (method === 'store_session') {
+                // Sync-session: tie this Browser ID to the login session so it can be recalled on
+                // other clients sharing the same login (e.g. Companion apps). browser_mod 2.13+.
+                const sessionKey = this._sessionKey(ws);
+                if (sessionKey && message.browserID) {
+                    this.browserModStorage.sessions[sessionKey] = message.browserID as string;
+                }
+                ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
+            } else if (method === 'delete_session') {
+                const sessionKey = this._sessionKey(ws);
+                if (sessionKey) {
+                    delete this.browserModStorage.sessions[sessionKey];
+                }
+                ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
             } else if (method === 'recall_id') {
-                ws.send(JSON.stringify({ id: message.id, type: 'result', success: true, result: ws.browserID }));
+                // The frontend expects { browserID, via_session }. If a sync-session mapping exists
+                // for this login, return it and flag via_session so the client enables sync mode.
+                const sessionKey = this._sessionKey(ws);
+                const sessionBrowserId = sessionKey ? this.browserModStorage.sessions[sessionKey] : undefined;
+                const result = sessionBrowserId
+                    ? { browserID: sessionBrowserId, via_session: true }
+                    : { browserID: ws.browserID ?? null };
+                ws.send(JSON.stringify({ id: message.id, type: 'result', success: true, result }));
             } else if (method === 'unregister') {
                 const browserId = message.browserID as string;
                 try {
@@ -687,14 +945,61 @@ class BrowserModModule {
                         break;
                     case 'refresh':
                         break;
-                    case 'hideHeader':
-                        if (allDevices) {
-                            this.browserModStorage.settings.hideHeader = state.val as boolean;
+                    case 'set_theme':
+                        if (state.val) {
+                            const valStr = state.val as string;
+                            try {
+                                const theme = JSON.parse(valStr) as Record<string, unknown>;
+                                for (const key of Object.keys(theme)) {
+                                    event[key] = theme[key];
+                                }
+                            } catch {
+                                // Plain string -> treat as theme name
+                                event.theme = valStr;
+                            }
                         } else {
-                            this.browserModStorage.browsers[browserId].hideHeader = state.val;
+                            return;
+                        }
+                        break;
+                    case 'console':
+                        if (state.val) {
+                            event.message = state.val;
+                        } else {
+                            return;
+                        }
+                        break;
+                    case 'change_browser_id':
+                        if (state.val) {
+                            const valStr = state.val as string;
+                            event.current_browser_id = browserId;
+                            try {
+                                const data = JSON.parse(valStr) as Record<string, unknown>;
+                                for (const key of Object.keys(data)) {
+                                    event[key] = data[key];
+                                }
+                            } catch {
+                                event.new_browser_id = valStr;
+                            }
+                        } else {
+                            return;
+                        }
+                        break;
+                    case 'hideHeader':
+                    case 'hideSidebar': {
+                        const key = command;
+                        const val = !!state.val;
+                        if (allDevices) {
+                            // Root "target all" write: new default for future browsers AND pushed onto
+                            // every existing browser's setting + per-instance state.
+                            this.browserModStorage.settings[key] = val;
+                            void this._applyRootSettingToAll(key, val);
+                        } else {
+                            this.initialiseBrowserSettings(browserId);
+                            this.browserModStorage.browsers[browserId].settings[key] = val;
                         }
                         event = { result: this.browserModStorage };
                         break;
+                    }
                     default:
                         return;
                 }
@@ -763,15 +1068,22 @@ class BrowserModModule {
                     this.initialiseBrowserSettings(browserId);
                     this.browserModStorage.browsers[browserId].last_seen = onlineState?.lc || 0;
                     await this.adapter.setState(id, false, true);
-                } else if (id.endsWith('hideHeader')) {
-                    const hideHeader = await this.adapter.getStateAsync(id);
-                    if (hideHeader) {
-                        if (id === `${this.adapter.namespace}.${instancesPath}hideHeader`) {
-                            this.browserModStorage.settings.hideHeader = hideHeader.val as boolean;
-                        } else {
-                            this.initialiseBrowserSettings(browserId);
-                            this.browserModStorage.browsers[id.split('.')[3]].settings.hideHeader =
-                                hideHeader.val as boolean;
+                } else {
+                    // Restore persisted hideHeader/hideSidebar into storage so they survive a restart.
+                    // (Both keys must be handled - missing hideSidebar here let it revert to the global
+                    //  default, and the next browser (re)register then overwrote the saved state.)
+                    for (const key of ['hideHeader', 'hideSidebar'] as const) {
+                        if (id.endsWith(key)) {
+                            const settingState = await this.adapter.getStateAsync(id);
+                            if (settingState) {
+                                if (id === `${this.adapter.namespace}.${instancesPath}${key}`) {
+                                    this.browserModStorage.settings[key] = settingState.val as boolean;
+                                } else {
+                                    this.initialiseBrowserSettings(browserId);
+                                    this.browserModStorage.browsers[browserId].settings[key] =
+                                        settingState.val as boolean;
+                                }
+                            }
                         }
                     }
                 }

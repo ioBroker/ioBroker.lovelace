@@ -1,6 +1,16 @@
 import type { Types, PatternControl } from '@iobroker/type-detector';
-import { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
+import {
+    processBattery,
+    connectivityIndicator,
+    processError,
+    processMaintenance,
+    processWorking,
+    generateElectricitySensors,
+} from './indicators';
 import type { BaseEntity } from '../entities/baseEntity';
+import { getEntityId } from '../entities/entity_id';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const entityData: { autoEntityIdFormat?: string } = require('../../../lib/dataSingleton');
 
 /** Alias kept for backward compatibility with the legacy "ioBrokerEntity" name used by older converters. */
 export type ioBrokerEntity = BaseEntity;
@@ -154,6 +164,21 @@ export class Converter {
         }
         const { existingEntities, adapter, entityRegistry, controls } = params;
 
+        // Step 0: for the iobId auto-format, regenerate the id from each entity's own state id.
+        // STATE.getId is only known after convertEntities() ran (not in the BaseEntity ctor, which
+        // could only use the device id). Using the state id makes the id unique per entity and avoids
+        // device-id collision suffixes. A reservation (step 1) still overrides this for existing ones.
+        if (entityData.autoEntityIdFormat === 'iobId') {
+            for (const entity of entities) {
+                const stateId = entity?.context?.STATE?.getId;
+                if (entity && stateId) {
+                    entity.entity_id = getEntityId(entity.entity_id.split('.')[0], null, {
+                        _id: stateId,
+                    } as ioBroker.Object);
+                }
+            }
+        }
+
         // Step 1: restore any previously reserved entity_ids by composite key.
         // Composite key = `${entityType}.${STATE.getId ?? context.id}`. Stable across restarts.
         for (const entity of entities) {
@@ -172,6 +197,12 @@ export class Converter {
         const mainEntity = entities.find((x: BaseEntity | null | undefined) => x?.entity_id);
         if (mainEntity) {
             entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
+            // Optional electricity states (power, current, voltage, consumption, frequency) -> sensors.
+            const electricitySensors = generateElectricitySensors(params, mainEntity.entity_id.split('.')[1]);
+            for (const sensor of electricitySensors) {
+                sensor.context.deviceId = mainEntity.context.id;
+            }
+            entities.push(...electricitySensors);
         }
 
         // Step 3: rewrite context.id to STATE.getId where set. Makes context.id unique per

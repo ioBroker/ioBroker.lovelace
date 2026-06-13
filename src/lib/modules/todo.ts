@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 import type { BaseEntity } from '../entities/baseEntity';
 import { TodoEntity } from '../entities/todoEntity';
 

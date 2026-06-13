@@ -12,147 +12,190 @@ ioBroker.lovelace is an ioBroker adapter that exposes ioBroker devices to a Home
 # Lint
 npm run lint
 
-# Type check (TypeScript)
+# Type check (TypeScript, no emit)
 npm run check
 
-# Build TypeScript (output to build/)
+# Build TypeScript (src/ → build/) via build-adapter
 npm run build
 
-# Run all unit tests (lib/**/*.test.js + test/package.js)
+# Unit tests (TypeScript: src/**/*.test.ts via mocha + ts-node)
+npm run test:ts        # npm run test:unit is an alias for this
+
+# Full test = unit tests + package validation
 npm test
 
-# Run only JS unit tests (skip package test)
-npm run test:unit
+# Run a single unit test file
+npx mocha --require test/ts-env-setup.js --require ts-node/register --require test/mocha.setup.js src/lib/converters/sensor.test.ts
 
-# Run TypeScript unit tests (src/**/*.test.ts)
-npm run test:ts
-
-# Run a single JS test file
-npx mocha --require test/mocha.setup.js lib/converters/sensor.test.js
-
-# Run integration tests (requires a real ioBroker dev-server setup)
+# Integration tests (@iobroker/testing harness; several minutes; no dev-server needed)
 npm run test:integration
 
-# TypeScript tests with coverage
+# Coverage (nyc over the unit tests)
 npm run coverage
 ```
 
+The codebase finished migrating to TypeScript: there are no more `lib/**/*.test.js` unit tests, and `test:unit` is now just an alias for `test:ts`. Integration tests spin up a real in-process adapter, take several minutes, and do **not** need a separate dev-server.
+
 ## Architecture
 
+### Source layout / TypeScript migration
+
+The migration from plain JS to TypeScript is essentially complete. Source lives under `src/`; `build-adapter ts` compiles it to `build/`, preserving the subdirectory structure (`src/lib/converters/foo.ts` → `build/lib/converters/foo.js`).
+
+Only four legacy items remain under `lib/`:
+- `lib/dataSingleton.js` — shared singleton (see below)
+- `lib/services.js` — base HA service definitions (seed for the service map)
+- `lib/bindings.js`
+- `lib/translations/` — word translations
+
+Everything else — converters, entities, modules — is TypeScript under `src/lib/`. The old `lib/converters/`, `lib/entities/`, and `lib/modules/` JS directories are gone.
+
 ### Entry point
-`main.js` → `lib/server.js` (`WebServer` class). The adapter uses `@iobroker/adapter-core` for ioBroker lifecycle.
+
+`main.js` → `build/main.js` (compiled from `src/main.ts`) → `WebServer` class in `build/lib/server.js` (compiled from `src/lib/server.ts`). The adapter uses `@iobroker/adapter-core` for ioBroker lifecycle.
+
+`src/lib/server.ts` is the central file (~3150 lines): WebSocket server, HTTP routes, module wiring, entity read/convert orchestration, and state-change routing.
 
 ### Central shared state
-`lib/dataSingleton.js` — a singleton object shared across all modules. Contains:
+
+`lib/dataSingleton.js` — a module-singleton shared across converters, entities, and server. Contains:
 - `entities` — flat array of all active HA entities
-- `iobID2entity` — maps ioBroker state IDs → entity (for fast state-change routing)
+- `iobID2entity` — maps ioBroker state IDs → entity (fast state-change routing)
 - `entityId2Entity` — maps HA entity_id → entity
-- `adapter`, `log`, `lang`, `words` — shared adapter references
+- `adapter`, `server`, `log`, `lang`, `words`, `entityIconUrls`
+- `services` — the per-domain HA service map. Seeded from `lib/services.js`; converters add their domain at module-load time (e.g. `adapterData.services.fan = {...}`), and modules further augment it via `augmentServices()` during init.
+
+It is commonly aliased as `entityData` (in `server.ts`) or `adapterData` (in converters) via `require('../../lib/dataSingleton')`.
+
+**Caveat (compact mode):** because it is a module-level export, all adapter instances running in one Node process (ioBroker "compact mode") share the same object. Known limitation; keep this in mind before adding per-instance state here.
 
 ### Entity conversion pipeline
-When the adapter starts, it uses `@iobroker/type-detector` to detect device types from ioBroker objects, then calls the appropriate converter:
+
+On start the adapter runs `@iobroker/type-detector` over the ioBroker objects, then converts each detected device:
 
 ```
-type-detector result → Converter.convertAll() → ConverterSubclass.convert() → HA entity objects
-                                               → legacyConverter(positional args) → HA entity objects
+type-detector PatternControl[] → Converter.convertAll(controls, params)
+    → Converter.converters[control.type].convert(params)   // TS subclass, keyed by Types.*
+        → convertEntities()  (subclass)  → BaseEntity[]
+        → _processEntities() (adds indicators, resolves duplicate entity_ids, pushes to entities)
 ```
 
-The entry point is `src/lib/converters/converter.ts` (compiled to `build/lib/converters/converter.js`), which `lib/server.js` requires. It has two dispatch tables:
+`Converter.convertAll()` dispatches **only** to TypeScript subclasses registered in `Converter.converters` (keyed by `Types.*`). If no converter is registered for a type, it logs `... is not yet supported` and skips. The old `Converter.legacyConverters` table and the positional-argument JS converter signature have been **removed** — every converter is now a `Converter` subclass under `src/lib/converters/`.
 
-- **`Converter.converters`** — TypeScript subclasses (`typeof Converter`), keyed by `Types.*`. These are called via `ConverterClass.convert(params)` using a `ConverterParameters` object.
-- **`Converter.legacyConverters`** — plain JS functions from `lib/converters/*.js`, called with the old positional-argument signature `(id, control, friendlyName, room, func, obj, objects, forcedEntityId)`.
-
-Each converter returns an array of entity objects with this shape:
+Each entity has the shape:
 ```js
 {
   entity_id: 'light.my_lamp',
   state: 'off',
   attributes: { friendly_name: '...', ... },
   context: {
-    id: 'adapter.0.device.id',       // ioBroker object ID
-    iobType: 'light',                // type-detector type string
-    STATE: { setId: '...', getId: '...' }, // ioBroker state IDs for the main state
-    ATTRIBUTES: [...],               // additional state→attribute mappings
-    COMMANDS: [...],                 // service call handlers
+    id: 'adapter.0.device.id',  // ioBroker object ID
+    iobType: 'light',           // type-detector type string
+    STATE: { setId, getId, ... },
+    ATTRIBUTES: [...],          // additional state→attribute mappings
+    COMMANDS: [...],            // service-call handlers
   }
 }
 ```
 
-`lib/entities/utils.js` provides `processCommon()` (creates base entity structure) and `addID2entity()` (registers ioBroker state IDs into the singleton lookup caches).
+Internal entities (with their `context`) are **not** serialized to the frontend verbatim — see "get_states shape" below.
 
-### TypeScript converter class pattern
+### TypeScript converter / entity classes
 
-`src/lib/converters/converter.ts` defines:
-- **`Converter`** — base class. `convertAll()` is the main entry point from server.js; it loops over type-detector results and dispatches to subclasses or legacy functions. `convert()` is the template method (calls `convertEntities()` then `_processEntities()`). `_processEntities()` handles indicator entities, duplicate entity_id detection, and pushing into `existingEntities`.
-- **`BinarySensorConverter extends Converter`** — first migrated subclass, in `src/lib/converters/binary_sensor.ts`. Self-registers on `Converter.converters` at module load time for `Types.motion`, `.door`, `.window`, `.fireAlarm`.
-- **`src/lib/converters/indicators.ts`** — indicator functions (`processBattery`, `connectivityIndicator`, `processError`, `processMaintenance`, `processWorking`) extracted here to avoid a circular dependency with `converter.ts`.
+`src/lib/converters/converter.ts` defines the `Converter` base class:
+- `static converters: Partial<Record<Types, typeof Converter>>` — the dispatch table.
+- `convertAll()` — entry point from `server.ts`.
+- `convert()` — template method: calls `convertEntities()` then `_processEntities()`.
+- `convertEntities()` — overridden per type to build the entities.
+- `processManualEntity()` — static; overridden per type to build user-configured (manual) entity mappings. `server.ts` calls it for manually-mapped objects (converters that support it also `export function processManualEntity`).
+- `_generateEntitiesFromIndicators()` — appends indicator binary_sensors.
+
+Each converter file self-registers at the bottom, e.g. `Converter.converters[Types.light] = LightConverter;`. Registration runs because `server.ts` imports every converter module near the top (either `import * as converterX from './converters/x'` when it needs the exported `processManualEntity`, or a bare `import './converters/x'` purely for the side-effect registration).
+
+`src/lib/converters/indicators.ts` — indicator functions (`processBattery`, `connectivityIndicator`, `processError`, `processMaintenance`, `processWorking`), extracted to avoid a circular dependency with `converter.ts`.
+
+`src/lib/entities/` — `BaseEntity` (in `baseEntity.ts`) plus per-type entity classes (`lightEntity`, `coverEntity`, `climateEntity`, …). `utils.ts` provides `processCommon()` (base entity structure) and `addID2entity()` (registers ioBroker state IDs into the singleton lookup caches). `entity_id.ts` / `friendly_name.ts` build ids and names.
 
 ### Indicator entities
 
-Every auto-detected device gets indicator binary_sensor entities appended automatically by `Converter._generateEntitiesFromIndicators()` — no converter needs to handle these explicitly. The indicators look for named states (`LOWBAT`, `UNREACH`/`OFFLINE`/`CONNECTED`, `ERROR`, `MAINTAIN`, `WORKING`) in the device's `controls.states` array.
+Every auto-detected device gets indicator binary_sensor entities appended automatically by `Converter._generateEntitiesFromIndicators()` — no converter handles these explicitly. The indicators look for named states (`LOWBAT`, `UNREACH`/`OFFLINE`/`CONNECTED`, `ERROR`, `MAINTAIN`, `WORKING`) in the device's `controls.states` array.
 
-### WebSocket protocol
-The Lovelace frontend connects via WebSocket. `lib/server.js` (`WebServer`) handles:
-- Auth handshake (token-based)
-- Message dispatch: `subscribe_events`, `get_states`, `call_service`, `subscribe_entities`, registry queries, etc.
-- State update events pushed to all clients on ioBroker state changes
+### Modules (`src/lib/modules/`)
 
-### Modules (`lib/modules/`)
-Each module is a class instantiated with `{ adapter, sendResponse, sendUpdate }` options:
-- `EntityRegistry` — stores per-entity overrides (custom entity_id, icon) in ioBroker object DB
-- `DashboardModule` — stores/retrieves Lovelace dashboard YAML configs
-- `AreaRegistry`, `DeviceRegistryModule` — room/device grouping
-- `HistoryModule`, `LogbookModule`, `StatisticsRecorder` — history data
+`server.ts` builds a `this._modules` object in its constructor. Each module is a class constructed with an options bag of `{ adapter, ... }` plus the callbacks it needs — `sendResponse`, `sendUpdate`, `entityData`, `server`, or purpose-specific injected callbacks (e.g. `ImageModule` gets `resolveUser`, `TemplateModule` gets `subscribeState`, so shared auth/subscription state stays in the server). Modules implement the `IModule` interface (`src/lib/modules/iModule.ts`): optional `init()`, `processMessage(ws, message): boolean`, `processServiceCall()`, `onStateChange()`, `augmentServices()`, etc.
+
+WS dispatch in `server.ts` is an `if / else if` chain on `message.type`; many branches delegate to a module's `processMessage()` (which returns a boolean meaning "handled"). Unmatched messages fall through to a loop that offers the message to every module's `processMessage()`; if none handle it, the server replies `unknown_command`.
+
+Modules:
+- `EntityRegistry` — per-entity overrides (custom entity_id, icon)
+- `DashboardModule` — Lovelace dashboard configs
+- `AreaRegistryModule`, `DeviceRegistryModule` — area/device grouping (devices group by `context.deviceId`)
+- `HistoryModule`, `LogbookModule`, `StatisticsRecorderModule` — history data
 - `PersistentNotifications`, `TodoModule`, `PersonModule`, `ConversationModule` — HA feature parity
-- `BrowserModModule` — browser_mod integration
+- `EnergyModule` — energy-dashboard prefs
+- `BrowserModModule` — browser_mod integration (target version `2.13.5`; own WS sub-protocol: `connect`/`register`/`settings`/`update`/`store_session`/`delete_session`/`recall_id`/`unregister`, plus services routed through `call_service`)
+- `UserDataModule` — `frontend/{subscribe,get,set}_user_data` and the `_system_data` trio
+- `ThemesModule` — theme list/selection (theme names come from the control's `common.states`)
+- `TemplateModule` — `render_template`; subscribes ioBroker states via the injected `subscribeState` callback
+- `CompatModule` — stub/registry replies the newer frontend expects: `repairs/list_issues`, `config/floor_registry/list`, `config/label_registry/list`, `config_entries/*`, `manifest/list`
+- `SearchModule` — `search/related`, `entity/source`
+- `ImageModule` — image/camera proxy endpoints; auth via the injected `resolveUser` callback
+- `storage.ts` — not a class; storage-folder helpers (`STORAGE_PREFIX`, `STORAGE_OBJECTS`, `migrateStorageObjects()`)
 
-### Frontend
-`hass_frontend/` contains a pre-built fork of Home Assistant's polymer frontend (built from a separate repo via `buildFrontend/build.sh`). It is **not built in this repo** — it ships as pre-built static files.
+### Internal storage objects (v6.0.0 breaking change)
+
+Persistent module storage moved out of the adapter root into a `storage` folder. `src/lib/modules/storage.ts` defines `STORAGE_PREFIX = 'storage.'` and `STORAGE_OBJECTS = ['entityRegistry','areaRegistry','energyPrefs','userData','dashboardStorage']`. `migrateStorageObjects(adapter)` runs on every start: it moves each legacy root object (e.g. `entityRegistry`) to `storage.entityRegistry` — preserving `native`, creating the new object if the io-package objects weren't applied yet so no data is lost — then deletes the legacy object. Idempotent.
+
+**Init ordering matters:** `migrateStorageObjects()` must finish before `entityRegistry.init()`, which must finish before `_readAllEntities()`, because entity conversion reads reserved entity ids from the registry. `server.ts` chains these as `storageReady → entityRegistry.init() → _readAllEntities()`.
+
+### WebSocket protocol & the newer frontend
+
+`hass_frontend/` is a **pre-built fork** of Home Assistant's polymer frontend (current `hass_frontend/version.txt` = `20260527.1`, our branch `iob202605`), built from a separate repo (`buildFrontend/build.sh`) — it is not built in this repo. **Prefer backend (this repo) fixes over patching the fork**, so the fork can be re-synced from upstream periodically.
+
+Beyond the classic messages (`auth`, `subscribe_events`, `get_states`, `get_config`, `get_services`, `get_panels`, `call_service`, `subscribe_entities`, …), the newer frontend requires these handlers (added across `server.ts` and the modules):
+- `frontend/subscribe_user_data` / `get_user_data` / `set_user_data` and the `_system_data` trio (`UserDataModule`). `frontend/subscribe_user_data` for `core` must return `{ default_panel: 'lovelace' }`, otherwise initial load crashes in `getDefaultPanel()`.
+- `frontend/subscribe_system_data`
+- `search/related`, `entity/source` (`SearchModule`)
+- `config_entries/*`, `repairs/list_issues`, `config/floor_registry/list`, `config/label_registry/list`, `manifest/list` (`CompatModule`)
+- `render_template` (`TemplateModule`)
+- `brands/access_token`, `labs/subscribe`
+- `config/entity_registry/list` must return a **bare array** (the frontend does `.filter` on it).
+- `lovelace/config` with `url_path: 'lovelace'` is the **main** dashboard config — treat `'lovelace'` like `null`, not as a separately-stored dashboard, or the dashboard renders empty.
+
+#### get_states shape
+The WS `get_states` handler returns `_getFrontendStates()` — a clean array of HA `HassEntity` objects `{ entity_id, state, attributes, last_changed, last_updated, context: { id, parent_id: null, user_id: null } }`. It deliberately does **not** serialize the internal entities (their `context.STATE`/`ATTRIBUTES`/`COMMANDS` carry adapter internals and could introduce circular references). `getHassStates()` (returns the raw `entityData.entities`) is kept for internal callers only — `main.ts` browse / duplicate-id checks and the integration-test harness — not for the wire.
+
+#### Sidebar panels
+`src/lib/panels.ts` defines the fixed sidebar panels (`lovelace`/`config`/`profile`/`browser-mod`). The lovelace panel uses `title: 'states'`, `icon: 'mdi:view-dashboard'`. (The former `lib/panels.js` was dead code and was removed — edit `src/lib/panels.ts`.)
 
 ### Build configuration
 `.buildconfig.json` controls the TypeScript build via `build-adapter`:
 - `typescriptOutDir: "build"` — compiled JS goes to `build/`
-- `typescriptRaw.outbase: "src"` — preserves `lib/converters/` subdirectory structure inside `build/` (i.e. `src/lib/converters/foo.ts` → `build/lib/converters/foo.js`)
+- `typescriptRaw.outbase: "src"` — preserves subdirectory structure (`src/lib/.../foo.ts` → `build/lib/.../foo.js`)
 
 ## Adding a new entity type
 
-### TypeScript subclass approach (preferred for new converters)
-
-1. Create `src/lib/converters/<type>.ts`, extend `Converter`, override `convertEntities()`.
-2. At the bottom of the file, self-register: `Converter.converters[Types.xxx] = MyConverter;`
-3. In `lib/server.js`, `require('../build/lib/converters/<type>')` so the registration runs at startup (after `converter` is already required).
-
-### Legacy JS approach (for converters not yet migrated)
-
-1. Create `lib/converters/<type>.js` with a `process<Type>(id, control, friendlyName, room, func, obj, objects, forcedEntityId)` function.
-2. Register it in `src/lib/converters/converter.ts` in `Converter.legacyConverters`.
-
-### Both approaches
-
-3. Add service call handling: push objects into `entity.context.COMMANDS`. Each needs `setId` (ioBroker state to write) and `service` (HA service name); define `parseCommand` for the actual write logic.
-4. Add attribute mappings: push objects into `entity.context.ATTRIBUTES`. Each needs `attribute` (HA attribute name), `getId` (ioBroker state to read), optional `setId` and `getParser`.
-5. For user-configured (manual) entity mappings, handle alongside auto-detected ones. See `lib/converters/light.js` for the pattern.
-6. Add test data JSON in `test/testData/` and integration tests in `test/integrationTests/`.
-7. Add unit tests in a `*.test.js` (or `.test.ts`) file next to the source.
+1. Create `src/lib/converters/<type>.ts`, extend `Converter`, override `convertEntities()` (and `processManualEntity()` if user-configured mappings are supported).
+2. Self-register at the bottom: `Converter.converters[Types.xxx] = MyConverter;`
+3. Add an `import` for the file in `src/lib/server.ts` (bare `import './converters/<type>';` for side-effect registration, or `import * as ...` if you need its exported `processManualEntity`) so registration runs at startup.
+4. Service calls: push to `entity.context.COMMANDS` — each needs `service` (HA service name) and a `parseCommand` (does the ioBroker write); `setId` optional on the command.
+5. Attribute mappings: push to `entity.context.ATTRIBUTES` — each needs `attribute` (HA name), `getId`, optional `setId`/`getParser`.
+6. If the domain exposes HA services, register them at module load: `adapterData.services.<domain> = { ... }`.
+7. Add test data JSON in `test/testData/` and an integration test in `test/integrationTests/`.
+8. Add a unit test as `*.test.ts` next to the source.
 
 ## Testing patterns
 
-**JS unit tests** live next to source files as `*.test.js`. They use Mocha + Chai + Sinon. The `dataSingleton` is typically mocked/reset between tests.
+**Unit tests** are TypeScript (`src/**/*.test.ts`), run via `npm run test:ts` (= `npm run test:unit`) using mocha + ts-node + Chai + Sinon. `test/ts-env-setup.js` and `test/mocha.setup.js` are required hooks. `dataSingleton` is typically reset/mocked between tests. Run one file with the `npx mocha --require ... src/lib/.../x.test.ts` form shown above.
 
-**TS unit tests** live next to source files as `*.test.ts` under `src/`. Run with `npm run test:ts`. Node.js v22 requires `--no-experimental-strip-types` (already set in the test:ts script) to prevent the native TS loader from interfering with ts-node.
+**Integration tests** in `test/integration` (objects loaded from `test/testData/*.json`) use the `@iobroker/testing` harness, which spins up a real in-process adapter. They take several minutes and need no separate dev-server — run `npm run test:integration`.
 
-**Integration tests** in `test/integrationTests/` use `@iobroker/testing` harness which spins up a real in-process adapter. Test data objects are loaded from `test/testData/*.json`. Each integration test file exports `runTests(suite)`.
-
-## TypeScript migration
-
-The project is migrating from plain JS to TypeScript. New converters go under `src/lib/converters/` as subclasses of `Converter`. The compiled output goes to `build/lib/converters/`. Legacy JS converters remain in `lib/converters/` and are called via `Converter.legacyConverters`.
-
-`tsconfig.build.json` has `allowJs: true` and `checkJs: true`, so it type-checks JS files that are transitively imported from TS. Pre-existing JS files in `lib/converters/` may have type errors — these are a known issue being resolved as files are migrated to TS.
+After making changes, run lint + unit + integration: `npm run lint`, `npm run test:unit`, `npm run test:integration`.
 
 ## Git & changelog conventions
 
-- **One commit per feature/fix.** Do not bundle unrelated changes in a single commit. When one source file unavoidably contains two features, split them with patch-level staging (`git apply --cached`) where practical.
+- **One commit per feature/fix.** Do not bundle unrelated changes in a single commit. Prefer a separate commit per feature even when several features touch the same source file — a per-feature commit may contain **source only** and need not build or run standalone. Split intertwined source with patch-level staging (`git apply --cached`) only when that is clean; otherwise commit the source as-is and reconcile the build later (see below). The goal is a readable per-feature history, not that every commit is independently runnable.
 - **Changelog:** for every user-facing change add a line to `README.md` under the `### **WORK IN PROGRESS**` marker (right under `## Changelog`). Create that marker if it is missing. Format: `* (Garfonso/Claude) <what changed>. (#<issue>)`.
-- `build/` is committed alongside `src/` — always run `npm run build` before committing so the compiled output in the commit matches the source.
+- **`build/` output:** `build/` is committed alongside `src/`. For a single self-contained change, run `npm run build` and include the compiled output in the same commit. When committing several features at once, **omit `build/` from the per-feature commits** and add one combined `build: rebuild` commit after them (so you never have to revert source just to split build artifacts).
 - Commits are authored as `Garfonso <garfonso@mobo.info>` (matches repo history) and end with the `Co-Authored-By: Claude ...` trailer.
 - Before committing, run `npm run lint`, `npm run test:unit` and `npm run test:integration`.

@@ -1,4 +1,5 @@
 "use strict";
+var import_storage = require("./storage");
 class EntityRegistry {
   /**
    * Frontend registry entries keyed by HA entity_id. Holds per-entity overrides
@@ -18,6 +19,7 @@ class EntityRegistry {
   entityData;
   sendResponse;
   sendUpdate;
+  renameEntityIdInConfigs;
   /**
    * Constructor
    *
@@ -26,12 +28,14 @@ class EntityRegistry {
    * @param options.entityData - shared entity data singleton
    * @param options.sendResponse - function to send a response to a client
    * @param options.sendUpdate - function to broadcast an update event
+   * @param options.renameEntityIdInConfigs - rewrite a renamed entity_id in the stored lovelace configs
    */
   constructor(options) {
     this.adapter = options.adapter;
     this.entityData = options.entityData;
     this.sendResponse = options.sendResponse;
     this.sendUpdate = options.sendUpdate;
+    this.renameEntityIdInConfigs = options.renameEntityIdInConfigs;
   }
   /**
    * Convert an entity registry entry to the format expected by the frontend for display.
@@ -190,7 +194,7 @@ class EntityRegistry {
    * @param message - the message from the frontend
    */
   processMessage(ws, message) {
-    var _a, _b;
+    var _a, _b, _c, _d, _e;
     if (message.type === "config/entity_registry/list_for_display") {
       const entities = [];
       for (const entity of this.entityData.entities) {
@@ -203,13 +207,11 @@ class EntityRegistry {
       return true;
     } else if (message.type === "config/entity_registry/list") {
       const entities = [];
-      for (const id of Object.keys(this._entries)) {
-        entities.push(this._entries[id]);
+      for (const entity of this.entityData.entities) {
+        const stored = this._entries[entity.entity_id];
+        entities.push(stored || this._createEntryFromEntity(entity));
       }
-      this.sendResponse(ws, message.id, {
-        entities,
-        entity_categories: this._entityCategories
-      });
+      this.sendResponse(ws, message.id, entities);
       return true;
     } else if (message.type === "config/entity_registry/get") {
       const entityId = message.entity_id;
@@ -267,10 +269,20 @@ class EntityRegistry {
       if (!entityWithId) {
         entityWithId = this._createEntryFromEntity(entity);
       }
+      this._entries[entityId] = entityWithId;
       const newData = JSON.parse(JSON.stringify(message));
       delete newData.id;
       delete newData.type;
       delete newData.entity_id;
+      if (typeof newData.options_domain === "string") {
+        const domain = newData.options_domain;
+        const opts = (_a = newData.options) != null ? _a : {};
+        const existing = (_b = entityWithId.options) != null ? _b : {};
+        existing[domain] = opts;
+        entityWithId.options = existing;
+        delete newData.options_domain;
+        delete newData.options;
+      }
       const changes = {};
       for (const key of Object.keys(newData)) {
         changes[key] = entityWithId[key] || null;
@@ -278,7 +290,7 @@ class EntityRegistry {
         if (key === "new_entity_id") {
           const oldEntityId = entity.entity_id;
           const newEntityId = newData[key];
-          const stableIobId = (_b = (_a = entity.context.STATE) == null ? void 0 : _a.getId) != null ? _b : entity.context.id;
+          const stableIobId = (_d = (_c = entity.context.STATE) == null ? void 0 : _c.getId) != null ? _d : entity.context.id;
           const oldKey = `${oldEntityId.split(".")[0]}.${stableIobId}`;
           const newKey = `${newEntityId.split(".")[0]}.${stableIobId}`;
           delete this._iobIdToEntityId[oldKey];
@@ -290,17 +302,24 @@ class EntityRegistry {
             this._entries[newEntityId] = entityWithId;
           }
           entityWithId.entity_id = newEntityId;
+          entityWithId.userRenamed = true;
           entity.unregister(newEntityId);
           delete entityWithId.new_entity_id;
+          void ((_e = this.renameEntityIdInConfigs) == null ? void 0 : _e.call(this, oldEntityId, newEntityId));
+          if (entity.isManual) {
+            void this._persistManualEntityRename(entity.context.id, newEntityId);
+          }
         }
       }
       this.updateEntityFromRegistry(entity, entityWithId);
+      void this.saveEntityRegistry();
       this.sendResponse(ws, message.id, { entity_entry: entityWithId });
       this.sendUpdate("entity_registry_updated", {
         action: "update",
         entity_id: entityWithId.entity_id,
         changes
       });
+      return true;
     }
     return false;
   }
@@ -323,7 +342,7 @@ class EntityRegistry {
    * Load the entity registry from the ioBroker object database.
    */
   async loadEntityRegistry() {
-    const storage = await this.adapter.getObjectAsync("entityRegistry");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}entityRegistry`);
     const native = storage == null ? void 0 : storage.native;
     this._entries = (native == null ? void 0 : native.entries) || {};
     this._iobIdToEntityId = (native == null ? void 0 : native.iobIdToEntityId) || {};
@@ -336,14 +355,66 @@ class EntityRegistry {
    * Store the entity registry to the ioBroker object database.
    */
   async saveEntityRegistry() {
-    const storage = await this.adapter.getObjectAsync("entityRegistry");
+    const storage = await this.adapter.getObjectAsync(`${import_storage.STORAGE_PREFIX}entityRegistry`);
     if (!storage.native) {
       storage.native = {};
     }
     storage.native.entries = this._entries;
     storage.native.iobIdToEntityId = this._iobIdToEntityId;
     storage.native.entityCategories = this._entityCategories;
-    await this.adapter.setObject("entityRegistry", storage);
+    await this.adapter.setObject(`${import_storage.STORAGE_PREFIX}entityRegistry`, storage);
+  }
+  /**
+   * Persist a renamed manual entity back to its source object's custom config, so the new
+   * entity_id survives a restart (manual entities are regenerated from the object, not the
+   * registry). The new id's domain becomes `custom[ns].entity`, its local part `custom[ns].name`.
+   *
+   * @param objId - ioBroker object id of the manual entity (entity.context.id)
+   * @param newEntityId - the new HA entity_id (e.g. "switch.kitchen")
+   */
+  async _persistManualEntityRename(objId, newEntityId) {
+    try {
+      const obj = await this.adapter.getForeignObjectAsync(objId);
+      if (!(obj == null ? void 0 : obj.common)) {
+        return;
+      }
+      const ns = this.adapter.namespace;
+      const common = obj.common;
+      const custom = common.custom || {};
+      custom[ns] = custom[ns] || {};
+      const [domain, ...rest] = newEntityId.split(".");
+      custom[ns].entity = domain;
+      custom[ns].name = rest.join(".");
+      common.custom = custom;
+      await this.adapter.setForeignObjectAsync(objId, obj);
+      this.adapter.log.debug(`Persisted manual entity rename to ${newEntityId} on ${objId}.`);
+    } catch (e) {
+      this.adapter.log.warn(`Could not persist manual entity rename for ${objId}: ${String(e)}`);
+    }
+  }
+  /**
+   * Whether the given entity_id has a user override in the registry (icon, name, manual rename, …)
+   * and should therefore be left untouched by a bulk "regenerate entity ids" run.
+   *
+   * @param entityId - HA entity_id
+   * @returns true if the entity was customized by the user
+   */
+  isProtectedFromRegen(entityId) {
+    return !!this._entries[entityId];
+  }
+  /**
+   * Drop all reserved entity_ids except those that belong to protected (user-customized) entities.
+   * Cleared reservations let the entities regenerate with the currently configured auto-id format
+   * on the next conversion; protected ones keep their reserved id.
+   *
+   * @param protectedIds - set of entity_ids whose reservation must be kept
+   */
+  clearAutoReservations(protectedIds) {
+    for (const key of Object.keys(this._iobIdToEntityId)) {
+      if (!protectedIds.has(this._iobIdToEntityId[key])) {
+        delete this._iobIdToEntityId[key];
+      }
+    }
   }
   /**
    * Clean up, save the entity registry.

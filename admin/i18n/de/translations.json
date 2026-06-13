@@ -180,5 +180,15 @@
     "water_heater": "Wasserkocher",
     "weather": "Wetter",
     "weblink": "Weblink",
-    "Maximum browser instances to keep": "Maximale Anzahl an verwalteten Browser-Instanzen"
+    "Maximum browser instances to keep": "Maximale Anzahl an verwalteten Browser-Instanzen",
+    "Browser tab title": "Titel des Browser-Tabs",
+    "App name (home screen / PWA)": "App-Name (Startbildschirm / PWA)",
+    "App short name (PWA)": "Kurzer App-Name (PWA)",
+    "Automatic entity_id format": "Format der automatischen entity_id",
+    "From object name": "Aus Objektnamen",
+    "From room and function": "Aus Raum und Funktion",
+    "From ioBroker object id": "Aus ioBroker-Objekt-ID",
+    "Regenerate entity IDs": "Entity-IDs neu erzeugen",
+    "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Alle automatischen entity_ids mit dem konfigurierten Format neu erzeugen und Dashboards aktualisieren? Von dir umbenannte Entitäten bleiben erhalten.",
+    "Renamed %s entities.": "%s Entitäten umbenannt."
 }

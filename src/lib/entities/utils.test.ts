@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { processCommon } from './baseEntity';
+import { replaceEntityIdInConfig } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const entityData = require('../../../lib/dataSingleton');
@@ -404,5 +405,85 @@ describe('converters/utils', function () {
         const entity = processCommon(null, room, func, obj, 'light');
         expect(entity.attributes.entity_picture, obj.common.icon);
         expectEntity(entity, entity_id, id, 'Room1 Light_Icon_url', 'light');
+    });
+});
+
+describe('converters/utils translated room/function names', function () {
+    it('uses the configured language for room and function names', function () {
+        entityData.lang = 'de';
+        const room = {
+            _id: 'enum.rooms.transl_room',
+            common: { name: { en: 'Living room', de: 'Wohnzimmer' } },
+        } as unknown as ioBroker.EnumObject;
+        const func = {
+            _id: 'enum.functions.transl_func',
+            common: { name: { en: 'Light', de: 'Licht' } },
+        } as unknown as ioBroker.EnumObject;
+        const obj = { _id: 'a.transl.1', common: { name: 'Lamp' }, type: 'state' } as unknown as ioBroker.Object;
+
+        const entity = processCommon(null, room, func, obj, 'light', null, 'de');
+        expect(entity.context.room).to.equal('Wohnzimmer');
+        expect(entity.context.func).to.equal('Licht');
+    });
+
+    it('falls back to English when the language is missing', function () {
+        const room = {
+            _id: 'enum.rooms.transl_room_en',
+            common: { name: { en: 'Kitchen', de: 'Küche' } },
+        } as unknown as ioBroker.EnumObject;
+        const obj = { _id: 'a.transl.2', common: { name: 'Lamp' }, type: 'state' } as unknown as ioBroker.Object;
+
+        const entity = processCommon(null, room, null, obj, 'light', null, 'fr');
+        expect(entity.context.room).to.equal('Kitchen');
+    });
+});
+
+describe('converters/utils replaceEntityIdInConfig', function () {
+    it('replaces entity in entity: field and entities array', function () {
+        const config = {
+            views: [
+                {
+                    cards: [
+                        { type: 'entity', entity: 'light.old' },
+                        { type: 'entities', entities: ['light.old', 'light.other', { entity: 'light.old' }] },
+                    ],
+                },
+            ],
+        };
+        const changed = replaceEntityIdInConfig(config, 'light.old', 'light.new');
+        expect(changed).to.equal(true);
+        expect(config.views[0].cards[0].entity).to.equal('light.new');
+        expect(config.views[0].cards[1].entities[0]).to.equal('light.new');
+        expect(config.views[0].cards[1].entities[1]).to.equal('light.other');
+        expect((config.views[0].cards[1].entities[2] as { entity: string }).entity).to.equal('light.new');
+    });
+
+    it('matches whole token only, not a longer id', function () {
+        const config = { a: 'light.old', b: 'light.old2', c: 'light.oldx' };
+        const changed = replaceEntityIdInConfig(config, 'light.old', 'light.new');
+        expect(changed).to.equal(true);
+        expect(config.a).to.equal('light.new');
+        expect(config.b).to.equal('light.old2');
+        expect(config.c).to.equal('light.oldx');
+    });
+
+    it('replaces id embedded in a template string', function () {
+        const config = { content: "{{ states('light.old') }} and light.old again" };
+        const changed = replaceEntityIdInConfig(config, 'light.old', 'light.new');
+        expect(changed).to.equal(true);
+        expect(config.content).to.equal("{{ states('light.new') }} and light.new again");
+    });
+
+    it('returns false and leaves config untouched when id is absent', function () {
+        const config = { entity: 'light.something' };
+        const changed = replaceEntityIdInConfig(config, 'light.old', 'light.new');
+        expect(changed).to.equal(false);
+        expect(config.entity).to.equal('light.something');
+    });
+
+    it('returns false when old and new id are equal', function () {
+        const config = { entity: 'light.old' };
+        const changed = replaceEntityIdInConfig(config, 'light.old', 'light.old');
+        expect(changed).to.equal(false);
     });
 });

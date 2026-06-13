@@ -26,6 +26,7 @@ Andere Themen (inklusive Hinweisen zu ioBroker Besonderheiten):
 * [Unterstütze entities](supported_entities.md) 
 * [Eigene Karten](custom_cards.md)
 * [Tipps für die Gestaltung der Oberfläche](ui_tipps.md)
+* [Themes anpassen (Frontend-Update 2026)](theme_migration.md)
 
 ## Fernzugriff über ioBroker Cloud
 

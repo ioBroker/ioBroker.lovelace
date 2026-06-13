@@ -167,6 +167,59 @@
         "condition": {
           "operand": "and",
           "rules": [
+            "oldVersion<6.0.0",
+            "newVersion>=6.0.0"
+          ]
+        },
+        "title": {
+          "en": "Major update: themes & object paths",
+          "de": "Großes Update: Themes & Objekt-Pfade",
+          "ru": "Крупное обновление: темы и пути объектов",
+          "pt": "Grande atualização: temas e caminhos de objetos",
+          "nl": "Grote update: thema's en objectpaden",
+          "fr": "Mise à jour majeure : thèmes et chemins d'objets",
+          "it": "Aggiornamento importante: temi e percorsi degli oggetti",
+          "es": "Actualización importante: temas y rutas de objetos",
+          "pl": "Duża aktualizacja: motywy i ścieżki obiektów",
+          "uk": "Велике оновлення: теми та шляхи об'єктів",
+          "zh-cn": "重大更新：主题与对象路径"
+        },
+        "text": {
+          "en": "This major update ships a new Home Assistant frontend: custom themes may need adjusting (see the linked theme migration guide). Also, internal storage objects (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) moved into a new 'storage' folder. The adapter migrates them automatically; if you reference these object ids in scripts, update the paths.",
+          "de": "Dieses große Update bringt ein neues Home-Assistant-Frontend: eigene Themes müssen evtl. angepasst werden (siehe verlinkte Theme-Migrations-Anleitung). Außerdem liegen interne Speicher-Objekte (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) jetzt im Ordner 'storage'. Der Adapter migriert sie automatisch; falls du diese Objekt-IDs in Skripten verwendest, passe die Pfade an.",
+          "ru": "Это крупное обновление содержит новый фронтенд Home Assistant: собственные темы могут потребовать корректировки (см. руководство по миграции тем по ссылке). Кроме того, внутренние объекты хранилища (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) перемещены в новую папку 'storage'. Адаптер мигрирует их автоматически; если вы используете эти идентификаторы объектов в скриптах, обновите пути.",
+          "pt": "Esta grande atualização traz um novo frontend do Home Assistant: temas personalizados podem precisar de ajustes (consulte o guia de migração de temas no link). Além disso, os objetos de armazenamento internos (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) foram movidos para uma nova pasta 'storage'. O adaptador os migra automaticamente; se você referenciar esses ids de objeto em scripts, atualize os caminhos.",
+          "nl": "Deze grote update bevat een nieuwe Home Assistant-frontend: eigen thema's moeten mogelijk worden aangepast (zie de gelinkte handleiding voor themamigratie). Daarnaast zijn interne opslagobjecten (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) verplaatst naar een nieuwe map 'storage'. De adapter migreert ze automatisch; als je deze object-id's in scripts gebruikt, pas dan de paden aan.",
+          "fr": "Cette mise à jour majeure intègre un nouveau frontend Home Assistant : les thèmes personnalisés peuvent nécessiter des ajustements (voir le guide de migration des thèmes lié). De plus, les objets de stockage internes (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) ont été déplacés dans un nouveau dossier 'storage'. L'adaptateur les migre automatiquement ; si vous référencez ces ids d'objet dans des scripts, mettez à jour les chemins.",
+          "it": "Questo importante aggiornamento include un nuovo frontend di Home Assistant: i temi personalizzati potrebbero richiedere modifiche (vedi la guida alla migrazione dei temi collegata). Inoltre, gli oggetti di archiviazione interni (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) sono stati spostati in una nuova cartella 'storage'. L'adattatore li migra automaticamente; se fai riferimento a questi id di oggetto negli script, aggiorna i percorsi.",
+          "es": "Esta actualización importante incluye un nuevo frontend de Home Assistant: los temas personalizados pueden necesitar ajustes (consulta la guía de migración de temas enlazada). Además, los objetos de almacenamiento internos (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) se movieron a una nueva carpeta 'storage'. El adaptador los migra automáticamente; si haces referencia a estos ids de objeto en scripts, actualiza las rutas.",
+          "pl": "Ta duża aktualizacja zawiera nowy frontend Home Assistant: własne motywy mogą wymagać dostosowania (zobacz powiązany przewodnik migracji motywów). Ponadto wewnętrzne obiekty magazynu (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) zostały przeniesione do nowego folderu 'storage'. Adapter migruje je automatycznie; jeśli odwołujesz się do tych identyfikatorów obiektów w skryptach, zaktualizuj ścieżki.",
+          "uk": "Це велике оновлення містить новий фронтенд Home Assistant: власні теми можуть потребувати коригування (див. пов'язаний посібник з міграції тем). Крім того, внутрішні об'єкти сховища (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) переміщено до нової теки 'storage'. Адаптер мігрує їх автоматично; якщо ви посилаєтесь на ці ідентифікатори об'єктів у скриптах, оновіть шляхи.",
+          "zh-cn": "此重大更新带来了新的 Home Assistant 前端：自定义主题可能需要调整（请参阅链接的主题迁移指南）。此外，内部存储对象（entityRegistry、areaRegistry、energyPrefs、userData、dashboardStorage）已移至新的 'storage' 文件夹。适配器会自动迁移它们；如果你在脚本中引用了这些对象 id，请更新路径。"
+        },
+        "link": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/docs/theme_migration.md",
+        "linkText": {
+          "en": "Theme migration guide",
+          "de": "Theme-Migrations-Anleitung",
+          "ru": "Руководство по миграции тем",
+          "pt": "Guia de migração de temas",
+          "nl": "Handleiding voor themamigratie",
+          "fr": "Guide de migration des thèmes",
+          "it": "Guida alla migrazione dei temi",
+          "es": "Guía de migración de temas",
+          "pl": "Przewodnik migracji motywów",
+          "uk": "Посібник з міграції тем",
+          "zh-cn": "主题迁移指南"
+        },
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      },
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
             "oldVersion<=2.0.0",
             "newVersion>=3.0.0"
           ]
@@ -309,7 +362,11 @@
     "language": "",
     "updateTimeout": 5000,
     "logbookSource": "adapter",
-    "maxBrowserInstances": 10
+    "maxBrowserInstances": 10,
+    "browserTitle": "ioBroker",
+    "pwaName": "ioBroker",
+    "pwaShortName": "IoB",
+    "autoEntityIdFormat": "name"
   },
   "instanceObjects": [
     {
@@ -374,7 +431,15 @@
       "native": {}
     },
     {
-      "_id": "entityRegistry",
+      "_id": "storage",
+      "type": "folder",
+      "common": {
+        "name": "Internal storage (registries, preferences, dashboards)"
+      },
+      "native": {}
+    },
+    {
+      "_id": "storage.entityRegistry",
       "type": "channel",
       "common": {
         "name": "Storage for entity registry"
@@ -382,7 +447,7 @@
       "native": {}
     },
     {
-      "_id": "areaRegistry",
+      "_id": "storage.areaRegistry",
       "type": "channel",
       "common": {
         "name": "Storage for area registry"
@@ -390,7 +455,23 @@
       "native": {}
     },
     {
-      "_id": "dashboardStorage",
+      "_id": "storage.energyPrefs",
+      "type": "channel",
+      "common": {
+        "name": "Storage for energy dashboard preferences"
+      },
+      "native": {}
+    },
+    {
+      "_id": "storage.userData",
+      "type": "channel",
+      "common": {
+        "name": "Storage for frontend user data (theme settings, sidebar order, …)"
+      },
+      "native": {}
+    },
+    {
+      "_id": "storage.dashboardStorage",
       "type": "channel",
       "common": {
         "name": "Storage for dashboards"
@@ -414,8 +495,7 @@
       "type": "state",
       "common": {
         "name": "Question and answer for conversation ",
-        "desc": "Question and answer for conversation dialog. See readme for how to use.",
-        "desc1": {
+        "desc": {
           "en": "Question and answer for conversation dialog. See readme for how to use.",
           "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
           "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",

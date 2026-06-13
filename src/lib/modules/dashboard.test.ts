@@ -151,4 +151,85 @@ describe('modules/dashboard', function () {
             expect(panels['lovelace-2'].require_admin).to.be.true;
         });
     });
+
+    describe('frontend/update_panel + applyPanelOverrides', function () {
+        it('stores a panel override and applies title/icon/require_admin to the panel', async function () {
+            const dashboard = makeDashboard();
+            const handled = await dashboard.processMessage(
+                {},
+                {
+                    type: 'frontend/update_panel',
+                    url_path: 'lovelace',
+                    title: 'My Home',
+                    icon: 'mdi:home-heart',
+                    require_admin: true,
+                    id: 1,
+                },
+            );
+            expect(handled).to.equal(true);
+
+            const panels: Record<string, Record<string, unknown>> = {
+                lovelace: { component_name: 'lovelace', title: 'states', icon: 'mdi:view-dashboard' },
+            };
+            dashboard.applyPanelOverrides(panels);
+            expect(panels.lovelace.title).to.equal('My Home');
+            expect(panels.lovelace.icon).to.equal('mdi:home-heart');
+            expect(panels.lovelace.require_admin).to.equal(true);
+        });
+
+        it('hides the panel via show_in_sidebar:false while keeping title/icon', async function () {
+            const dashboard = makeDashboard();
+            await dashboard.processMessage(
+                {},
+                { type: 'frontend/update_panel', url_path: 'lovelace', show_in_sidebar: false, id: 1 },
+            );
+            const panels: Record<string, Record<string, unknown>> = {
+                lovelace: { title: 'states', icon: 'mdi:view-dashboard' },
+            };
+            dashboard.applyPanelOverrides(panels);
+            expect(panels.lovelace.show_in_sidebar).to.equal(false);
+            // title/icon must survive so the dashboards list still shows name + icon.
+            expect(panels.lovelace.title).to.equal('states');
+            expect(panels.lovelace.icon).to.equal('mdi:view-dashboard');
+        });
+
+        it('ignores overrides for panels that do not exist', function () {
+            const dashboard = makeDashboard();
+            dashboard._panelOverrides = { nonexistent: { title: 'x' } };
+            const panels: Record<string, Record<string, unknown>> = { lovelace: { title: 'states' } };
+            dashboard.applyPanelOverrides(panels);
+            expect(panels.lovelace.title).to.equal('states');
+        });
+    });
+
+    describe('dashboards list', function () {
+        function captureModule(): { dashboard: any; responses: any[] } {
+            const responses: any[] = [];
+            const dashboard = makeDashboard({
+                sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result),
+            });
+            return { dashboard, responses };
+        }
+
+        it('returns only user dashboards, not the main lovelace board', async function () {
+            const { dashboard, responses } = captureModule();
+            dashboard._dashboards = [{ id: 'dashboard_x', url_path: 'x', title: 'X' }];
+            await dashboard.processMessage({}, { type: 'lovelace/dashboards/list', id: 1 });
+            const list = responses[0];
+            expect(list).to.have.lengthOf(1);
+            expect(list[0].id).to.equal('dashboard_x');
+            expect(list.some((d: any) => d.url_path === 'lovelace')).to.equal(false);
+        });
+
+        it('editing the main panel goes through frontend/update_panel as an override', async function () {
+            const { dashboard } = captureModule();
+            await dashboard.processMessage(
+                {},
+                { type: 'frontend/update_panel', url_path: 'lovelace', title: 'Casa', id: 1 },
+            );
+            expect(dashboard._panelOverrides.lovelace.title).to.equal('Casa');
+            // It is NOT turned into a stored dashboard.
+            expect(dashboard._dashboards).to.have.lengthOf(0);
+        });
+    });
 });

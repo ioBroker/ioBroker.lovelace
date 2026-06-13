@@ -428,29 +428,37 @@ Security must be taken from the current user and not from default_user
 
 ## Development
 ### Version
-Used version of home-assistant-frontend@20250306.0
-Version of Browser Mod: 2.3.3
+Used version of home-assistant-frontend@20260527.6
+Version of Browser Mod: 2.13.5
 
 ### How to build the new Lovelace version
 First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20250401.0) following files were modified:
+For now (20260527.1) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
 - `build-scripts/gulp/rspack.js` - Add new gulp task rspack-dev-app
 - `build-scripts/rspack.cjs` - disable source maps in prod build to reduce emitted file count.
 - `src/data/icons.ts` - keep old icons, for now.
 - `src/data/weather.ts` - add support to display weather icon from url.
-- `src/dialogs/more-info/const.ts` - remove weather state & history
-- `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab
-- `src/dialogs/more-info/ha-more-info-history.ts` - remove `show more` link in history
-- `src/dialogs/more-info/ha-more-info-logbook.ts` - remove `show more` link in logbook
+- `src/dialogs/more-info/const.ts` - remove weather state & history, if is image
+- `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab  <!-- TODO: check -->
+- `src/dialogs/more-info/ha-more-info-history.ts` - remove `show more` link in history <!-- TODO: check -->
+- `src/dialogs/more-info/ha-more-info-logbook.ts` - remove `show more` link in logbook <!-- TODO: check -->
 - `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
 - `src/dialogs/voice-command-dialog/ha-voice-command-dialog.ts` - disable configuration of voice assistants
 - `src/entrypoints/core.ts` - add no auth option
 - `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
 - `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
-- `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link
+- `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button, open edit-panel dialog for lovelace boards, live dashboard title from hass.panels
+- `src/layouts/hass-router-page.ts` - guard updatePageEl against undefined route during rebuild (panel rename crash).
+- `src/panels/config/dashboard/ha-config-dashboard.ts` - hide settings sections (automations, apps, voice assistants, system, people, tip).
+- `src/panels/config/ha-panel-config.ts` - hide integrations tab in devices & services, land devices & services tile on /config/devices.
+- `src/panels/config/developer-tools/ha-panel-developer-tools.ts` - remove yaml, events and assist tabs from developer tools.
+- `src/panels/config/developer-tools/developer-tools-router.ts` - default to states tab (yaml removed).
+- `src/panels/config/info/ha-config-info.ts` - hide doc/credits/community/license links in about (keep keyboard shortcuts).
+- `src/panels/config/lovelace/dashboards/ha-config-lovelace-dashboards.ts` - show fixed panels (incl. browser-mod) in built-in dashboards list.
+- `src/panels/profile/ha-panel-profile.ts` - hide security tab in user profile.
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `.husky/pre-commit` - remove git commit hooks.
 
@@ -473,11 +481,31 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.6. See [migration guide in docs](docs/en/theme_migration.md) for theme changes.
+* (Garfonso/Claude) **BREAKING:** Internal storage objects were moved into a new `storage` folder to declutter the object tree: `entityRegistry`, `areaRegistry`, `energyPrefs`, `userData` and `dashboardStorage` are now `storage.entityRegistry`, `storage.areaRegistry`, etc. The adapter migrates the data automatically on first start; the old objects are removed. If you referenced any of these object ids directly (scripts), update the paths. (`configuration` stays at the adapter root.)
+* (Garfonso/Claude) Frontend user data (themes, dark mode, sidebar order, …) is now saved.
+* (Garfonso/Claude) Configure entities directly from the frontend, including entity_id.
+* (Garfoson/Claude) Full dashboard support.
+* (Garfonso/Claude) Room and function names are now shown in your configured language instead of always English. (#667)
+* (Garfonso/Claude) Markdown and template-based cards can now use Home Assistant templates (`{{ states("…") }}`, `is_state`, `state_attr`, `now()`, …) on top of the existing ioBroker `{id}` bindings.
+* (Garfonso/Claude) You can set whether the sidebar/header is hidden for new browsers via the `instances.hideSidebar` / `instances.hideHeader` states; changing them also applies to all currently connected browsers.
+* (Garfonso/Claude) The browser tab title and the PWA / home-screen app name can now be customized in the adapter settings. (#663)
+* (Garfonso/Claude) The automatic entity_id format is now configurable (object name / room + function / ioBroker id). A "Regenerate entity IDs" button in the settings applies a changed format to existing automatic entities and rewrites the dashboards; entities you renamed in the frontend are kept.
+* (Garfonso/Claude) Renaming a manually configured entity in the frontend now persists to the source object, so it survives a restart.
+* (Garfonso/Claude) The main "lovelace" dashboard can now be renamed/re-iconed/hidden from the frontend like the other dashboards (frontend/update_panel is stored and applied).
+* (Garfonso/Claude) Energy dashboard support
+* (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets), usable in the energy dashboard.
+* (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend (it would load forever); it now answers with an empty, completed stream and skips the history query.
+
+
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
 * (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
 * (Garfonso/Claude) Added a `sun.sun` entity, calculated from the configured location. (#430)
 * (Garfonso/Claude) Support uploading images from the frontend (e.g. dashboard background pictures). (#607)
+* (Garfonso/Claude) Added media browser support (`media_source`): browse uploaded images and files from the `cards/` folder.
+* (Garfonso/Claude) Uploaded images can now be listed and deleted from the frontend (`image/list`, `image/delete`).
 
 ### 5.1.0 (2026-05-29)
 * (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.
@@ -500,6 +528,16 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) some light entities did not restore their proper state on switch on. Fixed.
 * (Garfonso) process folders-Objects for auto entities, too. (pirate-weather support)
 * (Garfonso) prepare support for effects in light entities (will need new type-detector version).
+
+### 5.0.1 (2025-09-09)
+* (Garfonso) settings from entity registry are now loaded on startup
+* (Garfonso) logbook: prevent entries from the future
+* (Garfonso) icons should now work as before, again.
+* (Garfonso) script entities now can be used again.
+* (Garfonso) subscribe to all object ids in a template.
+* (Garfonso) Update dependencies.
+
+[Older changelogs can be found there](CHANGELOG_OLD.md)
 
 ## License
 

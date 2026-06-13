@@ -1,1 +1,0 @@
-export const __webpack_ids__=["74100"];export const __webpack_modules__={52106:function(_,e,o){o.r(e),o.d(e,{DIRECTION_LEFT:()=>a.AV,DIRECTION_RIGHT:()=>a.EM,Manager:()=>a.dK,Swipe:()=>a.oF});var a=o(54380)}};

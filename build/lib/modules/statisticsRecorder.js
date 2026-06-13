@@ -1,4 +1,20 @@
 "use strict";
+function unitClassForDeviceClass(deviceClass) {
+  switch (deviceClass) {
+    case "energy":
+    case "energy_storage":
+      return "energy";
+    case "power":
+      return "power";
+    case "gas":
+    case "water":
+    case "volume":
+    case "volume_storage":
+      return "volume";
+    default:
+      return null;
+  }
+}
 class StatisticsRecorder {
   server;
   adapter;
@@ -67,7 +83,7 @@ class StatisticsRecorder {
    * @param message - the message from the frontend
    */
   async processMessage(ws, message) {
-    var _a, _b;
+    var _a, _b, _c, _d;
     const msgType = message.type;
     if (msgType == null ? void 0 : msgType.startsWith("recorder/")) {
       if (msgType === "recorder/info") {
@@ -104,11 +120,41 @@ class StatisticsRecorder {
         }
         this.server._sendResponse(ws, message.id, result);
         return true;
+      } else if (msgType === "recorder/list_statistic_ids") {
+        const filter = message.statistic_type;
+        const result = [];
+        for (const entity of this.dataSingleton.entities) {
+          const unit = (_a = entity.attributes) == null ? void 0 : _a.unit_of_measurement;
+          if (!unit) {
+            continue;
+          }
+          const unitClass = unitClassForDeviceClass((_b = entity.attributes) == null ? void 0 : _b.device_class);
+          const isSum = unitClass === "energy" || unitClass === "volume";
+          if (filter === "sum" && !isSum) {
+            continue;
+          }
+          if (filter === "mean" && isSum) {
+            continue;
+          }
+          result.push({
+            statistic_id: entity.entity_id,
+            display_unit_of_measurement: unit,
+            has_sum: isSum,
+            mean_type: isSum ? 0 : 1,
+            // StatisticMeanType: NONE / ARITHMETIC
+            name: null,
+            source: "recorder",
+            statistics_unit_of_measurement: unit,
+            unit_class: unitClass
+          });
+        }
+        this.server._sendResponse(ws, message.id, result);
+        return true;
       } else if (msgType === "recorder/statistics_during_period") {
         this.log.debug(`Getting statistics for period ${JSON.stringify(message)}`);
         const result = {};
         const wsWithAuth = ws;
-        const user = this.personModule.getUserIDFromName((_a = wsWithAuth.__auth) == null ? void 0 : _a.username);
+        const user = this.personModule.getUserIDFromName((_c = wsWithAuth.__auth) == null ? void 0 : _c.username);
         const start = new Date(message.start_time).getTime();
         const end = message.end_time ? new Date(message.end_time).getTime() : Date.now();
         let step;
@@ -168,7 +214,7 @@ class StatisticsRecorder {
               if (!entityResult[i]) {
                 const entry = {
                   start: currentResults[i].ts,
-                  end: ((_b = currentResults[i + 1]) == null ? void 0 : _b.ts) || end
+                  end: ((_d = currentResults[i + 1]) == null ? void 0 : _d.ts) || end
                 };
                 if (aggregate) {
                   entry[aggregate] = currentResults[i].value;

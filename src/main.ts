@@ -15,6 +15,14 @@ interface AdapterConfig extends ioBroker.AdapterConfig {
     bind?: string;
     port: number;
     findNextPort?: boolean;
+    /** Browser tab/title-bar title (issue #663). */
+    browserTitle?: string;
+    /** PWA / home-screen app name (manifest.name). */
+    pwaName?: string;
+    /** PWA short name (manifest.short_name). */
+    pwaShortName?: string;
+    /** Auto entity_id format for newly created automatic entities. */
+    autoEntityIdFormat?: 'name' | 'roomFunction' | 'iobId';
     [key: string]: unknown;
 }
 
@@ -85,6 +93,19 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                 if (obj.command === 'browse') {
                     obj.callback &&
                         adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
+                } else if (obj.command === 'regenerateEntityIds') {
+                    const format = (obj.message as { format?: string } | undefined)?.format;
+                    void adapter.apiServer
+                        ._regenerateAutoEntityIds(format)
+                        .then(
+                            (renamed: number) =>
+                                obj.callback && adapter.sendTo(obj.from, obj.command, { renamed }, obj.callback),
+                        )
+                        .catch(
+                            (e: Error) =>
+                                obj.callback &&
+                                adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback),
+                        );
                 } else if (obj.command === 'send') {
                     void adapter.apiServer
                         .onStateChange(`${adapter.namespace}.notifications.add`, {

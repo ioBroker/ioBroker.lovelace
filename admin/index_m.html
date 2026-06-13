@@ -432,6 +432,8 @@
             if (!settings) return;
 
             if (!settings.lePort) settings.lePort = 80;
+            // Existing installations have no autoEntityIdFormat saved -> default to 'name'.
+            if (!settings.autoEntityIdFormat) settings.autoEntityIdFormat = 'name';
 
             //initilize modals.
             var elems = document.querySelectorAll('.modal');
@@ -561,8 +563,32 @@
                     $btnRefresh.on('click', function () {
                         readEntities();
                     });
+
+                    var $btnRegen = $('.btn-regenerate-ids');
+                    $btnRegen.removeClass('disabled');
+                    $btnRegen.on('click', function () {
+                        if (!confirm(_('Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.'))) {
+                            return;
+                        }
+                        // Send the currently selected format. Saving restarts the adapter in the
+                        // background, so the running instance may still have the old config; using the
+                        // select value lets the regeneration apply the format the user just picked.
+                        sendTo(null, 'regenerateEntityIds', { format: $('#autoEntityIdFormat').val() }, function (res) {
+                            // Some setups deliver the payload wrapped in the message object.
+                            var data = res && res.message ? res.message : res;
+                            if (data && data.error) {
+                                showMessage(_('Error') + ': ' + data.error, _('Error'), 'alert');
+                            } else {
+                                var count = data && data.renamed != null ? data.renamed : 0;
+                                const text = _('Renamed %s entities.', count);
+                                showMessage(text);
+                                readEntities();
+                            }
+                        });
+                    });
                 } else {
                     $btnRefresh.addClass('disabled');
+                    $('.btn-regenerate-ids').addClass('disabled');
                 }
             });
 
@@ -792,6 +818,31 @@
                     </select>
                     <label class="translate" for="language">Language</label>
                 </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l4">
+                    <input class="value" id="browserTitle" type="text" />
+                    <label class="translate" for="browserTitle">Browser tab title</label>
+                </div>
+                <div class="input-field col s12 m6 l4">
+                    <input class="value" id="pwaName" type="text" />
+                    <label class="translate" for="pwaName">App name (home screen / PWA)</label>
+                </div>
+                <div class="input-field col s12 m6 l4">
+                    <input class="value" id="pwaShortName" type="text" />
+                    <label class="translate" for="pwaShortName">App short name (PWA)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m8 l5">
+                    <select class="value" id="autoEntityIdFormat">
+                        <option value="name" class="translate">From object name</option>
+                        <option value="roomFunction" class="translate">From room and function</option>
+                        <option value="iobId" class="translate">From ioBroker object id</option>
+                    </select>
+                    <label class="translate" for="autoEntityIdFormat">Automatic entity_id format</label>
+                </div>
+                <a class="waves-effect waves-light btn btn-regenerate-ids" style="margin-top: 5px;"><i class="material-icons left">autorenew</i><span class="translate">Regenerate entity IDs</span></a>
             </div>
             <div class="row">
                 <div class="input-field col s12 m9 l6">

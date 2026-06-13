@@ -3,7 +3,7 @@ type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 interface EntityLike {
     context: {
         id: string;
-        device_id?: string;
+        deviceId?: string;
         roomId?: string;
     };
     attributes: {
@@ -48,11 +48,11 @@ class DeviceRegistry {
      */
     private _createEntryFromEntity(entity: EntityLike): Record<string, unknown> {
         return {
-            id: entity.context.device_id,
+            id: entity.context.deviceId,
             config_entries: [],
             config_entries_subentries: {},
             connections: [],
-            identifiers: [[entity.attributes.friendly_name, entity.context.device_id]],
+            identifiers: [[entity.attributes.friendly_name, entity.context.deviceId]],
             manufacturer: null,
             model: null,
             model_id: null,
@@ -80,11 +80,19 @@ class DeviceRegistry {
      */
     processMessage(ws: unknown, message: Record<string, unknown>): boolean {
         if (message.type === 'config/device_registry/list') {
+            // Emit one device per unique deviceId. The converter rewrites context.id to the
+            // entity's state id (so it no longer equals deviceId), therefore we group by
+            // deviceId instead. The main entity is created before its indicator entities, so
+            // the first entity seen for a deviceId provides the device name/room.
             const entries = [];
+            const seen = new Set<string>();
             for (const entity of this.entityData.entities) {
-                if (entity.context.id === entity.context.device_id) {
-                    entries.push(this._createEntryFromEntity(entity));
+                const deviceId = entity.context.deviceId;
+                if (!deviceId || seen.has(deviceId)) {
+                    continue;
                 }
+                seen.add(deviceId);
+                entries.push(this._createEntryFromEntity(entity));
             }
             this.sendResponse(ws, message.id, entries);
             return true;

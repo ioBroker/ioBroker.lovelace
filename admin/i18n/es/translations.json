@@ -180,5 +180,15 @@
     "water_heater": "calentador de agua",
     "weather": "clima",
     "weblink": "enlace web",
-    "Maximum browser instances to keep": "Instancias máximas del navegador para mantener"
+    "Maximum browser instances to keep": "Instancias máximas del navegador para mantener",
+    "Browser tab title": "Título de la pestaña del navegador",
+    "App name (home screen / PWA)": "Nombre de la app (pantalla de inicio / PWA)",
+    "App short name (PWA)": "Nombre corto de la app (PWA)",
+    "Automatic entity_id format": "Formato del entity_id automático",
+    "From object name": "Del nombre del objeto",
+    "From room and function": "De la habitación y función",
+    "From ioBroker object id": "Del id de objeto ioBroker",
+    "Regenerate entity IDs": "Regenerar los entity ID",
+    "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "¿Regenerar todos los entity_id automáticos con el formato configurado y actualizar los paneles? Las entidades que renombraste se conservan.",
+    "Renamed %s entities.": "%s entidades renombradas."
 }

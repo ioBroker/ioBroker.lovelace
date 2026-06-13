@@ -1,3 +1,6 @@
+import { STORAGE_PREFIX } from './storage';
+import { replaceEntityIdInConfig } from '../entities/utils';
+
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string) => void;
 
@@ -18,6 +21,8 @@ interface Dashboard {
 class DashboardModule {
     private _dashboards: Dashboard[] = [];
     private _dashboardConfigs: Record<string, unknown> = {};
+    /** Per-panel overrides (title/icon/require_admin/show_in_sidebar) keyed by url_path, e.g. 'lovelace'. */
+    private _panelOverrides: Record<string, Record<string, unknown>> = {};
 
     private adapter: ioBroker.Adapter;
     private sendResponse: SendResponseFn;
@@ -41,7 +46,7 @@ class DashboardModule {
      * Load the dashboards from the ioBroker object database.
      */
     async loadDashboards(): Promise<void> {
-        const storage = await this.adapter.getObjectAsync('dashboardStorage');
+        const storage = await this.adapter.getObjectAsync(`${STORAGE_PREFIX}dashboardStorage`);
         this._dashboards =
             ((storage as ioBroker.Object & { native: Record<string, unknown> })?.native?.dashboards as Dashboard[]) ||
             [];
@@ -50,13 +55,20 @@ class DashboardModule {
                 string,
                 unknown
             >) || {};
+        this._panelOverrides =
+            ((storage as ioBroker.Object & { native: Record<string, unknown> })?.native?.panelOverrides as Record<
+                string,
+                Record<string, unknown>
+            >) || {};
     }
 
     /**
      * Store the dashboards to the ioBroker object database.
      */
     async saveDashboards(): Promise<void> {
-        const storage = (await this.adapter.getObjectAsync('dashboardStorage')) as ioBroker.AnyObject & {
+        const storage = (await this.adapter.getObjectAsync(
+            `${STORAGE_PREFIX}dashboardStorage`,
+        )) as ioBroker.AnyObject & {
             native: Record<string, unknown>;
         };
         if (!storage.native) {
@@ -64,7 +76,8 @@ class DashboardModule {
         }
         storage.native.dashboards = this._dashboards;
         storage.native.dashboardConfigs = this._dashboardConfigs;
-        await this.adapter.setObject('dashboardStorage', storage);
+        storage.native.panelOverrides = this._panelOverrides;
+        await this.adapter.setObject(`${STORAGE_PREFIX}dashboardStorage`, storage);
     }
 
     /**
@@ -88,6 +101,26 @@ class DashboardModule {
     async storeConfig(urlPath: string, config: unknown): Promise<void> {
         this._dashboardConfigs[urlPath] = config;
         await this.saveDashboards();
+    }
+
+    /**
+     * Replace a renamed entity_id across all stored additional-dashboard configs.
+     *
+     * @param oldEntityId - previous HA entity_id
+     * @param newEntityId - new HA entity_id
+     * @returns true if any dashboard config changed (and was persisted)
+     */
+    async renameEntityId(oldEntityId: string, newEntityId: string): Promise<boolean> {
+        let changed = false;
+        for (const urlPath of Object.keys(this._dashboardConfigs)) {
+            if (replaceEntityIdInConfig(this._dashboardConfigs[urlPath], oldEntityId, newEntityId)) {
+                changed = true;
+            }
+        }
+        if (changed) {
+            await this.saveDashboards();
+        }
+        return changed;
     }
 
     /**
@@ -133,6 +166,37 @@ class DashboardModule {
     }
 
     /**
+     * Apply stored per-panel overrides (title/icon/require_admin/show_in_sidebar) to the fixed panels,
+     * e.g. so the main 'lovelace' board can be renamed/hidden from the frontend (frontend/update_panel).
+     *
+     * @param panels - panels object to apply overrides to (mutated in place)
+     */
+    applyPanelOverrides(panels: Record<string, unknown>): void {
+        for (const urlPath of Object.keys(this._panelOverrides)) {
+            const panel = panels[urlPath] as Record<string, unknown> | undefined;
+            if (!panel) {
+                continue;
+            }
+            // Merge the override onto the static panel (from panels.ts). Do NOT null title/icon when
+            // hiding - that just made the panel lose its name and icon while still showing; the real
+            // hide is the show_in_sidebar field, which the frontend's sidebar filter honours.
+            const ov = this._panelOverrides[urlPath];
+            if (ov.title !== undefined) {
+                panel.title = ov.title;
+            }
+            if (ov.icon !== undefined) {
+                panel.icon = ov.icon;
+            }
+            if (ov.require_admin !== undefined) {
+                panel.require_admin = ov.require_admin;
+            }
+            if (ov.show_in_sidebar !== undefined) {
+                panel.show_in_sidebar = ov.show_in_sidebar;
+            }
+        }
+    }
+
+    /**
      * Process incoming messages from the frontend.
      *
      * @param ws - websocket connection to the client
@@ -140,11 +204,13 @@ class DashboardModule {
      */
     async processMessage(ws: unknown, message: Record<string, unknown>): Promise<boolean> {
         if (message.type === 'lovelace/dashboards/list') {
+            // Only the user-created storage dashboards. The main 'lovelace' board is a fixed panel; the
+            // frontend lists it as a built-in (and edits go through frontend/update_panel), so we must
+            // not also add it here or it would show up twice.
             this.sendResponse(ws, message.id, this._dashboards);
             return true;
         } else if (message.type === 'lovelace/dashboards/create' || message.type === 'lovelace/dashboards/update') {
             const dashboard: Dashboard = this._dashboards.find(d => d.id === message.dashboard_id) || {};
-            console.log('dashboard', message);
             for (const key of Object.keys(message)) {
                 if (key !== 'type' && key !== 'id' && key !== 'dashboard_id') {
                     dashboard[key] = message[key] || dashboard[key];
@@ -166,8 +232,36 @@ class DashboardModule {
             this.sendUpdate('panels_updated');
             this.sendResponse(ws, message.id, { success: true });
             return true;
+        } else if (message.type === 'frontend/update_panel') {
+            // Edit of a fixed panel (e.g. the main 'lovelace' board): title/icon/require_admin/
+            // show_in_sidebar. Stored as an override and applied in get_panels.
+            const urlPath = message.url_path as string;
+            if (urlPath) {
+                await this._storePanelOverride(urlPath, message);
+            }
+            this.sendResponse(ws, message.id, null);
+            return true;
         }
         return false;
+    }
+
+    /**
+     * Merge the editable panel fields (title/icon/require_admin/show_in_sidebar) from a message into
+     * the stored override for a panel, persist, and notify clients to reload their panels.
+     *
+     * @param urlPath - panel url_path (e.g. 'lovelace')
+     * @param source - message containing the new values
+     */
+    private async _storePanelOverride(urlPath: string, source: Record<string, unknown>): Promise<void> {
+        const ov = this._panelOverrides[urlPath] || {};
+        for (const key of ['title', 'icon', 'require_admin', 'show_in_sidebar']) {
+            if (source[key] !== undefined) {
+                ov[key] = source[key];
+            }
+        }
+        this._panelOverrides[urlPath] = ov;
+        await this.saveDashboards();
+        this.sendUpdate('panels_updated');
     }
 
     /**
