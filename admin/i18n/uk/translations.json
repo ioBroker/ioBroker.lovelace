@@ -188,7 +188,7 @@
     "From object name": "З імені об'єкта",
     "From room and function": "З кімнати та функції",
     "From ioBroker object id": "З ідентифікатора об'єкта ioBroker",
-    "Regenerate entity IDs": "Перегенерувати entity ID",
+    "Regenerate entity IDs": "Застосувати формат entity ID до візуалізації",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Перегенерувати всі автоматичні entity_id з налаштованим форматом та оновити панелі? Перейменовані вами сутності зберігаються.",
     "Renamed %s entities.": "Перейменовано %s сутностей."
 }

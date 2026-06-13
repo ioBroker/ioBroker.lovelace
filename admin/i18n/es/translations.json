@@ -188,7 +188,7 @@
     "From object name": "Del nombre del objeto",
     "From room and function": "De la habitación y función",
     "From ioBroker object id": "Del id de objeto ioBroker",
-    "Regenerate entity IDs": "Regenerar los entity ID",
+    "Regenerate entity IDs": "Aplicar el formato de entity ID a la visualización",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "¿Regenerar todos los entity_id automáticos con el formato configurado y actualizar los paneles? Las entidades que renombraste se conservan.",
     "Renamed %s entities.": "%s entidades renombradas."
 }
