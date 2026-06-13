@@ -481,7 +481,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 6.0.0 (2026-06-13)
 * (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.6. See [migration guide in docs](docs/en/theme_migration.md) for theme changes.
 * (Garfonso/Claude) **BREAKING:** Internal storage objects were moved into a new `storage` folder to declutter the object tree: `entityRegistry`, `areaRegistry`, `energyPrefs`, `userData` and `dashboardStorage` are now `storage.entityRegistry`, `storage.areaRegistry`, etc. The adapter migrates the data automatically on first start; the old objects are removed. If you referenced any of these object ids directly (scripts), update the paths. (`configuration` stays at the adapter root.)
 * (Garfonso/Claude) Frontend user data (themes, dark mode, sidebar order, …) is now saved.
@@ -525,19 +525,6 @@ After that checkout modified version in `./build` folder. Then.
 ### 5.0.3 (2025-10-10)
 * (Garfonso) make sure only existing themes are selectable in `control.theme` states.
 * (Garfonso) bring back support for frontend_es5.
-
-### 5.0.2 (2025-10-02)
-* (Garfonso) some light entities did not restore their proper state on switch on. Fixed.
-* (Garfonso) process folders-Objects for auto entities, too. (pirate-weather support)
-* (Garfonso) prepare support for effects in light entities (will need new type-detector version).
-
-### 5.0.1 (2025-09-09)
-* (Garfonso) settings from entity registry are now loaded on startup
-* (Garfonso) logbook: prevent entries from the future
-* (Garfonso) icons should now work as before, again.
-* (Garfonso) script entities now can be used again.
-* (Garfonso) subscribe to all object ids in a template.
-* (Garfonso) Update dependencies.
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
