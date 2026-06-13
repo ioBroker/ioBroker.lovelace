@@ -1,17 +1,29 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const SunCalc = require('suncalc');
 
+/** Home Assistant `sun.sun` state and attributes. */
 export interface SunState {
+    /** Whether the sun is currently above or below the horizon. */
     state: 'above_horizon' | 'below_horizon';
+    /** Sun position and next-event attributes (matching Home Assistant). */
     attributes: {
+        /** Sun elevation in degrees. */
         elevation: number;
+        /** Sun azimuth in degrees. */
         azimuth: number;
+        /** Whether the sun is currently rising. */
         rising: boolean;
+        /** ISO timestamp of the next dawn. */
         next_dawn?: string;
+        /** ISO timestamp of the next dusk. */
         next_dusk?: string;
+        /** ISO timestamp of the next solar midnight. */
         next_midnight?: string;
+        /** ISO timestamp of the next solar noon. */
         next_noon?: string;
+        /** ISO timestamp of the next sunrise. */
         next_rising?: string;
+        /** ISO timestamp of the next sunset. */
         next_setting?: string;
     };
 }

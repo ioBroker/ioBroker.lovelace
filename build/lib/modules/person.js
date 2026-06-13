@@ -36,6 +36,7 @@ class PersonModule {
    * YAML-configured (`config`) ones.
    *
    * @param ws - websocket connection
+   * @param ws.send - send a serialized message to the client
    * @param message - the message from the frontend
    * @returns true if handled
    */
