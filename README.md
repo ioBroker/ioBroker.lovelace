@@ -498,7 +498,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets), usable in the energy dashboard.
 * (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend (it would load forever); it now answers with an empty, completed stream and skips the history query.
 
-
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
 * (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
