@@ -537,32 +537,60 @@ class EntityRegistry {
     }
 
     /**
-     * Drop reservations whose ioBroker object no longer exists.
-     * Handles deletes that happened while the adapter wasn't running.
+     * Drop reservations AND user overrides whose ioBroker object no longer exists.
+     * Handles deletes that happened while the adapter wasn't running (we do not react to object
+     * deletions at runtime). Runs on init.
      */
     async cleanupStaleReservations(): Promise<void> {
-        const stale: string[] = [];
+        // Cache object existence per ioBroker id so we look each one up only once (reservations and
+        // overrides often share the same iobId). On a transient DB error we return undefined and
+        // leave the entry alone.
+        const existsCache: Record<string, boolean | undefined> = {};
+        const objectExists = async (iobId: string): Promise<boolean | undefined> => {
+            if (iobId in existsCache) {
+                return existsCache[iobId];
+            }
+            try {
+                existsCache[iobId] = !!(await this.adapter.getForeignObjectAsync(iobId));
+            } catch {
+                existsCache[iobId] = undefined; // transient error — don't drop
+            }
+            return existsCache[iobId];
+        };
+
+        // Reservations: key format `${entityType}.${stableIobId}`.
+        const staleReservations: string[] = [];
         for (const key of Object.keys(this._iobIdToEntityId)) {
             const dotIdx = key.indexOf('.');
             if (dotIdx < 0) {
-                stale.push(key);
+                staleReservations.push(key);
                 continue;
             }
-            const iobId = key.substring(dotIdx + 1);
-            try {
-                const obj = await this.adapter.getForeignObjectAsync(iobId);
-                if (!obj) {
-                    stale.push(key);
-                }
-            } catch {
-                // skip on error — don't drop on transient DB issue
+            if ((await objectExists(key.substring(dotIdx + 1))) === false) {
+                staleReservations.push(key);
             }
         }
-        for (const key of stale) {
+        for (const key of staleReservations) {
             delete this._iobIdToEntityId[key];
         }
-        if (stale.length) {
-            this.adapter.log.debug(`Dropped ${stale.length} stale entity_id reservation(s).`);
+
+        // User overrides (custom name/icon/area/manual rename): entry.id is the ioBroker object id.
+        const staleEntries: string[] = [];
+        for (const entityId of Object.keys(this._entries)) {
+            const iobId = this._entries[entityId].id as string | undefined;
+            if (iobId && (await objectExists(iobId)) === false) {
+                staleEntries.push(entityId);
+            }
+        }
+        for (const entityId of staleEntries) {
+            delete this._entries[entityId];
+        }
+
+        if (staleReservations.length || staleEntries.length) {
+            this.adapter.log.debug(
+                `Dropped ${staleReservations.length} stale entity_id reservation(s) and ${staleEntries.length} stale registry entry(ies).`,
+            );
+            await this.saveEntityRegistry();
         }
     }
 }

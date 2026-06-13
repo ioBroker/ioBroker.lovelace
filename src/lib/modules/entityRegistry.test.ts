@@ -386,4 +386,47 @@ describe('modules/entityRegistry', function () {
             expect(registry._iobIdToEntityId).to.deep.equal({ 'light.adapter.0.a': 'light.kept' });
         });
     });
+
+    describe('cleanupStaleReservations', function () {
+        it('drops reservations AND overrides whose ioBroker object is gone, keeps the rest', async function () {
+            const adapter = {
+                log: { debug: () => {}, warn: () => {} },
+                getObjectAsync: () => Promise.resolve({ native: {} }),
+                setObject: async () => {},
+                // objects whose id contains 'gone' no longer exist
+                getForeignObjectAsync: (id: string) => Promise.resolve(id.includes('gone') ? null : { _id: id }),
+            } as unknown as ioBroker.Adapter;
+            const registry = makeRegistry({ adapter }) as Record<string, any>;
+            registry._iobIdToEntityId = {
+                'light.adapter.0.alive': 'light.alive',
+                'light.adapter.0.gone': 'light.gone',
+            };
+            registry._entries = {
+                'light.alive': { id: 'adapter.0.alive', name: 'Custom' },
+                'light.gone': { id: 'adapter.0.gone', name: 'Orphan' },
+            };
+
+            await registry.cleanupStaleReservations();
+
+            expect(registry._iobIdToEntityId).to.deep.equal({ 'light.adapter.0.alive': 'light.alive' });
+            expect(Object.keys(registry._entries)).to.deep.equal(['light.alive']);
+        });
+
+        it('keeps everything on a transient DB error (getForeignObject throws)', async function () {
+            const adapter = {
+                log: { debug: () => {}, warn: () => {} },
+                getObjectAsync: () => Promise.resolve({ native: {} }),
+                setObject: async () => {},
+                getForeignObjectAsync: () => Promise.reject(new Error('db down')),
+            } as unknown as ioBroker.Adapter;
+            const registry = makeRegistry({ adapter }) as Record<string, any>;
+            registry._iobIdToEntityId = { 'light.adapter.0.x': 'light.x' };
+            registry._entries = { 'light.x': { id: 'adapter.0.x' } };
+
+            await registry.cleanupStaleReservations();
+
+            expect(registry._iobIdToEntityId).to.deep.equal({ 'light.adapter.0.x': 'light.x' });
+            expect(Object.keys(registry._entries)).to.deep.equal(['light.x']);
+        });
+    });
 });

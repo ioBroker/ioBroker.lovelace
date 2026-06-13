@@ -498,6 +498,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets).
 * (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend.
 * (Garfonso/Claude) Calendar entities now work with the new frontend: the `calendar/event/subscribe` WebSocket subscription is answered (and refreshes when the calendar state changes), so calendar cards and the calendar panel show events again.
+* (Garfonso/Claude) On start, the entity registry now also drops leftover entries (custom names/icons) for objects that no longer exist, not just stale id reservations.
+* (Garfonso/Claude) Renamed the settings button "Regenerate entity IDs" to "Apply entity-ID format to the visualization" - it adapts the dashboards to the entity-id setting (entity ids are regenerated on every start anyway).
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
