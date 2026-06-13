@@ -45,6 +45,7 @@ import CompatModule from './modules/compat';
 import MediaSourceModule from './modules/mediaSource';
 import SearchModule from './modules/search';
 import ImageModule from './modules/image';
+import CalendarModule from './modules/calendar';
 import { migrateStorageObjects } from './modules/storage';
 import type { IModule } from './modules/iModule';
 
@@ -67,6 +68,7 @@ type Modules = {
     mediaSource: InstanceType<typeof MediaSourceModule>;
     search: InstanceType<typeof SearchModule>;
     image: InstanceType<typeof ImageModule>;
+    calendar: InstanceType<typeof CalendarModule>;
     history: InstanceType<typeof HistoryModule>;
     statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
 };
@@ -373,6 +375,12 @@ class WebServer {
             search: new SearchModule({
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
                 entityData,
+            }),
+            calendar: new CalendarModule({
+                adapter: this.adapter,
+                sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
+                entityData,
+                getUserIDFromName: (name: string | undefined) => this._modules.person.getUserIDFromName(name),
             }),
             image: new ImageModule({
                 adapter: this.adapter,
@@ -2476,8 +2484,7 @@ class WebServer {
 
         this._app.get('/api/calendars/:entity_id', async (req: any, res: any) => {
             //this.log.debug('Calendar for ' + req.params.entity_id + ' from ' + req.query.start + ' to ' + req.query.end);
-            const entity = entityData.entityId2Entity[req.params.entity_id];
-            if (!entity) {
+            if (!entityData.entityId2Entity[req.params.entity_id]) {
                 return res.status(404).json({ error: 'Unknown entity' });
             }
             const start = new Date(req.query.start).getTime();
@@ -2488,43 +2495,7 @@ class WebServer {
             }
 
             const user = this._modules.person.getUserIDFromName(req._user);
-            try {
-                const state = await this.adapter.getForeignStateAsync(entity.context.STATE.getId, { user });
-                if (state && state.val) {
-                    let events = state.val;
-                    if (typeof state.val === 'string') {
-                        try {
-                            events = JSON.parse(state.val);
-                        } catch (e: any) {
-                            this.log.warn(`Could not process calendar entries. Make sure it is JSON and array: ${e}`);
-                        }
-                    }
-                    const results = [];
-                    if (events instanceof Array) {
-                        for (const event of events) {
-                            const evStart = new Date(event._date).getTime();
-                            const evEnd = new Date(event._end).getTime();
-                            if (evStart >= start || evEnd <= end || (evStart <= start && evEnd >= end)) {
-                                //event in range?
-                                results.push({
-                                    start: event._date,
-                                    end: event._end,
-                                    summary: event.event,
-                                });
-                            }
-                        }
-                        res.json(results);
-                        return;
-                    } else {
-                        this.log.warn(`Could not process calendar entries. Make sure it is JSON and array.`);
-                    }
-                }
-            } catch (e: any) {
-                this.log.error(`Could not get state ${entity.context.STATE.getId}: ${e}`);
-            }
-
-            //fallback: empty list.
-            res.json([]);
+            res.json(await this._modules.calendar.getEvents(req.params.entity_id, start, end, user));
         });
 
         this._app.use((req: any, res: any) => {
@@ -2960,6 +2931,7 @@ class WebServer {
                         });
 
                     this._modules.template.removeTemplate(ws, message.subscription);
+                    this._modules.calendar.removeSubscription(ws, message.subscription);
                 }
 
                 this._sendResponse(ws, message.id);

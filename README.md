@@ -497,6 +497,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Energy dashboard support
 * (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets).
 * (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend.
+* (Garfonso/Claude) Calendar entities now work with the new frontend: the `calendar/event/subscribe` WebSocket subscription is answered (and refreshes when the calendar state changes), so calendar cards and the calendar panel show events again.
 
 ### 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.

@@ -68,6 +68,7 @@ var import_compat = __toESM(require("./modules/compat"));
 var import_mediaSource = __toESM(require("./modules/mediaSource"));
 var import_search = __toESM(require("./modules/search"));
 var import_image = __toESM(require("./modules/image"));
+var import_calendar = __toESM(require("./modules/calendar"));
 var import_storage = require("./modules/storage");
 const WebSocket = require("ws");
 const bodyParser = require("body-parser");
@@ -266,6 +267,12 @@ class WebServer {
       search: new import_search.default({
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
         entityData
+      }),
+      calendar: new import_calendar.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        entityData,
+        getUserIDFromName: (name) => this._modules.person.getUserIDFromName(name)
       }),
       image: new import_image.default({
         adapter: this.adapter,
@@ -2027,8 +2034,7 @@ ${hideScript.join("\n")}
     this._app.get("/api/image/serve/:id/:size", serveUploadedImage);
     this._app.get("/api/image/serve/:id", serveUploadedImage);
     this._app.get("/api/calendars/:entity_id", async (req, res) => {
-      const entity = entityData.entityId2Entity[req.params.entity_id];
-      if (!entity) {
+      if (!entityData.entityId2Entity[req.params.entity_id]) {
         return res.status(404).json({ error: "Unknown entity" });
       }
       const start = new Date(req.query.start).getTime();
@@ -2038,40 +2044,7 @@ ${hideScript.join("\n")}
         return res.status(404).json({ error: "Start or end misformated" });
       }
       const user = this._modules.person.getUserIDFromName(req._user);
-      try {
-        const state = await this.adapter.getForeignStateAsync(entity.context.STATE.getId, { user });
-        if (state && state.val) {
-          let events = state.val;
-          if (typeof state.val === "string") {
-            try {
-              events = JSON.parse(state.val);
-            } catch (e) {
-              this.log.warn(`Could not process calendar entries. Make sure it is JSON and array: ${e}`);
-            }
-          }
-          const results = [];
-          if (events instanceof Array) {
-            for (const event of events) {
-              const evStart = new Date(event._date).getTime();
-              const evEnd = new Date(event._end).getTime();
-              if (evStart >= start || evEnd <= end || evStart <= start && evEnd >= end) {
-                results.push({
-                  start: event._date,
-                  end: event._end,
-                  summary: event.event
-                });
-              }
-            }
-            res.json(results);
-            return;
-          } else {
-            this.log.warn(`Could not process calendar entries. Make sure it is JSON and array.`);
-          }
-        }
-      } catch (e) {
-        this.log.error(`Could not get state ${entity.context.STATE.getId}: ${e}`);
-      }
-      res.json([]);
+      res.json(await this._modules.calendar.getEvents(req.params.entity_id, start, end, user));
     });
     this._app.use((req, res) => {
       this.log.info(`Unknown request for ${req.url}`);
@@ -2445,6 +2418,7 @@ ${hideScript.join("\n")}
             }
           });
           this._modules.template.removeTemplate(ws, message.subscription);
+          this._modules.calendar.removeSubscription(ws, message.subscription);
         }
         this._sendResponse(ws, message.id);
       } else if (message.type === "subscribe_entities") {
