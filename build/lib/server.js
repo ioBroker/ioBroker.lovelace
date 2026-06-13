@@ -2671,7 +2671,6 @@ ${hideScript.join("\n")}
    */
   async onObjectChange(id, obj) {
     var _a;
-    console.log("onObjectChange", id, obj);
     if (obj) {
       if (obj.type === "state" || obj.type === "channel" || obj.type === "device") {
         if (!this.adapter.config.aliasOnly || id.startsWith("alias.0.") || obj.common && obj.common.custom && obj.common.custom[this.adapter.namespace]) {

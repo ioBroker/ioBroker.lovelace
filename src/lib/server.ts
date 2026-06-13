@@ -3231,7 +3231,6 @@ class WebServer {
      * @returns resolves when done.
      */
     async onObjectChange(id: string, obj: any) {
-        console.log('onObjectChange', id, obj);
         if (obj) {
             if (obj.type === 'state' || obj.type === 'channel' || obj.type === 'device') {
                 if (
