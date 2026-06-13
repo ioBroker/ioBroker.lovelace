@@ -532,7 +532,7 @@ class EntityRegistry {
      */
     async init(): Promise<void> {
         await this.loadEntityRegistry();
-        await this.cleanupStaleReservations();
+        await this.cleanupStaleRegistry();
         this.adapter.log.debug('modules/entityRegistry: init done.');
     }
 
@@ -541,7 +541,7 @@ class EntityRegistry {
      * Handles deletes that happened while the adapter wasn't running (we do not react to object
      * deletions at runtime). Runs on init.
      */
-    async cleanupStaleReservations(): Promise<void> {
+    async cleanupStaleRegistry(): Promise<void> {
         // Cache object existence per ioBroker id so we look each one up only once (reservations and
         // overrides often share the same iobId). On a transient DB error we return undefined and
         // leave the entry alone.

@@ -428,7 +428,7 @@ class EntityRegistry {
    */
   async init() {
     await this.loadEntityRegistry();
-    await this.cleanupStaleReservations();
+    await this.cleanupStaleRegistry();
     this.adapter.log.debug("modules/entityRegistry: init done.");
   }
   /**
@@ -436,7 +436,7 @@ class EntityRegistry {
    * Handles deletes that happened while the adapter wasn't running (we do not react to object
    * deletions at runtime). Runs on init.
    */
-  async cleanupStaleReservations() {
+  async cleanupStaleRegistry() {
     const existsCache = {};
     const objectExists = async (iobId) => {
       if (iobId in existsCache) {

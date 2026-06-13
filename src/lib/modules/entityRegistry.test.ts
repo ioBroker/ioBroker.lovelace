@@ -387,7 +387,7 @@ describe('modules/entityRegistry', function () {
         });
     });
 
-    describe('cleanupStaleReservations', function () {
+    describe('cleanupStaleRegistry', function () {
         it('drops reservations AND overrides whose ioBroker object is gone, keeps the rest', async function () {
             const adapter = {
                 log: { debug: () => {}, warn: () => {} },
@@ -406,7 +406,7 @@ describe('modules/entityRegistry', function () {
                 'light.gone': { id: 'adapter.0.gone', name: 'Orphan' },
             };
 
-            await registry.cleanupStaleReservations();
+            await registry.cleanupStaleRegistry();
 
             expect(registry._iobIdToEntityId).to.deep.equal({ 'light.adapter.0.alive': 'light.alive' });
             expect(Object.keys(registry._entries)).to.deep.equal(['light.alive']);
@@ -423,7 +423,7 @@ describe('modules/entityRegistry', function () {
             registry._iobIdToEntityId = { 'light.adapter.0.x': 'light.x' };
             registry._entries = { 'light.x': { id: 'adapter.0.x' } };
 
-            await registry.cleanupStaleReservations();
+            await registry.cleanupStaleRegistry();
 
             expect(registry._iobIdToEntityId).to.deep.equal({ 'light.adapter.0.x': 'light.x' });
             expect(Object.keys(registry._entries)).to.deep.equal(['light.x']);
