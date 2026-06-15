@@ -287,7 +287,16 @@ class StatisticsRecorder {
                             value: number;
                         }[];
                         for (let i = 0; i < series.length; i++) {
-                            bucketAt(series[i].ts, series[i + 1]?.ts ?? end)[field] = series[i].value;
+                            // Skip empty buckets (ioBroker returns null for an hour without data). A
+                            // null field would crash the frontend's statistics-to-history converter,
+                            // which does `(value.mean ?? value.state).toString()`.
+                            if (series[i].value == null) {
+                                continue;
+                            }
+                            const value = Number(series[i].value);
+                            if (!isNaN(value)) {
+                                bucketAt(series[i].ts, series[i + 1]?.ts ?? end)[field] = value;
+                            }
                         }
                     }
 
@@ -302,6 +311,9 @@ class StatisticsRecorder {
                         }[];
                         let previous: number | undefined;
                         for (let i = 0; i < series.length; i++) {
+                            if (series[i].value == null) {
+                                continue; // gap: keep previous so the next real reading still gets a delta
+                            }
                             const value = Number(series[i].value);
                             if (series[i].ts >= start && !isNaN(value)) {
                                 const bucket = bucketAt(series[i].ts, series[i + 1]?.ts ?? end);

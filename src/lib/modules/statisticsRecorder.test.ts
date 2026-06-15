@@ -113,3 +113,51 @@ describe('modules/statisticsRecorder recorder/statistics_during_period', functio
         expect(buckets[1]).to.include({ start: T0 + STEP, change: 3 });
     });
 });
+
+describe('modules/statisticsRecorder statistics null-gap handling', function () {
+    const STEP = 3600000;
+    const T0 = Date.parse('2026-06-15T00:00:00.000Z');
+
+    function makeMeanModule(series: { ts: number; value: number | null }[]): { mod: any; responses: any[] } {
+        const responses: any[] = [];
+        const entity = {
+            entity_id: 'sensor.temp',
+            attributes: { unit_of_measurement: '°C', device_class: 'temperature' },
+            context: { STATE: { getId: 'src.0.temp' } },
+        };
+        const mod = new StatisticsRecorder({
+            server: { _sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result) },
+            adapter: { config: { history: 'history.0' }, sendToAsync: () => Promise.resolve({ result: series }) },
+            log: { debug: () => {}, warn: () => {}, error: () => {} },
+            personModule: { getUserIDFromName: () => 'system.user.admin' },
+            dataSingleton: { entities: [entity], entityId2Entity: { 'sensor.temp': entity } },
+        });
+        return { mod, responses };
+    }
+
+    it('never emits a bucket with null mean/state (would crash the frontend converter)', async function () {
+        const { mod, responses } = makeMeanModule([
+            { ts: T0, value: 5 },
+            { ts: T0 + STEP, value: null }, // empty hour
+            { ts: T0 + 2 * STEP, value: 7 },
+        ]);
+        await mod.processMessage(
+            { __auth: { username: 'admin' } },
+            {
+                type: 'recorder/statistics_during_period',
+                id: 7,
+                start_time: new Date(T0).toISOString(),
+                end_time: new Date(T0 + 3 * STEP).toISOString(),
+                period: 'hour',
+                statistic_ids: ['sensor.temp'],
+                types: ['mean', 'state'],
+            },
+        );
+        const buckets = responses[0]['sensor.temp'];
+        for (const b of buckets) {
+            // every bucket must have a usable numeric mean or state, never null
+            expect(typeof b.mean === 'number' || typeof b.state === 'number').to.equal(true);
+            expect(b.mean === null || b.state === null).to.equal(false);
+        }
+    });
+});
