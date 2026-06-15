@@ -60,3 +60,56 @@ describe('modules/statisticsRecorder recorder/list_statistic_ids', function () {
         expect(ids).to.deep.equal(['sensor.energy']);
     });
 });
+
+describe('modules/statisticsRecorder recorder/statistics_during_period', function () {
+    const STEP = 3600000; // hour
+    const T0 = Date.parse('2026-06-15T00:00:00.000Z');
+
+    function makeEnergyModule(series: { ts: number; value: number }[]): { mod: any; responses: any[] } {
+        const responses: any[] = [];
+        const entity = {
+            entity_id: 'sensor.energy',
+            attributes: { unit_of_measurement: 'kWh', device_class: 'energy' },
+            context: { STATE: { getId: 'src.0.energy' } },
+        };
+        const mod = new StatisticsRecorder({
+            server: { _sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result) },
+            adapter: {
+                config: { history: 'history.0' },
+                sendToAsync: () => Promise.resolve({ result: series }),
+            },
+            log: { debug: () => {}, warn: () => {}, error: () => {} },
+            personModule: { getUserIDFromName: () => 'system.user.admin' },
+            dataSingleton: { entities: [entity], entityId2Entity: { 'sensor.energy': entity } },
+        });
+        return { mod, responses };
+    }
+
+    it('returns per-bucket change derived from the cumulative counter', async function () {
+        // cumulative kWh; one extra bucket before the window (T0 - STEP) for the first delta.
+        const { mod, responses } = makeEnergyModule([
+            { ts: T0 - STEP, value: 10 },
+            { ts: T0, value: 12 },
+            { ts: T0 + STEP, value: 15 },
+        ]);
+        await mod.processMessage(
+            { __auth: { username: 'admin' } },
+            {
+                type: 'recorder/statistics_during_period',
+                id: 5,
+                start_time: new Date(T0).toISOString(),
+                end_time: new Date(T0 + 2 * STEP).toISOString(),
+                period: 'hour',
+                statistic_ids: ['sensor.energy'],
+                types: ['change'],
+            },
+        );
+
+        // The result must be keyed by entity id (the bug was an always-empty {}).
+        expect(responses[0]).to.have.property('sensor.energy');
+        const buckets = responses[0]['sensor.energy'];
+        expect(buckets).to.have.lengthOf(2);
+        expect(buckets[0]).to.include({ start: T0, change: 2 });
+        expect(buckets[1]).to.include({ start: T0 + STEP, change: 3 });
+    });
+});

@@ -41,6 +41,13 @@ function unitClassForDeviceClass(deviceClass: string | undefined): string | null
     }
 }
 
+/** A single statistics bucket in the shape Home Assistant's recorder/statistics_during_period returns. */
+interface StatValue {
+    start: number;
+    end: number;
+    [field: string]: number | null;
+}
+
 interface ServerWithSendResponse {
     _sendResponse(ws: unknown, id: unknown, result?: unknown): void;
 }
@@ -159,15 +166,17 @@ class StatisticsRecorder {
                         continue;
                     }
                     this.log.debug(`Getting metadata for ${entityId}`);
+                    const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
+                    const isSum = unitClass === 'energy' || unitClass === 'volume';
                     result.push({
                         statistic_id: entityId,
                         display_unit_of_measurement: entity.attributes.unit_of_measurement,
-                        has_mean: true,
-                        has_sum: true,
+                        has_mean: !isSum,
+                        has_sum: isSum,
                         name: null,
                         source: 'recorder',
                         statistics_unit_of_measurement: entity.attributes.unit_of_measurement,
-                        unit_class: 'temperature',
+                        unit_class: unitClass,
                     });
                 }
                 this.server._sendResponse(ws, message.id, result);
@@ -206,7 +215,7 @@ class StatisticsRecorder {
                 return true;
             } else if (msgType === 'recorder/statistics_during_period') {
                 this.log.debug(`Getting statistics for period ${JSON.stringify(message)}`);
-                const result: Record<string, unknown> = {};
+                const result: Record<string, StatValue[]> = {};
                 const wsWithAuth = ws as { __auth?: { username?: string } };
                 const user = this.personModule.getUserIDFromName(wsWithAuth.__auth?.username);
                 const start = new Date(message.start_time as string).getTime();
@@ -233,26 +242,13 @@ class StatisticsRecorder {
                         step = 3600000;
                         break;
                 }
-                const aggregates: (string | undefined)[] = [];
                 const types = message.types as string[] | undefined;
-                if (types?.includes('state')) {
-                    aggregates.push(undefined);
-                }
-                if (types?.includes('min')) {
-                    aggregates.push('min');
-                }
-                if (types?.includes('max')) {
-                    aggregates.push('max');
-                }
-                if (types?.includes('mean')) {
-                    aggregates.push('average');
-                }
-                if (types?.includes('sum')) {
-                    aggregates.push('total');
-                }
-                if (types?.includes('change')) {
-                    aggregates.push('onchange');
-                }
+                const wantMean = types?.includes('mean');
+                const wantMin = types?.includes('min');
+                const wantMax = types?.includes('max');
+                const wantState = types?.includes('state');
+                const wantSum = types?.includes('sum');
+                const wantChange = types?.includes('change');
 
                 for (const entityId of message.statistic_ids as string[]) {
                     const entity = this.dataSingleton.entityId2Entity[entityId];
@@ -260,35 +256,73 @@ class StatisticsRecorder {
                         this.log.warn(`Entity ${entityId} not found`);
                         continue;
                     }
-                    this.log.debug(`Getting statistics for ${entityId}`);
                     const id = entity.context.STATE.getId || entity.context.STATE.setId || '';
-                    const entityResult: Record<string, unknown>[] = [];
-                    for (const aggregate of aggregates) {
-                        const currentResults = (await this.getHistory(id, start, end, step, aggregate, user)) as {
+                    if (!id) {
+                        continue;
+                    }
+                    this.log.debug(`Getting statistics for ${entityId}`);
+
+                    const buckets = new Map<number, StatValue>();
+                    const bucketAt = (bucketStart: number, bucketEnd: number): StatValue => {
+                        let bucket = buckets.get(bucketStart);
+                        if (!bucket) {
+                            bucket = { start: bucketStart, end: bucketEnd };
+                            buckets.set(bucketStart, bucket);
+                        }
+                        return bucket;
+                    };
+
+                    // mean / min / max: direct ioBroker aggregations per bucket -> the matching HA field.
+                    const meanLike: [boolean | undefined, string, string][] = [
+                        [wantMean, 'average', 'mean'],
+                        [wantMin, 'min', 'min'],
+                        [wantMax, 'max', 'max'],
+                    ];
+                    for (const [wanted, iobAggregate, field] of meanLike) {
+                        if (!wanted) {
+                            continue;
+                        }
+                        const series = (await this.getHistory(id, start, end, step, iobAggregate, user)) as {
                             ts: number;
-                            value: unknown;
+                            value: number;
                         }[];
-                        for (let i = 0; i < currentResults.length; i++) {
-                            if (!entityResult[i]) {
-                                const entry: Record<string, unknown> = {
-                                    start: currentResults[i].ts,
-                                    end: currentResults[i + 1]?.ts || end,
-                                };
-                                if (aggregate) {
-                                    entry[aggregate] = currentResults[i].value;
-                                } else {
-                                    entry.state = currentResults[i].value;
+                        for (let i = 0; i < series.length; i++) {
+                            bucketAt(series[i].ts, series[i + 1]?.ts ?? end)[field] = series[i].value;
+                        }
+                    }
+
+                    // sum / state / change: the energy dashboard requests `change` (energy consumed per
+                    // bucket). Derive it from the per-bucket counter value (max-in-bucket ~ value at the
+                    // end of the bucket); change = delta vs. the previous bucket. We fetch one extra
+                    // bucket before `start` so the first in-range bucket also gets a delta.
+                    if (wantSum || wantState || wantChange) {
+                        const series = (await this.getHistory(id, start - step, end, step, 'max', user)) as {
+                            ts: number;
+                            value: number;
+                        }[];
+                        let previous: number | undefined;
+                        for (let i = 0; i < series.length; i++) {
+                            const value = Number(series[i].value);
+                            if (series[i].ts >= start && !isNaN(value)) {
+                                const bucket = bucketAt(series[i].ts, series[i + 1]?.ts ?? end);
+                                if (wantSum) {
+                                    bucket.sum = value;
                                 }
-                                entityResult.push(entry);
-                            } else {
-                                if (aggregate) {
-                                    entityResult[i][aggregate] = currentResults[i].value;
-                                } else {
-                                    entityResult[i].state = currentResults[i].value;
+                                if (wantState) {
+                                    bucket.state = value;
                                 }
+                                if (wantChange) {
+                                    // null on the first bucket / a counter reset -> the dashboard skips nulls.
+                                    bucket.change = previous !== undefined && value >= previous ? value - previous : null;
+                                }
+                            }
+                            if (!isNaN(value)) {
+                                previous = value;
                             }
                         }
                     }
+
+                    result[entityId] = [...buckets.values()].sort((a, b) => a.start - b.start);
                 }
                 this.server._sendResponse(ws, message.id, result);
                 return true;

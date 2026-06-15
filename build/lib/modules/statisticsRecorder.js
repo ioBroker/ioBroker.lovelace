@@ -83,7 +83,7 @@ class StatisticsRecorder {
    * @param message - the message from the frontend
    */
   async processMessage(ws, message) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f, _g;
     const msgType = message.type;
     if (msgType == null ? void 0 : msgType.startsWith("recorder/")) {
       if (msgType === "recorder/info") {
@@ -107,15 +107,17 @@ class StatisticsRecorder {
             continue;
           }
           this.log.debug(`Getting metadata for ${entityId}`);
+          const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
+          const isSum = unitClass === "energy" || unitClass === "volume";
           result.push({
             statistic_id: entityId,
             display_unit_of_measurement: entity.attributes.unit_of_measurement,
-            has_mean: true,
-            has_sum: true,
+            has_mean: !isSum,
+            has_sum: isSum,
             name: null,
             source: "recorder",
             statistics_unit_of_measurement: entity.attributes.unit_of_measurement,
-            unit_class: "temperature"
+            unit_class: unitClass
           });
         }
         this.server._sendResponse(ws, message.id, result);
@@ -179,58 +181,70 @@ class StatisticsRecorder {
             step = 36e5;
             break;
         }
-        const aggregates = [];
         const types = message.types;
-        if (types == null ? void 0 : types.includes("state")) {
-          aggregates.push(void 0);
-        }
-        if (types == null ? void 0 : types.includes("min")) {
-          aggregates.push("min");
-        }
-        if (types == null ? void 0 : types.includes("max")) {
-          aggregates.push("max");
-        }
-        if (types == null ? void 0 : types.includes("mean")) {
-          aggregates.push("average");
-        }
-        if (types == null ? void 0 : types.includes("sum")) {
-          aggregates.push("total");
-        }
-        if (types == null ? void 0 : types.includes("change")) {
-          aggregates.push("onchange");
-        }
+        const wantMean = types == null ? void 0 : types.includes("mean");
+        const wantMin = types == null ? void 0 : types.includes("min");
+        const wantMax = types == null ? void 0 : types.includes("max");
+        const wantState = types == null ? void 0 : types.includes("state");
+        const wantSum = types == null ? void 0 : types.includes("sum");
+        const wantChange = types == null ? void 0 : types.includes("change");
         for (const entityId of message.statistic_ids) {
           const entity = this.dataSingleton.entityId2Entity[entityId];
           if (!entity) {
             this.log.warn(`Entity ${entityId} not found`);
             continue;
           }
-          this.log.debug(`Getting statistics for ${entityId}`);
           const id = entity.context.STATE.getId || entity.context.STATE.setId || "";
-          const entityResult = [];
-          for (const aggregate of aggregates) {
-            const currentResults = await this.getHistory(id, start, end, step, aggregate, user);
-            for (let i = 0; i < currentResults.length; i++) {
-              if (!entityResult[i]) {
-                const entry = {
-                  start: currentResults[i].ts,
-                  end: ((_d = currentResults[i + 1]) == null ? void 0 : _d.ts) || end
-                };
-                if (aggregate) {
-                  entry[aggregate] = currentResults[i].value;
-                } else {
-                  entry.state = currentResults[i].value;
+          if (!id) {
+            continue;
+          }
+          this.log.debug(`Getting statistics for ${entityId}`);
+          const buckets = /* @__PURE__ */ new Map();
+          const bucketAt = (bucketStart, bucketEnd) => {
+            let bucket = buckets.get(bucketStart);
+            if (!bucket) {
+              bucket = { start: bucketStart, end: bucketEnd };
+              buckets.set(bucketStart, bucket);
+            }
+            return bucket;
+          };
+          const meanLike = [
+            [wantMean, "average", "mean"],
+            [wantMin, "min", "min"],
+            [wantMax, "max", "max"]
+          ];
+          for (const [wanted, iobAggregate, field] of meanLike) {
+            if (!wanted) {
+              continue;
+            }
+            const series = await this.getHistory(id, start, end, step, iobAggregate, user);
+            for (let i = 0; i < series.length; i++) {
+              bucketAt(series[i].ts, (_e = (_d = series[i + 1]) == null ? void 0 : _d.ts) != null ? _e : end)[field] = series[i].value;
+            }
+          }
+          if (wantSum || wantState || wantChange) {
+            const series = await this.getHistory(id, start - step, end, step, "max", user);
+            let previous;
+            for (let i = 0; i < series.length; i++) {
+              const value = Number(series[i].value);
+              if (series[i].ts >= start && !isNaN(value)) {
+                const bucket = bucketAt(series[i].ts, (_g = (_f = series[i + 1]) == null ? void 0 : _f.ts) != null ? _g : end);
+                if (wantSum) {
+                  bucket.sum = value;
                 }
-                entityResult.push(entry);
-              } else {
-                if (aggregate) {
-                  entityResult[i][aggregate] = currentResults[i].value;
-                } else {
-                  entityResult[i].state = currentResults[i].value;
+                if (wantState) {
+                  bucket.state = value;
                 }
+                if (wantChange) {
+                  bucket.change = previous !== void 0 && value >= previous ? value - previous : null;
+                }
+              }
+              if (!isNaN(value)) {
+                previous = value;
               }
             }
           }
+          result[entityId] = [...buckets.values()].sort((a, b) => a.start - b.start);
         }
         this.server._sendResponse(ws, message.id, result);
         return true;
