@@ -78,7 +78,7 @@ describe('modules/statisticsRecorder recorder/statistics_during_period', functio
                 config: { history: 'history.0' },
                 sendToAsync: () => Promise.resolve({ result: series }),
             },
-            log: { debug: () => {}, warn: () => {}, error: () => {} },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
             personModule: { getUserIDFromName: () => 'system.user.admin' },
             dataSingleton: { entities: [entity], entityId2Entity: { 'sensor.energy': entity } },
         });
@@ -128,7 +128,7 @@ describe('modules/statisticsRecorder statistics null-gap handling', function () 
         const mod = new StatisticsRecorder({
             server: { _sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result) },
             adapter: { config: { history: 'history.0' }, sendToAsync: () => Promise.resolve({ result: series }) },
-            log: { debug: () => {}, warn: () => {}, error: () => {} },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
             personModule: { getUserIDFromName: () => 'system.user.admin' },
             dataSingleton: { entities: [entity], entityId2Entity: { 'sensor.temp': entity } },
         });

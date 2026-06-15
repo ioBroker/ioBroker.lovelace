@@ -254,6 +254,11 @@ class StatisticsRecorder {
             }
           }
           result[entityId] = [...buckets.values()].sort((a, b) => a.start - b.start);
+          if (result[entityId].length === 0) {
+            this.log.info(
+              `No history for statistic ${entityId} (state ${id}). The energy/statistics graphs stay empty - make sure a history/SQL/InfluxDB instance is selected in the adapter settings AND logging is enabled for that state.`
+            );
+          }
         }
         this.server._sendResponse(ws, message.id, result);
         return true;
