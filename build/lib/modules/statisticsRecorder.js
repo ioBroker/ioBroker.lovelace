@@ -219,10 +219,10 @@ class StatisticsRecorder {
             }
             const series = await this.getHistory(id, start, end, step, iobAggregate, user);
             for (let i = 0; i < series.length; i++) {
-              if (series[i].value == null) {
+              if (series[i].val == null) {
                 continue;
               }
-              const value = Number(series[i].value);
+              const value = Number(series[i].val);
               if (!isNaN(value)) {
                 bucketAt(series[i].ts, (_e = (_d = series[i + 1]) == null ? void 0 : _d.ts) != null ? _e : end)[field] = value;
               }
@@ -232,10 +232,10 @@ class StatisticsRecorder {
             const series = await this.getHistory(id, start - step, end, step, "max", user);
             let previous;
             for (let i = 0; i < series.length; i++) {
-              if (series[i].value == null) {
+              if (series[i].val == null) {
                 continue;
               }
-              const value = Number(series[i].value);
+              const value = Number(series[i].val);
               if (series[i].ts >= start && !isNaN(value)) {
                 const bucket = bucketAt(series[i].ts, (_g = (_f = series[i + 1]) == null ? void 0 : _f.ts) != null ? _g : end);
                 if (wantSum) {

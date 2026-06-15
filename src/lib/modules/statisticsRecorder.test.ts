@@ -65,7 +65,7 @@ describe('modules/statisticsRecorder recorder/statistics_during_period', functio
     const STEP = 3600000; // hour
     const T0 = Date.parse('2026-06-15T00:00:00.000Z');
 
-    function makeEnergyModule(series: { ts: number; value: number }[]): { mod: any; responses: any[] } {
+    function makeEnergyModule(series: { ts: number; val: number | null }[]): { mod: any; responses: any[] } {
         const responses: any[] = [];
         const entity = {
             entity_id: 'sensor.energy',
@@ -88,9 +88,9 @@ describe('modules/statisticsRecorder recorder/statistics_during_period', functio
     it('returns per-bucket change derived from the cumulative counter', async function () {
         // cumulative kWh; one extra bucket before the window (T0 - STEP) for the first delta.
         const { mod, responses } = makeEnergyModule([
-            { ts: T0 - STEP, value: 10 },
-            { ts: T0, value: 12 },
-            { ts: T0 + STEP, value: 15 },
+            { ts: T0 - STEP, val: 10 },
+            { ts: T0, val: 12 },
+            { ts: T0 + STEP, val: 15 },
         ]);
         await mod.processMessage(
             { __auth: { username: 'admin' } },
@@ -118,7 +118,7 @@ describe('modules/statisticsRecorder statistics null-gap handling', function () 
     const STEP = 3600000;
     const T0 = Date.parse('2026-06-15T00:00:00.000Z');
 
-    function makeMeanModule(series: { ts: number; value: number | null }[]): { mod: any; responses: any[] } {
+    function makeMeanModule(series: { ts: number; val: number | null }[]): { mod: any; responses: any[] } {
         const responses: any[] = [];
         const entity = {
             entity_id: 'sensor.temp',
@@ -137,9 +137,9 @@ describe('modules/statisticsRecorder statistics null-gap handling', function () 
 
     it('never emits a bucket with null mean/state (would crash the frontend converter)', async function () {
         const { mod, responses } = makeMeanModule([
-            { ts: T0, value: 5 },
-            { ts: T0 + STEP, value: null }, // empty hour
-            { ts: T0 + 2 * STEP, value: 7 },
+            { ts: T0, val: 5 },
+            { ts: T0 + STEP, val: null }, // empty hour
+            { ts: T0 + 2 * STEP, val: 7 },
         ]);
         await mod.processMessage(
             { __auth: { username: 'admin' } },

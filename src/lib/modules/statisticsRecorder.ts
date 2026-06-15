@@ -284,16 +284,16 @@ class StatisticsRecorder {
                         }
                         const series = (await this.getHistory(id, start, end, step, iobAggregate, user)) as {
                             ts: number;
-                            value: number;
+                            val: unknown;
                         }[];
                         for (let i = 0; i < series.length; i++) {
                             // Skip empty buckets (ioBroker returns null for an hour without data). A
                             // null field would crash the frontend's statistics-to-history converter,
                             // which does `(value.mean ?? value.state).toString()`.
-                            if (series[i].value == null) {
+                            if (series[i].val == null) {
                                 continue;
                             }
-                            const value = Number(series[i].value);
+                            const value = Number(series[i].val);
                             if (!isNaN(value)) {
                                 bucketAt(series[i].ts, series[i + 1]?.ts ?? end)[field] = value;
                             }
@@ -307,14 +307,14 @@ class StatisticsRecorder {
                     if (wantSum || wantState || wantChange) {
                         const series = (await this.getHistory(id, start - step, end, step, 'max', user)) as {
                             ts: number;
-                            value: number;
+                            val: unknown;
                         }[];
                         let previous: number | undefined;
                         for (let i = 0; i < series.length; i++) {
-                            if (series[i].value == null) {
+                            if (series[i].val == null) {
                                 continue; // gap: keep previous so the next real reading still gets a delta
                             }
-                            const value = Number(series[i].value);
+                            const value = Number(series[i].val);
                             if (series[i].ts >= start && !isNaN(value)) {
                                 const bucket = bucketAt(series[i].ts, series[i + 1]?.ts ?? end);
                                 if (wantSum) {
