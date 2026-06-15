@@ -481,6 +481,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Fixed issues with statistic recorder and energy dashboard.
+
 ### 6.0.0 (2026-06-13)
 * (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.6. See [migration guide in docs](docs/en/theme_migration.md) for theme changes.
 * (Garfonso/Claude) **BREAKING:** Internal storage objects were moved into a new `storage` folder to declutter the object tree: `entityRegistry`, `areaRegistry`, `energyPrefs`, `userData` and `dashboardStorage` are now `storage.entityRegistry`, `storage.areaRegistry`, etc. The adapter migrates the data automatically on first start; the old objects are removed. If you referenced any of these object ids directly (scripts), update the paths. (`configuration` stays at the adapter root.)
