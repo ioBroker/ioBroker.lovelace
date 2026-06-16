@@ -1,8 +1,4 @@
 # Older Changes
-## 5.0.3 (2025-10-10)
-* (Garfonso) make sure only existing themes are selectable in `control.theme` states.
-* (Garfonso) bring back support for frontend_es5.
-
 ## 5.0.2 (2025-10-02)
 * (Garfonso) some light entities did not restore their proper state on switch on. Fixed.
 * (Garfonso) process folders-Objects for auto entities, too. (pirate-weather support)

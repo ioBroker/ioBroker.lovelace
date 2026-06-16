@@ -481,7 +481,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### 6.0.1 (2026-06-16)
+### **WORK IN PROGRESS**
 * (Garfonso/Claude) Fixed issues with statistic recorder and energy dashboard.
 
 ### 6.0.0 (2026-06-13)
@@ -524,6 +524,10 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso) added missing roles to instance objects
 * (Garfonso) manual entities should not vanish anymore because of automatic entities
 * (Garfonso) add support for cover images from static URls
+
+### 5.0.3 (2025-10-10)
+* (Garfonso) make sure only existing themes are selectable in `control.theme` states.
+* (Garfonso) bring back support for frontend_es5.
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
