@@ -481,6 +481,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Reduced object-database load (skip our own internal objects, yield during processing) and removed leftover debug logging.
+
 ### 6.0.1 (2026-06-16)
 * (Garfonso/Claude) Fixed issues with statistic recorder and energy dashboard.
 

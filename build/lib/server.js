@@ -1597,7 +1597,7 @@ ${hideScript.join("\n")}
    */
   onAuth(req, res) {
     const now = Date.now();
-    console.log(`[Auth] ${JSON.stringify(req.body)}`);
+    this.log.debug(`[Auth] ${JSON.stringify(req.body)}`);
     if (req.body.action === "revoke") {
       const flowId = Object.keys(this._auth_flows).find(
         (flowId2) => this._auth_flows[flowId2].refresh_token === req.body.refresh_token
@@ -1626,7 +1626,7 @@ ${hideScript.join("\n")}
       } else {
         generateRandomToken((_err, access_token) => {
           generateRandomToken((_err2, refresh_token) => {
-            console.log(`generate new access token ${JSON.stringify(req.body)}`);
+            this.log.debug(`generate new access token ${JSON.stringify(req.body)}`);
             const flow = this._auth_flows[flowId];
             flow.access_token = access_token;
             flow.refresh_token = refresh_token;
@@ -1651,7 +1651,7 @@ ${hideScript.join("\n")}
       } else {
         generateRandomToken((_err, access_token) => {
           generateRandomToken((_err2, refresh_token) => {
-            console.log(`generate access token${JSON.stringify(req.body)}`);
+            this.log.debug(`generate access token${JSON.stringify(req.body)}`);
             const flow = this._auth_flows[flowId];
             flow.access_token = access_token;
             flow.refresh_token = refresh_token;
@@ -1777,7 +1777,7 @@ ${hideScript.join("\n")}
       });
     });
     this._app.post("/auth/login_flow", (req, res) => {
-      console.log(`/auth/login_flow${JSON.stringify(req.query)}${JSON.stringify(req.body)}`);
+      this.log.debug(`/auth/login_flow${JSON.stringify(req.query)}${JSON.stringify(req.body)}`);
       this.log.debug("PRO-debug: /auth/login_flow");
       generateRandomToken((_err, token) => {
         this._auth_flows[token] = { ts: Date.now() };
@@ -1814,7 +1814,7 @@ ${hideScript.join("\n")}
         } catch (e) {
           this.log.warn(`Cannot parse with data: ${s} - ${e} - ${e.stack}`);
         }
-        console.log(`/auth/login_flow/:id${JSON.stringify(req.query)}${JSON.stringify(req.params)}`);
+        this.log.debug(`/auth/login_flow/:id${JSON.stringify(req.query)}${JSON.stringify(req.params)}`);
         this.adapter.checkPassword(s.username, s.password, (result) => {
           const ourResult = this._getAuthFlow(req.params.id);
           if (result) {
@@ -1928,7 +1928,7 @@ ${hideScript.join("\n")}
           if (err) {
             return next();
           }
-          console.log("Serving", filePath);
+          this.log.debug(`Serving ${filePath}`);
           res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
           res.sendFile(filePath);
         });
@@ -2579,7 +2579,7 @@ ${hideScript.join("\n")}
    */
   _saveAuth(cb) {
     if (this.config.auth !== false) {
-      console.log("auth stored.");
+      this.log.debug("auth stored.");
       this.adapter.setState("session", JSON.stringify(this._auth_flows), true, cb);
     }
   }
@@ -2671,6 +2671,7 @@ ${hideScript.join("\n")}
    */
   async onObjectChange(id, obj) {
     var _a;
+    this.log.debug(`onObjectChange: ${id}${obj ? ` (from ${String(obj.from)})` : " (deleted)"}`);
     if (obj) {
       if (obj.type === "state" || obj.type === "channel" || obj.type === "device") {
         if (!this.adapter.config.aliasOnly || id.startsWith("alias.0.") || obj.common && obj.common.custom && obj.common.custom[this.adapter.namespace]) {
@@ -2752,7 +2753,7 @@ ${hideScript.join("\n")}
         this.log.debug("entitiesUpdated for system.config.");
         await this.adapter.setStateAsync("info.entitiesUpdated", true, true);
       }
-    } else {
+    } else if (!id.startsWith(`${this.adapter.namespace}.storage.`) && !id.startsWith(`${this.adapter.namespace}.instances.`) && !id.startsWith(`${this.adapter.namespace}.info.`)) {
       if (!this._objectData.updatedIds.includes(id)) {
         this._objectData.updatedIds.push(id);
       }
@@ -2772,6 +2773,7 @@ ${hideScript.join("\n")}
         this.log.debug(`Update timer expired, ${idsToProcess.length} objects to look at.`);
         const idsTypeDetectorProcessed = /* @__PURE__ */ new Set();
         let anyEntityChanged = false;
+        let processedCount = 0;
         for (const id2 of idsToProcess) {
           if (!id2) {
             continue;
@@ -2779,6 +2781,9 @@ ${hideScript.join("\n")}
           const changed = await this._updateById(id2, idsTypeDetectorProcessed, needUpdate);
           if (changed) {
             anyEntityChanged = true;
+          }
+          if (++processedCount % 20 === 0) {
+            await new Promise((resolve) => setImmediate(resolve));
           }
         }
         this.log.debug(`Update processing done, ${needUpdate.length} entities need update.`);

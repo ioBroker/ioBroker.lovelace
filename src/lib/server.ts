@@ -1932,7 +1932,7 @@ class WebServer {
      */
     onAuth(req: any, res: any) {
         const now = Date.now();
-        console.log(`[Auth] ${JSON.stringify(req.body)}`);
+        this.log.debug(`[Auth] ${JSON.stringify(req.body)}`);
         if (req.body.action === 'revoke') {
             const flowId = Object.keys(this._auth_flows).find(
                 flowId => this._auth_flows[flowId].refresh_token === req.body.refresh_token,
@@ -1966,7 +1966,7 @@ class WebServer {
             } else {
                 generateRandomToken((_err, access_token) => {
                     generateRandomToken((_err, refresh_token) => {
-                        console.log(`generate new access token ${JSON.stringify(req.body)}`);
+                        this.log.debug(`generate new access token ${JSON.stringify(req.body)}`);
 
                         const flow = this._auth_flows[flowId];
                         //access_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI5Yjc5Y2Q2OTZmN2U0ZDc2OTg1NGU4NGQ3YmY4NzNlMyIsImlhdCI6MTU1ODAwOTE1MywiZXhwIjoxNTU4MDEwOTUzfQ.QL9qA0QeOxfMoxPUfxH1kEZDGnDNlSHbQeMF8z2xLw0',
@@ -1996,7 +1996,7 @@ class WebServer {
             } else {
                 generateRandomToken((_err, access_token) => {
                     generateRandomToken((_err, refresh_token) => {
-                        console.log(`generate access token${JSON.stringify(req.body)}`);
+                        this.log.debug(`generate access token${JSON.stringify(req.body)}`);
 
                         const flow = this._auth_flows[flowId];
                         //access_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI5Yjc5Y2Q2OTZmN2U0ZDc2OTg1NGU4NGQ3YmY4NzNlMyIsImlhdCI6MTU1ODAwOTE1MywiZXhwIjoxNTU4MDEwOTUzfQ.QL9qA0QeOxfMoxPUfxH1kEZDGnDNlSHbQeMF8z2xLw0',
@@ -2145,7 +2145,7 @@ class WebServer {
         });
 
         this._app.post('/auth/login_flow', (req: any, res: any) => {
-            console.log(`/auth/login_flow${JSON.stringify(req.query)}${JSON.stringify(req.body)}`);
+            this.log.debug(`/auth/login_flow${JSON.stringify(req.query)}${JSON.stringify(req.body)}`);
             this.log.debug('PRO-debug: /auth/login_flow');
 
             generateRandomToken((_err, token) => {
@@ -2192,7 +2192,7 @@ class WebServer {
                     this.log.warn(`Cannot parse with data: ${s} - ${e} - ${e.stack}`);
                 }
 
-                console.log(`/auth/login_flow/:id${JSON.stringify(req.query)}${JSON.stringify(req.params)}`);
+                this.log.debug(`/auth/login_flow/:id${JSON.stringify(req.query)}${JSON.stringify(req.params)}`);
                 //console.log(s);
 
                 this.adapter.checkPassword(s.username, s.password, (result: any) => {
@@ -2354,7 +2354,7 @@ class WebServer {
                     if (err) {
                         return next();
                     }
-                    console.log('Serving', filePath);
+                    this.log.debug(`Serving ${filePath}`);
                     res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
                     res.sendFile(filePath);
                 });
@@ -3119,7 +3119,7 @@ class WebServer {
      */
     _saveAuth(cb?: () => void) {
         if (this.config.auth !== false) {
-            console.log('auth stored.');
+            this.log.debug('auth stored.');
             this.adapter.setState('session', JSON.stringify(this._auth_flows), true, cb);
         }
     }
@@ -3231,6 +3231,9 @@ class WebServer {
      * @returns resolves when done.
      */
     async onObjectChange(id: string, obj: any) {
+        // Diagnostic: which object changed and which adapter wrote it. Helps spot an adapter that
+        // spams object changes (we subscribe to all objects to auto-detect new devices anywhere).
+        this.log.debug(`onObjectChange: ${id}${obj ? ` (from ${String(obj.from)})` : ' (deleted)'}`);
         if (obj) {
             if (obj.type === 'state' || obj.type === 'channel' || obj.type === 'device') {
                 if (
@@ -3328,7 +3331,14 @@ class WebServer {
                 this.log.debug('entitiesUpdated for system.config.');
                 await this.adapter.setStateAsync('info.entitiesUpdated', true, true);
             }
-        } else {
+        } else if (
+            !id.startsWith(`${this.adapter.namespace}.storage.`) &&
+            !id.startsWith(`${this.adapter.namespace}.instances.`) &&
+            !id.startsWith(`${this.adapter.namespace}.info.`)
+        ) {
+            // Skip our own internal objects (storage/instances/info): they are never auto-entities,
+            // and writing them (registry save, browser_mod instances, info states) must not schedule
+            // the update timer - that would churn the object DB on every internal write.
             //store ids which objects did change:
             if (!this._objectData.updatedIds.includes(id)) {
                 this._objectData.updatedIds.push(id);
@@ -3360,6 +3370,7 @@ class WebServer {
                 // most of this is done in _updateById.
 
                 let anyEntityChanged = false;
+                let processedCount = 0;
                 for (const id of idsToProcess) {
                     if (!id) {
                         continue;
@@ -3367,6 +3378,12 @@ class WebServer {
                     const changed = await this._updateById(id, idsTypeDetectorProcessed, needUpdate);
                     if (changed) {
                         anyEntityChanged = true;
+                    }
+                    // Yield to the event loop every few items so a large batch (type-detector is
+                    // synchronous and can be heavy) does not block long enough to drop the object-DB
+                    // connection ("Objects database successfully reconnected" spam).
+                    if (++processedCount % 20 === 0) {
+                        await new Promise(resolve => setImmediate(resolve));
                     }
                 }
                 this.log.debug(`Update processing done, ${needUpdate.length} entities need update.`);
