@@ -1079,6 +1079,20 @@ class WebServer {
      * @returns resolves when done.
      */
     async onStateChange(id: string, state: any, forceUpdate = false) {
+        // Under the all-states subscription we receive EVERY state change in the system. Skip the ones
+        // we don't care about up front, otherwise the per-change work (modules, entity lookup) for a
+        // busy system stalls the event loop and drops the states DB connection. When subscribed
+        // individually onStateChange only fires for relevant states anyway, so this is a no-op there.
+        if (this._subscribedAll && !forceUpdate) {
+            const relevant =
+                !!entityData.iobID2entity[id] ||
+                id.startsWith(`${this.adapter.namespace}.`) ||
+                this._modules.template.referencesState(id, this._wss);
+            if (!relevant) {
+                return;
+            }
+        }
+
         if (state) {
             this._modules.themes.onStateChange(id, state);
         }

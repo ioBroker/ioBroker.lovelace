@@ -881,6 +881,12 @@ class WebServer {
    */
   async onStateChange(id, state, forceUpdate = false) {
     var _a;
+    if (this._subscribedAll && !forceUpdate) {
+      const relevant = !!entityData.iobID2entity[id] || id.startsWith(`${this.adapter.namespace}.`) || this._modules.template.referencesState(id, this._wss);
+      if (!relevant) {
+        return;
+      }
+    }
     if (state) {
       this._modules.themes.onStateChange(id, state);
     }
@@ -1377,6 +1383,7 @@ class WebServer {
         this.log.debug(`IoB Subscribe on ${id}`);
       }
     });
+    this.log.debug(`Subscribed to ${this._subscribed.length} states.`);
     if (promises.length) {
       await Promise.all(promises);
     }

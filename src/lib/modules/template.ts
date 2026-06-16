@@ -101,6 +101,25 @@ class TemplateModule {
     }
 
     /**
+     * Whether any active template (across all clients) references the given ioBroker state id.
+     * Used by the server's onStateChange fast-path under the all-states subscription.
+     *
+     * @param id - ioBroker state id
+     * @param wss - the websocket server (for iterating clients)
+     */
+    referencesState(id: string, wss: WsServerLike | null | undefined): boolean {
+        if (!wss) {
+            return false;
+        }
+        for (const client of wss.clients) {
+            if (client.__templates?.some(t => t.ids.includes(id))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Collect all foreign-state ids referenced by active templates across all clients.
      *
      * @param wss - the websocket server (for iterating clients)
