@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "6.0.0",
+    "version": "6.0.1",
     "news": {
       "6.0.1": {
         "en": "Fixed the energy dashboard and statistics-based history graphs that stayed empty or crashed (recorder/statistics_during_period read the history values from the wrong field and returned an empty/mis-shaped result).\nNeeds a history/SQL/InfluxDB instance with logging enabled for the relevant states.",
@@ -93,19 +93,6 @@
         "pl": "niektóre jednostki świetlne nie przywróciły swojego stanu włączania. Naprawione.\nfoldery procesu- Obiekty dla podmiotów samochodowych, też. (wsparcie pirackiej pogody)\nprzygotować wsparcie dla efektów w jednostkach świetlnych (potrzeba nowej wersji czujnika typu).",
         "uk": "деякі світлові особи не відновили належний стан на перемикачі. Фіксований.\nобробляє папки-об'єкти для автооб'єктів. (приватно-пожежна підтримка)\nпідготувати підтримку ефектів у легких суб’єктах (необхідно потрібна нова версія-детектора).",
         "zh-cn": "一些轻实体没有在开关时恢复正常状态。 固定着.\n用于自动实体的处理文件夹-对象。 (发作天气支持)\n为光实体中的效果准备支持(需要新的类型检测器版本)."
-      },
-      "5.0.1": {
-        "en": "* (Garfonso) settings from entity registry are now loaded on startup\n* (Garfonso) logbook: prevent entries from the future\n* (Garfonso) icons should now work as before, again.\n* (Garfonso) script entities now can be used again.\n* (Garfonso) subscribe to all object ids in a template.\n* (Garfonso) Update dependencies.",
-        "de": "* (Garfonso) Einstellungen aus der Entitätsregistrierung werden nun beim Start geladen\n* (Garfonso) Logbuch: Einträge aus der Zukunft verhindern\n* (Garfonso) Icons sollten nun wieder wie zuvor funktionieren.\n* (Garfonso) Skriptentitäten können nun wieder verwendet werden.\n* (Garfonso) alle Objekt-IDs in einer Vorlage abonnieren.\n* (Garfonso) Aktualisieren von Abhängigkeiten.",
-        "ru": "* (Garfonso) настройки из реестра сущностей теперь загружаются при запуске\n* (Гарфонсо) журнал: предотвратить записи из будущего\n* (Garfonso) Иконки теперь должны работать как прежде.\n* (Garfonso) сущности скриптов теперь могут быть использованы снова.\n* (Garfonso) подписаться на все идентификаторы объектов в шаблоне.\n* (Garfonso) Обновление зависимостей.",
-        "pt": "* (Garfonso) as definições do registo de entidades são agora carregadas no arranque\n* (Garfonso) diário de bordo: evitar entradas do futuro\n* (Garfonso) Os ícones devem agora voltar a funcionar como antes.\n* (Garfonso) as entidades de script podem agora ser utilizadas novamente.\n* (Garfonso) subscrever todos os ids de objectos num modelo.\n* (Garfonso) Atualizar dependências.",
-        "nl": "* (Garfonso) instellingen uit het entiteitsregister worden nu geladen bij het opstarten\n* (Garfonso) logboek: voorkom toevoegingen uit de toekomst\n* (Garfonso) pictogrammen zouden nu weer als vanouds moeten werken.\n* (Garfonso) scriptentiteiten kunnen nu weer gebruikt worden.\n* (Garfonso) abonneer je op alle object-ids in een sjabloon.\n* (Garfonso) Afhankelijkheden bijwerken.",
-        "fr": "* (Garfonso) les paramètres du registre des entités sont désormais chargés au démarrage\n* (Garfonso) journal de bord : prévenir les entrées du futur\n* (Garfonso) Les icônes devraient maintenant fonctionner comme avant.\n* (Garfonso) les entités de script peuvent maintenant être utilisées à nouveau.\n* (Garfonso) s'abonner à tous les identifiants d'objets dans un modèle.\n* (Garfonso) Mise à jour des dépendances.",
-        "it": "* Le impostazioni del registro delle entità vengono ora caricate all'avvio.\n* Diario di bordo (Garfonso): impedire le voci dal futuro\n* (Garfonso) Le icone dovrebbero ora funzionare di nuovo come prima.\n* (Garfonso) Le entità di script ora possono essere usate di nuovo.\n* (Garfonso) sottoscrivere tutti gli id degli oggetti in un modello.\n* (Garfonso) Aggiornamento delle dipendenze.",
-        "es": "* (Garfonso) los ajustes del registro de entidades se cargan ahora al iniciarse.\n* (Garfonso) cuaderno de bitácora: evitar entradas del futuro\n* (Garfonso) los iconos ahora deberían funcionar como antes, de nuevo.\n* (Garfonso) las entidades de script ahora se pueden usar de nuevo.\n* (Garfonso) suscribirse a todos los ids de objetos de una plantilla.\n* (Garfonso) Actualizar dependencias.",
-        "pl": "* (Garfonso) ustawienia z rejestru jednostek są teraz ładowane podczas uruchamiania.\n* (Garfonso) dziennik: zapobieganie wpisom z przyszłości\n* (Garfonso) Ikony powinny teraz działać jak poprzednio.\n* (Garfonso) encje skryptów mogą być teraz ponownie używane.\n* (Garfonso) subskrybowanie wszystkich identyfikatorów obiektów w szablonie.\n* (Garfonso) Aktualizacja zależności.",
-        "uk": "* (Garfonso) налаштування з реєстру сутностей тепер завантажуються під час запуску\n* Журнал (Garfonso): запобігання записам у майбутньому\n* (Гарфонсо) іконки тепер повинні знову працювати, як раніше.\n* (Garfonso) скриптові об'єкти тепер можна використовувати знову.\n* (Гарфонсо) підписатися на всі ідентифікатори об'єктів у шаблоні.\n* (Гарфонсо) Оновити залежності.",
-        "zh-cn": "* (Garfonso) settings from entity registry are now loaded on startup\n* (Garfonso) logbook: prevent entries from the future\n* (Garfonso) icons should now work as before, again.\n* (Garfonso) script entities now can be used again.\n* (Garfonso) subscribe to all object ids in a template.\n* (Garfonso) Update dependencies."
       }
     },
     "titleLang": {
