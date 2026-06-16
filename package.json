@@ -31,7 +31,7 @@
     "axios": "^1.16.1",
     "body-parser": "^2.2.2",
     "express": "^5.2.1",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^4.2.0",
     "jstimezonedetect": "^1.0.7",
     "mime": "^3.0.0",
     "multer": "^2.1.1",
