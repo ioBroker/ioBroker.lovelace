@@ -1697,6 +1697,7 @@ class WebServer {
                 this.log.debug(`IoB Subscribe on ${id}`);
             }
         });
+        this.log.debug(`Subscribed to ${this._subscribed.length} states.`);
 
         // wait for asynchronous code.
         if (promises.length) {
