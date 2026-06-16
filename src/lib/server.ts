@@ -210,6 +210,8 @@ class WebServer {
     private _requestableFiles: string[];
 
     private _subscribed: any[];
+    /** true when we subscribed to all foreign states ('*') and filter in onStateChange instead. */
+    private _subscribedAll = false;
 
     private _server: any;
 
@@ -354,6 +356,10 @@ class WebServer {
                 adapter: this.adapter,
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
                 subscribeState: (id: string) => {
+                    // Already covered when we subscribed to all states.
+                    if (this._subscribedAll) {
+                        return;
+                    }
                     if (this._subscribed.indexOf(id) === -1) {
                         this._subscribed.push(id);
                         // Never let a bad id (e.g. from a mis-parsed template) reject unhandled and
@@ -1642,6 +1648,36 @@ class WebServer {
 
         // include states referenced by active render_template subscriptions
         ids = ids.concat(this._modules.template.collectSubscribedIds(this._wss));
+
+        // Many individual foreign-state subscriptions strain the states DB: on every state change it
+        // has to match the changed id against all subscription patterns. Above a threshold it is
+        // cheaper to subscribe to ALL states once and let onStateChange filter (it already ignores
+        // unknown ids). The JavaScript adapter works the same way.
+        const MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS = 50;
+
+        if (ids.length > MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS) {
+            if (!this._subscribedAll) {
+                // drop the individual subscriptions and switch to a single '*' subscription
+                for (const id of this._subscribed) {
+                    this.adapter.unsubscribeForeignStates(id);
+                }
+                this._subscribed = [];
+                await this.adapter.subscribeForeignStatesAsync('*');
+                this._subscribedAll = true;
+                this.log.info(
+                    `Subscribing to all states (${ids.length} > ${MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS}) and filtering in the adapter.`,
+                );
+            }
+            return;
+        }
+
+        // few subscriptions -> individual. If we were on '*' before, drop it first.
+        if (this._subscribedAll) {
+            this.adapter.unsubscribeForeignStates('*');
+            this._subscribedAll = false;
+            this._subscribed = [];
+            this.log.info(`Switched back to individual state subscriptions (${ids.length}).`);
+        }
 
         const deleted = this._subscribed.filter(id => ids.indexOf(id) === -1);
 

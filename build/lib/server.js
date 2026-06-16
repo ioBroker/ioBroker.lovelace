@@ -127,6 +127,8 @@ class WebServer {
   _ressourceConfig;
   _requestableFiles;
   _subscribed;
+  /** true when we subscribed to all foreign states ('*') and filter in onStateChange instead. */
+  _subscribedAll = false;
   _server;
   _app;
   _auth_flows;
@@ -248,6 +250,9 @@ class WebServer {
         adapter: this.adapter,
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
         subscribeState: (id) => {
+          if (this._subscribedAll) {
+            return;
+          }
           if (this._subscribed.indexOf(id) === -1) {
             this._subscribed.push(id);
             Promise.resolve(this.adapter.subscribeForeignStatesAsync(id)).catch(
@@ -1337,6 +1342,27 @@ class WebServer {
       }
     });
     ids = ids.concat(this._modules.template.collectSubscribedIds(this._wss));
+    const MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS = 50;
+    if (ids.length > MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS) {
+      if (!this._subscribedAll) {
+        for (const id of this._subscribed) {
+          this.adapter.unsubscribeForeignStates(id);
+        }
+        this._subscribed = [];
+        await this.adapter.subscribeForeignStatesAsync("*");
+        this._subscribedAll = true;
+        this.log.info(
+          `Subscribing to all states (${ids.length} > ${MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS}) and filtering in the adapter.`
+        );
+      }
+      return;
+    }
+    if (this._subscribedAll) {
+      this.adapter.unsubscribeForeignStates("*");
+      this._subscribedAll = false;
+      this._subscribed = [];
+      this.log.info(`Switched back to individual state subscriptions (${ids.length}).`);
+    }
     const deleted = this._subscribed.filter((id) => ids.indexOf(id) === -1);
     deleted.forEach((id) => {
       this.log.debug(`IoB UnSubscribe on ${id}`);
