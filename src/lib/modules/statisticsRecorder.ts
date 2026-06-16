@@ -325,7 +325,8 @@ class StatisticsRecorder {
                                 }
                                 if (wantChange) {
                                     // null on the first bucket / a counter reset -> the dashboard skips nulls.
-                                    bucket.change = previous !== undefined && value >= previous ? value - previous : null;
+                                    bucket.change =
+                                        previous !== undefined && value >= previous ? value - previous : null;
                                 }
                             }
                             if (!isNaN(value)) {
