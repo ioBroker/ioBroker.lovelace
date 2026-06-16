@@ -1,8 +1,8 @@
 {
+  "custom-panel.js": "/frontend_latest/custom-panel.a32e4cae57818e86.js",
+  "app.js": "/frontend_latest/app.61bf6b5ad3f52e4b.js",
+  "core.js": "/frontend_latest/core.3be1f8ebd55a2cf2.js",
   "service-worker.js": "/frontend_latest/service-worker.03242b4b9354fc7f.js",
-  "onboarding.js": "/frontend_latest/onboarding.44aa64f17df85c3e.js",
-  "authorize.js": "/frontend_latest/authorize.b2c1865dad698de9.js",
-  "custom-panel.js": "/frontend_latest/custom-panel.f6c9c993b96e53d2.js",
-  "app.js": "/frontend_latest/app.7c5054560033f9a3.js",
-  "core.js": "/frontend_latest/core.3be1f8ebd55a2cf2.js"
+  "onboarding.js": "/frontend_latest/onboarding.3a7aae38d30be18b.js",
+  "authorize.js": "/frontend_latest/authorize.834bf24e88a06310.js"
 }
