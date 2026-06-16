@@ -697,11 +697,7 @@ class BrowserModModule {
                 if (this.objects[`${this.adapter.namespace}.${ioBrokerDeviceId}.online`]) {
                     await this.adapter.setStateAsync(`${ioBrokerDeviceId}.online`, true, true);
                 } else {
-                    console.log(
-                        'No objects for instance, yet..',
-                        `${ioBrokerDeviceId}.online`,
-                        this.objects[ioBrokerDeviceId],
-                    );
+                    this.adapter.log.debug(`No objects for instance, yet.. ${ioBrokerDeviceId}.online`);
                 }
             } else if (method === 'register') {
                 this.initialiseBrowserSettings(message.browserID as string, true);
@@ -773,11 +769,7 @@ class BrowserModModule {
                     if (this.objects[`${this.adapter.namespace}.${ioBrokerDeviceId}.online`]) {
                         await this.adapter.setStateAsync(`${ioBrokerDeviceId}.online`, true, true);
                     } else {
-                        console.log(
-                            'No objects for instance, yet..',
-                            `${ioBrokerDeviceId}.online`,
-                            this.objects[ioBrokerDeviceId],
-                        );
+                        this.adapter.log.debug(`No objects for instance, yet.. ${ioBrokerDeviceId}.online`);
                     }
                 }
             } else if (method === 'log') {
