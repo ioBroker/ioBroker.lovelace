@@ -413,6 +413,25 @@ class BrowserModModule {
     );
   }
   /**
+   * (Re-)send the browser_mod "ready" event (the full storage incl. this browser's settings) to a
+   * live client. Sent again after a (re)register so the card re-applies settings like hideSidebar
+   * once it is registered and the sidebar element exists - otherwise the very first connect can apply
+   * hideSidebar before the sidebar is ready and the user has to press F5.
+   *
+   * @param client - the browser_mod client to notify
+   */
+  _sendReadyEvent(client) {
+    this._sendToClient(client, {
+      type: "event",
+      event: {
+        event_type: "ready",
+        origin: "LOCAL",
+        result: this.browserModStorage,
+        time_fired: (/* @__PURE__ */ new Date()).toISOString()
+      }
+    });
+  }
+  /**
    * Apply a root "target all" setting change (hideHeader/hideSidebar) to every known browser: update
    * its in-memory setting and its per-instance mirror state. The per-instance setState uses ack=true
    * so it does not re-trigger onStateChange.
@@ -608,6 +627,7 @@ class BrowserModModule {
           }
           if (this.clients[newBrowserId]) {
             await this.adapter.setStateAsync(`${newIoBrokerDeviceId}.online`, true, true);
+            this._sendReadyEvent(this.clients[newBrowserId]);
           }
           this.adapter.log.info(`browser_mod instance renamed: ${oldBrowserId} -> ${newBrowserId}`);
         } else {
@@ -627,6 +647,10 @@ class BrowserModModule {
             await this.adapter.setStateAsync(`${ioBrokerDeviceId}.online`, true, true);
           } else {
             this.adapter.log.debug(`No objects for instance, yet.. ${ioBrokerDeviceId}.online`);
+          }
+          const client = this.clients[message.browserID];
+          if (client) {
+            this._sendReadyEvent(client);
           }
         }
       } else if (method === "log") {
