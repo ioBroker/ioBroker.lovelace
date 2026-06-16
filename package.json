@@ -63,7 +63,7 @@
     "ts-node": "^10.9.2",
     "typescript": "~5.9.3"
   },
-  "main": "main.js",
+  "main": "build/main.js",
   "files": [
     "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
     "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
@@ -73,8 +73,7 @@
     "hass_frontend/",
     "lib/",
     "io-package.json",
-    "LICENSE",
-    "main.js"
+    "LICENSE"
   ],
   "scripts": {
     "prebuild": "rimraf build",
