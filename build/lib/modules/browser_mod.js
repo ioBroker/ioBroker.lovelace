@@ -31,7 +31,9 @@ class BrowserModModule {
         sidebarHiddenPanels: null,
         sidebarTitle: null,
         faviconTemplate: null,
-        titleTemplate: null,
+        // Custom browser tab title (#663). The frontend otherwise hardcodes the tab title;
+        // browser_mod renders titleTemplate and sets document.title from it.
+        titleTemplate: options.adapter.config.browserTitle || null,
         hideInteractIcon: true,
         autoRegister: true,
         lockRegister: null

@@ -92,4 +92,16 @@ describe('modules/browser_mod hideSidebar persistence', function () {
 
         expect(setStates).to.deep.include(['lovelace.0.instances.blau.change_browser_id', 'blau']);
     });
+
+    it('uses the configured browserTitle as the titleTemplate (#663)', function () {
+        const adapter = makeAdapter();
+        adapter.config.browserTitle = 'Mein Zuhause';
+        const mod: any = new BrowserModModule({ adapter, objects: {} });
+        expect(mod.browserModStorage.settings.titleTemplate).to.equal('Mein Zuhause');
+    });
+
+    it('leaves titleTemplate null without a configured browserTitle', function () {
+        const mod: any = new BrowserModModule({ adapter: makeAdapter(), objects: {} });
+        expect(mod.browserModStorage.settings.titleTemplate).to.equal(null);
+    });
 });
