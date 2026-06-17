@@ -1,0 +1,31 @@
+{
+  "0_userdata.0.aliasOnlyManualOutside": {
+    "type": "state",
+    "common": {
+      "name": "alias only manual outside",
+      "read": true,
+      "write": false,
+      "role": "sensor.window",
+      "type": "boolean",
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "binary_sensor",
+          "name": "alias_only_manual_outside",
+          "attr_device_class": "connectivity"
+        }
+      }
+    },
+    "native": {},
+    "_id": "0_userdata.0.aliasOnlyManualOutside",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}
