@@ -125,7 +125,8 @@ class StatisticsRecorder {
                 options: { start: pageStart, end: pageEnd, step, count, aggregate, user },
             })) as Record<string, unknown> | undefined;
             if (result?.error) {
-                this.log.error(`Error getting history for ${id}: ${String(result.error)}`);
+                const errText = typeof result.error === 'string' ? result.error : JSON.stringify(result.error);
+                this.log.error(`Error getting history for ${id}: ${errText}`);
             }
             return (result?.result as unknown[]) || [];
         };
