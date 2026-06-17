@@ -481,7 +481,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 6.0.2 (2026-06-17)
 * (Garfonso/Claude) Reduced object-database load (skip our own internal objects, yield during processing) and removed leftover debug logging.
 * (Garfonso/Claude) browser_mod re-applies its settings (e.g. hidden sidebar) after a browser registers, so it no longer needs an F5 (hopefully).
 * (Garfonso/Claude) Above ~50 referenced states the adapter subscribes to all states at once and filters itself, to reduce database load.
@@ -525,11 +525,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Geo_location now calculates the distance from home.
 * (Garfonso/Claude) Add support for additional type-detector types: flood alarm, button (sensor), illuminance, current weather, gate, cie, rgbwSingle
 * (Garfonso) node 22 required now. Please update if you are still on node 18 or 20.
-
-### 5.0.5 (2025-12-21)
-* (Garfonso) added missing roles to instance objects
-* (Garfonso) manual entities should not vanish anymore because of automatic entities
-* (Garfonso) add support for cover images from static URls
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 

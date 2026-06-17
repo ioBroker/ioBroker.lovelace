@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "6.0.1",
+    "version": "6.0.2",
     "news": {
       "6.0.2": {
         "en": "Reduced object-database load and removed leftover debug logging.\nbrowser_mod re-applies its settings (e.g. a hidden sidebar) after a browser registers, so it should no longer need an F5.\nAbove ~50 referenced states the adapter subscribes to all states at once and filters them itself, to reduce database load.\nStatistics history is now fetched in pages, so a large energy/history request can no longer overload the states database.",
@@ -93,19 +93,6 @@
         "pl": "upewnij się, że tylko istniejące motywy są wybierane pod kontrolą. stan tematyczny.\nprzywrócić wsparcie dla frontend _ es5.",
         "uk": "переконайтеся, що тільки існуючі теми вибираються в управлінні. тематичні стани.\nповернути підтримку фронтенд_es5.",
         "zh-cn": "确保控制中只选择现有主题。 主题状态.\n带回对前端_es5的支持."
-      },
-      "5.0.2": {
-        "en": "some light entities did not restore their proper state on switch on. Fixed.\nprocess folders-Objects for auto entities, too. (pirate-weather support)\nprepare support for effects in light entities (will need new type-detector version).",
-        "de": "einige Licht entities haben ihren Zustand beim Einschalten nicht wiederhergestellt. Behoben.\nOrdner-Objekte auch für Auto-Entitäten bearbeiten. (Pirate-Wetter-Unterstützung)\ndie unterstützung von effekten in Licht entities vorbereitet (benötigt neue typ-detektor-version).",
-        "ru": "некоторые легкие сущности не восстановили свое надлежащее состояние при включении. Исправлено.\nтакже обрабатывают папки-объекты для автообъектов. (поддержка пиратской погоды)\nподготовить поддержку эффектов в легких объектах (требуется новая версия детектора типа).",
-        "pt": "algumas entidades de luz não restauraram seu estado adequado no interruptor ligado. Consertado.\npastas de processo-Objects para entidades auto, também. (suporte de pirate-weather)\npreparar suporte para efeitos em entidades leves (necessitará de uma nova versão do detector de tipo).",
-        "nl": "sommige lichte entiteiten hebben hun juiste staat bij het inschakelen niet hersteld. Vast.\nproces mappen-objecten voor auto-entiteiten, ook. (Pirate-weather support)\nvoorbereiding van ondersteuning voor effecten in lichte entiteiten (zal nieuwe type-detector versie nodig hebben).",
-        "fr": "certaines entités lumineuses n'ont pas rétabli leur état d'activation. Corrigé.\ntraiter les dossiers-Objects pour les entités auto, aussi. (soutien en temps de pluie)\npréparer le support des effets dans les entités lumineuses (il faudra une nouvelle version de détecteur de type).",
-        "it": "alcune entità leggere non hanno ripristinato il loro stato corretto all'accensione. Risolto.\nprocess folders-Objects per entità auto, troppo. (Supporto pirata-matrimoniale)\npreparare il supporto per gli effetti in entità leggere (sarà necessario una nuova versione di tipo-detector).",
-        "es": "algunas entidades de luz no restauraron su estado adecuado encendido encendido encendido. Arreglado.\ncarpetas de proceso-Objetos para entidades de automóviles, también. (Apoyo de piratería-tetera)\npreparar soporte para efectos en entidades ligeras (necesitará nueva versión tipo-detector).",
-        "pl": "niektóre jednostki świetlne nie przywróciły swojego stanu włączania. Naprawione.\nfoldery procesu- Obiekty dla podmiotów samochodowych, też. (wsparcie pirackiej pogody)\nprzygotować wsparcie dla efektów w jednostkach świetlnych (potrzeba nowej wersji czujnika typu).",
-        "uk": "деякі світлові особи не відновили належний стан на перемикачі. Фіксований.\nобробляє папки-об'єкти для автооб'єктів. (приватно-пожежна підтримка)\nпідготувати підтримку ефектів у легких суб’єктах (необхідно потрібна нова версія-детектора).",
-        "zh-cn": "一些轻实体没有在开关时恢复正常状态。 固定着.\n用于自动实体的处理文件夹-对象。 (发作天气支持)\n为光实体中的效果准备支持(需要新的类型检测器版本)."
       }
     },
     "titleLang": {

@@ -1,4 +1,9 @@
 # Older Changes
+## 5.0.5 (2025-12-21)
+* (Garfonso) added missing roles to instance objects
+* (Garfonso) manual entities should not vanish anymore because of automatic entities
+* (Garfonso) add support for cover images from static URls
+
 ## 5.0.3 (2025-10-10)
 * (Garfonso) make sure only existing themes are selectable in `control.theme` states.
 * (Garfonso) bring back support for frontend_es5.
