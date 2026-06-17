@@ -1183,6 +1183,7 @@ class WebServer {
    * @returns all objects
    */
   async _readObjects() {
+    var _a;
     const objects = this._objectData.objects;
     if (Object.keys(this._objectData.objects).length < 10) {
       try {
@@ -1235,6 +1236,22 @@ class WebServer {
                 this._objectData.functions[_enums.rows[i].value._id] = _enums.rows[i].value;
               }
             }
+          }
+        }
+        if (this.adapter.config.aliasOnly) {
+          try {
+            const customView = await this.adapter.getObjectViewAsync("system", "custom", {});
+            for (const row of (customView == null ? void 0 : customView.rows) || []) {
+              const id = row.id;
+              if (id && ((_a = row.value) == null ? void 0 : _a[this.adapter.namespace]) && !objects[id] && !ignoreIds.find((reg) => reg.test(id))) {
+                const obj = await this.adapter.getForeignObjectAsync(id);
+                if (obj) {
+                  objects[id] = obj;
+                }
+              }
+            }
+          } catch (e) {
+            this.adapter.log.warn(`Could not load custom-configured objects: ${e.toString()}`);
           }
         }
       } catch (e) {

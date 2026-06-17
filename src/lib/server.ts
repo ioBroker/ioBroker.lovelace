@@ -1523,6 +1523,33 @@ class WebServer {
                         }
                     }
                 }
+
+                // Manual entities can be configured on objects anywhere (e.g. 0_userdata.0). The
+                // alias-only range queries above miss them, so also load every object that has our
+                // custom config. Without this, manual entities outside alias.0 vanish on restart when
+                // "only generate from alias" is active and only reappear after re-saving the object
+                // (which goes through onObjectChange, which does check for custom config). Issue #704.
+                if (this.adapter.config.aliasOnly) {
+                    try {
+                        const customView = await this.adapter.getObjectViewAsync('system', 'custom', {});
+                        for (const row of customView?.rows || []) {
+                            const id = row.id;
+                            if (
+                                id &&
+                                (row.value as Record<string, unknown> | undefined)?.[this.adapter.namespace] &&
+                                !objects[id] &&
+                                !ignoreIds.find(reg => reg.test(id))
+                            ) {
+                                const obj = await this.adapter.getForeignObjectAsync(id);
+                                if (obj) {
+                                    objects[id] = obj;
+                                }
+                            }
+                        }
+                    } catch (e: any) {
+                        this.adapter.log.warn(`Could not load custom-configured objects: ${e.toString()}`);
+                    }
+                }
             } catch (e: any) {
                 this.adapter.log.error(
                     `Failed to get states / channels / devices / enums, entity generation won't work: ${e.toString()} - ${e.stack}`,
