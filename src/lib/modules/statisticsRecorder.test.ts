@@ -161,3 +161,58 @@ describe('modules/statisticsRecorder statistics null-gap handling', function () 
         }
     });
 });
+
+describe('modules/statisticsRecorder getHistory pagination', function () {
+    const STEP = 3600000; // hour
+
+    it('splits a large range into pages so no single getHistory response is huge', async function () {
+        const calls: { start: number; end: number; count: number }[] = [];
+        const mod = new StatisticsRecorder({
+            server: { _sendResponse: () => {} },
+            adapter: {
+                config: { history: 'history.0' },
+                sendToAsync: (_inst: string, _cmd: string, msg: any) => {
+                    calls.push({ start: msg.options.start, end: msg.options.end, count: msg.options.count });
+                    // one point per call (content irrelevant for this test)
+                    return Promise.resolve({ result: [{ ts: msg.options.start, val: 1 }] });
+                },
+            },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
+            personModule: { getUserIDFromName: () => 'system.user.admin' },
+            dataSingleton: { entities: [], entityId2Entity: {} },
+        });
+
+        const start = 0;
+        const end = 2500 * STEP; // 2500 buckets > 1000 per page -> 3 pages
+        const res = await mod.getHistory('some.id', start, end, STEP, 'max', 'system.user.admin');
+
+        expect(calls).to.have.lengthOf(3);
+        // each page covers at most 1000 buckets
+        for (const c of calls) {
+            expect(c.count).to.be.at.most(1000);
+        }
+        // pages are contiguous and cover the whole range
+        expect(calls[0].start).to.equal(start);
+        expect(calls[calls.length - 1].end).to.equal(end);
+        expect(res).to.have.lengthOf(3);
+    });
+
+    it('does not paginate a small range (single call)', async function () {
+        let n = 0;
+        const mod = new StatisticsRecorder({
+            server: { _sendResponse: () => {} },
+            adapter: {
+                config: { history: 'history.0' },
+                sendToAsync: () => {
+                    n++;
+                    return Promise.resolve({ result: [] });
+                },
+            },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
+            personModule: { getUserIDFromName: () => 'system.user.admin' },
+            dataSingleton: { entities: [], entityId2Entity: {} },
+        });
+        await mod.getHistory('some.id', 0, 24 * STEP, STEP, 'max', 'system.user.admin');
+        expect(n).to.equal(1);
+    });
+});

@@ -111,29 +111,39 @@ class StatisticsRecorder {
         if (!this.adapter.config.history) {
             this.log.warn(`History instance is not selected in the settings`);
             return [];
-        } else {
-            const history = this.adapter.config.history;
-            const count = (end - start) / step;
-            const options = { start, end, step, count, aggregate, user };
-            if (id) {
-                const result = await this.adapter.sendToAsync(history as string, 'getHistory', {
-                    id,
-                    options,
-                });
-                if ((result as unknown as Record<string, unknown>)?.error) {
-                    this.log.error(
-                        `Error getting history for ${id}: ${String((result as unknown as Record<string, unknown>).error)}`,
-                    );
-                }
-                if (result && (result as unknown as Record<string, unknown>).result) {
-                    return (result as unknown as Record<string, unknown>).result as unknown[];
-                } else {
-                    return [];
-                }
-            } else {
-                return [];
-            }
         }
+        if (!id) {
+            return [];
+        }
+        const history = this.adapter.config.history as string;
+
+        // Fetch one page [pageStart, pageEnd] of history.
+        const fetchPage = async (pageStart: number, pageEnd: number): Promise<unknown[]> => {
+            const count = Math.max(1, Math.ceil((pageEnd - pageStart) / step));
+            const result = (await this.adapter.sendToAsync(history, 'getHistory', {
+                id,
+                options: { start: pageStart, end: pageEnd, step, count, aggregate, user },
+            })) as Record<string, unknown> | undefined;
+            if (result?.error) {
+                this.log.error(`Error getting history for ${id}: ${String(result.error)}`);
+            }
+            return (result?.result as unknown[]) || [];
+        };
+
+        // Page the request by time so a single getHistory response can never grow large enough to
+        // blow the redis output buffer (ioBroker transfers a big sendTo reply via a state read with
+        // GET; a multi-hundred-MB reply makes redis close the states connection -> "write ECONNRESET").
+        const MAX_BUCKETS_PER_PAGE = 1000;
+        const totalBuckets = Math.max(1, Math.ceil((end - start) / step));
+        if (totalBuckets <= MAX_BUCKETS_PER_PAGE) {
+            return fetchPage(start, end);
+        }
+        const out: unknown[] = [];
+        const pageSpan = MAX_BUCKETS_PER_PAGE * step;
+        for (let pageStart = start; pageStart < end; pageStart += pageSpan) {
+            out.push(...(await fetchPage(pageStart, Math.min(end, pageStart + pageSpan))));
+        }
+        return out;
     }
 
     /**

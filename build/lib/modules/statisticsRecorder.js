@@ -52,29 +52,33 @@ class StatisticsRecorder {
     if (!this.adapter.config.history) {
       this.log.warn(`History instance is not selected in the settings`);
       return [];
-    } else {
-      const history = this.adapter.config.history;
-      const count = (end - start) / step;
-      const options = { start, end, step, count, aggregate, user };
-      if (id) {
-        const result = await this.adapter.sendToAsync(history, "getHistory", {
-          id,
-          options
-        });
-        if (result == null ? void 0 : result.error) {
-          this.log.error(
-            `Error getting history for ${id}: ${String(result.error)}`
-          );
-        }
-        if (result && result.result) {
-          return result.result;
-        } else {
-          return [];
-        }
-      } else {
-        return [];
-      }
     }
+    if (!id) {
+      return [];
+    }
+    const history = this.adapter.config.history;
+    const fetchPage = async (pageStart, pageEnd) => {
+      const count = Math.max(1, Math.ceil((pageEnd - pageStart) / step));
+      const result = await this.adapter.sendToAsync(history, "getHistory", {
+        id,
+        options: { start: pageStart, end: pageEnd, step, count, aggregate, user }
+      });
+      if (result == null ? void 0 : result.error) {
+        this.log.error(`Error getting history for ${id}: ${String(result.error)}`);
+      }
+      return (result == null ? void 0 : result.result) || [];
+    };
+    const MAX_BUCKETS_PER_PAGE = 1e3;
+    const totalBuckets = Math.max(1, Math.ceil((end - start) / step));
+    if (totalBuckets <= MAX_BUCKETS_PER_PAGE) {
+      return fetchPage(start, end);
+    }
+    const out = [];
+    const pageSpan = MAX_BUCKETS_PER_PAGE * step;
+    for (let pageStart = start; pageStart < end; pageStart += pageSpan) {
+      out.push(...await fetchPage(pageStart, Math.min(end, pageStart + pageSpan)));
+    }
+    return out;
   }
   /**
    * Process message from the frontend.
