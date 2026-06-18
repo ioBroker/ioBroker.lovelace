@@ -35,6 +35,8 @@ interface CalendarSubscription {
     getId: string;
     start: number;
     end: number;
+    /** Serialized events last pushed for this window, to skip identical re-pushes. */
+    lastSent: string;
 }
 
 interface WsWithCalendar {
@@ -200,7 +202,14 @@ class CalendarModule {
 
         if (getId && !isNaN(start) && !isNaN(end)) {
             ws.__calendarSubs = ws.__calendarSubs || [];
-            ws.__calendarSubs.push({ id: message.id, getId, start, end });
+            // Drop an identical existing subscription (same calendar + window) instead of stacking a
+            // second one. Some embedded browsers (e.g. Fully Kiosk) re-subscribe without first
+            // unsubscribing; without this the subscriptions accumulate and every state change pushes
+            // duplicate updates, which makes the card flicker.
+            ws.__calendarSubs = ws.__calendarSubs.filter(
+                sub => !(sub.getId === getId && sub.start === start && sub.end === end),
+            );
+            ws.__calendarSubs.push({ id: message.id, getId, start, end, lastSent: JSON.stringify(events) });
         }
         return true;
     }
@@ -223,6 +232,14 @@ class CalendarModule {
             for (const sub of client.__calendarSubs) {
                 if (sub.getId === id) {
                     const events = this._eventsInRange(state?.val, sub.start, sub.end);
+                    const eventsJson = JSON.stringify(events);
+                    // Only push when the events for this window actually changed. Calendar source
+                    // adapters often rewrite their state regularly with identical data; re-pushing
+                    // that makes the card collapse to its spinner and reload in a loop.
+                    if (eventsJson === sub.lastSent) {
+                        continue;
+                    }
+                    sub.lastSent = eventsJson;
                     client.send(JSON.stringify({ id: sub.id, type: 'event', event: { events } }));
                 }
             }

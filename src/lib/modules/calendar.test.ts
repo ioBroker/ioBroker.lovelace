@@ -94,6 +94,51 @@ describe('modules/calendar', function () {
         expect(sent[0].event.events).to.have.lengthOf(1);
     });
 
+    it('onStateChange does not re-push when the events are unchanged (no refresh loop)', function () {
+        const { mod } = makeModule(JSON.stringify(EVENTS));
+        const sent: any[] = [];
+        const ws: any = {
+            send: (d: string) => sent.push(JSON.parse(d)),
+            readyState: 1,
+            __calendarSubs: [{ id: 9, getId: 'cal.0.abfall', start: T0, end: T0 + DAY, lastSent: '' }],
+        };
+        // First change differs from the (empty) lastSent -> one push.
+        mod.onStateChange('cal.0.abfall', { val: JSON.stringify(EVENTS) }, { clients: [ws] });
+        // Source rewrites identical data -> must not push again.
+        mod.onStateChange('cal.0.abfall', { val: JSON.stringify(EVENTS) }, { clients: [ws] });
+        mod.onStateChange('cal.0.abfall', { val: JSON.stringify(EVENTS) }, { clients: [ws] });
+        expect(sent).to.have.lengthOf(1);
+    });
+
+    it('onStateChange pushes again when the events really change', function () {
+        const { mod } = makeModule(JSON.stringify(EVENTS));
+        const sent: any[] = [];
+        const ws: any = {
+            send: (d: string) => sent.push(JSON.parse(d)),
+            readyState: 1,
+            __calendarSubs: [{ id: 9, getId: 'cal.0.abfall', start: T0, end: T0 + DAY, lastSent: '' }],
+        };
+        mod.onStateChange('cal.0.abfall', { val: JSON.stringify(EVENTS) }, { clients: [ws] });
+        mod.onStateChange('cal.0.abfall', { val: JSON.stringify([]) }, { clients: [ws] });
+        expect(sent).to.have.lengthOf(2);
+        expect(sent[1].event.events).to.have.lengthOf(0);
+    });
+
+    it('re-subscribing the same calendar window replaces the previous subscription', async function () {
+        const { mod } = makeModule(JSON.stringify(EVENTS));
+        const ws: any = { send: () => {}, readyState: 1 };
+        const base = {
+            type: 'calendar/event/subscribe',
+            entity_id: 'calendar.abfall',
+            start: '2026-06-13T00:00:00.000Z',
+            end: '2026-06-14T00:00:00.000Z',
+        };
+        await mod.processMessage(ws, { ...base, id: 1 });
+        await mod.processMessage(ws, { ...base, id: 2 });
+        expect(ws.__calendarSubs).to.have.lengthOf(1);
+        expect(ws.__calendarSubs[0].id).to.equal(2);
+    });
+
     it('removeSubscription drops the sub; ignores foreign messages', async function () {
         const { mod } = makeModule(JSON.stringify(EVENTS));
         const ws: any = { __calendarSubs: [{ id: 9, getId: 'cal.0.abfall', start: T0, end: T0 + DAY }] };

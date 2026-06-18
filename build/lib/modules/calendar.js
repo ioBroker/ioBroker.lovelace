@@ -129,7 +129,10 @@ class CalendarModule {
     ws.send(JSON.stringify({ id: message.id, type: "event", event: { events } }));
     if (getId && !isNaN(start) && !isNaN(end)) {
       ws.__calendarSubs = ws.__calendarSubs || [];
-      ws.__calendarSubs.push({ id: message.id, getId, start, end });
+      ws.__calendarSubs = ws.__calendarSubs.filter(
+        (sub) => !(sub.getId === getId && sub.start === start && sub.end === end)
+      );
+      ws.__calendarSubs.push({ id: message.id, getId, start, end, lastSent: JSON.stringify(events) });
     }
     return true;
   }
@@ -151,6 +154,11 @@ class CalendarModule {
       for (const sub of client.__calendarSubs) {
         if (sub.getId === id) {
           const events = this._eventsInRange(state == null ? void 0 : state.val, sub.start, sub.end);
+          const eventsJson = JSON.stringify(events);
+          if (eventsJson === sub.lastSent) {
+            continue;
+          }
+          sub.lastSent = eventsJson;
           client.send(JSON.stringify({ id: sub.id, type: "event", event: { events } }));
         }
       }

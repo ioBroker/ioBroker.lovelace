@@ -486,6 +486,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Limit concurrent history requests to avoid overloading the states database connection.
 * (Garfonso/Claude) Fixed a crash in the map card caused by history updates without attributes.
 * (Garfonso/Claude) Removed the browser tab title setting; set the dashboard title instead.
+* (Garfonso/Claude) Calendar card no longer flickers/reloads in a loop when the calendar source updates frequently.
 
 ### 6.0.2 (2026-06-17)
 * (Garfonso/Claude) Reduced object-database load (skip our own internal objects, yield during processing) and removed leftover debug logging.
