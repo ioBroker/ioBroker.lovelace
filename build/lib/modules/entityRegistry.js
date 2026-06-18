@@ -142,17 +142,16 @@ class EntityRegistry {
    * @param entry - the registry entry to read values from (optional, looked up by entity id if omitted)
    */
   updateEntityFromRegistry(entity, entry) {
-    if (entity.isManual) {
-      return;
-    }
     if (!entry) {
       entry = this._entries[entity.entity_id];
       if (!entry) {
         return;
       }
     }
-    entity.entity_id = entry.entity_id;
-    this.entityData.entityId2Entity[entry.entity_id] = entity;
+    if (!entity.isManual) {
+      entity.entity_id = entry.entity_id;
+      this.entityData.entityId2Entity[entry.entity_id] = entity;
+    }
     entity.attributes.friendly_name = entry.name || entry.original_name || entity.attributes.friendly_name;
     entity.attributes.icon = entry.icon || entry.original_icon || entity.attributes.icon;
     entity.platform = entry.platform || entity.platform;

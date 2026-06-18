@@ -213,17 +213,20 @@ class EntityRegistry {
      * @param entry - the registry entry to read values from (optional, looked up by entity id if omitted)
      */
     updateEntityFromRegistry(entity: EntityLike, entry?: RegistryEntry): void {
-        if (entity.isManual) {
-            return;
-        }
         if (!entry) {
             entry = this._entries[entity.entity_id];
             if (!entry) {
                 return;
             }
         }
-        entity.entity_id = entry.entity_id!;
-        this.entityData.entityId2Entity[entry.entity_id!] = entity;
+        // Manual entities own their entity_id via the source object's custom config (a rename is
+        // persisted back there, see _persistManualEntityRename), so the registry must not reassign it.
+        // Their other overrides set via the frontend - friendly name, icon, device_class, options -
+        // must still be applied, though; skipping them entirely is what made those settings "ignored".
+        if (!entity.isManual) {
+            entity.entity_id = entry.entity_id!;
+            this.entityData.entityId2Entity[entry.entity_id!] = entity;
+        }
         entity.attributes.friendly_name = entry.name || entry.original_name || entity.attributes.friendly_name;
         entity.attributes.icon = entry.icon || entry.original_icon || entity.attributes.icon;
         entity.platform = entry.platform || entity.platform;

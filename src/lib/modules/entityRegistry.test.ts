@@ -215,15 +215,26 @@ describe('modules/entityRegistry', function () {
     });
 
     describe('updateEntityFromRegistry', function () {
-        it('does nothing when entity is marked as manual', function () {
+        it('keeps the manual entity_id but still applies frontend name/icon overrides', function () {
             const registry = makeRegistry();
             (registry as Record<string, unknown>)._entries = {
-                'binary_sensor.test': { entity_id: 'binary_sensor.updated' },
+                'binary_sensor.test': {
+                    entity_id: 'binary_sensor.updated',
+                    name: 'Manual Custom Name',
+                    icon: 'mdi:custom',
+                    device_class: 'door',
+                },
             };
+            (registry as Record<string, unknown>).entityData = { entityId2Entity: {} };
             const entity = makeEntity({ isManual: true });
             const originalId = entity.entity_id;
             registry.updateEntityFromRegistry(entity);
+            // entity_id is owned by the manual object's custom config -> registry must not change it.
             expect(entity.entity_id).to.equal(originalId);
+            // ...but name/icon/device_class set via the frontend are applied (#issue: were ignored).
+            expect((entity.attributes as Record<string, unknown>).friendly_name).to.equal('Manual Custom Name');
+            expect((entity.attributes as Record<string, unknown>).icon).to.equal('mdi:custom');
+            expect((entity.attributes as Record<string, unknown>).device_class).to.equal('door');
         });
 
         it('does nothing when no entry exists for entity', function () {
