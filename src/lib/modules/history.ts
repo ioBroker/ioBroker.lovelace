@@ -302,6 +302,11 @@ function sendHistoryResponse(
             if (state.s === null || state.s === undefined) {
                 state.s = 'unknown';
             }
+            // The map widget reads `a.latitude`/`a.longitude` from every point and crashes on an
+            // entry without `a` ("t.a is undefined"). Guarantee the field is always present.
+            if (state.a === undefined) {
+                state.a = {};
+            }
         }
     }
 
@@ -492,6 +497,11 @@ class HistoryModule {
                                                     typeof entity.context.STATE.historyParser === 'function'
                                                         ? String(entity.context.STATE.historyParser(id, state?.val))
                                                         : iobState2EntityState(entity, state?.val),
+                                                // Always include attributes. The map widget reads a.latitude/a.longitude
+                                                // from every history point; an entry without `a` crashes it
+                                                // ("t.a is undefined"). Carry the entity's current attributes so the
+                                                // point stays usable (lat/lon), instead of just an empty object.
+                                                a: parameters.noAttributes ? {} : { ...entity.attributes },
                                                 lu: (state?.ts ? state.ts : Date.now()) / 1000,
                                             },
                                         ];
