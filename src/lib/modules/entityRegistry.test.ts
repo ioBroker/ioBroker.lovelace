@@ -138,7 +138,9 @@ describe('modules/entityRegistry', function () {
             expect(entry.platform).to.equal('binary_sensor');
             expect(entry.original_name).to.equal('Test Device');
             expect(entry.original_icon).to.equal('mdi:test');
-            expect(entry.device_class).to.equal('motion');
+            // device_class is the user override, null until set in the frontend; the default lives
+            // in original_device_class.
+            expect(entry.device_class).to.equal(null);
             expect(entry.original_device_class).to.equal('motion');
             expect(entry.device_id).to.equal('adapter.0.parent');
             expect(entry.area_id).to.equal('enum.rooms.living_room');
@@ -271,24 +273,49 @@ describe('modules/entityRegistry', function () {
             expect((entity.attributes as Record<string, unknown>).device_class).to.equal('door');
         });
 
-        it('falls back to original_name when name is null', function () {
+        it('keeps the entity own values when no override is set (ignores original_*)', function () {
+            const registry = makeRegistry();
+            // original_* are stale snapshots (e.g. captured while an auto entity held this id); they
+            // must NOT be applied over the entity's own freshly-computed values.
+            (registry as Record<string, unknown>)._entries = {
+                'binary_sensor.test': {
+                    entity_id: 'binary_sensor.test',
+                    name: null,
+                    original_name: 'Stale Original',
+                    icon: null,
+                    original_icon: 'mdi:stale',
+                    platform: 'binary_sensor',
+                    device_class: null,
+                    original_device_class: 'motion',
+                },
+            };
+            (registry as Record<string, unknown>).entityData = { entityId2Entity: {} };
+            const entity = makeEntity(); // friendly_name 'Test Device', icon 'mdi:test', device_class 'motion'
+            registry.updateEntityFromRegistry(entity);
+            expect((entity.attributes as Record<string, unknown>).friendly_name).to.equal('Test Device');
+            expect((entity.attributes as Record<string, unknown>).icon).to.equal('mdi:test');
+            expect((entity.attributes as Record<string, unknown>).device_class).to.equal('motion');
+        });
+
+        it('does not let a stale original_device_class overwrite a manual entity attr device_class', function () {
             const registry = makeRegistry();
             (registry as Record<string, unknown>)._entries = {
                 'binary_sensor.test': {
                     entity_id: 'binary_sensor.test',
                     name: null,
-                    original_name: 'Original',
                     icon: null,
-                    original_icon: null,
-                    platform: 'binary_sensor',
-                    device_class: null,
-                    original_device_class: null,
+                    device_class: null, // no explicit user override
+                    original_device_class: 'motion', // stale, captured while an auto entity held the id
                 },
             };
             (registry as Record<string, unknown>).entityData = { entityId2Entity: {} };
-            const entity = makeEntity();
+            const entity = makeEntity({
+                isManual: true,
+                attributes: { friendly_name: 'Manual', icon: 'mdi:manual', device_class: 'door' },
+            });
             registry.updateEntityFromRegistry(entity);
-            expect((entity.attributes as Record<string, unknown>).friendly_name).to.equal('Original');
+            // The manual entity's own attr_device_class must win.
+            expect((entity.attributes as Record<string, unknown>).device_class).to.equal('door');
         });
     });
 

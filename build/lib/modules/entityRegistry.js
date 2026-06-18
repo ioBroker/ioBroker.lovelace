@@ -63,7 +63,7 @@ class EntityRegistry {
    * @param entity - the entity to create the entry from
    */
   _createEntryFromEntity(entity) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
     const entry = {
       id: entity.context.id,
       entity_id: entity.entity_id,
@@ -86,50 +86,52 @@ class EntityRegistry {
       categories: {},
       capabilities: entity.context.capabilities || null,
       original_icon: (_b = entity.attributes) == null ? void 0 : _b.icon,
-      device_class: ((_c = entity.attributes) == null ? void 0 : _c.device_class) || null,
-      original_device_class: ((_d = entity.attributes) == null ? void 0 : _d.device_class) || null,
+      // device_class is the user override (null until the user sets one in the frontend);
+      // original_device_class is the integration default used for display / "reset to default".
+      device_class: null,
+      original_device_class: ((_c = entity.attributes) == null ? void 0 : _c.device_class) || null,
       aliases: entity.context.aliases || null
     };
     if (entry.platform === "sensor") {
       entry.options = {
         sensor: {
-          display_precision: ((_e = entity.attributes) == null ? void 0 : _e.display_precision) || null,
-          suggested_display_precision: ((_f = entity.attributes) == null ? void 0 : _f.suggested_display_precision) || null,
-          unit_of_measurement: ((_g = entity.attributes) == null ? void 0 : _g.unit_of_measurement) || null
+          display_precision: ((_d = entity.attributes) == null ? void 0 : _d.display_precision) || null,
+          suggested_display_precision: ((_e = entity.attributes) == null ? void 0 : _e.suggested_display_precision) || null,
+          unit_of_measurement: ((_f = entity.attributes) == null ? void 0 : _f.unit_of_measurement) || null
         }
       };
     } else if (entry.platform === "number") {
       entry.options = {
         number: {
-          unit_of_measurement: ((_h = entity.attributes) == null ? void 0 : _h.unit_of_measurement) || null
+          unit_of_measurement: ((_g = entity.attributes) == null ? void 0 : _g.unit_of_measurement) || null
         }
       };
     } else if (entry.platform === "light") {
       entry.options = {
         light: {
-          favorite_colors: ((_i = entity.attributes) == null ? void 0 : _i.favorite_colors) || []
+          favorite_colors: ((_h = entity.attributes) == null ? void 0 : _h.favorite_colors) || []
         }
       };
     } else if (entry.platform === "lock") {
       entry.options = {
         lock: {
-          default_code: ((_j = entity.attributes) == null ? void 0 : _j.default_code) || null
+          default_code: ((_i = entity.attributes) == null ? void 0 : _i.default_code) || null
         }
       };
     } else if (entry.platform === "alarm_control_panel") {
       entry.options = {
         alarm_control_panel: {
-          default_code: ((_k = entity.attributes) == null ? void 0 : _k.default_code) || null
+          default_code: ((_j = entity.attributes) == null ? void 0 : _j.default_code) || null
         }
       };
     } else if (entry.platform === "weather") {
       entry.options = {
         weather: {
-          precipitation_unit: ((_l = entity.attributes) == null ? void 0 : _l.precipitation_unit) || void 0,
-          pressure_unit: ((_m = entity.attributes) == null ? void 0 : _m.pressure_unit) || void 0,
-          temperature_unit: ((_n = entity.attributes) == null ? void 0 : _n.temperature_unit) || void 0,
-          visibility_unit: ((_o = entity.attributes) == null ? void 0 : _o.visibility_unit) || void 0,
-          wind_speed_unit: ((_p = entity.attributes) == null ? void 0 : _p.wind_speed_unit) || void 0
+          precipitation_unit: ((_k = entity.attributes) == null ? void 0 : _k.precipitation_unit) || void 0,
+          pressure_unit: ((_l = entity.attributes) == null ? void 0 : _l.pressure_unit) || void 0,
+          temperature_unit: ((_m = entity.attributes) == null ? void 0 : _m.temperature_unit) || void 0,
+          visibility_unit: ((_n = entity.attributes) == null ? void 0 : _n.visibility_unit) || void 0,
+          wind_speed_unit: ((_o = entity.attributes) == null ? void 0 : _o.wind_speed_unit) || void 0
         }
       };
     }
@@ -152,10 +154,10 @@ class EntityRegistry {
       entity.entity_id = entry.entity_id;
       this.entityData.entityId2Entity[entry.entity_id] = entity;
     }
-    entity.attributes.friendly_name = entry.name || entry.original_name || entity.attributes.friendly_name;
-    entity.attributes.icon = entry.icon || entry.original_icon || entity.attributes.icon;
+    entity.attributes.friendly_name = entry.name || entity.attributes.friendly_name;
+    entity.attributes.icon = entry.icon || entity.attributes.icon;
     entity.platform = entry.platform || entity.platform;
-    entity.attributes.device_class = entry.device_class || entry.original_device_class || entity.attributes.device_class;
+    entity.attributes.device_class = entry.device_class || entity.attributes.device_class;
     if (entry.options) {
       for (const platform of Object.keys(entry.options)) {
         if (entry.options[platform]) {

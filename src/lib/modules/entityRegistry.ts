@@ -155,7 +155,9 @@ class EntityRegistry {
             categories: {},
             capabilities: entity.context.capabilities || null,
             original_icon: entity.attributes?.icon as string,
-            device_class: (entity.attributes?.device_class as string) || null,
+            // device_class is the user override (null until the user sets one in the frontend);
+            // original_device_class is the integration default used for display / "reset to default".
+            device_class: null,
             original_device_class: (entity.attributes?.device_class as string) || null,
             aliases: entity.context.aliases || null,
         };
@@ -227,11 +229,15 @@ class EntityRegistry {
             entity.entity_id = entry.entity_id!;
             this.entityData.entityId2Entity[entry.entity_id!] = entity;
         }
-        entity.attributes.friendly_name = entry.name || entry.original_name || entity.attributes.friendly_name;
-        entity.attributes.icon = entry.icon || entry.original_icon || entity.attributes.icon;
+        // Apply only the user's explicit override (entry.name/icon/device_class); otherwise keep the
+        // entity's own freshly-computed value. The original_* fields are a snapshot for the frontend's
+        // "reset to default" display, NOT a value to apply here - applying them could overwrite a
+        // manual entity's attr_device_class (or name/icon) with a stale value captured while an
+        // auto entity previously held the same entity_id.
+        entity.attributes.friendly_name = entry.name || entity.attributes.friendly_name;
+        entity.attributes.icon = entry.icon || entity.attributes.icon;
         entity.platform = entry.platform || entity.platform;
-        entity.attributes.device_class =
-            entry.device_class || entry.original_device_class || entity.attributes.device_class;
+        entity.attributes.device_class = entry.device_class || entity.attributes.device_class;
         if (entry.options) {
             for (const platform of Object.keys(entry.options)) {
                 if (entry.options[platform]) {
