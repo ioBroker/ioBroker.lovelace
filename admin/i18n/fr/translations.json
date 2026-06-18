@@ -181,7 +181,7 @@
     "weather": "conditions météorologiques",
     "weblink": "lien Web",
     "Maximum browser instances to keep": "Instances de navigateur maximum à conserver",
-    "Browser tab title": "Titre de l'onglet du navigateur",
+    "To change the browser tab title, edit the dashboard title.": "Pour changer le titre de l'onglet du navigateur, modifiez le titre du tableau de bord.",
     "App name (home screen / PWA)": "Nom de l'app (écran d'accueil / PWA)",
     "App short name (PWA)": "Nom court de l'app (PWA)",
     "Automatic entity_id format": "Format de l'entity_id automatique",

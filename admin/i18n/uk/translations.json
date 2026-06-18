@@ -181,7 +181,7 @@
     "weather": "погода",
     "weblink": "веб посилання",
     "Maximum browser instances to keep": "Максимальні екземпляри браузера для збереження",
-    "Browser tab title": "Заголовок вкладки браузера",
+    "To change the browser tab title, edit the dashboard title.": "Щоб змінити заголовок вкладки браузера, відредагуйте заголовок панелі.",
     "App name (home screen / PWA)": "Назва застосунку (головний екран / PWA)",
     "App short name (PWA)": "Коротка назва застосунку (PWA)",
     "Automatic entity_id format": "Формат автоматичного entity_id",

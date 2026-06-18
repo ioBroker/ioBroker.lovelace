@@ -1453,9 +1453,7 @@ ${hideScript.join("\n")}
       /[&<>"]/g,
       (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]
     );
-    const browserTitle = escapeHtml(this.config.browserTitle || "ioBroker");
     const pwaName = escapeHtml(this.config.pwaName || "ioBroker");
-    this._indexHtml = this._indexHtml.replace("<title>ioBroker</title>", `<title>${browserTitle}</title>`);
     this._indexHtml = this._indexHtml.replace(
       'name="apple-mobile-web-app-title" content="ioBroker"',
       `name="apple-mobile-web-app-title" content="${pwaName}"`

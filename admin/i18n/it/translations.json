@@ -181,7 +181,7 @@
     "weather": "tempo metereologico",
     "weblink": "collegamento web",
     "Maximum browser instances to keep": "Istanze massime del browser da mantenere",
-    "Browser tab title": "Titolo della scheda del browser",
+    "To change the browser tab title, edit the dashboard title.": "Per cambiare il titolo della scheda del browser, modifica il titolo della dashboard.",
     "App name (home screen / PWA)": "Nome app (schermata home / PWA)",
     "App short name (PWA)": "Nome breve app (PWA)",
     "Automatic entity_id format": "Formato entity_id automatico",

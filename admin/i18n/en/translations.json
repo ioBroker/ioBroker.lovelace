@@ -181,7 +181,7 @@
     "weather": "weather",
     "weblink": "weblink",
     "Maximum browser instances to keep": "Maximum browser instances to keep",
-    "Browser tab title": "Browser tab title",
+    "To change the browser tab title, edit the dashboard title.": "To change the browser tab title, edit the dashboard title.",
     "App name (home screen / PWA)": "App name (home screen / PWA)",
     "App short name (PWA)": "App short name (PWA)",
     "Automatic entity_id format": "Automatic entity_id format",

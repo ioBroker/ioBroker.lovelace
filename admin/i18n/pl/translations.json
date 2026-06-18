@@ -181,7 +181,7 @@
     "weather": "pogoda",
     "weblink": "link",
     "Maximum browser instances to keep": "Maksymalne instancje przeglądarki do zachowania",
-    "Browser tab title": "Tytuł karty przeglądarki",
+    "To change the browser tab title, edit the dashboard title.": "Aby zmienić tytuł karty przeglądarki, edytuj tytuł pulpitu.",
     "App name (home screen / PWA)": "Nazwa aplikacji (ekran główny / PWA)",
     "App short name (PWA)": "Krótka nazwa aplikacji (PWA)",
     "Automatic entity_id format": "Format automatycznego entity_id",

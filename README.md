@@ -485,6 +485,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Manually mapped objects outside `alias.0` no longer disappear after a restart when "only generate from alias" is active. (#704)
 * (Garfonso/Claude) Limit concurrent history requests to avoid overloading the states database connection.
 * (Garfonso/Claude) Fixed a crash in the map card caused by history updates without attributes.
+* (Garfonso/Claude) Removed the browser tab title setting; set the dashboard title instead.
 
 ### 6.0.2 (2026-06-17)
 * (Garfonso/Claude) Reduced object-database load (skip our own internal objects, yield during processing) and removed leftover debug logging.

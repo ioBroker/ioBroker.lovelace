@@ -1799,15 +1799,15 @@ class WebServer {
         this._indexHtml = this._indexHtml.replace(/{{ theme_color }}/g, this._renderManifest().theme_color); // deprecated
         this._indexHtml = this._indexHtml.replace(/#THEMEC/g, this._renderManifest().theme_color);
 
-        // Configurable names (issue #663): the browser tab title and the PWA/home-screen name.
+        // Configurable PWA/home-screen name. (The browser tab title is not configurable: the
+        // frontend sets document.title to the dashboard name, so any static title would just be
+        // overwritten - edit the dashboard title instead.)
         const escapeHtml = (s: string): string =>
             s.replace(
                 /[&<>"]/g,
                 c => (({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }) as Record<string, string>)[c],
             );
-        const browserTitle = escapeHtml((this.config.browserTitle as string) || 'ioBroker');
         const pwaName = escapeHtml((this.config.pwaName as string) || 'ioBroker');
-        this._indexHtml = this._indexHtml.replace('<title>ioBroker</title>', `<title>${browserTitle}</title>`);
         this._indexHtml = this._indexHtml.replace(
             'name="apple-mobile-web-app-title" content="ioBroker"',
             `name="apple-mobile-web-app-title" content="${pwaName}"`,

@@ -15,8 +15,6 @@ interface AdapterConfig extends ioBroker.AdapterConfig {
     bind?: string;
     port: number;
     findNextPort?: boolean;
-    /** Browser tab/title-bar title (issue #663). */
-    browserTitle?: string;
     /** PWA / home-screen app name (manifest.name). */
     pwaName?: string;
     /** PWA short name (manifest.short_name). */
