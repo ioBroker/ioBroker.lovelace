@@ -1,4 +1,5 @@
 "use strict";
+const { getHistoryGated } = require("../historyGate");
 function unitClassForDeviceClass(deviceClass) {
   switch (deviceClass) {
     case "energy":
@@ -59,7 +60,7 @@ class StatisticsRecorder {
     const history = this.adapter.config.history;
     const fetchPage = async (pageStart, pageEnd) => {
       const count = Math.max(1, Math.ceil((pageEnd - pageStart) / step));
-      const result = await this.adapter.sendToAsync(history, "getHistory", {
+      const result = await getHistoryGated(this.adapter, history, {
         id,
         options: { start: pageStart, end: pageEnd, step, count, aggregate, user }
       });

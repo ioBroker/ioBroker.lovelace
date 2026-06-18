@@ -8,6 +8,14 @@ const entityDataSingleton = require('../../../lib/dataSingleton') as {
 const { iobState2EntityState } = require('../converters/genericConverter') as {
     iobState2EntityState: (entity: EntityLike, val: unknown) => unknown;
 };
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { getHistoryGated } = require('../historyGate') as {
+    getHistoryGated: (
+        adapter: { sendToAsync(instance: string, command: string, message: unknown): Promise<unknown> },
+        instance: string,
+        message: unknown,
+    ) => Promise<unknown>;
+};
 
 interface EntityLike {
     entity_id: string;
@@ -210,19 +218,16 @@ class LogbookModule {
                             if (id) {
                                 idsToWatch.push({ iobStateId: id, entity });
                                 promises.push(
-                                    this.adapter
-                                        .sendToAsync(this.adapter.config.history, 'getHistory', {
-                                            id,
-                                            options,
-                                        })
-                                        .then(stateResult => {
-                                            for (const state of (stateResult as unknown as { result: ioBroker.State[] })
-                                                .result) {
-                                                if (state !== null) {
-                                                    results.push({ entity, state });
-                                                }
+                                    getHistoryGated(this.adapter, this.adapter.config.history, {
+                                        id,
+                                        options,
+                                    }).then(stateResult => {
+                                        for (const state of (stateResult as { result: ioBroker.State[] }).result) {
+                                            if (state !== null) {
+                                                results.push({ entity, state });
                                             }
-                                        }),
+                                        }
+                                    }),
                                 );
                             }
                         }

@@ -5,6 +5,15 @@ const { iobState2EntityState } = require('../converters/genericConverter') as {
     iobState2EntityState: (entity: EntityLike, val: unknown) => unknown;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { getHistoryGated } = require('../historyGate') as {
+    getHistoryGated: (
+        adapter: { sendToAsync(instance: string, command: string, message: unknown): Promise<unknown> },
+        instance: string,
+        message: unknown,
+    ) => Promise<unknown>;
+};
+
 interface EntityAttribute {
     attribute: string;
     getId?: string;
@@ -123,10 +132,10 @@ async function getHistory(
                         user,
                     };
                     if (id) {
-                        stateResult = (await adapter.sendToAsync(adapter.config.history, 'getHistory', {
+                        stateResult = (await getHistoryGated(adapter, adapter.config.history, {
                             id,
                             options,
-                        })) as unknown as { result: ioBroker.State[] };
+                        })) as { result: ioBroker.State[] };
                     } else {
                         stateResult = { result: [] };
                     }
@@ -136,11 +145,11 @@ async function getHistory(
                         for (const attribute of entity.context.ATTRIBUTES) {
                             const attrId = attribute.getId || attribute.setId;
                             if (attrId) {
-                                attributesResult[attribute.attribute] = (await adapter.sendToAsync(
+                                attributesResult[attribute.attribute] = (await getHistoryGated(
+                                    adapter,
                                     adapter.config.history,
-                                    'getHistory',
                                     { id: attrId, options },
-                                )) as unknown as { result: (ioBroker.State & { used?: boolean })[] };
+                                )) as { result: (ioBroker.State & { used?: boolean })[] };
                             } else {
                                 attributesResult[attribute.attribute] = { result: [] };
                             }

@@ -1,3 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { getHistoryGated } = require('../historyGate') as {
+    getHistoryGated: (
+        adapter: { sendToAsync(instance: string, command: string, message: unknown): Promise<unknown> },
+        instance: string,
+        message: unknown,
+    ) => Promise<unknown>;
+};
+
 interface EntityData {
     entities: EntityLike[];
     entityId2Entity: Record<string, EntityLike>;
@@ -120,7 +129,7 @@ class StatisticsRecorder {
         // Fetch one page [pageStart, pageEnd] of history.
         const fetchPage = async (pageStart: number, pageEnd: number): Promise<unknown[]> => {
             const count = Math.max(1, Math.ceil((pageEnd - pageStart) / step));
-            const result = (await this.adapter.sendToAsync(history, 'getHistory', {
+            const result = (await getHistoryGated(this.adapter, history, {
                 id,
                 options: { start: pageStart, end: pageEnd, step, count, aggregate, user },
             })) as Record<string, unknown> | undefined;

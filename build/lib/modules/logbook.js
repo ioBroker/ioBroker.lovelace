@@ -2,6 +2,7 @@
 const WS_OPEN = 1;
 const entityDataSingleton = require("../../../lib/dataSingleton");
 const { iobState2EntityState } = require("../converters/genericConverter");
+const { getHistoryGated } = require("../historyGate");
 class LogbookModule {
   adapter;
   getUsedEntityIDs;
@@ -140,7 +141,7 @@ class LogbookModule {
               if (id) {
                 idsToWatch.push({ iobStateId: id, entity });
                 promises.push(
-                  this.adapter.sendToAsync(this.adapter.config.history, "getHistory", {
+                  getHistoryGated(this.adapter, this.adapter.config.history, {
                     id,
                     options
                   }).then((stateResult) => {

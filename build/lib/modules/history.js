@@ -1,6 +1,7 @@
 "use strict";
 const WS_OPEN = 1;
 const { iobState2EntityState } = require("../converters/genericConverter");
+const { getHistoryGated } = require("../historyGate");
 function applyHistoryTimestamps(entry, state) {
   var _a, _b, _c, _d, _e;
   let lu = (_a = state.ts) != null ? _a : Date.now();
@@ -39,7 +40,7 @@ async function getHistory(adapter, entities, start, end, noAttributes, user) {
             user
           };
           if (id) {
-            stateResult = await adapter.sendToAsync(adapter.config.history, "getHistory", {
+            stateResult = await getHistoryGated(adapter, adapter.config.history, {
               id,
               options
             });
@@ -51,9 +52,9 @@ async function getHistory(adapter, entities, start, end, noAttributes, user) {
             for (const attribute of entity.context.ATTRIBUTES) {
               const attrId = attribute.getId || attribute.setId;
               if (attrId) {
-                attributesResult[attribute.attribute] = await adapter.sendToAsync(
+                attributesResult[attribute.attribute] = await getHistoryGated(
+                  adapter,
                   adapter.config.history,
-                  "getHistory",
                   { id: attrId, options }
                 );
               } else {

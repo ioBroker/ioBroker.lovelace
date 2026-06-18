@@ -484,6 +484,7 @@ After that checkout modified version in `./build` folder. Then.
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) The custom browser tab title (#663) is now also applied to the live page title, not just the initial one.
 * (Garfonso/Claude) Manually mapped objects outside `alias.0` no longer disappear after a restart when "only generate from alias" is active. (#704)
+* (Garfonso/Claude) Limit concurrent history requests to avoid overloading the states database connection.
 
 ### 6.0.2 (2026-06-17)
 * (Garfonso/Claude) Reduced object-database load (skip our own internal objects, yield during processing) and removed leftover debug logging.
