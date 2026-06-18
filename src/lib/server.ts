@@ -3448,14 +3448,20 @@ class WebServer {
                 this.log.debug(`Update processing done, ${needUpdate.length} entities need update.`);
 
                 if (needUpdate.length > 0 || anyEntityChanged) {
+                    // read state from iob DB and update entity state / attributes:
                     for (const entity of needUpdate) {
-                        // read state from iob DB and update entity state / attributes:
                         await this._getStatesForEntity(entity);
+                    }
+                    // Apply registry overrides (custom name / icon / device_class) BEFORE pushing to
+                    // the frontend. Otherwise a rebuilt entity is first sent with its freshly-derived
+                    // default values and only corrected afterwards, which showed the new name/icon for
+                    // a moment and then reverted to the defaults.
+                    this._modules.entityRegistry?.handleUpdatedEntities(needUpdate, true);
+                    for (const entity of needUpdate) {
                         // update entity in frontend:
                         this.updateEntityInFrontend(entity);
                     }
                     await this._manageSubscribesFromConfig();
-                    this._modules.entityRegistry?.handleUpdatedEntities(needUpdate, true);
                     this.log.debug('entitiesUpdated for object changes.');
                     await this.adapter.setStateAsync('info.entitiesUpdated', true, true);
                     this.log.debug('Had changes, updated states and notified entitiesUpdated state.');

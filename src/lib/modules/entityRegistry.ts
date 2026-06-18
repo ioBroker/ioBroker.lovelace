@@ -384,6 +384,14 @@ class EntityRegistry {
                 if (key === 'new_entity_id') {
                     const oldEntityId = entity.entity_id;
                     const newEntityId = newData[key] as string;
+                    // The frontend's entity dialog sends new_entity_id on EVERY save, even when only
+                    // the name or icon changed. Treat an unchanged id as a no-op: renaming/persisting it
+                    // would needlessly rewrite the source object (manual entities) and rebuild the
+                    // entity, which briefly showed the new name/icon and then reverted to the old ones.
+                    if (!newEntityId || newEntityId === oldEntityId) {
+                        delete entityWithId.new_entity_id;
+                        continue;
+                    }
                     // Update reservation index so the new entity_id is restored on next start.
                     const stableIobId = entity.context.STATE?.getId ?? entity.context.id;
                     const oldKey = `${oldEntityId.split('.')[0]}.${stableIobId}`;

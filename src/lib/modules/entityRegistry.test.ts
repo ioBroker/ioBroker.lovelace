@@ -319,6 +319,48 @@ describe('modules/entityRegistry', function () {
         });
     });
 
+    describe('config/entity_registry/update no-op rename', function () {
+        it('does not rename/persist when new_entity_id equals the current id', function () {
+            let renameCalled = false;
+            const entity = makeEntity({
+                isManual: true,
+                entity_id: 'sensor.manual',
+                attributes: { friendly_name: 'Old', icon: 'mdi:old' },
+                context: { id: 'javascript.0.x' },
+            });
+            const entityData = { entities: [entity], entityId2Entity: { 'sensor.manual': entity } };
+            const registry = new EntityRegistry({
+                adapter: makeAdapter(),
+                entityData,
+                sendResponse: () => {},
+                sendUpdate: () => {},
+                renameEntityIdInConfigs: () => {
+                    renameCalled = true;
+                },
+            });
+
+            // The frontend sends new_entity_id (unchanged) on every save together with name/icon.
+            registry.processMessage(
+                {},
+                {
+                    type: 'config/entity_registry/update',
+                    entity_id: 'sensor.manual',
+                    new_entity_id: 'sensor.manual', // unchanged
+                    name: 'New Name',
+                    icon: 'mdi:new',
+                    id: 1,
+                },
+            );
+
+            // No rename triggered -> no object rewrite / rebuild.
+            expect(renameCalled).to.equal(false);
+            expect(entity.entity_id).to.equal('sensor.manual');
+            // ...but the name/icon edits are applied.
+            expect((entity.attributes as Record<string, unknown>).friendly_name).to.equal('New Name');
+            expect((entity.attributes as Record<string, unknown>).icon).to.equal('mdi:new');
+        });
+    });
+
     describe('config/entity_registry/update options (favorite_colors)', function () {
         it('nests options under options_domain and returns them in entity_entry', function () {
             const responses: { data: unknown }[] = [];

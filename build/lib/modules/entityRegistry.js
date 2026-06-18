@@ -291,6 +291,10 @@ class EntityRegistry {
         if (key === "new_entity_id") {
           const oldEntityId = entity.entity_id;
           const newEntityId = newData[key];
+          if (!newEntityId || newEntityId === oldEntityId) {
+            delete entityWithId.new_entity_id;
+            continue;
+          }
           const stableIobId = (_d = (_c = entity.context.STATE) == null ? void 0 : _c.getId) != null ? _d : entity.context.id;
           const oldKey = `${oldEntityId.split(".")[0]}.${stableIobId}`;
           const newKey = `${newEntityId.split(".")[0]}.${stableIobId}`;

@@ -2835,10 +2835,12 @@ ${hideScript.join("\n")}
         if (needUpdate.length > 0 || anyEntityChanged) {
           for (const entity of needUpdate) {
             await this._getStatesForEntity(entity);
+          }
+          (_a2 = this._modules.entityRegistry) == null ? void 0 : _a2.handleUpdatedEntities(needUpdate, true);
+          for (const entity of needUpdate) {
             this.updateEntityInFrontend(entity);
           }
           await this._manageSubscribesFromConfig();
-          (_a2 = this._modules.entityRegistry) == null ? void 0 : _a2.handleUpdatedEntities(needUpdate, true);
           this.log.debug("entitiesUpdated for object changes.");
           await this.adapter.setStateAsync("info.entitiesUpdated", true, true);
           this.log.debug("Had changes, updated states and notified entitiesUpdated state.");
