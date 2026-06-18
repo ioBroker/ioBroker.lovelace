@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "6.0.2",
+    "version": "6.0.3",
     "news": {
       "6.0.3": {
         "en": "Manually mapped objects outside alias.0 no longer disappear after a restart when \"only generate from alias\" is active.\nThe number of concurrent history requests is now limited to avoid overloading the states-database connection.\nFixed a crash in the map card caused by history updates without attributes.\nThe browser tab title setting was removed; set the dashboard title instead.",
@@ -93,19 +93,6 @@
         "pl": "dodano brakujące role do instancji obiektów\npodmioty manualne nie powinny już znikać z powodu podmiotów automatycznych\ndodać wsparcie dla okładki obrazów ze statycznych URL",
         "uk": "додано відсутні ролі до об'єктів екземпляра\nручні суб'єкти не повинні фуршети більше через автоматичні суб'єкти\nдодавати підтримку зображенням кришки з статичних URLS",
         "zh-cn": "在实例对象中添加缺失的角色\n手动实体不应因为自动实体而消失\n从静态 URls 添加对封面图像的支持"
-      },
-      "5.0.3": {
-        "en": "make sure only existing themes are selectable in control.theme states.\nbring back support for frontend_es5.",
-        "de": "sicher stellen, dass nur vorhandene themen in der steuerung über states wählbar sind.\nunterstützung für frontend_es5 wiederhergestellt.",
-        "ru": "убедитесь, что только существующие темы поддаются выбору. темы государств.\nподдержка интерфейса frontend_es5.",
-        "pt": "certifique-se de que apenas os temas existentes são selecionáveis no controle. estados temáticos.\ntrazer suporte para frontend_es5.",
-        "nl": "zorg ervoor dat alleen bestaande thema's zijn geselecteerd in controle. thema staat.\nondersteuning voor frontend_es5 terugbrengen.",
-        "fr": "assurez-vous que seuls les thèmes existants peuvent être sélectionnés dans le contrôle. les états thématiques.\nramener le support de frontend_es5.",
-        "it": "assicurarsi che solo i temi esistenti siano selezionabili in controllo. stati tematici.\nriportare il supporto per frontend_es5.",
-        "es": "asegúrese de que sólo los temas existentes son seleccionables en control. estados temáticos.\ntraer apoyo para frontend_es5.",
-        "pl": "upewnij się, że tylko istniejące motywy są wybierane pod kontrolą. stan tematyczny.\nprzywrócić wsparcie dla frontend _ es5.",
-        "uk": "переконайтеся, що тільки існуючі теми вибираються в управлінні. тематичні стани.\nповернути підтримку фронтенд_es5.",
-        "zh-cn": "确保控制中只选择现有主题。 主题状态.\n带回对前端_es5的支持."
       }
     },
     "titleLang": {

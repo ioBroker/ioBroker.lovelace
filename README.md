@@ -481,7 +481,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 6.0.3 (2026-06-18)
 * (Garfonso/Claude) Manually mapped objects outside `alias.0` no longer disappear after a restart when "only generate from alias" is active. (#704)
 * (Garfonso/Claude) Limit concurrent history requests to avoid overloading the states database connection.
 * (Garfonso/Claude) Fixed a crash in the map card caused by history updates without attributes.
@@ -524,14 +524,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Support uploading images from the frontend (e.g. dashboard background pictures). (#607)
 * (Garfonso/Claude) Added media browser support (`media_source`): browse uploaded images and files from the `cards/` folder.
 * (Garfonso/Claude) Uploaded images can now be listed and deleted from the frontend (`image/list`, `image/delete`).
-
-### 5.1.0 (2026-05-29)
-* (Garfonso/Claude) Typescript now... hopefully everything still works. If not, please report.
-* (Garfonso) Improved loading images from other adapters.
-* (Garfonso) Reworked entity creation a lot. Hopefully everything still works. If not, please report. Should solve duplicate entities issues.
-* (Garfonso/Claude) Geo_location now calculates the distance from home.
-* (Garfonso/Claude) Add support for additional type-detector types: flood alarm, button (sensor), illuminance, current weather, gate, cie, rgbwSingle
-* (Garfonso) node 22 required now. Please update if you are still on node 18 or 20.
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
