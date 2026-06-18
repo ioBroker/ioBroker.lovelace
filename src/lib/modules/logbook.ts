@@ -9,12 +9,13 @@ const { iobState2EntityState } = require('../converters/genericConverter') as {
     iobState2EntityState: (entity: EntityLike, val: unknown) => unknown;
 };
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { getHistoryGated } = require('../historyGate') as {
+const { getHistoryGated, boundHistoryCount } = require('../historyGate') as {
     getHistoryGated: (
         adapter: { sendToAsync(instance: string, command: string, message: unknown): Promise<unknown> },
         instance: string,
         message: unknown,
     ) => Promise<unknown>;
+    boundHistoryCount: (configured: number | undefined) => number;
 };
 
 interface EntityLike {
@@ -202,7 +203,7 @@ class LogbookModule {
                 const options = {
                     start: startTime,
                     end: queryEnd,
-                    count: this.adapter.config.historyMaxCount,
+                    count: boundHistoryCount(this.adapter.config.historyMaxCount),
                     aggregate: 'onchange',
                     from: true,
                     returnNewestEntries: true,

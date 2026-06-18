@@ -20,6 +20,32 @@ interface SendToAdapter {
     sendToAsync(instanceName: string, command: string, message: unknown): Promise<unknown>;
 }
 
+/**
+ * Default cap on the number of points a single getHistory request may return when the instance has
+ * no historyMaxCount configured (e.g. an upgraded instance where the io-package default never got
+ * applied). An unbounded request returns the whole range, which on a long window / busy state can be
+ * hundreds of MB - transferred through the states DB it overflows the redis output buffer and drops
+ * the connection. Always bound it.
+ */
+export const DEFAULT_HISTORY_MAX_COUNT = 2000;
+
+/** Hard upper bound so even an explicitly huge historyMaxCount cannot produce an oversized reply. */
+export const HARD_HISTORY_MAX_COUNT = 50000;
+
+/**
+ * Bound a configured historyMaxCount into a safe range. Unset / non-positive -> the default; an
+ * explicit value is capped at the hard maximum.
+ *
+ * @param configured - the instance's configured historyMaxCount (may be undefined)
+ * @returns a positive, capped point count
+ */
+export function boundHistoryCount(configured: number | undefined): number {
+    if (!configured || configured < 1) {
+        return DEFAULT_HISTORY_MAX_COUNT;
+    }
+    return Math.min(configured, HARD_HISTORY_MAX_COUNT);
+}
+
 const MAX_CONCURRENT = 3;
 let active = 0;
 const queue: (() => void)[] = [];

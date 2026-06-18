@@ -6,12 +6,13 @@ const { iobState2EntityState } = require('../converters/genericConverter') as {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const { getHistoryGated } = require('../historyGate') as {
+const { getHistoryGated, boundHistoryCount } = require('../historyGate') as {
     getHistoryGated: (
         adapter: { sendToAsync(instance: string, command: string, message: unknown): Promise<unknown> },
         instance: string,
         message: unknown,
     ) => Promise<unknown>;
+    boundHistoryCount: (configured: number | undefined) => number;
 };
 
 interface EntityAttribute {
@@ -127,7 +128,7 @@ async function getHistory(
                     const options = {
                         start,
                         end,
-                        count: adapter.config.historyMaxCount,
+                        count: boundHistoryCount(adapter.config.historyMaxCount),
                         aggregate: 'onchange',
                         user,
                     };

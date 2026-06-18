@@ -1,7 +1,7 @@
 "use strict";
 const WS_OPEN = 1;
 const { iobState2EntityState } = require("../converters/genericConverter");
-const { getHistoryGated } = require("../historyGate");
+const { getHistoryGated, boundHistoryCount } = require("../historyGate");
 function applyHistoryTimestamps(entry, state) {
   var _a, _b, _c, _d, _e;
   let lu = (_a = state.ts) != null ? _a : Date.now();
@@ -35,7 +35,7 @@ async function getHistory(adapter, entities, start, end, noAttributes, user) {
           const options = {
             start,
             end,
-            count: adapter.config.historyMaxCount,
+            count: boundHistoryCount(adapter.config.historyMaxCount),
             aggregate: "onchange",
             user
           };

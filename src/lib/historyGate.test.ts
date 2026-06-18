@@ -1,5 +1,21 @@
 import { expect } from 'chai';
-import { getHistoryGated } from './historyGate';
+import { getHistoryGated, boundHistoryCount, DEFAULT_HISTORY_MAX_COUNT, HARD_HISTORY_MAX_COUNT } from './historyGate';
+
+describe('boundHistoryCount', function () {
+    it('falls back to the default when unset or non-positive (prevents an unbounded request)', function () {
+        expect(boundHistoryCount(undefined)).to.equal(DEFAULT_HISTORY_MAX_COUNT);
+        expect(boundHistoryCount(0)).to.equal(DEFAULT_HISTORY_MAX_COUNT);
+        expect(boundHistoryCount(-5)).to.equal(DEFAULT_HISTORY_MAX_COUNT);
+    });
+
+    it('keeps a sane configured value', function () {
+        expect(boundHistoryCount(500)).to.equal(500);
+    });
+
+    it('caps an excessively large configured value', function () {
+        expect(boundHistoryCount(10_000_000)).to.equal(HARD_HISTORY_MAX_COUNT);
+    });
+});
 
 describe('historyGate', function () {
     it('never runs more than the maximum number of getHistory calls at once', async function () {

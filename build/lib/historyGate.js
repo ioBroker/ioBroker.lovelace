@@ -18,9 +18,20 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var historyGate_exports = {};
 __export(historyGate_exports, {
+  DEFAULT_HISTORY_MAX_COUNT: () => DEFAULT_HISTORY_MAX_COUNT,
+  HARD_HISTORY_MAX_COUNT: () => HARD_HISTORY_MAX_COUNT,
+  boundHistoryCount: () => boundHistoryCount,
   getHistoryGated: () => getHistoryGated
 });
 module.exports = __toCommonJS(historyGate_exports);
+const DEFAULT_HISTORY_MAX_COUNT = 2e3;
+const HARD_HISTORY_MAX_COUNT = 5e4;
+function boundHistoryCount(configured) {
+  if (!configured || configured < 1) {
+    return DEFAULT_HISTORY_MAX_COUNT;
+  }
+  return Math.min(configured, HARD_HISTORY_MAX_COUNT);
+}
 const MAX_CONCURRENT = 3;
 let active = 0;
 const queue = [];
@@ -49,6 +60,9 @@ async function getHistoryGated(adapter, instance, message) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  DEFAULT_HISTORY_MAX_COUNT,
+  HARD_HISTORY_MAX_COUNT,
+  boundHistoryCount,
   getHistoryGated
 });
 //# sourceMappingURL=historyGate.js.map

@@ -2,7 +2,7 @@
 const WS_OPEN = 1;
 const entityDataSingleton = require("../../../lib/dataSingleton");
 const { iobState2EntityState } = require("../converters/genericConverter");
-const { getHistoryGated } = require("../historyGate");
+const { getHistoryGated, boundHistoryCount } = require("../historyGate");
 class LogbookModule {
   adapter;
   getUsedEntityIDs;
@@ -126,7 +126,7 @@ class LogbookModule {
         const options = {
           start: startTime,
           end: queryEnd,
-          count: this.adapter.config.historyMaxCount,
+          count: boundHistoryCount(this.adapter.config.historyMaxCount),
           aggregate: "onchange",
           from: true,
           returnNewestEntries: true,

@@ -481,6 +481,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.
+
 ### 6.0.3 (2026-06-18)
 * (Garfonso/Claude) Manually mapped objects outside `alias.0` no longer disappear after a restart when "only generate from alias" is active. (#704)
 * (Garfonso/Claude) Limit concurrent history requests to avoid overloading the states database connection.
