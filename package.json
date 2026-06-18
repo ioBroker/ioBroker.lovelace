@@ -34,7 +34,7 @@
     "js-yaml": "^4.1.1",
     "jstimezonedetect": "^1.0.7",
     "mime": "^3.0.0",
-    "multer": "^2.1.1",
+    "multer": "^2.2.0",
     "nunjucks": "^3.2.4",
     "pinyin": "^4.0.0",
     "suncalc": "^1.9.0",
