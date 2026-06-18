@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "6.0.3",
+    "version": "6.0.4",
     "news": {
       "6.0.4": {
         "en": "Limit the number of history points fetched per request, so a large history graph can no longer overload the states database.\nManual entities on system/script objects (e.g. a JavaScript adapter state) no longer disappear after a restart.\nManual entities now honor the name and icon set via the frontend, and editing them no longer briefly reverts the change.",
@@ -93,19 +93,6 @@
         "pl": "Zakończono migrację do TypeScript. Prosimy zgłaszać wszelkie regresje.\nUlepszone ładowanie obrazów z innych adapterów.\nTworzenie encji zostało gruntownie przebudowane. Powinno rozwiązać problemy z duplikatami encji. Prosimy zgłaszać wszelkie regresje.\ngeo_location oblicza teraz odległość od domu jako stan.\nDodano obsługę dodatkowych typów type-detector: flood alarm, button (sensor), illuminance, current weather, gate, cie, rgbwSingle.",
         "uk": "Завершено перехід на TypeScript. Будь ласка, повідомляйте про регресії.\nПокращено завантаження зображень з інших адаптерів.\nСтворення сутностей суттєво перероблено. Має вирішити проблеми з дублюванням сутностей. Будь ласка, повідомляйте про регресії.\ngeo_location тепер обчислює відстань до домівки як стан.\nДодано підтримку додаткових типів type-detector: flood alarm, button (sensor), illuminance, current weather, gate, cie, rgbwSingle.",
         "zh-cn": "已迁移到 TypeScript。如有问题，请反馈。\n改进了从其他适配器加载图片的功能。\n实体创建逻辑经过大幅重构。应能解决重复实体问题。如有问题，请反馈。\ngeo_location 现在会将到家的距离作为状态进行计算。\n新增对更多 type-detector 类型的支持：flood alarm、button (sensor)、illuminance、current weather、gate、cie、rgbwSingle。"
-      },
-      "5.0.5": {
-        "en": "added missing roles to instance objects\nmanual entities should not vanish anymore because of automatic entities\nadd support for cover images from static URls",
-        "de": "fehlende rollen zu instanz objekte hinzugefügt\nmanuelle einheiten sollten wegen automatischer einheiten nicht mehr verschwinden\nunterstützung für Cover-Bilder aus statischen URls hinzufügen",
-        "ru": "добавление недостающих ролей в объекты экземпляра\nручные сущности больше не должны исчезать из-за автоматических сущностей\nдобавить поддержку изображений обложки из статических URL",
-        "pt": "adicionar funções em falta aos objetos de instância\nentidades manuais não devem mais desaparecer por causa de entidades automáticas\nadicionar suporte para imagens de capa de URls estáticos",
-        "nl": "ontbrekende rollen toegevoegd aan instantieobjecten\nhandmatige entiteiten mogen niet meer verdwijnen vanwege automatische entiteiten\nondersteuning toevoegen voor cover afbeeldingen van statische URls",
-        "fr": "ajout de rôles manquants aux objets d'instance\nles entités manuelles ne devraient plus disparaître à cause des entités automatiques\najouter le support pour les images de couverture à partir d'URls statiques",
-        "it": "aggiunto ruoli mancanti agli oggetti di istanza\nentità manuali non dovrebbero più svanire a causa di entità automatiche\naggiungere supporto per immagini di copertura da URls statici",
-        "es": "añadiendo roles perdidos para instancia objetos\nlas entidades manuales ya no deben desaparecer debido a las entidades automáticas\nañadir soporte para imágenes de cubierta de URls estáticos",
-        "pl": "dodano brakujące role do instancji obiektów\npodmioty manualne nie powinny już znikać z powodu podmiotów automatycznych\ndodać wsparcie dla okładki obrazów ze statycznych URL",
-        "uk": "додано відсутні ролі до об'єктів екземпляра\nручні суб'єкти не повинні фуршети більше через автоматичні суб'єкти\nдодавати підтримку зображенням кришки з статичних URLS",
-        "zh-cn": "在实例对象中添加缺失的角色\n手动实体不应因为自动实体而消失\n从静态 URls 添加对封面图像的支持"
       }
     },
     "titleLang": {

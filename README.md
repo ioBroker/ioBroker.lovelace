@@ -481,7 +481,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 6.0.4 (2026-06-18)
 * (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.
 * (Garfonso/Claude) Manual entities on `system.*`/`script.*` objects (e.g. a JavaScript adapter state) no longer disappear after a restart. (#709)
 * (Garfonso/Claude) Manual entities now honor the friendly name and icon set via the frontend's entity settings, and editing them no longer briefly reverts the change.
@@ -521,14 +521,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Calendar entities now work with the new frontend: the `calendar/event/subscribe` WebSocket subscription is answered (and refreshes when the calendar state changes), so calendar cards and the calendar panel show events again.
 * (Garfonso/Claude) On start, the entity registry now also drops leftover entries (custom names/icons) for objects that no longer exist, not just stale id reservations.
 * (Garfonso/Claude) Renamed the settings button "Regenerate entity IDs" to "Apply entity-ID format to the visualization" - it adapts the dashboards to the entity-id setting (entity ids are regenerated on every start anyway).
-
-### 5.2.0 (2026-06-02)
-* (Garfonso/Claude) Fixed possible issue with more_info dialog.
-* (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
-* (Garfonso/Claude) Added a `sun.sun` entity, calculated from the configured location. (#430)
-* (Garfonso/Claude) Support uploading images from the frontend (e.g. dashboard background pictures). (#607)
-* (Garfonso/Claude) Added media browser support (`media_source`): browse uploaded images and files from the `cards/` folder.
-* (Garfonso/Claude) Uploaded images can now be listed and deleted from the frontend (`image/list`, `image/delete`).
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
