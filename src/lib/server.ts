@@ -89,8 +89,6 @@ const entityData = require('../../lib/dataSingleton');
 
 const ChannelDetector = require('@iobroker/type-detector').default;
 
-const ignoreIds = [/^system\./, /^script\./];
-
 // Units a sensor device_class can be displayed/converted to (sensor/device_class_convertible_units),
 // mirroring Home Assistant's unit converters. Mainly used by the energy dashboard setup.
 const CONVERTIBLE_UNITS: Record<string, string[]> = {
@@ -1467,44 +1465,28 @@ class WebServer {
                 const _enums = await this.adapter.getObjectViewAsync('system', 'enum', {});
                 if (_devices && _devices.rows) {
                     for (let i = 0; i < _devices.rows.length; i++) {
-                        if (
-                            _devices.rows[i].value &&
-                            _devices.rows[i].value._id &&
-                            !ignoreIds.find(reg => reg.test(_devices.rows[i].value._id))
-                        ) {
+                        if (_devices.rows[i].value && _devices.rows[i].value._id) {
                             objects[_devices.rows[i].value._id] = _devices.rows[i].value;
                         }
                     }
                 }
                 if (_channels && _channels.rows) {
                     for (let i = 0; i < _channels.rows.length; i++) {
-                        if (
-                            _channels.rows[i].value &&
-                            _channels.rows[i].value._id &&
-                            !ignoreIds.find(reg => reg.test(_channels.rows[i].value._id))
-                        ) {
+                        if (_channels.rows[i].value && _channels.rows[i].value._id) {
                             objects[_channels.rows[i].value._id] = _channels.rows[i].value;
                         }
                     }
                 }
                 if (_states && _states.rows) {
                     for (let i = 0; i < _states.rows.length; i++) {
-                        if (
-                            _states.rows[i].value &&
-                            _states.rows[i].value._id &&
-                            !ignoreIds.find(reg => reg.test(_states.rows[i].value._id))
-                        ) {
+                        if (_states.rows[i].value && _states.rows[i].value._id) {
                             objects[_states.rows[i].value._id] = _states.rows[i].value;
                         }
                     }
                 }
                 if (_folders && _folders.rows) {
                     for (let i = 0; i < _folders.rows.length; i++) {
-                        if (
-                            _folders.rows[i].value &&
-                            _folders.rows[i].value._id &&
-                            !ignoreIds.find(reg => reg.test(_folders.rows[i].value._id))
-                        ) {
+                        if (_folders.rows[i].value && _folders.rows[i].value._id) {
                             objects[_folders.rows[i].value._id] = _folders.rows[i].value;
                         }
                     }
@@ -1524,15 +1506,13 @@ class WebServer {
                     }
                 }
 
-                // Manual entities can be configured on objects the range/state views above miss or
-                // skip: objects outside alias.0 when "only generate from alias" is active (#704), and
-                // system.*/script.* objects which are filtered out of auto-detection by ignoreIds but
-                // are valid manual-entity targets, e.g. system.adapter.javascript.0.eventLoopLag
-                // (#709). Load every object that carries our custom config so _getManualEntities sees
-                // it on restart; without this the entity only appears after re-saving the object
-                // (which goes through onObjectChange). ignoreIds is intentionally NOT applied here -
-                // these are explicitly user-configured, and auto-detection still ignores them because
-                // it only runs for objects that are members of both a room and a function enum.
+                // With "only generate from alias" active the range queries above only load alias.0.*,
+                // so manual entities configured elsewhere would be missing (#704: e.g. 0_userdata.0;
+                // #709: e.g. system.adapter.javascript.0.eventLoopLag). Load every object that carries
+                // our custom config so _getManualEntities sees it on restart; otherwise the entity only
+                // reappears after re-saving the object (which goes through onObjectChange). Auto-detection
+                // still ignores these because it only runs for objects that are members of both a room
+                // and a function enum.
                 try {
                     const customView = await this.adapter.getObjectViewAsync('system', 'custom', {});
                     for (const row of customView?.rows || []) {

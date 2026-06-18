@@ -77,7 +77,6 @@ const mime = require("mime");
 const jstz = require("jstimezonedetect");
 const entityData = require("../../lib/dataSingleton");
 const ChannelDetector = require("@iobroker/type-detector").default;
-const ignoreIds = [/^system\./, /^script\./];
 const CONVERTIBLE_UNITS = {
   energy: ["Wh", "kWh", "MWh", "GWh", "TWh", "J", "kJ", "MJ", "GJ", "cal", "kcal", "Mcal", "Gcal"],
   power: ["mW", "W", "kW", "MW", "GW", "TW"],
@@ -1199,28 +1198,28 @@ class WebServer {
         const _enums = await this.adapter.getObjectViewAsync("system", "enum", {});
         if (_devices && _devices.rows) {
           for (let i = 0; i < _devices.rows.length; i++) {
-            if (_devices.rows[i].value && _devices.rows[i].value._id && !ignoreIds.find((reg) => reg.test(_devices.rows[i].value._id))) {
+            if (_devices.rows[i].value && _devices.rows[i].value._id) {
               objects[_devices.rows[i].value._id] = _devices.rows[i].value;
             }
           }
         }
         if (_channels && _channels.rows) {
           for (let i = 0; i < _channels.rows.length; i++) {
-            if (_channels.rows[i].value && _channels.rows[i].value._id && !ignoreIds.find((reg) => reg.test(_channels.rows[i].value._id))) {
+            if (_channels.rows[i].value && _channels.rows[i].value._id) {
               objects[_channels.rows[i].value._id] = _channels.rows[i].value;
             }
           }
         }
         if (_states && _states.rows) {
           for (let i = 0; i < _states.rows.length; i++) {
-            if (_states.rows[i].value && _states.rows[i].value._id && !ignoreIds.find((reg) => reg.test(_states.rows[i].value._id))) {
+            if (_states.rows[i].value && _states.rows[i].value._id) {
               objects[_states.rows[i].value._id] = _states.rows[i].value;
             }
           }
         }
         if (_folders && _folders.rows) {
           for (let i = 0; i < _folders.rows.length; i++) {
-            if (_folders.rows[i].value && _folders.rows[i].value._id && !ignoreIds.find((reg) => reg.test(_folders.rows[i].value._id))) {
+            if (_folders.rows[i].value && _folders.rows[i].value._id) {
               objects[_folders.rows[i].value._id] = _folders.rows[i].value;
             }
           }
