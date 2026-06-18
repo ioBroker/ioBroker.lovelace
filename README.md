@@ -482,7 +482,6 @@ After that checkout modified version in `./build` folder. Then.
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso/Claude) The custom browser tab title (#663) is now also applied to the live page title, not just the initial one.
 * (Garfonso/Claude) Manually mapped objects outside `alias.0` no longer disappear after a restart when "only generate from alias" is active. (#704)
 * (Garfonso/Claude) Limit concurrent history requests to avoid overloading the states database connection.
 * (Garfonso/Claude) Fixed a crash in the map card caused by history updates without attributes.
