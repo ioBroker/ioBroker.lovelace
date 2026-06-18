@@ -12,6 +12,7 @@ const weather_tests = require('./weather_integration_tests');
 const object_change_tests = require('./objects_change_tests');
 const custom_settings_tests = require('./custom_settings_tests');
 const alias_only_tests = require('./alias_only_tests');
+const manual_system_object_tests = require('./manual_system_object_tests');
 
 exports.runTests = function (suite) {
     alarm_control_tests.runTests(suite);
@@ -27,4 +28,5 @@ exports.runTests = function (suite) {
     object_change_tests.runTests(suite);
     custom_settings_tests.runTests(suite);
     alias_only_tests.runTests(suite);
+    manual_system_object_tests.runTests(suite);
 };

@@ -1,0 +1,31 @@
+{
+  "system.adapter.javascript.0.eventLoopLag": {
+    "type": "state",
+    "common": {
+      "name": "event loop lag",
+      "read": true,
+      "write": false,
+      "role": "value",
+      "type": "number",
+      "unit": "ms",
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "sensor",
+          "name": "event_loop_lag"
+        }
+      }
+    },
+    "native": {},
+    "_id": "system.adapter.javascript.0.eventLoopLag",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}

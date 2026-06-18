@@ -1524,31 +1524,32 @@ class WebServer {
                     }
                 }
 
-                // Manual entities can be configured on objects anywhere (e.g. 0_userdata.0). The
-                // alias-only range queries above miss them, so also load every object that has our
-                // custom config. Without this, manual entities outside alias.0 vanish on restart when
-                // "only generate from alias" is active and only reappear after re-saving the object
-                // (which goes through onObjectChange, which does check for custom config). Issue #704.
-                if (this.adapter.config.aliasOnly) {
-                    try {
-                        const customView = await this.adapter.getObjectViewAsync('system', 'custom', {});
-                        for (const row of customView?.rows || []) {
-                            const id = row.id;
-                            if (
-                                id &&
-                                (row.value as Record<string, unknown> | undefined)?.[this.adapter.namespace] &&
-                                !objects[id] &&
-                                !ignoreIds.find(reg => reg.test(id))
-                            ) {
-                                const obj = await this.adapter.getForeignObjectAsync(id);
-                                if (obj) {
-                                    objects[id] = obj;
-                                }
+                // Manual entities can be configured on objects the range/state views above miss or
+                // skip: objects outside alias.0 when "only generate from alias" is active (#704), and
+                // system.*/script.* objects which are filtered out of auto-detection by ignoreIds but
+                // are valid manual-entity targets, e.g. system.adapter.javascript.0.eventLoopLag
+                // (#709). Load every object that carries our custom config so _getManualEntities sees
+                // it on restart; without this the entity only appears after re-saving the object
+                // (which goes through onObjectChange). ignoreIds is intentionally NOT applied here -
+                // these are explicitly user-configured, and auto-detection still ignores them because
+                // it only runs for objects that are members of both a room and a function enum.
+                try {
+                    const customView = await this.adapter.getObjectViewAsync('system', 'custom', {});
+                    for (const row of customView?.rows || []) {
+                        const id = row.id;
+                        if (
+                            id &&
+                            (row.value as Record<string, unknown> | undefined)?.[this.adapter.namespace] &&
+                            !objects[id]
+                        ) {
+                            const obj = await this.adapter.getForeignObjectAsync(id);
+                            if (obj) {
+                                objects[id] = obj;
                             }
                         }
-                    } catch (e: any) {
-                        this.adapter.log.warn(`Could not load custom-configured objects: ${e.toString()}`);
                     }
+                } catch (e: any) {
+                    this.adapter.log.warn(`Could not load custom-configured objects: ${e.toString()}`);
                 }
             } catch (e: any) {
                 this.adapter.log.error(
