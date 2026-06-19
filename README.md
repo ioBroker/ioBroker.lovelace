@@ -460,6 +460,7 @@ For now (20260527.1) following files were modified:
 - `src/panels/config/lovelace/dashboards/ha-config-lovelace-dashboards.ts` - show fixed panels (incl. browser-mod) in built-in dashboards list.
 - `src/panels/profile/ha-panel-profile.ts` - hide security tab in user profile.
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
+- `src/html/index.html.template` - remove Safari smart app banner (apple-itunes-app meta) for HA iOS app (#418).
 - `.husky/pre-commit` - remove git commit hooks.
 
 After that checkout modified version in `./build` folder. Then.
@@ -481,6 +482,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Remove HA-App Banner on iPhone (#418).
+
 ### 6.0.4 (2026-06-18)
 * (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.
 * (Garfonso/Claude) Manual entities on `system.*`/`script.*` objects (e.g. a JavaScript adapter state) no longer disappear after a restart. (#709)
