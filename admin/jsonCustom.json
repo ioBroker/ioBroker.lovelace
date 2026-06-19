@@ -200,6 +200,66 @@
       "jsonData": "{\"entity\": \"${data.entity}\", \"name\": \"${data.name}\", \"objectId\": \"${customObj._id}\"}",
       "hidden": "data._entityDuplicateError"
     },
+    "_trackerStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "!['device_tracker', 'person'].includes(data.entity)",
+      "items": {
+        "_trackerHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Location & presence states",
+          "help": "Pick the ioBroker states that provide presence and location for this tracker / person."
+        },
+        "state_presence": {
+          "type": "objectId",
+          "label": "Presence state",
+          "help": "Boolean (true = home) or a zone-name string. If empty, presence is derived from the coordinates vs zone.home.",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 6
+        },
+        "state_gps": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "GPS state (\"lat;lon\")",
+          "help": "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 6
+        },
+        "state_latitude": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "Latitude state",
+          "hidden": "!!data.state_gps",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_longitude": {
+          "type": "objectId",
+          "label": "Longitude state",
+          "hidden": "!!data.state_gps",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_gps_accuracy": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "GPS accuracy state",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        }
+      }
+    },
     "_attribtes": {
       "newLine": true,
       "type": "panel",

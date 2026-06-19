@@ -34,6 +34,7 @@ __export(deviceTracker_exports, {
 });
 module.exports = __toCommonJS(deviceTracker_exports);
 var import_geoLocationEntity = require("../entities/geoLocationEntity");
+var import_manualStates = require("./manualStates");
 var import_dataSingleton = __toESM(require("../../../lib/dataSingleton"));
 const EARTH_RADIUS_KM = 6371;
 function haversineKm(lat1, lon1, lat2, lon2) {
@@ -76,11 +77,11 @@ function presenceFromGps(lat, lon) {
   return distanceM <= radiusM ? "home" : "not_home";
 }
 function processManualEntity(id, obj, entity, objects, custom) {
-  var _a, _b, _c, _d, _e;
-  const states = (_a = custom.states) != null ? _a : {};
+  var _a, _b, _c, _d;
+  const states = (0, import_manualStates.collectManualStates)(custom);
   const domain = entity.context.type;
   const base = entity;
-  entity.attributes.source = (_b = custom.attr_source) != null ? _b : "gps";
+  entity.attributes.source = (_a = custom.attr_source) != null ? _a : "gps";
   const geoStates = {
     gps: states.gps,
     latitude: states.latitude,
@@ -93,7 +94,7 @@ function processManualEntity(id, obj, entity, objects, custom) {
   entity.attributes.icon = domain === "person" ? "mdi:account" : "mdi:account-arrow-right";
   let presenceId = states.presence;
   if (!presenceId) {
-    const mainType = (_c = obj == null ? void 0 : obj.common) == null ? void 0 : _c.type;
+    const mainType = (_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.type;
     if (mainType === "boolean" || mainType === "string") {
       presenceId = id;
     }
@@ -122,9 +123,9 @@ function processManualEntity(id, obj, entity, objects, custom) {
     }
   }
   if (domain === "person") {
-    entity.attributes.device_trackers = (_d = entity.attributes.device_trackers) != null ? _d : [];
+    entity.attributes.device_trackers = (_c = entity.attributes.device_trackers) != null ? _c : [];
     entity.attributes.user_id = null;
-    entity.attributes.id = (_e = custom.name) != null ? _e : entity.entity_id.split(".").slice(1).join(".");
+    entity.attributes.id = (_d = custom.name) != null ? _d : entity.entity_id.split(".").slice(1).join(".");
     entity.attributes.editable = false;
   }
   return [entity];

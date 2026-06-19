@@ -1,6 +1,7 @@
 import type { ioBrokerEntity } from './converter';
 import type { BaseEntity } from '../entities/baseEntity';
 import { applyGeoLocationStates, type GeoStates } from '../entities/geoLocationEntity';
+import { collectManualStates } from './manualStates';
 
 import entityData from '../../../lib/dataSingleton';
 
@@ -106,7 +107,7 @@ export function processManualEntity(
     objects: Record<string, ioBroker.Object>,
     custom: Record<string, unknown>,
 ): ioBrokerEntity[] {
-    const states = (custom.states as TrackerStates | undefined) ?? {};
+    const states = collectManualStates(custom) as TrackerStates;
     const domain = entity.context.type;
     const base = entity;
 

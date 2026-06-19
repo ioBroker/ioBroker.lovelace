@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/lib/converters/manualStates.ts"],
+  "sourcesContent": ["/**\n * Collect the state-id map for a manual entity from its custom config.\n *\n * The states-picker in the admin custom dialog stores each picked ioBroker object id as a flat\n * `state_<role>` key (e.g. `state_presence`, `state_SET`, `state_ACTUAL`). Advanced users may also\n * provide a nested `custom.states` object directly. This merges both into one `{ role: id }` map\n * (the flat picker keys win, since they are the explicitly chosen ones).\n *\n * @param custom - the object's custom settings for our namespace\n * @returns a map of role -> ioBroker state id\n */\nexport function collectManualStates(custom: Record<string, unknown>): Record<string, string> {\n    const out: Record<string, string> = { ...((custom.states as Record<string, string> | undefined) || {}) };\n    for (const [key, value] of Object.entries(custom)) {\n        if (key.startsWith('state_') && typeof value === 'string' && value) {\n            out[key.slice('state_'.length)] = value;\n        }\n    }\n    return out;\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAWO,SAAS,oBAAoB,QAAyD;AACzF,QAAM,MAA8B,EAAE,GAAK,OAAO,UAAiD,CAAC,EAAG;AACvG,aAAW,CAAC,KAAK,KAAK,KAAK,OAAO,QAAQ,MAAM,GAAG;AAC/C,QAAI,IAAI,WAAW,QAAQ,KAAK,OAAO,UAAU,YAAY,OAAO;AAChE,UAAI,IAAI,MAAM,SAAS,MAAM,CAAC,IAAI;AAAA,IACtC;AAAA,EACJ;AACA,SAAO;AACX;",
+  "names": []
+}
