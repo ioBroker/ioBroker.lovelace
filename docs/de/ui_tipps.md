@@ -6,6 +6,7 @@
 * [Mini Media Card mit TTS und Shortcuts](ui_tipps.md#mini-media-card-mit-text2speech-tts-und-musik-shortcuts)
 * [Uhrzeit](ui_tipps.md#uhrzeit)
 * [Bindings](ui_tipps.md#bindings)
+* [Video / Live-Stream anzeigen](ui_tipps.md#video--live-stream-anzeigen)
 
 
 ## Anpassen der Titelleiste
@@ -136,3 +137,24 @@ other_time:
 Die Markdown-Karte kann mit Bindings verwendet werden. Dabei ist die Konfiguration, wie in [ioBroker.vis](https://github.com/ioBroker/ioBroker.vis#bindings-of-objects) üblich.
 
 Zum Beispiel erzeugt der Text `Admin läuft{a:system.adapter.admin.0.alive;a === true || a === 'true' ? '' : ' nicht'}.` den text `Admin läuft` in der Markdown-Karte.
+
+## Video / Live-Stream anzeigen
+
+Ein Video oder einen Live-Stream (z. B. Türklingel / Ring-Kamera) kann man mit einer `iframe`-Karte anzeigen, die auf die Stream-URL zeigt. Bei einer festen URL genügt eine einfache `iframe`-Karte mit `url:`. Ändert sich die URL (z. B. bei jedem neuen Clip / jeder neuen Live-Sitzung), liest man sie dynamisch aus einem State mit der [config-template-card](https://github.com/iantrich/config-template-card) (Installation über HACS).
+
+Den ioBroker-State mit der URL (z. B. `ring.0.doorbell_625818110.Livestream.url`) als `input_text`-Entität anlegen, dann:
+
+```yaml
+type: custom:config-template-card
+variables:
+  URL: states['input_text.doorbell_625818110_Livestream_url'].state
+entities:
+  - input_text.doorbell_625818110_Livestream_url
+card:
+  type: iframe
+  url: ${URL}
+  aspect_ratio: 100%
+  title: Letztes Live Video
+```
+
+(Danke an @Vippis2000 in [#575](https://github.com/ioBroker/ioBroker.lovelace/issues/575).)

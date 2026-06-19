@@ -277,6 +277,26 @@ E.g.:
 
 or just manually set the entity type to `camera` and write URL into it.
 
+### Video / live streams
+You can display a video or live stream (e.g. a doorbell / Ring camera) with an `iframe` card pointed at the stream URL. For a fixed URL a plain `iframe` card with `url:` is enough. If the URL changes (a new clip / live session each time), read it dynamically from a state with the [config-template-card](https://github.com/iantrich/config-template-card) (install via HACS).
+
+Map the ioBroker state that holds the URL (e.g. `ring.0.doorbell_625818110.Livestream.url`) to an `input_text` entity, then:
+
+```yaml
+type: custom:config-template-card
+variables:
+  URL: states['input_text.doorbell_625818110_Livestream_url'].state
+entities:
+  - input_text.doorbell_625818110_Livestream_url
+card:
+  type: iframe
+  url: ${URL}
+  aspect_ratio: 100%
+  title: Letztes Live Video
+```
+
+(Thanks to @Vippis2000 in [#575](https://github.com/ioBroker/ioBroker.lovelace/issues/575).)
+
 ### Markdown
 You can use bindings in Markdown like in [iobroker.vis](https://github.com/ioBroker/ioBroker.vis#bindings-of-objects).
 
