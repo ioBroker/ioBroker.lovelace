@@ -14,6 +14,7 @@ import * as converterBinarySensors from './converters/binary_sensor';
 import * as converterSensors from './converters/sensor';
 import * as converterGeoLocation from './converters/geo_location';
 import * as converterDeviceTracker from './converters/deviceTracker';
+import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -633,6 +634,31 @@ class WebServer {
             // ... no... don't force entityId of manually created entities... user is in control here and at fault, if something breaks.
             //const forcedEntityId = this._modules.entityRegistry.getEntityId(id);
             const entity_id = utils.createEntityNameFromCustom(obj, this.adapter.namespace); //maybe use forced id if no id set in object... but does that happen at all?
+
+            // Synthetic-control bridge: some types (e.g. cover) are built by synthesizing a
+            // type-detector PatternControl from the picked states and running the real converter, so
+            // the full converter logic is reused instead of a bespoke processManualEntity.
+            const bridgeStates = syntheticControlStates(entityType, custom);
+            if (bridgeStates) {
+                for (const stateId of Object.values(bridgeStates)) {
+                    if (stateId && !this._objectData.objects[stateId]) {
+                        try {
+                            this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
+                        } catch (e: any) {
+                            this.adapter.log.warn(`Could not get object ${stateId} for manual ${entityType}: ${e}`);
+                        }
+                    }
+                }
+                return buildManualViaConverter({
+                    entityType,
+                    id,
+                    custom,
+                    objects: this._objectData.objects,
+                    adapter: this.adapter,
+                    entityRegistry: this._modules.entityRegistry,
+                    forcedEntityId: entity_id,
+                });
+            }
 
             const entity = new BaseEntity(null, null, null, obj, entityType, entity_id);
 

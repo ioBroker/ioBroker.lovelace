@@ -1,0 +1,34 @@
+{
+  "0_userdata.0.window": {
+    "type": "state",
+    "common": {
+      "name": "window",
+      "type": "number",
+      "role": "level.blind",
+      "read": true,
+      "write": true,
+      "min": 0,
+      "max": 100,
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "cover",
+          "name": "my_window",
+          "state_SET": "0_userdata.0.window",
+          "attr_device_class": "window"
+        }
+      }
+    },
+    "native": {},
+    "_id": "0_userdata.0.window",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}

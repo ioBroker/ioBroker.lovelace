@@ -260,6 +260,78 @@
         }
       }
     },
+    "_coverStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'cover'",
+      "items": {
+        "_coverHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Cover states",
+          "help": "Pick the ioBroker states that control this cover (e.g. an automatic window). Map a level state to SET (with ACTUAL for feedback), or use OPEN/CLOSE/STOP buttons."
+        },
+        "state_SET": {
+          "type": "objectId",
+          "label": "Level (SET)",
+          "help": "Numeric level state to set the position (0-100).",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_ACTUAL": {
+          "type": "objectId",
+          "label": "Level feedback (ACTUAL)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_STOP": {
+          "type": "objectId",
+          "label": "Stop button (STOP)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_OPEN": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "Open button (OPEN)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_CLOSE": {
+          "type": "objectId",
+          "label": "Close button (CLOSE)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_TILT_SET": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "Tilt level (TILT_SET)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_TILT_ACTUAL": {
+          "type": "objectId",
+          "label": "Tilt feedback (TILT_ACTUAL)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        }
+      }
+    },
     "_attribtes": {
       "newLine": true,
       "type": "panel",

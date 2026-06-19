@@ -37,6 +37,7 @@ var converterBinarySensors = __toESM(require("./converters/binary_sensor"));
 var converterSensors = __toESM(require("./converters/sensor"));
 var converterGeoLocation = __toESM(require("./converters/geo_location"));
 var converterDeviceTracker = __toESM(require("./converters/deviceTracker"));
+var import_syntheticControl = require("./converters/syntheticControl");
 var converterDatetime = __toESM(require("./converters/input_datetime"));
 var converterAlarmCP = __toESM(require("./converters/alarm_control_panel"));
 var converterInputSelect = __toESM(require("./converters/input_select"));
@@ -489,6 +490,27 @@ class WebServer {
       const custom = obj.common.custom[this.adapter.namespace] || {};
       const entityType = custom.entity || utils.autoDetermineEntityType(obj);
       const entity_id = utils.createEntityNameFromCustom(obj, this.adapter.namespace);
+      const bridgeStates = (0, import_syntheticControl.syntheticControlStates)(entityType, custom);
+      if (bridgeStates) {
+        for (const stateId of Object.values(bridgeStates)) {
+          if (stateId && !this._objectData.objects[stateId]) {
+            try {
+              this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
+            } catch (e) {
+              this.adapter.log.warn(`Could not get object ${stateId} for manual ${entityType}: ${e}`);
+            }
+          }
+        }
+        return (0, import_syntheticControl.buildManualViaConverter)({
+          entityType,
+          id,
+          custom,
+          objects: this._objectData.objects,
+          adapter: this.adapter,
+          entityRegistry: this._modules.entityRegistry,
+          forcedEntityId: entity_id
+        });
+      }
       const entity = new import_baseEntity.BaseEntity(null, null, null, obj, entityType, entity_id);
       if (custom.attr_assumed_state && ["switch", "light", "cover", "climate", "fan", "humidifier", "group", "water_heater"].includes(
         entityType
