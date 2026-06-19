@@ -36,6 +36,7 @@ var converterSwitch = __toESM(require("./converters/switch"));
 var converterBinarySensors = __toESM(require("./converters/binary_sensor"));
 var converterSensors = __toESM(require("./converters/sensor"));
 var converterGeoLocation = __toESM(require("./converters/geo_location"));
+var converterDeviceTracker = __toESM(require("./converters/deviceTracker"));
 var converterDatetime = __toESM(require("./converters/input_datetime"));
 var converterAlarmCP = __toESM(require("./converters/alarm_control_panel"));
 var converterInputSelect = __toESM(require("./converters/input_select"));
@@ -550,6 +551,8 @@ class WebServer {
         return converterClimate.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "geo_location") {
         return converterGeoLocation.processManualEntity(id, obj, entity, this._objectData.objects, custom);
+      } else if (entityType === "device_tracker" || entityType === "person") {
+        return converterDeviceTracker.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "camera") {
         entity.context.STATE = { getValue: "on", getId: null, attribute: "state" };
         entity.context.ATTRIBUTES = [{ getId: id, attribute: "url" }];

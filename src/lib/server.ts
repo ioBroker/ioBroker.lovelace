@@ -13,6 +13,7 @@ import * as converterSwitch from './converters/switch';
 import * as converterBinarySensors from './converters/binary_sensor';
 import * as converterSensors from './converters/sensor';
 import * as converterGeoLocation from './converters/geo_location';
+import * as converterDeviceTracker from './converters/deviceTracker';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -704,6 +705,8 @@ class WebServer {
                 return converterClimate.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'geo_location') {
                 return converterGeoLocation.processManualEntity(id, obj, entity, this._objectData.objects, custom);
+            } else if (entityType === 'device_tracker' || entityType === 'person') {
+                return converterDeviceTracker.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'camera') {
                 entity.context.STATE = { getValue: 'on', getId: null, attribute: 'state' as const };
                 entity.context.ATTRIBUTES = [{ getId: id, attribute: 'url' }];
