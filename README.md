@@ -18,7 +18,63 @@ With this adapter, you can build visualization for ioBroker with Home Assistant 
 * 📘 [English documentation](docs/en/README.md)
 * 📗 [Deutsche Dokumentation](docs/de/README.md)
 
-The documentation covers configuration (auto / manual entities), panels & special entities (alarm, timer, weather, map, video, …), custom cards, themes, icons, notifications, voice control, troubleshooting and development / build instructions.
+The documentation covers configuration (auto / manual entities), panels & special entities (alarm, timer, weather, map, video, …), custom cards, themes, icons, notifications, voice control and troubleshooting.
+
+## Development
+
+### Original sources for lovelace
+Used sources are here https://github.com/GermanBluefox/home-assistant-polymer .
+
+### Todo
+Security must be taken from the current user and not from default_user.
+
+### Version
+Used version of home-assistant-frontend@20260527.6
+Version of Browser Mod: 2.13.5
+
+### How to build the new Lovelace version
+First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
+
+All changes for ioBroker are marked with comment `// IoB`.
+For now (20260527.1) following files were modified:
+- `build-scripts/gulp/app.js` - Add new gulp task develop-iob
+- `build-scripts/gulp/rspack.js` - Add new gulp task rspack-dev-app
+- `build-scripts/rspack.cjs` - disable source maps in prod build to reduce emitted file count.
+- `src/data/icons.ts` - keep old icons, for now.
+- `src/data/weather.ts` - add support to display weather icon from url.
+- `src/dialogs/more-info/const.ts` - remove weather state & history, if is image
+- `src/dialogs/more-info/ha-more-info-dialog.ts` - remove entity settings button and tab
+- `src/dialogs/more-info/ha-more-info-history.ts` - remove `show more` link in history
+- `src/dialogs/more-info/ha-more-info-logbook.ts` - remove `show more` link in logbook
+- `src/dialogs/more-info/controls/more-info-weather.ts` - add support to display weather icon from url.
+- `src/dialogs/voice-command-dialog/ha-voice-command-dialog.ts` - disable configuration of voice assistants
+- `src/entrypoints/core.ts` - add no auth option
+- `src/panels/lovelace/cards/hui-weather-forecast-card.ts` - add support to display weather icon from url.
+- `src/panels/lovelace/entity-rows/hui-weather-entity-row.ts` - add support to display weather icon from url with auth.
+- `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button, open edit-panel dialog for lovelace boards, live dashboard title from hass.panels
+- `src/layouts/hass-router-page.ts` - guard updatePageEl against undefined route during rebuild (panel rename crash).
+- `src/panels/config/dashboard/ha-config-dashboard.ts` - hide settings sections (automations, apps, voice assistants, system, people, tip).
+- `src/panels/config/ha-panel-config.ts` - hide integrations tab in devices & services, land devices & services tile on /config/devices.
+- `src/panels/config/developer-tools/ha-panel-developer-tools.ts` - remove yaml, events and assist tabs from developer tools.
+- `src/panels/config/developer-tools/developer-tools-router.ts` - default to states tab (yaml removed).
+- `src/panels/config/info/ha-config-info.ts` - hide doc/credits/community/license links in about (keep keyboard shortcuts).
+- `src/panels/config/lovelace/dashboards/ha-config-lovelace-dashboards.ts` - show fixed panels (incl. browser-mod) in built-in dashboards list.
+- `src/panels/profile/ha-panel-profile.ts` - hide security tab in user profile.
+- `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
+- `src/html/index.html.template` - remove Safari smart app banner (apple-itunes-app meta) for HA iOS app (#418).
+- `.husky/pre-commit` - remove git commit hooks.
+
+After that checkout modified version in `./build` folder. Then.
+
+1. go to ./build directory.
+2. `git clone https://github.com/GermanBluefox/home-assistant-polymer.git` it is a fork of https://github.com/home-assistant/frontend.git, but some things are modified (see the file list earlier).
+3. `cd home-assistant-polymer`
+4. `git checkout master`
+5. `yarn install`
+6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
+7. run script `hass_frontend/static_cards/newFrontend.sh` in adapter repo to update frontend (it assumes that the two repositories are next to each other in the same folder, if not, please adjust script, preferably with some parameter handling and make a PR, thanks :smile: )
+8. Run `gulp rename` task.
+9. Update the version in `README.md`.
 
 ## Changelog
 
