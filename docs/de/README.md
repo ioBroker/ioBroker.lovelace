@@ -15,18 +15,13 @@ In ioBroker bestehen Geräte allerdings oft aus mehreren `states` und eine 1:1 Z
 Ein `entity` benötigt immer eine eindeutige ID, die wie folgt aussieht: `domain.unique_name`. Dabei beschreibt die `domain`
 die Funktion des `entity`. Je nach `domain` (z.B. `light`, `cover`, `input_number`) verhalten sich die Karten der Lovelace UI unterschiedlich.   
 
-Um `entities` aus ioBroker Objekten zu erstellen gibt es zwei Wege:
-1. [Automatische Erkennung](automatic_entities.md) von Geräten (bevorzugt)
-2. [Manuelle Konfiguration](manual_entities.md) (funktioniert nur für `entities`, die sich mit nur einem Datenpunkt darstellen/steuern lassen)
-
-Die Oberfläche kann durch eigene Karten erweitert / individualisiert werden. Dort gibt es von der HomeAssistant Community
-schon eine ganze Reihe Karten. [Mehr dazu und welche funktionieren](custom_cards.md).
-
-Andere Themen (inklusive Hinweisen zu ioBroker Besonderheiten):
-* [Unterstütze entities](supported_entities.md) 
-* [Eigene Karten](custom_cards.md)
-* [Tipps für die Gestaltung der Oberfläche](ui_tipps.md)
+## Themen
+* [Entitäten](entities.md) — automatische Erkennung, manuelle Konfiguration, unterstützte & besondere Entity-Typen
+* [Eigene Karten, Themes & UI-Tipps](cards_and_ui.md)
+* [Funktionen](features.md) — Benachrichtigungen, Sprachsteuerung, Video, Fehlersuche
 * [Themes anpassen (Frontend-Update 2026)](theme_migration.md)
+
+Die Entwickler-/Build-Dokumentation steht im [Root-README](../../README.md#development).
 
 ## Fernzugriff über ioBroker Cloud
 
