@@ -494,7 +494,7 @@ class WebServer {
       const entityType = custom.entity || utils.autoDetermineEntityType(obj);
       const entity_id = utils.createEntityNameFromCustom(obj, this.adapter.namespace);
       const bridgeStates = (0, import_syntheticControl.syntheticControlStates)(entityType, custom);
-      if (bridgeStates) {
+      if (bridgeStates && Object.keys(bridgeStates).length > 0) {
         for (const stateId of Object.values(bridgeStates)) {
           if (stateId && !this._objectData.objects[stateId]) {
             try {

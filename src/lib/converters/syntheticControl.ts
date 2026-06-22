@@ -15,6 +15,11 @@ export const SYNTHETIC_CONTROL_TYPES: Record<string, Types> = {
     lock: Types.lock,
     media_player: Types.media,
     vacuum: Types.vacuumCleaner,
+    // climate -> thermostat (heat). Reads SET/ACTUAL/MODE/POWER/HUMIDITY/SPEED/SWING/BOOST/PARTY.
+    climate: Types.thermostat,
+    // light -> rgb: the rgb branch reads ON/DIMMER/TEMPERATURE/RGB/... and derives the color modes
+    // from whichever states are mapped, so a plain on/off, a dimmable or a colour light all work.
+    light: Types.rgb,
 };
 
 /**

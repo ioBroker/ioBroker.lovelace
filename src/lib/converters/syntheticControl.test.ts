@@ -6,7 +6,7 @@ import { buildManualViaConverter, syntheticControlStates } from './syntheticCont
 
 describe('converters/syntheticControl', function () {
     it('syntheticControlStates returns null for non-bridged types and a map for cover', function () {
-        expect(syntheticControlStates('light', {})).to.equal(null);
+        expect(syntheticControlStates('input_number', {})).to.equal(null);
         expect(syntheticControlStates('cover', { state_SET: 'js.0.level' })).to.deep.equal({ SET: 'js.0.level' });
     });
 

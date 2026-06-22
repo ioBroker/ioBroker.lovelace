@@ -452,6 +452,49 @@
         "state_MODE": { "newLine": true, "type": "objectId", "label": "Operation mode (MODE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
       }
     },
+    "_climateStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'climate'",
+      "items": {
+        "_climateHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Thermostat states",
+          "help": "SET is the target temperature, ACTUAL the current temperature; MODE is the HVAC mode, POWER on/off. The others are optional."
+        },
+        "state_SET": { "type": "objectId", "label": "Target temperature (SET)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_ACTUAL": { "type": "objectId", "label": "Current temperature (ACTUAL)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_MODE": { "type": "objectId", "label": "HVAC mode (MODE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_POWER": { "newLine": true, "type": "objectId", "label": "On/off (POWER)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_HUMIDITY": { "type": "objectId", "label": "Humidity (HUMIDITY)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_SPEED": { "type": "objectId", "label": "Fan speed (SPEED)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_SWING": { "newLine": true, "type": "objectId", "label": "Swing (SWING)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_BOOST": { "type": "objectId", "label": "Boost (BOOST)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_PARTY": { "type": "objectId", "label": "Party (PARTY)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+      }
+    },
+    "_lightStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'light'",
+      "items": {
+        "_lightHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Light states",
+          "help": "ON switches on/off; DIMMER is the brightness; TEMPERATURE is the colour temperature; RGB a colour value. Map only what your light supports."
+        },
+        "state_ON": { "type": "objectId", "label": "On/off (ON)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_ON_ACTUAL": { "type": "objectId", "label": "On/off feedback (ON_ACTUAL)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_DIMMER": { "type": "objectId", "label": "Brightness (DIMMER)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_TEMPERATURE": { "newLine": true, "type": "objectId", "label": "Colour temperature (TEMPERATURE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_RGB": { "type": "objectId", "label": "RGB colour (RGB)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_HUE": { "type": "objectId", "label": "Hue (HUE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_SATURATION": { "newLine": true, "type": "objectId", "label": "Saturation (SATURATION)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_EFFECT": { "type": "objectId", "label": "Effect (EFFECT)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+      }
+    },
     "_attribtes": {
       "newLine": true,
       "type": "panel",

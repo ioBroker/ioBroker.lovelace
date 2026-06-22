@@ -641,8 +641,11 @@ class WebServer {
             // Synthetic-control bridge: some types (e.g. cover) are built by synthesizing a
             // type-detector PatternControl from the picked states and running the real converter, so
             // the full converter logic is reused instead of a bespoke processManualEntity.
+            // Only take the bridge when the user actually picked at least one state; with no picked
+            // states fall through to the legacy/bespoke path (e.g. a manual light/climate with no
+            // states picker still works off the main object as before).
             const bridgeStates = syntheticControlStates(entityType, custom);
-            if (bridgeStates) {
+            if (bridgeStates && Object.keys(bridgeStates).length > 0) {
                 for (const stateId of Object.values(bridgeStates)) {
                     if (stateId && !this._objectData.objects[stateId]) {
                         try {

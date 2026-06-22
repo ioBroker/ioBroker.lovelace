@@ -41,7 +41,12 @@ const SYNTHETIC_CONTROL_TYPES = {
   cover: import_type_detector.Types.blind,
   lock: import_type_detector.Types.lock,
   media_player: import_type_detector.Types.media,
-  vacuum: import_type_detector.Types.vacuumCleaner
+  vacuum: import_type_detector.Types.vacuumCleaner,
+  // climate -> thermostat (heat). Reads SET/ACTUAL/MODE/POWER/HUMIDITY/SPEED/SWING/BOOST/PARTY.
+  climate: import_type_detector.Types.thermostat,
+  // light -> rgb: the rgb branch reads ON/DIMMER/TEMPERATURE/RGB/... and derives the color modes
+  // from whichever states are mapped, so a plain on/off, a dimmable or a colour light all work.
+  light: import_type_detector.Types.rgb
 };
 const MANUAL_DOMAIN_CONVERTERS = {};
 function applyManualAttributes(entity, custom, entityType) {

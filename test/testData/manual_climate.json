@@ -1,0 +1,36 @@
+{
+  "0_userdata.0.th.set": {
+    "type": "state",
+    "common": {
+      "name": "thermo target", "type": "number", "role": "level.temperature", "unit": "°C", "read": true, "write": true, "min": 5, "max": 30,
+      "custom": { "lovelace.0": {
+        "enabled": true, "entity": "climate", "name": "living_thermo",
+        "state_SET": "0_userdata.0.th.set",
+        "state_ACTUAL": "0_userdata.0.th.actual",
+        "state_MODE": "0_userdata.0.th.mode",
+        "state_POWER": "0_userdata.0.th.power"
+      } }
+    },
+    "native": {}, "_id": "0_userdata.0.th.set",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.th.actual": {
+    "type": "state", "common": { "name": "current", "type": "number", "role": "value.temperature", "unit": "°C", "read": true, "write": false },
+    "native": {}, "_id": "0_userdata.0.th.actual",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.th.mode": {
+    "type": "state", "common": { "name": "mode", "type": "number", "role": "level.mode.thermostat", "read": true, "write": true, "states": { "0": "off", "1": "heat", "2": "auto" } },
+    "native": {}, "_id": "0_userdata.0.th.mode",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.th.power": {
+    "type": "state", "common": { "name": "power", "type": "boolean", "role": "switch.power", "read": true, "write": true },
+    "native": {}, "_id": "0_userdata.0.th.power",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  }
+}
