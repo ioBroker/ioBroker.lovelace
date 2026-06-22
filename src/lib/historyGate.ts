@@ -18,7 +18,17 @@
 
 interface SendToAdapter {
     sendToAsync(instanceName: string, command: string, message: unknown): Promise<unknown>;
+    log?: { warn(message: string): void };
 }
+
+/**
+ * Hard timeout for a single getHistory call. The history adapter can fail to call back at all (e.g. a
+ * future / empty time range, or the adapter being busy). Without a timeout such a hung sendTo would
+ * hold its concurrency-gate slot forever; after MAX_CONCURRENT hangs the gate is permanently full and
+ * NO history / logbook / statistics request is served anymore (until the adapter restarts) - with no
+ * error in the log. The timeout guarantees every gated call settles and frees its slot.
+ */
+const GET_HISTORY_TIMEOUT_MS = 60000;
 
 /**
  * Default cap on the number of points a single getHistory request may return when the instance has
@@ -78,9 +88,23 @@ function release(): void {
  */
 export async function getHistoryGated(adapter: SendToAdapter, instance: string, message: unknown): Promise<unknown> {
     await acquire();
+    let timer: ReturnType<typeof setTimeout> | undefined;
     try {
-        return await adapter.sendToAsync(instance, 'getHistory', message);
+        // Race the sendTo against a timeout. On timeout resolve with an empty result so every caller
+        // (history / logbook / statistics) just sees "no data" instead of hanging, and the finally
+        // below frees the gate slot. The underlying sendTo promise may still be pending, but it no
+        // longer blocks the gate.
+        const timeout = new Promise<unknown>(resolve => {
+            timer = setTimeout(() => {
+                adapter.log?.warn(`getHistory on ${instance} timed out after ${GET_HISTORY_TIMEOUT_MS} ms`);
+                resolve({ result: [] });
+            }, GET_HISTORY_TIMEOUT_MS);
+        });
+        return await Promise.race([adapter.sendToAsync(instance, 'getHistory', message), timeout]);
     } finally {
+        if (timer) {
+            clearTimeout(timer);
+        }
         release();
     }
 }

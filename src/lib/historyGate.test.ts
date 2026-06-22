@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { getHistoryGated, boundHistoryCount, DEFAULT_HISTORY_MAX_COUNT, HARD_HISTORY_MAX_COUNT } from './historyGate';
 
 describe('boundHistoryCount', function () {
@@ -67,5 +68,36 @@ describe('historyGate', function () {
 
         expect(seen).to.deep.equal([{ instance: 'history.0', command: 'getHistory', message: { id: 'abc' } }]);
         expect(res).to.deep.equal({ result: [1, 2, 3] });
+    });
+
+    it('times out a hung getHistory and frees the gate slot (no deadlock)', async function () {
+        const clock = sinon.useFakeTimers();
+        try {
+            const adapter = {
+                // never settles -> would hold its gate slot forever without the timeout
+                sendToAsync: (): Promise<unknown> => new Promise<unknown>(() => {}),
+                log: { warn: (): void => {} },
+            };
+
+            // Fill all gate slots with hung calls + one that has to queue behind them.
+            const hung = [
+                getHistoryGated(adapter, 'history.0', { id: 'a' }),
+                getHistoryGated(adapter, 'history.0', { id: 'b' }),
+                getHistoryGated(adapter, 'history.0', { id: 'c' }),
+            ];
+            const queued = getHistoryGated(adapter, 'history.0', { id: 'd' });
+
+            // The three in-flight calls time out, return empty and release their slots.
+            await clock.tickAsync(60000);
+            for (const p of hung) {
+                expect(await p).to.deep.equal({ result: [] });
+            }
+
+            // The queued call got a freed slot, ran, and also times out -> no permanent deadlock.
+            await clock.tickAsync(60000);
+            expect(await queued).to.deep.equal({ result: [] });
+        } finally {
+            clock.restore();
+        }
     });
 });

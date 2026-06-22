@@ -24,6 +24,7 @@ __export(historyGate_exports, {
   getHistoryGated: () => getHistoryGated
 });
 module.exports = __toCommonJS(historyGate_exports);
+const GET_HISTORY_TIMEOUT_MS = 6e4;
 const DEFAULT_HISTORY_MAX_COUNT = 2e3;
 const HARD_HISTORY_MAX_COUNT = 5e4;
 function boundHistoryCount(configured) {
@@ -52,9 +53,20 @@ function release() {
 }
 async function getHistoryGated(adapter, instance, message) {
   await acquire();
+  let timer;
   try {
-    return await adapter.sendToAsync(instance, "getHistory", message);
+    const timeout = new Promise((resolve) => {
+      timer = setTimeout(() => {
+        var _a;
+        (_a = adapter.log) == null ? void 0 : _a.warn(`getHistory on ${instance} timed out after ${GET_HISTORY_TIMEOUT_MS} ms`);
+        resolve({ result: [] });
+      }, GET_HISTORY_TIMEOUT_MS);
+    });
+    return await Promise.race([adapter.sendToAsync(instance, "getHistory", message), timeout]);
   } finally {
+    if (timer) {
+      clearTimeout(timer);
+    }
     release();
   }
 }
