@@ -28,6 +28,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var syntheticControl_exports = {};
 __export(syntheticControl_exports, {
+  MANUAL_DOMAIN_CONVERTERS: () => MANUAL_DOMAIN_CONVERTERS,
   SYNTHETIC_CONTROL_TYPES: () => SYNTHETIC_CONTROL_TYPES,
   buildManualViaConverter: () => buildManualViaConverter,
   syntheticControlStates: () => syntheticControlStates
@@ -42,6 +43,7 @@ const SYNTHETIC_CONTROL_TYPES = {
   media_player: import_type_detector.Types.media,
   vacuum: import_type_detector.Types.vacuumCleaner
 };
+const MANUAL_DOMAIN_CONVERTERS = {};
 function applyManualAttributes(entity, custom, entityType) {
   if (custom.attr_assumed_state && ["switch", "light", "cover", "climate", "fan", "humidifier", "group", "water_heater"].includes(entityType)) {
     entity.attributes.assumed_state = true;
@@ -53,7 +55,7 @@ function applyManualAttributes(entity, custom, entityType) {
   }
 }
 function syntheticControlStates(entityType, custom) {
-  if (SYNTHETIC_CONTROL_TYPES[entityType] === void 0) {
+  if (SYNTHETIC_CONTROL_TYPES[entityType] === void 0 && !MANUAL_DOMAIN_CONVERTERS[entityType]) {
     return null;
   }
   return (0, import_manualStates.collectManualStates)(custom);
@@ -61,7 +63,7 @@ function syntheticControlStates(entityType, custom) {
 function buildManualViaConverter(params) {
   const { entityType, id, custom, objects, adapter, entityRegistry, forcedEntityId } = params;
   const type = SYNTHETIC_CONTROL_TYPES[entityType];
-  const ConverterClass = type !== void 0 ? import_converter.default.converters[type] : void 0;
+  const ConverterClass = type !== void 0 ? import_converter.default.converters[type] : MANUAL_DOMAIN_CONVERTERS[entityType];
   if (!ConverterClass) {
     return [];
   }
@@ -88,6 +90,7 @@ function buildManualViaConverter(params) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  MANUAL_DOMAIN_CONVERTERS,
   SYNTHETIC_CONTROL_TYPES,
   buildManualViaConverter,
   syntheticControlStates

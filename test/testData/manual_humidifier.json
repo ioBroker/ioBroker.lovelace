@@ -1,0 +1,36 @@
+{
+  "0_userdata.0.hum.power": {
+    "type": "state",
+    "common": {
+      "name": "humidifier power", "type": "boolean", "role": "switch.power", "read": true, "write": true,
+      "custom": { "lovelace.0": {
+        "enabled": true, "entity": "humidifier", "name": "room_hum",
+        "state_POWER": "0_userdata.0.hum.power",
+        "state_SET": "0_userdata.0.hum.set",
+        "state_ACTUAL": "0_userdata.0.hum.actual",
+        "state_MODE": "0_userdata.0.hum.mode"
+      } }
+    },
+    "native": {}, "_id": "0_userdata.0.hum.power",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.hum.set": {
+    "type": "state", "common": { "name": "target", "type": "number", "role": "level.humidity", "unit": "%", "read": true, "write": true, "min": 0, "max": 100 },
+    "native": {}, "_id": "0_userdata.0.hum.set",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.hum.actual": {
+    "type": "state", "common": { "name": "current", "type": "number", "role": "value.humidity", "unit": "%", "read": true, "write": false },
+    "native": {}, "_id": "0_userdata.0.hum.actual",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.hum.mode": {
+    "type": "state", "common": { "name": "mode", "type": "number", "role": "level.mode", "read": true, "write": true, "states": { "0": "normal", "1": "eco", "2": "boost" } },
+    "native": {}, "_id": "0_userdata.0.hum.mode",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  }
+}

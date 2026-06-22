@@ -18,6 +18,15 @@ export const SYNTHETIC_CONTROL_TYPES: Record<string, Types> = {
 };
 
 /**
+ * Manual-only domains that have no type-detector `Types` (yet) but still want the bridge: their
+ * converter is registered here by HA domain instead of by `Types`. The converter just needs a static
+ * `convertEntities(params)` that reads `params.controls.states`. When type-detector later gains a
+ * matching type, the same converter can additionally be registered in `Converter.converters[Types.x]`
+ * for auto-detection.
+ */
+export const MANUAL_DOMAIN_CONVERTERS: Record<string, typeof Converter> = {};
+
+/**
  * Apply assumed_state and attr_* attributes onto a converted entity, mirroring what
  * _processManualEntity does for the bespoke converters (whose pre-built entity already carried them).
  *
@@ -50,7 +59,7 @@ export function syntheticControlStates(
     entityType: string,
     custom: Record<string, unknown>,
 ): Record<string, string> | null {
-    if (SYNTHETIC_CONTROL_TYPES[entityType] === undefined) {
+    if (SYNTHETIC_CONTROL_TYPES[entityType] === undefined && !MANUAL_DOMAIN_CONVERTERS[entityType]) {
         return null;
     }
     return collectManualStates(custom);
@@ -85,7 +94,7 @@ export interface SyntheticBridgeParams {
 export function buildManualViaConverter(params: SyntheticBridgeParams): BaseEntity[] {
     const { entityType, id, custom, objects, adapter, entityRegistry, forcedEntityId } = params;
     const type = SYNTHETIC_CONTROL_TYPES[entityType];
-    const ConverterClass = type !== undefined ? Converter.converters[type] : undefined;
+    const ConverterClass = type !== undefined ? Converter.converters[type] : MANUAL_DOMAIN_CONVERTERS[entityType];
     if (!ConverterClass) {
         return [];
     }

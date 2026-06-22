@@ -418,6 +418,40 @@
         "state_WORK_MODE": { "type": "objectId", "label": "Fan speed (WORK_MODE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
       }
     },
+    "_humidifierStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'humidifier'",
+      "items": {
+        "_humidifierHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Humidifier states",
+          "help": "POWER turns it on/off; SET is the target humidity, ACTUAL the current humidity; MODE is the operation mode."
+        },
+        "state_POWER": { "type": "objectId", "label": "On/off (POWER)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_SET": { "type": "objectId", "label": "Target humidity (SET)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_ACTUAL": { "type": "objectId", "label": "Current humidity (ACTUAL)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_MODE": { "newLine": true, "type": "objectId", "label": "Mode (MODE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+      }
+    },
+    "_waterHeaterStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'water_heater'",
+      "items": {
+        "_waterHeaterHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Water heater states",
+          "help": "SET is the target temperature, ACTUAL the current temperature; POWER turns it on/off; MODE is the operation mode."
+        },
+        "state_SET": { "type": "objectId", "label": "Target temperature (SET)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_ACTUAL": { "type": "objectId", "label": "Current temperature (ACTUAL)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_POWER": { "type": "objectId", "label": "On/off (POWER)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_MODE": { "newLine": true, "type": "objectId", "label": "Operation mode (MODE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+      }
+    },
     "_attribtes": {
       "newLine": true,
       "type": "panel",

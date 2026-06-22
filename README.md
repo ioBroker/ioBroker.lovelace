@@ -91,6 +91,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Fixed history/logbook stopping to load after a while (a hung history request could permanently block all following ones).
 * (Garfonso/Claude) Manual `lock` and `media_player` entities can now be configured with object pickers for their states.
 * (Garfonso/Claude) Vacuum cleaners are now supported (auto-detection + manual object pickers): start/stop/pause, fan speed and battery.
+* (Garfonso/Claude) New manual entity types `humidifier` and `water_heater`, configurable with object pickers.
 
 ### 6.0.4 (2026-06-18)
 * (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.

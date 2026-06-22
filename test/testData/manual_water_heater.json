@@ -1,0 +1,36 @@
+{
+  "0_userdata.0.wh.set": {
+    "type": "state",
+    "common": {
+      "name": "boiler target", "type": "number", "role": "level.temperature", "unit": "°C", "read": true, "write": true, "min": 30, "max": 80,
+      "custom": { "lovelace.0": {
+        "enabled": true, "entity": "water_heater", "name": "boiler",
+        "state_SET": "0_userdata.0.wh.set",
+        "state_ACTUAL": "0_userdata.0.wh.actual",
+        "state_POWER": "0_userdata.0.wh.power",
+        "state_MODE": "0_userdata.0.wh.mode"
+      } }
+    },
+    "native": {}, "_id": "0_userdata.0.wh.set",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.wh.actual": {
+    "type": "state", "common": { "name": "current", "type": "number", "role": "value.temperature", "unit": "°C", "read": true, "write": false },
+    "native": {}, "_id": "0_userdata.0.wh.actual",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.wh.power": {
+    "type": "state", "common": { "name": "power", "type": "boolean", "role": "switch.power", "read": true, "write": true },
+    "native": {}, "_id": "0_userdata.0.wh.power",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.wh.mode": {
+    "type": "state", "common": { "name": "mode", "type": "number", "role": "level.mode", "read": true, "write": true, "states": { "0": "off", "1": "eco", "2": "performance" } },
+    "native": {}, "_id": "0_userdata.0.wh.mode",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  }
+}

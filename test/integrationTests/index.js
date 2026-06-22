@@ -17,6 +17,8 @@ const manual_cover_tests = require('./manual_cover_tests');
 const manual_lock_tests = require('./manual_lock_tests');
 const manual_media_tests = require('./manual_media_tests');
 const manual_vacuum_tests = require('./manual_vacuum_tests');
+const manual_humidifier_tests = require('./manual_humidifier_tests');
+const manual_water_heater_tests = require('./manual_water_heater_tests');
 
 exports.runTests = function (suite) {
     alarm_control_tests.runTests(suite);
@@ -37,4 +39,6 @@ exports.runTests = function (suite) {
     manual_lock_tests.runTests(suite);
     manual_media_tests.runTests(suite);
     manual_vacuum_tests.runTests(suite);
+    manual_humidifier_tests.runTests(suite);
+    manual_water_heater_tests.runTests(suite);
 };

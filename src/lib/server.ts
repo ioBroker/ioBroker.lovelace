@@ -26,6 +26,8 @@ import './converters/camera';
 import './converters/weather';
 import './converters/cover';
 import './converters/vacuum';
+import './converters/humidifier';
+import './converters/water_heater';
 import './converters/media_player';
 import BrowserModModule from './modules/browser_mod';
 import HistoryModule from './modules/history';
