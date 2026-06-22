@@ -1,0 +1,26 @@
+{
+  "0_userdata.0.doorlock": {
+    "type": "state",
+    "common": {
+      "name": "door lock",
+      "type": "boolean",
+      "role": "switch.lock",
+      "read": true,
+      "write": true,
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "lock",
+          "name": "front_door",
+          "state_SET": "0_userdata.0.doorlock"
+        }
+      }
+    },
+    "native": {},
+    "_id": "0_userdata.0.doorlock",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}

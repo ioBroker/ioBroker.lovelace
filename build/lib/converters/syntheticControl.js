@@ -37,7 +37,9 @@ var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
 var import_manualStates = require("./manualStates");
 const SYNTHETIC_CONTROL_TYPES = {
-  cover: import_type_detector.Types.blind
+  cover: import_type_detector.Types.blind,
+  lock: import_type_detector.Types.lock,
+  media_player: import_type_detector.Types.media
 };
 function applyManualAttributes(entity, custom, entityType) {
   if (custom.attr_assumed_state && ["switch", "light", "cover", "climate", "fan", "humidifier", "group", "water_heater"].includes(entityType)) {

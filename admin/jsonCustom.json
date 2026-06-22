@@ -332,6 +332,74 @@
         }
       }
     },
+    "_lockStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'lock'",
+      "items": {
+        "_lockHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Lock states",
+          "help": "Pick the ioBroker states for this lock."
+        },
+        "state_SET": {
+          "type": "objectId",
+          "label": "Lock / unlock (SET)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_ACTUAL": {
+          "type": "objectId",
+          "label": "State feedback (ACTUAL)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_OPEN": {
+          "type": "objectId",
+          "label": "Open / latch (OPEN)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        }
+      }
+    },
+    "_mediaStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'media_player'",
+      "items": {
+        "_mediaHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Media player states",
+          "help": "Pick the ioBroker states for this media player. Map only what your device provides."
+        },
+        "state_STATE": { "type": "objectId", "label": "Play state (STATE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_POWER": { "type": "objectId", "label": "Power (POWER)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_PLAY": { "newLine": true, "type": "objectId", "label": "Play (PLAY)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_PAUSE": { "type": "objectId", "label": "Pause (PAUSE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_STOP": { "type": "objectId", "label": "Stop (STOP)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_NEXT": { "newLine": true, "type": "objectId", "label": "Next (NEXT)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_PREV": { "type": "objectId", "label": "Previous (PREV)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_VOLUME": { "newLine": true, "type": "objectId", "label": "Volume (VOLUME)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_VOLUME_ACTUAL": { "type": "objectId", "label": "Volume feedback (VOLUME_ACTUAL)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_MUTE": { "type": "objectId", "label": "Mute (MUTE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_SEEK": { "newLine": true, "type": "objectId", "label": "Seek / position (SEEK)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_REPEAT": { "type": "objectId", "label": "Repeat (REPEAT)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_SHUFFLE": { "type": "objectId", "label": "Shuffle (SHUFFLE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_TITLE": { "newLine": true, "type": "objectId", "label": "Title (TITLE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_ARTIST": { "type": "objectId", "label": "Artist (ARTIST)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_COVER": { "type": "objectId", "label": "Cover art (COVER)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_DURATION": { "newLine": true, "type": "objectId", "label": "Duration (DURATION)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_ELAPSED": { "type": "objectId", "label": "Elapsed (ELAPSED)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+      }
+    },
     "_attribtes": {
       "newLine": true,
       "type": "panel",

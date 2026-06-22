@@ -12,6 +12,8 @@ import { collectManualStates } from './manualStates';
  */
 export const SYNTHETIC_CONTROL_TYPES: Record<string, Types> = {
     cover: Types.blind,
+    lock: Types.lock,
+    media_player: Types.media,
 };
 
 /**

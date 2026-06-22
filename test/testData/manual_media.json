@@ -1,0 +1,26 @@
+{
+  "0_userdata.0.player": {
+    "type": "state",
+    "common": {
+      "name": "living room player",
+      "type": "string",
+      "role": "media.state",
+      "read": true,
+      "write": false,
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "media_player",
+          "name": "living_room",
+          "state_STATE": "0_userdata.0.player"
+        }
+      }
+    },
+    "native": {},
+    "_id": "0_userdata.0.player",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}

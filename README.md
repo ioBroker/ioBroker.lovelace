@@ -89,6 +89,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Manual `cover` entities can now be configured with object pickers (e.g. an automatic window), reusing the full cover logic.
 * (Garfonso/Claude) Reorganized the user documentation into matching English and German pages under `docs/en` / `docs/de` (entities, cards & UI, features), linked from the README; development/build notes stay in the README.
 * (Garfonso/Claude) Fixed history/logbook stopping to load after a while (a hung history request could permanently block all following ones).
+* (Garfonso/Claude) Manual `lock` and `media_player` entities can now be configured with object pickers for their states.
 
 ### 6.0.4 (2026-06-18)
 * (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.

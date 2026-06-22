@@ -14,6 +14,8 @@ const custom_settings_tests = require('./custom_settings_tests');
 const alias_only_tests = require('./alias_only_tests');
 const manual_system_object_tests = require('./manual_system_object_tests');
 const manual_cover_tests = require('./manual_cover_tests');
+const manual_lock_tests = require('./manual_lock_tests');
+const manual_media_tests = require('./manual_media_tests');
 
 exports.runTests = function (suite) {
     alarm_control_tests.runTests(suite);
@@ -31,4 +33,6 @@ exports.runTests = function (suite) {
     alias_only_tests.runTests(suite);
     manual_system_object_tests.runTests(suite);
     manual_cover_tests.runTests(suite);
+    manual_lock_tests.runTests(suite);
+    manual_media_tests.runTests(suite);
 };
