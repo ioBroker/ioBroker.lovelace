@@ -48,6 +48,7 @@ var import_lock = require("./converters/lock");
 var import_camera = require("./converters/camera");
 var import_weather = require("./converters/weather");
 var import_cover = require("./converters/cover");
+var import_vacuum = require("./converters/vacuum");
 var import_media_player = require("./converters/media_player");
 var import_browser_mod = __toESM(require("./modules/browser_mod"));
 var import_history = __toESM(require("./modules/history"));

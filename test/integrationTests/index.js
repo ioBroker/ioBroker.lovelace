@@ -16,6 +16,7 @@ const manual_system_object_tests = require('./manual_system_object_tests');
 const manual_cover_tests = require('./manual_cover_tests');
 const manual_lock_tests = require('./manual_lock_tests');
 const manual_media_tests = require('./manual_media_tests');
+const manual_vacuum_tests = require('./manual_vacuum_tests');
 
 exports.runTests = function (suite) {
     alarm_control_tests.runTests(suite);
@@ -35,4 +36,5 @@ exports.runTests = function (suite) {
     manual_cover_tests.runTests(suite);
     manual_lock_tests.runTests(suite);
     manual_media_tests.runTests(suite);
+    manual_vacuum_tests.runTests(suite);
 };

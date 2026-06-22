@@ -39,7 +39,8 @@ var import_manualStates = require("./manualStates");
 const SYNTHETIC_CONTROL_TYPES = {
   cover: import_type_detector.Types.blind,
   lock: import_type_detector.Types.lock,
-  media_player: import_type_detector.Types.media
+  media_player: import_type_detector.Types.media,
+  vacuum: import_type_detector.Types.vacuumCleaner
 };
 function applyManualAttributes(entity, custom, entityType) {
   if (custom.attr_assumed_state && ["switch", "light", "cover", "climate", "fan", "humidifier", "group", "water_heater"].includes(entityType)) {

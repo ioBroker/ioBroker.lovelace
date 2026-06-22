@@ -400,6 +400,24 @@
         "state_ELAPSED": { "type": "objectId", "label": "Elapsed (ELAPSED)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
       }
     },
+    "_vacuumStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'vacuum'",
+      "items": {
+        "_vacuumHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Vacuum states",
+          "help": "Pick the ioBroker states for this vacuum. STATE gives the status; POWER starts/stops; PAUSE pauses; WORK_MODE is the fan speed."
+        },
+        "state_STATE": { "type": "objectId", "label": "Status (STATE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_POWER": { "type": "objectId", "label": "Start/stop (POWER)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_PAUSE": { "type": "objectId", "label": "Pause (PAUSE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_BATTERY": { "newLine": true, "type": "objectId", "label": "Battery (BATTERY)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_WORK_MODE": { "type": "objectId", "label": "Fan speed (WORK_MODE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+      }
+    },
     "_attribtes": {
       "newLine": true,
       "type": "panel",
