@@ -147,7 +147,8 @@
     "type": "visualization",
     "compact": false,
     "adminUI": {
-      "config": "materialize"
+      "config": "materialize",
+      "custom": "json"
     },
     "supportCustoms": true,
     "messagebox": true,
