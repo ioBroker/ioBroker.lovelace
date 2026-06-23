@@ -33,6 +33,25 @@ Simple single-state entities (e.g. `input_number`, `input_text`, `input_boolean`
 
 For complex devices (e.g. lights with dimming and colour) the automatic detection is strongly recommended. Also for (binary) sensors prefer automatic detection: the `device_class` attribute is then filled and the presentation fits the device better (e.g. a binary sensor of type "door" is shown as "door" and on/off is translated to open/closed).
 
+#### Where to enable the settings, and what the entity state is
+For **simple** single-state types (`input_number`, `input_text`, `input_boolean`, `input_select`, `switch`, `sensor`, `binary_sensor`, `camera`, `timer`, `alarm_control_panel`) enable the custom settings **on the state itself** — that object's value *is* the entity state.
+
+For the **multi-state** types you pick the ioBroker states per role in the custom dialog. The object you enable the settings on is only the **anchor** (it gives the entity its id and friendly name); its own value is **not** read — map every functional state with the pickers. So you can put the settings on any one of the device's states (e.g. the target-temperature state of a thermostat).
+
+`SET` is always the **target** value (a setpoint, a cover level), not the entity state. The entity state (the main value shown on the card) per type:
+
+| Domain | Picker roles | Entity state |
+|---|---|---|
+| `light` | `ON` (on/off), `ON_ACTUAL`, `DIMMER` (brightness), `TEMPERATURE` (colour temp), `RGB`, `HUE`, `SATURATION`, `EFFECT` | `on` / `off` |
+| `cover` | `SET` (level), `ACTUAL`, `OPEN`/`CLOSE`/`STOP`, `TILT_SET`/`TILT_ACTUAL` | `open` / `closed` / `opening` / `closing` |
+| `climate` | `SET` (target temp), `ACTUAL` (current temp), `MODE` (HVAC mode), `POWER` (on/off), `HUMIDITY`, `SPEED`, `SWING`, `BOOST`, `PARTY`; a *Heating/cooling* choice appears when no `MODE` is mapped | the HVAC mode: `heat` / `cool` / `off` |
+| `lock` | `SET` (lock/unlock), `ACTUAL`, `OPEN` (latch) | `locked` / `unlocked` |
+| `media_player` | `STATE`, `POWER`, `PLAY`/`PAUSE`/`STOP`/`NEXT`/`PREV`, `VOLUME`/`VOLUME_ACTUAL`/`MUTE`, `SEEK`/`REPEAT`/`SHUFFLE`, `TITLE`/`ARTIST`/`COVER`/`DURATION`/`ELAPSED` | `playing` / `paused` / `idle` |
+| `vacuum` | `STATE` (status), `POWER` (start/stop), `PAUSE`, `BATTERY`, `WORK_MODE` (fan speed) | `cleaning` / `docked` / `paused` / `returning` / `idle` / `error` |
+| `humidifier` | `POWER` (on/off), `SET` (target humidity), `ACTUAL` (current humidity), `MODE` | `on` / `off` |
+| `water_heater` | `SET` (target temp), `ACTUAL` (current temp), `POWER` (on/off), `MODE` (operation) | the operation mode |
+| `device_tracker` / `person` | presence, GPS (`"lat;lon"` or separate latitude/longitude), GPS accuracy, battery, picture (URL or state), source type | `home` / `not_home` / a zone name |
+
 ### Alarm panel
 ioBroker does not support such a device yet, but it can be simulated. If you create such a script:
 

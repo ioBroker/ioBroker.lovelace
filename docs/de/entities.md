@@ -33,6 +33,25 @@ Einfache Ein-State-Entitäten (z. B. `input_number`, `input_text`, `input_boolea
 
 Für komplexere Geräte (z. B. Lichter mit Dimm- und Farbfunktionen) wird die automatische Erkennung dringend empfohlen. Auch für (binäre) Sensoren sollte man die automatische Erkennung nutzen, da dann das Attribut `device_class` gefüllt wird und die Darstellung besser zum Gerät passt (z. B. wird ein binärer Sensor vom Typ „Tür“ als „Tür“ dargestellt und an/aus in offen/zu übersetzt).
 
+#### Wo man die Einstellungen aktiviert und was der Entity-State ist
+Bei **einfachen** Ein-State-Typen (`input_number`, `input_text`, `input_boolean`, `input_select`, `switch`, `sensor`, `binary_sensor`, `camera`, `timer`, `alarm_control_panel`) aktiviert man die Custom-Einstellungen **am State selbst** — der Wert dieses Objekts *ist* der Entity-State.
+
+Bei den **mehrteiligen** Typen wählt man die ioBroker-States je Rolle im Custom-Dialog. Das Objekt, an dem man die Einstellungen aktiviert, ist nur der **Anker** (es gibt der Entity ID und Anzeigenamen); sein eigener Wert wird **nicht** gelesen — alle funktionalen States werden über die Auswahlfelder zugeordnet. Man kann die Einstellungen also an einem beliebigen State des Geräts ablegen (z. B. am Soll-Temperatur-State eines Thermostats).
+
+`SET` ist immer der **Soll-/Zielwert** (ein Sollwert, eine Rollladen-Position), nicht der Entity-State. Der Entity-State (der Hauptwert auf der Karte) je Typ:
+
+| Domain | Rollen (Picker) | Entity-State |
+|---|---|---|
+| `light` | `ON` (an/aus), `ON_ACTUAL`, `DIMMER` (Helligkeit), `TEMPERATURE` (Farbtemp.), `RGB`, `HUE`, `SATURATION`, `EFFECT` | `on` / `off` |
+| `cover` | `SET` (Pegel), `ACTUAL`, `OPEN`/`CLOSE`/`STOP`, `TILT_SET`/`TILT_ACTUAL` | `open` / `closed` / `opening` / `closing` |
+| `climate` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `MODE` (HVAC-Modus), `POWER` (an/aus), `HUMIDITY`, `SPEED`, `SWING`, `BOOST`, `PARTY`; eine *Heizen/Kühlen*-Auswahl erscheint, wenn kein `MODE` zugeordnet ist | der HVAC-Modus: `heat` / `cool` / `off` |
+| `lock` | `SET` (ver-/entriegeln), `ACTUAL`, `OPEN` (Türöffner) | `locked` / `unlocked` |
+| `media_player` | `STATE`, `POWER`, `PLAY`/`PAUSE`/`STOP`/`NEXT`/`PREV`, `VOLUME`/`VOLUME_ACTUAL`/`MUTE`, `SEEK`/`REPEAT`/`SHUFFLE`, `TITLE`/`ARTIST`/`COVER`/`DURATION`/`ELAPSED` | `playing` / `paused` / `idle` |
+| `vacuum` | `STATE` (Status), `POWER` (Start/Stopp), `PAUSE`, `BATTERY`, `WORK_MODE` (Lüfterstufe) | `cleaning` / `docked` / `paused` / `returning` / `idle` / `error` |
+| `humidifier` | `POWER` (an/aus), `SET` (Soll-Feuchte), `ACTUAL` (Ist-Feuchte), `MODE` | `on` / `off` |
+| `water_heater` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `POWER` (an/aus), `MODE` (Betriebsmodus) | der Betriebsmodus |
+| `device_tracker` / `person` | Anwesenheit, GPS (`"lat;lon"` oder getrennt Breite/Länge), GPS-Genauigkeit, Batterie, Bild (URL oder State), Quellentyp | `home` / `not_home` / ein Zonenname |
+
 ### Alarm-Panel
 ioBroker unterstützt ein solches Gerät noch nicht, es lässt sich aber simulieren, z. B. mit diesem Skript:
 
