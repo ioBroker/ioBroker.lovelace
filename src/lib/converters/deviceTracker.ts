@@ -122,7 +122,7 @@ export function processManualEntity(
         latitude: states.latitude,
         longitude: states.longitude,
         gps_accuracy: states.gps_accuracy,
-        battery: states.battery,
+        // battery is wired below as the HA `battery_level` attribute, not the generic geo `battery`.
     };
     applyGeoLocationStates(geoStates, objects, base);
     // A tracker/person has no unit and uses a person-style icon, not the gps crosshair.
@@ -163,9 +163,21 @@ export function processManualEntity(
         }
     }
 
+    entity.context.ATTRIBUTES = entity.context.ATTRIBUTES ?? [];
+
+    // battery_level from a battery state.
+    if (states.battery) {
+        base.addID2entity(states.battery);
+        entity.context.ATTRIBUTES.push({ attribute: 'battery_level', getId: states.battery });
+    }
+
+    // device_tracker source type (gps / router / bluetooth / bluetooth_le); person uses `source`.
+    if (domain === 'device_tracker') {
+        entity.attributes.source_type = custom.source_type || 'gps';
+    }
+
     // Picture (entity_picture): a fixed URL (attr_entity_picture) or a state that holds the URL
     // (state_entity_picture). A mapped state wins so the picture can change at runtime.
-    entity.context.ATTRIBUTES = entity.context.ATTRIBUTES ?? [];
     if (states.entity_picture) {
         base.addID2entity(states.entity_picture);
         entity.context.ATTRIBUTES.push({ attribute: 'entity_picture', getId: states.entity_picture });

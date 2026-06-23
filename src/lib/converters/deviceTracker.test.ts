@@ -100,6 +100,27 @@ describe('converters/deviceTracker', function () {
             expect(attr.getId).to.equal('js.0.pic');
         });
 
+        it('wires battery_level and sets source_type for device_tracker (default gps)', function () {
+            const entity = makeEntity('device_tracker');
+            processManualEntity(
+                'js.0.presence',
+                { common: { type: 'string' } } as any,
+                entity,
+                {},
+                { states: {}, state_battery: 'js.0.bat', source_type: 'router' },
+            );
+            const bat = entity.context.ATTRIBUTES.find((a: any) => a.attribute === 'battery_level');
+            expect(bat).to.be.ok;
+            expect(bat.getId).to.equal('js.0.bat');
+            expect(entity.attributes.source_type).to.equal('router');
+        });
+
+        it('does not set source_type for the person domain', function () {
+            const entity = makeEntity('person');
+            processManualEntity('js.0.presence', { common: { type: 'string' } } as any, entity, {}, { states: {} });
+            expect(entity.attributes.source_type).to.equal(undefined);
+        });
+
         it('derives presence from gps when there is no presence state', function () {
             entityData.entityId2Entity = entityData.entityId2Entity || {};
             entityData.entityId2Entity['zone.home'] = {

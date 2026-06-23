@@ -86,8 +86,8 @@ function processManualEntity(id, obj, entity, objects, custom) {
     gps: states.gps,
     latitude: states.latitude,
     longitude: states.longitude,
-    gps_accuracy: states.gps_accuracy,
-    battery: states.battery
+    gps_accuracy: states.gps_accuracy
+    // battery is wired below as the HA `battery_level` attribute, not the generic geo `battery`.
   };
   (0, import_geoLocationEntity.applyGeoLocationStates)(geoStates, objects, base);
   delete entity.attributes.unit_of_measurement;
@@ -123,6 +123,13 @@ function processManualEntity(id, obj, entity, objects, custom) {
     }
   }
   entity.context.ATTRIBUTES = (_c = entity.context.ATTRIBUTES) != null ? _c : [];
+  if (states.battery) {
+    base.addID2entity(states.battery);
+    entity.context.ATTRIBUTES.push({ attribute: "battery_level", getId: states.battery });
+  }
+  if (domain === "device_tracker") {
+    entity.attributes.source_type = custom.source_type || "gps";
+  }
   if (states.entity_picture) {
     base.addID2entity(states.entity_picture);
     entity.context.ATTRIBUTES.push({ attribute: "entity_picture", getId: states.entity_picture });
