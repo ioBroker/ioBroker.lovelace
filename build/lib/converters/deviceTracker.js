@@ -77,7 +77,7 @@ function presenceFromGps(lat, lon) {
   return distanceM <= radiusM ? "home" : "not_home";
 }
 function processManualEntity(id, obj, entity, objects, custom) {
-  var _a, _b, _c, _d;
+  var _a, _b, _c, _d, _e;
   const states = (0, import_manualStates.collectManualStates)(custom);
   const domain = entity.context.type;
   const base = entity;
@@ -122,10 +122,17 @@ function processManualEntity(id, obj, entity, objects, custom) {
       base.addID2entity(gpsId);
     }
   }
+  entity.context.ATTRIBUTES = (_c = entity.context.ATTRIBUTES) != null ? _c : [];
+  if (states.entity_picture) {
+    base.addID2entity(states.entity_picture);
+    entity.context.ATTRIBUTES.push({ attribute: "entity_picture", getId: states.entity_picture });
+  } else if (typeof custom.attr_entity_picture === "string" && custom.attr_entity_picture) {
+    entity.attributes.entity_picture = custom.attr_entity_picture;
+  }
   if (domain === "person") {
-    entity.attributes.device_trackers = (_c = entity.attributes.device_trackers) != null ? _c : [];
+    entity.attributes.device_trackers = (_d = entity.attributes.device_trackers) != null ? _d : [];
     entity.attributes.user_id = null;
-    entity.attributes.id = (_d = custom.name) != null ? _d : entity.entity_id.split(".").slice(1).join(".");
+    entity.attributes.id = (_e = custom.name) != null ? _e : entity.entity_id.split(".").slice(1).join(".");
     entity.attributes.editable = false;
   }
   return [entity];

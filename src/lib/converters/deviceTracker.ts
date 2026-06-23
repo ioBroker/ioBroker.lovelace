@@ -12,6 +12,8 @@ import entityData from '../../../lib/dataSingleton';
 export interface TrackerStates extends GeoStates {
     /** ioBroker state id holding the presence/zone (boolean -> home/not_home, or a zone name string). */
     presence?: string;
+    /** ioBroker state id holding the picture URL (entity_picture). */
+    entity_picture?: string;
 }
 
 const EARTH_RADIUS_KM = 6371;
@@ -159,6 +161,16 @@ export function processManualEntity(
             };
             base.addID2entity(gpsId);
         }
+    }
+
+    // Picture (entity_picture): a fixed URL (attr_entity_picture) or a state that holds the URL
+    // (state_entity_picture). A mapped state wins so the picture can change at runtime.
+    entity.context.ATTRIBUTES = entity.context.ATTRIBUTES ?? [];
+    if (states.entity_picture) {
+        base.addID2entity(states.entity_picture);
+        entity.context.ATTRIBUTES.push({ attribute: 'entity_picture', getId: states.entity_picture });
+    } else if (typeof custom.attr_entity_picture === 'string' && custom.attr_entity_picture) {
+        entity.attributes.entity_picture = custom.attr_entity_picture;
     }
 
     if (domain === 'person') {

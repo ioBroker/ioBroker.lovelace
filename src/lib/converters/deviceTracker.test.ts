@@ -72,6 +72,34 @@ describe('converters/deviceTracker', function () {
             expect(entity.attributes.id).to.be.a('string');
         });
 
+        it('applies a fixed entity_picture URL', function () {
+            const entity = makeEntity('person');
+            processManualEntity(
+                'js.0.presence',
+                { common: { type: 'string' } } as any,
+                entity,
+                {},
+                { states: {}, attr_entity_picture: 'https://example.com/me.jpg' },
+            );
+            expect(entity.attributes.entity_picture).to.equal('https://example.com/me.jpg');
+        });
+
+        it('wires a picture state (entity_picture) and it wins over a fixed URL', function () {
+            const entity = makeEntity('person');
+            processManualEntity(
+                'js.0.presence',
+                { common: { type: 'string' } } as any,
+                entity,
+                {},
+                { states: {}, state_entity_picture: 'js.0.pic', attr_entity_picture: 'https://example.com/me.jpg' },
+            );
+            // a mapped state takes precedence -> no static value, an ATTRIBUTE is added instead
+            expect(entity.attributes.entity_picture).to.equal(undefined);
+            const attr = entity.context.ATTRIBUTES.find((a: any) => a.attribute === 'entity_picture');
+            expect(attr).to.be.ok;
+            expect(attr.getId).to.equal('js.0.pic');
+        });
+
         it('derives presence from gps when there is no presence state', function () {
             entityData.entityId2Entity = entityData.entityId2Entity || {};
             entityData.entityId2Entity['zone.home'] = {

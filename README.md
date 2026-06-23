@@ -29,7 +29,7 @@ Used sources are here https://github.com/GermanBluefox/home-assistant-polymer .
 Security must be taken from the current user and not from default_user.
 
 ### Version
-Used version of home-assistant-frontend@20260527.6
+Used version of home-assistant-frontend@20260527.7
 Version of Browser Mod: 2.13.5
 
 ### How to build the new Lovelace version
@@ -94,6 +94,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) New manual entity types `humidifier` and `water_heater`, configurable with object pickers.
 * (Garfonso/Claude) Manual `light` and `climate` (thermostat) entities can now be configured with object pickers (brightness/colour/temperature, target/mode/…), reusing the full converters.
 * (Garfonso/Claude) Fixed room and function being swapped in the auto-generated name of advanced lights.
+* (Garfonso/Claude) Manual `device_tracker`/`person` entities can get a picture (entity_picture) from a fixed URL or a state.
 
 ### 6.0.4 (2026-06-18)
 * (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.
