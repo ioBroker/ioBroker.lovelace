@@ -93,6 +93,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Vacuum cleaners are now supported (auto-detection + manual object pickers): start/stop/pause, fan speed and battery.
 * (Garfonso/Claude) New manual entity types `humidifier` and `water_heater`, configurable with object pickers.
 * (Garfonso/Claude) Manual `light` and `climate` (thermostat) entities can now be configured with object pickers (brightness/colour/temperature, target/mode/…), reusing the full converters.
+* (Garfonso/Claude) Fixed room and function being swapped in the auto-generated name of advanced lights.
 
 ### 6.0.4 (2026-06-18)
 * (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.

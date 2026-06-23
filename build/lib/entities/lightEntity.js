@@ -745,6 +745,9 @@ function applyLightStates(states, objects, entity) {
       }
     };
   }
+  if (entity.attributes.supported_color_modes.length === 0) {
+    entity.attributes.supported_color_modes.push(ONOFF);
+  }
   clearOrRestoreAttributes(entity);
   return [entity];
 }
@@ -757,28 +760,9 @@ class LightEntity extends import_baseEntity.BaseEntity {
    */
   static build(params) {
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
-    if (controls.type === import_type_detector.Types.light) {
-      const entity = new LightEntity(friendlyName, room, func, objects[id], forcedEntityId);
-      let state = controls.states.find((s) => s.id && s.name === "SET");
-      entity.context.STATE.setId = null;
-      entity.context.STATE.getId = null;
-      if (state == null ? void 0 : state.id) {
-        entity.context.STATE.setId = state.id;
-        entity.context.STATE.getId = state.id;
-        entity.addID2entity(state.id);
-        entity.attributes.color_mode = ONOFF;
-        entity.attributes.supported_color_modes = [ONOFF];
-      }
-      state = controls.states.find((s) => s.id && (s.name === "ON_ACTUAL" || s.name === "ACTUAL"));
-      if (state == null ? void 0 : state.id) {
-        entity.context.STATE.getId = state.id;
-        entity.addID2entity(state.id);
-      }
-      return [entity];
-    }
     const states = convertControlToStates(controls);
     if (states.state) {
-      const entity = new LightEntity(friendlyName, func, room, objects[id], forcedEntityId);
+      const entity = new LightEntity(friendlyName, room, func, objects[id], forcedEntityId);
       return applyLightStates(states, objects, entity);
     }
     adapterData.log.debug(`Could not add ${id} of type ${controls.type} -> no on/off control found.`);
