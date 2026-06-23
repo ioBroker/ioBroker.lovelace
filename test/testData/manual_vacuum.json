@@ -15,7 +15,8 @@
           "state_POWER": "0_userdata.0.vac.power",
           "state_STATE": "0_userdata.0.vac.state",
           "state_BATTERY": "0_userdata.0.vac.battery",
-          "state_WORK_MODE": "0_userdata.0.vac.fan"
+          "state_WORK_MODE": "0_userdata.0.vac.fan",
+          "state_MAP": "0_userdata.0.vac.map"
         }
       }
     },
@@ -42,6 +43,13 @@
     "type": "state",
     "common": { "name": "vacuum fan", "type": "number", "role": "level.mode.work", "read": true, "write": true, "states": { "0": "quiet", "1": "standard", "2": "max" } },
     "native": {}, "_id": "0_userdata.0.vac.fan",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.vac.map": {
+    "type": "state",
+    "common": { "name": "vacuum map", "type": "string", "role": "url", "read": true, "write": false },
+    "native": {}, "_id": "0_userdata.0.vac.map",
     "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
     "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
   }

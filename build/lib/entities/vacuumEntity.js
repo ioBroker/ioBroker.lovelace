@@ -58,7 +58,7 @@ function mapVacuumState(val, statesMap) {
 class VacuumEntity extends import_baseEntity.BaseEntity {
   /** @param params - converter parameters */
   constructor(params) {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g;
     const { friendlyName, room, func, objects, id, forcedEntityId, controls } = params;
     super(friendlyName, room, func, objects[id], "vacuum", forcedEntityId);
     this.context.STATE.setId = null;
@@ -72,11 +72,13 @@ class VacuumEntity extends import_baseEntity.BaseEntity {
     const stateS = find("STATE");
     const battery = find("BATTERY");
     const work = find("WORK_MODE");
-    const mainStateId = (_b = stateS == null ? void 0 : stateS.id) != null ? _b : power == null ? void 0 : power.id;
+    const mapUrl = (_b = find("MAP")) != null ? _b : find("MAP_URL");
+    const mapB64 = find("MAP_BASE64");
+    const mainStateId = (_c = stateS == null ? void 0 : stateS.id) != null ? _c : power == null ? void 0 : power.id;
     if (mainStateId) {
       this.context.STATE.getId = mainStateId;
       this.addID2entity(mainStateId);
-      const statesMap = (stateS == null ? void 0 : stateS.id) && objects[stateS.id] ? (_c = objects[stateS.id].common.states) != null ? _c : void 0 : void 0;
+      const statesMap = (stateS == null ? void 0 : stateS.id) && objects[stateS.id] ? (_d = objects[stateS.id].common.states) != null ? _d : void 0 : void 0;
       const haveStateValue = !!(stateS == null ? void 0 : stateS.id);
       this.context.STATE.getParser = (ent, _a2, st) => {
         ent.state = haveStateValue ? mapVacuumState(st == null ? void 0 : st.val, statesMap) : (st == null ? void 0 : st.val) ? "cleaning" : "docked";
@@ -118,13 +120,13 @@ class VacuumEntity extends import_baseEntity.BaseEntity {
       features |= FEATURE.FAN_SPEED;
       const wid = work.id;
       this.addID2entity(wid);
-      const common = (_e = (_d = objects[wid]) == null ? void 0 : _d.common) != null ? _e : {};
+      const common = (_f = (_e = objects[wid]) == null ? void 0 : _e.common) != null ? _f : {};
       const statesMap = common.states;
       const attr = { attribute: "fan_speed", getId: wid };
       if (statesMap && !Array.isArray(statesMap) && typeof statesMap === "object") {
         attr.map2lovelace = statesMap;
         attr.map2iob = {};
-        attr.isNumber = ((_f = common.type) != null ? _f : "").toLowerCase() === "number";
+        attr.isNumber = ((_g = common.type) != null ? _g : "").toLowerCase() === "number";
         this.attributes.fan_speed_list = [];
         for (const k of Object.keys(statesMap)) {
           attr.map2iob[String(statesMap[k])] = k;
@@ -150,6 +152,20 @@ class VacuumEntity extends import_baseEntity.BaseEntity {
           return adapterData.adapter.setForeignStateAsync(c.setId, target, false, {
             user: u
           });
+        }
+      });
+    }
+    if (mapUrl == null ? void 0 : mapUrl.id) {
+      this.addID2entity(mapUrl.id);
+      this.context.ATTRIBUTES.push({ attribute: "entity_picture", getId: mapUrl.id });
+    } else if (mapB64 == null ? void 0 : mapB64.id) {
+      this.addID2entity(mapB64.id);
+      this.context.ATTRIBUTES.push({
+        attribute: "entity_picture",
+        getId: mapB64.id,
+        getParser: (ent, _a2, st) => {
+          const v = st == null ? void 0 : st.val;
+          ent.attributes.entity_picture = typeof v === "string" && v && !v.startsWith("data:") && !v.startsWith("http") ? `data:image/png;base64,${v}` : v;
         }
       });
     }

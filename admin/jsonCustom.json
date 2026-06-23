@@ -645,6 +645,16 @@
           "sm": 6,
           "md": 4,
           "lg": 4
+        },
+        "state_MAP": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "Map image (MAP)",
+          "help": "A state with the map as a URL or base64 image; shown as the vacuum's picture.",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 6
         }
       }
     },

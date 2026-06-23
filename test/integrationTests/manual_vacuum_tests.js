@@ -32,6 +32,10 @@ exports.runTests = function (suite) {
             // commands wired
             const services = entity.context.COMMANDS.map(c => c.service).sort();
             expect(services).to.include.members(['start', 'stop', 'set_fan_speed']);
+            // map image wired as entity_picture
+            const pic = entity.context.ATTRIBUTES.find(a => a.attribute === 'entity_picture');
+            expect(pic).to.be.ok;
+            expect(pic.getId).to.equal('0_userdata.0.vac.map');
         });
     });
 };

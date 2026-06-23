@@ -71,6 +71,8 @@ export class VacuumEntity extends BaseEntity {
         const stateS = find('STATE');
         const battery = find('BATTERY');
         const work = find('WORK_MODE');
+        const mapUrl = find('MAP') ?? find('MAP_URL');
+        const mapB64 = find('MAP_BASE64');
 
         // ----- main state -----
         const mainStateId = stateS?.id ?? power?.id;
@@ -166,6 +168,27 @@ export class VacuumEntity extends BaseEntity {
                     return adapterData.adapter.setForeignStateAsync(c.setId!, target as ioBroker.StateValue, false, {
                         user: u,
                     });
+                },
+            });
+        }
+
+        // ----- map image -----
+        // HA vacuum has no dedicated map attribute; expose the map as the entity_picture so it shows
+        // on the card / more-info. A plain URL is used as-is; a base64 value is wrapped as a data URL.
+        if (mapUrl?.id) {
+            this.addID2entity(mapUrl.id);
+            this.context.ATTRIBUTES.push({ attribute: 'entity_picture', getId: mapUrl.id });
+        } else if (mapB64?.id) {
+            this.addID2entity(mapB64.id);
+            this.context.ATTRIBUTES.push({
+                attribute: 'entity_picture',
+                getId: mapB64.id,
+                getParser: (ent: BaseEntity, _a: EntityAttribute, st: ioBroker.State): void => {
+                    const v = st?.val;
+                    ent.attributes.entity_picture =
+                        typeof v === 'string' && v && !v.startsWith('data:') && !v.startsWith('http')
+                            ? `data:image/png;base64,${v}`
+                            : (v as string | undefined);
                 },
             });
         }
