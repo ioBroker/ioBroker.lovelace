@@ -388,7 +388,10 @@
           "sm": 6,
           "md": 4,
           "lg": 4
-        }
+        },
+        "state_TILT_OPEN": { "newLine": true, "type": "objectId", "label": "Tilt open button (TILT_OPEN)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_TILT_CLOSE": { "type": "objectId", "label": "Tilt close button (TILT_CLOSE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_TILT_STOP": { "type": "objectId", "label": "Tilt stop button (TILT_STOP)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
       }
     },
     "_lockStates": {
@@ -922,7 +925,10 @@
           "sm": 6,
           "md": 4,
           "lg": 4
-        }
+        },
+        "state_WHITE": { "newLine": true, "type": "objectId", "label": "White channel (WHITE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_RGBW": { "type": "objectId", "label": "RGBW colour (RGBW)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_CIE": { "type": "objectId", "label": "CIE / xy colour (CIE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
       }
     },
     "_attribtes": {
@@ -1328,9 +1334,19 @@
               "value": "switch",
               "label": "Switch",
               "hidden": "data.entity !== 'switch'"
+            },
+            {
+              "value": "humidifier",
+              "label": "Humidifier",
+              "hidden": "data.entity !== 'humidifier'"
+            },
+            {
+              "value": "dehumidifier",
+              "label": "Dehumidifier",
+              "hidden": "data.entity !== 'humidifier'"
             }
           ],
-          "hidden": "!['sensor', 'binary_sensor', 'cover', 'switch'].includes(data.entity)",
+          "hidden": "!['sensor', 'binary_sensor', 'cover', 'switch', 'humidifier'].includes(data.entity)",
           "xs": 12,
           "sm": 6,
           "md": 4,
@@ -1421,6 +1437,22 @@
             "calculateFunc": "data.entity === 'input_datetime' ? true : undefined",
             "ignoreOwnChanges": false
           },
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 3
+        },
+        "attr_state_class": {
+          "newLine": true,
+          "type": "select",
+          "label": "State class",
+          "help": "For sensors: enables long-term statistics / energy dashboard.",
+          "hidden": "data.entity !== 'sensor'",
+          "options": [
+            { "value": "measurement", "label": "measurement" },
+            { "value": "total", "label": "total" },
+            { "value": "total_increasing", "label": "total_increasing" }
+          ],
           "xs": 12,
           "sm": 6,
           "md": 4,
