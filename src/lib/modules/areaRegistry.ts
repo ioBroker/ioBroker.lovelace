@@ -58,20 +58,26 @@ class AreaRegistry {
      * @returns the created entry
      */
     private _createEntryFromRoom(room: ioBroker.Object): Record<string, unknown> {
-        const name = room.common.name;
-        const nameStr =
-            typeof name === 'string'
-                ? name
-                : (name as Record<string, string>)[this.adapter.lang] ||
-                  (name as Record<string, string>).en ||
-                  (name as Record<string, string>)[Object.keys(name)[0]];
+        const common = (room.common ?? {}) as { name?: unknown; icon?: unknown };
+        const name = common.name;
+        let nameStr: string;
+        if (typeof name === 'string') {
+            nameStr = name;
+        } else if (name && typeof name === 'object') {
+            const map = name as Record<string, string>;
+            // adapter.lang may be empty -> fall back to en, then any available translation, then the id.
+            nameStr = map[this.adapter.lang] || map.en || Object.values(map)[0] || room._id;
+        } else {
+            // a room enum without a name must not crash the whole adapter.
+            nameStr = room._id;
+        }
         return {
             area_id: room._id,
             name: nameStr,
             aliases: [],
             floor_id: null,
             humidity_entity_id: null,
-            icon: room.common.icon,
+            icon: common.icon ?? null,
             labels: [],
             picture: null,
             temperature_entity_id: null,
@@ -100,7 +106,14 @@ class AreaRegistry {
      */
     processMessage(ws: unknown, message: Record<string, unknown>): boolean {
         if (message.type === 'config/area_registry/list') {
-            this.sendResponse(ws, message.id, this._sortedEntries());
+            let entries: Record<string, unknown>[] = [];
+            try {
+                entries = this._sortedEntries();
+            } catch (e: unknown) {
+                // never let a malformed room enum crash the adapter; reply with what we can.
+                this.adapter.log.warn(`Could not build the area list: ${e instanceof Error ? e.message : String(e)}`);
+            }
+            this.sendResponse(ws, message.id, entries);
             return true;
         }
         if (message.type === 'config/area_registry/reorder') {

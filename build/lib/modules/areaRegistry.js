@@ -42,15 +42,25 @@ class AreaRegistry {
    * @returns the created entry
    */
   _createEntryFromRoom(room) {
-    const name = room.common.name;
-    const nameStr = typeof name === "string" ? name : name[this.adapter.lang] || name.en || name[Object.keys(name)[0]];
+    var _a, _b;
+    const common = (_a = room.common) != null ? _a : {};
+    const name = common.name;
+    let nameStr;
+    if (typeof name === "string") {
+      nameStr = name;
+    } else if (name && typeof name === "object") {
+      const map = name;
+      nameStr = map[this.adapter.lang] || map.en || Object.values(map)[0] || room._id;
+    } else {
+      nameStr = room._id;
+    }
     return {
       area_id: room._id,
       name: nameStr,
       aliases: [],
       floor_id: null,
       humidity_entity_id: null,
-      icon: room.common.icon,
+      icon: (_b = common.icon) != null ? _b : null,
       labels: [],
       picture: null,
       temperature_entity_id: null
@@ -78,7 +88,13 @@ class AreaRegistry {
    */
   processMessage(ws, message) {
     if (message.type === "config/area_registry/list") {
-      this.sendResponse(ws, message.id, this._sortedEntries());
+      let entries = [];
+      try {
+        entries = this._sortedEntries();
+      } catch (e) {
+        this.adapter.log.warn(`Could not build the area list: ${e instanceof Error ? e.message : String(e)}`);
+      }
+      this.sendResponse(ws, message.id, entries);
       return true;
     }
     if (message.type === "config/area_registry/reorder") {
