@@ -10,13 +10,18 @@ import { collectManualStates } from './manualStates';
  *
  * Maps the HA domain (custom.entity) to the `Types.*` the converter is registered under.
  */
-export const SYNTHETIC_CONTROL_TYPES: Record<string, Types> = {
+/** A bridge type is either a fixed `Types` or a resolver that picks one from the custom config. */
+type BridgeType = Types | ((custom: Record<string, unknown>) => Types);
+
+export const SYNTHETIC_CONTROL_TYPES: Record<string, BridgeType> = {
     cover: Types.blind,
     lock: Types.lock,
     media_player: Types.media,
     vacuum: Types.vacuumCleaner,
-    // climate -> thermostat (heat). Reads SET/ACTUAL/MODE/POWER/HUMIDITY/SPEED/SWING/BOOST/PARTY.
-    climate: Types.thermostat,
+    // climate: thermostat (heat) by default; the user can pick cooling (air condition) in the custom
+    // dialog when no MODE state provides the modes. The converter only uses this to choose the default
+    // hvac mode (heat vs cool) when there is no MODE state. Reads SET/ACTUAL/MODE/POWER/HUMIDITY/...
+    climate: custom => (custom.hvac_default === 'cool' ? Types.airCondition : Types.thermostat),
     // light -> rgb: the rgb branch reads ON/DIMMER/TEMPERATURE/RGB/... and derives the color modes
     // from whichever states are mapped, so a plain on/off, a dimmable or a colour light all work.
     light: Types.rgb,
@@ -98,7 +103,8 @@ export interface SyntheticBridgeParams {
  */
 export function buildManualViaConverter(params: SyntheticBridgeParams): BaseEntity[] {
     const { entityType, id, custom, objects, adapter, entityRegistry, forcedEntityId } = params;
-    const type = SYNTHETIC_CONTROL_TYPES[entityType];
+    const typeOrResolver = SYNTHETIC_CONTROL_TYPES[entityType];
+    const type = typeof typeOrResolver === 'function' ? typeOrResolver(custom) : typeOrResolver;
     const ConverterClass = type !== undefined ? Converter.converters[type] : MANUAL_DOMAIN_CONVERTERS[entityType];
     if (!ConverterClass) {
         return [];

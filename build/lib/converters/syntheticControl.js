@@ -42,8 +42,10 @@ const SYNTHETIC_CONTROL_TYPES = {
   lock: import_type_detector.Types.lock,
   media_player: import_type_detector.Types.media,
   vacuum: import_type_detector.Types.vacuumCleaner,
-  // climate -> thermostat (heat). Reads SET/ACTUAL/MODE/POWER/HUMIDITY/SPEED/SWING/BOOST/PARTY.
-  climate: import_type_detector.Types.thermostat,
+  // climate: thermostat (heat) by default; the user can pick cooling (air condition) in the custom
+  // dialog when no MODE state provides the modes. The converter only uses this to choose the default
+  // hvac mode (heat vs cool) when there is no MODE state. Reads SET/ACTUAL/MODE/POWER/HUMIDITY/...
+  climate: (custom) => custom.hvac_default === "cool" ? import_type_detector.Types.airCondition : import_type_detector.Types.thermostat,
   // light -> rgb: the rgb branch reads ON/DIMMER/TEMPERATURE/RGB/... and derives the color modes
   // from whichever states are mapped, so a plain on/off, a dimmable or a colour light all work.
   light: import_type_detector.Types.rgb
@@ -67,7 +69,8 @@ function syntheticControlStates(entityType, custom) {
 }
 function buildManualViaConverter(params) {
   const { entityType, id, custom, objects, adapter, entityRegistry, forcedEntityId } = params;
-  const type = SYNTHETIC_CONTROL_TYPES[entityType];
+  const typeOrResolver = SYNTHETIC_CONTROL_TYPES[entityType];
+  const type = typeof typeOrResolver === "function" ? typeOrResolver(custom) : typeOrResolver;
   const ConverterClass = type !== void 0 ? import_converter.default.converters[type] : MANUAL_DOMAIN_CONVERTERS[entityType];
   if (!ConverterClass) {
     return [];

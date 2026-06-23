@@ -471,7 +471,23 @@
         "state_SPEED": { "type": "objectId", "label": "Fan speed (SPEED)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
         "state_SWING": { "newLine": true, "type": "objectId", "label": "Swing (SWING)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
         "state_BOOST": { "type": "objectId", "label": "Boost (BOOST)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
-        "state_PARTY": { "type": "objectId", "label": "Party (PARTY)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+        "state_PARTY": { "type": "objectId", "label": "Party (PARTY)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "hvac_default": {
+          "newLine": true,
+          "type": "select",
+          "label": "Heating or cooling",
+          "help": "Only used when no HVAC mode state is mapped above.",
+          "default": "heat",
+          "hidden": "!!data.state_MODE",
+          "options": [
+            { "value": "heat", "label": "Heating" },
+            { "value": "cool", "label": "Cooling" }
+          ],
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        }
       }
     },
     "_lightStates": {

@@ -2,12 +2,21 @@ import { expect } from 'chai';
 import { Types } from '@iobroker/type-detector';
 import Converter, { type ConverterParameters } from './converter';
 import type { BaseEntity } from '../entities/baseEntity';
-import { buildManualViaConverter, syntheticControlStates } from './syntheticControl';
+import { buildManualViaConverter, syntheticControlStates, SYNTHETIC_CONTROL_TYPES } from './syntheticControl';
 
 describe('converters/syntheticControl', function () {
     it('syntheticControlStates returns null for non-bridged types and a map for cover', function () {
         expect(syntheticControlStates('input_number', {})).to.equal(null);
         expect(syntheticControlStates('cover', { state_SET: 'js.0.level' })).to.deep.equal({ SET: 'js.0.level' });
+    });
+
+    it('climate resolves to thermostat (heat) or air condition (cool) from hvac_default', function () {
+        const resolver = SYNTHETIC_CONTROL_TYPES.climate;
+        expect(typeof resolver).to.equal('function');
+        const fn = resolver as (custom: Record<string, unknown>) => Types;
+        expect(fn({})).to.equal(Types.thermostat);
+        expect(fn({ hvac_default: 'heat' })).to.equal(Types.thermostat);
+        expect(fn({ hvac_default: 'cool' })).to.equal(Types.airCondition);
     });
 
     it('builds a synthetic PatternControl from the picker states and runs the registered converter', function () {
