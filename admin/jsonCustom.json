@@ -48,10 +48,6 @@
           "label": "camera"
         },
         {
-          "value": "history_graph",
-          "label": "history_graph"
-        },
-        {
           "value": "calendar",
           "label": "calendar"
         },
@@ -92,10 +88,6 @@
           "label": "water_heater"
         },
         {
-          "value": "plant",
-          "label": "plant"
-        },
-        {
           "value": "group",
           "label": "group"
         },
@@ -114,10 +106,6 @@
         {
           "value": "timer",
           "label": "timer"
-        },
-        {
-          "value": "weblink",
-          "label": "weblink"
         },
         {
           "value": "sun",
