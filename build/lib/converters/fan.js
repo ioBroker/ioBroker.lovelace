@@ -21,6 +21,7 @@ __export(fan_exports, {
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(fan_exports);
+var import_manualStates = require("./manualStates");
 const adapterData = require("../../../lib/dataSingleton");
 function augmentPresetMode(presetModeId, stateId, entity, objects) {
   var _a, _b, _c;
@@ -120,15 +121,71 @@ function augmentPresetMode(presetModeId, stateId, entity, objects) {
   });
 }
 function processManualEntity(id, _obj, entity, objects, custom) {
-  var _a, _b;
-  const states = (_a = custom.states) != null ? _a : { preset_mode: id };
-  if (!states.preset_mode) {
-    states.preset_mode = (_b = states.speed) != null ? _b : id;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+  const picked = (0, import_manualStates.collectManualStates)(custom);
+  const states = {};
+  const onOff = (_a = picked.SET) != null ? _a : picked.state;
+  if (onOff) {
+    states.state = onOff;
   }
-  delete states.speed;
+  states.preset_mode = (_d = (_c = (_b = picked.SPEED) != null ? _b : picked.preset_mode) != null ? _c : picked.speed) != null ? _d : id;
+  const oscillating = (_e = picked.OSCILLATION) != null ? _e : picked.oscillating;
+  if (oscillating) {
+    states.oscillating = oscillating;
+  }
+  const direction = (_f = picked.DIRECTION) != null ? _f : picked.direction;
+  if (direction) {
+    states.direction = direction;
+  }
   entity.fillFromStates(states, objects);
   if (states.preset_mode) {
     augmentPresetMode(states.preset_mode, states.state, entity, objects);
+  }
+  if (states.oscillating || states.direction) {
+    entity.context.COMMANDS = (_g = entity.context.COMMANDS) != null ? _g : [];
+    let features = (_h = entity.attributes.supported_features) != null ? _h : 0;
+    if (states.preset_mode) {
+      features |= 1 | 8;
+    }
+    if (states.oscillating) {
+      features |= 2;
+      const oid = states.oscillating;
+      const osc = entity.context.ATTRIBUTES.find((a) => a.attribute === "oscillating");
+      if (osc) {
+        osc.getParser = (ent, _a2, st) => {
+          ent.attributes.oscillating = !!(st == null ? void 0 : st.val);
+        };
+      }
+      entity.context.COMMANDS.push({
+        service: "oscillate",
+        setId: oid,
+        parseCommand: (_e2, c, d, u) => adapterData.adapter.setForeignStateAsync(c.setId, !!d.service_data.oscillating, false, {
+          user: u
+        })
+      });
+    }
+    if (states.direction) {
+      features |= 4;
+      const did = states.direction;
+      const isBool = ((_j = (_i = objects[did]) == null ? void 0 : _i.common) == null ? void 0 : _j.type) === "boolean";
+      const dir = entity.context.ATTRIBUTES.find((a) => a.attribute === "direction");
+      if (dir) {
+        dir.getParser = (ent, _a2, st) => {
+          var _a3;
+          ent.attributes.direction = typeof (st == null ? void 0 : st.val) === "boolean" ? st.val ? "forward" : "reverse" : String((_a3 = st == null ? void 0 : st.val) != null ? _a3 : "forward");
+        };
+      }
+      entity.context.COMMANDS.push({
+        service: "set_direction",
+        setId: did,
+        parseCommand: (_e2, c, d, u) => {
+          const wanted = d.service_data.direction;
+          const value = isBool ? wanted === "forward" : wanted;
+          return adapterData.adapter.setForeignStateAsync(c.setId, value, false, { user: u });
+        }
+      });
+    }
+    entity.attributes.supported_features = features;
   }
   return [entity];
 }
@@ -161,6 +218,32 @@ adapterData.services.fan = {
     name: "Turn off",
     description: "Turns a fan off.",
     fields: {},
+    target: { entity: [{ domain: ["fan"] }] }
+  },
+  turn_on: {
+    name: "Turn on",
+    description: "Turns a fan on.",
+    fields: {},
+    target: { entity: [{ domain: ["fan"] }] }
+  },
+  oscillate: {
+    name: "Oscillate",
+    description: "Oscillates the fan.",
+    fields: {
+      oscillating: { description: "Turn oscillation on/off.", required: true, selector: { boolean: null } }
+    },
+    target: { entity: [{ domain: ["fan"] }] }
+  },
+  set_direction: {
+    name: "Set direction",
+    description: "Set the direction of the fan.",
+    fields: {
+      direction: {
+        description: "The direction to rotate.",
+        required: true,
+        selector: { type: "select", options: ["forward", "reverse"] }
+      }
+    },
     target: { entity: [{ domain: ["fan"] }] }
   }
 };

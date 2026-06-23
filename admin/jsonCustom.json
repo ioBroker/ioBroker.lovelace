@@ -931,6 +931,23 @@
         "state_CIE": { "type": "objectId", "label": "CIE / xy colour (CIE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
       }
     },
+    "_fanStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'fan'",
+      "items": {
+        "_fanHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Fan states",
+          "help": "SPEED is the speed / preset mode (its common.states become the presets); SET is the on/off state. OSCILLATION and DIRECTION are optional."
+        },
+        "state_SET": { "type": "objectId", "label": "On/off (SET)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_SPEED": { "type": "objectId", "label": "Speed / preset (SPEED)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_OSCILLATION": { "newLine": true, "type": "objectId", "label": "Oscillation (OSCILLATION)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
+        "state_DIRECTION": { "type": "objectId", "label": "Direction (DIRECTION)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+      }
+    },
     "_attribtes": {
       "newLine": true,
       "type": "panel",

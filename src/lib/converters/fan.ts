@@ -1,4 +1,5 @@
 import type { ioBrokerEntity, ServiceCallData } from './converter';
+import { collectManualStates } from './manualStates';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData = require('../../../lib/dataSingleton') as {
@@ -158,18 +159,80 @@ export function processManualEntity(
     objects: Record<string, ioBroker.Object>,
     custom: Record<string, unknown>,
 ): ioBrokerEntity[] {
-    const states = (custom.states as Record<string, string> | undefined) ?? { preset_mode: id };
-    // Normalize: prefer preset_mode, remove speed alias
-    if (!states.preset_mode) {
-        states.preset_mode = states.speed ?? id;
+    // Accept both the new state_<ROLE> pickers (SET / SPEED / OSCILLATION / DIRECTION) and the legacy
+    // custom.states keys (state / preset_mode / speed / oscillating / direction). With nothing mapped
+    // the main object itself is the speed/preset, as before.
+    const picked = collectManualStates(custom);
+    const states: Record<string, string> = {};
+    const onOff = picked.SET ?? picked.state;
+    if (onOff) {
+        states.state = onOff;
     }
-    delete states.speed;
+    states.preset_mode = picked.SPEED ?? picked.preset_mode ?? picked.speed ?? id;
+    const oscillating = picked.OSCILLATION ?? picked.oscillating;
+    if (oscillating) {
+        states.oscillating = oscillating;
+    }
+    const direction = picked.DIRECTION ?? picked.direction;
+    if (direction) {
+        states.direction = direction;
+    }
 
     // Fill base entity attributes from state map
     entity.fillFromStates(states, objects);
 
     if (states.preset_mode) {
         augmentPresetMode(states.preset_mode, states.state, entity, objects);
+    }
+
+    // Oscillation and direction are additive: only touch supported_features when they are present.
+    if (states.oscillating || states.direction) {
+        entity.context.COMMANDS = entity.context.COMMANDS ?? [];
+        let features = (entity.attributes.supported_features as number) ?? 0;
+        // keep the speed/preset controls visible when we start setting feature flags
+        if (states.preset_mode) {
+            features |= 1 | 8; // SET_SPEED | PRESET_MODE
+        }
+        if (states.oscillating) {
+            features |= 2; // OSCILLATE
+            const oid = states.oscillating;
+            const osc = entity.context.ATTRIBUTES.find(a => a.attribute === 'oscillating');
+            if (osc) {
+                osc.getParser = (ent, _a, st): void => {
+                    ent.attributes.oscillating = !!st?.val;
+                };
+            }
+            entity.context.COMMANDS.push({
+                service: 'oscillate',
+                setId: oid,
+                parseCommand: (_e, c, d: ServiceCallData, u): Promise<unknown> =>
+                    adapterData.adapter.setForeignStateAsync(c.setId!, !!d.service_data.oscillating, false, {
+                        user: u,
+                    }),
+            });
+        }
+        if (states.direction) {
+            features |= 4; // DIRECTION
+            const did = states.direction;
+            const isBool = (objects[did]?.common as { type?: string } | undefined)?.type === 'boolean';
+            const dir = entity.context.ATTRIBUTES.find(a => a.attribute === 'direction');
+            if (dir) {
+                dir.getParser = (ent, _a, st): void => {
+                    ent.attributes.direction =
+                        typeof st?.val === 'boolean' ? (st.val ? 'forward' : 'reverse') : String(st?.val ?? 'forward');
+                };
+            }
+            entity.context.COMMANDS.push({
+                service: 'set_direction',
+                setId: did,
+                parseCommand: (_e, c, d: ServiceCallData, u): Promise<unknown> => {
+                    const wanted = d.service_data.direction;
+                    const value = isBool ? wanted === 'forward' : (wanted as ioBroker.StateValue);
+                    return adapterData.adapter.setForeignStateAsync(c.setId!, value, false, { user: u });
+                },
+            });
+        }
+        entity.attributes.supported_features = features;
     }
 
     return [entity];
@@ -204,6 +267,32 @@ adapterData.services.fan = {
         name: 'Turn off',
         description: 'Turns a fan off.',
         fields: {},
+        target: { entity: [{ domain: ['fan'] }] },
+    },
+    turn_on: {
+        name: 'Turn on',
+        description: 'Turns a fan on.',
+        fields: {},
+        target: { entity: [{ domain: ['fan'] }] },
+    },
+    oscillate: {
+        name: 'Oscillate',
+        description: 'Oscillates the fan.',
+        fields: {
+            oscillating: { description: 'Turn oscillation on/off.', required: true, selector: { boolean: null } },
+        },
+        target: { entity: [{ domain: ['fan'] }] },
+    },
+    set_direction: {
+        name: 'Set direction',
+        description: 'Set the direction of the fan.',
+        fields: {
+            direction: {
+                description: 'The direction to rotate.',
+                required: true,
+                selector: { type: 'select', options: ['forward', 'reverse'] },
+            },
+        },
         target: { entity: [{ domain: ['fan'] }] },
     },
 };

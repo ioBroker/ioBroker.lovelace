@@ -1,0 +1,37 @@
+{
+  "0_userdata.0.fan.speed": {
+    "type": "state",
+    "common": {
+      "name": "fan speed", "type": "number", "role": "level.mode.fan", "read": true, "write": true,
+      "states": { "0": "off", "1": "low", "2": "high" },
+      "custom": { "lovelace.0": {
+        "enabled": true, "entity": "fan", "name": "room_fan",
+        "state_SPEED": "0_userdata.0.fan.speed",
+        "state_SET": "0_userdata.0.fan.on",
+        "state_OSCILLATION": "0_userdata.0.fan.osc",
+        "state_DIRECTION": "0_userdata.0.fan.dir"
+      } }
+    },
+    "native": {}, "_id": "0_userdata.0.fan.speed",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.fan.on": {
+    "type": "state", "common": { "name": "fan on", "type": "boolean", "role": "switch.power", "read": true, "write": true },
+    "native": {}, "_id": "0_userdata.0.fan.on",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.fan.osc": {
+    "type": "state", "common": { "name": "fan osc", "type": "boolean", "role": "switch", "read": true, "write": true },
+    "native": {}, "_id": "0_userdata.0.fan.osc",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  },
+  "0_userdata.0.fan.dir": {
+    "type": "state", "common": { "name": "fan dir", "type": "boolean", "role": "switch", "read": true, "write": true },
+    "native": {}, "_id": "0_userdata.0.fan.dir",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2", "user": "system.user.admin", "ts": 1622288803859
+  }
+}
