@@ -1,4 +1,24 @@
 # Older Changes
+## 6.0.0 (2026-06-13)
+* (Garfonso/Claude) **BREAKING:** Update to Home Assistant Frontend 20260527.6. See [migration guide in docs](docs/en/theme_migration.md) for theme changes.
+* (Garfonso/Claude) **BREAKING:** Internal storage objects were moved into a new `storage` folder to declutter the object tree: `entityRegistry`, `areaRegistry`, `energyPrefs`, `userData` and `dashboardStorage` are now `storage.entityRegistry`, `storage.areaRegistry`, etc. The adapter migrates the data automatically on first start; the old objects are removed. If you referenced any of these object ids directly (scripts), update the paths. (`configuration` stays at the adapter root.)
+* (Garfonso/Claude) Frontend user data (themes, dark mode, sidebar order, …) is now saved.
+* (Garfonso/Claude) Configure entities directly from the frontend, including entity_id.
+* (Garfoson/Claude) Full dashboard support.
+* (Garfonso/Claude) Room and function names are now shown in your configured language instead of always English. (#667)
+* (Garfonso/Claude) Markdown and template-based cards can now use Home Assistant templates (`{{ states("…") }}`, `is_state`, `state_attr`, `now()`, …) on top of the existing ioBroker `{id}` bindings.
+* (Garfonso/Claude) You can set whether the sidebar/header is hidden for new browsers via the `instances.hideSidebar` / `instances.hideHeader` states; changing them also applies to all currently connected browsers.
+* (Garfonso/Claude) The browser tab title and the PWA / home-screen app name can now be customized in the adapter settings. (#663)
+* (Garfonso/Claude) The automatic entity_id format is now configurable (object name / room + function / ioBroker id). A "Regenerate entity IDs" button in the settings applies a changed format to existing automatic entities and rewrites the dashboards; entities you renamed in the frontend are kept.
+* (Garfonso/Claude) Renaming a manually configured entity in the frontend persists to the source object, so it survives a restart.
+* (Garfonso/Claude) The main "lovelace" dashboard can now be renamed/re-iconed/hidden from the frontend like the other dashboards
+* (Garfonso/Claude) Energy dashboard support
+* (Garfonso/Claude) A device's optional electricity states (power, current, voltage, consumption/energy, frequency) are now exposed as `sensor` entities (e.g. on sockets).
+* (Garfonso/Claude) Logbook: a request for a future or invalid/empty time range no longer hangs the frontend.
+* (Garfonso/Claude) Calendar entities now work with the new frontend: the `calendar/event/subscribe` WebSocket subscription is answered (and refreshes when the calendar state changes), so calendar cards and the calendar panel show events again.
+* (Garfonso/Claude) On start, the entity registry now also drops leftover entries (custom names/icons) for objects that no longer exist, not just stale id reservations.
+* (Garfonso/Claude) Renamed the settings button "Regenerate entity IDs" to "Apply entity-ID format to the visualization" - it adapts the dashboards to the entity-id setting (entity ids are regenerated on every start anyway).
+
 ## 5.2.0 (2026-06-02)
 * (Garfonso/Claude) Fixed possible issue with more_info dialog.
 * (Garfonso/Claude) Fixed manually configured automations (and other boolean entities) showing true/false instead of on/off, so they work again. (#697)
