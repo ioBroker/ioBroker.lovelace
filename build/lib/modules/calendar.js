@@ -71,12 +71,19 @@ class CalendarModule {
       }
       const endMs = isNaN(evEnd) ? evStart : evEnd;
       if (evStart < end && endMs > start) {
-        result.push({
+        const event = {
           start: new Date(evStart).toISOString(),
           end: new Date(endMs).toISOString(),
           summary: String((_e = (_d = raw.event) != null ? _d : raw.summary) != null ? _e : ""),
           uid: String(index)
-        });
+        };
+        if (typeof raw.location === "string" && raw.location) {
+          event.location = raw.location;
+        }
+        if (typeof raw.description === "string" && raw.description) {
+          event.description = raw.description;
+        }
+        result.push(event);
       }
     });
     return result;

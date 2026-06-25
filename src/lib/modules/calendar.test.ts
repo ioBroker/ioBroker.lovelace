@@ -42,6 +42,35 @@ describe('modules/calendar', function () {
         });
     });
 
+    it('includes location and description when present', async function () {
+        const withExtra = [
+            {
+                _date: '2026-06-13T08:00:00.000Z',
+                _end: '2026-06-13T09:00:00.000Z',
+                event: 'Meeting',
+                location: 'Office',
+                description: 'Quarterly review',
+            },
+        ];
+        const { mod } = makeModule(JSON.stringify(withExtra));
+        const res = await mod.getEvents('calendar.abfall', T0, T0 + DAY, 'system.user.admin');
+        expect(res[0]).to.deep.equal({
+            start: '2026-06-13T08:00:00.000Z',
+            end: '2026-06-13T09:00:00.000Z',
+            summary: 'Meeting',
+            uid: '0',
+            location: 'Office',
+            description: 'Quarterly review',
+        });
+    });
+
+    it('omits location/description when absent', async function () {
+        const { mod } = makeModule(JSON.stringify(EVENTS));
+        const res = await mod.getEvents('calendar.abfall', T0, T0 + DAY, 'system.user.admin');
+        expect(res[0]).to.not.have.property('location');
+        expect(res[0]).to.not.have.property('description');
+    });
+
     it('getEvents returns [] for an unknown entity', async function () {
         const { mod } = makeModule(JSON.stringify(EVENTS));
         expect(await mod.getEvents('calendar.unknown', T0, T0 + DAY, 'system.user.admin')).to.deep.equal([]);

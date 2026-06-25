@@ -28,6 +28,8 @@ interface CalendarEvent {
     end: string;
     summary: string;
     uid: string;
+    location?: string;
+    description?: string;
 }
 
 interface CalendarSubscription {
@@ -139,12 +141,20 @@ class CalendarModule {
             const endMs = isNaN(evEnd) ? evStart : evEnd;
             // Overlap test: event touches the requested window.
             if (evStart < end && endMs > start) {
-                result.push({
+                const event: CalendarEvent = {
                     start: new Date(evStart).toISOString(),
                     end: new Date(endMs).toISOString(),
                     summary: String(raw.event ?? raw.summary ?? ''),
                     uid: String(index),
-                });
+                };
+                // Optional fields the newer frontend shows in the event detail (only if present).
+                if (typeof raw.location === 'string' && raw.location) {
+                    event.location = raw.location;
+                }
+                if (typeof raw.description === 'string' && raw.description) {
+                    event.description = raw.description;
+                }
+                result.push(event);
             }
         });
         return result;
