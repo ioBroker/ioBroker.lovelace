@@ -377,9 +377,31 @@
           "md": 4,
           "lg": 4
         },
-        "state_TILT_OPEN": { "newLine": true, "type": "objectId", "label": "Tilt open button (TILT_OPEN)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
-        "state_TILT_CLOSE": { "type": "objectId", "label": "Tilt close button (TILT_CLOSE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
-        "state_TILT_STOP": { "type": "objectId", "label": "Tilt stop button (TILT_STOP)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+        "state_TILT_OPEN": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "Tilt open button (TILT_OPEN)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_TILT_CLOSE": {
+          "type": "objectId",
+          "label": "Tilt close button (TILT_CLOSE)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_TILT_STOP": {
+          "type": "objectId",
+          "label": "Tilt stop button (TILT_STOP)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        }
       }
     },
     "_lockStates": {
@@ -924,9 +946,31 @@
           "md": 4,
           "lg": 4
         },
-        "state_WHITE": { "newLine": true, "type": "objectId", "label": "White channel (WHITE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
-        "state_RGBW": { "type": "objectId", "label": "RGBW colour (RGBW)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
-        "state_CIE": { "type": "objectId", "label": "CIE / xy colour (CIE)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+        "state_WHITE": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "White channel (WHITE)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_RGBW": {
+          "type": "objectId",
+          "label": "RGBW colour (RGBW)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_CIE": {
+          "type": "objectId",
+          "label": "CIE / xy colour (CIE)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        }
       }
     },
     "_fanStates": {
@@ -940,10 +984,39 @@
           "text": "Fan states",
           "help": "SPEED is the speed / preset mode (its common.states become the presets); SET is the on/off state. OSCILLATION and DIRECTION are optional."
         },
-        "state_SET": { "type": "objectId", "label": "On/off (SET)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
-        "state_SPEED": { "type": "objectId", "label": "Speed / preset (SPEED)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
-        "state_OSCILLATION": { "newLine": true, "type": "objectId", "label": "Oscillation (OSCILLATION)", "xs": 12, "sm": 6, "md": 4, "lg": 4 },
-        "state_DIRECTION": { "type": "objectId", "label": "Direction (DIRECTION)", "xs": 12, "sm": 6, "md": 4, "lg": 4 }
+        "state_SET": {
+          "type": "objectId",
+          "label": "On/off (SET)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_SPEED": {
+          "type": "objectId",
+          "label": "Speed / preset (SPEED)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_OSCILLATION": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "Oscillation (OSCILLATION)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_DIRECTION": {
+          "type": "objectId",
+          "label": "Direction (DIRECTION)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        }
       }
     },
     "_attribtes": {
@@ -976,389 +1049,393 @@
           "label": "Device class",
           "options": [
             {
-              "value": "battery",
-              "label": "Battery warning",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "battery_charging",
-              "label": "Battery charging",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "cold",
-              "label": "Cold",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "connectivity",
-              "label": "Connectivity",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "door",
-              "label": "Door",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "garage_door",
-              "label": "Garage door",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "gas",
-              "label": "Gas",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "heat",
-              "label": "Heat",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "light",
-              "label": "Light",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "lock",
-              "label": "Lock",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "moisture",
-              "label": "Moisture",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "motion",
-              "label": "Motion detector",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "moving",
-              "label": "Moving",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "occupancy",
-              "label": "Occupancy",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "opening",
-              "label": "Opening",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "plug",
-              "label": "Plug",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "power",
-              "label": "Powered",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "presence",
-              "label": "Presence",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "problem",
-              "label": "Problem",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "running",
-              "label": "Running",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "safety",
-              "label": "Safety",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "smoke",
-              "label": "Smoke",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "sound",
-              "label": "Sound",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "tamper",
-              "label": "Tampering",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "update",
-              "label": "Update",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "vibration",
-              "label": "Vibration",
-              "hidden": "data.entity !== 'binary_sensor'"
-            },
-            {
-              "value": "window",
-              "label": "Window",
-              "hidden": "data.entity !== 'binary_sensor'"
+              "value": "",
+              "label": "(none)"
             },
             {
               "value": "aqi",
-              "label": "Air Quality Index",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "battery",
-              "label": "Battery percent",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "carbon_dioxide",
-              "label": "Carbon dioxide",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "carbon_monoxide",
-              "label": "Carbon monoxide",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "current",
-              "label": "Current",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "date",
-              "label": "Date",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "energy",
-              "label": "Energy",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "frequency",
-              "label": "Frequency",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "gas",
-              "label": "Volume of Gas",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "humidity",
-              "label": "Humidity",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "illuminance",
-              "label": "Illuminance",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "monetary",
-              "label": "Monetary value",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "nitrogen_dioxide",
-              "label": "Nitrogen Dioxide",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "nitrogen_monoxide",
-              "label": "Nitrogen Monoxide",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "nitrous_oxide",
-              "label": "Nitrous Oxide",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "ozone",
-              "label": "Ozone",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "precipitation_intensity",
-              "label": "Precipitation Intensity",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "pm1",
-              "label": "Particular matter less than 1 micrometer",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "pm25",
-              "label": "Particular matter less than 2.5 micrometer",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "pm10",
-              "label": "Particular matter less than 10 micrometer",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "power",
-              "label": "Power",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "power_factor",
-              "label": "Power Factor",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "pressure",
-              "label": "Pressure",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "signal_strength",
-              "label": "Signal Strength",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "speed",
-              "label": "Speed",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "sulphur_dioxide",
-              "label": "Sulphur Dioxide",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "temperature",
-              "label": "Temperature",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "timestamp",
-              "label": "Timestamp",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "volatile_organic_compounds",
-              "label": "Volatile organic compounds",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "volatile_organic_compounds_parts,",
-              "label": "Volatile organic compounds parts",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "voltage",
-              "label": "Voltage",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "volume",
-              "label": "Volume",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "water",
-              "label": "Water",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "weight",
-              "label": "Weight",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "wind_speed",
-              "label": "Wind speed",
-              "hidden": "data.entity !== 'sensor'"
-            },
-            {
-              "value": "window",
-              "label": "Window",
+              "label": "aqi — Air Quality Index",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "awning",
-              "label": "Awning",
+              "label": "awning — Awning",
               "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "battery",
+              "label": "battery — Battery warning",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "battery",
+              "label": "battery — Battery percent",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "battery_charging",
+              "label": "battery_charging — Battery charging",
+              "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "blind",
-              "label": "Blind",
+              "label": "blind — Blind",
               "hidden": "data.entity !== 'cover'"
             },
             {
+              "value": "carbon_dioxide",
+              "label": "carbon_dioxide — Carbon dioxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "carbon_monoxide",
+              "label": "carbon_monoxide — Carbon monoxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "cold",
+              "label": "cold — Cold",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "connectivity",
+              "label": "connectivity — Connectivity",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "current",
+              "label": "current — Current",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "curtain",
-              "label": "Curtain",
+              "label": "curtain — Curtain",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "damper",
-              "label": "Damper",
+              "label": "damper — Damper",
               "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "date",
+              "label": "date — Date",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "dehumidifier",
+              "label": "dehumidifier — Dehumidifier",
+              "hidden": "data.entity !== 'humidifier'"
             },
             {
               "value": "door",
-              "label": "Door",
+              "label": "door — Door",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "door",
+              "label": "door — Door",
               "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "energy",
+              "label": "energy — Energy",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "frequency",
+              "label": "frequency — Frequency",
+              "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "garage",
-              "label": "Garage",
+              "label": "garage — Garage",
               "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "garage_door",
+              "label": "garage_door — Garage door",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "gas",
+              "label": "gas — Gas",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "gas",
+              "label": "gas — Volume of Gas",
+              "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "gate",
-              "label": "Gate",
+              "label": "gate — Gate",
               "hidden": "data.entity !== 'cover'"
             },
             {
+              "value": "heat",
+              "label": "heat — Heat",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "humidifier",
+              "label": "humidifier — Humidifier",
+              "hidden": "data.entity !== 'humidifier'"
+            },
+            {
+              "value": "humidity",
+              "label": "humidity — Humidity",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "illuminance",
+              "label": "illuminance — Illuminance",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "light",
+              "label": "light — Light",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "lock",
+              "label": "lock — Lock",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "moisture",
+              "label": "moisture — Moisture",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "monetary",
+              "label": "monetary — Monetary value",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "motion",
+              "label": "motion — Motion detector",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "moving",
+              "label": "moving — Moving",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "nitrogen_dioxide",
+              "label": "nitrogen_dioxide — Nitrogen Dioxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "nitrogen_monoxide",
+              "label": "nitrogen_monoxide — Nitrogen Monoxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "nitrous_oxide",
+              "label": "nitrous_oxide — Nitrous Oxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "occupancy",
+              "label": "occupancy — Occupancy",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "opening",
+              "label": "opening — Opening",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "outlet",
+              "label": "outlet — Outlet",
+              "hidden": "data.entity !== 'switch'"
+            },
+            {
+              "value": "ozone",
+              "label": "ozone — Ozone",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "plug",
+              "label": "plug — Plug",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "pm1",
+              "label": "pm1 — Particular matter less than 1 micrometer",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "pm10",
+              "label": "pm10 — Particular matter less than 10 micrometer",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "pm25",
+              "label": "pm25 — Particular matter less than 2.5 micrometer",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "power",
+              "label": "power — Powered",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "power",
+              "label": "power — Power",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "power_factor",
+              "label": "power_factor — Power Factor",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "precipitation_intensity",
+              "label": "precipitation_intensity — Precipitation Intensity",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "presence",
+              "label": "presence — Presence",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "pressure",
+              "label": "pressure — Pressure",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "problem",
+              "label": "problem — Problem",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "running",
+              "label": "running — Running",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "safety",
+              "label": "safety — Safety",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
               "value": "shade",
-              "label": "Shade",
+              "label": "shade — Shade",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "shutter",
-              "label": "Shutter",
+              "label": "shutter — Shutter",
+              "hidden": "data.entity !== 'cover'"
+            },
+            {
+              "value": "signal_strength",
+              "label": "signal_strength — Signal Strength",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "smoke",
+              "label": "smoke — Smoke",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "sound",
+              "label": "sound — Sound",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "speed",
+              "label": "speed — Speed",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "sulphur_dioxide",
+              "label": "sulphur_dioxide — Sulphur Dioxide",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "switch",
+              "label": "switch — Switch",
+              "hidden": "data.entity !== 'switch'"
+            },
+            {
+              "value": "tamper",
+              "label": "tamper — Tampering",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "temperature",
+              "label": "temperature — Temperature",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "timestamp",
+              "label": "timestamp — Timestamp",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "update",
+              "label": "update — Update",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "vibration",
+              "label": "vibration — Vibration",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "volatile_organic_compounds",
+              "label": "volatile_organic_compounds — Volatile organic compounds",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "volatile_organic_compounds_parts",
+              "label": "volatile_organic_compounds_parts — Volatile organic compounds parts",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "voltage",
+              "label": "voltage — Voltage",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "volume",
+              "label": "volume — Volume",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "water",
+              "label": "water — Water",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "weight",
+              "label": "weight — Weight",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "wind_speed",
+              "label": "wind_speed — Wind speed",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "window",
+              "label": "window — Window",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "window",
+              "label": "window — Window",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "window",
-              "label": "Window",
-              "hidden": "data.entity !== 'cover'"
-            },
-            {
-              "value": "outlet",
-              "label": "Outlet",
-              "hidden": "data.entity !== 'switch'"
-            },
-            {
-              "value": "switch",
-              "label": "Switch",
-              "hidden": "data.entity !== 'switch'"
-            },
-            {
-              "value": "humidifier",
-              "label": "Humidifier",
-              "hidden": "data.entity !== 'humidifier'"
-            },
-            {
-              "value": "dehumidifier",
-              "label": "Dehumidifier",
-              "hidden": "data.entity !== 'humidifier'"
+              "label": "window — Window",
+              "hidden": "data.entity !== 'sensor'"
             }
           ],
           "hidden": "!['sensor', 'binary_sensor', 'cover', 'switch', 'humidifier'].includes(data.entity)",
@@ -1427,14 +1504,7 @@
           "type": "checkbox",
           "label": "labelHasTime",
           "hidden": "data.entity !== 'input_datetime'",
-          "default": false,
-          "onChange": {
-            "alsoDependsOn": [
-              "entity"
-            ],
-            "calculateFunc": "data.entity === 'input_datetime' ? false : undefined",
-            "ignoreOwnChanges": false
-          },
+          "defaultFunc": "data.entity === 'input_datetime' ? false : undefined",
           "xs": 12,
           "sm": 6,
           "md": 4,
@@ -1444,14 +1514,7 @@
           "type": "checkbox",
           "label": "labelHasDate",
           "hidden": "data.entity !== 'input_datetime'",
-          "default": true,
-          "onChange": {
-            "alsoDependsOn": [
-              "entity"
-            ],
-            "calculateFunc": "data.entity === 'input_datetime' ? true : undefined",
-            "ignoreOwnChanges": false
-          },
+          "defaultFunc": "data.entity === 'input_datetime' ? true : undefined",
           "xs": 12,
           "sm": 6,
           "md": 4,
@@ -1464,9 +1527,22 @@
           "help": "For sensors: enables long-term statistics / energy dashboard.",
           "hidden": "data.entity !== 'sensor'",
           "options": [
-            { "value": "measurement", "label": "measurement" },
-            { "value": "total", "label": "total" },
-            { "value": "total_increasing", "label": "total_increasing" }
+            {
+              "value": "",
+              "label": "(none)"
+            },
+            {
+              "value": "measurement",
+              "label": "measurement"
+            },
+            {
+              "value": "total",
+              "label": "total"
+            },
+            {
+              "value": "total_increasing",
+              "label": "total_increasing"
+            }
           ],
           "xs": 12,
           "sm": 6,

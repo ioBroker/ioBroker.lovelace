@@ -56,7 +56,7 @@ function applyManualAttributes(entity, custom, entityType) {
     entity.attributes.assumed_state = true;
   }
   for (const key of Object.keys(custom)) {
-    if (key.startsWith("attr_")) {
+    if (key.startsWith("attr_") && custom[key] !== "" && custom[key] !== void 0 && custom[key] !== null) {
       entity.attributes[key.substring("attr_".length)] = custom[key];
     }
   }

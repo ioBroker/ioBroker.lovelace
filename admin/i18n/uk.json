@@ -1,4 +1,5 @@
 {
+    "(none)": "(немає)",
     "(unique for one entity type)": "(унікальний для одного типу сутності)",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Один state зі значенням \"latitude;longitude\". Використовуйте його АБО окремі states широти/довготи.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "State, що містить URL зображення. Має пріоритет над фіксованим URL вище.",

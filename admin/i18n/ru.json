@@ -1,4 +1,5 @@
 {
+    "(none)": "(нет)",
     "(unique for one entity type)": "(уникально для одного типа объекта)",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Один state со значением \"latitude;longitude\". Используйте его ИЛИ отдельные states широты/долготы.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "State, содержащий URL изображения. Имеет приоритет над фиксированным URL выше.",

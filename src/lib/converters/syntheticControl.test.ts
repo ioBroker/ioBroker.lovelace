@@ -61,4 +61,26 @@ describe('converters/syntheticControl', function () {
             Converter.converters[Types.blind] = orig;
         }
     });
+
+    it('does not apply empty attr_* values (so a cleared select stays unset)', function () {
+        const orig = Converter.converters[Types.blind];
+        Converter.converters[Types.blind] = class extends Converter {
+            static convertEntities(): BaseEntity[] {
+                return [{ entity_id: 'cover.x', attributes: {}, context: { type: 'cover' } } as unknown as BaseEntity];
+            }
+        };
+        try {
+            const entities = buildManualViaConverter({
+                entityType: 'cover',
+                id: 'js.0.blind',
+                custom: { entity: 'cover', name: 'blind', attr_device_class: '', state_SET: 'js.0.level' },
+                objects: {},
+                adapter: {} as unknown as ioBroker.Adapter,
+                entityRegistry: { getReservedEntityId: () => undefined, reserveEntityId: () => {} },
+            });
+            expect(entities[0].attributes).to.not.have.property('device_class');
+        } finally {
+            Converter.converters[Types.blind] = orig;
+        }
+    });
 });

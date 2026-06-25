@@ -1,4 +1,5 @@
 {
+    "(none)": "(nessuno)",
     "(unique for one entity type)": "(unico per un tipo di entità)",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Un singolo state con \"latitude;longitude\". Usa questo OPPURE gli state separati di latitudine/longitudine.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "Uno state che contiene l'URL dell'immagine. Ha priorità sull'URL fisso sopra.",

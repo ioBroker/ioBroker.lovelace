@@ -52,7 +52,8 @@ function applyManualAttributes(entity: BaseEntity, custom: Record<string, unknow
         entity.attributes.assumed_state = true;
     }
     for (const key of Object.keys(custom)) {
-        if (key.startsWith('attr_')) {
+        // Skip empty values so a cleared select ("none") does not set an empty attribute.
+        if (key.startsWith('attr_') && custom[key] !== '' && custom[key] !== undefined && custom[key] !== null) {
             entity.attributes[key.substring('attr_'.length)] = custom[key];
         }
     }

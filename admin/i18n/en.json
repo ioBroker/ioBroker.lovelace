@@ -1,4 +1,5 @@
 {
+    "(none)": "(none)",
     "(unique for one entity type)": "(unique for one entity type)",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "A state that holds the picture URL. Wins over the fixed URL above.",

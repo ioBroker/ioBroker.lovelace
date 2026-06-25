@@ -558,7 +558,7 @@ class WebServer {
         entity.fillFromStates(custom.states);
       }
       for (const key of Object.keys(custom)) {
-        if (key.startsWith("attr_")) {
+        if (key.startsWith("attr_") && custom[key] !== "" && custom[key] !== void 0 && custom[key] !== null) {
           const attributeName = key.substring("attr_".length);
           entity.attributes[attributeName] = custom[key];
         }

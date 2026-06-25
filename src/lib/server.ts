@@ -718,7 +718,13 @@ class WebServer {
                 entity.fillFromStates(custom.states);
             }
             for (const key of Object.keys(custom)) {
-                if (key.startsWith('attr_')) {
+                // Skip empty values so a cleared select ("none") does not set an empty attribute.
+                if (
+                    key.startsWith('attr_') &&
+                    custom[key] !== '' &&
+                    custom[key] !== undefined &&
+                    custom[key] !== null
+                ) {
                     const attributeName = key.substring('attr_'.length);
                     entity.attributes[attributeName] = custom[key];
                 }

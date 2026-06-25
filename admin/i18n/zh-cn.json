@@ -1,4 +1,5 @@
 {
+    "(none)": "（无）",
     "(unique for one entity type)": "(唯一的一个实体的类型)",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "保存 \"latitude;longitude\" 的单个 state。使用此项或分开的纬度/经度 state。",
     "A state that holds the picture URL. Wins over the fixed URL above.": "保存图片 URL 的 state。优先于上方的固定 URL。",

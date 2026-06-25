@@ -1,4 +1,5 @@
 {
+    "(none)": "(geen)",
     "(unique for one entity type)": "(uniek voor één entiteitstype)",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Eén state met \"latitude;longitude\". Gebruik deze OF de aparte states voor breedte-/lengtegraad.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "Een state met de afbeeldings-URL. Heeft voorrang op de vaste URL hierboven.",
