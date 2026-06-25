@@ -1,674 +1,687 @@
 {
-  "common": {
-    "name": "lovelace",
-    "version": "6.1.0",
-    "news": {
-      "6.1.0": {
-        "en": "Many entity types can now be configured manually with object pickers: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker and person.\nVacuum cleaners are now also auto-detected.\ndevice_tracker/person can show presence, GPS, battery, a picture and (device_tracker) a source type.\nFixed history and logbook sometimes stopping to load after a while.\nFixed room and function being swapped in the auto-generated name of advanced lights.\nRemoved the Home Assistant app banner on iPhone and reorganized the documentation into English and German pages.",
-        "de": "Viele Entity-Typen können jetzt manuell über Objekt-Auswahlfelder konfiguriert werden: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker und person.\nSaugroboter werden jetzt auch automatisch erkannt.\ndevice_tracker/person können Anwesenheit, GPS, Batterie, ein Bild und (device_tracker) einen Quellentyp anzeigen.\nBehoben: history und logbook hörten nach einer Weile manchmal auf zu laden.\nBehoben: Raum und Funktion waren im automatisch erzeugten Namen erweiterter Lichter vertauscht.\nDas Home-Assistant-App-Banner auf dem iPhone wurde entfernt und die Dokumentation in englische und deutsche Seiten neu strukturiert.",
-        "ru": "Многие типы сущностей теперь можно настроить вручную через выбор объектов: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker и person.\nРоботы-пылесосы теперь также определяются автоматически.\ndevice_tracker/person могут показывать присутствие, GPS, заряд батареи, изображение и (device_tracker) тип источника.\nИсправлено: history и logbook иногда переставали загружаться через некоторое время.\nИсправлено: комната и функция менялись местами в автоматически создаваемом имени расширенных источников света.\nУдалён баннер приложения Home Assistant на iPhone, документация переработана на английские и немецкие страницы.",
-        "pt": "Muitos tipos de entidade podem agora ser configurados manualmente com seletores de objetos: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker e person.\nOs aspiradores robô passam também a ser detetados automaticamente.\ndevice_tracker/person podem mostrar presença, GPS, bateria, uma imagem e (device_tracker) um tipo de fonte.\nCorrigido: o history e o logbook por vezes deixavam de carregar passado algum tempo.\nCorrigido: sala e função trocadas no nome gerado automaticamente das luzes avançadas.\nRemovido o banner da app Home Assistant no iPhone e a documentação foi reorganizada em páginas em inglês e alemão.",
-        "nl": "Veel entiteitstypen kunnen nu handmatig met objectkiezers worden geconfigureerd: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker en person.\nRobotstofzuigers worden nu ook automatisch herkend.\ndevice_tracker/person kunnen aanwezigheid, GPS, batterij, een afbeelding en (device_tracker) een brontype tonen.\nOpgelost: history en logbook stopten soms na een tijdje met laden.\nOpgelost: kamer en functie waren verwisseld in de automatisch gegenereerde naam van geavanceerde lampen.\nDe Home Assistant-app-banner op de iPhone is verwijderd en de documentatie is heringedeeld in Engelse en Duitse pagina's.",
-        "fr": "De nombreux types d'entités peuvent désormais être configurés manuellement avec des sélecteurs d'objets : light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker et person.\nLes aspirateurs robots sont désormais aussi détectés automatiquement.\ndevice_tracker/person peuvent afficher la présence, le GPS, la batterie, une image et (device_tracker) un type de source.\nCorrigé : l'history et le logbook s'arrêtaient parfois de charger au bout d'un moment.\nCorrigé : pièce et fonction inversées dans le nom généré automatiquement des lumières avancées.\nLa bannière de l'app Home Assistant sur iPhone a été supprimée et la documentation réorganisée en pages anglaises et allemandes.",
-        "it": "Molti tipi di entità ora si possono configurare manualmente con i selettori di oggetti: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker e person.\nI robot aspirapolvere ora vengono anche rilevati automaticamente.\ndevice_tracker/person possono mostrare presenza, GPS, batteria, un'immagine e (device_tracker) un tipo di sorgente.\nCorretto: history e logbook a volte smettevano di caricarsi dopo un po'.\nCorretto: stanza e funzione invertite nel nome generato automaticamente delle luci avanzate.\nRimosso il banner dell'app Home Assistant su iPhone e riorganizzata la documentazione in pagine inglesi e tedesche.",
-        "es": "Muchos tipos de entidad ahora se pueden configurar manualmente con selectores de objetos: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker y person.\nLas aspiradoras robot ahora también se detectan automáticamente.\ndevice_tracker/person pueden mostrar presencia, GPS, batería, una imagen y (device_tracker) un tipo de fuente.\nCorregido: history y logbook a veces dejaban de cargar tras un rato.\nCorregido: sala y función intercambiadas en el nombre generado automáticamente de las luces avanzadas.\nSe eliminó el banner de la app de Home Assistant en iPhone y se reorganizó la documentación en páginas en inglés y alemán.",
-        "pl": "Wiele typów encji można teraz konfigurować ręcznie za pomocą selektorów obiektów: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker i person.\nOdkurzacze automatyczne są teraz również wykrywane automatycznie.\ndevice_tracker/person mogą pokazywać obecność, GPS, baterię, obraz i (device_tracker) typ źródła.\nNaprawiono: history i logbook czasami przestawały się ładować po pewnym czasie.\nNaprawiono: pomieszczenie i funkcja zamienione w automatycznie generowanej nazwie zaawansowanych świateł.\nUsunięto baner aplikacji Home Assistant na iPhonie, a dokumentację podzielono na strony angielskie i niemieckie.",
-        "uk": "Багато типів сутностей тепер можна налаштувати вручну за допомогою вибору об'єктів: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker та person.\nРоботи-пилососи тепер також визначаються автоматично.\ndevice_tracker/person можуть показувати присутність, GPS, заряд батареї, зображення та (device_tracker) тип джерела.\nВиправлено: history і logbook іноді переставали завантажуватися через деякий час.\nВиправлено: кімната і функція мінялися місцями в автоматично згенерованому імені розширених джерел світла.\nВидалено банер застосунку Home Assistant на iPhone, а документацію переструктуровано на англійські та німецькі сторінки.",
-        "zh-cn": "现在可以通过对象选择器手动配置许多实体类型：light、thermostat、cover、lock、media_player、fan、vacuum、humidifier、water_heater、device_tracker 和 person。\n现在也能自动识别扫地机器人。\ndevice_tracker/person 可显示在场状态、GPS、电量、图片以及（device_tracker）来源类型。\n修复：history 和 logbook 有时一段时间后停止加载。\n修复：高级灯具自动生成的名称中房间和功能被调换。\n移除了 iPhone 上的 Home Assistant 应用横幅，并将文档重新整理为英文和德文页面。"
-      },
-      "6.0.4": {
-        "en": "Limit the number of history points fetched per request, so a large history graph can no longer overload the states database.\nManual entities on system/script objects (e.g. a JavaScript adapter state) no longer disappear after a restart.\nManual entities now honor the name and icon set via the frontend, and editing them no longer briefly reverts the change.",
-        "de": "Die Anzahl der pro Anfrage abgerufenen Verlaufspunkte wird begrenzt, sodass ein großer Verlaufsgraph die States-Datenbank nicht mehr überlasten kann.\nManuelle Entitäten auf System-/Script-Objekten (z. B. einem Status des JavaScript-Adapters) verschwinden nach einem Neustart nicht mehr.\nManuelle Entitäten übernehmen jetzt den im Frontend gesetzten Namen und das Symbol, und beim Bearbeiten wird die Änderung nicht mehr kurz zurückgesetzt.",
-        "ru": "Количество точек истории, запрашиваемых за один раз, теперь ограничено, поэтому большой график истории больше не может перегружать базу данных состояний.\nРучные сущности на объектах system/script (например, состояние адаптера JavaScript) больше не исчезают после перезапуска.\nРучные сущности теперь учитывают имя и значок, заданные во фронтенде, а при редактировании изменение больше не сбрасывается на короткое время.",
-        "pt": "O número de pontos de histórico obtidos por pedido é agora limitado, para que um gráfico de histórico grande já não sobrecarregue a base de dados de estados.\nEntidades manuais em objetos system/script (por exemplo, um estado do adaptador JavaScript) já não desaparecem após um reinício.\nAs entidades manuais passam a respeitar o nome e o ícone definidos no frontend, e a edição já não reverte brevemente a alteração.",
-        "nl": "Het aantal per aanvraag opgehaalde geschiedenispunten is nu beperkt, zodat een grote geschiedenisgrafiek de states-database niet meer kan overbelasten.\nHandmatige entiteiten op system-/script-objecten (bijv. een status van de JavaScript-adapter) verdwijnen niet meer na een herstart.\nHandmatige entiteiten nemen nu de in de frontend ingestelde naam en het pictogram over, en bij het bewerken wordt de wijziging niet meer kort teruggezet.",
-        "fr": "Le nombre de points d'historique récupérés par requête est désormais limité, de sorte qu'un grand graphique d'historique ne peut plus surcharger la base de données des états.\nLes entités manuelles sur des objets system/script (par exemple un état de l'adaptateur JavaScript) ne disparaissent plus après un redémarrage.\nLes entités manuelles respectent désormais le nom et l'icône définis dans le frontend, et leur modification ne revient plus brièvement en arrière.",
-        "it": "Il numero di punti dello storico recuperati per richiesta è ora limitato, così un grande grafico dello storico non può più sovraccaricare il database degli stati.\nLe entità manuali su oggetti system/script (ad es. uno stato dell'adattatore JavaScript) non scompaiono più dopo un riavvio.\nLe entità manuali ora rispettano il nome e l'icona impostati nel frontend, e la loro modifica non viene più annullata per un istante.",
-        "es": "El número de puntos de historial obtenidos por solicitud ahora está limitado, de modo que un gráfico de historial grande ya no puede sobrecargar la base de datos de estados.\nLas entidades manuales en objetos system/script (por ejemplo, un estado del adaptador JavaScript) ya no desaparecen tras un reinicio.\nLas entidades manuales ahora respetan el nombre y el icono establecidos en el frontend, y al editarlas el cambio ya no se revierte por un momento.",
-        "pl": "Liczba punktów historii pobieranych na żądanie jest teraz ograniczona, więc duży wykres historii nie może już przeciążyć bazy danych stanów.\nRęczne encje na obiektach system/script (np. stan adaptera JavaScript) nie znikają już po restarcie.\nRęczne encje uwzględniają teraz nazwę i ikonę ustawione we frontendzie, a ich edycja nie cofa już na chwilę zmiany.",
-        "uk": "Кількість точок історії, що завантажуються за один запит, тепер обмежена, тож великий графік історії більше не перевантажує базу даних станів.\nРучні сутності на об'єктах system/script (наприклад, стан адаптера JavaScript) більше не зникають після перезапуску.\nРучні сутності тепер враховують ім'я та піктограму, задані у фронтенді, а їх редагування більше не скидає зміну на коротку мить.",
-        "zh-cn": "现在限制了每次请求获取的历史数据点数量，因此较大的历史图表不会再使状态数据库过载。\n系统/脚本对象上的手动实体（例如 JavaScript 适配器的某个状态）在重启后不再消失。\n手动实体现在会采用在前端设置的名称和图标，并且编辑时不再短暂地还原更改。"
-      },
-      "6.0.3": {
-        "en": "Manually mapped objects outside alias.0 no longer disappear after a restart when \"only generate from alias\" is active.\nThe number of concurrent history requests is now limited to avoid overloading the states-database connection.\nFixed a crash in the map card caused by history updates without attributes.\nThe browser tab title setting was removed; set the dashboard title instead.",
-        "de": "Manuell zugeordnete Objekte außerhalb von alias.0 verschwinden nach einem Neustart nicht mehr, wenn \"nur aus Alias erzeugen\" aktiv ist.\nDie Anzahl gleichzeitiger Verlaufsanfragen wird jetzt begrenzt, um die Verbindung zur States-Datenbank nicht zu überlasten.\nAbsturz in der Karten-Karte (Map) behoben, der durch Verlaufsupdates ohne Attribute verursacht wurde.\nDie Einstellung für den Browser-Tab-Titel wurde entfernt; setze stattdessen den Dashboard-Titel.",
-        "ru": "Вручную сопоставленные объекты вне alias.0 больше не исчезают после перезапуска, когда включено \"создавать только из alias\".\nКоличество одновременных запросов истории теперь ограничено, чтобы не перегружать соединение с базой данных состояний.\nИсправлён сбой в карточке карты, вызванный обновлениями истории без атрибутов.\nНастройка заголовка вкладки браузера удалена; задайте вместо неё заголовок панели.",
-        "pt": "Objetos mapeados manualmente fora de alias.0 já não desaparecem após um reinício quando \"gerar apenas a partir de alias\" está ativo.\nO número de pedidos de histórico simultâneos é agora limitado para não sobrecarregar a ligação à base de dados de estados.\nCorrigida uma falha no cartão de mapa causada por atualizações de histórico sem atributos.\nA configuração do título da aba do navegador foi removida; defina antes o título do painel.",
-        "nl": "Handmatig toegewezen objecten buiten alias.0 verdwijnen niet meer na een herstart wanneer \"alleen uit alias genereren\" actief is.\nHet aantal gelijktijdige geschiedenisaanvragen is nu beperkt om de verbinding met de states-database niet te overbelasten.\nEen crash in de kaartkaart door geschiedenisupdates zonder attributen is opgelost.\nDe instelling voor de browsertabtitel is verwijderd; stel in plaats daarvan de dashboardtitel in.",
-        "fr": "Les objets mappés manuellement en dehors de alias.0 ne disparaissent plus après un redémarrage lorsque \"générer uniquement à partir des alias\" est actif.\nLe nombre de requêtes d'historique simultanées est désormais limité pour ne pas surcharger la connexion à la base de données des états.\nCorrection d'un plantage de la carte (map) causé par des mises à jour d'historique sans attributs.\nLe réglage du titre d'onglet du navigateur a été supprimé ; définissez plutôt le titre du tableau de bord.",
-        "it": "Gli oggetti mappati manualmente al di fuori di alias.0 non scompaiono più dopo un riavvio quando è attivo \"genera solo dagli alias\".\nIl numero di richieste di storico simultanee è ora limitato per non sovraccaricare la connessione al database degli stati.\nCorretto un crash nella scheda mappa causato da aggiornamenti dello storico senza attributi.\nL'impostazione del titolo della scheda del browser è stata rimossa; imposta invece il titolo della dashboard.",
-        "es": "Los objetos mapeados manualmente fuera de alias.0 ya no desaparecen tras un reinicio cuando está activo \"generar solo a partir de alias\".\nEl número de solicitudes de historial simultáneas ahora está limitado para no sobrecargar la conexión a la base de datos de estados.\nCorregido un fallo en la tarjeta de mapa causado por actualizaciones de historial sin atributos.\nSe eliminó el ajuste del título de la pestaña del navegador; define en su lugar el título del panel.",
-        "pl": "Ręcznie zmapowane obiekty spoza alias.0 nie znikają już po restarcie, gdy aktywna jest opcja \"generuj tylko z aliasów\".\nLiczba jednoczesnych zapytań o historię jest teraz ograniczona, aby nie przeciążać połączenia z bazą danych stanów.\nNaprawiono awarię karty mapy powodowaną przez aktualizacje historii bez atrybutów.\nUsunięto ustawienie tytułu karty przeglądarki; zamiast tego ustaw tytuł pulpitu.",
-        "uk": "Вручну зіставлені об'єкти поза alias.0 більше не зникають після перезапуску, коли активно \"створювати лише з alias\".\nКількість одночасних запитів історії тепер обмежена, щоб не перевантажувати з'єднання з базою даних станів.\nВиправлено збій у картці карти, спричинений оновленнями історії без атрибутів.\nНалаштування заголовка вкладки браузера видалено; задайте натомість заголовок панелі.",
-        "zh-cn": "当启用“仅从别名生成”时，alias.0 之外手动映射的对象在重启后不再消失。\n现在限制了并发历史请求的数量，以避免使状态数据库连接过载。\n修复了地图卡片因历史更新缺少属性而导致的崩溃。\n已移除浏览器标签页标题设置；请改为设置仪表板标题。"
-      },
-      "6.0.2": {
-        "en": "Reduced object-database load and removed leftover debug logging.\nbrowser_mod re-applies its settings (e.g. a hidden sidebar) after a browser registers, so it should no longer need an F5.\nAbove ~50 referenced states the adapter subscribes to all states at once and filters them itself, to reduce database load.\nStatistics history is now fetched in pages, so a large energy/history request can no longer overload the states database.",
-        "de": "Geringere Last auf der Objekt-Datenbank und übrig gebliebene Debug-Logs entfernt.\nbrowser_mod wendet seine Einstellungen (z. B. eine ausgeblendete Seitenleiste) nach der Registrierung eines Browsers erneut an, sodass kein F5 mehr nötig sein sollte.\nAb ~50 referenzierten States abonniert der Adapter alle States auf einmal und filtert selbst, um die Datenbank zu entlasten.\nStatistik-Verlauf wird jetzt seitenweise abgerufen, sodass eine große Energie-/Verlaufsanfrage die States-Datenbank nicht mehr überlasten kann.",
-        "ru": "Снижена нагрузка на базу данных объектов, удалено оставшееся отладочное логирование.\nbrowser_mod повторно применяет свои настройки (например, скрытую боковую панель) после регистрации браузера, поэтому F5 больше не требуется.\nПри более чем ~50 используемых состояниях адаптер подписывается на все состояния сразу и фильтрует их сам, снижая нагрузку на базу данных.\nИстория для статистики теперь запрашивается постранично, поэтому большой запрос энергии/истории больше не перегружает базу данных состояний.",
-        "pt": "Carga reduzida na base de dados de objetos e remoção de logs de depuração esquecidos.\nO browser_mod reaplica as suas definições (por exemplo, uma barra lateral oculta) depois de um navegador se registar, por isso já não deve ser preciso F5.\nAcima de ~50 estados referenciados, o adaptador subscreve todos os estados de uma vez e filtra-os ele próprio, para reduzir a carga da base de dados.\nO histórico das estatísticas é agora obtido em páginas, por isso um pedido grande de energia/histórico já não sobrecarrega a base de dados de estados.",
-        "nl": "Lagere belasting van de objectdatabase en achtergebleven debug-logging verwijderd.\nbrowser_mod past zijn instellingen (bijv. een verborgen zijbalk) opnieuw toe nadat een browser zich registreert, zodat een F5 niet meer nodig zou moeten zijn.\nBoven ~50 gebruikte states abonneert de adapter zich in één keer op alle states en filtert zelf, om de database te ontlasten.\nStatistiekgeschiedenis wordt nu in pagina's opgehaald, zodat een grote energie-/geschiedenisaanvraag de states-database niet meer kan overbelasten.",
-        "fr": "Charge réduite sur la base de données des objets et journaux de débogage résiduels supprimés.\nbrowser_mod réapplique ses réglages (par exemple une barre latérale masquée) après l'enregistrement d'un navigateur, de sorte qu'un F5 ne devrait plus être nécessaire.\nAu-delà d'environ 50 états référencés, l'adaptateur s'abonne à tous les états d'un coup et les filtre lui-même, pour alléger la base de données.\nL'historique des statistiques est désormais récupéré par pages, de sorte qu'une grosse requête énergie/historique ne peut plus surcharger la base de données des états.",
-        "it": "Carico ridotto sul database degli oggetti e rimossi i log di debug rimasti.\nbrowser_mod riapplica le sue impostazioni (ad es. una barra laterale nascosta) dopo la registrazione di un browser, così non dovrebbe più servire un F5.\nOltre ~50 stati referenziati l'adattatore si iscrive a tutti gli stati in una volta e li filtra da sé, per ridurre il carico del database.\nLo storico delle statistiche ora viene recuperato a pagine, così una richiesta grande di energia/storico non può più sovraccaricare il database degli stati.",
-        "es": "Menor carga en la base de datos de objetos y eliminación de registros de depuración sobrantes.\nbrowser_mod vuelve a aplicar sus ajustes (por ejemplo, una barra lateral oculta) después de que un navegador se registra, así que ya no debería hacer falta F5.\nPor encima de ~50 estados referenciados, el adaptador se suscribe a todos los estados de una vez y los filtra él mismo, para reducir la carga de la base de datos.\nEl historial de estadísticas ahora se obtiene por páginas, de modo que una solicitud grande de energía/historial ya no puede sobrecargar la base de datos de estados.",
-        "pl": "Zmniejszone obciążenie bazy danych obiektów i usunięte pozostawione logi debugowania.\nbrowser_mod ponownie stosuje swoje ustawienia (np. ukryty pasek boczny) po zarejestrowaniu przeglądarki, więc F5 nie powinno już być potrzebne.\nPowyżej ~50 używanych stanów adapter subskrybuje wszystkie stany naraz i sam je filtruje, aby odciążyć bazę danych.\nHistoria statystyk jest teraz pobierana stronami, więc duże zapytanie o energię/historię nie może już przeciążyć bazy danych stanów.",
-        "uk": "Зменшено навантаження на базу даних об'єктів і видалено залишкове налагоджувальне логування.\nbrowser_mod повторно застосовує свої налаштування (наприклад, приховану бічну панель) після реєстрації браузера, тож F5 більше не потрібен.\nЗа понад ~50 використовуваних станів адаптер підписується на всі стани одразу й фільтрує їх сам, щоб зменшити навантаження на базу даних.\nІсторія для статистики тепер завантажується посторінково, тож великий запит енергії/історії більше не перевантажує базу даних станів.",
-        "zh-cn": "降低了对象数据库的负载，并移除了遗留的调试日志。\nbrowser_mod 在浏览器注册后会重新应用其设置（例如隐藏的侧边栏），因此应该不再需要按 F5。\n当引用的状态超过约 50 个时，适配器会一次性订阅所有状态并自行过滤，以减轻数据库负载。\n统计历史数据现在分页获取，因此较大的能源/历史请求不会再使状态数据库过载。"
-      },
-      "6.0.1": {
-        "en": "Fixed the energy dashboard and statistics-based history graphs that stayed empty or crashed (recorder/statistics_during_period read the history values from the wrong field and returned an empty/mis-shaped result).\nNeeds a history/SQL/InfluxDB instance with logging enabled for the relevant states.",
-        "de": "Energie-Dashboard und statistikbasierte Verlaufsdiagramme behoben, die leer blieben oder abstürzten (recorder/statistics_during_period las die Verlaufswerte aus dem falschen Feld und lieferte ein leeres/falsch geformtes Ergebnis).\nBenötigt eine History-/SQL-/InfluxDB-Instanz, bei der das Loggen für die betreffenden States aktiviert ist.",
-        "ru": "Исправлены панель энергии и графики истории на основе статистики, которые оставались пустыми или вызывали сбой (recorder/statistics_during_period читал значения истории из неправильного поля и возвращал пустой/некорректный результат).\nТребуется экземпляр history/SQL/InfluxDB с включённым логированием для соответствующих состояний.",
-        "pt": "Corrigidos o painel de energia e os gráficos de histórico baseados em estatísticas que ficavam vazios ou travavam (recorder/statistics_during_period lia os valores do histórico do campo errado e retornava um resultado vazio/malformado).\nRequer uma instância history/SQL/InfluxDB com registo ativado para os estados relevantes.",
-        "nl": "Energiedashboard en op statistieken gebaseerde geschiedenisgrafieken hersteld die leeg bleven of crashten (recorder/statistics_during_period las de geschiedeniswaarden uit het verkeerde veld en gaf een leeg/verkeerd gevormd resultaat).\nVereist een history/SQL/InfluxDB-instantie met logging ingeschakeld voor de betreffende states.",
-        "fr": "Correction du tableau de bord énergie et des graphiques d'historique basés sur les statistiques qui restaient vides ou plantaient (recorder/statistics_during_period lisait les valeurs de l'historique dans le mauvais champ et renvoyait un résultat vide/mal formé).\nNécessite une instance history/SQL/InfluxDB avec la journalisation activée pour les états concernés.",
-        "it": "Corretti la dashboard dell'energia e i grafici della cronologia basati sulle statistiche che restavano vuoti o andavano in crash (recorder/statistics_during_period leggeva i valori della cronologia dal campo sbagliato e restituiva un risultato vuoto/malformato).\nRichiede un'istanza history/SQL/InfluxDB con il logging abilitato per gli stati interessati.",
-        "es": "Corregidos el panel de energía y los gráficos de historial basados en estadísticas que se quedaban vacíos o se bloqueaban (recorder/statistics_during_period leía los valores del historial del campo equivocado y devolvía un resultado vacío/malformado).\nRequiere una instancia history/SQL/InfluxDB con el registro habilitado para los estados correspondientes.",
-        "pl": "Naprawiono pulpit energii oraz oparte na statystykach wykresy historii, które pozostawały puste lub się zawieszały (recorder/statistics_during_period odczytywał wartości historii z niewłaściwego pola i zwracał pusty/źle uformowany wynik).\nWymaga instancji history/SQL/InfluxDB z włączonym logowaniem dla odpowiednich stanów.",
-        "uk": "Виправлено панель енергії та графіки історії на основі статистики, які залишалися порожніми або аварійно завершувалися (recorder/statistics_during_period читав значення історії з неправильного поля та повертав порожній/некоректний результат).\nПотрібен екземпляр history/SQL/InfluxDB з увімкненим логуванням для відповідних станів.",
-        "zh-cn": "修复了能源仪表板和基于统计的历史图表为空或崩溃的问题（recorder/statistics_during_period 从错误的字段读取历史值，并返回空的/格式错误的结果）。\n需要已配置的 history/SQL/InfluxDB 实例，并为相关状态启用日志记录。"
-      },
-      "6.0.0": {
-        "en": "BREAKING: Updated to a new Home Assistant frontend - custom themes may need adjusting (see the theme migration guide).\nBREAKING: Internal storage objects moved into a new 'storage' folder; they are migrated automatically, update script paths if you reference them.\nFull dashboard support: create, manage and switch dashboards; the main dashboard can be renamed, re-iconed or hidden.\nConfigure entities directly from the frontend, including the entity_id.\nRenaming a manually configured entity in the frontend now sticks (saved to the source object).\nFrontend settings (theme, dark mode, sidebar order) are now saved.\nEnergy, History and Logbook panels; a device's electricity states (power, current, voltage, energy) are exposed as sensors for the energy dashboard.\nMarkdown and template cards can now use Home Assistant templates (states(), is_state, state_attr, now(), …) next to ioBroker {id} bindings.\nRoom and function names are shown in your configured language.\nCustomizable browser tab and PWA app name, configurable automatic entity_id format, and default sidebar/header visibility for new browsers via instances.hideSidebar / instances.hideHeader.",
-        "de": "BREAKING: Neues Home-Assistant-Frontend - eigene Themes müssen evtl. angepasst werden (siehe Theme-Migrations-Anleitung).\nBREAKING: Interne Speicher-Objekte liegen jetzt im Ordner 'storage'; sie werden automatisch migriert, passe Skript-Pfade an, falls du sie verwendest.\nVolle Dashboard-Unterstützung: Dashboards anlegen, verwalten und wechseln; das Haupt-Dashboard kann umbenannt, mit Icon versehen oder ausgeblendet werden.\nEntitäten direkt im Frontend konfigurieren, inklusive der entity_id.\nDas Umbenennen einer manuell konfigurierten Entität im Frontend bleibt jetzt erhalten (im Quellobjekt gespeichert).\nFrontend-Einstellungen (Theme, Dark-Mode, Reihenfolge der Seitenleiste) werden jetzt gespeichert.\nEnergie-, History- und Logbuch-Panel; Strom-States eines Geräts (Leistung, Strom, Spannung, Energie) werden als Sensoren für das Energie-Dashboard bereitgestellt.\nMarkdown- und Template-Karten können jetzt Home-Assistant-Templates (states(), is_state, state_attr, now(), …) neben ioBroker-{id}-Bindings nutzen.\nRaum- und Funktionsnamen werden in deiner eingestellten Sprache angezeigt.\nAnpassbarer Browser-Tab- und PWA-App-Name, konfigurierbares automatisches entity_id-Format und Standard-Sichtbarkeit von Seitenleiste/Kopfzeile für neue Browser über instances.hideSidebar / instances.hideHeader.",
-        "ru": "BREAKING: Новый фронтенд Home Assistant - собственные темы могут потребовать корректировки (см. руководство по миграции тем).\nBREAKING: Внутренние объекты хранилища перемещены в новую папку 'storage'; они мигрируются автоматически, обновите пути в скриптах, если вы их используете.\nПолная поддержка панелей: создание, управление и переключение; главную панель можно переименовать, сменить значок или скрыть.\nНастройка сущностей прямо из интерфейса, включая entity_id.\nПереименование вручную настроенной сущности в интерфейсе теперь сохраняется (записывается в исходный объект).\nНастройки интерфейса (тема, тёмный режим, порядок боковой панели) теперь сохраняются.\nПанели Energy, History и Logbook; состояния электроэнергии устройства (мощность, ток, напряжение, энергия) предоставляются как сенсоры для панели энергии.\nКарточки Markdown и template теперь могут использовать шаблоны Home Assistant (states(), is_state, state_attr, now(), …) наряду с привязками ioBroker {id}.\nИмена комнат и функций отображаются на выбранном языке.\nНастраиваемое имя вкладки браузера и PWA-приложения, настраиваемый формат автоматического entity_id и видимость боковой панели/заголовка по умолчанию для новых браузеров через instances.hideSidebar / instances.hideHeader.",
-        "pt": "BREAKING: Novo frontend do Home Assistant - temas personalizados podem precisar de ajustes (consulte o guia de migração de temas).\nBREAKING: Objetos de armazenamento internos movidos para uma nova pasta 'storage'; são migrados automaticamente, atualize os caminhos nos scripts se os referenciar.\nSuporte completo a dashboards: criar, gerenciar e alternar; o dashboard principal pode ser renomeado, ter o ícone alterado ou ser ocultado.\nConfigure entidades diretamente no frontend, incluindo o entity_id.\nRenomear uma entidade configurada manualmente no frontend agora é mantido (salvo no objeto de origem).\nAs configurações do frontend (tema, modo escuro, ordem da barra lateral) agora são salvas.\nPainéis Energy, History e Logbook; os estados elétricos de um dispositivo (potência, corrente, tensão, energia) são expostos como sensores para o painel de energia.\nCartões Markdown e template agora podem usar templates do Home Assistant (states(), is_state, state_attr, now(), …) além dos bindings {id} do ioBroker.\nNomes de cômodos e funções são exibidos no idioma configurado.\nNome personalizável da aba do navegador e do app PWA, formato automático de entity_id configurável e visibilidade padrão da barra lateral/cabeçalho para novos navegadores via instances.hideSidebar / instances.hideHeader.",
-        "nl": "BREAKING: Nieuwe Home Assistant-frontend - eigen thema's moeten mogelijk worden aangepast (zie de handleiding voor themamigratie).\nBREAKING: Interne opslagobjecten verplaatst naar een nieuwe map 'storage'; ze worden automatisch gemigreerd, werk scriptpaden bij als je ernaar verwijst.\nVolledige dashboardondersteuning: dashboards aanmaken, beheren en wisselen; het hoofd-dashboard kan worden hernoemd, van een ander icoon worden voorzien of verborgen.\nConfigureer entiteiten rechtstreeks vanuit de frontend, inclusief de entity_id.\nHet hernoemen van een handmatig geconfigureerde entiteit in de frontend blijft nu behouden (opgeslagen in het bronobject).\nFrontend-instellingen (thema, donkere modus, volgorde van de zijbalk) worden nu opgeslagen.\nEnergy-, History- en Logbook-panelen; de elektrische statussen van een apparaat (vermogen, stroom, spanning, energie) worden als sensoren beschikbaar gesteld voor het energiedashboard.\nMarkdown- en template-kaarten kunnen nu Home Assistant-templates (states(), is_state, state_attr, now(), …) gebruiken naast ioBroker {id}-bindings.\nKamer- en functienamen worden in je ingestelde taal weergegeven.\nAanpasbare browsertab- en PWA-app-naam, configureerbaar automatisch entity_id-formaat en standaard zichtbaarheid van zijbalk/koptekst voor nieuwe browsers via instances.hideSidebar / instances.hideHeader.",
-        "fr": "BREAKING : Nouveau frontend Home Assistant - les thèmes personnalisés peuvent nécessiter des ajustements (voir le guide de migration des thèmes).\nBREAKING : Les objets de stockage internes ont été déplacés dans un nouveau dossier 'storage' ; ils sont migrés automatiquement, mettez à jour les chemins dans les scripts si vous les référencez.\nPrise en charge complète des tableaux de bord : créer, gérer et basculer ; le tableau de bord principal peut être renommé, voir son icône modifiée ou être masqué.\nConfigurez les entités directement depuis le frontend, y compris l'entity_id.\nLe renommage d'une entité configurée manuellement dans le frontend est désormais conservé (enregistré dans l'objet source).\nLes paramètres du frontend (thème, mode sombre, ordre de la barre latérale) sont désormais enregistrés.\nPanneaux Energy, History et Logbook ; les états électriques d'un appareil (puissance, courant, tension, énergie) sont exposés comme capteurs pour le tableau de bord énergie.\nLes cartes Markdown et template peuvent désormais utiliser les templates Home Assistant (states(), is_state, state_attr, now(), …) en plus des liaisons {id} d'ioBroker.\nLes noms de pièces et de fonctions sont affichés dans la langue configurée.\nNom personnalisable de l'onglet du navigateur et de l'app PWA, format d'entity_id automatique configurable et visibilité par défaut de la barre latérale/en-tête pour les nouveaux navigateurs via instances.hideSidebar / instances.hideHeader.",
-        "it": "BREAKING: Nuovo frontend di Home Assistant - i temi personalizzati potrebbero richiedere modifiche (vedi la guida alla migrazione dei temi).\nBREAKING: Gli oggetti di archiviazione interni sono stati spostati in una nuova cartella 'storage'; vengono migrati automaticamente, aggiorna i percorsi negli script se li referenzi.\nSupporto completo alle dashboard: creare, gestire e cambiare; la dashboard principale può essere rinominata, può cambiare icona o essere nascosta.\nConfigura le entità direttamente dal frontend, incluso l'entity_id.\nLa rinomina di un'entità configurata manualmente nel frontend ora viene mantenuta (salvata nell'oggetto di origine).\nLe impostazioni del frontend (tema, modalità scura, ordine della barra laterale) ora vengono salvate.\nPannelli Energy, History e Logbook; gli stati elettrici di un dispositivo (potenza, corrente, tensione, energia) sono esposti come sensori per la dashboard dell'energia.\nLe schede Markdown e template ora possono usare i template di Home Assistant (states(), is_state, state_attr, now(), …) oltre ai binding {id} di ioBroker.\nI nomi di stanze e funzioni vengono mostrati nella lingua configurata.\nNome personalizzabile della scheda del browser e dell'app PWA, formato automatico dell'entity_id configurabile e visibilità predefinita della barra laterale/intestazione per i nuovi browser tramite instances.hideSidebar / instances.hideHeader.",
-        "es": "BREAKING: Nuevo frontend de Home Assistant - los temas personalizados pueden necesitar ajustes (consulta la guía de migración de temas).\nBREAKING: Los objetos de almacenamiento internos se movieron a una nueva carpeta 'storage'; se migran automáticamente, actualiza las rutas en los scripts si los referencias.\nSoporte completo de paneles: crear, gestionar y cambiar; el panel principal se puede renombrar, cambiar su icono u ocultar.\nConfigura entidades directamente desde el frontend, incluido el entity_id.\nCambiar el nombre de una entidad configurada manualmente en el frontend ahora se conserva (se guarda en el objeto de origen).\nLos ajustes del frontend (tema, modo oscuro, orden de la barra lateral) ahora se guardan.\nPaneles Energy, History y Logbook; los estados eléctricos de un dispositivo (potencia, corriente, tensión, energía) se exponen como sensores para el panel de energía.\nLas tarjetas Markdown y template ahora pueden usar plantillas de Home Assistant (states(), is_state, state_attr, now(), …) junto a los bindings {id} de ioBroker.\nLos nombres de habitaciones y funciones se muestran en el idioma configurado.\nNombre personalizable de la pestaña del navegador y de la app PWA, formato automático de entity_id configurable y visibilidad predeterminada de la barra lateral/encabezado para nuevos navegadores mediante instances.hideSidebar / instances.hideHeader.",
-        "pl": "BREAKING: Nowy frontend Home Assistant - własne motywy mogą wymagać dostosowania (zobacz przewodnik migracji motywów).\nBREAKING: Wewnętrzne obiekty magazynu przeniesiono do nowego folderu 'storage'; są migrowane automatycznie, zaktualizuj ścieżki w skryptach, jeśli się do nich odwołujesz.\nPełna obsługa pulpitów: tworzenie, zarządzanie i przełączanie; pulpit główny można zmienić nazwę, ikonę lub ukryć.\nKonfiguruj encje bezpośrednio z interfejsu, w tym entity_id.\nZmiana nazwy ręcznie skonfigurowanej encji w interfejsie jest teraz zachowywana (zapisywana w obiekcie źródłowym).\nUstawienia interfejsu (motyw, tryb ciemny, kolejność paska bocznego) są teraz zapisywane.\nPanele Energy, History i Logbook; stany elektryczne urządzenia (moc, prąd, napięcie, energia) są udostępniane jako czujniki dla panelu energii.\nKarty Markdown i template mogą teraz używać szablonów Home Assistant (states(), is_state, state_attr, now(), …) obok powiązań {id} ioBroker.\nNazwy pomieszczeń i funkcji są wyświetlane w skonfigurowanym języku.\nKonfigurowalna nazwa karty przeglądarki i aplikacji PWA, konfigurowalny automatyczny format entity_id oraz domyślna widoczność paska bocznego/nagłówka dla nowych przeglądarek przez instances.hideSidebar / instances.hideHeader.",
-        "uk": "BREAKING: Новий фронтенд Home Assistant - власні теми можуть потребувати коригування (див. посібник з міграції тем).\nBREAKING: Внутрішні об'єкти сховища переміщено до нової теки 'storage'; вони мігруються автоматично, оновіть шляхи у скриптах, якщо ви на них посилаєтесь.\nПовна підтримка панелей: створення, керування та перемикання; головну панель можна перейменувати, змінити значок або приховати.\nНалаштування сутностей безпосередньо з інтерфейсу, включно з entity_id.\nПерейменування вручну налаштованої сутності в інтерфейсі тепер зберігається (записується в початковий об'єкт).\nНалаштування інтерфейсу (тема, темний режим, порядок бічної панелі) тепер зберігаються.\nПанелі Energy, History і Logbook; електричні стани пристрою (потужність, струм, напруга, енергія) надаються як сенсори для панелі енергії.\nКартки Markdown і template тепер можуть використовувати шаблони Home Assistant (states(), is_state, state_attr, now(), …) поряд із прив'язками {id} ioBroker.\nНазви кімнат і функцій відображаються вибраною мовою.\nНалаштовувана назва вкладки браузера та PWA-застосунку, налаштовуваний автоматичний формат entity_id і типова видимість бічної панелі/заголовка для нових браузерів через instances.hideSidebar / instances.hideHeader.",
-        "zh-cn": "BREAKING：全新的 Home Assistant 前端 - 自定义主题可能需要调整（请参阅主题迁移指南）。\nBREAKING：内部存储对象已移至新的 'storage' 文件夹；它们会自动迁移，如果你在脚本中引用了它们，请更新路径。\n完整的仪表板支持：创建、管理和切换；主仪表板可以重命名、更换图标或隐藏。\n直接从前端配置实体，包括 entity_id。\n在前端重命名手动配置的实体现在会保留（保存到源对象）。\n前端设置（主题、暗色模式、侧边栏顺序）现在会被保存。\nEnergy、History 和 Logbook 面板；设备的电气状态（功率、电流、电压、电能）作为传感器提供给能源仪表板。\nMarkdown 和 template 卡片现在可以使用 Home Assistant 模板（states()、is_state、state_attr、now() 等），与 ioBroker 的 {id} 绑定并存。\n房间和功能名称会以你配置的语言显示。\n可自定义的浏览器标签页和 PWA 应用名称、可配置的自动 entity_id 格式，以及通过 instances.hideSidebar / instances.hideHeader 设置新浏览器的侧边栏/标题默认可见性。"
-      },
-      "5.2.0": {
-        "en": "Fixed a possible crash of the more-info dialog.\nFixed manually configured automations (and other boolean entities) that showed true/false instead of on/off.\nAdded a sun.sun entity, calculated from the configured location.\nImages can now be uploaded from the frontend (for example dashboard background pictures).",
-        "de": "Möglichen Absturz des Mehr-Info-Dialogs behoben.\nManuell konfigurierte Automatisierungen (und andere boolesche Entitäten), die true/false statt on/off anzeigten, korrigiert.\nEine sun.sun-Entität hinzugefügt, die aus dem konfigurierten Standort berechnet wird.\nBilder können jetzt aus dem Frontend hochgeladen werden (z. B. Hintergrundbilder für Dashboards).",
-        "ru": "Исправлен возможный сбой диалога more-info.\nИсправлены вручную настроенные автоматизации (и другие логические сущности), которые показывали true/false вместо on/off.\nДобавлена сущность sun.sun, рассчитываемая по заданному местоположению.\nТеперь изображения можно загружать из интерфейса (например, фоновые изображения панелей).",
-        "pt": "Corrigido um possível travamento do diálogo more-info.\nCorrigidas automações configuradas manualmente (e outras entidades booleanas) que mostravam true/false em vez de on/off.\nAdicionada uma entidade sun.sun, calculada a partir da localização configurada.\nAgora é possível enviar imagens a partir do frontend (por exemplo, imagens de fundo do dashboard).",
-        "nl": "Mogelijke crash van het more-info-dialoogvenster opgelost.\nHandmatig geconfigureerde automatiseringen (en andere booleaanse entiteiten) die true/false toonden in plaats van on/off, opgelost.\nEen sun.sun-entiteit toegevoegd, berekend op basis van de geconfigureerde locatie.\nAfbeeldingen kunnen nu vanuit de frontend worden geüpload (bijvoorbeeld achtergrondafbeeldingen voor dashboards).",
-        "fr": "Correction d'un éventuel plantage de la boîte de dialogue more-info.\nCorrection des automatisations configurées manuellement (et autres entités booléennes) qui affichaient true/false au lieu de on/off.\nAjout d'une entité sun.sun, calculée à partir de l'emplacement configuré.\nLes images peuvent désormais être téléversées depuis le frontend (par exemple les images d'arrière-plan des tableaux de bord).",
-        "it": "Corretto un possibile arresto anomalo della finestra more-info.\nCorrette le automazioni configurate manualmente (e altre entità booleane) che mostravano true/false invece di on/off.\nAggiunta un'entità sun.sun, calcolata dalla posizione configurata.\nOra è possibile caricare immagini dal frontend (ad esempio immagini di sfondo delle dashboard).",
-        "es": "Corregido un posible fallo del diálogo more-info.\nCorregidas las automatizaciones configuradas manualmente (y otras entidades booleanas) que mostraban true/false en lugar de on/off.\nAñadida una entidad sun.sun, calculada a partir de la ubicación configurada.\nAhora se pueden subir imágenes desde el frontend (por ejemplo, imágenes de fondo de los paneles).",
-        "pl": "Naprawiono możliwą awarię okna dialogowego more-info.\nNaprawiono ręcznie skonfigurowane automatyzacje (i inne encje logiczne), które pokazywały true/false zamiast on/off.\nDodano encję sun.sun, obliczaną na podstawie skonfigurowanej lokalizacji.\nObrazy można teraz przesyłać z interfejsu (np. obrazy tła pulpitów).",
-        "uk": "Виправлено можливий збій діалогу more-info.\nВиправлено вручну налаштовані автоматизації (та інші логічні сутності), які показували true/false замість on/off.\nДодано сутність sun.sun, що обчислюється на основі заданого розташування.\nТепер зображення можна завантажувати з інтерфейсу (наприклад, фонові зображення панелей).",
-        "zh-cn": "修复了 more-info 对话框可能的崩溃。\n修复了手动配置的自动化（以及其他布尔实体）显示 true/false 而非 on/off 的问题。\n新增 sun.sun 实体，根据配置的位置进行计算。\n现在可以从前端上传图片（例如仪表板背景图片）。"
-      }
-    },
-    "titleLang": {
-      "en": "Visualization with Lovelace-UI",
-      "de": "Visualisierung mit Lovelace-UI",
-      "ru": "Визуализация с помощью Lovelace-UI",
-      "pt": "Visualização com Lovelace-UI",
-      "nl": "Visualisatie met Lovelace-UI",
-      "fr": "Visualisation avec Lovelace-UI",
-      "it": "Visualizzazione con Lovelace-UI",
-      "es": "Visualización con Lovelace-UI",
-      "pl": "Wizualizacja za pomocą Lovelace-UI",
-      "zh-cn": "使用Lovelace-UI进行可视化",
-      "uk": "Візуалізація за допомогою Lovelace-UI"
-    },
-    "desc": {
-      "en": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
-      "de": "Mit diesem Adapter können Sie eine Visualisierung für ioBroker mit der Home Assistant Lovelace-Benutzeroberfläche erstellen",
-      "ru": "С помощью этого адаптера вы можете создавать визуализацию для ioBroker с Home Assistant Lovelace UI",
-      "pt": "Com este adaptador você pode construir visualização para o ioBroker com o Home Assistant Lovelace UI",
-      "nl": "Met deze adapter kunt u visualisatie bouwen voor ioBroker met Home Assistant Lovelace UI",
-      "fr": "Avec cet adaptateur, vous pouvez créer une visualisation pour ioBroker avec Home Assistant Lovelace UI",
-      "it": "Con questo adattatore puoi costruire la visualizzazione per ioBroker con l'interfaccia utente di Home Assistant Lovelace",
-      "es": "Con este adaptador puede crear visualización para ioBroker con Home Assistant Lovelace UI",
-      "pl": "Za pomocą tego adaptera możesz zbudować wizualizację dla ioBroker z interfejsem Home Assistant Lovelace",
-      "zh-cn": "使用此适配器，您可以使用Home Assistant Lovelace UI为ioBroker构建可视化",
-      "uk": "За допомогою цього адаптера ви можете створити візуалізацію для ioBroker з інтерфейсом користувача Home Assistant Lovelace"
-    },
-    "authors": [
-      "bluefox <dogafox@gmail.com>"
-    ],
-    "keywords": [
-      "visualisation",
-      "lovelace",
-      "easy",
-      "What you see is what you get",
-      "home automation"
-    ],
-    "licenseInformation": {
-      "license": "Apache-2.0",
-      "link": "https://www.apache.org/licenses/LICENSE-2.0",
-      "type": "free"
-    },
-    "platform": "Javascript/Node.js",
-    "tier": 3,
-    "icon": "lovelace.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
-    "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "visualization",
-    "compact": false,
-    "adminUI": {
-      "config": "materialize",
-      "custom": "json"
-    },
-    "supportCustoms": true,
-    "messagebox": true,
-    "connectionType": "local",
-    "dataSource": "push",
-    "localLinks": {
-      "_default": {
-        "link": "%protocol%://%ip%:%port%/",
-        "name": "Lovelace",
-        "color": "#14C8FF",
-        "pro": "lovelace/",
-        "intro": true
-      }
-    },
-    "messages": [
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<6.0.0",
-            "newVersion>=6.0.0"
-          ]
+    "common": {
+        "name": "lovelace",
+        "version": "6.1.0",
+        "news": {
+            "6.1.1": {
+                "en": "Fixed an adapter restart loop when a room had no name.\nCustom dialog: device classes are sorted with clearer labels (id + unit) and the full Home Assistant list, device/state class can be cleared, and has_time/has_date no longer cause false unsaved-changes prompts.",
+                "de": "Neustart-Schleife des Adapters behoben, wenn ein Raum keinen Namen hatte.\nCustom-Dialog: Geräteklassen sind sortiert, mit klareren Bezeichnungen (ID + Einheit) und der kompletten Home-Assistant-Liste, Geräte-/Zustandsklasse lässt sich löschen, und has_time/has_date lösen keine falschen \"ungespeicherte Änderungen\" mehr aus.",
+                "ru": "Исправлена петля перезапуска адаптера, когда у комнаты не было имени.\nДиалог настроек: классы устройств отсортированы, с понятными подписями (id + единица) и полным списком Home Assistant, класс устройства/состояния можно очистить, а has_time/has_date больше не вызывают ложных сообщений о несохранённых изменениях.",
+                "pt": "Corrigido um ciclo de reinício do adaptador quando uma divisão não tinha nome.\nDiálogo personalizado: as classes de dispositivo estão ordenadas, com rótulos mais claros (id + unidade) e a lista completa do Home Assistant, a classe de dispositivo/estado pode ser limpa e has_time/has_date deixaram de provocar avisos falsos de alterações não guardadas.",
+                "nl": "Herstart-lus van de adapter opgelost wanneer een kamer geen naam had.\nAangepaste dialoog: apparaatklassen zijn gesorteerd, met duidelijkere labels (id + eenheid) en de volledige Home Assistant-lijst, apparaat-/statusklasse kan worden gewist en has_time/has_date veroorzaken geen valse meldingen meer over niet-opgeslagen wijzigingen.",
+                "fr": "Correction d'une boucle de redémarrage de l'adaptateur lorsqu'une pièce n'avait pas de nom.\nDialogue personnalisé : les classes d'appareil sont triées, avec des libellés plus clairs (id + unité) et la liste complète de Home Assistant, la classe d'appareil/d'état peut être effacée, et has_time/has_date ne provoquent plus de fausses alertes de modifications non enregistrées.",
+                "it": "Corretto un ciclo di riavvio dell'adattatore quando una stanza non aveva nome.\nFinestra personalizzata: le classi dispositivo sono ordinate, con etichette più chiare (id + unità) e l'elenco completo di Home Assistant, la classe dispositivo/stato può essere cancellata e has_time/has_date non causano più falsi avvisi di modifiche non salvate.",
+                "es": "Corregido un bucle de reinicio del adaptador cuando una habitación no tenía nombre.\nDiálogo personalizado: las clases de dispositivo están ordenadas, con etiquetas más claras (id + unidad) y la lista completa de Home Assistant, la clase de dispositivo/estado se puede borrar y has_time/has_date ya no provocan falsos avisos de cambios sin guardar.",
+                "pl": "Naprawiono pętlę restartu adaptera, gdy pokój nie miał nazwy.\nOkno niestandardowe: klasy urządzeń są posortowane, z czytelniejszymi etykietami (id + jednostka) i pełną listą Home Assistant, klasę urządzenia/stanu można wyczyścić, a has_time/has_date nie powodują już fałszywych ostrzeżeń o niezapisanych zmianach.",
+                "uk": "Виправлено цикл перезапуску адаптера, коли кімната не мала назви.\nДіалог налаштувань: класи пристроїв відсортовані, з зрозумілішими підписами (id + одиниця) та повним списком Home Assistant, клас пристрою/стану можна очистити, а has_time/has_date більше не спричиняють хибних попереджень про незбережені зміни.",
+                "zh-cn": "修复了房间没有名称时适配器反复重启的问题。\n自定义对话框：设备类别已排序，标签更清晰（id + 单位）并包含完整的 Home Assistant 列表，设备/状态类别可清除，has_time/has_date 不再触发虚假的未保存更改提示。"
+            },
+            "6.1.0": {
+                "en": "Many entity types can now be configured manually with object pickers: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker and person.\nVacuum cleaners are now also auto-detected.\ndevice_tracker/person can show presence, GPS, battery, a picture and (device_tracker) a source type.\nFixed history and logbook sometimes stopping to load after a while.\nFixed room and function being swapped in the auto-generated name of advanced lights.\nRemoved the Home Assistant app banner on iPhone and reorganized the documentation into English and German pages.",
+                "de": "Viele Entity-Typen können jetzt manuell über Objekt-Auswahlfelder konfiguriert werden: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker und person.\nSaugroboter werden jetzt auch automatisch erkannt.\ndevice_tracker/person können Anwesenheit, GPS, Batterie, ein Bild und (device_tracker) einen Quellentyp anzeigen.\nBehoben: history und logbook hörten nach einer Weile manchmal auf zu laden.\nBehoben: Raum und Funktion waren im automatisch erzeugten Namen erweiterter Lichter vertauscht.\nDas Home-Assistant-App-Banner auf dem iPhone wurde entfernt und die Dokumentation in englische und deutsche Seiten neu strukturiert.",
+                "ru": "Многие типы сущностей теперь можно настроить вручную через выбор объектов: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker и person.\nРоботы-пылесосы теперь также определяются автоматически.\ndevice_tracker/person могут показывать присутствие, GPS, заряд батареи, изображение и (device_tracker) тип источника.\nИсправлено: history и logbook иногда переставали загружаться через некоторое время.\nИсправлено: комната и функция менялись местами в автоматически создаваемом имени расширенных источников света.\nУдалён баннер приложения Home Assistant на iPhone, документация переработана на английские и немецкие страницы.",
+                "pt": "Muitos tipos de entidade podem agora ser configurados manualmente com seletores de objetos: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker e person.\nOs aspiradores robô passam também a ser detetados automaticamente.\ndevice_tracker/person podem mostrar presença, GPS, bateria, uma imagem e (device_tracker) um tipo de fonte.\nCorrigido: o history e o logbook por vezes deixavam de carregar passado algum tempo.\nCorrigido: sala e função trocadas no nome gerado automaticamente das luzes avançadas.\nRemovido o banner da app Home Assistant no iPhone e a documentação foi reorganizada em páginas em inglês e alemão.",
+                "nl": "Veel entiteitstypen kunnen nu handmatig met objectkiezers worden geconfigureerd: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker en person.\nRobotstofzuigers worden nu ook automatisch herkend.\ndevice_tracker/person kunnen aanwezigheid, GPS, batterij, een afbeelding en (device_tracker) een brontype tonen.\nOpgelost: history en logbook stopten soms na een tijdje met laden.\nOpgelost: kamer en functie waren verwisseld in de automatisch gegenereerde naam van geavanceerde lampen.\nDe Home Assistant-app-banner op de iPhone is verwijderd en de documentatie is heringedeeld in Engelse en Duitse pagina's.",
+                "fr": "De nombreux types d'entités peuvent désormais être configurés manuellement avec des sélecteurs d'objets : light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker et person.\nLes aspirateurs robots sont désormais aussi détectés automatiquement.\ndevice_tracker/person peuvent afficher la présence, le GPS, la batterie, une image et (device_tracker) un type de source.\nCorrigé : l'history et le logbook s'arrêtaient parfois de charger au bout d'un moment.\nCorrigé : pièce et fonction inversées dans le nom généré automatiquement des lumières avancées.\nLa bannière de l'app Home Assistant sur iPhone a été supprimée et la documentation réorganisée en pages anglaises et allemandes.",
+                "it": "Molti tipi di entità ora si possono configurare manualmente con i selettori di oggetti: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker e person.\nI robot aspirapolvere ora vengono anche rilevati automaticamente.\ndevice_tracker/person possono mostrare presenza, GPS, batteria, un'immagine e (device_tracker) un tipo di sorgente.\nCorretto: history e logbook a volte smettevano di caricarsi dopo un po'.\nCorretto: stanza e funzione invertite nel nome generato automaticamente delle luci avanzate.\nRimosso il banner dell'app Home Assistant su iPhone e riorganizzata la documentazione in pagine inglesi e tedesche.",
+                "es": "Muchos tipos de entidad ahora se pueden configurar manualmente con selectores de objetos: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker y person.\nLas aspiradoras robot ahora también se detectan automáticamente.\ndevice_tracker/person pueden mostrar presencia, GPS, batería, una imagen y (device_tracker) un tipo de fuente.\nCorregido: history y logbook a veces dejaban de cargar tras un rato.\nCorregido: sala y función intercambiadas en el nombre generado automáticamente de las luces avanzadas.\nSe eliminó el banner de la app de Home Assistant en iPhone y se reorganizó la documentación en páginas en inglés y alemán.",
+                "pl": "Wiele typów encji można teraz konfigurować ręcznie za pomocą selektorów obiektów: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker i person.\nOdkurzacze automatyczne są teraz również wykrywane automatycznie.\ndevice_tracker/person mogą pokazywać obecność, GPS, baterię, obraz i (device_tracker) typ źródła.\nNaprawiono: history i logbook czasami przestawały się ładować po pewnym czasie.\nNaprawiono: pomieszczenie i funkcja zamienione w automatycznie generowanej nazwie zaawansowanych świateł.\nUsunięto baner aplikacji Home Assistant na iPhonie, a dokumentację podzielono na strony angielskie i niemieckie.",
+                "uk": "Багато типів сутностей тепер можна налаштувати вручну за допомогою вибору об'єктів: light, thermostat, cover, lock, media_player, fan, vacuum, humidifier, water_heater, device_tracker та person.\nРоботи-пилососи тепер також визначаються автоматично.\ndevice_tracker/person можуть показувати присутність, GPS, заряд батареї, зображення та (device_tracker) тип джерела.\nВиправлено: history і logbook іноді переставали завантажуватися через деякий час.\nВиправлено: кімната і функція мінялися місцями в автоматично згенерованому імені розширених джерел світла.\nВидалено банер застосунку Home Assistant на iPhone, а документацію переструктуровано на англійські та німецькі сторінки.",
+                "zh-cn": "现在可以通过对象选择器手动配置许多实体类型：light、thermostat、cover、lock、media_player、fan、vacuum、humidifier、water_heater、device_tracker 和 person。\n现在也能自动识别扫地机器人。\ndevice_tracker/person 可显示在场状态、GPS、电量、图片以及（device_tracker）来源类型。\n修复：history 和 logbook 有时一段时间后停止加载。\n修复：高级灯具自动生成的名称中房间和功能被调换。\n移除了 iPhone 上的 Home Assistant 应用横幅，并将文档重新整理为英文和德文页面。"
+            },
+            "6.0.4": {
+                "en": "Limit the number of history points fetched per request, so a large history graph can no longer overload the states database.\nManual entities on system/script objects (e.g. a JavaScript adapter state) no longer disappear after a restart.\nManual entities now honor the name and icon set via the frontend, and editing them no longer briefly reverts the change.",
+                "de": "Die Anzahl der pro Anfrage abgerufenen Verlaufspunkte wird begrenzt, sodass ein großer Verlaufsgraph die States-Datenbank nicht mehr überlasten kann.\nManuelle Entitäten auf System-/Script-Objekten (z. B. einem Status des JavaScript-Adapters) verschwinden nach einem Neustart nicht mehr.\nManuelle Entitäten übernehmen jetzt den im Frontend gesetzten Namen und das Symbol, und beim Bearbeiten wird die Änderung nicht mehr kurz zurückgesetzt.",
+                "ru": "Количество точек истории, запрашиваемых за один раз, теперь ограничено, поэтому большой график истории больше не может перегружать базу данных состояний.\nРучные сущности на объектах system/script (например, состояние адаптера JavaScript) больше не исчезают после перезапуска.\nРучные сущности теперь учитывают имя и значок, заданные во фронтенде, а при редактировании изменение больше не сбрасывается на короткое время.",
+                "pt": "O número de pontos de histórico obtidos por pedido é agora limitado, para que um gráfico de histórico grande já não sobrecarregue a base de dados de estados.\nEntidades manuais em objetos system/script (por exemplo, um estado do adaptador JavaScript) já não desaparecem após um reinício.\nAs entidades manuais passam a respeitar o nome e o ícone definidos no frontend, e a edição já não reverte brevemente a alteração.",
+                "nl": "Het aantal per aanvraag opgehaalde geschiedenispunten is nu beperkt, zodat een grote geschiedenisgrafiek de states-database niet meer kan overbelasten.\nHandmatige entiteiten op system-/script-objecten (bijv. een status van de JavaScript-adapter) verdwijnen niet meer na een herstart.\nHandmatige entiteiten nemen nu de in de frontend ingestelde naam en het pictogram over, en bij het bewerken wordt de wijziging niet meer kort teruggezet.",
+                "fr": "Le nombre de points d'historique récupérés par requête est désormais limité, de sorte qu'un grand graphique d'historique ne peut plus surcharger la base de données des états.\nLes entités manuelles sur des objets system/script (par exemple un état de l'adaptateur JavaScript) ne disparaissent plus après un redémarrage.\nLes entités manuelles respectent désormais le nom et l'icône définis dans le frontend, et leur modification ne revient plus brièvement en arrière.",
+                "it": "Il numero di punti dello storico recuperati per richiesta è ora limitato, così un grande grafico dello storico non può più sovraccaricare il database degli stati.\nLe entità manuali su oggetti system/script (ad es. uno stato dell'adattatore JavaScript) non scompaiono più dopo un riavvio.\nLe entità manuali ora rispettano il nome e l'icona impostati nel frontend, e la loro modifica non viene più annullata per un istante.",
+                "es": "El número de puntos de historial obtenidos por solicitud ahora está limitado, de modo que un gráfico de historial grande ya no puede sobrecargar la base de datos de estados.\nLas entidades manuales en objetos system/script (por ejemplo, un estado del adaptador JavaScript) ya no desaparecen tras un reinicio.\nLas entidades manuales ahora respetan el nombre y el icono establecidos en el frontend, y al editarlas el cambio ya no se revierte por un momento.",
+                "pl": "Liczba punktów historii pobieranych na żądanie jest teraz ograniczona, więc duży wykres historii nie może już przeciążyć bazy danych stanów.\nRęczne encje na obiektach system/script (np. stan adaptera JavaScript) nie znikają już po restarcie.\nRęczne encje uwzględniają teraz nazwę i ikonę ustawione we frontendzie, a ich edycja nie cofa już na chwilę zmiany.",
+                "uk": "Кількість точок історії, що завантажуються за один запит, тепер обмежена, тож великий графік історії більше не перевантажує базу даних станів.\nРучні сутності на об'єктах system/script (наприклад, стан адаптера JavaScript) більше не зникають після перезапуску.\nРучні сутності тепер враховують ім'я та піктограму, задані у фронтенді, а їх редагування більше не скидає зміну на коротку мить.",
+                "zh-cn": "现在限制了每次请求获取的历史数据点数量，因此较大的历史图表不会再使状态数据库过载。\n系统/脚本对象上的手动实体（例如 JavaScript 适配器的某个状态）在重启后不再消失。\n手动实体现在会采用在前端设置的名称和图标，并且编辑时不再短暂地还原更改。"
+            },
+            "6.0.3": {
+                "en": "Manually mapped objects outside alias.0 no longer disappear after a restart when \"only generate from alias\" is active.\nThe number of concurrent history requests is now limited to avoid overloading the states-database connection.\nFixed a crash in the map card caused by history updates without attributes.\nThe browser tab title setting was removed; set the dashboard title instead.",
+                "de": "Manuell zugeordnete Objekte außerhalb von alias.0 verschwinden nach einem Neustart nicht mehr, wenn \"nur aus Alias erzeugen\" aktiv ist.\nDie Anzahl gleichzeitiger Verlaufsanfragen wird jetzt begrenzt, um die Verbindung zur States-Datenbank nicht zu überlasten.\nAbsturz in der Karten-Karte (Map) behoben, der durch Verlaufsupdates ohne Attribute verursacht wurde.\nDie Einstellung für den Browser-Tab-Titel wurde entfernt; setze stattdessen den Dashboard-Titel.",
+                "ru": "Вручную сопоставленные объекты вне alias.0 больше не исчезают после перезапуска, когда включено \"создавать только из alias\".\nКоличество одновременных запросов истории теперь ограничено, чтобы не перегружать соединение с базой данных состояний.\nИсправлён сбой в карточке карты, вызванный обновлениями истории без атрибутов.\nНастройка заголовка вкладки браузера удалена; задайте вместо неё заголовок панели.",
+                "pt": "Objetos mapeados manualmente fora de alias.0 já não desaparecem após um reinício quando \"gerar apenas a partir de alias\" está ativo.\nO número de pedidos de histórico simultâneos é agora limitado para não sobrecarregar a ligação à base de dados de estados.\nCorrigida uma falha no cartão de mapa causada por atualizações de histórico sem atributos.\nA configuração do título da aba do navegador foi removida; defina antes o título do painel.",
+                "nl": "Handmatig toegewezen objecten buiten alias.0 verdwijnen niet meer na een herstart wanneer \"alleen uit alias genereren\" actief is.\nHet aantal gelijktijdige geschiedenisaanvragen is nu beperkt om de verbinding met de states-database niet te overbelasten.\nEen crash in de kaartkaart door geschiedenisupdates zonder attributen is opgelost.\nDe instelling voor de browsertabtitel is verwijderd; stel in plaats daarvan de dashboardtitel in.",
+                "fr": "Les objets mappés manuellement en dehors de alias.0 ne disparaissent plus après un redémarrage lorsque \"générer uniquement à partir des alias\" est actif.\nLe nombre de requêtes d'historique simultanées est désormais limité pour ne pas surcharger la connexion à la base de données des états.\nCorrection d'un plantage de la carte (map) causé par des mises à jour d'historique sans attributs.\nLe réglage du titre d'onglet du navigateur a été supprimé ; définissez plutôt le titre du tableau de bord.",
+                "it": "Gli oggetti mappati manualmente al di fuori di alias.0 non scompaiono più dopo un riavvio quando è attivo \"genera solo dagli alias\".\nIl numero di richieste di storico simultanee è ora limitato per non sovraccaricare la connessione al database degli stati.\nCorretto un crash nella scheda mappa causato da aggiornamenti dello storico senza attributi.\nL'impostazione del titolo della scheda del browser è stata rimossa; imposta invece il titolo della dashboard.",
+                "es": "Los objetos mapeados manualmente fuera de alias.0 ya no desaparecen tras un reinicio cuando está activo \"generar solo a partir de alias\".\nEl número de solicitudes de historial simultáneas ahora está limitado para no sobrecargar la conexión a la base de datos de estados.\nCorregido un fallo en la tarjeta de mapa causado por actualizaciones de historial sin atributos.\nSe eliminó el ajuste del título de la pestaña del navegador; define en su lugar el título del panel.",
+                "pl": "Ręcznie zmapowane obiekty spoza alias.0 nie znikają już po restarcie, gdy aktywna jest opcja \"generuj tylko z aliasów\".\nLiczba jednoczesnych zapytań o historię jest teraz ograniczona, aby nie przeciążać połączenia z bazą danych stanów.\nNaprawiono awarię karty mapy powodowaną przez aktualizacje historii bez atrybutów.\nUsunięto ustawienie tytułu karty przeglądarki; zamiast tego ustaw tytuł pulpitu.",
+                "uk": "Вручну зіставлені об'єкти поза alias.0 більше не зникають після перезапуску, коли активно \"створювати лише з alias\".\nКількість одночасних запитів історії тепер обмежена, щоб не перевантажувати з'єднання з базою даних станів.\nВиправлено збій у картці карти, спричинений оновленнями історії без атрибутів.\nНалаштування заголовка вкладки браузера видалено; задайте натомість заголовок панелі.",
+                "zh-cn": "当启用“仅从别名生成”时，alias.0 之外手动映射的对象在重启后不再消失。\n现在限制了并发历史请求的数量，以避免使状态数据库连接过载。\n修复了地图卡片因历史更新缺少属性而导致的崩溃。\n已移除浏览器标签页标题设置；请改为设置仪表板标题。"
+            },
+            "6.0.2": {
+                "en": "Reduced object-database load and removed leftover debug logging.\nbrowser_mod re-applies its settings (e.g. a hidden sidebar) after a browser registers, so it should no longer need an F5.\nAbove ~50 referenced states the adapter subscribes to all states at once and filters them itself, to reduce database load.\nStatistics history is now fetched in pages, so a large energy/history request can no longer overload the states database.",
+                "de": "Geringere Last auf der Objekt-Datenbank und übrig gebliebene Debug-Logs entfernt.\nbrowser_mod wendet seine Einstellungen (z. B. eine ausgeblendete Seitenleiste) nach der Registrierung eines Browsers erneut an, sodass kein F5 mehr nötig sein sollte.\nAb ~50 referenzierten States abonniert der Adapter alle States auf einmal und filtert selbst, um die Datenbank zu entlasten.\nStatistik-Verlauf wird jetzt seitenweise abgerufen, sodass eine große Energie-/Verlaufsanfrage die States-Datenbank nicht mehr überlasten kann.",
+                "ru": "Снижена нагрузка на базу данных объектов, удалено оставшееся отладочное логирование.\nbrowser_mod повторно применяет свои настройки (например, скрытую боковую панель) после регистрации браузера, поэтому F5 больше не требуется.\nПри более чем ~50 используемых состояниях адаптер подписывается на все состояния сразу и фильтрует их сам, снижая нагрузку на базу данных.\nИстория для статистики теперь запрашивается постранично, поэтому большой запрос энергии/истории больше не перегружает базу данных состояний.",
+                "pt": "Carga reduzida na base de dados de objetos e remoção de logs de depuração esquecidos.\nO browser_mod reaplica as suas definições (por exemplo, uma barra lateral oculta) depois de um navegador se registar, por isso já não deve ser preciso F5.\nAcima de ~50 estados referenciados, o adaptador subscreve todos os estados de uma vez e filtra-os ele próprio, para reduzir a carga da base de dados.\nO histórico das estatísticas é agora obtido em páginas, por isso um pedido grande de energia/histórico já não sobrecarrega a base de dados de estados.",
+                "nl": "Lagere belasting van de objectdatabase en achtergebleven debug-logging verwijderd.\nbrowser_mod past zijn instellingen (bijv. een verborgen zijbalk) opnieuw toe nadat een browser zich registreert, zodat een F5 niet meer nodig zou moeten zijn.\nBoven ~50 gebruikte states abonneert de adapter zich in één keer op alle states en filtert zelf, om de database te ontlasten.\nStatistiekgeschiedenis wordt nu in pagina's opgehaald, zodat een grote energie-/geschiedenisaanvraag de states-database niet meer kan overbelasten.",
+                "fr": "Charge réduite sur la base de données des objets et journaux de débogage résiduels supprimés.\nbrowser_mod réapplique ses réglages (par exemple une barre latérale masquée) après l'enregistrement d'un navigateur, de sorte qu'un F5 ne devrait plus être nécessaire.\nAu-delà d'environ 50 états référencés, l'adaptateur s'abonne à tous les états d'un coup et les filtre lui-même, pour alléger la base de données.\nL'historique des statistiques est désormais récupéré par pages, de sorte qu'une grosse requête énergie/historique ne peut plus surcharger la base de données des états.",
+                "it": "Carico ridotto sul database degli oggetti e rimossi i log di debug rimasti.\nbrowser_mod riapplica le sue impostazioni (ad es. una barra laterale nascosta) dopo la registrazione di un browser, così non dovrebbe più servire un F5.\nOltre ~50 stati referenziati l'adattatore si iscrive a tutti gli stati in una volta e li filtra da sé, per ridurre il carico del database.\nLo storico delle statistiche ora viene recuperato a pagine, così una richiesta grande di energia/storico non può più sovraccaricare il database degli stati.",
+                "es": "Menor carga en la base de datos de objetos y eliminación de registros de depuración sobrantes.\nbrowser_mod vuelve a aplicar sus ajustes (por ejemplo, una barra lateral oculta) después de que un navegador se registra, así que ya no debería hacer falta F5.\nPor encima de ~50 estados referenciados, el adaptador se suscribe a todos los estados de una vez y los filtra él mismo, para reducir la carga de la base de datos.\nEl historial de estadísticas ahora se obtiene por páginas, de modo que una solicitud grande de energía/historial ya no puede sobrecargar la base de datos de estados.",
+                "pl": "Zmniejszone obciążenie bazy danych obiektów i usunięte pozostawione logi debugowania.\nbrowser_mod ponownie stosuje swoje ustawienia (np. ukryty pasek boczny) po zarejestrowaniu przeglądarki, więc F5 nie powinno już być potrzebne.\nPowyżej ~50 używanych stanów adapter subskrybuje wszystkie stany naraz i sam je filtruje, aby odciążyć bazę danych.\nHistoria statystyk jest teraz pobierana stronami, więc duże zapytanie o energię/historię nie może już przeciążyć bazy danych stanów.",
+                "uk": "Зменшено навантаження на базу даних об'єктів і видалено залишкове налагоджувальне логування.\nbrowser_mod повторно застосовує свої налаштування (наприклад, приховану бічну панель) після реєстрації браузера, тож F5 більше не потрібен.\nЗа понад ~50 використовуваних станів адаптер підписується на всі стани одразу й фільтрує їх сам, щоб зменшити навантаження на базу даних.\nІсторія для статистики тепер завантажується посторінково, тож великий запит енергії/історії більше не перевантажує базу даних станів.",
+                "zh-cn": "降低了对象数据库的负载，并移除了遗留的调试日志。\nbrowser_mod 在浏览器注册后会重新应用其设置（例如隐藏的侧边栏），因此应该不再需要按 F5。\n当引用的状态超过约 50 个时，适配器会一次性订阅所有状态并自行过滤，以减轻数据库负载。\n统计历史数据现在分页获取，因此较大的能源/历史请求不会再使状态数据库过载。"
+            },
+            "6.0.1": {
+                "en": "Fixed the energy dashboard and statistics-based history graphs that stayed empty or crashed (recorder/statistics_during_period read the history values from the wrong field and returned an empty/mis-shaped result).\nNeeds a history/SQL/InfluxDB instance with logging enabled for the relevant states.",
+                "de": "Energie-Dashboard und statistikbasierte Verlaufsdiagramme behoben, die leer blieben oder abstürzten (recorder/statistics_during_period las die Verlaufswerte aus dem falschen Feld und lieferte ein leeres/falsch geformtes Ergebnis).\nBenötigt eine History-/SQL-/InfluxDB-Instanz, bei der das Loggen für die betreffenden States aktiviert ist.",
+                "ru": "Исправлены панель энергии и графики истории на основе статистики, которые оставались пустыми или вызывали сбой (recorder/statistics_during_period читал значения истории из неправильного поля и возвращал пустой/некорректный результат).\nТребуется экземпляр history/SQL/InfluxDB с включённым логированием для соответствующих состояний.",
+                "pt": "Corrigidos o painel de energia e os gráficos de histórico baseados em estatísticas que ficavam vazios ou travavam (recorder/statistics_during_period lia os valores do histórico do campo errado e retornava um resultado vazio/malformado).\nRequer uma instância history/SQL/InfluxDB com registo ativado para os estados relevantes.",
+                "nl": "Energiedashboard en op statistieken gebaseerde geschiedenisgrafieken hersteld die leeg bleven of crashten (recorder/statistics_during_period las de geschiedeniswaarden uit het verkeerde veld en gaf een leeg/verkeerd gevormd resultaat).\nVereist een history/SQL/InfluxDB-instantie met logging ingeschakeld voor de betreffende states.",
+                "fr": "Correction du tableau de bord énergie et des graphiques d'historique basés sur les statistiques qui restaient vides ou plantaient (recorder/statistics_during_period lisait les valeurs de l'historique dans le mauvais champ et renvoyait un résultat vide/mal formé).\nNécessite une instance history/SQL/InfluxDB avec la journalisation activée pour les états concernés.",
+                "it": "Corretti la dashboard dell'energia e i grafici della cronologia basati sulle statistiche che restavano vuoti o andavano in crash (recorder/statistics_during_period leggeva i valori della cronologia dal campo sbagliato e restituiva un risultato vuoto/malformato).\nRichiede un'istanza history/SQL/InfluxDB con il logging abilitato per gli stati interessati.",
+                "es": "Corregidos el panel de energía y los gráficos de historial basados en estadísticas que se quedaban vacíos o se bloqueaban (recorder/statistics_during_period leía los valores del historial del campo equivocado y devolvía un resultado vacío/malformado).\nRequiere una instancia history/SQL/InfluxDB con el registro habilitado para los estados correspondientes.",
+                "pl": "Naprawiono pulpit energii oraz oparte na statystykach wykresy historii, które pozostawały puste lub się zawieszały (recorder/statistics_during_period odczytywał wartości historii z niewłaściwego pola i zwracał pusty/źle uformowany wynik).\nWymaga instancji history/SQL/InfluxDB z włączonym logowaniem dla odpowiednich stanów.",
+                "uk": "Виправлено панель енергії та графіки історії на основі статистики, які залишалися порожніми або аварійно завершувалися (recorder/statistics_during_period читав значення історії з неправильного поля та повертав порожній/некоректний результат).\nПотрібен екземпляр history/SQL/InfluxDB з увімкненим логуванням для відповідних станів.",
+                "zh-cn": "修复了能源仪表板和基于统计的历史图表为空或崩溃的问题（recorder/statistics_during_period 从错误的字段读取历史值，并返回空的/格式错误的结果）。\n需要已配置的 history/SQL/InfluxDB 实例，并为相关状态启用日志记录。"
+            },
+            "6.0.0": {
+                "en": "BREAKING: Updated to a new Home Assistant frontend - custom themes may need adjusting (see the theme migration guide).\nBREAKING: Internal storage objects moved into a new 'storage' folder; they are migrated automatically, update script paths if you reference them.\nFull dashboard support: create, manage and switch dashboards; the main dashboard can be renamed, re-iconed or hidden.\nConfigure entities directly from the frontend, including the entity_id.\nRenaming a manually configured entity in the frontend now sticks (saved to the source object).\nFrontend settings (theme, dark mode, sidebar order) are now saved.\nEnergy, History and Logbook panels; a device's electricity states (power, current, voltage, energy) are exposed as sensors for the energy dashboard.\nMarkdown and template cards can now use Home Assistant templates (states(), is_state, state_attr, now(), …) next to ioBroker {id} bindings.\nRoom and function names are shown in your configured language.\nCustomizable browser tab and PWA app name, configurable automatic entity_id format, and default sidebar/header visibility for new browsers via instances.hideSidebar / instances.hideHeader.",
+                "de": "BREAKING: Neues Home-Assistant-Frontend - eigene Themes müssen evtl. angepasst werden (siehe Theme-Migrations-Anleitung).\nBREAKING: Interne Speicher-Objekte liegen jetzt im Ordner 'storage'; sie werden automatisch migriert, passe Skript-Pfade an, falls du sie verwendest.\nVolle Dashboard-Unterstützung: Dashboards anlegen, verwalten und wechseln; das Haupt-Dashboard kann umbenannt, mit Icon versehen oder ausgeblendet werden.\nEntitäten direkt im Frontend konfigurieren, inklusive der entity_id.\nDas Umbenennen einer manuell konfigurierten Entität im Frontend bleibt jetzt erhalten (im Quellobjekt gespeichert).\nFrontend-Einstellungen (Theme, Dark-Mode, Reihenfolge der Seitenleiste) werden jetzt gespeichert.\nEnergie-, History- und Logbuch-Panel; Strom-States eines Geräts (Leistung, Strom, Spannung, Energie) werden als Sensoren für das Energie-Dashboard bereitgestellt.\nMarkdown- und Template-Karten können jetzt Home-Assistant-Templates (states(), is_state, state_attr, now(), …) neben ioBroker-{id}-Bindings nutzen.\nRaum- und Funktionsnamen werden in deiner eingestellten Sprache angezeigt.\nAnpassbarer Browser-Tab- und PWA-App-Name, konfigurierbares automatisches entity_id-Format und Standard-Sichtbarkeit von Seitenleiste/Kopfzeile für neue Browser über instances.hideSidebar / instances.hideHeader.",
+                "ru": "BREAKING: Новый фронтенд Home Assistant - собственные темы могут потребовать корректировки (см. руководство по миграции тем).\nBREAKING: Внутренние объекты хранилища перемещены в новую папку 'storage'; они мигрируются автоматически, обновите пути в скриптах, если вы их используете.\nПолная поддержка панелей: создание, управление и переключение; главную панель можно переименовать, сменить значок или скрыть.\nНастройка сущностей прямо из интерфейса, включая entity_id.\nПереименование вручную настроенной сущности в интерфейсе теперь сохраняется (записывается в исходный объект).\nНастройки интерфейса (тема, тёмный режим, порядок боковой панели) теперь сохраняются.\nПанели Energy, History и Logbook; состояния электроэнергии устройства (мощность, ток, напряжение, энергия) предоставляются как сенсоры для панели энергии.\nКарточки Markdown и template теперь могут использовать шаблоны Home Assistant (states(), is_state, state_attr, now(), …) наряду с привязками ioBroker {id}.\nИмена комнат и функций отображаются на выбранном языке.\nНастраиваемое имя вкладки браузера и PWA-приложения, настраиваемый формат автоматического entity_id и видимость боковой панели/заголовка по умолчанию для новых браузеров через instances.hideSidebar / instances.hideHeader.",
+                "pt": "BREAKING: Novo frontend do Home Assistant - temas personalizados podem precisar de ajustes (consulte o guia de migração de temas).\nBREAKING: Objetos de armazenamento internos movidos para uma nova pasta 'storage'; são migrados automaticamente, atualize os caminhos nos scripts se os referenciar.\nSuporte completo a dashboards: criar, gerenciar e alternar; o dashboard principal pode ser renomeado, ter o ícone alterado ou ser ocultado.\nConfigure entidades diretamente no frontend, incluindo o entity_id.\nRenomear uma entidade configurada manualmente no frontend agora é mantido (salvo no objeto de origem).\nAs configurações do frontend (tema, modo escuro, ordem da barra lateral) agora são salvas.\nPainéis Energy, History e Logbook; os estados elétricos de um dispositivo (potência, corrente, tensão, energia) são expostos como sensores para o painel de energia.\nCartões Markdown e template agora podem usar templates do Home Assistant (states(), is_state, state_attr, now(), …) além dos bindings {id} do ioBroker.\nNomes de cômodos e funções são exibidos no idioma configurado.\nNome personalizável da aba do navegador e do app PWA, formato automático de entity_id configurável e visibilidade padrão da barra lateral/cabeçalho para novos navegadores via instances.hideSidebar / instances.hideHeader.",
+                "nl": "BREAKING: Nieuwe Home Assistant-frontend - eigen thema's moeten mogelijk worden aangepast (zie de handleiding voor themamigratie).\nBREAKING: Interne opslagobjecten verplaatst naar een nieuwe map 'storage'; ze worden automatisch gemigreerd, werk scriptpaden bij als je ernaar verwijst.\nVolledige dashboardondersteuning: dashboards aanmaken, beheren en wisselen; het hoofd-dashboard kan worden hernoemd, van een ander icoon worden voorzien of verborgen.\nConfigureer entiteiten rechtstreeks vanuit de frontend, inclusief de entity_id.\nHet hernoemen van een handmatig geconfigureerde entiteit in de frontend blijft nu behouden (opgeslagen in het bronobject).\nFrontend-instellingen (thema, donkere modus, volgorde van de zijbalk) worden nu opgeslagen.\nEnergy-, History- en Logbook-panelen; de elektrische statussen van een apparaat (vermogen, stroom, spanning, energie) worden als sensoren beschikbaar gesteld voor het energiedashboard.\nMarkdown- en template-kaarten kunnen nu Home Assistant-templates (states(), is_state, state_attr, now(), …) gebruiken naast ioBroker {id}-bindings.\nKamer- en functienamen worden in je ingestelde taal weergegeven.\nAanpasbare browsertab- en PWA-app-naam, configureerbaar automatisch entity_id-formaat en standaard zichtbaarheid van zijbalk/koptekst voor nieuwe browsers via instances.hideSidebar / instances.hideHeader.",
+                "fr": "BREAKING : Nouveau frontend Home Assistant - les thèmes personnalisés peuvent nécessiter des ajustements (voir le guide de migration des thèmes).\nBREAKING : Les objets de stockage internes ont été déplacés dans un nouveau dossier 'storage' ; ils sont migrés automatiquement, mettez à jour les chemins dans les scripts si vous les référencez.\nPrise en charge complète des tableaux de bord : créer, gérer et basculer ; le tableau de bord principal peut être renommé, voir son icône modifiée ou être masqué.\nConfigurez les entités directement depuis le frontend, y compris l'entity_id.\nLe renommage d'une entité configurée manuellement dans le frontend est désormais conservé (enregistré dans l'objet source).\nLes paramètres du frontend (thème, mode sombre, ordre de la barre latérale) sont désormais enregistrés.\nPanneaux Energy, History et Logbook ; les états électriques d'un appareil (puissance, courant, tension, énergie) sont exposés comme capteurs pour le tableau de bord énergie.\nLes cartes Markdown et template peuvent désormais utiliser les templates Home Assistant (states(), is_state, state_attr, now(), …) en plus des liaisons {id} d'ioBroker.\nLes noms de pièces et de fonctions sont affichés dans la langue configurée.\nNom personnalisable de l'onglet du navigateur et de l'app PWA, format d'entity_id automatique configurable et visibilité par défaut de la barre latérale/en-tête pour les nouveaux navigateurs via instances.hideSidebar / instances.hideHeader.",
+                "it": "BREAKING: Nuovo frontend di Home Assistant - i temi personalizzati potrebbero richiedere modifiche (vedi la guida alla migrazione dei temi).\nBREAKING: Gli oggetti di archiviazione interni sono stati spostati in una nuova cartella 'storage'; vengono migrati automaticamente, aggiorna i percorsi negli script se li referenzi.\nSupporto completo alle dashboard: creare, gestire e cambiare; la dashboard principale può essere rinominata, può cambiare icona o essere nascosta.\nConfigura le entità direttamente dal frontend, incluso l'entity_id.\nLa rinomina di un'entità configurata manualmente nel frontend ora viene mantenuta (salvata nell'oggetto di origine).\nLe impostazioni del frontend (tema, modalità scura, ordine della barra laterale) ora vengono salvate.\nPannelli Energy, History e Logbook; gli stati elettrici di un dispositivo (potenza, corrente, tensione, energia) sono esposti come sensori per la dashboard dell'energia.\nLe schede Markdown e template ora possono usare i template di Home Assistant (states(), is_state, state_attr, now(), …) oltre ai binding {id} di ioBroker.\nI nomi di stanze e funzioni vengono mostrati nella lingua configurata.\nNome personalizzabile della scheda del browser e dell'app PWA, formato automatico dell'entity_id configurabile e visibilità predefinita della barra laterale/intestazione per i nuovi browser tramite instances.hideSidebar / instances.hideHeader.",
+                "es": "BREAKING: Nuevo frontend de Home Assistant - los temas personalizados pueden necesitar ajustes (consulta la guía de migración de temas).\nBREAKING: Los objetos de almacenamiento internos se movieron a una nueva carpeta 'storage'; se migran automáticamente, actualiza las rutas en los scripts si los referencias.\nSoporte completo de paneles: crear, gestionar y cambiar; el panel principal se puede renombrar, cambiar su icono u ocultar.\nConfigura entidades directamente desde el frontend, incluido el entity_id.\nCambiar el nombre de una entidad configurada manualmente en el frontend ahora se conserva (se guarda en el objeto de origen).\nLos ajustes del frontend (tema, modo oscuro, orden de la barra lateral) ahora se guardan.\nPaneles Energy, History y Logbook; los estados eléctricos de un dispositivo (potencia, corriente, tensión, energía) se exponen como sensores para el panel de energía.\nLas tarjetas Markdown y template ahora pueden usar plantillas de Home Assistant (states(), is_state, state_attr, now(), …) junto a los bindings {id} de ioBroker.\nLos nombres de habitaciones y funciones se muestran en el idioma configurado.\nNombre personalizable de la pestaña del navegador y de la app PWA, formato automático de entity_id configurable y visibilidad predeterminada de la barra lateral/encabezado para nuevos navegadores mediante instances.hideSidebar / instances.hideHeader.",
+                "pl": "BREAKING: Nowy frontend Home Assistant - własne motywy mogą wymagać dostosowania (zobacz przewodnik migracji motywów).\nBREAKING: Wewnętrzne obiekty magazynu przeniesiono do nowego folderu 'storage'; są migrowane automatycznie, zaktualizuj ścieżki w skryptach, jeśli się do nich odwołujesz.\nPełna obsługa pulpitów: tworzenie, zarządzanie i przełączanie; pulpit główny można zmienić nazwę, ikonę lub ukryć.\nKonfiguruj encje bezpośrednio z interfejsu, w tym entity_id.\nZmiana nazwy ręcznie skonfigurowanej encji w interfejsie jest teraz zachowywana (zapisywana w obiekcie źródłowym).\nUstawienia interfejsu (motyw, tryb ciemny, kolejność paska bocznego) są teraz zapisywane.\nPanele Energy, History i Logbook; stany elektryczne urządzenia (moc, prąd, napięcie, energia) są udostępniane jako czujniki dla panelu energii.\nKarty Markdown i template mogą teraz używać szablonów Home Assistant (states(), is_state, state_attr, now(), …) obok powiązań {id} ioBroker.\nNazwy pomieszczeń i funkcji są wyświetlane w skonfigurowanym języku.\nKonfigurowalna nazwa karty przeglądarki i aplikacji PWA, konfigurowalny automatyczny format entity_id oraz domyślna widoczność paska bocznego/nagłówka dla nowych przeglądarek przez instances.hideSidebar / instances.hideHeader.",
+                "uk": "BREAKING: Новий фронтенд Home Assistant - власні теми можуть потребувати коригування (див. посібник з міграції тем).\nBREAKING: Внутрішні об'єкти сховища переміщено до нової теки 'storage'; вони мігруються автоматично, оновіть шляхи у скриптах, якщо ви на них посилаєтесь.\nПовна підтримка панелей: створення, керування та перемикання; головну панель можна перейменувати, змінити значок або приховати.\nНалаштування сутностей безпосередньо з інтерфейсу, включно з entity_id.\nПерейменування вручну налаштованої сутності в інтерфейсі тепер зберігається (записується в початковий об'єкт).\nНалаштування інтерфейсу (тема, темний режим, порядок бічної панелі) тепер зберігаються.\nПанелі Energy, History і Logbook; електричні стани пристрою (потужність, струм, напруга, енергія) надаються як сенсори для панелі енергії.\nКартки Markdown і template тепер можуть використовувати шаблони Home Assistant (states(), is_state, state_attr, now(), …) поряд із прив'язками {id} ioBroker.\nНазви кімнат і функцій відображаються вибраною мовою.\nНалаштовувана назва вкладки браузера та PWA-застосунку, налаштовуваний автоматичний формат entity_id і типова видимість бічної панелі/заголовка для нових браузерів через instances.hideSidebar / instances.hideHeader.",
+                "zh-cn": "BREAKING：全新的 Home Assistant 前端 - 自定义主题可能需要调整（请参阅主题迁移指南）。\nBREAKING：内部存储对象已移至新的 'storage' 文件夹；它们会自动迁移，如果你在脚本中引用了它们，请更新路径。\n完整的仪表板支持：创建、管理和切换；主仪表板可以重命名、更换图标或隐藏。\n直接从前端配置实体，包括 entity_id。\n在前端重命名手动配置的实体现在会保留（保存到源对象）。\n前端设置（主题、暗色模式、侧边栏顺序）现在会被保存。\nEnergy、History 和 Logbook 面板；设备的电气状态（功率、电流、电压、电能）作为传感器提供给能源仪表板。\nMarkdown 和 template 卡片现在可以使用 Home Assistant 模板（states()、is_state、state_attr、now() 等），与 ioBroker 的 {id} 绑定并存。\n房间和功能名称会以你配置的语言显示。\n可自定义的浏览器标签页和 PWA 应用名称、可配置的自动 entity_id 格式，以及通过 instances.hideSidebar / instances.hideHeader 设置新浏览器的侧边栏/标题默认可见性。"
+            },
+            "5.2.0": {
+                "en": "Fixed a possible crash of the more-info dialog.\nFixed manually configured automations (and other boolean entities) that showed true/false instead of on/off.\nAdded a sun.sun entity, calculated from the configured location.\nImages can now be uploaded from the frontend (for example dashboard background pictures).",
+                "de": "Möglichen Absturz des Mehr-Info-Dialogs behoben.\nManuell konfigurierte Automatisierungen (und andere boolesche Entitäten), die true/false statt on/off anzeigten, korrigiert.\nEine sun.sun-Entität hinzugefügt, die aus dem konfigurierten Standort berechnet wird.\nBilder können jetzt aus dem Frontend hochgeladen werden (z. B. Hintergrundbilder für Dashboards).",
+                "ru": "Исправлен возможный сбой диалога more-info.\nИсправлены вручную настроенные автоматизации (и другие логические сущности), которые показывали true/false вместо on/off.\nДобавлена сущность sun.sun, рассчитываемая по заданному местоположению.\nТеперь изображения можно загружать из интерфейса (например, фоновые изображения панелей).",
+                "pt": "Corrigido um possível travamento do diálogo more-info.\nCorrigidas automações configuradas manualmente (e outras entidades booleanas) que mostravam true/false em vez de on/off.\nAdicionada uma entidade sun.sun, calculada a partir da localização configurada.\nAgora é possível enviar imagens a partir do frontend (por exemplo, imagens de fundo do dashboard).",
+                "nl": "Mogelijke crash van het more-info-dialoogvenster opgelost.\nHandmatig geconfigureerde automatiseringen (en andere booleaanse entiteiten) die true/false toonden in plaats van on/off, opgelost.\nEen sun.sun-entiteit toegevoegd, berekend op basis van de geconfigureerde locatie.\nAfbeeldingen kunnen nu vanuit de frontend worden geüpload (bijvoorbeeld achtergrondafbeeldingen voor dashboards).",
+                "fr": "Correction d'un éventuel plantage de la boîte de dialogue more-info.\nCorrection des automatisations configurées manuellement (et autres entités booléennes) qui affichaient true/false au lieu de on/off.\nAjout d'une entité sun.sun, calculée à partir de l'emplacement configuré.\nLes images peuvent désormais être téléversées depuis le frontend (par exemple les images d'arrière-plan des tableaux de bord).",
+                "it": "Corretto un possibile arresto anomalo della finestra more-info.\nCorrette le automazioni configurate manualmente (e altre entità booleane) che mostravano true/false invece di on/off.\nAggiunta un'entità sun.sun, calcolata dalla posizione configurata.\nOra è possibile caricare immagini dal frontend (ad esempio immagini di sfondo delle dashboard).",
+                "es": "Corregido un posible fallo del diálogo more-info.\nCorregidas las automatizaciones configuradas manualmente (y otras entidades booleanas) que mostraban true/false en lugar de on/off.\nAñadida una entidad sun.sun, calculada a partir de la ubicación configurada.\nAhora se pueden subir imágenes desde el frontend (por ejemplo, imágenes de fondo de los paneles).",
+                "pl": "Naprawiono możliwą awarię okna dialogowego more-info.\nNaprawiono ręcznie skonfigurowane automatyzacje (i inne encje logiczne), które pokazywały true/false zamiast on/off.\nDodano encję sun.sun, obliczaną na podstawie skonfigurowanej lokalizacji.\nObrazy można teraz przesyłać z interfejsu (np. obrazy tła pulpitów).",
+                "uk": "Виправлено можливий збій діалогу more-info.\nВиправлено вручну налаштовані автоматизації (та інші логічні сутності), які показували true/false замість on/off.\nДодано сутність sun.sun, що обчислюється на основі заданого розташування.\nТепер зображення можна завантажувати з інтерфейсу (наприклад, фонові зображення панелей).",
+                "zh-cn": "修复了 more-info 对话框可能的崩溃。\n修复了手动配置的自动化（以及其他布尔实体）显示 true/false 而非 on/off 的问题。\n新增 sun.sun 实体，根据配置的位置进行计算。\n现在可以从前端上传图片（例如仪表板背景图片）。"
+            }
         },
-        "title": {
-          "en": "Major update: themes & object paths",
-          "de": "Großes Update: Themes & Objekt-Pfade",
-          "ru": "Крупное обновление: темы и пути объектов",
-          "pt": "Grande atualização: temas e caminhos de objetos",
-          "nl": "Grote update: thema's en objectpaden",
-          "fr": "Mise à jour majeure : thèmes et chemins d'objets",
-          "it": "Aggiornamento importante: temi e percorsi degli oggetti",
-          "es": "Actualización importante: temas y rutas de objetos",
-          "pl": "Duża aktualizacja: motywy i ścieżki obiektów",
-          "uk": "Велике оновлення: теми та шляхи об'єктів",
-          "zh-cn": "重大更新：主题与对象路径"
+        "titleLang": {
+            "en": "Visualization with Lovelace-UI",
+            "de": "Visualisierung mit Lovelace-UI",
+            "ru": "Визуализация с помощью Lovelace-UI",
+            "pt": "Visualização com Lovelace-UI",
+            "nl": "Visualisatie met Lovelace-UI",
+            "fr": "Visualisation avec Lovelace-UI",
+            "it": "Visualizzazione con Lovelace-UI",
+            "es": "Visualización con Lovelace-UI",
+            "pl": "Wizualizacja za pomocą Lovelace-UI",
+            "zh-cn": "使用Lovelace-UI进行可视化",
+            "uk": "Візуалізація за допомогою Lovelace-UI"
         },
-        "text": {
-          "en": "This major update ships a new Home Assistant frontend: custom themes may need adjusting (see the linked theme migration guide). Also, internal storage objects (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) moved into a new 'storage' folder. The adapter migrates them automatically; if you reference these object ids in scripts, update the paths.",
-          "de": "Dieses große Update bringt ein neues Home-Assistant-Frontend: eigene Themes müssen evtl. angepasst werden (siehe verlinkte Theme-Migrations-Anleitung). Außerdem liegen interne Speicher-Objekte (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) jetzt im Ordner 'storage'. Der Adapter migriert sie automatisch; falls du diese Objekt-IDs in Skripten verwendest, passe die Pfade an.",
-          "ru": "Это крупное обновление содержит новый фронтенд Home Assistant: собственные темы могут потребовать корректировки (см. руководство по миграции тем по ссылке). Кроме того, внутренние объекты хранилища (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) перемещены в новую папку 'storage'. Адаптер мигрирует их автоматически; если вы используете эти идентификаторы объектов в скриптах, обновите пути.",
-          "pt": "Esta grande atualização traz um novo frontend do Home Assistant: temas personalizados podem precisar de ajustes (consulte o guia de migração de temas no link). Além disso, os objetos de armazenamento internos (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) foram movidos para uma nova pasta 'storage'. O adaptador os migra automaticamente; se você referenciar esses ids de objeto em scripts, atualize os caminhos.",
-          "nl": "Deze grote update bevat een nieuwe Home Assistant-frontend: eigen thema's moeten mogelijk worden aangepast (zie de gelinkte handleiding voor themamigratie). Daarnaast zijn interne opslagobjecten (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) verplaatst naar een nieuwe map 'storage'. De adapter migreert ze automatisch; als je deze object-id's in scripts gebruikt, pas dan de paden aan.",
-          "fr": "Cette mise à jour majeure intègre un nouveau frontend Home Assistant : les thèmes personnalisés peuvent nécessiter des ajustements (voir le guide de migration des thèmes lié). De plus, les objets de stockage internes (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) ont été déplacés dans un nouveau dossier 'storage'. L'adaptateur les migre automatiquement ; si vous référencez ces ids d'objet dans des scripts, mettez à jour les chemins.",
-          "it": "Questo importante aggiornamento include un nuovo frontend di Home Assistant: i temi personalizzati potrebbero richiedere modifiche (vedi la guida alla migrazione dei temi collegata). Inoltre, gli oggetti di archiviazione interni (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) sono stati spostati in una nuova cartella 'storage'. L'adattatore li migra automaticamente; se fai riferimento a questi id di oggetto negli script, aggiorna i percorsi.",
-          "es": "Esta actualización importante incluye un nuevo frontend de Home Assistant: los temas personalizados pueden necesitar ajustes (consulta la guía de migración de temas enlazada). Además, los objetos de almacenamiento internos (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) se movieron a una nueva carpeta 'storage'. El adaptador los migra automáticamente; si haces referencia a estos ids de objeto en scripts, actualiza las rutas.",
-          "pl": "Ta duża aktualizacja zawiera nowy frontend Home Assistant: własne motywy mogą wymagać dostosowania (zobacz powiązany przewodnik migracji motywów). Ponadto wewnętrzne obiekty magazynu (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) zostały przeniesione do nowego folderu 'storage'. Adapter migruje je automatycznie; jeśli odwołujesz się do tych identyfikatorów obiektów w skryptach, zaktualizuj ścieżki.",
-          "uk": "Це велике оновлення містить новий фронтенд Home Assistant: власні теми можуть потребувати коригування (див. пов'язаний посібник з міграції тем). Крім того, внутрішні об'єкти сховища (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) переміщено до нової теки 'storage'. Адаптер мігрує їх автоматично; якщо ви посилаєтесь на ці ідентифікатори об'єктів у скриптах, оновіть шляхи.",
-          "zh-cn": "此重大更新带来了新的 Home Assistant 前端：自定义主题可能需要调整（请参阅链接的主题迁移指南）。此外，内部存储对象（entityRegistry、areaRegistry、energyPrefs、userData、dashboardStorage）已移至新的 'storage' 文件夹。适配器会自动迁移它们；如果你在脚本中引用了这些对象 id，请更新路径。"
-        },
-        "link": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/docs/theme_migration.md",
-        "linkText": {
-          "en": "Theme migration guide",
-          "de": "Theme-Migrations-Anleitung",
-          "ru": "Руководство по миграции тем",
-          "pt": "Guia de migração de temas",
-          "nl": "Handleiding voor themamigratie",
-          "fr": "Guide de migration des thèmes",
-          "it": "Guida alla migrazione dei temi",
-          "es": "Guía de migración de temas",
-          "pl": "Przewodnik migracji motywów",
-          "uk": "Посібник з міграції тем",
-          "zh-cn": "主题迁移指南"
-        },
-        "buttons": [
-          "agree",
-          "cancel"
-        ]
-      },
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<=2.0.0",
-            "newVersion>=3.0.0"
-          ]
-        },
-        "title": {
-          "en": "Visualisation Update",
-          "de": "Aktualisierung der Visualisierung",
-          "ru": "Обновление визуализации",
-          "pt": "Atualização da visualização",
-          "nl": "Visualisatie Update",
-          "fr": "Mise à jour de la visualisation",
-          "it": "Aggiornamento della visualizzazione",
-          "es": "Actualización de Visualización",
-          "pl": "Visualizacja",
-          "uk": "Оновлення візуалізації",
-          "zh-cn": "更新"
-        },
-        "text": {
-          "en": "The update to version 3.x will change frontend version from 20211229.0 to 20221026.0. This means 10 months development of Lovelace in one update. You will probably need to update or fix your themes and custom cards. Please make sure to check your visualization after this update. Ask in forum or discord for help.",
-          "de": "Das Update auf Version 3.x wird die Frontend Version von 20211229.0 auf 20221026.0 ändern. Dies bedeutet 10 Monate Entwicklung von Lovelace in einem Update. Sie müssen wahrscheinlich Ihre Themen und benutzerdefinierten Karten aktualisieren oder reparieren. Achten Sie darauf, Ihre Visualisierung nach diesem Update zu überprüfen. Fragen Sie im Forum oder Discord nach Hilfe.",
-          "ru": "Обновление до версии 3.x изменит версию frontend от 20211229.0 до 20221026.0 Это означает 10 месяцев разработки Lovelace в одном обновлении. Вам, вероятно, нужно обновить или исправить ваши темы и пользовательские карты. Пожалуйста, проверьте вашу визуализацию после этого обновления. Спросите на форуме или несогласно помощи.",
-          "pt": "A atualização para a versão 3.x mudará a versão do frontend de 20211229.0 para 20221026.0 Isso significa desenvolvimento de 10 meses do Lovelace em uma atualização. Você provavelmente precisará atualizar ou corrigir seus temas e cartões personalizados. Certifique-se de verificar sua visualização após esta atualização. Pergunte no fórum ou Discord para ajuda.",
-          "nl": "De update van versie 3.x zal de frontend versie veranderen van 20211229.0 tot 202226. Dit betekent 10 maanden ontwikkeling van Lovelace in één update. Je moet waarschijnlijk updaten of je thema's en kaarten repareren. Controleer uw visualisatie na deze update. Vraag in forum of Discord om hulp.",
-          "fr": "La mise à jour de la version 3.x va changer la version frontend de 20211229.0 à 20221026.0 Cela signifie 10 mois de développement de Lovelace dans une mise à jour. Vous devrez probablement mettre à jour ou corriger vos thèmes et vos cartes personnalisées. Assurez-vous de vérifier votre visualisation après cette mise à jour. Demandez de l'aide au forum ou à la Discord.",
-          "it": "L'aggiornamento alla versione 3.x cambierà la versione frontend da 20211229.0 a 20221026.0 Ciò significa 10 mesi di sviluppo di Lovelace in un unico aggiornamento. Probabilmente dovrai aggiornare o correggere i tuoi temi e le tue carte personalizzate. Assicurati di controllare la visualizzazione dopo questo aggiornamento. Chiedi aiuto in forum o Discord.",
-          "es": "La actualización a la versión 3.x cambiará la versión de frontend de 20211229.0 a 20221026.0 Esto significa desarrollo de 10 meses de Lovelace en una actualización. Probablemente necesite actualizar o arreglar sus temas y tarjetas personalizadas. Asegúrese de comprobar su visualización después de esta actualización. Pida ayuda en el foro o Discord.",
-          "pl": "Zaktualizowana wersja 3.x będzie zmieniała przednią wersję od 20211229.0 do 20221026.0. Oznacza to, że w jednym uaktualnianiu jest 10 miesięcy rozwój Lovelace. Prawdopodobnie potrzebuje uaktualnienia lub naprawienia swoich motywów i kart. Postanawia sprawdzić wizualizację po tej aktualizacji. Odpowiada za pomoc.",
-          "uk": "Оновлення версії 3.x змінить версію фронтенду з 20211229.0 до 20221026.0 Це означає 10 місяців розробки Lovelace в одному оновленні. Ви, ймовірно, повинні оновити або виправити ваші теми і спеціальні картки. Будь ласка, перевірте вашу візуалізацію після цього оновлення. Запитайте на форум або розпишіться на допомогу.",
-          "zh-cn": "更新后的3.x将改变20211229.0至20221026年的前沿版本。 这就意味着在更新的一年里发展了良机。 你很可能需要更新或确定你们的主题和习俗卡。 请确保在更新之后检查你的视觉。 论坛或有帮助的办事处。."
-        },
-        "link": "https://forum.iobroker.net/topic/34775/test-adapter-lovelace-v1-2-x/1324?_=1666881699892",
-        "level": "warn",
-        "linkText": {
-          "en": "A few issues with themes were already discussed here.",
-          "de": "Hier wurden bereits einige Themen diskutiert.",
-          "ru": "Здесь уже обсуждались несколько вопросов с темами.",
-          "pt": "Algumas questões com temas já foram discutidas aqui.",
-          "nl": "Een paar problemen met ze werden hier al besproken.",
-          "fr": "Quelques questions avec des thèmes ont déjà été discutées ici.",
-          "it": "Sono già state discusse alcune questioni con temi.",
-          "es": "Algunos temas con temas ya se discutieron aquí.",
-          "pl": "Omawiano tam kilka tematów.",
-          "uk": "Тут вже обговорювалися кілька питань з темами.",
-          "zh-cn": "这里已经讨论了几个专题的问题。."
-        },
-        "buttons": [
-          "agree",
-          "cancel"
-        ]
-      },
-      {
-        "condition": {
-          "operand": "and",
-          "rules": [
-            "oldVersion<=3.0.0",
-            "newVersion>=4.0.0"
-          ]
-        },
-        "title": {
-          "en": "Visualisation Update",
-          "de": "Aktualisierung der Visualisierung",
-          "ru": "Обновление визуализации",
-          "pt": "Atualização da visualização",
-          "nl": "Visualisatie Update",
-          "fr": "Mise à jour de la visualisation",
-          "it": "Aggiornamento della visualizzazione",
-          "es": "Actualización de Visualización",
-          "pl": "Visualizacja",
-          "uk": "Оновлення візуалізації",
-          "zh-cn": "更新"
-        },
-        "text": {
-          "en": "The update to version 4.x will change the frontend version from 20221026.0 to 20231208.2. This implies many months of Lovelace development in a single update. You will likely need to update or fix your themes and custom cards. Make sure to review your visualization after this update. Seek help in the forum or Discord if needed.",
-          "de": "Das Update auf Version 4.x wird die Frontend Version von 20221026.0 auf 20231208.2 ändern. Dies bedeutet 10 Monate Entwicklung von Lovelace in einem Update. Sie müssen wahrscheinlich Ihre Themen und benutzerdefinierten Karten aktualisieren oder reparieren. Achten Sie darauf, Ihre Visualisierung nach diesem Update zu überprüfen. Fragen Sie im Forum oder Discord nach Hilfe.",
-          "ru": "Обновление до версии 4.x изменит версию интерфейса с 20221026.0 на 20231208.2. Это означает многомесячную разработку Lovelace в рамках одного обновления. Вам, вероятно, придется обновить или исправить свои темы и пользовательские карты. Обязательно проверьте свою визуализацию после этого обновления. Задавайте вопросы на форуме или в Discord, если вам нужна помощь.",
-          "pt": "A atualização para a versão 4.x irá alterar a versão do frontend de 20221026.0 para 20231208.2. Isso significa muitos meses de desenvolvimento do Lovelace em uma única atualização. Você provavelmente precisará atualizar ou corrigir seus temas e cartões personalizados. Certifique-se de verificar sua visualização após esta atualização. Procure ajuda no fórum ou no Discord, se necessário.",
-          "nl": "De update naar versie 4.x zal de frontend-versie veranderen van 20221026.0 naar 20231208.2. Dit betekent vele maanden ontwikkeling van Lovelace in één update. Waarschijnlijk moet u uw thema's en aangepaste kaarten bijwerken of herstellen. Controleer na deze update uw visualisatie. Vraag om hulp op het forum of Discord indien nodig.",
-          "fr": "La mise à jour vers la version 4.x changera la version du frontend de 20221026.0 à 20231208.2. Cela signifie plusieurs mois de développement de Lovelace en une seule mise à jour. Vous devrez probablement mettre à jour ou réparer vos thèmes et cartes personnalisées. Assurez-vous de vérifier votre visualisation après cette mise à jour. Demandez de l'aide sur le forum ou sur Discord si nécessaire.",
-          "it": "L'aggiornamento alla versione 4.x cambierà la versione del frontend da 20221026.0 a 20231208.2. Ciò significa molti mesi di sviluppo di Lovelace in un singolo aggiornamento. Probabilmente sarà necessario aggiornare o correggere i temi e le carte personalizzate. Assicurati di controllare la tua visualizzazione dopo questo aggiornamento. Chiedi aiuto sul forum o su Discord se necessario.",
-          "es": "La actualización a la versión 4.x cambiará la versión del frontend de 20221026.0 a 20231208.2. Esto significa muchos meses de desarrollo de Lovelace en una sola actualización. Probablemente necesitarás actualizar o corregir tus temas y tarjetas personalizadas. Asegúrate de revisar tu visualización después de esta actualización. Busca ayuda en el foro o en Discord si es necesario.",
-          "pl": "Aktualizacja do wersji 4.x zmieni wersję frontendu z 20221026.0 na 20231208.2. Oznacza to wiele miesięcy rozwoju Lovelace w jednej aktualizacji. Prawdopodobnie będziesz musiał zaktualizować lub naprawić swoje motywy i niestandardowe karty. Upewnij się, że sprawdzisz swoją wizualizację po tej aktualizacji. Szukaj pomocy na forum lub Discord, jeśli to konieczne.",
-          "uk": "Оновлення до версії 4.x змінить версію фронтенду з 20221026.0 на 20231208.2. Це означає багато місяців розробки Lovelace у одному оновленні. Ймовірно, вам доведеться оновити або виправити свої теми та власні картки. Переконайтеся, що після цього оновлення ви переглянете свою візуалізацію. Звертайтеся за допомогою на форумі або в Discord, якщо потрібно.",
-          "zh-cn": "升级到4.x版本将把前端版本从20221026.0更改为20231208.2。这意味着在一个更新中进行了数月的Lovelace开发。您可能需要更新或修复您的主题和自定义卡片。请确保在此更新后检查您的可视化。如有需要，请在论坛或Discord上寻求帮助。"
-        },
-        "link": "https://forum.iobroker.net/topic/59435/test-lovelace-4-x/408?_=1705695186248",
-        "level": "warn",
-        "linkText": {
-          "en": "A few issues with themes were already discussed here.",
-          "de": "Hier wurden bereits einige Themen diskutiert.",
-          "ru": "Здесь уже обсуждались несколько вопросов с темами.",
-          "pt": "Algumas questões com temas já foram discutidas aqui.",
-          "nl": "Een paar problemen met ze werden hier al besproken.",
-          "fr": "Quelques questions avec des thèmes ont déjà été discutées ici.",
-          "it": "Sono già state discusse alcune questioni con temi.",
-          "es": "Algunos temas con temas ya se discutieron aquí.",
-          "pl": "Omawiano tam kilka tematów.",
-          "uk": "Тут вже обговорювалися кілька питань з темами.",
-          "zh-cn": "这里已经讨论了几个专题的问题。."
-        },
-        "buttons": [
-          "agree",
-          "cancel"
-        ]
-      }
-    ],
-    "dependencies": [
-      {
-        "js-controller": ">=6.0.11"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=7.6.20"
-      }
-    ]
-  },
-  "native": {
-    "history": "",
-    "historyMaxCount": 2000,
-    "port": 8091,
-    "auth": false,
-    "secure": false,
-    "bind": "0.0.0.0",
-    "certPublic": "",
-    "certPrivate": "",
-    "certChained": "",
-    "defaultUser": "admin",
-    "onlyAllowWhenUserIsOwner": false,
-    "ttl": 3600,
-    "showUsersOnLoginScreen": false,
-    "themes": "",
-    "defaultTheme": "default",
-    "defaultThemeDark": "default",
-    "leEnabled": false,
-    "leUpdate": false,
-    "leCheckPort": 80,
-    "aliasOnly": false,
-    "blindsInvert": false,
-    "alarmCheckCodeOnDisarmOnly": false,
-    "language": "",
-    "updateTimeout": 5000,
-    "logbookSource": "adapter",
-    "maxBrowserInstances": 10,
-    "pwaName": "ioBroker",
-    "pwaShortName": "IoB",
-    "autoEntityIdFormat": "name"
-  },
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.entitiesUpdated",
-      "type": "state",
-      "common": {
-        "name": "If the list of entities was updated",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "role": "indicator",
-        "def": false
-      }
-    },
-    {
-      "_id": "info.configUpdateProcessed",
-      "type": "state",
-      "common": {
-        "name": "If a config update was processed",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "role": "indicator",
-        "def": false
-      }
-    },
-    {
-      "_id": "info.readyForClients",
-      "type": "state",
-      "common": {
-        "name": "Lovelace is ready to interact with UI and ioBroker.",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "role": "indicator.reachable",
-        "def": false
-      }
-    },
-    {
-      "_id": "",
-      "type": "meta",
-      "common": {
-        "name": "user files and images for lovelace",
-        "type": "meta.user"
-      },
-      "native": {}
-    },
-    {
-      "_id": "configuration",
-      "type": "channel",
-      "common": {
-        "name": "Storage"
-      },
-      "native": {}
-    },
-    {
-      "_id": "storage",
-      "type": "folder",
-      "common": {
-        "name": "Internal storage (registries, preferences, dashboards)"
-      },
-      "native": {}
-    },
-    {
-      "_id": "storage.entityRegistry",
-      "type": "channel",
-      "common": {
-        "name": "Storage for entity registry"
-      },
-      "native": {}
-    },
-    {
-      "_id": "storage.areaRegistry",
-      "type": "channel",
-      "common": {
-        "name": "Storage for area registry"
-      },
-      "native": {}
-    },
-    {
-      "_id": "storage.energyPrefs",
-      "type": "channel",
-      "common": {
-        "name": "Storage for energy dashboard preferences"
-      },
-      "native": {}
-    },
-    {
-      "_id": "storage.userData",
-      "type": "channel",
-      "common": {
-        "name": "Storage for frontend user data (theme settings, sidebar order, …)"
-      },
-      "native": {}
-    },
-    {
-      "_id": "storage.dashboardStorage",
-      "type": "channel",
-      "common": {
-        "name": "Storage for dashboards"
-      },
-      "native": {}
-    },
-    {
-      "_id": "session",
-      "type": "state",
-      "common": {
-        "name": "Oauth2 Session",
-        "type": "json",
-        "role": "state",
-        "read": true,
-        "write": false
-      },
-      "native": {}
-    },
-    {
-      "_id": "conversation",
-      "type": "state",
-      "common": {
-        "name": "Question and answer for conversation ",
         "desc": {
-          "en": "Question and answer for conversation dialog. See readme for how to use.",
-          "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
-          "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
-          "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
-          "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
-          "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
-          "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
-          "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
-          "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
-          "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
+            "en": "With this adapter you can build visualization for ioBroker with Home Assistant Lovelace UI",
+            "de": "Mit diesem Adapter können Sie eine Visualisierung für ioBroker mit der Home Assistant Lovelace-Benutzeroberfläche erstellen",
+            "ru": "С помощью этого адаптера вы можете создавать визуализацию для ioBroker с Home Assistant Lovelace UI",
+            "pt": "Com este adaptador você pode construir visualização para o ioBroker com o Home Assistant Lovelace UI",
+            "nl": "Met deze adapter kunt u visualisatie bouwen voor ioBroker met Home Assistant Lovelace UI",
+            "fr": "Avec cet adaptateur, vous pouvez créer une visualisation pour ioBroker avec Home Assistant Lovelace UI",
+            "it": "Con questo adattatore puoi costruire la visualizzazione per ioBroker con l'interfaccia utente di Home Assistant Lovelace",
+            "es": "Con este adaptador puede crear visualización para ioBroker con Home Assistant Lovelace UI",
+            "pl": "Za pomocą tego adaptera możesz zbudować wizualizację dla ioBroker z interfejsem Home Assistant Lovelace",
+            "zh-cn": "使用此适配器，您可以使用Home Assistant Lovelace UI为ioBroker构建可视化",
+            "uk": "За допомогою цього адаптера ви можете створити візуалізацію для ioBroker з інтерфейсом користувача Home Assistant Lovelace"
         },
-        "type": "string",
-        "role": "text",
-        "read": true,
-        "write": true
-      },
-      "native": {}
+        "authors": [
+            "bluefox <dogafox@gmail.com>"
+        ],
+        "keywords": [
+            "visualisation",
+            "lovelace",
+            "easy",
+            "What you see is what you get",
+            "home automation"
+        ],
+        "licenseInformation": {
+            "license": "Apache-2.0",
+            "link": "https://www.apache.org/licenses/LICENSE-2.0",
+            "type": "free"
+        },
+        "platform": "Javascript/Node.js",
+        "tier": 3,
+        "icon": "lovelace.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/ioBroker/ioBroker.lovelace/master/admin/lovelace.png",
+        "readme": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "visualization",
+        "compact": false,
+        "adminUI": {
+            "config": "materialize",
+            "custom": "json"
+        },
+        "supportCustoms": true,
+        "messagebox": true,
+        "connectionType": "local",
+        "dataSource": "push",
+        "localLinks": {
+            "_default": {
+                "link": "%protocol%://%ip%:%port%/",
+                "name": "Lovelace",
+                "color": "#14C8FF",
+                "pro": "lovelace/",
+                "intro": true
+            }
+        },
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<6.0.0",
+                        "newVersion>=6.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "Major update: themes & object paths",
+                    "de": "Großes Update: Themes & Objekt-Pfade",
+                    "ru": "Крупное обновление: темы и пути объектов",
+                    "pt": "Grande atualização: temas e caminhos de objetos",
+                    "nl": "Grote update: thema's en objectpaden",
+                    "fr": "Mise à jour majeure : thèmes et chemins d'objets",
+                    "it": "Aggiornamento importante: temi e percorsi degli oggetti",
+                    "es": "Actualización importante: temas y rutas de objetos",
+                    "pl": "Duża aktualizacja: motywy i ścieżki obiektów",
+                    "uk": "Велике оновлення: теми та шляхи об'єктів",
+                    "zh-cn": "重大更新：主题与对象路径"
+                },
+                "text": {
+                    "en": "This major update ships a new Home Assistant frontend: custom themes may need adjusting (see the linked theme migration guide). Also, internal storage objects (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) moved into a new 'storage' folder. The adapter migrates them automatically; if you reference these object ids in scripts, update the paths.",
+                    "de": "Dieses große Update bringt ein neues Home-Assistant-Frontend: eigene Themes müssen evtl. angepasst werden (siehe verlinkte Theme-Migrations-Anleitung). Außerdem liegen interne Speicher-Objekte (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) jetzt im Ordner 'storage'. Der Adapter migriert sie automatisch; falls du diese Objekt-IDs in Skripten verwendest, passe die Pfade an.",
+                    "ru": "Это крупное обновление содержит новый фронтенд Home Assistant: собственные темы могут потребовать корректировки (см. руководство по миграции тем по ссылке). Кроме того, внутренние объекты хранилища (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) перемещены в новую папку 'storage'. Адаптер мигрирует их автоматически; если вы используете эти идентификаторы объектов в скриптах, обновите пути.",
+                    "pt": "Esta grande atualização traz um novo frontend do Home Assistant: temas personalizados podem precisar de ajustes (consulte o guia de migração de temas no link). Além disso, os objetos de armazenamento internos (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) foram movidos para uma nova pasta 'storage'. O adaptador os migra automaticamente; se você referenciar esses ids de objeto em scripts, atualize os caminhos.",
+                    "nl": "Deze grote update bevat een nieuwe Home Assistant-frontend: eigen thema's moeten mogelijk worden aangepast (zie de gelinkte handleiding voor themamigratie). Daarnaast zijn interne opslagobjecten (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) verplaatst naar een nieuwe map 'storage'. De adapter migreert ze automatisch; als je deze object-id's in scripts gebruikt, pas dan de paden aan.",
+                    "fr": "Cette mise à jour majeure intègre un nouveau frontend Home Assistant : les thèmes personnalisés peuvent nécessiter des ajustements (voir le guide de migration des thèmes lié). De plus, les objets de stockage internes (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) ont été déplacés dans un nouveau dossier 'storage'. L'adaptateur les migre automatiquement ; si vous référencez ces ids d'objet dans des scripts, mettez à jour les chemins.",
+                    "it": "Questo importante aggiornamento include un nuovo frontend di Home Assistant: i temi personalizzati potrebbero richiedere modifiche (vedi la guida alla migrazione dei temi collegata). Inoltre, gli oggetti di archiviazione interni (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) sono stati spostati in una nuova cartella 'storage'. L'adattatore li migra automaticamente; se fai riferimento a questi id di oggetto negli script, aggiorna i percorsi.",
+                    "es": "Esta actualización importante incluye un nuevo frontend de Home Assistant: los temas personalizados pueden necesitar ajustes (consulta la guía de migración de temas enlazada). Además, los objetos de almacenamiento internos (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) se movieron a una nueva carpeta 'storage'. El adaptador los migra automáticamente; si haces referencia a estos ids de objeto en scripts, actualiza las rutas.",
+                    "pl": "Ta duża aktualizacja zawiera nowy frontend Home Assistant: własne motywy mogą wymagać dostosowania (zobacz powiązany przewodnik migracji motywów). Ponadto wewnętrzne obiekty magazynu (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) zostały przeniesione do nowego folderu 'storage'. Adapter migruje je automatycznie; jeśli odwołujesz się do tych identyfikatorów obiektów w skryptach, zaktualizuj ścieżki.",
+                    "uk": "Це велике оновлення містить новий фронтенд Home Assistant: власні теми можуть потребувати коригування (див. пов'язаний посібник з міграції тем). Крім того, внутрішні об'єкти сховища (entityRegistry, areaRegistry, energyPrefs, userData, dashboardStorage) переміщено до нової теки 'storage'. Адаптер мігрує їх автоматично; якщо ви посилаєтесь на ці ідентифікатори об'єктів у скриптах, оновіть шляхи.",
+                    "zh-cn": "此重大更新带来了新的 Home Assistant 前端：自定义主题可能需要调整（请参阅链接的主题迁移指南）。此外，内部存储对象（entityRegistry、areaRegistry、energyPrefs、userData、dashboardStorage）已移至新的 'storage' 文件夹。适配器会自动迁移它们；如果你在脚本中引用了这些对象 id，请更新路径。"
+                },
+                "link": "https://github.com/ioBroker/ioBroker.lovelace/blob/master/docs/theme_migration.md",
+                "linkText": {
+                    "en": "Theme migration guide",
+                    "de": "Theme-Migrations-Anleitung",
+                    "ru": "Руководство по миграции тем",
+                    "pt": "Guia de migração de temas",
+                    "nl": "Handleiding voor themamigratie",
+                    "fr": "Guide de migration des thèmes",
+                    "it": "Guida alla migrazione dei temi",
+                    "es": "Guía de migración de temas",
+                    "pl": "Przewodnik migracji motywów",
+                    "uk": "Посібник з міграції тем",
+                    "zh-cn": "主题迁移指南"
+                },
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            },
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<=2.0.0",
+                        "newVersion>=3.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "Visualisation Update",
+                    "de": "Aktualisierung der Visualisierung",
+                    "ru": "Обновление визуализации",
+                    "pt": "Atualização da visualização",
+                    "nl": "Visualisatie Update",
+                    "fr": "Mise à jour de la visualisation",
+                    "it": "Aggiornamento della visualizzazione",
+                    "es": "Actualización de Visualización",
+                    "pl": "Visualizacja",
+                    "uk": "Оновлення візуалізації",
+                    "zh-cn": "更新"
+                },
+                "text": {
+                    "en": "The update to version 3.x will change frontend version from 20211229.0 to 20221026.0. This means 10 months development of Lovelace in one update. You will probably need to update or fix your themes and custom cards. Please make sure to check your visualization after this update. Ask in forum or discord for help.",
+                    "de": "Das Update auf Version 3.x wird die Frontend Version von 20211229.0 auf 20221026.0 ändern. Dies bedeutet 10 Monate Entwicklung von Lovelace in einem Update. Sie müssen wahrscheinlich Ihre Themen und benutzerdefinierten Karten aktualisieren oder reparieren. Achten Sie darauf, Ihre Visualisierung nach diesem Update zu überprüfen. Fragen Sie im Forum oder Discord nach Hilfe.",
+                    "ru": "Обновление до версии 3.x изменит версию frontend от 20211229.0 до 20221026.0 Это означает 10 месяцев разработки Lovelace в одном обновлении. Вам, вероятно, нужно обновить или исправить ваши темы и пользовательские карты. Пожалуйста, проверьте вашу визуализацию после этого обновления. Спросите на форуме или несогласно помощи.",
+                    "pt": "A atualização para a versão 3.x mudará a versão do frontend de 20211229.0 para 20221026.0 Isso significa desenvolvimento de 10 meses do Lovelace em uma atualização. Você provavelmente precisará atualizar ou corrigir seus temas e cartões personalizados. Certifique-se de verificar sua visualização após esta atualização. Pergunte no fórum ou Discord para ajuda.",
+                    "nl": "De update van versie 3.x zal de frontend versie veranderen van 20211229.0 tot 202226. Dit betekent 10 maanden ontwikkeling van Lovelace in één update. Je moet waarschijnlijk updaten of je thema's en kaarten repareren. Controleer uw visualisatie na deze update. Vraag in forum of Discord om hulp.",
+                    "fr": "La mise à jour de la version 3.x va changer la version frontend de 20211229.0 à 20221026.0 Cela signifie 10 mois de développement de Lovelace dans une mise à jour. Vous devrez probablement mettre à jour ou corriger vos thèmes et vos cartes personnalisées. Assurez-vous de vérifier votre visualisation après cette mise à jour. Demandez de l'aide au forum ou à la Discord.",
+                    "it": "L'aggiornamento alla versione 3.x cambierà la versione frontend da 20211229.0 a 20221026.0 Ciò significa 10 mesi di sviluppo di Lovelace in un unico aggiornamento. Probabilmente dovrai aggiornare o correggere i tuoi temi e le tue carte personalizzate. Assicurati di controllare la visualizzazione dopo questo aggiornamento. Chiedi aiuto in forum o Discord.",
+                    "es": "La actualización a la versión 3.x cambiará la versión de frontend de 20211229.0 a 20221026.0 Esto significa desarrollo de 10 meses de Lovelace en una actualización. Probablemente necesite actualizar o arreglar sus temas y tarjetas personalizadas. Asegúrese de comprobar su visualización después de esta actualización. Pida ayuda en el foro o Discord.",
+                    "pl": "Zaktualizowana wersja 3.x będzie zmieniała przednią wersję od 20211229.0 do 20221026.0. Oznacza to, że w jednym uaktualnianiu jest 10 miesięcy rozwój Lovelace. Prawdopodobnie potrzebuje uaktualnienia lub naprawienia swoich motywów i kart. Postanawia sprawdzić wizualizację po tej aktualizacji. Odpowiada za pomoc.",
+                    "uk": "Оновлення версії 3.x змінить версію фронтенду з 20211229.0 до 20221026.0 Це означає 10 місяців розробки Lovelace в одному оновленні. Ви, ймовірно, повинні оновити або виправити ваші теми і спеціальні картки. Будь ласка, перевірте вашу візуалізацію після цього оновлення. Запитайте на форум або розпишіться на допомогу.",
+                    "zh-cn": "更新后的3.x将改变20211229.0至20221026年的前沿版本。 这就意味着在更新的一年里发展了良机。 你很可能需要更新或确定你们的主题和习俗卡。 请确保在更新之后检查你的视觉。 论坛或有帮助的办事处。."
+                },
+                "link": "https://forum.iobroker.net/topic/34775/test-adapter-lovelace-v1-2-x/1324?_=1666881699892",
+                "level": "warn",
+                "linkText": {
+                    "en": "A few issues with themes were already discussed here.",
+                    "de": "Hier wurden bereits einige Themen diskutiert.",
+                    "ru": "Здесь уже обсуждались несколько вопросов с темами.",
+                    "pt": "Algumas questões com temas já foram discutidas aqui.",
+                    "nl": "Een paar problemen met ze werden hier al besproken.",
+                    "fr": "Quelques questions avec des thèmes ont déjà été discutées ici.",
+                    "it": "Sono già state discusse alcune questioni con temi.",
+                    "es": "Algunos temas con temas ya se discutieron aquí.",
+                    "pl": "Omawiano tam kilka tematów.",
+                    "uk": "Тут вже обговорювалися кілька питань з темами.",
+                    "zh-cn": "这里已经讨论了几个专题的问题。."
+                },
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            },
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<=3.0.0",
+                        "newVersion>=4.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "Visualisation Update",
+                    "de": "Aktualisierung der Visualisierung",
+                    "ru": "Обновление визуализации",
+                    "pt": "Atualização da visualização",
+                    "nl": "Visualisatie Update",
+                    "fr": "Mise à jour de la visualisation",
+                    "it": "Aggiornamento della visualizzazione",
+                    "es": "Actualización de Visualización",
+                    "pl": "Visualizacja",
+                    "uk": "Оновлення візуалізації",
+                    "zh-cn": "更新"
+                },
+                "text": {
+                    "en": "The update to version 4.x will change the frontend version from 20221026.0 to 20231208.2. This implies many months of Lovelace development in a single update. You will likely need to update or fix your themes and custom cards. Make sure to review your visualization after this update. Seek help in the forum or Discord if needed.",
+                    "de": "Das Update auf Version 4.x wird die Frontend Version von 20221026.0 auf 20231208.2 ändern. Dies bedeutet 10 Monate Entwicklung von Lovelace in einem Update. Sie müssen wahrscheinlich Ihre Themen und benutzerdefinierten Karten aktualisieren oder reparieren. Achten Sie darauf, Ihre Visualisierung nach diesem Update zu überprüfen. Fragen Sie im Forum oder Discord nach Hilfe.",
+                    "ru": "Обновление до версии 4.x изменит версию интерфейса с 20221026.0 на 20231208.2. Это означает многомесячную разработку Lovelace в рамках одного обновления. Вам, вероятно, придется обновить или исправить свои темы и пользовательские карты. Обязательно проверьте свою визуализацию после этого обновления. Задавайте вопросы на форуме или в Discord, если вам нужна помощь.",
+                    "pt": "A atualização para a versão 4.x irá alterar a versão do frontend de 20221026.0 para 20231208.2. Isso significa muitos meses de desenvolvimento do Lovelace em uma única atualização. Você provavelmente precisará atualizar ou corrigir seus temas e cartões personalizados. Certifique-se de verificar sua visualização após esta atualização. Procure ajuda no fórum ou no Discord, se necessário.",
+                    "nl": "De update naar versie 4.x zal de frontend-versie veranderen van 20221026.0 naar 20231208.2. Dit betekent vele maanden ontwikkeling van Lovelace in één update. Waarschijnlijk moet u uw thema's en aangepaste kaarten bijwerken of herstellen. Controleer na deze update uw visualisatie. Vraag om hulp op het forum of Discord indien nodig.",
+                    "fr": "La mise à jour vers la version 4.x changera la version du frontend de 20221026.0 à 20231208.2. Cela signifie plusieurs mois de développement de Lovelace en une seule mise à jour. Vous devrez probablement mettre à jour ou réparer vos thèmes et cartes personnalisées. Assurez-vous de vérifier votre visualisation après cette mise à jour. Demandez de l'aide sur le forum ou sur Discord si nécessaire.",
+                    "it": "L'aggiornamento alla versione 4.x cambierà la versione del frontend da 20221026.0 a 20231208.2. Ciò significa molti mesi di sviluppo di Lovelace in un singolo aggiornamento. Probabilmente sarà necessario aggiornare o correggere i temi e le carte personalizzate. Assicurati di controllare la tua visualizzazione dopo questo aggiornamento. Chiedi aiuto sul forum o su Discord se necessario.",
+                    "es": "La actualización a la versión 4.x cambiará la versión del frontend de 20221026.0 a 20231208.2. Esto significa muchos meses de desarrollo de Lovelace en una sola actualización. Probablemente necesitarás actualizar o corregir tus temas y tarjetas personalizadas. Asegúrate de revisar tu visualización después de esta actualización. Busca ayuda en el foro o en Discord si es necesario.",
+                    "pl": "Aktualizacja do wersji 4.x zmieni wersję frontendu z 20221026.0 na 20231208.2. Oznacza to wiele miesięcy rozwoju Lovelace w jednej aktualizacji. Prawdopodobnie będziesz musiał zaktualizować lub naprawić swoje motywy i niestandardowe karty. Upewnij się, że sprawdzisz swoją wizualizację po tej aktualizacji. Szukaj pomocy na forum lub Discord, jeśli to konieczne.",
+                    "uk": "Оновлення до версії 4.x змінить версію фронтенду з 20221026.0 на 20231208.2. Це означає багато місяців розробки Lovelace у одному оновленні. Ймовірно, вам доведеться оновити або виправити свої теми та власні картки. Переконайтеся, що після цього оновлення ви переглянете свою візуалізацію. Звертайтеся за допомогою на форумі або в Discord, якщо потрібно.",
+                    "zh-cn": "升级到4.x版本将把前端版本从20221026.0更改为20231208.2。这意味着在一个更新中进行了数月的Lovelace开发。您可能需要更新或修复您的主题和自定义卡片。请确保在此更新后检查您的可视化。如有需要，请在论坛或Discord上寻求帮助。"
+                },
+                "link": "https://forum.iobroker.net/topic/59435/test-lovelace-4-x/408?_=1705695186248",
+                "level": "warn",
+                "linkText": {
+                    "en": "A few issues with themes were already discussed here.",
+                    "de": "Hier wurden bereits einige Themen diskutiert.",
+                    "ru": "Здесь уже обсуждались несколько вопросов с темами.",
+                    "pt": "Algumas questões com temas já foram discutidas aqui.",
+                    "nl": "Een paar problemen met ze werden hier al besproken.",
+                    "fr": "Quelques questions avec des thèmes ont déjà été discutées ici.",
+                    "it": "Sono già state discusse alcune questioni con temi.",
+                    "es": "Algunos temas con temas ya se discutieron aquí.",
+                    "pl": "Omawiano tam kilka tematów.",
+                    "uk": "Тут вже обговорювалися кілька питань з темами.",
+                    "zh-cn": "这里已经讨论了几个专题的问题。."
+                },
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ]
+            }
+        ],
+        "dependencies": [
+            {
+                "js-controller": ">=6.0.11"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=7.6.20"
+            }
+        ]
     },
-    {
-      "_id": "control",
-      "type": "channel",
-      "common": {
-        "name": "Control lovelace"
-      },
-      "native": {}
+    "native": {
+        "history": "",
+        "historyMaxCount": 2000,
+        "port": 8091,
+        "auth": false,
+        "secure": false,
+        "bind": "0.0.0.0",
+        "certPublic": "",
+        "certPrivate": "",
+        "certChained": "",
+        "defaultUser": "admin",
+        "onlyAllowWhenUserIsOwner": false,
+        "ttl": 3600,
+        "showUsersOnLoginScreen": false,
+        "themes": "",
+        "defaultTheme": "default",
+        "defaultThemeDark": "default",
+        "leEnabled": false,
+        "leUpdate": false,
+        "leCheckPort": 80,
+        "aliasOnly": false,
+        "blindsInvert": false,
+        "alarmCheckCodeOnDisarmOnly": false,
+        "language": "",
+        "updateTimeout": 5000,
+        "logbookSource": "adapter",
+        "maxBrowserInstances": 10,
+        "pwaName": "ioBroker",
+        "pwaShortName": "IoB",
+        "autoEntityIdFormat": "name"
     },
-    {
-      "_id": "control.shopping_list",
-      "type": "state",
-      "common": {
-        "name": "Shopping list as json",
-        "type": "json",
-        "write": true,
-        "read": true,
-        "role": "json",
-        "desc": "Used for shopping list card"
-      },
-      "native": {}
-    },
-    {
-      "_id": "control.alarm",
-      "type": "state",
-      "common": {
-        "name": "alarm",
-        "type": "boolean",
-        "write": true,
-        "read": true,
-        "role": "switch.enable",
-        "desc": "Arm or disarm with code",
-        "def": false
-      },
-      "native": {
-        "alarm_code": 1234
-      }
-    },
-    {
-      "_id": "control.alarm_arm_state",
-      "type": "state",
-      "common": {
-        "name": "arm status",
-        "type": "number",
-        "write": true,
-        "read": true,
-        "role": "state",
-        "desc": "Set/Read alarm arm status",
-        "def": 0,
-        "states": {
-          "0": "disarmed",
-          "1": "armed",
-          "2": "armed_home",
-          "3": "armed_away",
-          "4": "armed_night",
-          "5": "armed_custom_bypass",
-          "6": "pending",
-          "7": "arming",
-          "8": "disarming",
-          "9": "triggered",
-          "10": "arm_vacation"
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.entitiesUpdated",
+            "type": "state",
+            "common": {
+                "name": "If the list of entities was updated",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "def": false
+            }
+        },
+        {
+            "_id": "info.configUpdateProcessed",
+            "type": "state",
+            "common": {
+                "name": "If a config update was processed",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "def": false
+            }
+        },
+        {
+            "_id": "info.readyForClients",
+            "type": "state",
+            "common": {
+                "name": "Lovelace is ready to interact with UI and ioBroker.",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "indicator.reachable",
+                "def": false
+            }
+        },
+        {
+            "_id": "",
+            "type": "meta",
+            "common": {
+                "name": "user files and images for lovelace",
+                "type": "meta.user"
+            },
+            "native": {}
+        },
+        {
+            "_id": "configuration",
+            "type": "channel",
+            "common": {
+                "name": "Storage"
+            },
+            "native": {}
+        },
+        {
+            "_id": "storage",
+            "type": "folder",
+            "common": {
+                "name": "Internal storage (registries, preferences, dashboards)"
+            },
+            "native": {}
+        },
+        {
+            "_id": "storage.entityRegistry",
+            "type": "channel",
+            "common": {
+                "name": "Storage for entity registry"
+            },
+            "native": {}
+        },
+        {
+            "_id": "storage.areaRegistry",
+            "type": "channel",
+            "common": {
+                "name": "Storage for area registry"
+            },
+            "native": {}
+        },
+        {
+            "_id": "storage.energyPrefs",
+            "type": "channel",
+            "common": {
+                "name": "Storage for energy dashboard preferences"
+            },
+            "native": {}
+        },
+        {
+            "_id": "storage.userData",
+            "type": "channel",
+            "common": {
+                "name": "Storage for frontend user data (theme settings, sidebar order, …)"
+            },
+            "native": {}
+        },
+        {
+            "_id": "storage.dashboardStorage",
+            "type": "channel",
+            "common": {
+                "name": "Storage for dashboards"
+            },
+            "native": {}
+        },
+        {
+            "_id": "session",
+            "type": "state",
+            "common": {
+                "name": "Oauth2 Session",
+                "type": "json",
+                "role": "state",
+                "read": true,
+                "write": false
+            },
+            "native": {}
+        },
+        {
+            "_id": "conversation",
+            "type": "state",
+            "common": {
+                "name": "Question and answer for conversation ",
+                "desc": {
+                    "en": "Question and answer for conversation dialog. See readme for how to use.",
+                    "de": "Frage und Antwort zum Gesprächsdialog. Informationen zur Verwendung finden Sie in der Readme-Datei.",
+                    "ru": "Вопрос и ответ для диалога. Смотрите readme для того, чтобы использовать.",
+                    "pt": "Perguntas e respostas para o diálogo de conversação. Consulte o leia-me para saber como usar.",
+                    "nl": "Vraag en antwoord voor gespreksdialoog. Zie leesmij voor gebruik.",
+                    "fr": "Question et réponse pour le dialogue de conversation. Voir le readme pour savoir comment l'utiliser.",
+                    "it": "Domanda e risposta per la finestra di dialogo di conversazione. Vedi il file Leggimi per come usare.",
+                    "es": "Preguntas y respuestas para el diálogo de conversación. Consulte el archivo Léame para saber cómo usarlo.",
+                    "pl": "Pytania i odpowiedzi do dialogu rozmowy. Zobacz, jak używać.",
+                    "zh-cn": "对话对话框的问答。有关使用方法，请参见自述文件。"
+                },
+                "type": "string",
+                "role": "text",
+                "read": true,
+                "write": true
+            },
+            "native": {}
+        },
+        {
+            "_id": "control",
+            "type": "channel",
+            "common": {
+                "name": "Control lovelace"
+            },
+            "native": {}
+        },
+        {
+            "_id": "control.shopping_list",
+            "type": "state",
+            "common": {
+                "name": "Shopping list as json",
+                "type": "json",
+                "write": true,
+                "read": true,
+                "role": "json",
+                "desc": "Used for shopping list card"
+            },
+            "native": {}
+        },
+        {
+            "_id": "control.alarm",
+            "type": "state",
+            "common": {
+                "name": "alarm",
+                "type": "boolean",
+                "write": true,
+                "read": true,
+                "role": "switch.enable",
+                "desc": "Arm or disarm with code",
+                "def": false
+            },
+            "native": {
+                "alarm_code": 1234
+            }
+        },
+        {
+            "_id": "control.alarm_arm_state",
+            "type": "state",
+            "common": {
+                "name": "arm status",
+                "type": "number",
+                "write": true,
+                "read": true,
+                "role": "state",
+                "desc": "Set/Read alarm arm status",
+                "def": 0,
+                "states": {
+                    "0": "disarmed",
+                    "1": "armed",
+                    "2": "armed_home",
+                    "3": "armed_away",
+                    "4": "armed_night",
+                    "5": "armed_custom_bypass",
+                    "6": "pending",
+                    "7": "arming",
+                    "8": "disarming",
+                    "9": "triggered",
+                    "10": "arm_vacation"
+                }
+            },
+            "native": {
+                "alarm_code": 1234
+            }
+        },
+        {
+            "_id": "control.theme",
+            "type": "state",
+            "common": {
+                "name": "theme",
+                "type": "string",
+                "write": true,
+                "read": true,
+                "role": "text",
+                "desc": "Change default theme during runtime",
+                "states": {
+                    "default": "default"
+                }
+            }
+        },
+        {
+            "_id": "control.themeDark",
+            "type": "state",
+            "common": {
+                "name": "theme",
+                "type": "string",
+                "write": true,
+                "read": true,
+                "role": "text",
+                "desc": "Change default dark theme during runtime",
+                "states": {
+                    "default": "default"
+                }
+            }
+        },
+        {
+            "_id": "control.darkMode",
+            "type": "state",
+            "common": {
+                "name": "Dark Mode",
+                "type": "boolean",
+                "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
+                "write": true,
+                "read": true,
+                "role": "switch.mode.dark",
+                "def": false
+            }
+        },
+        {
+            "_id": "notifications",
+            "type": "channel",
+            "common": {
+                "name": "notifications"
+            },
+            "native": {}
+        },
+        {
+            "_id": "notifications.list",
+            "type": "state",
+            "common": {
+                "name": "alarm",
+                "type": "json",
+                "role": "state",
+                "write": true,
+                "read": true,
+                "desc": "List of notifications"
+            },
+            "native": {}
+        },
+        {
+            "_id": "notifications.add",
+            "type": "state",
+            "common": {
+                "name": "Add notification",
+                "type": "string",
+                "role": "text",
+                "write": true,
+                "read": false,
+                "desc": "Add notification"
+            },
+            "native": {}
+        },
+        {
+            "_id": "notifications.clear",
+            "type": "state",
+            "common": {
+                "name": "Clear notification",
+                "type": "number",
+                "role": "state",
+                "write": true,
+                "read": false,
+                "desc": "Clear notification by id or all if no id"
+            },
+            "native": {}
         }
-      },
-      "native": {
-        "alarm_code": 1234
-      }
-    },
-    {
-      "_id": "control.theme",
-      "type": "state",
-      "common": {
-        "name": "theme",
-        "type": "string",
-        "write": true,
-        "read": true,
-        "role": "text",
-        "desc": "Change default theme during runtime",
-        "states": {
-          "default": "default"
-        }
-      }
-    },
-    {
-      "_id": "control.themeDark",
-      "type": "state",
-      "common": {
-        "name": "theme",
-        "type": "string",
-        "write": true,
-        "read": true,
-        "role": "text",
-        "desc": "Change default dark theme during runtime",
-        "states": {
-          "default": "default"
-        }
-      }
-    },
-    {
-      "_id": "control.darkMode",
-      "type": "state",
-      "common": {
-        "name": "Dark Mode",
-        "type": "boolean",
-        "desc": "Allows to switch to dark/light mode without changing themes (some themes support both)",
-        "write": true,
-        "read": true,
-        "role": "switch.mode.dark",
-        "def": false
-      }
-    },
-    {
-      "_id": "notifications",
-      "type": "channel",
-      "common": {
-        "name": "notifications"
-      },
-      "native": {}
-    },
-    {
-      "_id": "notifications.list",
-      "type": "state",
-      "common": {
-        "name": "alarm",
-        "type": "json",
-        "role": "state",
-        "write": true,
-        "read": true,
-        "desc": "List of notifications"
-      },
-      "native": {}
-    },
-    {
-      "_id": "notifications.add",
-      "type": "state",
-      "common": {
-        "name": "Add notification",
-        "type": "string",
-        "role": "text",
-        "write": true,
-        "read": false,
-        "desc": "Add notification"
-      },
-      "native": {}
-    },
-    {
-      "_id": "notifications.clear",
-      "type": "state",
-      "common": {
-        "name": "Clear notification",
-        "type": "number",
-        "role": "state",
-        "write": true,
-        "read": false,
-        "desc": "Clear notification by id or all if no id"
-      },
-      "native": {}
-    }
-  ]
+    ]
 }
