@@ -1053,389 +1053,514 @@
               "label": "(none)"
             },
             {
+              "value": "absolute_humidity",
+              "label": "absolute_humidity — Absolute humidity (g/m³)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "apparent_power",
+              "label": "apparent_power — Apparent power (VA)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "aqi",
               "label": "aqi — Air Quality Index",
               "hidden": "data.entity !== 'sensor'"
             },
             {
+              "value": "area",
+              "label": "area — Area (m²)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "atmospheric_pressure",
+              "label": "atmospheric_pressure — Atmospheric pressure (hPa)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "awning",
-              "label": "awning — Awning",
+              "label": "awning",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "battery",
-              "label": "battery — Battery warning",
+              "label": "battery — on: Low / off: Normal",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "battery",
-              "label": "battery — Battery percent",
+              "label": "battery — Battery level (%)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "battery_charging",
-              "label": "battery_charging — Battery charging",
+              "label": "battery_charging — on: Charging / off: Not charging",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "blind",
-              "label": "blind — Blind",
+              "label": "blind",
               "hidden": "data.entity !== 'cover'"
             },
             {
+              "value": "blood_glucose_concentration",
+              "label": "blood_glucose_concentration — Blood glucose concentration (mg/dL)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "carbon_dioxide",
-              "label": "carbon_dioxide — Carbon dioxide",
+              "label": "carbon_dioxide — Carbon dioxide (CO₂) (ppm)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "carbon_monoxide",
-              "label": "carbon_monoxide — Carbon monoxide",
+              "label": "carbon_monoxide — on: CO detected / off: Clear",
+              "hidden": "data.entity !== 'binary_sensor'"
+            },
+            {
+              "value": "carbon_monoxide",
+              "label": "carbon_monoxide — Carbon monoxide (CO) (ppm)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "cold",
-              "label": "cold — Cold",
+              "label": "cold — on: Cold / off: Normal",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
+              "value": "conductivity",
+              "label": "conductivity — Conductivity (µS/cm)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "connectivity",
-              "label": "connectivity — Connectivity",
+              "label": "connectivity — on: Connected / off: Disconnected",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "current",
-              "label": "current — Current",
+              "label": "current — Current (A)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "curtain",
-              "label": "curtain — Curtain",
+              "label": "curtain",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "damper",
-              "label": "damper — Damper",
+              "label": "damper",
               "hidden": "data.entity !== 'cover'"
             },
             {
+              "value": "data_rate",
+              "label": "data_rate — Data rate (bit/s)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "data_size",
+              "label": "data_size — Data size (B)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "date",
-              "label": "date — Date",
+              "label": "date — Date (datetime.date)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "dehumidifier",
-              "label": "dehumidifier — Dehumidifier",
+              "label": "dehumidifier",
               "hidden": "data.entity !== 'humidifier'"
             },
             {
+              "value": "distance",
+              "label": "distance — Distance (m)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "door",
-              "label": "door — Door",
+              "label": "door — on: Open / off: Closed",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "door",
-              "label": "door — Door",
+              "label": "door",
               "hidden": "data.entity !== 'cover'"
             },
             {
+              "value": "duration",
+              "label": "duration — Duration / time period (s)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "energy",
-              "label": "energy — Energy",
+              "label": "energy — Energy consumed (power over time) (Wh)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "energy_distance",
+              "label": "energy_distance — Energy per distance (Wh/km)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "energy_storage",
+              "label": "energy_storage — Stored energy (battery/capacitor) (Wh)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "frequency",
-              "label": "frequency — Frequency",
+              "label": "frequency — Frequency (Hz)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "garage",
-              "label": "garage — Garage",
+              "label": "garage",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "garage_door",
-              "label": "garage_door — Garage door",
+              "label": "garage_door — on: Open / off: Closed",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "gas",
-              "label": "gas — Gas",
+              "label": "gas — on: Gas detected / off: Clear",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "gas",
-              "label": "gas — Volume of Gas",
+              "label": "gas — Gas volume consumed (m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "gate",
-              "label": "gate — Gate",
+              "label": "gate",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "heat",
-              "label": "heat — Heat",
+              "label": "heat — on: Hot / off: Normal",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "humidifier",
-              "label": "humidifier — Humidifier",
+              "label": "humidifier",
               "hidden": "data.entity !== 'humidifier'"
             },
             {
               "value": "humidity",
-              "label": "humidity — Humidity",
+              "label": "humidity — Relative humidity (%)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "illuminance",
-              "label": "illuminance — Illuminance",
+              "label": "illuminance — Light level (lx)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "irradiance",
+              "label": "irradiance — Irradiance (W/m²)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "light",
-              "label": "light — Light",
+              "label": "light — on: Light detected / off: No light",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "lock",
-              "label": "lock — Lock",
+              "label": "lock — on: Unlocked / off: Locked",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "moisture",
-              "label": "moisture — Moisture",
+              "label": "moisture — on: Wet / off: Dry",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
+              "value": "moisture",
+              "label": "moisture — Moisture (%)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "monetary",
-              "label": "monetary — Monetary value",
+              "label": "monetary — Monetary value (currency)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "motion",
-              "label": "motion — Motion detector",
+              "label": "motion — on: Motion detected / off: Clear",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "moving",
-              "label": "moving — Moving",
+              "label": "moving — on: Moving / off: Stopped",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "nitrogen_dioxide",
-              "label": "nitrogen_dioxide — Nitrogen Dioxide",
+              "label": "nitrogen_dioxide — Nitrogen dioxide (µg/m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "nitrogen_monoxide",
-              "label": "nitrogen_monoxide — Nitrogen Monoxide",
+              "label": "nitrogen_monoxide — Nitrogen monoxide (µg/m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "nitrous_oxide",
-              "label": "nitrous_oxide — Nitrous Oxide",
+              "label": "nitrous_oxide — Nitrous oxide (µg/m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "occupancy",
-              "label": "occupancy — Occupancy",
+              "label": "occupancy — on: Occupied / off: Clear",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "opening",
-              "label": "opening — Opening",
+              "label": "opening — on: Open / off: Closed",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "outlet",
-              "label": "outlet — Outlet",
+              "label": "outlet",
               "hidden": "data.entity !== 'switch'"
             },
             {
               "value": "ozone",
-              "label": "ozone — Ozone",
+              "label": "ozone — Ozone (µg/m³)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "ph",
+              "label": "ph — pH value",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "plug",
-              "label": "plug — Plug",
+              "label": "plug — on: Plugged in / off: Unplugged",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "pm1",
-              "label": "pm1 — Particular matter less than 1 micrometer",
+              "label": "pm1 — Particulate matter < 1 µm (µg/m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "pm10",
-              "label": "pm10 — Particular matter less than 10 micrometer",
+              "label": "pm10 — Particulate matter < 10 µm (µg/m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "pm25",
-              "label": "pm25 — Particular matter less than 2.5 micrometer",
+              "label": "pm25 — Particulate matter < 2.5 µm (µg/m³)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "pm4",
+              "label": "pm4 — Particulate matter < 4 µm (µg/m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "power",
-              "label": "power — Powered",
+              "label": "power — on: Power detected / off: No power",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "power",
-              "label": "power — Power",
+              "label": "power — Current power (W)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "power_factor",
-              "label": "power_factor — Power Factor",
+              "label": "power_factor — Power factor (%)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "precipitation",
+              "label": "precipitation — Accumulated precipitation (mm)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "precipitation_intensity",
-              "label": "precipitation_intensity — Precipitation Intensity",
+              "label": "precipitation_intensity — Precipitation intensity (mm/h)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "presence",
-              "label": "presence — Presence",
+              "label": "presence — on: Home / off: Away",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "pressure",
-              "label": "pressure — Pressure",
+              "label": "pressure — Pressure (hPa)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "problem",
-              "label": "problem — Problem",
+              "label": "problem — on: Problem detected / off: OK",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
+              "value": "reactive_energy",
+              "label": "reactive_energy — Reactive energy (varh)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "reactive_power",
+              "label": "reactive_power — Reactive power (var)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "running",
-              "label": "running — Running",
+              "label": "running — on: Running / off: Not running",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "safety",
-              "label": "safety — Safety",
+              "label": "safety — on: Unsafe / off: Safe",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "shade",
-              "label": "shade — Shade",
+              "label": "shade",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "shutter",
-              "label": "shutter — Shutter",
+              "label": "shutter",
               "hidden": "data.entity !== 'cover'"
             },
             {
               "value": "signal_strength",
-              "label": "signal_strength — Signal Strength",
+              "label": "signal_strength — Signal strength (dBm)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "smoke",
-              "label": "smoke — Smoke",
+              "label": "smoke — on: Smoke detected / off: Clear",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "sound",
-              "label": "sound — Sound",
+              "label": "sound — on: Sound detected / off: Clear",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
+              "value": "sound_pressure",
+              "label": "sound_pressure — Sound pressure (dB)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "speed",
-              "label": "speed — Speed",
+              "label": "speed — Speed (m/s)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "sulphur_dioxide",
-              "label": "sulphur_dioxide — Sulphur Dioxide",
+              "label": "sulphur_dioxide — Sulphur dioxide (µg/m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "switch",
-              "label": "switch — Switch",
+              "label": "switch",
               "hidden": "data.entity !== 'switch'"
             },
             {
               "value": "tamper",
-              "label": "tamper — Tampering",
+              "label": "tamper — on: Tampering detected / off: Clear",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "temperature",
-              "label": "temperature — Temperature",
+              "label": "temperature — Temperature (°C)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "temperature_delta",
+              "label": "temperature_delta — Temperature difference (°C)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "timestamp",
-              "label": "timestamp — Timestamp",
+              "label": "timestamp — Timestamp (datetime)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "update",
-              "label": "update — Update",
+              "label": "update — on: Update available / off: Up-to-date",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
+              "value": "uptime",
+              "label": "uptime — Last boot (datetime)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
               "value": "vibration",
-              "label": "vibration — Vibration",
+              "label": "vibration — on: Vibration detected / off: No vibration",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "volatile_organic_compounds",
-              "label": "volatile_organic_compounds — Volatile organic compounds",
+              "label": "volatile_organic_compounds — Volatile organic compounds (µg/m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "volatile_organic_compounds_parts",
-              "label": "volatile_organic_compounds_parts — Volatile organic compounds parts",
+              "label": "volatile_organic_compounds_parts — VOC ratio (ppm)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "voltage",
-              "label": "voltage — Voltage",
+              "label": "voltage — Voltage (V)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "volume",
-              "label": "volume — Volume",
+              "label": "volume — Volume consumed (m³)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "volume_flow_rate",
+              "label": "volume_flow_rate — Volume flow rate (m³/h)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "volume_storage",
+              "label": "volume_storage — Stored volume (m³)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "water",
-              "label": "water — Water",
+              "label": "water — Water consumed (L)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "weight",
-              "label": "weight — Weight",
+              "label": "weight — Weight / mass (kg)",
+              "hidden": "data.entity !== 'sensor'"
+            },
+            {
+              "value": "wind_direction",
+              "label": "wind_direction — Wind direction (°)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "wind_speed",
-              "label": "wind_speed — Wind speed",
+              "label": "wind_speed — Wind speed (m/s)",
               "hidden": "data.entity !== 'sensor'"
             },
             {
               "value": "window",
-              "label": "window — Window",
+              "label": "window — on: Open / off: Closed",
               "hidden": "data.entity !== 'binary_sensor'"
             },
             {
               "value": "window",
-              "label": "window — Window",
+              "label": "window",
               "hidden": "data.entity !== 'cover'"
-            },
-            {
-              "value": "window",
-              "label": "window — Window",
-              "hidden": "data.entity !== 'sensor'"
             }
           ],
           "hidden": "!['sensor', 'binary_sensor', 'cover', 'switch', 'humidifier'].includes(data.entity)",
@@ -1524,7 +1649,7 @@
           "newLine": true,
           "type": "select",
           "label": "State class",
-          "help": "For sensors: enables long-term statistics / energy dashboard.",
+          "help": "For sensors (long-term statistics): measurement = current value; total = a total that can increase and decrease or be reset (net value); total_increasing = a monotonically increasing total that may reset (e.g. an energy meter).",
           "hidden": "data.entity !== 'sensor'",
           "options": [
             {
