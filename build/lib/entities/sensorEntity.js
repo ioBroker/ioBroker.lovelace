@@ -39,6 +39,7 @@ class SensorEntity extends import_baseEntity.BaseEntity {
     entity.context.STATE.getId = stateId;
     entity.attributes.device_class = "humidity";
     entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || "%";
+    entity.attributes.state_class = "measurement";
     entity.addID2entity(stateId);
     return entity;
   }
@@ -57,6 +58,7 @@ class SensorEntity extends import_baseEntity.BaseEntity {
     entity.context.STATE.getId = stateId;
     entity.attributes.device_class = "temperature";
     entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || "\xB0C";
+    entity.attributes.state_class = "measurement";
     entity.addID2entity(stateId);
     return entity;
   }
@@ -75,6 +77,7 @@ class SensorEntity extends import_baseEntity.BaseEntity {
     entity.context.STATE.getId = stateId;
     entity.attributes.device_class = "illuminance";
     entity.attributes.unit_of_measurement = entity.attributes.unit_of_measurement || "lx";
+    entity.attributes.state_class = "measurement";
     entity.addID2entity(stateId);
     return entity;
   }

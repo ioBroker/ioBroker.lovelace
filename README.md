@@ -83,6 +83,12 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Fixed a crash (adapter restart loop) when a room enum has no name; the area list no longer brings the adapter down.
+* (Garfonso/Claude) Custom dialog: device classes are sorted with clearer labels (id + unit), missing classes were added, device/state class can be cleared, and `has_time`/`has_date` no longer cause spurious "unsaved changes".
+* (Garfonso/Claude) Auto-detected temperature/humidity/illuminance sensors now report `state_class: measurement` (for HA statistics).
+* (Garfonso/Claude) Custom dialog: device class is suggested from the state's unit, and state class from the unit, when unambiguous.
+
 ### 6.1.0 (2026-06-23)
 * (Garfonso/Claude) Remove HA-App Banner on iPhone (#418).
 * (Garfonso/Claude) New manual entity types `device_tracker` and `person` to show presence/GPS on the map, with object pickers for the presence and location states.
@@ -99,10 +105,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Manual `fan` entities now have object pickers (on/off, speed/preset, oscillation, direction).
 * (Garfonso/Claude) Vacuum can show its map (URL or base64 state) as the entity picture.
 * (Garfonso/Claude) Removed `plant`, `weblink` and `history_graph` from the manual entity types (no longer Home Assistant entity domains).
-* (Garfonso/Claude) Calendar events now include location and description when the source provides them.
-* (Garfonso/Claude) Custom dialog: device classes are sorted with clearer labels (id + unit), device/state class can be cleared, and `has_time`/`has_date` no longer cause spurious "unsaved changes".
-* (Garfonso/Claude) Custom dialog: full Home Assistant device-class list with meanings and units (sensors show the unit, binary sensors show what on/off mean); clearer state-class help.
-* (Garfonso/Claude) Custom dialog: device-class labels are translated into all admin languages (the class name / on-off meaning is localised; the id and unit stay).
 
 ### 6.0.4 (2026-06-18)
 * (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.

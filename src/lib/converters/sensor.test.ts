@@ -48,6 +48,16 @@ describe('converters/sensor', function () {
         expect(entity).to.have.nested.property('context.STATE.getId', STATE_ID);
     });
 
+    it('temperature/humidity/illuminance sensors get state_class measurement', function () {
+        for (const type of [Types.temperature, Types.humidity, Types.illuminance]) {
+            const params = makeParameters([{ id: STATE_ID, name: 'ACTUAL' }], {
+                controls: { states: [{ id: STATE_ID, name: 'ACTUAL' }], type } as unknown as PatternControl,
+            });
+            const entities = SensorConverter.convertEntities(params);
+            expect(entities[0], type).to.have.nested.property('attributes.state_class', 'measurement');
+        }
+    });
+
     it('windowTilt without state id leaves STATE.getId null', function () {
         const params = makeParameters([{ name: 'ACTUAL' }]);
         const entities = SensorConverter.convertEntities(params);
