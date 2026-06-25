@@ -1631,6 +1631,13 @@
           "label": "labelHasTime",
           "hidden": "data.entity !== 'input_datetime'",
           "defaultFunc": "data.entity === 'input_datetime' ? false : undefined",
+          "onChange": {
+            "alsoDependsOn": [
+              "entity"
+            ],
+            "calculateFunc": "data.entity === 'input_datetime' ? false : undefined",
+            "ignoreOwnChanges": true
+          },
           "xs": 12,
           "sm": 6,
           "md": 4,
@@ -1641,6 +1648,13 @@
           "label": "labelHasDate",
           "hidden": "data.entity !== 'input_datetime'",
           "defaultFunc": "data.entity === 'input_datetime' ? true : undefined",
+          "onChange": {
+            "alsoDependsOn": [
+              "entity"
+            ],
+            "calculateFunc": "data.entity === 'input_datetime' ? true : undefined",
+            "ignoreOwnChanges": true
+          },
           "xs": 12,
           "sm": 6,
           "md": 4,
@@ -1674,7 +1688,14 @@
           "sm": 6,
           "md": 4,
           "lg": 3,
-          "defaultFunc": "data.entity !== 'sensor' ? undefined : (['Wh','kWh','MWh','GWh','m³','ft³','L','varh','kvarh'].indexOf((customObj.common&&customObj.common.unit)||'')>=0 ? 'total_increasing' : (['°C','°F','K','%','W','kW','mW','MW','A','mA','V','mV','kV','Hz','kHz','lx','lux','hPa','mbar','bar','Pa','psi','dB','dBm','dBA','ppm','ppb','µg/m³','mg/m³','m/s','km/h','mph','W/m²','°','lm'].indexOf((customObj.common&&customObj.common.unit)||'')>=0 ? 'measurement' : undefined))"
+          "defaultFunc": "data.entity !== 'sensor' ? undefined : (['Wh','kWh','MWh','GWh','m³','ft³','L','varh','kvarh'].indexOf((customObj.common&&customObj.common.unit)||'')>=0 ? 'total_increasing' : (['°C','°F','K','%','W','kW','mW','MW','A','mA','V','mV','kV','Hz','kHz','lx','lux','hPa','mbar','bar','Pa','psi','dB','dBm','dBA','ppm','ppb','µg/m³','mg/m³','m/s','km/h','mph','W/m²','°','lm'].indexOf((customObj.common&&customObj.common.unit)||'')>=0 ? 'measurement' : undefined))",
+          "onChange": {
+            "alsoDependsOn": [
+              "entity"
+            ],
+            "calculateFunc": "data.entity !== 'sensor' ? undefined : (['Wh','kWh','MWh','GWh','m³','ft³','L','varh','kvarh'].indexOf((customObj.common&&customObj.common.unit)||'')>=0 ? 'total_increasing' : (['°C','°F','K','%','W','kW','mW','MW','A','mA','V','mV','kV','Hz','kHz','lx','lux','hPa','mbar','bar','Pa','psi','dB','dBm','dBA','ppm','ppb','µg/m³','mg/m³','m/s','km/h','mph','W/m²','°','lm'].indexOf((customObj.common&&customObj.common.unit)||'')>=0 ? 'measurement' : undefined))",
+            "ignoreOwnChanges": true
+          }
         }
       }
     }
