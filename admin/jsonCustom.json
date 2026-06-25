@@ -1567,7 +1567,8 @@
           "xs": 12,
           "sm": 6,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "defaultFunc": "data.entity === 'sensor' && customObj.common && customObj.common.unit ? {'°C':'temperature','°F':'temperature','K':'temperature','W':'power','kW':'power','mW':'power','MW':'power','Wh':'energy','kWh':'energy','MWh':'energy','GWh':'energy','A':'current','mA':'current','V':'voltage','mV':'voltage','kV':'voltage','Hz':'frequency','kHz':'frequency','lx':'illuminance','lux':'illuminance','hPa':'pressure','mbar':'pressure','bar':'pressure','Pa':'pressure','psi':'pressure','dBm':'signal_strength'}[customObj.common.unit] : undefined"
         },
         "attr_unit_of_measurement": {
           "type": "text",
@@ -1672,7 +1673,8 @@
           "xs": 12,
           "sm": 6,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "defaultFunc": "data.entity !== 'sensor' ? undefined : (['Wh','kWh','MWh','GWh','m³','ft³','L','varh','kvarh'].indexOf((customObj.common&&customObj.common.unit)||'')>=0 ? 'total_increasing' : (['°C','°F','K','%','W','kW','mW','MW','A','mA','V','mV','kV','Hz','kHz','lx','lux','hPa','mbar','bar','Pa','psi','dB','dBm','dBA','ppm','ppb','µg/m³','mg/m³','m/s','km/h','mph','W/m²','°','lm'].indexOf((customObj.common&&customObj.common.unit)||'')>=0 ? 'measurement' : undefined))"
         }
       }
     }
