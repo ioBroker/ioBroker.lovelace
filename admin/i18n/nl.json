@@ -119,7 +119,7 @@
     "File": "het dossier",
     "Fixed picture URL (entity_picture). Leave empty to use a state instead.": "Vaste afbeeldings-URL (entity_picture). Laat leeg om een state te gebruiken.",
     "Folder": "Map",
-    "For sensors: enables long-term statistics / energy dashboard.": "Voor sensoren: schakelt langetermijnstatistiek / energie-dashboard in.",
+    "For sensors (long-term statistics): measurement = current value; total = a total that can increase and decrease or be reset (net value); total_increasing = a monotonically increasing total that may reset (e.g. an energy meter).": "Voor sensoren (langetermijnstatistieken): measurement = huidige waarde; total = een totaal dat kan stijgen en dalen of worden gereset (nettowaarde); total_increasing = een monotoon stijgend totaal dat kan resetten (bijv. een energiemeter).",
     "Frequency": "Frequentie",
     "frequency — Frequency (Hz)": "frequency — Frequentie (Hz)",
     "From ioBroker object id": "Uit ioBroker-object-id",

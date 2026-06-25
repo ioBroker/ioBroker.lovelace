@@ -119,7 +119,7 @@
     "File": "Файл",
     "Fixed picture URL (entity_picture). Leave empty to use a state instead.": "Фіксований URL зображення (entity_picture). Залиште порожнім, щоб використати state.",
     "Folder": "Папка",
-    "For sensors: enables long-term statistics / energy dashboard.": "Для сенсорів: вмикає довгострокову статистику / панель енергії.",
+    "For sensors (long-term statistics): measurement = current value; total = a total that can increase and decrease or be reset (net value); total_increasing = a monotonically increasing total that may reset (e.g. an energy meter).": "Для датчиків (довгострокова статистика): measurement = поточне значення; total = сума, яка може зростати й спадати або скидатися (чисте значення); total_increasing = монотонно зростаюча сума, яка може скидатися (наприклад, лічильник енергії).",
     "Frequency": "Частота",
     "frequency — Frequency (Hz)": "frequency — Частота (Hz)",
     "From ioBroker object id": "З ідентифікатора об'єкта ioBroker",

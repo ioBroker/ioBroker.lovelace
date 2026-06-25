@@ -119,7 +119,7 @@
     "File": "文件",
     "Fixed picture URL (entity_picture). Leave empty to use a state instead.": "固定图片 URL（entity_picture）。留空则改用 state。",
     "Folder": "文件夹",
-    "For sensors: enables long-term statistics / energy dashboard.": "用于传感器：启用长期统计/能源仪表板。",
+    "For sensors (long-term statistics): measurement = current value; total = a total that can increase and decrease or be reset (net value); total_increasing = a monotonically increasing total that may reset (e.g. an energy meter).": "用于传感器（长期统计）：measurement = 当前值；total = 可增可减或可重置的总量（净值）；total_increasing = 单调递增、可能重置的总量（例如电能表）。",
     "Frequency": "频率",
     "frequency — Frequency (Hz)": "frequency — 频率 (Hz)",
     "From ioBroker object id": "来自 ioBroker 对象 id",

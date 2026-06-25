@@ -119,7 +119,7 @@
     "File": "Plik",
     "Fixed picture URL (entity_picture). Leave empty to use a state instead.": "Stały URL obrazu (entity_picture). Pozostaw puste, aby użyć stanu.",
     "Folder": "Teczka",
-    "For sensors: enables long-term statistics / energy dashboard.": "Dla czujników: włącza statystyki długoterminowe / panel energii.",
+    "For sensors (long-term statistics): measurement = current value; total = a total that can increase and decrease or be reset (net value); total_increasing = a monotonically increasing total that may reset (e.g. an energy meter).": "Dla czujników (statystyki długoterminowe): measurement = bieżąca wartość; total = suma, która może rosnąć i maleć lub zostać wyzerowana (wartość netto); total_increasing = stale rosnąca suma, która może się wyzerować (np. licznik energii).",
     "Frequency": "Częstotliwość",
     "frequency — Frequency (Hz)": "frequency — Częstotliwość (Hz)",
     "From ioBroker object id": "Z identyfikatora obiektu ioBroker",
