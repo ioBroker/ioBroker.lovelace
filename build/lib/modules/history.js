@@ -107,6 +107,10 @@ async function getHistory(adapter, entities, start, end, noAttributes, user) {
               lu: 1
             };
             applyHistoryTimestamps(result, e);
+            const prev = historyPerEntity[historyPerEntity.length - 1];
+            if (prev && prev.s === result.s && JSON.stringify(prev.a) === JSON.stringify(result.a)) {
+              continue;
+            }
             historyPerEntity.push(result);
           }
           if (!noAttributes && entity.context.ATTRIBUTES) {

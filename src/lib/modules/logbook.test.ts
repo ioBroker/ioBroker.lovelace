@@ -3,6 +3,8 @@ import * as sinon from 'sinon';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const LogbookModule = require('../modules/logbook');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const singleton = require('../../../lib/dataSingleton');
 
 function makeModule(): { mod: any; sendToAsync: sinon.SinonStub } {
     const sendToAsync = sinon.stub().resolves({ result: [] });
@@ -64,6 +66,82 @@ describe('modules/logbook future/invalid requests', function () {
 
             expect(sendToAsync.called).to.equal(false);
             expect(sent.some(m => m.type === 'event')).to.equal(true);
+        } finally {
+            clock.restore();
+        }
+    });
+});
+
+describe('modules/logbook deduplication', function () {
+    const NOW = 1_700_000_000_000;
+    const entity = {
+        entity_id: 'sensor.x',
+        context: { STATE: { getId: 'js.0.x', historyParser: (_i: string, v: unknown) => String(v) } },
+    };
+
+    afterEach(function () {
+        singleton.entityId2Entity = {};
+    });
+
+    it('drops consecutive duplicate states in the initial logbook result', async function () {
+        const clock = sinon.useFakeTimers({ now: NOW });
+        try {
+            singleton.entityId2Entity = { 'sensor.x': entity };
+            const { mod, sendToAsync } = makeModule();
+            sendToAsync.resolves({
+                result: [
+                    { ts: NOW - 5000, val: 5 },
+                    { ts: NOW - 4000, val: 5 },
+                    { ts: NOW - 3000, val: 5 },
+                    { ts: NOW - 2000, val: 7 },
+                    { ts: NOW - 1000, val: 5 },
+                ],
+            });
+            const { ws, sent } = makeWs();
+
+            await mod.processMessage(ws, {
+                id: 1,
+                type: 'logbook/event_stream',
+                entity_ids: ['sensor.x'],
+                start_time: new Date(NOW - 3600000).toISOString(),
+                end_time: new Date(NOW).toISOString(),
+            });
+
+            const partial = sent.find(m => m.type === 'event' && m.event.partial);
+            expect(partial.event.events.map((e: any) => e.state)).to.deep.equal(['5', '7', '5']);
+            clock.tick(400);
+        } finally {
+            clock.restore();
+        }
+    });
+
+    it('skips a live state change that repeats the last shown state', async function () {
+        const clock = sinon.useFakeTimers({ now: NOW });
+        try {
+            singleton.entityId2Entity = { 'sensor.x': entity };
+            const { mod, sendToAsync } = makeModule();
+            sendToAsync.resolves({ result: [{ ts: NOW - 1000, val: 5 }] });
+            const { ws, sent } = makeWs();
+
+            await mod.processMessage(ws, {
+                id: 2,
+                type: 'logbook/event_stream',
+                entity_ids: ['sensor.x'],
+                start_time: new Date(NOW - 3600000).toISOString(),
+                end_time: new Date(NOW).toISOString(),
+            });
+            const before = sent.length;
+            const server = { clients: new Set([ws]) };
+
+            // Same value as last shown -> no new logbook event.
+            mod.onStateChange('js.0.x', { val: 5, ts: NOW }, server);
+            expect(sent.length).to.equal(before);
+
+            // A real change -> one new logbook event.
+            mod.onStateChange('js.0.x', { val: 8, ts: NOW + 1 }, server);
+            expect(sent.length).to.equal(before + 1);
+            expect(sent[sent.length - 1].event.events[0].state).to.equal('8');
+            clock.tick(400);
         } finally {
             clock.restore();
         }

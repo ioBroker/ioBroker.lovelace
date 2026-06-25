@@ -43,7 +43,7 @@ interface WsServer {
 
 interface LogbookSubscription {
     id: number;
-    idsToWatch: { iobStateId: string; entity: EntityLike }[];
+    idsToWatch: { iobStateId: string; entity: EntityLike; lastState?: string }[];
 }
 
 type AdapterWithConfig = ioBroker.Adapter & {
@@ -105,6 +105,18 @@ class LogbookModule {
     }
 
     /**
+     * Render an ioBroker state value to the HA logbook state string for an entity.
+     *
+     * @param entity - the entity the state belongs to
+     * @param val - the ioBroker state value
+     */
+    private renderState(entity: EntityLike, val: unknown): string {
+        return typeof entity.context.STATE.historyParser === 'function'
+            ? String(entity.context.STATE.historyParser(entity.context.STATE.getId || '', val))
+            : String(iobState2EntityState(entity, val));
+    }
+
+    /**
      * Send a logbook response to the frontend.
      *
      * @param ws - websocket client to send to
@@ -151,15 +163,24 @@ class LogbookModule {
             }
             events.push({
                 when: result.state.ts / 1000,
-                state:
-                    typeof result.entity.context.STATE.historyParser === 'function'
-                        ? String(result.entity.context.STATE.historyParser(String(id), result.state.val))
-                        : String(iobState2EntityState(result.entity, result.state.val)),
+                state: this.renderState(result.entity, result.state.val),
                 entity_id: result.entity.entity_id,
                 context_user_id: from,
             });
         }
         events.sort((a, b) => (a.when as number) - (b.when as number));
+        // Drop consecutive duplicate states per entity. A history backend may re-log unchanged values
+        // (e.g. InfluxDB "still record the same values"), which would otherwise produce a logbook entry
+        // for every relog. Tracking the last state per entity over the time-sorted list removes those.
+        const lastStatePerEntity: Record<string, unknown> = {};
+        event.events = events.filter(ev => {
+            const key = ev.entity_id as string;
+            if (lastStatePerEntity[key] === ev.state) {
+                return false;
+            }
+            lastStatePerEntity[key] = ev.state;
+            return true;
+        });
         ws.send(JSON.stringify(message));
     }
 
@@ -197,7 +218,7 @@ class LogbookModule {
                     return true;
                 }
 
-                const idsToWatch: { iobStateId: string; entity: EntityLike }[] = [];
+                const idsToWatch: { iobStateId: string; entity: EntityLike; lastState?: string }[] = [];
                 const promises: Promise<void>[] = [];
                 const results: { entity: EntityLike; state: ioBroker.State }[] = [];
                 const options = {
@@ -238,6 +259,19 @@ class LogbookModule {
                 }
 
                 await Promise.all(promises);
+                // Seed each watched id with the newest state shown, so a following live relog of the
+                // same value is recognized as a duplicate and not added to the logbook.
+                for (const entry of idsToWatch) {
+                    let newest: ioBroker.State | undefined;
+                    for (const r of results) {
+                        if (r.entity.entity_id === entry.entity.entity_id && (!newest || r.state.ts > newest.ts)) {
+                            newest = r.state;
+                        }
+                    }
+                    if (newest) {
+                        entry.lastState = this.renderState(entry.entity, newest.val);
+                    }
+                }
                 this.sendLogbookResponse(ws, message.id, startTime, endTime, results, true);
                 setTimeout(() => this.sendLogbookResponse(ws, message.id, startTime, endTime, []), 300);
 
@@ -282,6 +316,13 @@ class LogbookModule {
                         for (const subscription of client._subscribes.logbook as LogbookSubscription[]) {
                             const idAndEntity = subscription.idsToWatch.find(entry => id === entry.iobStateId);
                             if (idAndEntity) {
+                                // Skip unchanged repeats (e.g. a backend re-logging the same value) so they
+                                // do not pile up as identical logbook entries.
+                                const rendered = this.renderState(idAndEntity.entity, state.val);
+                                if (idAndEntity.lastState === rendered) {
+                                    continue;
+                                }
+                                idAndEntity.lastState = rendered;
                                 this.sendLogbookResponse(client, subscription.id, undefined, undefined, [
                                     { state, entity: idAndEntity.entity },
                                 ]);

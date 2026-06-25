@@ -48,6 +48,15 @@ class LogbookModule {
     }
   }
   /**
+   * Render an ioBroker state value to the HA logbook state string for an entity.
+   *
+   * @param entity - the entity the state belongs to
+   * @param val - the ioBroker state value
+   */
+  renderState(entity, val) {
+    return typeof entity.context.STATE.historyParser === "function" ? String(entity.context.STATE.historyParser(entity.context.STATE.getId || "", val)) : String(iobState2EntityState(entity, val));
+  }
+  /**
    * Send a logbook response to the frontend.
    *
    * @param ws - websocket client to send to
@@ -86,12 +95,21 @@ class LogbookModule {
       }
       events.push({
         when: result.state.ts / 1e3,
-        state: typeof result.entity.context.STATE.historyParser === "function" ? String(result.entity.context.STATE.historyParser(String(id), result.state.val)) : String(iobState2EntityState(result.entity, result.state.val)),
+        state: this.renderState(result.entity, result.state.val),
         entity_id: result.entity.entity_id,
         context_user_id: from
       });
     }
     events.sort((a, b) => a.when - b.when);
+    const lastStatePerEntity = {};
+    event.events = events.filter((ev) => {
+      const key = ev.entity_id;
+      if (lastStatePerEntity[key] === ev.state) {
+        return false;
+      }
+      lastStatePerEntity[key] = ev.state;
+      return true;
+    });
     ws.send(JSON.stringify(message));
   }
   /**
@@ -159,6 +177,17 @@ class LogbookModule {
           }
         }
         await Promise.all(promises);
+        for (const entry of idsToWatch) {
+          let newest;
+          for (const r of results) {
+            if (r.entity.entity_id === entry.entity.entity_id && (!newest || r.state.ts > newest.ts)) {
+              newest = r.state;
+            }
+          }
+          if (newest) {
+            entry.lastState = this.renderState(entry.entity, newest.val);
+          }
+        }
         this.sendLogbookResponse(ws, message.id, startTime, endTime, results, true);
         setTimeout(() => this.sendLogbookResponse(ws, message.id, startTime, endTime, []), 300);
         const logbookSubs = ws._subscribes.logbook;
@@ -201,6 +230,11 @@ class LogbookModule {
             for (const subscription of client._subscribes.logbook) {
               const idAndEntity = subscription.idsToWatch.find((entry) => id === entry.iobStateId);
               if (idAndEntity) {
+                const rendered = this.renderState(idAndEntity.entity, state.val);
+                if (idAndEntity.lastState === rendered) {
+                  continue;
+                }
+                idAndEntity.lastState = rendered;
                 this.sendLogbookResponse(client, subscription.id, void 0, void 0, [
                   { state, entity: idAndEntity.entity }
                 ]);

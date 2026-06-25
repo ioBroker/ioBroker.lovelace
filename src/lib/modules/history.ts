@@ -216,6 +216,14 @@ async function getHistory(
                             lu: 1,
                         };
                         applyHistoryTimestamps(result, e);
+                        // Drop adjacent duplicate points (same state and attributes). Some history backends
+                        // (e.g. InfluxDB with "still record the same values") re-log unchanged values at a
+                        // fixed interval; those flat duplicates only clutter the graph. Keeping the first of
+                        // a run is enough - its state extends to the next real change / end of the range.
+                        const prev = historyPerEntity[historyPerEntity.length - 1];
+                        if (prev && prev.s === result.s && JSON.stringify(prev.a) === JSON.stringify(result.a)) {
+                            continue;
+                        }
                         historyPerEntity.push(result);
                     }
 
