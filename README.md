@@ -102,6 +102,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Calendar events now include location and description when the source provides them.
 * (Garfonso/Claude) Custom dialog: device classes are sorted with clearer labels (id + unit), device/state class can be cleared, and `has_time`/`has_date` no longer cause spurious "unsaved changes".
 * (Garfonso/Claude) Custom dialog: full Home Assistant device-class list with meanings and units (sensors show the unit, binary sensors show what on/off mean); clearer state-class help.
+* (Garfonso/Claude) Custom dialog: device-class labels are translated into all admin languages (the class name / on-off meaning is localised; the id and unit stay).
 
 ### 6.0.4 (2026-06-18)
 * (Garfonso/Claude) Bound the number of history points fetched per request, so a large history graph can no longer overload the states database.
