@@ -96,6 +96,35 @@ Remove search, assist and the dot menu:
 
 Hide the title bar completely: set the state `lovelace.0.instances.hideHeader` to `true` (after a reload it removes the header on all browsers). The state also exists per instance, so it can be set per browser.
 
+#### A complete theme that looks like the default, but without the bell
+The snippets above only work inside a theme. If you do not want to build one, here is a small, self-contained theme (`no-bell-icon`) that roughly matches the default dark look and removes the bell. Paste it into the theme configuration, then select it (e.g. via the state `lovelace.0.instances.set_theme`). The theme only becomes selectable after the data point exists and the adapter has restarted.
+
+```yaml
+no-bell-icon:
+  primary-background-color: "#111111"
+  card-background-color: "#1c1c1c"
+  secondary-background-color: "#282828"
+  primary-text-color: "#e1e1e1"
+  secondary-text-color: "#9b9b9b"
+  disabled-text-color: "#6f6f6f"
+  divider-color: "rgba(225, 225, 225, .12)"
+
+  input-label-ink-color: var(--primary-text-color)
+  ha-color-form-background: var(--card-background-color)
+  ha-color-form-background-hover: var(--light-primary-color)
+  ha-color-form-background-disabled: var(--primary-background-color)
+  wa-color-neutral-fill-normal: var(--ha-color-on-primary-normal)
+
+  # Hide the bell icon in the toolbar. Requires card-mod.
+  # https://github.com/thomasloven/lovelace-card-mod
+  card-mod-theme: no-bell-icon
+  card-mod-root-yaml: |
+    .: |
+      mwc-icon-button[label] {
+        display: none;
+      }
+```
+
 ### Mini Media card with TTS and shortcuts
 The Mini Media card supports text-to-speech (TTS) input for smart speakers (Echo, Google Home, …) and shortcut buttons for songs / stations. TTS uses a service ioBroker does not support out of the box, so an ioBroker-specific configuration is needed:
 

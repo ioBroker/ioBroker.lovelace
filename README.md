@@ -85,6 +85,7 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) History and logbook no longer show duplicate adjacent entries when the history backend re-logs unchanged values (e.g. InfluxDB "still record the same values"). (#711)
+* (Garfonso/Claude) Docs: added a complete near-default theme example that removes the bell. (#705)
 
 ### 6.1.1 (2026-06-25)
 * (Garfonso/Claude) Fixed a crash (adapter restart loop) when a room enum has no name; the area list no longer brings the adapter down.

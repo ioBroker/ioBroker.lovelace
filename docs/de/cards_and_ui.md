@@ -91,6 +91,35 @@ Suche, Assist und Punktmenü entfernen:
 
 Titelleiste vollständig verbergen: den State `lovelace.0.instances.hideHeader` auf `true` setzen (nach einem Reload wird die Titelleiste bei allen Browsern entfernt). Der State existiert auch pro Instanz, kann also pro Browser gesetzt werden.
 
+#### Ein komplettes Theme, das aussieht wie das Standard-Theme, aber ohne Glocke
+Die obigen Schnipsel funktionieren nur innerhalb eines Themes. Wer keines bauen möchte, kann dieses kleine, eigenständige Theme (`no-bell-icon`) nehmen: Es entspricht grob dem dunklen Standard-Look und entfernt die Glocke. In die Theme-Konfiguration einfügen und auswählen (z. B. über den State `lovelace.0.instances.set_theme`). Das Theme wird erst auswählbar, nachdem der Datenpunkt existiert und der Adapter neu gestartet wurde.
+
+```yaml
+no-bell-icon:
+  primary-background-color: "#111111"
+  card-background-color: "#1c1c1c"
+  secondary-background-color: "#282828"
+  primary-text-color: "#e1e1e1"
+  secondary-text-color: "#9b9b9b"
+  disabled-text-color: "#6f6f6f"
+  divider-color: "rgba(225, 225, 225, .12)"
+
+  input-label-ink-color: var(--primary-text-color)
+  ha-color-form-background: var(--card-background-color)
+  ha-color-form-background-hover: var(--light-primary-color)
+  ha-color-form-background-disabled: var(--primary-background-color)
+  wa-color-neutral-fill-normal: var(--ha-color-on-primary-normal)
+
+  # Glocke in der Titelleiste ausblenden. Benötigt card-mod.
+  # https://github.com/thomasloven/lovelace-card-mod
+  card-mod-theme: no-bell-icon
+  card-mod-root-yaml: |
+    .: |
+      mwc-icon-button[label] {
+        display: none;
+      }
+```
+
 ### Mini-Media-Card mit Text2Speech (TTS) und Musik-Shortcuts
 Die Mini-Media-Card unterstützt für smarte Lautsprecher (Echo, Google Home, …) eine Text-to-Speech-(TTS-)Eingabe sowie Shortcut-Knöpfe für Musikstücke / Sender. Für TTS wird ein Service verwendet, den ioBroker nicht ohne Weiteres unterstützt, daher ist eine ioBroker-spezifische Konfiguration nötig:
 
