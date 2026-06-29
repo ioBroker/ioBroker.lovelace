@@ -239,7 +239,13 @@ class StatisticsRecorder {
                 const wsWithAuth = ws as { __auth?: { username?: string } };
                 const user = this.personModule.getUserIDFromName(wsWithAuth.__auth?.username);
                 const start = new Date(message.start_time as string).getTime();
-                const end = message.end_time ? new Date(message.end_time as string).getTime() : Date.now();
+                // Clamp the end to "now". The energy dashboard requests the end of the current period
+                // (the rest of today, i.e. the future). Some history backends (e.g. InfluxDB with
+                // carry-forward / "still record the same values" fill) then return the last value for
+                // buckets past now, which the frontend draws as a phantom line running into the future.
+                // Never build buckets beyond the present.
+                const requestedEnd = message.end_time ? new Date(message.end_time as string).getTime() : Date.now();
+                const end = Math.min(requestedEnd, Date.now());
                 let step: number;
                 switch (message.period as string) {
                     case '5minute':
@@ -314,8 +320,10 @@ class StatisticsRecorder {
                                 continue;
                             }
                             const value = Number(series[i].val);
-                            if (!isNaN(value)) {
-                                bucketAt(series[i].ts, series[i + 1]?.ts ?? end)[field] = value;
+                            // Ignore points past the (clamped) end so a backend that carries the last
+                            // value forward cannot create a future-dated bucket.
+                            if (!isNaN(value) && series[i].ts <= end) {
+                                bucketAt(series[i].ts, Math.min(series[i + 1]?.ts ?? end, end))[field] = value;
                             }
                         }
                     }
@@ -335,8 +343,8 @@ class StatisticsRecorder {
                                 continue; // gap: keep previous so the next real reading still gets a delta
                             }
                             const value = Number(series[i].val);
-                            if (series[i].ts >= start && !isNaN(value)) {
-                                const bucket = bucketAt(series[i].ts, series[i + 1]?.ts ?? end);
+                            if (series[i].ts >= start && series[i].ts <= end && !isNaN(value)) {
+                                const bucket = bucketAt(series[i].ts, Math.min(series[i + 1]?.ts ?? end, end));
                                 if (wantSum) {
                                     bucket.sum = value;
                                 }

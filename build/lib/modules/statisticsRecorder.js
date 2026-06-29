@@ -164,7 +164,8 @@ class StatisticsRecorder {
         const wsWithAuth = ws;
         const user = this.personModule.getUserIDFromName((_c = wsWithAuth.__auth) == null ? void 0 : _c.username);
         const start = new Date(message.start_time).getTime();
-        const end = message.end_time ? new Date(message.end_time).getTime() : Date.now();
+        const requestedEnd = message.end_time ? new Date(message.end_time).getTime() : Date.now();
+        const end = Math.min(requestedEnd, Date.now());
         let step;
         switch (message.period) {
           case "5minute":
@@ -229,8 +230,8 @@ class StatisticsRecorder {
                 continue;
               }
               const value = Number(series[i].val);
-              if (!isNaN(value)) {
-                bucketAt(series[i].ts, (_e = (_d = series[i + 1]) == null ? void 0 : _d.ts) != null ? _e : end)[field] = value;
+              if (!isNaN(value) && series[i].ts <= end) {
+                bucketAt(series[i].ts, Math.min((_e = (_d = series[i + 1]) == null ? void 0 : _d.ts) != null ? _e : end, end))[field] = value;
               }
             }
           }
@@ -242,8 +243,8 @@ class StatisticsRecorder {
                 continue;
               }
               const value = Number(series[i].val);
-              if (series[i].ts >= start && !isNaN(value)) {
-                const bucket = bucketAt(series[i].ts, (_g = (_f = series[i + 1]) == null ? void 0 : _f.ts) != null ? _g : end);
+              if (series[i].ts >= start && series[i].ts <= end && !isNaN(value)) {
+                const bucket = bucketAt(series[i].ts, Math.min((_g = (_f = series[i + 1]) == null ? void 0 : _f.ts) != null ? _g : end, end));
                 if (wantSum) {
                   bucket.sum = value;
                 }

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const StatisticsRecorder = require('../modules/statisticsRecorder');
@@ -111,6 +112,43 @@ describe('modules/statisticsRecorder recorder/statistics_during_period', functio
         expect(buckets).to.have.lengthOf(2);
         expect(buckets[0]).to.include({ start: T0, change: 2 });
         expect(buckets[1]).to.include({ start: T0 + STEP, change: 3 });
+    });
+
+    it('never emits a bucket past now, even if the backend carries values into the future', async function () {
+        const NOW = T0 + 3 * STEP;
+        const clock = sinon.useFakeTimers({ now: NOW });
+        try {
+            // The backend (e.g. InfluxDB carry-forward) returns points up to the requested end_time,
+            // which lies in the future (NOW + 4*STEP). None of those future points may become a bucket.
+            const { mod, responses } = makeEnergyModule([
+                { ts: T0 - STEP, val: 10 },
+                { ts: T0, val: 12 },
+                { ts: T0 + STEP, val: 15 },
+                { ts: T0 + 2 * STEP, val: 18 },
+                { ts: NOW + STEP, val: 18 },
+                { ts: NOW + 2 * STEP, val: 18 },
+            ]);
+            await mod.processMessage(
+                { __auth: { username: 'admin' } },
+                {
+                    type: 'recorder/statistics_during_period',
+                    id: 6,
+                    start_time: new Date(T0).toISOString(),
+                    end_time: new Date(NOW + 4 * STEP).toISOString(),
+                    period: 'hour',
+                    statistic_ids: ['sensor.energy'],
+                    types: ['change'],
+                },
+            );
+
+            const buckets = responses[0]['sensor.energy'];
+            for (const b of buckets) {
+                expect(b.start, 'bucket start in the future').to.be.at.most(NOW);
+                expect(b.end, 'bucket end in the future').to.be.at.most(NOW);
+            }
+        } finally {
+            clock.restore();
+        }
     });
 });
 
