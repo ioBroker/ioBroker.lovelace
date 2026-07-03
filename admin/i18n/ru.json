@@ -12,7 +12,7 @@
     "alarmCheckCodeOnDisarmOnly": "Проверяйте код тревоги только при снятии с охраны",
     "AliasOnly": "Автоматически генерировать устройства только из псевдонима 0. *",
     "all": "all",
-    "Allow only when User is Owner:": "Allow only when User is Owner:",
+    "Allow only when User is Owner:": "Разрешить только если пользователь является владельцем:",
     "App name (home screen / PWA)": "Имя приложения (домашний экран / PWA)",
     "App short name (PWA)": "Короткое имя приложения (PWA)",
     "apparent_power — Apparent power (VA)": "apparent_power — Полная мощность (VA)",
