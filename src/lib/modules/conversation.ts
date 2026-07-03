@@ -5,7 +5,7 @@ type SendResponseFn = (ws: unknown, id: unknown, result?: unknown) => void;
 interface ConversationSubscription {
     id: number;
     conversationId: number | string;
-    timer: ReturnType<typeof setTimeout>;
+    timer: ioBroker.Timeout | undefined;
 }
 
 interface WsClient {
@@ -182,7 +182,7 @@ class ConversationModule {
             ws._subscribes.conversations.push({
                 id: Number(message.id),
                 conversationId,
-                timer: setTimeout(
+                timer: this.adapter.setTimeout(
                     (messageId: number) => {
                         this.sendSpeechResponse(
                             this.words.no_one_hears_you[this.lang] || this.words.no_one_hears_you.en,
@@ -219,7 +219,7 @@ class ConversationModule {
                         for (const client of websocketServer.clients) {
                             if (client._subscribes.conversations && client.readyState === WS_OPEN) {
                                 for (const conversation of client._subscribes.conversations) {
-                                    conversation.timer && clearTimeout(conversation.timer);
+                                    conversation.timer && this.adapter.clearTimeout(conversation.timer);
                                     this.sendSpeechResponse(
                                         state.val,
                                         client,

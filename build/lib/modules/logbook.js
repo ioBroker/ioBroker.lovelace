@@ -130,7 +130,10 @@ class LogbookModule {
         const queryEnd = Math.min(Date.now(), endTime);
         if (Number.isNaN(startTime) || Number.isNaN(queryEnd) || startTime >= queryEnd) {
           this.sendLogbookResponse(ws, message.id, startTime, endTime, [], true);
-          setTimeout(() => this.sendLogbookResponse(ws, message.id, startTime, endTime, []), 300);
+          this.adapter.setTimeout(
+            () => this.sendLogbookResponse(ws, message.id, startTime, endTime, []),
+            300
+          );
           return true;
         }
         if (!this.adapter.config.history) {
@@ -189,7 +192,7 @@ class LogbookModule {
           }
         }
         this.sendLogbookResponse(ws, message.id, startTime, endTime, results, true);
-        setTimeout(() => this.sendLogbookResponse(ws, message.id, startTime, endTime, []), 300);
+        this.adapter.setTimeout(() => this.sendLogbookResponse(ws, message.id, startTime, endTime, []), 300);
         const logbookSubs = ws._subscribes.logbook;
         const subscription = logbookSubs.find((entry) => entry.id === Number(message.id));
         if (subscription) {

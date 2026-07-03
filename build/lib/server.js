@@ -365,9 +365,9 @@ class WebServer {
         (_a = mod.augmentServices) == null ? void 0 : _a.call(mod, entityData.services);
       }
       if (this.config.auth !== false) {
-        this._clearInterval = setInterval(() => this.clearAuth(), 6e4);
+        this._clearInterval = this.adapter.setInterval(() => this.clearAuth(), 6e4);
       }
-      this._sunInterval = setInterval(() => this._updateSunEntity(), 6e4);
+      this._sunInterval = this.adapter.setInterval(() => this._updateSunEntity(), 6e4);
       this.adapter.setState("info.readyForClients", true, true);
       this.log.debug("Initialization done.");
     }).catch((err) => {
@@ -2836,8 +2836,8 @@ ${hideScript.join("\n")}
           this._objectData.updatedIds.push(id2);
         }
       }
-      this._updateTimer && clearTimeout(this._updateTimer);
-      this._updateTimer = setTimeout(async () => {
+      this._updateTimer && this.adapter.clearTimeout(this._updateTimer);
+      this._updateTimer = this.adapter.setTimeout(async () => {
         var _a2;
         this._updateTimer = null;
         const idsToProcess = this._objectData.updatedIds.splice(0);
@@ -2894,11 +2894,11 @@ ${hideScript.join("\n")}
       this.adapter.unsubscribeForeignObjects("*");
       this.adapter.unsubscribeObjects("configuration", cb);
     });
-    this._clearInterval && clearInterval(this._clearInterval);
+    this._clearInterval && this.adapter.clearInterval(this._clearInterval);
     this._clearInterval = null;
-    this._sunInterval && clearInterval(this._sunInterval);
+    this._sunInterval && this.adapter.clearInterval(this._sunInterval);
     this._sunInterval = null;
-    this._updateTimer && clearTimeout(this._updateTimer);
+    this._updateTimer && this.adapter.clearTimeout(this._updateTimer);
     this._updateTimer = null;
     for (const mod of Object.values(this._modules)) {
       void ((_a = mod.cleanup) == null ? void 0 : _a.call(mod));

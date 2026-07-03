@@ -24,7 +24,7 @@ interface TodoList {
     ioBrokerId: string;
     items: TodoItem[];
     entity: EntityLike;
-    timeout?: ReturnType<typeof setTimeout>;
+    timeout?: ioBroker.Timeout | undefined;
 }
 
 interface EntityLike {
@@ -102,8 +102,8 @@ class TodoModule {
      * @param todoList - the todo list to persist
      */
     private _storeTodolist(todoList: TodoList): void {
-        clearTimeout(todoList.timeout);
-        todoList.timeout = setTimeout(async () => {
+        todoList.timeout && this.adapter.clearTimeout(todoList.timeout);
+        todoList.timeout = this.adapter.setTimeout(async () => {
             await this.adapter.setForeignStateAsync(todoList.ioBrokerId, JSON.stringify(todoList.items), true);
         }, 500);
     }
@@ -471,7 +471,7 @@ class TodoModule {
      */
     cleanup(): void {
         for (const todoList of Object.values(this.todoListCache)) {
-            clearTimeout(todoList.timeout);
+            todoList.timeout && this.adapter.clearTimeout(todoList.timeout);
         }
     }
 

@@ -14,6 +14,8 @@ function makeModule(): { mod: any; sendToAsync: sinon.SinonStub } {
         getObjectView: (_d: string, _t: string, _p: unknown, cb: (e: unknown, r: unknown) => void) =>
             cb(null, { rows: [] }),
         sendToAsync,
+        setTimeout: (cb: (...a: unknown[]) => void, ms: number, ...args: unknown[]) => setTimeout(cb, ms, ...args),
+        clearTimeout: (t: ReturnType<typeof setTimeout>) => clearTimeout(t),
     };
     const mod = new LogbookModule({ adapter, getUsedEntityIDs: () => [] });
     return { mod, sendToAsync };

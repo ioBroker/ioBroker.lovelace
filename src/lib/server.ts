@@ -239,10 +239,10 @@ class WebServer {
 
     private _wss: any;
     private _indexHtml: string | undefined;
-    private _clearInterval: ReturnType<typeof setInterval> | null | undefined;
-    private _sunInterval: ReturnType<typeof setInterval> | null | undefined;
+    private _clearInterval: ioBroker.Interval | null | undefined;
+    private _sunInterval: ioBroker.Interval | null | undefined;
     private _sunLocationWarned: boolean | undefined;
-    private _updateTimer: ReturnType<typeof setTimeout> | null | undefined;
+    private _updateTimer: ioBroker.Timeout | null | undefined;
 
     /**
      * Constructor of the WebServer class.
@@ -494,10 +494,10 @@ class WebServer {
 
                 // check every minute
                 if (this.config.auth !== false) {
-                    this._clearInterval = setInterval(() => this.clearAuth(), 60000);
+                    this._clearInterval = this.adapter.setInterval(() => this.clearAuth(), 60000);
                 }
                 // keep the synthetic sun.sun entity (elevation/azimuth/next_*) up to date
-                this._sunInterval = setInterval(() => this._updateSunEntity(), 60000);
+                this._sunInterval = this.adapter.setInterval(() => this._updateSunEntity(), 60000);
                 this.adapter.setState('info.readyForClients', true, true);
                 this.log.debug('Initialization done.');
             })
@@ -3452,8 +3452,8 @@ class WebServer {
             }
 
             //handle updates after a short time, so that multiple changes get handled together.
-            this._updateTimer && clearTimeout(this._updateTimer);
-            this._updateTimer = setTimeout(async () => {
+            this._updateTimer && this.adapter.clearTimeout(this._updateTimer);
+            this._updateTimer = this.adapter.setTimeout(async () => {
                 this._updateTimer = null;
                 // Drain the queue first so new changes during processing get queued for the next run.
                 const idsToProcess = this._objectData.updatedIds.splice(0);
@@ -3529,11 +3529,11 @@ class WebServer {
             this.adapter.unsubscribeForeignObjects('*');
             this.adapter.unsubscribeObjects('configuration', cb);
         });
-        this._clearInterval && clearInterval(this._clearInterval);
+        this._clearInterval && this.adapter.clearInterval(this._clearInterval);
         this._clearInterval = null;
-        this._sunInterval && clearInterval(this._sunInterval);
+        this._sunInterval && this.adapter.clearInterval(this._sunInterval);
         this._sunInterval = null;
-        this._updateTimer && clearTimeout(this._updateTimer);
+        this._updateTimer && this.adapter.clearTimeout(this._updateTimer);
         this._updateTimer = null;
         for (const mod of Object.values(this._modules) as IModule[]) {
             void mod.cleanup?.();

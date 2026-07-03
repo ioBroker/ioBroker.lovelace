@@ -56,8 +56,8 @@ class TodoModule {
    * @param todoList - the todo list to persist
    */
   _storeTodolist(todoList) {
-    clearTimeout(todoList.timeout);
-    todoList.timeout = setTimeout(async () => {
+    todoList.timeout && this.adapter.clearTimeout(todoList.timeout);
+    todoList.timeout = this.adapter.setTimeout(async () => {
       await this.adapter.setForeignStateAsync(todoList.ioBrokerId, JSON.stringify(todoList.items), true);
     }, 500);
   }
@@ -402,7 +402,7 @@ class TodoModule {
    */
   cleanup() {
     for (const todoList of Object.values(this.todoListCache)) {
-      clearTimeout(todoList.timeout);
+      todoList.timeout && this.adapter.clearTimeout(todoList.timeout);
     }
   }
   /**
