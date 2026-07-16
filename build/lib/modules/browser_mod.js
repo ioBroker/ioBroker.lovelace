@@ -312,6 +312,29 @@ class BrowserModModule {
     }
   }
   /**
+   * Sanitize a browser id for use in ioBroker state ids. Replaces the adapter's forbidden
+   * characters and dots (which would split the id into sub-folders) with underscores. A broken
+   * client can send e.g. "[object Object]" (an object accidentally written to localStorage,
+   * stringified) - without sanitizing, every state write under that id spams "Used invalid
+   * characters" warnings.
+   *
+   * @param browserId - raw browser id from the client
+   * @returns a browser id that is safe as an ioBroker id segment
+   */
+  _sanitizeBrowserId(browserId) {
+    const forbidden = this.adapter.FORBIDDEN_CHARS || /[\][*,;'"`<>\\?\s -]/g;
+    return browserId.replace(forbidden, "_").replace(/\./g, "_");
+  }
+  /**
+   * Generate a fresh browser id in the same format the browser_mod frontend uses.
+   *
+   * @returns a new random browser id
+   */
+  _generateBrowserId() {
+    const part = () => Math.floor(1e5 * (1 + Math.random())).toString(16).substring(1);
+    return `browser_mod_${part()}${part()}_${part()}${part()}`;
+  }
+  /**
    * Clean up old browser_mod instances.
    */
   async _cleanUpInstances() {
@@ -551,6 +574,16 @@ class BrowserModModule {
         this.adapter.log.warn(`No browser ID in browser_mod request: ${JSON.stringify(message)}`);
         return true;
       }
+      if (message.browserID !== void 0 && typeof message.browserID !== "string") {
+        this.adapter.log.warn(
+          `Invalid browser ID (not a string) in browser_mod request: ${JSON.stringify(message.browserID)}`
+        );
+        return true;
+      }
+      const rawBrowserId = message.browserID;
+      if (rawBrowserId !== void 0) {
+        message.browserID = this._sanitizeBrowserId(rawBrowserId);
+      }
       const ioBrokerDeviceId = instancesPath + message.browserID;
       if (method === "update") {
         await this._handleUpdate(ioBrokerDeviceId, message);
@@ -589,6 +622,24 @@ class BrowserModModule {
           await this.adapter.setStateAsync(`${ioBrokerDeviceId}.online`, true, true);
         } else {
           this.adapter.log.debug(`No objects for instance, yet.. ${ioBrokerDeviceId}.online`);
+        }
+        if (rawBrowserId !== void 0 && rawBrowserId !== message.browserID) {
+          const newBrowserId = this._generateBrowserId();
+          this.adapter.log.warn(
+            `browser_mod client connected with invalid browser id ${JSON.stringify(rawBrowserId)} - asking it to rename itself to ${newBrowserId}.`
+          );
+          this._sendToClient(this.clients[message.browserID], {
+            type: "event",
+            event: {
+              event_type: "browser_mod/command",
+              command: "change_browser_id",
+              current_browser_id: rawBrowserId,
+              new_browser_id: newBrowserId,
+              register: true,
+              origin: "LOCAL",
+              time_fired: (/* @__PURE__ */ new Date()).toISOString()
+            }
+          });
         }
       } else if (method === "register") {
         this.initialiseBrowserSettings(message.browserID, true);
@@ -909,6 +960,28 @@ class BrowserModModule {
   async init(lovelaceConfig) {
     this.handeUpdatedConfig(lovelaceConfig);
     await this._checkObjects(instancesPath.substring(0, instancesPath.length - 1));
+    const garbageIds = /* @__PURE__ */ new Set();
+    for (const id of Object.keys(this.objects)) {
+      if (id.startsWith(`${this.adapter.namespace}.${instancesPath}`)) {
+        const browserId = id.split(".")[3];
+        if (browserId && this._sanitizeBrowserId(browserId) !== browserId) {
+          garbageIds.add(browserId);
+        }
+      }
+    }
+    for (const browserId of garbageIds) {
+      this.adapter.log.info(`Removing browser_mod instance with invalid id: ${JSON.stringify(browserId)}`);
+      try {
+        await this.adapter.delObjectAsync(`${instancesPath}${browserId}`, { recursive: true });
+      } catch (e) {
+        this.adapter.log.warn(`Could not remove invalid browser_mod instance: ${String(e)}`);
+      }
+      for (const id of Object.keys(this.objects)) {
+        if (id.startsWith(`${this.adapter.namespace}.${instancesPath}${browserId}`)) {
+          delete this.objects[id];
+        }
+      }
+    }
     for (const id of Object.keys(this.objects)) {
       if (id.startsWith(`${this.adapter.namespace}.${instancesPath}`)) {
         const browserId = id.split(".")[3];
