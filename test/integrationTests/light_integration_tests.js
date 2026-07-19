@@ -491,6 +491,46 @@ exports.runTests = function (suite) {
                 );
             });
 
+            //advanced light (hue) with a separate read-only ON_ACTUAL state: the device reports its
+            //real on/off through ON_ACTUAL. The adapter must subscribe it and push changes to the UI.
+            jsonFiles.push('../testData/light_issue616_onOffBrightnessNotSynced.json');
+            idsWithEnums.push('adapter.0.light.issue616');
+            initialStates.push(
+                { id: 'adapter.0.light.issue616.ON', val: false },
+                { id: 'adapter.0.light.issue616.ON_ACTUAL', val: false },
+                { id: 'adapter.0.light.issue616.DIMMER', val: 50 },
+                { id: 'adapter.0.light.issue616.HUE', val: 0 },
+                { id: 'adapter.0.light.issue616.SATURATION', val: 0 },
+                { id: 'adapter.0.light.issue616.TEMPERATURE', val: 3000 },
+            );
+            it('advanced light: ON_ACTUAL change alone is pushed to the frontend', async () => {
+                const deviceId = 'adapter.0.light.issue616';
+                const entity = entities.find(e => e.context.deviceId === deviceId);
+                expect(entity).to.be.ok;
+                tools.expectEntity(entity, 'light', deviceId);
+                expect(entity).to.have.property('state', 'off'); //initial from ON_ACTUAL
+
+                console.log('IoB device reports on via ON_ACTUAL');
+                await tools.validateStateChange(
+                    harness,
+                    entity.entity_id,
+                    async () => await harness.states.setStateAsync(`${deviceId}.ON_ACTUAL`, true, true),
+                    entity => {
+                        expect(entity).to.have.property('state', 'on');
+                    },
+                );
+
+                console.log('IoB device reports off via ON_ACTUAL');
+                await tools.validateStateChange(
+                    harness,
+                    entity.entity_id,
+                    async () => await harness.states.setStateAsync(`${deviceId}.ON_ACTUAL`, false, true),
+                    entity => {
+                        expect(entity).to.have.property('state', 'off');
+                    },
+                );
+            });
+
             jsonFiles.push('../testData/light_colortemp.json');
             idsWithEnums.push('adapter.0.light.ColorTemp');
             initialStates.push(
