@@ -602,7 +602,7 @@ async function handleTurnOnCmd(entity, command, data, user) {
   await setLightAdvancedAttributesToIOBStates(data, entity, user);
 }
 function convertControlToStates(control) {
-  var _a, _b, _c;
+  var _a, _b, _c, _d;
   function findState(name) {
     var _a2;
     const s = control.states.find((st) => st.id && st.name === name);
@@ -630,7 +630,7 @@ function convertControlToStates(control) {
       break;
     case import_type_detector.Types.light:
       states.state = findState("SET");
-      states.stateRead = findState("ACTUAL");
+      states.stateRead = (_d = findState("ON_ACTUAL")) != null ? _d : findState("ACTUAL");
       states.effect = findState("EFFECT");
       break;
   }

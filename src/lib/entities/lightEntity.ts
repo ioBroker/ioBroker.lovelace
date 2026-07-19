@@ -800,7 +800,9 @@ export function convertControlToStates(control: {
             break;
         case Types.light:
             states.state = findState('SET');
-            states.stateRead = findState('ACTUAL');
+            // type-detector names the read-only on/off state ON_ACTUAL (role sensor.light);
+            // keep ACTUAL as fallback for older/manual configurations.
+            states.stateRead = findState('ON_ACTUAL') ?? findState('ACTUAL');
             states.effect = findState('EFFECT');
             break;
     }

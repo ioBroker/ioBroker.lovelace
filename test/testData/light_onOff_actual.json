@@ -1,0 +1,60 @@
+{
+    "adapter.0.light.OnOffWithActual": {
+        "type": "device",
+        "common": {
+            "name": "On Off Lamp With Actual"
+        },
+        "native": {},
+        "from": "system.adapter.javascript.1",
+        "user": "system.user.admin",
+        "ts": 1592055615999,
+        "_id": "adapter.0.light.OnOffWithActual",
+        "acl": {
+            "object": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "adapter.0.light.OnOffWithActual.state": {
+        "type": "state",
+        "common": {
+            "name": "On Off Lamp Switch",
+            "read": true,
+            "write": true,
+            "role": "switch.light",
+            "type": "boolean"
+        },
+        "native": {},
+        "_id": "adapter.0.light.OnOffWithActual.state",
+        "from": "system.adapter.javascript.1",
+        "user": "system.user.admin",
+        "ts": 1590882251791,
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "adapter.0.light.OnOffWithActual.state_actual": {
+        "type": "state",
+        "common": {
+            "name": "On Off Lamp real state",
+            "read": true,
+            "write": false,
+            "role": "sensor.light",
+            "type": "boolean"
+        },
+        "native": {},
+        "_id": "adapter.0.light.OnOffWithActual.state_actual",
+        "from": "system.adapter.javascript.1",
+        "user": "system.user.admin",
+        "ts": 1590882251791,
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    }
+}

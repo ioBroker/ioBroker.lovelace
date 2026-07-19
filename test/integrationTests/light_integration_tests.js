@@ -531,6 +531,55 @@ exports.runTests = function (suite) {
                 );
             });
 
+            //simple on/off light with a separate read-only ACTUAL state: state is written via SET but
+            //the real device state comes back through ACTUAL and must be pushed to the UI.
+            jsonFiles.push('../testData/light_onOff_actual.json');
+            idsWithEnums.push('adapter.0.light.OnOffWithActual');
+            initialStates.push(
+                { id: 'adapter.0.light.OnOffWithActual.state', val: false },
+                { id: 'adapter.0.light.OnOffWithActual.state_actual', val: false },
+            );
+            it('simple light: ACTUAL change alone is pushed to the frontend', async () => {
+                const deviceId = 'adapter.0.light.OnOffWithActual';
+                const entity = entities.find(e => e.context.deviceId === deviceId);
+                expect(entity).to.be.ok;
+                tools.expectEntity(entity, 'light', deviceId);
+                expect(entity).to.have.property('state', 'off'); //initial from ACTUAL
+
+                console.log('IoB device reports on via ACTUAL');
+                await tools.validateStateChange(
+                    harness,
+                    entity.entity_id,
+                    async () => await harness.states.setStateAsync(`${deviceId}.state_actual`, true, true),
+                    entity => {
+                        expect(entity).to.have.property('state', 'on');
+                    },
+                );
+
+                console.log('IoB device reports off via ACTUAL');
+                await tools.validateStateChange(
+                    harness,
+                    entity.entity_id,
+                    async () => await harness.states.setStateAsync(`${deviceId}.state_actual`, false, true),
+                    entity => {
+                        expect(entity).to.have.property('state', 'off');
+                    },
+                );
+
+                console.log('UI turn on writes the SET state');
+                await tools.validateUIInput(
+                    harness,
+                    entity,
+                    m => {
+                        m.domain = 'light';
+                        m.service = 'turn_on';
+                        m.service_data = {};
+                    },
+                    `${deviceId}.state`,
+                    state => expect(state.val).to.equal(true),
+                );
+            });
+
             jsonFiles.push('../testData/light_colortemp.json');
             idsWithEnums.push('adapter.0.light.ColorTemp');
             initialStates.push(
