@@ -179,6 +179,18 @@ export class Converter {
             }
         }
 
+        // Remember each entity's freshly generated ("raw") entity_id before step 1 can overwrite it
+        // with a reservation. Collision resolution (step 4) always renames starting from this raw id,
+        // never from a (possibly already suffixed) reserved one - otherwise a stale/colliding
+        // reservation would grow indefinitely across restarts (base_a -> base_a_b -> base_a_b_c -> ...)
+        // instead of staying at most one suffix away from the plain generated name.
+        const rawEntityIds = new Map<BaseEntity, string>();
+        for (const entity of entities) {
+            if (entity) {
+                rawEntityIds.set(entity, entity.entity_id);
+            }
+        }
+
         // Step 1: restore any previously reserved entity_ids by composite key.
         // Composite key = `${entityType}.${STATE.getId ?? context.id}`. Stable across restarts.
         for (const entity of entities) {
@@ -204,6 +216,13 @@ export class Converter {
             }
             entities.push(...electricitySensors);
         }
+        // Indicator/electricity entities were pushed after step 1, so they never had a reservation
+        // applied - their current entity_id already is their freshly generated one.
+        for (const entity of entities) {
+            if (entity && !rawEntityIds.has(entity)) {
+                rawEntityIds.set(entity, entity.entity_id);
+            }
+        }
 
         // Step 3: rewrite context.id to STATE.getId where set. Makes context.id unique per
         // entity (two sensors from one device get distinct context.ids) and lets the registry
@@ -226,7 +245,11 @@ export class Converter {
             const existing = existingEntities.find(e => e.entity_id === entity.entity_id);
             if (existing) {
                 if (entity.context.id !== existing.context.id) {
-                    const newId = Converter._resolveCollision(entity, existingEntities);
+                    const newId = Converter._resolveCollision(
+                        rawEntityIds.get(entity) ?? entity.entity_id,
+                        entity,
+                        existingEntities,
+                    );
                     adapter.log.debug(
                         `Duplicates found for ${existing.entity_id}, solved by renaming second to ${newId}`,
                     );
@@ -269,11 +292,13 @@ export class Converter {
      * with an existing entity_id. Uses the last segment of context.id as suffix,
      * falling back to a counter if the suffix-augmented id still collides.
      *
-     * @param entity - entity needing a new entity_id (its current entity_id collides)
+     * @param base - the freshly generated ("raw") entity_id to resolve the collision from. Must
+     * never be an already-suffixed/reserved id, or repeated collisions across restarts would keep
+     * appending further segments onto it indefinitely instead of staying one suffix away from base.
+     * @param entity - entity needing a new entity_id (used for its context.id suffix source)
      * @param existingEntities - already-registered entities to check against
      */
-    static _resolveCollision(entity: BaseEntity, existingEntities: BaseEntity[]): string {
-        const base = entity.entity_id;
+    static _resolveCollision(base: string, entity: BaseEntity, existingEntities: BaseEntity[]): string {
         const lastSeg = entity.context.id
             .split('.')
             .pop()!

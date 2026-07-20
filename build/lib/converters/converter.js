@@ -90,7 +90,7 @@ class Converter {
    * @param params - conversion parameters
    */
   static _processEntities(entities, params) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     if (!(entities == null ? void 0 : entities.length)) {
       return;
     }
@@ -103,6 +103,12 @@ class Converter {
             _id: stateId
           });
         }
+      }
+    }
+    const rawEntityIds = /* @__PURE__ */ new Map();
+    for (const entity of entities) {
+      if (entity) {
+        rawEntityIds.set(entity, entity.entity_id);
       }
     }
     for (const entity of entities) {
@@ -124,6 +130,11 @@ class Converter {
       entities.push(...electricitySensors);
     }
     for (const entity of entities) {
+      if (entity && !rawEntityIds.has(entity)) {
+        rawEntityIds.set(entity, entity.entity_id);
+      }
+    }
+    for (const entity of entities) {
       if (((_c = entity == null ? void 0 : entity.context.STATE) == null ? void 0 : _c.getId) && entity.context.STATE.getId !== entity.context.id) {
         entity.context.id = entity.context.STATE.getId;
       }
@@ -138,7 +149,11 @@ class Converter {
       const existing = existingEntities.find((e) => e.entity_id === entity.entity_id);
       if (existing) {
         if (entity.context.id !== existing.context.id) {
-          const newId = Converter._resolveCollision(entity, existingEntities);
+          const newId = Converter._resolveCollision(
+            (_d = rawEntityIds.get(entity)) != null ? _d : entity.entity_id,
+            entity,
+            existingEntities
+          );
           adapter.log.debug(
             `Duplicates found for ${existing.entity_id}, solved by renaming second to ${newId}`
           );
@@ -179,11 +194,13 @@ class Converter {
    * with an existing entity_id. Uses the last segment of context.id as suffix,
    * falling back to a counter if the suffix-augmented id still collides.
    *
-   * @param entity - entity needing a new entity_id (its current entity_id collides)
+   * @param base - the freshly generated ("raw") entity_id to resolve the collision from. Must
+   * never be an already-suffixed/reserved id, or repeated collisions across restarts would keep
+   * appending further segments onto it indefinitely instead of staying one suffix away from base.
+   * @param entity - entity needing a new entity_id (used for its context.id suffix source)
    * @param existingEntities - already-registered entities to check against
    */
-  static _resolveCollision(entity, existingEntities) {
-    const base = entity.entity_id;
+  static _resolveCollision(base, entity, existingEntities) {
     const lastSeg = entity.context.id.split(".").pop().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
     let candidate = lastSeg ? `${base}_${lastSeg}` : `${base}_2`;
     let counter = 2;
