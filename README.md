@@ -85,11 +85,8 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) History and logbook no longer show duplicate adjacent entries when the history backend re-logs unchanged values (e.g. InfluxDB "still record the same values"). (#711)
-* (Garfonso/Claude) Docs: added a complete near-default theme example that removes the bell. (#705)
-* (Garfonso/Claude) Energy/statistics graphs no longer draw a phantom line into the future when the requested range ends after now (e.g. InfluxDB carrying the last value forward).
-* (Garfonso/Claude) Use the adapter's own timers (auto-cleaned on stop) and added the missing Russian translation for one setting. (#712)
+* (Garfonso/Claude) Energy/statistics graphs no longer draw a phantom line into the future when the requested range ends after now (e.g. History carrying the last value forward).
 * (Garfonso/Claude) A browser with a broken browser_mod id (e.g. `[object Object]` in its localStorage) no longer spams "Used invalid characters" warnings: the id is sanitized, the client is asked to pick a fresh id, and leftover invalid instance objects are cleaned up on start.
-* (Garfonso/Claude) Added an integration test that an advanced light's separate `ON_ACTUAL` state is subscribed and its changes are pushed to the frontend.
 * (Garfonso/Claude) Fixed simple on/off lights with a separate read-only state (`ON_ACTUAL`): the real device state is subscribed again and pushed to the UI.
 
 ### 6.1.1 (2026-06-25)
