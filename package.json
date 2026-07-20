@@ -28,7 +28,7 @@
     "@iobroker/adapter-core": "^3.3.2",
     "@iobroker/type-detector": "^5.0.13",
     "@iobroker/webserver": "^1.4.0",
-    "axios": "^1.16.1",
+    "axios": "^1.18.1",
     "body-parser": "^2.2.2",
     "express": "^5.2.1",
     "js-yaml": "^4.1.1",
