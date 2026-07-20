@@ -83,7 +83,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 6.1.2 (2026-07-20)
 * (Garfonso/Claude) History and logbook no longer show duplicate adjacent entries when the history backend re-logs unchanged values (e.g. InfluxDB "still record the same values"). (#711)
 * (Garfonso/Claude) Energy/statistics graphs no longer draw a phantom line into the future when the requested range ends after now (e.g. History carrying the last value forward).
 * (Garfonso/Claude) A browser with a broken browser_mod id (e.g. `[object Object]` in its localStorage) no longer spams "Used invalid characters" warnings: the id is sanitized, the client is asked to pick a fresh id, and leftover invalid instance objects are cleaned up on start.
@@ -123,12 +123,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Fixed a crash in the map card caused by history updates without attributes.
 * (Garfonso/Claude) Removed the browser tab title setting; set the dashboard title instead.
 * (Garfonso/Claude) Calendar card no longer flickers/reloads in a loop when the calendar source updates frequently.
-
-### 6.0.2 (2026-06-17)
-* (Garfonso/Claude) Reduced object-database load (skip our own internal objects, yield during processing) and removed leftover debug logging.
-* (Garfonso/Claude) browser_mod re-applies its settings (e.g. hidden sidebar) after a browser registers, so it no longer needs an F5 (hopefully).
-* (Garfonso/Claude) Above ~50 referenced states the adapter subscribes to all states at once and filters itself, to reduce database load.
-* (Garfonso/Claude) Statistics history is fetched in pages, so a large energy/history request can no longer overload the states database.
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
