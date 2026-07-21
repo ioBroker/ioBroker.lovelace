@@ -29,7 +29,7 @@
     "@iobroker/type-detector": "^5.0.13",
     "@iobroker/webserver": "^1.4.0",
     "axios": "^1.16.1",
-    "body-parser": "^2.2.2",
+    "body-parser": "^2.3.0",
     "express": "^5.2.1",
     "js-yaml": "^4.1.1",
     "jstimezonedetect": "^1.0.7",
