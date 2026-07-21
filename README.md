@@ -84,7 +84,7 @@ After that checkout modified version in `./build` folder. Then.
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**
-* (Garfonso/Claude) Fixed auto-generated entity_ids growing longer and longer across restarts for devices sharing a generated display name (e.g. several buttons named the same); duplicate resolution now always suffixes the freshly generated name instead of a previously resolved one.
+* (Garfonso/Claude) Fixed auto-generated entity_ids growing longer and longer within a single start for devices sharing a generated display name and having no own readable state (e.g. several buttons named the same): they no longer collapse onto the same internal registry key and overwrite each other's name.
 
 ### 6.1.2 (2026-07-20)
 * (Garfonso/Claude) History and logbook no longer show duplicate adjacent entries when the history backend re-logs unchanged values (e.g. InfluxDB "still record the same values"). (#711)

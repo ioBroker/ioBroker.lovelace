@@ -51,6 +51,20 @@ describe('entities/entity_id', function () {
             expect(getEntityId('light', null, obj)).to.equal('light.Wohnzimmer_UEbersicht');
         });
 
+        it('never returns an empty id part (would collide with every other entity of the type)', function () {
+            // A predefined entity_id of "binary_sensor." (id part after the dot empty) must not be
+            // used as-is - it degenerates to a value shared by every entity of the type.
+            const obj = { common: {}, _id: 'adapter.0.device.state' } as ioBroker.Object;
+            const result = getEntityId('binary_sensor', 'binary_sensor.', obj);
+            expect(result).to.not.equal('binary_sensor.');
+            expect(result).to.equal('binary_sensor.adapter_0_device_state');
+        });
+
+        it('falls back to the object id when common.name is an empty string', function () {
+            const obj = { common: { name: '' }, _id: 'adapter.0.device.state' } as ioBroker.Object;
+            expect(getEntityId('sensor', null, obj)).to.equal('sensor.adapter_0_device_state');
+        });
+
         it('transliterates Russian characters', function () {
             const obj = { common: { name: 'Свет' }, _id: 'ignored' } as ioBroker.Object;
             const result = getEntityId('light', null, obj);

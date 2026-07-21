@@ -110,7 +110,15 @@ function splitEntityId(
         }
     }
 
-    return [entityType, replaceInvalidChars(idPart)];
+    const cleaned = replaceInvalidChars(idPart);
+    // Never return an empty id part (would produce e.g. "binary_sensor." - a degenerate id that
+    // collides with every other entity of the same type and corrupts collision resolution and
+    // registry lookups, which key on this exact string). Fall back to the object id, or a fixed
+    // placeholder if even that is unavailable.
+    if (cleaned) {
+        return [entityType, cleaned];
+    }
+    return [entityType, replaceInvalidChars(obj?._id || 'unnamed')];
 }
 
 /**

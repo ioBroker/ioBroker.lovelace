@@ -85,7 +85,11 @@ function splitEntityId(entityType, entityId, obj, roomName, funcName) {
       idPart = entityIdFromObject(obj);
     }
   }
-  return [entityType, replaceInvalidChars(idPart)];
+  const cleaned = replaceInvalidChars(idPart);
+  if (cleaned) {
+    return [entityType, cleaned];
+  }
+  return [entityType, replaceInvalidChars((obj == null ? void 0 : obj._id) || "unnamed")];
 }
 function getEntityId(entityType, entityId, obj, roomName, funcName) {
   return splitEntityId(entityType, entityId, obj, roomName, funcName).join(".");

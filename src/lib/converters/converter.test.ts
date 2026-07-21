@@ -33,7 +33,7 @@ function makeParams(
         controls: { type: 'x', states: [] } as unknown as ConverterParameters['controls'],
         objects: {},
         existingEntities,
-        adapter: { log: { debug: () => {} } } as unknown as ioBroker.Adapter,
+        adapter: { log: { debug: () => {}, warn: () => {} } } as unknown as ioBroker.Adapter,
         entityRegistry,
     };
 }
@@ -79,5 +79,41 @@ describe('converters/converter duplicate entity_id resolution', function () {
         // Must resolve from the raw "Foo" + its own state segment, not from the stale "Foo_bar" -
         // no leftover/foreign segment carried forward.
         expect(devB.entity_id).to.equal('binary_sensor.Foo_stateb');
+    });
+
+    it('gives each device its own stable registry key when it has no readable state of its own', function () {
+        // Regression test for the actual reported bug: several buttonSensor devices (no ACTUAL/
+        // ON_ACTUAL state -> BinarySensorEntity leaves STATE.getId as '', not null/undefined) all
+        // sharing the same generated display name ("Türklingel") ended up with entity_ids growing by
+        // one more concatenated device name per device - all within a single run, no restart needed,
+        // starting from a completely empty registry. Root cause: _registryKey used `??`, which does
+        // not treat an empty string as "missing", so every such device collapsed onto the identical
+        // key "binary_sensor." and kept overwriting each other's reservation.
+        const registry = makeRegistry();
+        const existingEntities: BaseEntity[] = [];
+
+        function makeButtonEntity(deviceId: string): BaseEntity {
+            return {
+                entity_id: 'binary_sensor.Foo',
+                attributes: {},
+                context: { id: deviceId, STATE: { getId: '' } },
+            } as unknown as BaseEntity;
+        }
+
+        const resultIds: string[] = [];
+        for (const deviceId of ['device.A', 'device.B', 'device.C', 'device.D']) {
+            const entity = makeButtonEntity(deviceId);
+            Converter._processEntities([entity], makeParams(registry, existingEntities));
+            resultIds.push(entity.entity_id);
+        }
+
+        // Each device gets its own short suffix derived from its own device id - not a chain
+        // incorporating every previously processed device's name.
+        expect(resultIds).to.deep.equal([
+            'binary_sensor.Foo',
+            'binary_sensor.Foo_b',
+            'binary_sensor.Foo_c',
+            'binary_sensor.Foo_d',
+        ]);
     });
 });

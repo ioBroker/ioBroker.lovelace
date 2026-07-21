@@ -111,6 +111,7 @@ class Converter {
         rawEntityIds.set(entity, entity.entity_id);
       }
     }
+    const hadReservation = /* @__PURE__ */ new Set();
     for (const entity of entities) {
       if (!entity) {
         continue;
@@ -118,6 +119,7 @@ class Converter {
       const reserved = entityRegistry.getReservedEntityId(Converter._registryKey(entity));
       if (reserved) {
         entity.entity_id = reserved;
+        hadReservation.add(entity);
       }
     }
     const mainEntity = entities.find((x) => x == null ? void 0 : x.entity_id);
@@ -149,6 +151,11 @@ class Converter {
       const existing = existingEntities.find((e) => e.entity_id === entity.entity_id);
       if (existing) {
         if (entity.context.id !== existing.context.id) {
+          if (hadReservation.has(entity)) {
+            adapter.log.warn(
+              `Reserved entity_id ${entity.entity_id} (registry key ${Converter._registryKey(entity)}) unexpectedly collides with ${existing.entity_id} - registry may be inconsistent, re-resolving.`
+            );
+          }
           const newId = Converter._resolveCollision(
             (_d = rawEntityIds.get(entity)) != null ? _d : entity.entity_id,
             entity,
@@ -178,15 +185,24 @@ class Converter {
   }
   /**
    * Build the registry composite key for an entity:
-   * `${entityType}.${STATE.getId ?? context.id}`.
+   * `${entityType}.${STATE.getId || context.id || entity.entity_id}`.
    * Works before or after the context.id rewrite step.
+   *
+   * Deliberately uses `||`, not `??`: a type without its own readable state (e.g.
+   * `buttonSensor`, which has no ACTUAL/ON_ACTUAL) leaves `STATE.getId` as `''` (see
+   * BinarySensorEntity's constructor), not `null`/`undefined` - `??` would treat that empty
+   * string as "present" and skip the `context.id` fallback. Every such entity would then
+   * collapse onto the SAME key (`"binary_sensor."`), so they'd overwrite each other's
+   * reservation and each subsequent collision would resolve against whichever entity_id the
+   * previous one just wrote - producing an ever-growing chain of concatenated device names,
+   * all within a single run (no restart or persisted state required to reproduce it).
    *
    * @param entity - entity to derive the key for
    */
   static _registryKey(entity) {
-    var _a, _b;
+    var _a;
     const type = entity.entity_id.split(".")[0];
-    const stableId = (_b = (_a = entity.context.STATE) == null ? void 0 : _a.getId) != null ? _b : entity.context.id;
+    const stableId = ((_a = entity.context.STATE) == null ? void 0 : _a.getId) || entity.context.id || entity.entity_id;
     return `${type}.${stableId}`;
   }
   /**

@@ -192,7 +192,11 @@ export class Converter {
         }
 
         // Step 1: restore any previously reserved entity_ids by composite key.
-        // Composite key = `${entityType}.${STATE.getId ?? context.id}`. Stable across restarts.
+        // Composite key = `${entityType}.${STATE.getId || context.id || entity.entity_id}`. Stable
+        // across restarts, and unique per entity (see _registryKey) - so a reserved entity colliding
+        // with something else in step 4 should never happen. Track which entities got a reservation
+        // restored, so step 4 can flag it loudly if one does collide anyway (registry corruption).
+        const hadReservation = new Set<BaseEntity>();
         for (const entity of entities) {
             if (!entity) {
                 continue;
@@ -200,6 +204,7 @@ export class Converter {
             const reserved = entityRegistry.getReservedEntityId(Converter._registryKey(entity));
             if (reserved) {
                 entity.entity_id = reserved;
+                hadReservation.add(entity);
             }
         }
 
@@ -245,6 +250,15 @@ export class Converter {
             const existing = existingEntities.find(e => e.entity_id === entity.entity_id);
             if (existing) {
                 if (entity.context.id !== existing.context.id) {
+                    if (hadReservation.has(entity)) {
+                        // A restored reservation should be unique to this entity (see _registryKey) and
+                        // therefore never collide. If it does, the registry itself is inconsistent -
+                        // resolving from the raw name and re-reserving below still recovers, but this
+                        // needs attention, so log louder than the normal (expected, first-time) case.
+                        adapter.log.warn(
+                            `Reserved entity_id ${entity.entity_id} (registry key ${Converter._registryKey(entity)}) unexpectedly collides with ${existing.entity_id} - registry may be inconsistent, re-resolving.`,
+                        );
+                    }
                     const newId = Converter._resolveCollision(
                         rawEntityIds.get(entity) ?? entity.entity_id,
                         entity,
@@ -276,14 +290,23 @@ export class Converter {
 
     /**
      * Build the registry composite key for an entity:
-     * `${entityType}.${STATE.getId ?? context.id}`.
+     * `${entityType}.${STATE.getId || context.id || entity.entity_id}`.
      * Works before or after the context.id rewrite step.
+     *
+     * Deliberately uses `||`, not `??`: a type without its own readable state (e.g.
+     * `buttonSensor`, which has no ACTUAL/ON_ACTUAL) leaves `STATE.getId` as `''` (see
+     * BinarySensorEntity's constructor), not `null`/`undefined` - `??` would treat that empty
+     * string as "present" and skip the `context.id` fallback. Every such entity would then
+     * collapse onto the SAME key (`"binary_sensor."`), so they'd overwrite each other's
+     * reservation and each subsequent collision would resolve against whichever entity_id the
+     * previous one just wrote - producing an ever-growing chain of concatenated device names,
+     * all within a single run (no restart or persisted state required to reproduce it).
      *
      * @param entity - entity to derive the key for
      */
     static _registryKey(entity: BaseEntity): string {
         const type = entity.entity_id.split('.')[0];
-        const stableId = entity.context.STATE?.getId ?? entity.context.id;
+        const stableId = entity.context.STATE?.getId || entity.context.id || entity.entity_id;
         return `${type}.${stableId}`;
     }
 
