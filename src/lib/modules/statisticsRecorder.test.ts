@@ -254,3 +254,50 @@ describe('modules/statisticsRecorder getHistory pagination', function () {
         expect(n).to.equal(1);
     });
 });
+
+describe('modules/statisticsRecorder period step sizes', function () {
+    it('uses a 5-minute (not 30-second) bucket width for the "5minute" period', async function () {
+        // The energy dashboard requests period "5minute" for "today". A wrong (10x too fine) step
+        // multiplies the number of buckets/requests needlessly and can push slower history backends
+        // (e.g. SQL) into pagination/timeouts, producing an empty "no data" result for the whole day.
+        const calls: { start: number; end: number; step: number; count: number }[] = [];
+        const entity = {
+            entity_id: 'sensor.power',
+            attributes: { unit_of_measurement: 'W', device_class: 'power' },
+            context: { STATE: { getId: 'src.0.power' } },
+        };
+        const mod = new StatisticsRecorder({
+            server: { _sendResponse: () => {} },
+            adapter: {
+                config: { history: 'history.0' },
+                sendToAsync: (_instance: string, _command: string, message: { options: (typeof calls)[0] }) => {
+                    calls.push(message.options);
+                    return Promise.resolve({ result: [] });
+                },
+            },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
+            personModule: { getUserIDFromName: () => 'system.user.admin' },
+            dataSingleton: { entities: [entity], entityId2Entity: { 'sensor.power': entity } },
+        });
+
+        const start = Date.parse('2026-07-24T00:00:00.000Z');
+        const end = Date.parse('2026-07-25T00:00:00.000Z');
+        await mod.processMessage(
+            { __auth: { username: 'admin' } },
+            {
+                type: 'recorder/statistics_during_period',
+                id: 1,
+                start_time: new Date(start).toISOString(),
+                end_time: new Date(end).toISOString(),
+                period: '5minute',
+                statistic_ids: ['sensor.power'],
+                types: ['mean'],
+            },
+        );
+
+        expect(calls.length).to.be.greaterThan(0);
+        for (const c of calls) {
+            expect(c.step).to.equal(300000);
+        }
+    });
+});

@@ -169,7 +169,7 @@ class StatisticsRecorder {
         let step;
         switch (message.period) {
           case "5minute":
-            step = 3e4;
+            step = 3e5;
             break;
           case "hour":
             step = 36e5;
