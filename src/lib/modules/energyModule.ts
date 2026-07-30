@@ -13,8 +13,26 @@ import { STORAGE_PREFIX } from './storage';
 
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 
+/**
+ * How the user picked the power ("rate") sensor for a grid/battery source in the energy dialog.
+ * Exactly one of the three variants is set (enforced by the frontend).
+ */
+interface PowerConfig {
+    /** Standard single sensor (positive = consumption / discharge). */
+    stat_rate?: string;
+    /** Single sensor with inverted sign. */
+    stat_rate_inverted?: string;
+    /** Two-sensor setup: grid consumption / battery discharge. */
+    stat_rate_from?: string;
+    /** Two-sensor setup: grid return / battery charge. */
+    stat_rate_to?: string;
+}
+
 interface EnergySource {
     type: string;
+    /** Statistic id of the power sensor. Derived from power_config, see _processEnergySources(). */
+    stat_rate?: string;
+    power_config?: PowerConfig;
     [key: string]: unknown;
 }
 
@@ -59,6 +77,10 @@ class EnergyModule {
             device_consumption: [],
             device_consumption_water: [],
         };
+        // Also derive on load, not just on save: preferences stored by an older adapter version
+        // (which never derived it) would otherwise keep their power graphs empty until the user
+        // opens and re-saves the energy settings dialog.
+        this._prefs.energy_sources = this._processEnergySources(this._prefs.energy_sources || []);
         this.adapter.log.debug('modules/energyModule: init done.');
     }
 
@@ -71,6 +93,45 @@ class EnergyModule {
         }
         storage.native.prefs = this._prefs;
         await this.adapter.setObject(`${STORAGE_PREFIX}energyPrefs`, storage);
+    }
+
+    /**
+     * Derive the top-level `stat_rate` of grid/battery sources from their `power_config`.
+     *
+     * The energy settings dialog only ever saves `power_config`; the top-level `stat_rate` is added
+     * by the backend (Home Assistant does this in EnergyManager.async_update). Every power card -
+     * the "Stromquellen"/power-sources graph on the summary tab and the power flow on the "Jetzt"
+     * tab - reads *only* `stat_rate`, never `power_config`. Without this derivation those cards are
+     * rendered (the strategy shows them because `power_config` exists) but stay empty and print
+     * "no data", while all other cards work, because they use `stat_energy_from` or the entity
+     * directly.
+     *
+     * Mirrors HA's logic: a standard single sensor is copied through; the inverted and two-sensor
+     * variants refer to a generated helper entity that computes the transform, which this adapter
+     * does not provide (yet) - those are skipped with a warning instead of pointing at a
+     * non-existent statistic.
+     *
+     * @param sources - the energy sources to process (not modified in place)
+     * @returns the sources with `stat_rate` filled in where it can be derived
+     */
+    private _processEnergySources(sources: EnergySource[]): EnergySource[] {
+        return sources.map(source => {
+            if ((source.type !== 'grid' && source.type !== 'battery') || !source.power_config) {
+                return source;
+            }
+            const config = source.power_config;
+            // A plain sensor is used as-is; power_config takes precedence over any stored stat_rate.
+            if (config.stat_rate) {
+                return { ...source, stat_rate: config.stat_rate };
+            }
+            const variant = config.stat_rate_inverted
+                ? 'an inverted power sensor'
+                : 'two separate power sensors (from/to)';
+            this.adapter.log.warn(
+                `Energy source "${source.type}" is configured with ${variant}, which needs a calculated helper entity this adapter does not create. The power graphs stay empty for it - please pick a single, non-inverted power sensor instead.`,
+            );
+            return source;
+        });
     }
 
     /** Derive cost_sensors map from stored prefs: stat_energy_from → stat_cost */
@@ -124,8 +185,9 @@ class EnergyModule {
             case 'energy/save_prefs': {
                 // message spreads Partial<EnergyPreferences> directly into the WS message
                 const updated: EnergyPreferences = {
-                    energy_sources:
+                    energy_sources: this._processEnergySources(
                         (message.energy_sources as EnergySource[] | undefined) ?? this._prefs.energy_sources,
+                    ),
                     device_consumption:
                         (message.device_consumption as DeviceConsumption[] | undefined) ??
                         this._prefs.device_consumption,
