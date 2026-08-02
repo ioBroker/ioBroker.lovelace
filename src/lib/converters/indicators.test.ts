@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { generateElectricitySensors } from './indicators';
+import { generateElectricitySensors, generateBatterySensor } from './indicators';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const entityData = require('../../../lib/dataSingleton');
@@ -48,5 +48,33 @@ describe('converters/indicators generateElectricitySensors', function () {
             'a',
         );
         expect(res[0].attributes.unit_of_measurement).to.equal('W');
+    });
+});
+
+describe('converters/indicators generateBatterySensor', function () {
+    it('creates a battery sensor from the BATTERY state (value.battery, %)', function () {
+        const objects = { 'zig.0.bat': { _id: 'zig.0.bat', common: { name: 'Bat', unit: '%' } } };
+        const sensor = generateBatterySensor(
+            makeParams([{ id: 'zig.0.bat', name: 'BATTERY' }], objects, 'Thermostat'),
+            'thermostat',
+        )!;
+
+        expect(sensor).to.not.equal(null);
+        expect(sensor.entity_id).to.equal('sensor.thermostat_battery');
+        expect(sensor.attributes.device_class).to.equal('battery');
+        expect(sensor.attributes.unit_of_measurement).to.equal('%');
+        expect(sensor.attributes.state_class).to.equal('measurement');
+        expect(sensor.context.STATE.getId).to.equal('zig.0.bat');
+    });
+
+    it('falls back to % when the object has no unit', function () {
+        const objects = { 'a.bat': { _id: 'a.bat', common: { name: 'B' } } };
+        const sensor = generateBatterySensor(makeParams([{ id: 'a.bat', name: 'BATTERY' }], objects, 'A'), 'a')!;
+        expect(sensor.attributes.unit_of_measurement).to.equal('%');
+    });
+
+    it('returns null without a BATTERY state (LOWBAT alone is the separate warning indicator)', function () {
+        const res = generateBatterySensor(makeParams([{ id: 'x.lowbat', name: 'LOWBAT' }], {}, 'X'), 'x');
+        expect(res).to.equal(null);
     });
 });

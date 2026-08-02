@@ -125,11 +125,16 @@ class Converter {
     const mainEntity = entities.find((x) => x == null ? void 0 : x.entity_id);
     if (mainEntity) {
       entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
-      const electricitySensors = (0, import_indicators.generateElectricitySensors)(params, mainEntity.entity_id.split(".")[1]);
-      for (const sensor of electricitySensors) {
+      const baseName = mainEntity.entity_id.split(".")[1];
+      const extraSensors = (0, import_indicators.generateElectricitySensors)(params, baseName);
+      const batterySensor = (0, import_indicators.generateBatterySensor)(params, baseName);
+      if (batterySensor) {
+        extraSensors.push(batterySensor);
+      }
+      for (const sensor of extraSensors) {
         sensor.context.deviceId = mainEntity.context.id;
       }
-      entities.push(...electricitySensors);
+      entities.push(...extraSensors);
     }
     for (const entity of entities) {
       if (entity && !rawEntityIds.has(entity)) {

@@ -88,6 +88,38 @@ export function generateElectricitySensors(parameters: ConverterParameters, base
 }
 
 /**
+ * Build a sensor entity for a device's optional BATTERY state (type-detector SharedPatterns.battery,
+ * role `value.battery`) - the numeric charge level in percent, which ~35 device types can expose.
+ *
+ * This is the counterpart to the LOWBAT indicator (a boolean warning -> binary_sensor): the level
+ * itself needs a real sensor so it is visible and can be graphed. Some types additionally consume
+ * BATTERY as an entity attribute (vacuum `battery_level`, device_tracker `battery_level`); the extra
+ * sensor is intentional and matches Home Assistant, where the attribute is legacy and the dedicated
+ * battery sensor is the modern representation.
+ *
+ * @param parameters - converter parameters (controls.states is searched for the BATTERY state)
+ * @param baseName - the local part of the main entity's entity_id (used for the sensor id/name)
+ * @returns the created battery sensor, or null when the device has no BATTERY state
+ */
+export function generateBatterySensor(parameters: ConverterParameters, baseName: string): SensorEntity | null {
+    const state = parameters.controls.states.find(s => s.id && s.name === 'BATTERY');
+    if (!state?.id) {
+        return null;
+    }
+    return SensorEntity.electricity(
+        state.id,
+        `${parameters.friendlyName || baseName} Battery`,
+        parameters.room,
+        parameters.func,
+        parameters.objects?.[state.id],
+        `sensor.${baseName}_battery`,
+        'battery',
+        '%',
+        'measurement',
+    );
+}
+
+/**
  * Build a binary_sensor indicator entity from a state name in controls.states.
  * Returns null when no matching state is found.
  *

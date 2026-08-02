@@ -70,6 +70,19 @@ exports.runTests = function (suite) {
                 expectBattery(battery, `${deviceId}.batteryWarning`, objects[`${deviceId}.batteryWarning`].common.name);
             });
 
+            it('creates a battery level sensor from the numeric BATTERY state', async () => {
+                // value.battery (the charge level) is separate from indicator.lowbat (the warning):
+                // the level needs its own sensor entity so it is visible and can be graphed.
+                const deviceId = 'adapter.0.binary_sensor.motions.WithBatteryWarning';
+                const batteryLevel = entities.find(e => e.context.id === `${deviceId}.battery`);
+                expect(batteryLevel).to.be.ok;
+                expect(batteryLevel.entity_id).to.match(/^sensor\..*_battery$/);
+                expect(batteryLevel).to.have.nested.property('attributes.device_class', 'battery');
+                expect(batteryLevel).to.have.nested.property('attributes.state_class', 'measurement');
+                expect(batteryLevel).to.have.nested.property('attributes.unit_of_measurement', '%');
+                expect(batteryLevel.context.deviceId).to.equal(deviceId);
+            });
+
             it('detects Motion Sensor with battery and prevents id clash', async () => {
                 const deviceId = 'adapter.0.binary_sensor.motions.withIdClash';
                 const binarySensor = entities.find(e => e.context.deviceId === deviceId);

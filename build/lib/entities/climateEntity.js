@@ -427,7 +427,19 @@ class ClimateEntity extends import_baseEntity.BaseEntity {
             states.swing_mode = state.id;
             break;
           default:
-            if (!["WORKING", "UNREACH", "LOWBAT", "MAINTAIN", "ERROR"].includes((_a = state.name) != null ? _a : "")) {
+            if (![
+              "WORKING",
+              "UNREACH",
+              "LOWBAT",
+              "MAINTAIN",
+              "ERROR",
+              "BATTERY",
+              "ELECTRIC_POWER",
+              "CURRENT",
+              "VOLTAGE",
+              "CONSUMPTION",
+              "FREQUENCY"
+            ].includes((_a = state.name) != null ? _a : "")) {
               adapterData.log.info(
                 `Unknown state ${state.name} while creating climate entity for ${id}. Please report.`
               );

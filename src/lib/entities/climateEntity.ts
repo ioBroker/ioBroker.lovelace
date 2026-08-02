@@ -474,7 +474,24 @@ export class ClimateEntity extends BaseEntity {
                         states.swing_mode = state.id;
                         break;
                     default:
-                        if (!['WORKING', 'UNREACH', 'LOWBAT', 'MAINTAIN', 'ERROR'].includes(state.name ?? '')) {
+                        // These are handled generically for every device type in Converter
+                        // (_generateEntitiesFromIndicators / generateElectricitySensors /
+                        // generateBatterySensor), not by this entity - so they are not "unknown".
+                        if (
+                            ![
+                                'WORKING',
+                                'UNREACH',
+                                'LOWBAT',
+                                'MAINTAIN',
+                                'ERROR',
+                                'BATTERY',
+                                'ELECTRIC_POWER',
+                                'CURRENT',
+                                'VOLTAGE',
+                                'CONSUMPTION',
+                                'FREQUENCY',
+                            ].includes(state.name ?? '')
+                        ) {
                             adapterData.log.info(
                                 `Unknown state ${state.name} while creating climate entity for ${id}. Please report.`,
                             );

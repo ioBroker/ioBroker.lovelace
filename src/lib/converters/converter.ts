@@ -6,6 +6,7 @@ import {
     processMaintenance,
     processWorking,
     generateElectricitySensors,
+    generateBatterySensor,
 } from './indicators';
 import type { BaseEntity } from '../entities/baseEntity';
 import { getEntityId } from '../entities/entity_id';
@@ -214,12 +215,18 @@ export class Converter {
         const mainEntity = entities.find((x: BaseEntity | null | undefined) => x?.entity_id);
         if (mainEntity) {
             entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
+            const baseName = mainEntity.entity_id.split('.')[1];
             // Optional electricity states (power, current, voltage, consumption, frequency) -> sensors.
-            const electricitySensors = generateElectricitySensors(params, mainEntity.entity_id.split('.')[1]);
-            for (const sensor of electricitySensors) {
+            const extraSensors = generateElectricitySensors(params, baseName);
+            // Optional BATTERY state (numeric charge level) -> sensor, for every type that has it.
+            const batterySensor = generateBatterySensor(params, baseName);
+            if (batterySensor) {
+                extraSensors.push(batterySensor);
+            }
+            for (const sensor of extraSensors) {
                 sensor.context.deviceId = mainEntity.context.id;
             }
-            entities.push(...electricitySensors);
+            entities.push(...extraSensors);
         }
         // Indicator/electricity entities were pushed after step 1, so they never had a reservation
         // applied - their current entity_id already is their freshly generated one.

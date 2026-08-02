@@ -19,6 +19,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var indicators_exports = {};
 __export(indicators_exports, {
   connectivityIndicator: () => connectivityIndicator,
+  generateBatterySensor: () => generateBatterySensor,
   generateElectricitySensors: () => generateElectricitySensors,
   processBattery: () => processBattery,
   processError: () => processError,
@@ -96,6 +97,24 @@ function generateElectricitySensors(parameters, baseName) {
   }
   return entities;
 }
+function generateBatterySensor(parameters, baseName) {
+  var _a;
+  const state = parameters.controls.states.find((s) => s.id && s.name === "BATTERY");
+  if (!(state == null ? void 0 : state.id)) {
+    return null;
+  }
+  return import_sensorEntity.SensorEntity.electricity(
+    state.id,
+    `${parameters.friendlyName || baseName} Battery`,
+    parameters.room,
+    parameters.func,
+    (_a = parameters.objects) == null ? void 0 : _a[state.id],
+    `sensor.${baseName}_battery`,
+    "battery",
+    "%",
+    "measurement"
+  );
+}
 function makeIndicator(parameters, stateName, iobType, deviceClass, inverted = false) {
   const state = parameters.controls.states.find((s) => s.id && s.name === stateName);
   if (!(state == null ? void 0 : state.id)) {
@@ -136,6 +155,7 @@ function processWorking(parameters) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   connectivityIndicator,
+  generateBatterySensor,
   generateElectricitySensors,
   processBattery,
   processError,
