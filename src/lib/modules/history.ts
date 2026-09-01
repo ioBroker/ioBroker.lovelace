@@ -280,16 +280,28 @@ async function getHistory(
 /**
  * Send history response to the client that requested them.
  *
+ * The wire format depends on how the frontend asked:
+ * - `history/stream` is a subscription (`subscribeMessage`), so updates are pushed as
+ *   `type: 'event'` messages carrying `{ states: ... }`.
+ * - `history/history_during_period` is a one-shot command (`hass.callWS`), which expects a
+ *   `type: 'result'` reply whose `result` is the bare `HistoryStates` map.
+ *
+ * Answering a one-shot command with an `event` makes home-assistant-js-websocket look up
+ * `info.callback` on a command that only has `resolve`/`reject`, throwing
+ * "TypeError: t.callback is not a function" in the frontend (see #722).
+ *
  * @param ws - websocket client to send the response to
  * @param id - message id to include in the response
  * @param historyData - history data to send, or null to send empty arrays
  * @param parameters - the original history request parameters
+ * @param asResult - true for a one-shot command reply, false for a subscription event
  */
 function sendHistoryResponse(
     ws: WsClient,
     id: unknown,
     historyData: Record<string, HistoryEntry[]> | null,
     parameters: HistoryParameters,
+    asResult = false,
 ): void {
     if (!historyData) {
         historyData = {};
@@ -319,13 +331,15 @@ function sendHistoryResponse(
         }
     }
 
-    const response = {
-        id: Number(id),
-        type: 'event',
-        event: { states: historyData },
-        start_time: startTime,
-        end_time: endTime,
-    };
+    const response = asResult
+        ? { id: Number(id), type: 'result', success: true, result: historyData }
+        : {
+              id: Number(id),
+              type: 'event',
+              event: { states: historyData },
+              start_time: startTime,
+              end_time: endTime,
+          };
     ws.send(JSON.stringify(response));
 }
 
@@ -422,6 +436,9 @@ class HistoryModule {
     async processMessage(ws: WsClient, message: Record<string, unknown>): Promise<boolean> {
         if (message.type && (message.type as string).startsWith('history/')) {
             let parameters: HistoryParameters | undefined;
+            // history_during_period is a one-shot hass.callWS command and must be answered with a
+            // 'result', not with a subscription 'event' (see sendHistoryResponse / #722).
+            const asResult = message.type === 'history/history_during_period';
             if (message.type === 'history/stream') {
                 ws.send(JSON.stringify({ id: Number(message.id), type: 'result', success: true, result: null }));
                 parameters = {
@@ -454,7 +471,7 @@ class HistoryModule {
 
             if (!this.adapter.config.history) {
                 this.adapter.log.warn(`History instance is not selected in the settings -> history won't work`);
-                sendHistoryResponse(ws, message.id, null, parameters);
+                sendHistoryResponse(ws, message.id, null, parameters, asResult);
                 return true;
             }
 
@@ -472,7 +489,7 @@ class HistoryModule {
                 parameters.noAttributes,
                 this.personModule.getUserIDFromName(ws.__auth?.username),
             );
-            sendHistoryResponse(ws, message.id, historyData, parameters);
+            sendHistoryResponse(ws, message.id, historyData, parameters, asResult);
             return true;
         }
         return false;

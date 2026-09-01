@@ -156,7 +156,7 @@ async function getHistory(adapter, entities, start, end, noAttributes, user) {
   }
   return totalResult;
 }
-function sendHistoryResponse(ws, id, historyData, parameters) {
+function sendHistoryResponse(ws, id, historyData, parameters, asResult = false) {
   if (!historyData) {
     historyData = {};
     for (const entityId of parameters.entityIds) {
@@ -181,7 +181,7 @@ function sendHistoryResponse(ws, id, historyData, parameters) {
       }
     }
   }
-  const response = {
+  const response = asResult ? { id: Number(id), type: "result", success: true, result: historyData } : {
     id: Number(id),
     type: "event",
     event: { states: historyData },
@@ -267,6 +267,7 @@ class HistoryModule {
     var _a;
     if (message.type && message.type.startsWith("history/")) {
       let parameters;
+      const asResult = message.type === "history/history_during_period";
       if (message.type === "history/stream") {
         ws.send(JSON.stringify({ id: Number(message.id), type: "result", success: true, result: null }));
         parameters = {
@@ -297,7 +298,7 @@ class HistoryModule {
       }
       if (!this.adapter.config.history) {
         this.adapter.log.warn(`History instance is not selected in the settings -> history won't work`);
-        sendHistoryResponse(ws, message.id, null, parameters);
+        sendHistoryResponse(ws, message.id, null, parameters, asResult);
         return true;
       }
       const entities = [];
@@ -313,7 +314,7 @@ class HistoryModule {
         parameters.noAttributes,
         this.personModule.getUserIDFromName((_a = ws.__auth) == null ? void 0 : _a.username)
       );
-      sendHistoryResponse(ws, message.id, historyData, parameters);
+      sendHistoryResponse(ws, message.id, historyData, parameters, asResult);
       return true;
     }
     return false;
