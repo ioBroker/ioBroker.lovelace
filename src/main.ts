@@ -83,7 +83,7 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                 if (state) {
                     void adapter.apiServer.onStateChange(id, state);
                 } else {
-                    adapter.log.info(`state ${id} deleted`);
+                    adapter.log.debug(`state ${id} deleted`);
                 }
             },
 
