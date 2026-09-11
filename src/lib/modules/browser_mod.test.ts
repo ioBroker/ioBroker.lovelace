@@ -168,6 +168,8 @@ describe('modules/browser_mod setting persistence across restarts (#733)', funct
      * Adapter whose object DB knows the instances states, with a settable stored value for the root
      * "target all" hideSidebar. `objects` (the shared cache) is deliberately left empty: the server
      * fills it from a concurrently running _readObjects(), so during init it usually still is.
+     *
+     * @param rootHideSidebar - value the root hideSidebar state holds, `undefined` for "no state yet"
      */
     function makeDbAdapter(rootHideSidebar: unknown): {
         adapter: any;
@@ -180,22 +182,24 @@ describe('modules/browser_mod setting persistence across restarts (#733)', funct
             namespace: NS,
             config: { maxBrowserInstances: 50 },
             log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
-            getObjectViewAsync: async () => ({ rows: stateIds.map(id => ({ id, value: { _id: id } })) }),
-            getStateAsync: async (id: string) => {
+            getObjectViewAsync: () => Promise.resolve({ rows: stateIds.map(id => ({ id, value: { _id: id } })) }),
+            getStateAsync: (id: string) => {
                 if (id === `${NS}.instances.hideSidebar`) {
-                    return rootHideSidebar === undefined ? null : { val: rootHideSidebar };
+                    return Promise.resolve(rootHideSidebar === undefined ? null : { val: rootHideSidebar });
                 }
-                return null;
+                return Promise.resolve(null);
             },
-            setStateAsync: async (id: string, val: unknown) => {
+            setStateAsync: (id: string, val: unknown) => {
                 setStates.push([id, val]);
+                return Promise.resolve();
             },
-            setState: async (id: string, val: unknown) => {
+            setState: (id: string, val: unknown) => {
                 setStates.push([id, val]);
+                return Promise.resolve();
             },
-            setObjectNotExistsAsync: async () => {},
+            setObjectNotExistsAsync: () => Promise.resolve(),
             extendObject: (_id: string, _o: unknown, cb?: () => void) => cb && cb(),
-            delObjectAsync: async () => {},
+            delObjectAsync: () => Promise.resolve(),
         };
         return { adapter, setStates, stateIds };
     }
