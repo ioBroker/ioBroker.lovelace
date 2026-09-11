@@ -56,7 +56,7 @@ function startAdapter(options) {
         if (state) {
           void adapter.apiServer.onStateChange(id, state);
         } else {
-          adapter.log.info(`state ${id} deleted`);
+          adapter.log.debug(`state ${id} deleted`);
         }
       },
       message: (obj) => {

@@ -43,3 +43,40 @@ describe('modules/person person/list', function () {
         expect(mod.processMessage({ send: () => {} }, { type: 'other', id: 1 })).to.equal(false);
     });
 });
+
+describe('modules/person translated user names (#731 follow-up)', function () {
+    function makeModule(): any {
+        return new PersonModule({
+            adapter: {
+                lang: 'de',
+                config: { auth: true, defaultUser: 'system.user.admin' },
+                log: { warn: () => {}, debug: () => {} },
+            },
+        });
+    }
+
+    it('reduces a translated common.name to a string on an object change', function () {
+        const mod = makeModule();
+        mod.onObjectChange('system.user.guest', {
+            _id: 'system.user.guest',
+            common: { enabled: true, name: { de: 'Gast', en: 'Guest' } },
+        });
+        // A raw translation object reaching the frontend crashes the view that renders it (#731).
+        expect(mod.usersCache['system.user.guest'].name).to.equal('Gast');
+    });
+
+    it('reduces a translated common.name to a string on init', async function () {
+        const mod = makeModule();
+        mod.adapter.getForeignObjectsAsync = () =>
+            Promise.resolve({
+                'system.user.admin': { common: { enabled: true, name: { en: 'Administrator' } } },
+            });
+        mod.adapter.subscribeObjectsAsync = () => Promise.resolve();
+
+        await mod.init();
+
+        // 'de' is missing -> English is the fallback, never the object.
+        expect(mod.usersCache['system.user.admin'].name).to.equal('Administrator');
+        expect(mod.getShorList()).to.deep.equal({ 'system.user.admin': 'Administrator' });
+    });
+});

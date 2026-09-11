@@ -1,5 +1,6 @@
 "use strict";
 var import_storage = require("./storage");
+var import_translatedName = require("../translatedName");
 class AreaRegistry {
   adapter;
   rooms;
@@ -44,16 +45,7 @@ class AreaRegistry {
   _createEntryFromRoom(room) {
     var _a, _b;
     const common = (_a = room.common) != null ? _a : {};
-    const name = common.name;
-    let nameStr;
-    if (typeof name === "string") {
-      nameStr = name;
-    } else if (name && typeof name === "object") {
-      const map = name;
-      nameStr = map[this.adapter.lang] || map.en || Object.values(map)[0] || room._id;
-    } else {
-      nameStr = room._id;
-    }
+    const nameStr = (0, import_translatedName.resolveTranslatedName)(common.name, this.adapter.lang, room._id);
     return {
       area_id: room._id,
       name: nameStr,

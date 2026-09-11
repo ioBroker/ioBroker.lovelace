@@ -149,3 +149,29 @@ describe('modules/logbook deduplication', function () {
         }
     });
 });
+
+describe('modules/logbook user list names (#731 follow-up)', function () {
+    it('reduces a translated user name for config/auth/list', async function () {
+        const adapter = {
+            lang: 'de',
+            config: { logbookSource: 'user', history: 'history.0' },
+            log: { debug: () => {}, warn: () => {}, error: () => {} },
+            getObjectView: (_d: string, _t: string, _p: unknown, cb: (e: unknown, r: unknown) => void) =>
+                cb(null, {
+                    rows: [
+                        { value: { _id: 'system.user.guest', common: { name: { de: 'Gast', en: 'Guest' } } } },
+                        { value: { _id: 'system.user.admin', common: { name: 'admin' } } },
+                    ],
+                }),
+        };
+        const mod = new LogbookModule({ adapter, getUsedEntityIDs: () => [] });
+        const { ws, sent } = makeWs();
+
+        expect(await mod.processMessage(ws, { type: 'config/auth/list', id: 3 })).to.equal(true);
+        // The frontend does string operations on these names - an object breaks the list (#731).
+        expect(sent[0].result).to.deep.equal([
+            { name: 'Gast', id: 'system.user.guest' },
+            { name: 'admin', id: 'system.user.admin' },
+        ]);
+    });
+});

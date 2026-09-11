@@ -1,3 +1,5 @@
+import { resolveTranslatedName } from '../translatedName';
+
 interface UserEntry {
     iobId: string;
     name: string;
@@ -149,7 +151,7 @@ class PersonModule {
             if (obj && obj.common && (obj.common as unknown as Record<string, unknown>).enabled) {
                 this.usersCache[id] = {
                     iobId: obj._id,
-                    name: (obj.common.name as string) || '',
+                    name: resolveTranslatedName(obj.common.name, this.adapter.lang),
                     color: (obj.common as unknown as Record<string, unknown>).color as string | undefined,
                     picture: obj.common.icon || undefined,
                     description: (obj.common as unknown as Record<string, unknown>).desc as string | undefined,
@@ -175,7 +177,7 @@ class PersonModule {
             if (obj.common && (obj.common as unknown as Record<string, unknown>).enabled) {
                 this.usersCache[id] = {
                     iobId: id,
-                    name: obj.common.name as string,
+                    name: resolveTranslatedName(obj.common.name, this.adapter.lang),
                     color: (obj.common as unknown as Record<string, unknown>).color as string | undefined,
                     picture: obj.common.icon || undefined,
                     description: (obj.common as unknown as Record<string, unknown>).desc as string | undefined,

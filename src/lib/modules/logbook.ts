@@ -1,3 +1,5 @@
+import { resolveTranslatedName } from '../translatedName';
+
 const WS_OPEN = 1; // WebSocket.OPEN
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -52,6 +54,7 @@ type AdapterWithConfig = ioBroker.Adapter & {
         history?: string;
         historyMaxCount?: number;
     };
+    lang: string;
 };
 
 /**
@@ -94,7 +97,7 @@ class LogbookModule {
                             const id = row.value._id;
                             let name = id.split('.').splice(2).join('.');
                             if (this.adapter.config.logbookSource === 'user') {
-                                name = row.value.common.name as string;
+                                name = resolveTranslatedName(row.value.common.name, this.adapter.lang, id);
                             }
                             this.instances.push({ name, id });
                         }

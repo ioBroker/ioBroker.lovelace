@@ -1,4 +1,5 @@
 "use strict";
+var import_translatedName = require("../translatedName");
 const WS_OPEN = 1;
 const entityDataSingleton = require("../../../lib/dataSingleton");
 const { iobState2EntityState } = require("../converters/genericConverter");
@@ -38,7 +39,7 @@ class LogbookModule {
               const id = row.value._id;
               let name = id.split(".").splice(2).join(".");
               if (this.adapter.config.logbookSource === "user") {
-                name = row.value.common.name;
+                name = (0, import_translatedName.resolveTranslatedName)(row.value.common.name, this.adapter.lang, id);
               }
               this.instances.push({ name, id });
             }

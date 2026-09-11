@@ -1,4 +1,5 @@
 import { STORAGE_PREFIX } from './storage';
+import { resolveTranslatedName } from '../translatedName';
 type SendResponseFn = (ws: unknown, id: unknown, result: unknown) => void;
 type SendUpdateFn = (type: string) => void;
 
@@ -59,18 +60,8 @@ class AreaRegistry {
      */
     private _createEntryFromRoom(room: ioBroker.Object): Record<string, unknown> {
         const common = (room.common ?? {}) as { name?: unknown; icon?: unknown };
-        const name = common.name;
-        let nameStr: string;
-        if (typeof name === 'string') {
-            nameStr = name;
-        } else if (name && typeof name === 'object') {
-            const map = name as Record<string, string>;
-            // adapter.lang may be empty -> fall back to en, then any available translation, then the id.
-            nameStr = map[this.adapter.lang] || map.en || Object.values(map)[0] || room._id;
-        } else {
-            // a room enum without a name must not crash the whole adapter.
-            nameStr = room._id;
-        }
+        // A room enum with no name (or only a translation object) must not reach the frontend as-is.
+        const nameStr = resolveTranslatedName(common.name, this.adapter.lang, room._id);
         return {
             area_id: room._id,
             name: nameStr,

@@ -1,4 +1,5 @@
 "use strict";
+var import_translatedName = require("../translatedName");
 class PersonModule {
   adapter;
   usersCache;
@@ -125,7 +126,7 @@ class PersonModule {
       if (obj && obj.common && obj.common.enabled) {
         this.usersCache[id] = {
           iobId: obj._id,
-          name: obj.common.name || "",
+          name: (0, import_translatedName.resolveTranslatedName)(obj.common.name, this.adapter.lang),
           color: obj.common.color,
           picture: obj.common.icon || void 0,
           description: obj.common.desc
@@ -150,7 +151,7 @@ class PersonModule {
       if (obj.common && obj.common.enabled) {
         this.usersCache[id] = {
           iobId: id,
-          name: obj.common.name,
+          name: (0, import_translatedName.resolveTranslatedName)(obj.common.name, this.adapter.lang),
           color: obj.common.color,
           picture: obj.common.icon || void 0,
           description: obj.common.desc
