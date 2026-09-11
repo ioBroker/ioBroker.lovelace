@@ -11,6 +11,11 @@ function makeAdapter(): any {
         config: { maxBrowserInstances: 50 },
         log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
         getStateAsync: (id: string) => {
+            // The root ("target all") states hold no value in these tests - only the per-browser
+            // mirrors do. Both are read back on init now, so they must be distinguishable.
+            if (id === `${NS}.instances.hideSidebar` || id === `${NS}.instances.hideHeader`) {
+                return null;
+            }
             if (id.endsWith('hideSidebar')) {
                 return { val: true };
             }
@@ -155,5 +160,65 @@ describe('modules/browser_mod invalid browser ids', function () {
         expect(deleted).to.include('instances._object Object_');
         expect(deleted.some(d => d.includes('good_id'))).to.equal(false);
         expect(Object.keys(objects).some(k => k.includes('_object Object_'))).to.equal(false);
+    });
+});
+
+describe('modules/browser_mod setting persistence across restarts (#733)', function () {
+    /**
+     * Adapter whose object DB knows the instances states, with a settable stored value for the root
+     * "target all" hideSidebar. `objects` (the shared cache) is deliberately left empty: the server
+     * fills it from a concurrently running _readObjects(), so during init it usually still is.
+     */
+    function makeDbAdapter(rootHideSidebar: unknown): {
+        adapter: any;
+        setStates: [string, unknown][];
+        stateIds: string[];
+    } {
+        const setStates: [string, unknown][] = [];
+        const stateIds = [`${NS}.instances.hideSidebar`, `${NS}.instances.hideHeader`];
+        const adapter: any = {
+            namespace: NS,
+            config: { maxBrowserInstances: 50 },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
+            getObjectViewAsync: async () => ({ rows: stateIds.map(id => ({ id, value: { _id: id } })) }),
+            getStateAsync: async (id: string) => {
+                if (id === `${NS}.instances.hideSidebar`) {
+                    return rootHideSidebar === undefined ? null : { val: rootHideSidebar };
+                }
+                return null;
+            },
+            setStateAsync: async (id: string, val: unknown) => {
+                setStates.push([id, val]);
+            },
+            setState: async (id: string, val: unknown) => {
+                setStates.push([id, val]);
+            },
+            setObjectNotExistsAsync: async () => {},
+            extendObject: (_id: string, _o: unknown, cb?: () => void) => cb && cb(),
+            delObjectAsync: async () => {},
+        };
+        return { adapter, setStates, stateIds };
+    }
+
+    it('keeps a stored hideSidebar=false over a restart and does not re-seed the default', async function () {
+        const { adapter, setStates } = makeDbAdapter(false);
+        // Empty cache on purpose - this is what init() really sees while _readObjects() is still running.
+        const mod: any = new BrowserModModule({ adapter, objects: {} });
+
+        await mod.init({ views: [] });
+
+        expect(mod.browserModStorage.settings.hideSidebar, 'stored value must win over the default').to.equal(false);
+        // The user's value must not be overwritten with the built-in default (true).
+        expect(setStates.filter(([id]) => id.endsWith('instances.hideSidebar'))).to.deep.equal([]);
+    });
+
+    it('seeds the root default only when the state has no value yet', async function () {
+        const { adapter, setStates } = makeDbAdapter(undefined);
+        const mod: any = new BrowserModModule({ adapter, objects: {} });
+
+        await mod.init({ views: [] });
+
+        expect(setStates).to.deep.include([`${NS}.instances.hideSidebar`, true]);
+        expect(mod.browserModStorage.settings.hideSidebar).to.equal(true);
     });
 });

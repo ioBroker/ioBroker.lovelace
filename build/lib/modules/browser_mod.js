@@ -289,26 +289,24 @@ class BrowserModModule {
    */
   async _checkSettingState(ioBrokerDeviceId, browserId, key, name) {
     const stateId = `${ioBrokerDeviceId}.${key}`;
+    const def = !!this.browserModStorage.settings[key];
     if (!this.objects[stateId]) {
-      const def = !!this.browserModStorage.settings[key];
       await this.adapter.setObjectNotExistsAsync(stateId, {
         type: "state",
         common: { name, type: "boolean", read: true, write: true, role: "switch", def },
         native: { instance: browserId }
       });
-      if (!browserId) {
-        await this.adapter.setStateAsync(stateId, def, true);
+    }
+    const settingState = await this.adapter.getStateAsync(stateId);
+    if (settingState && settingState.val !== null && settingState.val !== void 0) {
+      if (browserId) {
+        this.initialiseBrowserSettings(browserId, true);
+        this.browserModStorage.browsers[browserId].settings[key] = !!settingState.val;
+      } else {
+        this.browserModStorage.settings[key] = !!settingState.val;
       }
-    } else {
-      const settingState = await this.adapter.getStateAsync(stateId);
-      if (settingState) {
-        if (browserId) {
-          this.initialiseBrowserSettings(browserId, true);
-          this.browserModStorage.browsers[browserId].settings[key] = settingState.val;
-        } else {
-          this.browserModStorage.settings[key] = settingState.val;
-        }
-      }
+    } else if (!browserId) {
+      await this.adapter.setStateAsync(stateId, def, true);
     }
   }
   /**
@@ -952,6 +950,36 @@ class BrowserModModule {
     }
   }
   /**
+   * List our own `instances.*` state ids straight from the object DB.
+   *
+   * init() must not read them from the shared objects cache: that cache is filled by the server's
+   * _readObjects(), which runs concurrently with this init (both live in the same Promise.all), so
+   * it is typically still empty here - and with `aliasOnly` it never contains our own objects at
+   * all. Reading the cache then made init restore nothing, so stored per-browser settings and the
+   * root defaults silently fell back to the built-in values on every restart (#733).
+   *
+   * @returns the fully namespaced ids of all states below `instances.`
+   */
+  async _listOwnInstanceStateIds() {
+    const prefix = `${this.adapter.namespace}.${instancesPath}`;
+    try {
+      const view = await this.adapter.getObjectViewAsync("system", "state", {
+        startkey: prefix,
+        endkey: `${prefix}\u9999`
+      });
+      const ids = ((view == null ? void 0 : view.rows) || []).map((row) => {
+        var _a;
+        return row.id || ((_a = row.value) == null ? void 0 : _a._id);
+      }).filter(Boolean);
+      if (ids.length) {
+        return ids;
+      }
+    } catch (e) {
+      this.adapter.log.warn(`Could not read browser_mod instance objects: ${String(e)}`);
+    }
+    return Object.keys(this.objects).filter((id) => id.startsWith(prefix));
+  }
+  /**
    * Initialize the browser_mod module.
    *
    * @param lovelaceConfig - current lovelace configuration
@@ -960,13 +988,12 @@ class BrowserModModule {
   async init(lovelaceConfig) {
     this.handeUpdatedConfig(lovelaceConfig);
     await this._checkObjects(instancesPath.substring(0, instancesPath.length - 1));
+    const ownStateIds = await this._listOwnInstanceStateIds();
     const garbageIds = /* @__PURE__ */ new Set();
-    for (const id of Object.keys(this.objects)) {
-      if (id.startsWith(`${this.adapter.namespace}.${instancesPath}`)) {
-        const browserId = id.split(".")[3];
-        if (browserId && this._sanitizeBrowserId(browserId) !== browserId) {
-          garbageIds.add(browserId);
-        }
+    for (const id of ownStateIds) {
+      const browserId = id.split(".")[3];
+      if (browserId && this._sanitizeBrowserId(browserId) !== browserId) {
+        garbageIds.add(browserId);
       }
     }
     for (const browserId of garbageIds) {
@@ -982,8 +1009,8 @@ class BrowserModModule {
         }
       }
     }
-    for (const id of Object.keys(this.objects)) {
-      if (id.startsWith(`${this.adapter.namespace}.${instancesPath}`)) {
+    for (const id of ownStateIds) {
+      if (!garbageIds.has(id.split(".")[3])) {
         const browserId = id.split(".")[3];
         if (id.endsWith(".online")) {
           const onlineState = await this.adapter.getStateAsync(id);
