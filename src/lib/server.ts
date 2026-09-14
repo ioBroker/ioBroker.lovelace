@@ -15,6 +15,7 @@ import * as converterSensors from './converters/sensor';
 import * as converterGeoLocation from './converters/geo_location';
 import * as converterDeviceTracker from './converters/deviceTracker';
 import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
+import { applyCustomAttributes } from './converters/manualStates';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -609,7 +610,27 @@ class WebServer {
      * @param id of ioBroker object
      * @returns manual entity
      */
-    async _processManualEntity(id: string) {
+    async _processManualEntity(id: string): Promise<BaseEntity[]> {
+        const entities = await this._buildManualEntities(id);
+        if (entities.length) {
+            const custom = this._objectData.objects[id]?.common?.custom?.[this.adapter.namespace];
+            if (custom) {
+                // Expert setting: arbitrary attributes fed from picked states. Applied last so it
+                // also works for the types that are built by a converter.
+                applyCustomAttributes(entities[0], custom);
+            }
+        }
+        return entities;
+    }
+
+    /**
+     * Build the entities for a manually configured object (without the expert attributes, those are
+     * added by the caller).
+     *
+     * @param id of ioBroker object
+     * @returns manual entities
+     */
+    async _buildManualEntities(id: string): Promise<BaseEntity[]> {
         try {
             // Prefer the in-process object cache (kept current by onObjectChange) to
             // avoid stale data from some DB view implementations.

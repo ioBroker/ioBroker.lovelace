@@ -1698,6 +1698,43 @@
           }
         }
       }
+    },
+    "_customAttributes": {
+      "newLine": true,
+      "type": "panel",
+      "items": {
+        "_customAttributesHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Expert: attributes from states",
+          "help": "Fill any Home Assistant attribute of this entity from an ioBroker state. Only needed for attributes that have no own setting above."
+        },
+        "customAttributes": {
+          "type": "table",
+          "showSecondAddAt": 5,
+          "uniqueColumns": [
+            "attribute"
+          ],
+          "items": [
+            {
+              "type": "text",
+              "attr": "attribute",
+              "width": "40%",
+              "title": "Attribute",
+              "tooltip": "Home Assistant attribute name, e.g. battery_level. A name with dots writes a nested attribute (forecast.0.temperature).",
+              "default": ""
+            },
+            {
+              "type": "objectId",
+              "attr": "state",
+              "width": "60%",
+              "title": "State",
+              "tooltip": "ioBroker state the value is read from.",
+              "default": ""
+            }
+          ]
+        }
+      }
     }
   }
 }

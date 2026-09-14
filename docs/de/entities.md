@@ -52,6 +52,11 @@ Bei den **mehrteiligen** Typen wählt man die ioBroker-States je Rolle im Custom
 | `water_heater` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `POWER` (an/aus), `MODE` (Betriebsmodus) | der Betriebsmodus |
 | `device_tracker` / `person` | Anwesenheit, GPS (`"lat;lon"` oder getrennt Breite/Länge), GPS-Genauigkeit, Batterie, Bild (URL oder State), Quellentyp | `home` / `not_home` / ein Zonenname |
 
+#### Experte: beliebiges Attribut aus einem State
+Ganz unten im Custom-Dialog liegt die Tabelle *Experte: Attribute aus States*. Sie verbindet ein beliebiges Home-Assistant-Attribut der Entity mit einem ioBroker-State. Attributname eintragen, State auswählen, fertig: der Wert folgt dem State wie jedes andere Attribut.
+
+Gedacht für Attribute ohne eigene Einstellung, z. B. ein `battery_level` an einem `media_player`. Ein Name mit Punkten schreibt ein verschachteltes Attribut (`forecast.0.temperature`). Ein Eintrag überschreibt auch ein Attribut, das der Adapter selbst erzeugt, man kann ein Attribut also auf einen anderen State umbiegen. Attributnamen werden nicht geprüft, ein unbekannter Name wird vom Frontend einfach ignoriert.
+
 ### Alarm-Panel
 ioBroker unterstützt ein solches Gerät noch nicht, es lässt sich aber simulieren, z. B. mit diesem Skript:
 

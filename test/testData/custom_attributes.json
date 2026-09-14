@@ -1,0 +1,57 @@
+{
+  "adapter.0.sensor.expert.temperature": {
+    "type": "state",
+    "common": {
+      "name": "expert sensor",
+      "read": true,
+      "write": false,
+      "role": "value.temperature",
+      "type": "number",
+      "unit": "°C",
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "sensor",
+          "name": "expert_sensor",
+          "customAttributes": [
+            { "attribute": "battery_level", "state": "adapter.0.sensor.expert.battery" },
+            { "attribute": "", "state": "adapter.0.sensor.expert.battery" }
+          ]
+        }
+      }
+    },
+    "native": {},
+    "_id": "adapter.0.sensor.expert.temperature",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  },
+  "adapter.0.sensor.expert.battery": {
+    "type": "state",
+    "common": {
+      "name": "expert battery",
+      "read": true,
+      "write": false,
+      "role": "value.battery",
+      "type": "number",
+      "unit": "%"
+    },
+    "native": {},
+    "_id": "adapter.0.sensor.expert.battery",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}

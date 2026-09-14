@@ -38,6 +38,7 @@ var converterSensors = __toESM(require("./converters/sensor"));
 var converterGeoLocation = __toESM(require("./converters/geo_location"));
 var converterDeviceTracker = __toESM(require("./converters/deviceTracker"));
 var import_syntheticControl = require("./converters/syntheticControl");
+var import_manualStates = require("./converters/manualStates");
 var converterDatetime = __toESM(require("./converters/input_datetime"));
 var converterAlarmCP = __toESM(require("./converters/alarm_control_panel"));
 var converterInputSelect = __toESM(require("./converters/input_select"));
@@ -471,6 +472,24 @@ class WebServer {
    * @returns manual entity
    */
   async _processManualEntity(id) {
+    var _a, _b, _c;
+    const entities = await this._buildManualEntities(id);
+    if (entities.length) {
+      const custom = (_c = (_b = (_a = this._objectData.objects[id]) == null ? void 0 : _a.common) == null ? void 0 : _b.custom) == null ? void 0 : _c[this.adapter.namespace];
+      if (custom) {
+        (0, import_manualStates.applyCustomAttributes)(entities[0], custom);
+      }
+    }
+    return entities;
+  }
+  /**
+   * Build the entities for a manually configured object (without the expert attributes, those are
+   * added by the caller).
+   *
+   * @param id of ioBroker object
+   * @returns manual entities
+   */
+  async _buildManualEntities(id) {
     var _a, _b, _c;
     try {
       const obj = (_a = this._objectData.objects[id]) != null ? _a : await this.adapter.getForeignObjectAsync(id);

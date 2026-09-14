@@ -176,5 +176,31 @@ exports.runTests = function (suite) {
             // exactly one entity for deviceId
             expect(entities.filter(e => e.context.deviceId === deviceId)).to.have.lengthOf(1);
         });
+
+        jsonFiles.push('../testData/custom_attributes.json');
+        initialStates.push({ id: 'adapter.0.sensor.expert.temperature', val: 21 });
+        initialStates.push({ id: 'adapter.0.sensor.expert.battery', val: 80 });
+        it('expert attribute table fills an attribute from another state', async () => {
+            const deviceId = 'adapter.0.sensor.expert.temperature';
+            const entity = entities.find(e => e.context.id === deviceId);
+            expect(entity).to.be.ok;
+            expect(entity).to.have.nested.property('attributes.battery_level', 80);
+            // the row without an attribute name must be ignored, not create an empty attribute
+            expect(entity.context.ATTRIBUTES.filter(a => !a.attribute)).to.have.lengthOf(0);
+        });
+
+        it('expert attribute follows the state and reaches the frontend', async () => {
+            const entity = entities.find(e => e.context.id === 'adapter.0.sensor.expert.temperature');
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
+                async () => {
+                    await harness.states.setStateAsync('adapter.0.sensor.expert.battery', 42);
+                },
+                newState => {
+                    expect(newState.attributes.battery_level).to.equal(42);
+                },
+            );
+        });
     });
 };

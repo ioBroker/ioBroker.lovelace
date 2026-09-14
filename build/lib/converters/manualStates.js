@@ -18,6 +18,8 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var manualStates_exports = {};
 __export(manualStates_exports, {
+  applyCustomAttributes: () => applyCustomAttributes,
+  collectCustomAttributes: () => collectCustomAttributes,
   collectManualStates: () => collectManualStates
 });
 module.exports = __toCommonJS(manualStates_exports);
@@ -30,8 +32,39 @@ function collectManualStates(custom) {
   }
   return out;
 }
+function collectCustomAttributes(custom) {
+  const rows = custom.customAttributes;
+  if (!Array.isArray(rows)) {
+    return [];
+  }
+  const result = [];
+  for (const row of rows) {
+    const attribute = typeof (row == null ? void 0 : row.attribute) === "string" ? row.attribute.trim() : "";
+    const getId = typeof (row == null ? void 0 : row.state) === "string" ? row.state.trim() : "";
+    if (attribute && getId) {
+      result.push({ attribute, getId });
+    }
+  }
+  return result;
+}
+function applyCustomAttributes(entity, custom) {
+  var _a;
+  for (const mapping of collectCustomAttributes(custom)) {
+    entity.context.ATTRIBUTES = (_a = entity.context.ATTRIBUTES) != null ? _a : [];
+    const existing = entity.context.ATTRIBUTES.find((attr) => attr.attribute === mapping.attribute);
+    if (existing) {
+      existing.getId = mapping.getId;
+      delete existing.getParser;
+    } else {
+      entity.context.ATTRIBUTES.push({ attribute: mapping.attribute, getId: mapping.getId });
+    }
+    entity.addID2entity(mapping.getId);
+  }
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  applyCustomAttributes,
+  collectCustomAttributes,
   collectManualStates
 });
 //# sourceMappingURL=manualStates.js.map
