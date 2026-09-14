@@ -13,17 +13,32 @@ interface WsWithAuth {
  * Backs the `frontend/(get|set|subscribe)_user_data` and `frontend/(get|set|subscribe)_system_data`
  * WebSocket messages. Data is stored per user (by username, falling back to a shared default) in the
  * `storage.userData` ioBroker object. The `core` key always carries `default_panel` so the frontend
- * lands on the lovelace dashboard.
+ * lands on the lovelace dashboard, and the `language` key falls back to the adapter language so the
+ * UI does not follow the browser language.
  */
 class UserDataModule {
     private adapter: ioBroker.Adapter;
     private sendResponse: SendResponseFn;
+    private getLanguage: () => string | undefined;
     private _userData: Record<string, Record<string, unknown>> = {};
     private readonly _objectId = `${STORAGE_PREFIX}userData`;
 
-    constructor(options: { adapter: ioBroker.Adapter; sendResponse: SendResponseFn }) {
+    /**
+     * Create the user data module.
+     *
+     * @param options - options object
+     * @param options.adapter - ioBroker adapter instance
+     * @param options.sendResponse - send a result to a websocket client
+     * @param options.getLanguage - the adapter language (config, else the ioBroker system language)
+     */
+    constructor(options: {
+        adapter: ioBroker.Adapter;
+        sendResponse: SendResponseFn;
+        getLanguage?: () => string | undefined;
+    }) {
         this.adapter = options.adapter;
         this.sendResponse = options.sendResponse;
+        this.getLanguage = options.getLanguage || (() => undefined);
     }
 
     async init(): Promise<void> {
@@ -70,6 +85,21 @@ class UserDataModule {
         const stored = this._userData[this._getUserKey(ws)]?.[key];
         if (key === 'core') {
             return { default_panel: 'lovelace', ...(stored || {}) };
+        }
+        if (key === 'language') {
+            // The frontend picks its UI language from localStorage / the browser unless the backend
+            // supplies one here, so without this the dashboard ignores the configured language.
+            // A language picked in the user profile is stored and keeps precedence; the other locale
+            // settings (number/date/time format) are untouched and stay independent of the language.
+            const language = this.getLanguage();
+            const locale = (stored as Record<string, unknown> | undefined) || undefined;
+            if (!language) {
+                return locale ?? null;
+            }
+            if (locale?.language) {
+                return locale;
+            }
+            return { ...(locale || {}), language };
         }
         return stored ?? null;
     }

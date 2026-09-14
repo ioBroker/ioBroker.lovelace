@@ -63,6 +63,14 @@ Icons in der Form `mdi:NAME` verwenden, z. B. `mdi:play-network`. Namen gibt es 
 
 ## UI-Tipps
 
+### Sprache, Zahlen- und Datumsformat
+Die Sprache des Dashboards kommt aus der Adapter-Einstellung `Sprache` (`wie ioBroker` nutzt die ioBroker-Systemsprache). Sie ist nur die Vorgabe: Eine im Frontend unter *Profil* gewählte Sprache gewinnt und wird pro Benutzer gespeichert. Die Browsersprache wird nicht mehr verwendet.
+
+Zahlen-, Zeit- und Datumsformat, Zeitzone und erster Wochentag sind eigene Einstellungen, ebenfalls unter *Profil*. Jede davon kann auf `Sprache` stehen (folgt der Oberflächensprache) oder fest gesetzt werden, das Dashboard kann also englisch sein und trotzdem deutsche Zahlenformate nutzen.
+
+Ohne aktivierte Authentifizierung teilen sich alle Browser ein Profil, eine solche Änderung gilt dann für jeden Browser.
+
+
 ### Anpassen der Titelleiste
 Die Titelleiste lässt sich mit der Erweiterung [card-mod](https://github.com/thomasloven/lovelace-card-mod) anpassen. Dazu folgende YAML-Beispiele zum eigenen Theme hinzufügen:
 

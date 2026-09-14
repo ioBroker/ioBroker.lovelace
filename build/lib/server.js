@@ -244,7 +244,9 @@ class WebServer {
       }),
       userData: new import_userData.default({
         adapter: this.adapter,
-        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        // Read lazily: the system language is only known once system.config was read.
+        getLanguage: () => this.lang
       }),
       themes: new import_themes.default({
         adapter: this.adapter,

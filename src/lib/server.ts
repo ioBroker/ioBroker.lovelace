@@ -350,6 +350,8 @@ class WebServer {
             userData: new UserDataModule({
                 adapter: this.adapter,
                 sendResponse: (ws: unknown, id: unknown, result: unknown) => this._sendResponse(ws, id, result),
+                // Read lazily: the system language is only known once system.config was read.
+                getLanguage: () => this.lang,
             }),
             themes: new ThemesModule({
                 adapter: this.adapter,

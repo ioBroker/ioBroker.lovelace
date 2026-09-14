@@ -3,11 +3,21 @@ var import_storage = require("./storage");
 class UserDataModule {
   adapter;
   sendResponse;
+  getLanguage;
   _userData = {};
   _objectId = `${import_storage.STORAGE_PREFIX}userData`;
+  /**
+   * Create the user data module.
+   *
+   * @param options - options object
+   * @param options.adapter - ioBroker adapter instance
+   * @param options.sendResponse - send a result to a websocket client
+   * @param options.getLanguage - the adapter language (config, else the ioBroker system language)
+   */
   constructor(options) {
     this.adapter = options.adapter;
     this.sendResponse = options.sendResponse;
+    this.getLanguage = options.getLanguage || (() => void 0);
   }
   async init() {
     var _a;
@@ -53,6 +63,17 @@ class UserDataModule {
     const stored = (_a = this._userData[this._getUserKey(ws)]) == null ? void 0 : _a[key];
     if (key === "core") {
       return { default_panel: "lovelace", ...stored || {} };
+    }
+    if (key === "language") {
+      const language = this.getLanguage();
+      const locale = stored || void 0;
+      if (!language) {
+        return locale != null ? locale : null;
+      }
+      if (locale == null ? void 0 : locale.language) {
+        return locale;
+      }
+      return { ...locale || {}, language };
     }
     return stored != null ? stored : null;
   }
