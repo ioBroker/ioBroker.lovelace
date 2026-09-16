@@ -60,13 +60,20 @@ function startAdapter(options) {
         }
       },
       message: (obj) => {
-        var _a;
+        var _a, _b;
         if (obj.command === "browse") {
           obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
         } else if (obj.command === "regenerateEntityIds") {
           const format = (_a = obj.message) == null ? void 0 : _a.format;
           void adapter.apiServer._regenerateAutoEntityIds(format).then(
             (renamed) => obj.callback && adapter.sendTo(obj.from, obj.command, { renamed }, obj.callback)
+          ).catch(
+            (e) => obj.callback && adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback)
+          );
+        } else if (obj.command === "listCards") {
+          const path = (_b = obj.message) == null ? void 0 : _b.path;
+          void adapter.apiServer.listCards(path).then(
+            (list) => obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback)
           ).catch(
             (e) => obj.callback && adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback)
           );

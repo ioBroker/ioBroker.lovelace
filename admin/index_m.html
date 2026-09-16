@@ -178,6 +178,26 @@
             return result;
         }
 
+        // Cards carry their version only inside the file, so the running adapter reads it for us.
+        function readCardVersions(path, $files_list) {
+            getIsAdapterAlive(function (isAlive) {
+                if (!isAlive) {
+                    $files_list.find('.card-version').text('-');
+                    return;
+                }
+                sendTo(null, 'listCards', { path: path }, function (list) {
+                    if (!list || list.error || !list.length) {
+                        return;
+                    }
+                    for (var i = 0; i < list.length; i++) {
+                        if (list[i].version) {
+                            $files_list.find('.card-version[data-name="' + list[i].file + '"]').text(list[i].version);
+                        }
+                    }
+                });
+            });
+        }
+
         function readFiles(subfolder) {
             const path = subfolder ? subfolder + '/' : '/cards/';
             var $dropZone = $('#tab-custom');
@@ -185,7 +205,7 @@
             socket.emit('readDir', 'lovelace.' + instance, path, function (err, list) {
                 var $files_list = $('#files_list');
                 var text = '<table>';
-                text += '<tr><th>' + _('File') + '</th><th>' + _('Size') + '</th><th>' + _('Modified') + '</th><th></th></tr>';
+                text += '<tr><th>' + _('File') + '</th><th>' + _('Version') + '</th><th>' + _('Size') + '</th><th>' + _('Modified') + '</th><th></th></tr>';
                 list.sort(function (a, b) {
                     if (a.file > b.file) return 1;
                     if (a.file < b.file) return -1;
@@ -197,7 +217,7 @@
                 server += ':' + httpServer.port;
 
                 if (subfolder) {
-                    text += `<tr><td><a href="#parent" id="parent">..</a></td><td>&nbsp</td><td>&nbsp</td><td></td></tr>`;
+                    text += `<tr><td><a href="#parent" id="parent">..</a></td><td>&nbsp</td><td>&nbsp</td><td>&nbsp</td><td></td></tr>`;
                 }
 
                 for (var i = 0; i < list.length; i++) {
@@ -205,7 +225,11 @@
                     const fileLink = `<a href="${server}${path}${list[i].file}" target="_blank">${list[i].file}</a>`;
                     const folderButton = `<a href="#{list[i].file}" class="folder-button" data-folder="${list[i].isDir}" data-name="${path}${list[i].file}">${list[i].file}</a>`;
 
+                    // the version cell is filled in later: it is read from the file by the adapter.
+                    const versionCell = list[i].isDir ? '&nbsp' : `<span class="card-version" data-name="${list[i].file}">&nbsp</span>`;
+
                     text += `<tr><td>${list[i].isDir ? folderButton : fileLink}</td>
+                                <td>${versionCell}</td>
                                 <td>${list[i].isDir ? _('Folder') : list[i].stats.size}</td>
                                 <td>${list[i].isDir ? '&nbsp' : formatTime(list[i].modifiedAt)}</td>
                                 <td>${deleteButton}</td>
@@ -214,6 +238,8 @@
 
                 text += '</table>';
                 $files_list.html(text);
+
+                readCardVersions(path, $files_list);
 
                 $files_list.find('.delete-file').off('click').on('click', function () {
                     console.log('Delete lovelace.' + instance + ' ' + path + $(this).data('name'));

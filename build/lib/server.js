@@ -39,6 +39,7 @@ var converterGeoLocation = __toESM(require("./converters/geo_location"));
 var converterDeviceTracker = __toESM(require("./converters/deviceTracker"));
 var import_syntheticControl = require("./converters/syntheticControl");
 var import_manualStates = require("./converters/manualStates");
+var import_cards = require("./cards");
 var converterDatetime = __toESM(require("./converters/input_datetime"));
 var converterAlarmCP = __toESM(require("./converters/alarm_control_panel"));
 var converterInputSelect = __toESM(require("./converters/input_select"));
@@ -119,9 +120,12 @@ const generateRandomToken = function(callback) {
   });
 };
 const staticOptions = {
-  maxAge: 2678400 * 1e3
+  // Seconds - this goes into the Cache-Control header as-is. It used to be multiplied by 1000
+  // (milliseconds), which told browsers to cache everything for about 85 years.
+  maxAge: 2678400
   // 31 days
 };
+const CARD_MAX_AGE = 3600;
 class WebServer {
   adapter;
   config;
@@ -1350,17 +1354,18 @@ class WebServer {
           if (!file.isDir) {
             const pos = file.file.lastIndexOf(".");
             const type = file.file.substring(pos + 1).toLowerCase();
+            const url = `/cards/${file.file}${(0, import_cards.cacheBuster)(file)}`;
             if (type === "js") {
               this.log.debug(`Add custom cards: ${file.file} as ${type}`);
               this._ressourceConfig.push({
                 type: type === "js" ? "module" : type,
-                url: `/cards/${file.file}`
+                url
               });
             } else if (["css", "html"].includes(type)) {
               this.log.debug(`Add custom font/css/html: ${file.file} as ${type}`);
               this._ressourceConfig.push({
                 type,
-                url: `/cards/${file.file}`
+                url
               });
             }
           }
@@ -1372,6 +1377,46 @@ class WebServer {
       }
     }
     this.log.debug("files: init done");
+  }
+  /**
+   * List the custom cards of a folder, with the version the card reports about itself.
+   *
+   * Used by the admin page: a card has no metadata, so its version is read from the file.
+   *
+   * @param path - folder below the adapter's file storage, defaults to the cards folder
+   * @returns one entry per file (folders included, without a version)
+   */
+  async listCards(path2 = "/cards/") {
+    var _a;
+    const folder = path2.endsWith("/") ? path2 : `${path2}/`;
+    let list;
+    try {
+      list = await this.adapter.readDirAsync(this.adapter.namespace, folder);
+    } catch (err) {
+      if (err.message !== "Not exists") {
+        this.log.warn(`Could not list custom cards: ${err}`);
+      }
+      return [];
+    }
+    const result = [];
+    for (const file of list) {
+      const entry = {
+        file: file.file,
+        isDir: !!file.isDir,
+        size: ((_a = file.stats) == null ? void 0 : _a.size) || 0,
+        modifiedAt: file.modifiedAt
+      };
+      if (!file.isDir && file.file.toLowerCase().endsWith(".js")) {
+        try {
+          const data = (await this.adapter.readFileAsync(this.adapter.namespace, folder + file.file)).file;
+          entry.version = (0, import_cards.detectCardVersion)(data.toString());
+        } catch (err) {
+          this.log.debug(`Could not read card ${file.file}: ${err}`);
+        }
+      }
+      result.push(entry);
+    }
+    return result;
   }
   /**
    * Read enitiy from frontend configuration.
@@ -1696,7 +1741,7 @@ ${hideScript.join("\n")}
         "content-type",
         (mime.getType || mime.lookup).call(data.mimeType, file.substring(pos2 + 1).toLowerCase())
       );
-      res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
+      res.setHeader("Cache-Control", `public, max-age=${CARD_MAX_AGE}`);
       res.send(data);
     } catch (err) {
       this.log.warn(`Could not read card ${file}: ${err}`);

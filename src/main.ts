@@ -104,6 +104,19 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                                 obj.callback &&
                                 adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback),
                         );
+                } else if (obj.command === 'listCards') {
+                    const path = (obj.message as { path?: string } | undefined)?.path;
+                    void adapter.apiServer
+                        .listCards(path)
+                        .then(
+                            (list: unknown) =>
+                                obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback),
+                        )
+                        .catch(
+                            (e: Error) =>
+                                obj.callback &&
+                                adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback),
+                        );
                 } else if (obj.command === 'send') {
                     void adapter.apiServer
                         .onStateChange(`${adapter.namespace}.notifications.add`, {

@@ -16,6 +16,7 @@ import * as converterGeoLocation from './converters/geo_location';
 import * as converterDeviceTracker from './converters/deviceTracker';
 import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
 import { applyCustomAttributes, collectCustomAttributes } from './converters/manualStates';
+import { cacheBuster, detectCardVersion } from './cards';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -184,8 +185,15 @@ possible HASS entity types:
  */
 
 const staticOptions = {
-    maxAge: 2678400 * 1000, // 31 days
+    // Seconds - this goes into the Cache-Control header as-is. It used to be multiplied by 1000
+    // (milliseconds), which told browsers to cache everything for about 85 years.
+    maxAge: 2678400, // 31 days
 };
+
+// Custom cards keep their file name when the user uploads a new version of a card, so they must not
+// be cached for long: the resource url carries the modification time (see _listFiles), but a card
+// referenced by hand in a dashboard does not.
+const CARD_MAX_AGE = 3600; // 1 hour
 
 type AdapterInstance = ioBroker.Adapter & { config: Record<string, unknown> };
 
@@ -1654,18 +1662,21 @@ class WebServer {
                     if (!file.isDir) {
                         const pos = file.file.lastIndexOf('.');
                         const type = file.file.substring(pos + 1).toLowerCase();
+                        // A new version of a card keeps its file name, so the url has to change for
+                        // the browser to load it again instead of its cached copy.
+                        const url = `/cards/${file.file}${cacheBuster(file)}`;
                         if (type === 'js') {
                             //we do not really need to advertise the images, do we? Hm.
                             this.log.debug(`Add custom cards: ${file.file} as ${type}`);
                             this._ressourceConfig.push({
                                 type: type === 'js' ? 'module' : type,
-                                url: `/cards/${file.file}`,
+                                url,
                             });
                         } else if (['css', 'html'].includes(type)) {
                             this.log.debug(`Add custom font/css/html: ${file.file} as ${type}`);
                             this._ressourceConfig.push({
                                 type: type,
-                                url: `/cards/${file.file}`,
+                                url,
                             });
                         }
                     }
@@ -1678,6 +1689,49 @@ class WebServer {
             }
         }
         this.log.debug('files: init done');
+    }
+
+    /**
+     * List the custom cards of a folder, with the version the card reports about itself.
+     *
+     * Used by the admin page: a card has no metadata, so its version is read from the file.
+     *
+     * @param path - folder below the adapter's file storage, defaults to the cards folder
+     * @returns one entry per file (folders included, without a version)
+     */
+    async listCards(
+        path = '/cards/',
+    ): Promise<{ file: string; isDir: boolean; size: number; modifiedAt?: number; version?: string }[]> {
+        const folder = path.endsWith('/') ? path : `${path}/`;
+        let list: ioBroker.ReadDirResult[];
+        try {
+            list = await this.adapter.readDirAsync(this.adapter.namespace, folder);
+        } catch (err: any) {
+            if (err.message !== 'Not exists') {
+                this.log.warn(`Could not list custom cards: ${err}`);
+            }
+            return [];
+        }
+
+        const result = [];
+        for (const file of list) {
+            const entry: { file: string; isDir: boolean; size: number; modifiedAt?: number; version?: string } = {
+                file: file.file,
+                isDir: !!file.isDir,
+                size: file.stats?.size || 0,
+                modifiedAt: file.modifiedAt,
+            };
+            if (!file.isDir && file.file.toLowerCase().endsWith('.js')) {
+                try {
+                    const data = (await this.adapter.readFileAsync(this.adapter.namespace, folder + file.file)).file;
+                    entry.version = detectCardVersion(data.toString());
+                } catch (err: any) {
+                    this.log.debug(`Could not read card ${file.file}: ${err}`);
+                }
+            }
+            result.push(entry);
+        }
+        return result;
     }
 
     /**
@@ -2065,7 +2119,7 @@ class WebServer {
                 'content-type',
                 (mime.getType || mime.lookup).call(data.mimeType, file.substring(pos + 1).toLowerCase()),
             );
-            res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
+            res.setHeader('Cache-Control', `public, max-age=${CARD_MAX_AGE}`);
             res.send(data);
         } catch (err: any) {
             this.log.warn(`Could not read card ${file}: ${err}`);
