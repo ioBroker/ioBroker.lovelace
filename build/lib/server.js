@@ -125,6 +125,8 @@ const staticOptions = {
   maxAge: 2678400
   // 31 days
 };
+const IMMUTABLE_CACHE = "public, max-age=31536000, immutable";
+const REVALIDATE_CACHE = "no-cache";
 const CARD_MAX_AGE = 3600;
 class WebServer {
   adapter;
@@ -136,6 +138,8 @@ class WebServer {
   systemConfig;
   _lovelaceConfig;
   _ressourceConfig;
+  /** Remembers which frontend files have a `.br` next to them (see _sendStaticFile). */
+  _brotliFiles = /* @__PURE__ */ new Map();
   _requestableFiles;
   _subscribed;
   /** true when we subscribed to all foreign states ('*') and filter in onStateChange instead. */
@@ -1714,6 +1718,42 @@ ${hideScript.join("\n")}
     });
   }
   /**
+   * Send a file from the frontend, preferring the precompressed `.br` next to it.
+   *
+   * The frontend ships a brotli copy of every larger file. Serving those saves roughly 3/4 of the
+   * transfer, which is what a remote connection through a cloud proxy (ioBroker.pro) notices most.
+   *
+   * @param req - the request (read for its Accept-Encoding)
+   * @param res - the response
+   * @param filePath - absolute path of the uncompressed file
+   * @param cacheControl - value for the Cache-Control header
+   */
+  _sendStaticFile(req, res, filePath, cacheControl) {
+    res.setHeader("Cache-Control", cacheControl);
+    res.setHeader("Vary", "Accept-Encoding");
+    if (String(req.headers["accept-encoding"] || "").includes("br") && this._hasBrotli(filePath)) {
+      res.setHeader("Content-Encoding", "br");
+      res.type(import_node_path.default.extname(filePath) || "application/octet-stream");
+      res.sendFile(`${filePath}.br`, { acceptRanges: false });
+      return;
+    }
+    res.sendFile(filePath);
+  }
+  /**
+   * Whether a precompressed copy of a file exists. Answers from a cache: this is in the request
+   * path, and the frontend files do not change while the adapter runs.
+   *
+   * @param filePath - absolute path of the uncompressed file
+   */
+  _hasBrotli(filePath) {
+    let known = this._brotliFiles.get(filePath);
+    if (known === void 0) {
+      known = import_node_fs.default.existsSync(`${filePath}.br`);
+      this._brotliFiles.set(filePath, known);
+    }
+    return known;
+  }
+  /**
    * Frontend requested a card. Read cards from the file system and send them.
    *
    * @param req request with url.
@@ -1724,6 +1764,7 @@ ${hideScript.join("\n")}
     let file = req.url.replace("hacsfiles", "cards");
     file = file.replace("/cards/_static_", "/lovelace/static_cards/");
     const pos = file.indexOf("?");
+    const versioned = pos !== -1 && /[?&]v=/.test(file.substring(pos));
     if (pos !== -1) {
       file = file.substring(0, pos);
     }
@@ -1741,7 +1782,7 @@ ${hideScript.join("\n")}
         "content-type",
         (mime.getType || mime.lookup).call(data.mimeType, file.substring(pos2 + 1).toLowerCase())
       );
-      res.setHeader("Cache-Control", `public, max-age=${CARD_MAX_AGE}`);
+      res.setHeader("Cache-Control", versioned ? IMMUTABLE_CACHE : `public, max-age=${CARD_MAX_AGE}`);
       res.send(data);
     } catch (err) {
       this.log.warn(`Could not read card ${file}: ${err}`);
@@ -2048,10 +2089,10 @@ ${hideScript.join("\n")}
     });
     this._app.use(async (req, res, next) => {
       if (req.url.endsWith("/")) {
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
+        res.setHeader("Cache-Control", REVALIDATE_CACHE);
         res.send(this._renderIndex());
       } else if (req.url.endsWith("manifest.json")) {
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
+        res.setHeader("Cache-Control", REVALIDATE_CACHE);
         res.send(this._renderManifest());
       } else if (req.url.includes("/cards/") || req.url.includes("/hacsfiles/") || req.url.includes("/local/custom_ui/")) {
         req.url = req.url.replace(/.*\/cards\//g, "/cards/");
@@ -2060,24 +2101,24 @@ ${hideScript.join("\n")}
         await this.onCards(req, res);
       } else if (req.url.includes("/frontend_latest/")) {
         const filePath = req.url.replace(/.*\/frontend_latest\//, "frontend_latest/");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(`${getRootPath()}${filePath}`);
+        this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
       } else if (req.url.includes("/frontend_es5/")) {
         const filePath = req.url.replace(/.*\/frontend_es5\//, "frontend_es5/");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(`${getRootPath()}${filePath}`);
+        this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
       } else if (req.url.includes("/static/icons/")) {
         const filePath = req.url.replace(/.*\/static\/icons\//, "");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(import_node_path.default.join(__dirname, "/../../assets/icons/", filePath));
+        this._sendStaticFile(
+          req,
+          res,
+          import_node_path.default.join(__dirname, "/../../assets/icons/", filePath),
+          `public, max-age=${staticOptions.maxAge}`
+        );
       } else if (req.url.includes("/images/")) {
         const filePath = req.url.replace(/.*\/images\//, "static/images/");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(`${getRootPath()}${filePath}`);
+        this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
       } else if (req.url.includes("/static/")) {
         const filePath = req.url.replace(/.*\/static\//, "static/");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(`${getRootPath()}${filePath}`);
+        this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
       } else if (req.url.endsWith("favicon.ico")) {
         res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
         res.sendFile(import_node_path.default.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
@@ -2088,8 +2129,9 @@ ${hideScript.join("\n")}
             return next();
           }
           this.log.debug(`Serving ${filePath}`);
-          res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-          res.sendFile(filePath);
+          const name = import_node_path.default.basename(filePath);
+          const cacheControl = name.startsWith("sw-") || name.startsWith("service_worker") || name.endsWith(".html") ? REVALIDATE_CACHE : `public, max-age=${staticOptions.maxAge}`;
+          this._sendStaticFile(req, res, filePath, cacheControl);
         });
       }
     });

@@ -190,9 +190,16 @@ const staticOptions = {
     maxAge: 2678400, // 31 days
 };
 
-// Custom cards keep their file name when the user uploads a new version of a card, so they must not
-// be cached for long: the resource url carries the modification time (see _listFiles), but a card
-// referenced by hand in a dashboard does not.
+// Frontend files carry a content hash in their name, so a new build is a new url: they can be cached
+// forever. That matters for a remote connection (e.g. ioBroker.pro), where the frontend's ~2500 small
+// files would otherwise be fetched through the cloud on every load.
+const IMMUTABLE_CACHE = 'public, max-age=31536000, immutable';
+// The entry points have no hash in their name - caching them would hide a frontend update.
+// `no-cache` still allows the browser to keep them, it just has to revalidate (a cheap 304).
+const REVALIDATE_CACHE = 'no-cache';
+// Custom cards keep their file name when the user uploads a new one, so only the resource url with
+// the modification time (see _listFiles) may be cached forever. A card referenced by hand in a
+// dashboard carries no such marker and is therefore checked once an hour.
 const CARD_MAX_AGE = 3600; // 1 hour
 
 type AdapterInstance = ioBroker.Adapter & { config: Record<string, unknown> };
@@ -224,6 +231,8 @@ class WebServer {
     private _lovelaceConfig: any;
 
     private _ressourceConfig: any[];
+    /** Remembers which frontend files have a `.br` next to them (see _sendStaticFile). */
+    private _brotliFiles = new Map<string, boolean>();
     private _requestableFiles: string[];
 
     private _subscribed: any[];
@@ -2090,6 +2099,47 @@ class WebServer {
     }
 
     /**
+     * Send a file from the frontend, preferring the precompressed `.br` next to it.
+     *
+     * The frontend ships a brotli copy of every larger file. Serving those saves roughly 3/4 of the
+     * transfer, which is what a remote connection through a cloud proxy (ioBroker.pro) notices most.
+     *
+     * @param req - the request (read for its Accept-Encoding)
+     * @param res - the response
+     * @param filePath - absolute path of the uncompressed file
+     * @param cacheControl - value for the Cache-Control header
+     */
+    _sendStaticFile(req: any, res: any, filePath: string, cacheControl: string): void {
+        res.setHeader('Cache-Control', cacheControl);
+        res.setHeader('Vary', 'Accept-Encoding');
+
+        if (String(req.headers['accept-encoding'] || '').includes('br') && this._hasBrotli(filePath)) {
+            // Content-Type has to be set from the real file name: send would derive it from ".br".
+            // Ranges are disabled - a range of the compressed bytes is not a range of the file.
+            res.setHeader('Content-Encoding', 'br');
+            res.type(path.extname(filePath) || 'application/octet-stream');
+            res.sendFile(`${filePath}.br`, { acceptRanges: false });
+            return;
+        }
+        res.sendFile(filePath);
+    }
+
+    /**
+     * Whether a precompressed copy of a file exists. Answers from a cache: this is in the request
+     * path, and the frontend files do not change while the adapter runs.
+     *
+     * @param filePath - absolute path of the uncompressed file
+     */
+    _hasBrotli(filePath: string): boolean {
+        let known = this._brotliFiles.get(filePath);
+        if (known === undefined) {
+            known = fs.existsSync(`${filePath}.br`);
+            this._brotliFiles.set(filePath, known);
+        }
+        return known;
+    }
+
+    /**
      * Frontend requested a card. Read cards from the file system and send them.
      *
      * @param req request with url.
@@ -2100,6 +2150,7 @@ class WebServer {
         let file = req.url.replace('hacsfiles', 'cards');
         file = file.replace('/cards/_static_', '/lovelace/static_cards/');
         const pos = file.indexOf('?');
+        const versioned = pos !== -1 && /[?&]v=/.test(file.substring(pos));
         if (pos !== -1) {
             file = file.substring(0, pos);
         }
@@ -2119,7 +2170,11 @@ class WebServer {
                 'content-type',
                 (mime.getType || mime.lookup).call(data.mimeType, file.substring(pos + 1).toLowerCase()),
             );
-            res.setHeader('Cache-Control', `public, max-age=${CARD_MAX_AGE}`);
+            // The resource list gives each card a "?v=<modified>" marker, so that url always
+            // points at this exact version and can be cached for good. A card referenced by hand
+            // (e.g. in yaml) has no marker and is rechecked regularly, or replacing it would again
+            // have no effect for the user.
+            res.setHeader('Cache-Control', versioned ? IMMUTABLE_CACHE : `public, max-age=${CARD_MAX_AGE}`);
             res.send(data);
         } catch (err: any) {
             this.log.warn(`Could not read card ${file}: ${err}`);
@@ -2500,12 +2555,12 @@ class WebServer {
         this._app.use(async (req: any, res: any, next: any) => {
             //console.log('url', req.url);
             if (req.url.endsWith('/')) {
-                //index:
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
+                //index: never cached, it names the hashed frontend files of the current build.
+                res.setHeader('Cache-Control', REVALIDATE_CACHE);
                 res.send(this._renderIndex());
             } else if (req.url.endsWith('manifest.json')) {
                 //manifest:
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
+                res.setHeader('Cache-Control', REVALIDATE_CACHE);
                 res.send(this._renderManifest());
             } else if (
                 req.url.includes('/cards/') ||
@@ -2522,29 +2577,29 @@ class WebServer {
                 //serve frontend:
                 //remove all from before frontend_latest.
                 const filePath = req.url.replace(/.*\/frontend_latest\//, 'frontend_latest/');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(`${getRootPath()}${filePath}`);
+                this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
             } else if (req.url.includes('/frontend_es5/')) {
                 //serve frontend:
                 //remove all from before frontend_es5.
                 const filePath = req.url.replace(/.*\/frontend_es5\//, 'frontend_es5/');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(`${getRootPath()}${filePath}`);
+                this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
             } else if (req.url.includes('/static/icons/')) {
                 //iobroker icons:
                 const filePath = req.url.replace(/.*\/static\/icons\//, '');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(path.join(__dirname, '/../../assets/icons/', filePath));
+                this._sendStaticFile(
+                    req,
+                    res,
+                    path.join(__dirname, '/../../assets/icons/', filePath),
+                    `public, max-age=${staticOptions.maxAge}`,
+                );
             } else if (req.url.includes('/images/')) {
                 //static images:
                 const filePath = req.url.replace(/.*\/images\//, 'static/images/');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(`${getRootPath()}${filePath}`);
+                this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
             } else if (req.url.includes('/static/')) {
                 //static:
                 const filePath = req.url.replace(/.*\/static\//, 'static/');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(`${getRootPath()}${filePath}`);
+                this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
             } else if (req.url.endsWith('favicon.ico')) {
                 res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
                 res.sendFile(path.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
@@ -2558,8 +2613,14 @@ class WebServer {
                         return next();
                     }
                     this.log.debug(`Serving ${filePath}`);
-                    res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                    res.sendFile(filePath);
+                    // The service worker and the html entry points have no hash in their name; the
+                    // rest of the root folder (fonts, robots.txt, ...) changes only with a release.
+                    const name = path.basename(filePath);
+                    const cacheControl =
+                        name.startsWith('sw-') || name.startsWith('service_worker') || name.endsWith('.html')
+                            ? REVALIDATE_CACHE
+                            : `public, max-age=${staticOptions.maxAge}`;
+                    this._sendStaticFile(req, res, filePath, cacheControl);
                 });
             }
         });
