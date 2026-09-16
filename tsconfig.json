@@ -9,11 +9,10 @@
     "noEmit": true,
 
     // check JS files, but do not compile them => tsconfig.build.json
-    "allowJs": true,
-    "checkJs": true,
-
+    "allowJs": false,
     "noEmitOnError": true,
     "outDir": "./build/",
+    "rootDir": "./src",
     "removeComments": false,
 
     // This is necessary for the automatic typing of the adapter config

@@ -53,6 +53,7 @@ import SearchModule from './modules/search';
 import ImageModule from './modules/image';
 import CalendarModule from './modules/calendar';
 import { migrateStorageObjects } from './modules/storage';
+import { resolvePathInside, hasParentSegment } from './safePath';
 import type { IModule } from './modules/iModule';
 
 type Modules = {
@@ -181,6 +182,23 @@ possible HASS entity types:
 const staticOptions = {
     maxAge: 2678400 * 1000, // 31 days
 };
+
+/**
+ * Sends a static file located below baseDir. Paths that would leave baseDir are answered with 404.
+ *
+ * @param res response to send the file with
+ * @param baseDir directory the file has to be located in
+ * @param requestPath path relative to baseDir, taken from the request url
+ */
+function sendStaticFile(res: any, baseDir: string, requestPath: string): void {
+    const filePath = resolvePathInside(baseDir, requestPath);
+    if (!filePath) {
+        res.status(404).send('File not found');
+        return;
+    }
+    res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
+    res.sendFile(filePath);
+}
 
 type AdapterInstance = ioBroker.Adapter & { config: Record<string, unknown> };
 
@@ -2024,12 +2042,22 @@ class WebServer {
             file = file.substring(0, pos);
         }
         try {
+            //cards are delivered without authentication -> never allow leaving the cards folders.
+            if (hasParentSegment(file)) {
+                throw new Error('path must not contain ..');
+            }
             const user = this._modules.person.getUserIDFromName(req._user);
             let data;
             if (file.startsWith('/lovelace/')) {
                 //static cards
-                file = file.replace('/lovelace/', '');
-                data = await fs.promises.readFile(getRootPath() + file, 'utf-8');
+                const filePath = resolvePathInside(
+                    `${getRootPath()}static_cards`,
+                    file.replace('/lovelace/static_cards/', ''),
+                );
+                if (!filePath) {
+                    throw new Error('path outside of static_cards');
+                }
+                data = await fs.promises.readFile(filePath, 'utf-8');
             } else {
                 //user provided cards
                 data = (await this.adapter.readFileAsync(this.adapter.namespace, file, { user })).file;
@@ -2441,38 +2469,33 @@ class WebServer {
             } else if (req.url.includes('/frontend_latest/')) {
                 //serve frontend:
                 //remove all from before frontend_latest.
-                const filePath = req.url.replace(/.*\/frontend_latest\//, 'frontend_latest/');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(`${getRootPath()}${filePath}`);
+                sendStaticFile(res, `${getRootPath()}frontend_latest`, req.url.replace(/.*\/frontend_latest\//, ''));
             } else if (req.url.includes('/frontend_es5/')) {
                 //serve frontend:
                 //remove all from before frontend_es5.
-                const filePath = req.url.replace(/.*\/frontend_es5\//, 'frontend_es5/');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(`${getRootPath()}${filePath}`);
+                sendStaticFile(res, `${getRootPath()}frontend_es5`, req.url.replace(/.*\/frontend_es5\//, ''));
             } else if (req.url.includes('/static/icons/')) {
                 //iobroker icons:
-                const filePath = req.url.replace(/.*\/static\/icons\//, '');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(path.join(__dirname, '/../../assets/icons/', filePath));
+                sendStaticFile(
+                    res,
+                    path.join(__dirname, '../../assets/icons'),
+                    req.url.replace(/.*\/static\/icons\//, ''),
+                );
             } else if (req.url.includes('/images/')) {
                 //static images:
-                const filePath = req.url.replace(/.*\/images\//, 'static/images/');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(`${getRootPath()}${filePath}`);
+                sendStaticFile(res, `${getRootPath()}static/images`, req.url.replace(/.*\/images\//, ''));
             } else if (req.url.includes('/static/')) {
                 //static:
-                const filePath = req.url.replace(/.*\/static\//, 'static/');
-                res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
-                res.sendFile(`${getRootPath()}${filePath}`);
+                sendStaticFile(res, `${getRootPath()}static`, req.url.replace(/.*\/static\//, ''));
             } else if (req.url.endsWith('favicon.ico')) {
                 res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
                 res.sendFile(path.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
             } else {
-                //try to load file from root:
-                //remove .. from the path to avoid exiting root dir.
-                //also remove first slahs.
-                const filePath = getRootPath() + req.url.replace(/\.\./g, '').substring(1);
+                //try to load file from root, but never from outside of it.
+                const filePath = resolvePathInside(getRootPath(), req.url);
+                if (!filePath) {
+                    return next();
+                }
                 fs.access(filePath, fs.constants.R_OK, err => {
                     if (err) {
                         return next();

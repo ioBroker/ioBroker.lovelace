@@ -4,6 +4,7 @@ const enums = require('../testData/enums.json');
 
 const lovelacePort = 38091;
 const lovelaceUpdateTimeout = 500;
+exports.lovelacePort = lovelacePort;
 
 /**
  * returns number of entities that are always added to entities array.
