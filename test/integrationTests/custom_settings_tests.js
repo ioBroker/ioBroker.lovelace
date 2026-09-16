@@ -180,6 +180,14 @@ exports.runTests = function (suite) {
         jsonFiles.push('../testData/custom_attributes.json');
         initialStates.push({ id: 'adapter.0.sensor.expert.temperature', val: 21 });
         initialStates.push({ id: 'adapter.0.sensor.expert.battery', val: 80 });
+        // ioBroker stores an array state as its JSON string.
+        initialStates.push({
+            id: 'adapter.0.sensor.expert.table',
+            val: JSON.stringify([
+                { name: 'a', value: 1 },
+                { name: 'b', value: 2 },
+            ]),
+        });
         it('expert attribute table fills an attribute from another state', async () => {
             const deviceId = 'adapter.0.sensor.expert.temperature';
             const entity = entities.find(e => e.context.id === deviceId);
@@ -187,6 +195,33 @@ exports.runTests = function (suite) {
             expect(entity).to.have.nested.property('attributes.battery_level', 80);
             // the row without an attribute name must be ignored, not create an empty attribute
             expect(entity.context.ATTRIBUTES.filter(a => !a.attribute)).to.have.lengthOf(0);
+        });
+
+        it('delivers an array state as an array, not as its JSON string', async () => {
+            const entity = entities.find(e => e.context.id === 'adapter.0.sensor.expert.temperature');
+            // Cards that render one row per element (e.g. flex-table-card) need the real array.
+            expect(entity.attributes.rows).to.be.an('array');
+            expect(entity.attributes.rows).to.deep.equal([
+                { name: 'a', value: 1 },
+                { name: 'b', value: 2 },
+            ]);
+        });
+
+        it('keeps an updated array state parsed', async () => {
+            const entity = entities.find(e => e.context.id === 'adapter.0.sensor.expert.temperature');
+            await tools.validateStateChange(
+                harness,
+                entity.entity_id,
+                async () => {
+                    await harness.states.setStateAsync(
+                        'adapter.0.sensor.expert.table',
+                        JSON.stringify([{ name: 'c', value: 3 }]),
+                    );
+                },
+                newState => {
+                    expect(newState.attributes.rows).to.deep.equal([{ name: 'c', value: 3 }]);
+                },
+            );
         });
 
         it('expert attribute follows the state and reaches the frontend', async () => {

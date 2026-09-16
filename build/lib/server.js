@@ -480,10 +480,27 @@ class WebServer {
     if (entities.length) {
       const custom = (_c = (_b = (_a = this._objectData.objects[id]) == null ? void 0 : _a.common) == null ? void 0 : _b.custom) == null ? void 0 : _c[this.adapter.namespace];
       if (custom) {
-        (0, import_manualStates.applyCustomAttributes)(entities[0], custom);
+        await this._loadObjects((0, import_manualStates.collectCustomAttributes)(custom).map((mapping) => mapping.getId));
+        (0, import_manualStates.applyCustomAttributes)(entities[0], custom, this._objectData.objects);
       }
     }
     return entities;
+  }
+  /**
+   * Make sure the given ioBroker objects are in the shared cache.
+   *
+   * @param ids - ioBroker object ids to load
+   */
+  async _loadObjects(ids) {
+    for (const stateId of ids) {
+      if (stateId && !this._objectData.objects[stateId]) {
+        try {
+          this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
+        } catch (e) {
+          this.adapter.log.warn(`Could not get object ${stateId}: ${e}`);
+        }
+      }
+    }
   }
   /**
    * Build the entities for a manually configured object (without the expert attributes, those are

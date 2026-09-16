@@ -14,8 +14,18 @@
           "entity": "sensor",
           "name": "expert_sensor",
           "customAttributes": [
-            { "attribute": "battery_level", "state": "adapter.0.sensor.expert.battery" },
-            { "attribute": "", "state": "adapter.0.sensor.expert.battery" }
+            {
+              "attribute": "battery_level",
+              "state": "adapter.0.sensor.expert.battery"
+            },
+            {
+              "attribute": "rows",
+              "state": "adapter.0.sensor.expert.table"
+            },
+            {
+              "attribute": "",
+              "state": "adapter.0.sensor.expert.battery"
+            }
           ]
         }
       }
@@ -44,6 +54,27 @@
     },
     "native": {},
     "_id": "adapter.0.sensor.expert.battery",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  },
+  "adapter.0.sensor.expert.table": {
+    "type": "state",
+    "common": {
+      "name": "expert table",
+      "read": true,
+      "write": false,
+      "role": "json",
+      "type": "array"
+    },
+    "native": {},
+    "_id": "adapter.0.sensor.expert.table",
     "acl": {
       "object": 1636,
       "state": 1636,

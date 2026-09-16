@@ -57,6 +57,8 @@ Ganz unten im Custom-Dialog liegt die Tabelle *Experte: Attribute aus States*. S
 
 Gedacht für Attribute ohne eigene Einstellung, z. B. ein `battery_level` an einem `media_player`. Ein Name mit Punkten schreibt ein verschachteltes Attribut (`forecast.0.temperature`). Ein Eintrag überschreibt auch ein Attribut, das der Adapter selbst erzeugt, man kann ein Attribut also auf einen anderen State umbiegen. Attributnamen werden nicht geprüft, ein unbekannter Name wird vom Frontend einfach ignoriert.
 
+Ein State vom Typ `array` oder `object` kommt als echtes Array bzw. Objekt an: ioBroker speichert diese als JSON-String, den der Adapter parst. Karten, die ein Array durchlaufen (z. B. flex-table-card), bekommen so ihre Zeilen. Ein `mixed`-State wird ebenfalls geparst, wenn der Wert nach JSON aussieht, sonst bleibt er unverändert.
+
 ### Alarm-Panel
 ioBroker unterstützt ein solches Gerät noch nicht, es lässt sich aber simulieren, z. B. mit diesem Skript:
 

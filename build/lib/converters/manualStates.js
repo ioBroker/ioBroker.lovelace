@@ -20,9 +20,11 @@ var manualStates_exports = {};
 __export(manualStates_exports, {
   applyCustomAttributes: () => applyCustomAttributes,
   collectCustomAttributes: () => collectCustomAttributes,
-  collectManualStates: () => collectManualStates
+  collectManualStates: () => collectManualStates,
+  parseJsonStateValue: () => parseJsonStateValue
 });
 module.exports = __toCommonJS(manualStates_exports);
+var import_utils = require("../entities/utils");
 function collectManualStates(custom) {
   const out = { ...custom.states || {} };
   for (const [key, value] of Object.entries(custom)) {
@@ -47,16 +49,43 @@ function collectCustomAttributes(custom) {
   }
   return result;
 }
-function applyCustomAttributes(entity, custom) {
-  var _a;
+const JSON_STATE_TYPES = ["array", "object", "mixed"];
+function parseJsonStateValue(value) {
+  if (typeof value !== "string") {
+    return value;
+  }
+  const trimmed = value.trim();
+  if (!trimmed.startsWith("[") && !trimmed.startsWith("{")) {
+    return value;
+  }
+  try {
+    return JSON.parse(trimmed);
+  } catch {
+    return value;
+  }
+}
+function jsonAttributeParser(entity, attr, state) {
+  (0, import_utils.setJsonAttribute)(entity.attributes, attr.attribute, parseJsonStateValue(state == null ? void 0 : state.val));
+}
+function applyCustomAttributes(entity, custom, objects) {
+  var _a, _b, _c;
   for (const mapping of collectCustomAttributes(custom)) {
     entity.context.ATTRIBUTES = (_a = entity.context.ATTRIBUTES) != null ? _a : [];
+    const stateType = (_c = (_b = objects == null ? void 0 : objects[mapping.getId]) == null ? void 0 : _b.common) == null ? void 0 : _c.type;
+    const getParser = JSON_STATE_TYPES.includes(stateType || "") ? jsonAttributeParser : void 0;
     const existing = entity.context.ATTRIBUTES.find((attr) => attr.attribute === mapping.attribute);
     if (existing) {
       existing.getId = mapping.getId;
       delete existing.getParser;
+      if (getParser) {
+        existing.getParser = getParser;
+      }
     } else {
-      entity.context.ATTRIBUTES.push({ attribute: mapping.attribute, getId: mapping.getId });
+      const attribute = { attribute: mapping.attribute, getId: mapping.getId };
+      if (getParser) {
+        attribute.getParser = getParser;
+      }
+      entity.context.ATTRIBUTES.push(attribute);
     }
     entity.addID2entity(mapping.getId);
   }
@@ -65,6 +94,7 @@ function applyCustomAttributes(entity, custom) {
 0 && (module.exports = {
   applyCustomAttributes,
   collectCustomAttributes,
-  collectManualStates
+  collectManualStates,
+  parseJsonStateValue
 });
 //# sourceMappingURL=manualStates.js.map

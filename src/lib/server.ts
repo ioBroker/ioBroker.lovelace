@@ -15,7 +15,7 @@ import * as converterSensors from './converters/sensor';
 import * as converterGeoLocation from './converters/geo_location';
 import * as converterDeviceTracker from './converters/deviceTracker';
 import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
-import { applyCustomAttributes } from './converters/manualStates';
+import { applyCustomAttributes, collectCustomAttributes } from './converters/manualStates';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -621,12 +621,32 @@ class WebServer {
         if (entities.length) {
             const custom = this._objectData.objects[id]?.common?.custom?.[this.adapter.namespace];
             if (custom) {
+                // The objects tell us whether a state holds JSON (array/object), which decides how
+                // its value is read.
+                await this._loadObjects(collectCustomAttributes(custom).map(mapping => mapping.getId));
                 // Expert setting: arbitrary attributes fed from picked states. Applied last so it
                 // also works for the types that are built by a converter.
-                applyCustomAttributes(entities[0], custom);
+                applyCustomAttributes(entities[0], custom, this._objectData.objects);
             }
         }
         return entities;
+    }
+
+    /**
+     * Make sure the given ioBroker objects are in the shared cache.
+     *
+     * @param ids - ioBroker object ids to load
+     */
+    async _loadObjects(ids: string[]): Promise<void> {
+        for (const stateId of ids) {
+            if (stateId && !this._objectData.objects[stateId]) {
+                try {
+                    this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
+                } catch (e: any) {
+                    this.adapter.log.warn(`Could not get object ${stateId}: ${e}`);
+                }
+            }
+        }
     }
 
     /**
