@@ -266,6 +266,8 @@ or two separate objects with roles `value.gps.longitude` and `value.gps.latitude
 
 To show a person/presence marker on the map, map an ioBroker object to a manual `device_tracker` or `person` entity (see [Manual configuration](#manual-configuration)).
 
+The base map itself is drawn with tiles from the OpenStreetMap Foundation, which the adapter fetches and caches for the browser. It needs outgoing internet access on the ioBroker host, but no account and no API key. (The tiles used to come from CARTO, which now watermarks them with "API KEY REQUIRED".)
+
 ### Picture entity
 Use a static picture, or any state that delivers a URL:
 

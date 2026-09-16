@@ -266,6 +266,8 @@ oder zwei getrennte Objekte mit den Rollen `value.gps.longitude` und `value.gps.
 
 Für einen Personen-/Anwesenheits-Marker auf der Karte ordnet man ein ioBroker-Objekt einer manuellen `device_tracker`- oder `person`-Entität zu (siehe [Manuelle Konfiguration](#manuelle-konfiguration)).
 
+Die Karte selbst wird aus Kacheln der OpenStreetMap Foundation gezeichnet, die der Adapter holt und für den Browser zwischenspeichert. Dafür braucht der ioBroker-Host einen Internetzugang, aber weder Konto noch API-Key. (Früher kamen die Kacheln von CARTO, das sie inzwischen mit "API KEY REQUIRED" überschreibt.)
+
 ### Bild-Entität
 Ein statisches Bild oder ein State, der eine URL liefert:
 

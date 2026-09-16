@@ -60,6 +60,7 @@ For now (20260527.1) following files were modified:
 - `src/panels/config/info/ha-config-info.ts` - hide doc/credits/community/license links in about (keep keyboard shortcuts).
 - `src/panels/config/lovelace/dashboards/ha-config-lovelace-dashboards.ts` - show fixed panels (incl. browser-mod) in built-in dashboards list.
 - `src/panels/profile/ha-panel-profile.ts` - hide security tab in user profile.
+- `src/common/dom/setup-leaflet-map.ts` - base map from the adapter's tile proxy (OpenStreetMap) instead of CARTO, which watermarks unauthenticated tiles.
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `src/html/index.html.template` - remove Safari smart app banner (apple-itunes-app meta) for HA iOS app (#418).
 - `.husky/pre-commit` - remove git commit hooks.
@@ -89,6 +90,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) User names from ioBroker (person list, logbook user list) are resolved like every other name, so a multilingual `common.name` cannot break those views. (#731)
 * (Garfonso/Claude) The dashboard now uses the configured adapter language instead of the browser language. A language picked in the frontend profile still wins.
 * (Garfonso/Claude) Custom entities: new expert table at the end of the custom dialog that fills any attribute from a freely picked state.
+* (Garfonso/Claude) The map no longer shows an "API KEY REQUIRED" watermark: CARTO now requires a key for its tiles, so the base map comes from OpenStreetMap through the adapter (which caches the tiles).
 
 ### 6.1.3 (2026-09-01)
 * (Garfonso/Claude) Fixed auto-generated entity_ids growing longer and longer within a single start for devices sharing a generated display name and having no own readable state (e.g. several buttons named the same): they no longer collapse onto the same internal registry key and overwrite each other's name.
