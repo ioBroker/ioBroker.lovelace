@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var deviceTracker_exports = {};
 __export(deviceTracker_exports, {
@@ -35,7 +25,7 @@ __export(deviceTracker_exports, {
 module.exports = __toCommonJS(deviceTracker_exports);
 var import_geoLocationEntity = require("../entities/geoLocationEntity");
 var import_manualStates = require("./manualStates");
-var import_dataSingleton = __toESM(require("../../../lib/dataSingleton"));
+const entityData = require("../../../lib/dataSingleton");
 const EARTH_RADIUS_KM = 6371;
 function haversineKm(lat1, lon1, lat2, lon2) {
   const toRad = (d) => d * Math.PI / 180;
@@ -64,7 +54,7 @@ function presenceFromValue(val) {
 }
 function presenceFromGps(lat, lon) {
   var _a, _b, _c, _d;
-  const home = (_a = import_dataSingleton.default.entityId2Entity) == null ? void 0 : _a["zone.home"];
+  const home = (_a = entityData.entityId2Entity) == null ? void 0 : _a["zone.home"];
   const la = Number(lat);
   const lo = Number(lon);
   const homeLat = Number((_b = home == null ? void 0 : home.attributes) == null ? void 0 : _b.latitude);

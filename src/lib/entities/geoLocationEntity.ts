@@ -1,7 +1,8 @@
 import { BaseEntity, type EntityAttribute } from './baseEntity';
 import type { ConverterParameters } from '../converters/converter';
 
-import entityData from '../../../lib/dataSingleton';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const entityData: { entityId2Entity: Record<string, unknown> } = require('../../../lib/dataSingleton');
 
 /**
  * State-id map used to fill in the geo_location entity attributes.

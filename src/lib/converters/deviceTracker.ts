@@ -3,7 +3,8 @@ import type { BaseEntity } from '../entities/baseEntity';
 import { applyGeoLocationStates, type GeoStates } from '../entities/geoLocationEntity';
 import { collectManualStates } from './manualStates';
 
-import entityData from '../../../lib/dataSingleton';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const entityData: { entityId2Entity: Record<string, unknown> } = require('../../../lib/dataSingleton');
 
 /**
  * State-id map for a manually configured device_tracker / person entity.
