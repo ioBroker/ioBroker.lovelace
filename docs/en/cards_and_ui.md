@@ -14,7 +14,7 @@ To upload from the command line where iobroker is installed:
 
 ```iobroker file write PATH_TO_FILE\bignumber-card.js /lovelace.0/cards/```
 
-All files from the `cards` directory are included automatically. Press `Reload files` on the tab after an upload, then reload the browser - an adapter restart is not needed. Replacing a card with a newer file of the same name works as well.
+All files from the `cards` directory are included automatically. Press `Reload files` on the tab after an upload, then reload the browser - an adapter restart is not needed. Replacing a card with a newer file of the same name works as well, and a card is removed again with `File to delete` plus `Delete file`.
 
 If a card needs additional resources (css or js files), recreate the folder structure in the `cards` directory and place those files there. The adapter detects URLs starting with `/hacsfiles/` and reroutes them to the `cards` directory. So if you see `404` errors for URLs including `/hacsfiles/`, adjust the folder structure accordingly. For example, a card needing `/hacsfiles/folder1/folder2/file3.json` must be placed at `/lovelace.0/cards/folder1/folder2/file3.json`.
 

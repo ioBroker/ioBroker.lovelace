@@ -95,7 +95,7 @@ function startAdapter(options) {
         }
       },
       message: (obj) => {
-        var _a, _b;
+        var _a, _b, _c;
         if (obj.command === "browse") {
           obj.callback && adapter.sendTo(obj.from, obj.command, adapter.apiServer.getHassStates(), obj.callback);
         } else if (obj.command === "regenerateEntityIds") {
@@ -109,9 +109,38 @@ function startAdapter(options) {
           if (obj.callback) {
             void adapter.apiServer.refreshCardResources().catch((e) => adapter.log.warn(`Could not refresh card resources: ${String(e)}`)).then(() => buildCardsNative(adapter)).then((native) => adapter.sendTo(obj.from, obj.command, native, obj.callback));
           }
+        } else if (obj.command === "listCardNames") {
+          if (obj.callback) {
+            void adapter.apiServer.listCards().then(
+              (entries) => adapter.sendTo(
+                obj.from,
+                obj.command,
+                entries.filter((entry) => !entry.isDir).map((entry) => ({ value: entry.file, label: entry.file })),
+                obj.callback
+              )
+            );
+          }
+        } else if (obj.command === "deleteCard") {
+          if (obj.callback) {
+            const file = (_b = obj.message) == null ? void 0 : _b.file;
+            void (async () => {
+              if (file) {
+                try {
+                  await adapter.delFileAsync(adapter.namespace, `/cards/${file}`);
+                } catch (e) {
+                  adapter.log.warn(`Could not delete card ${file}: ${String(e)}`);
+                }
+              }
+              await adapter.apiServer.refreshCardResources().catch(
+                (e) => adapter.log.warn(`Could not refresh card resources: ${String(e)}`)
+              );
+              adapter.sendTo(obj.from, obj.command, await buildCardsNative(adapter), obj.callback);
+            })();
+          }
         } else if (obj.command === "getThemes") {
           if (obj.callback) {
-            const themesYaml = ((_b = obj.message) == null ? void 0 : _b.themes) || "";
+            const sent = (_c = obj.message) == null ? void 0 : _c.themes;
+            const themesYaml = typeof sent === "string" && sent.trim() ? sent : adapter.config.themes || "";
             let names = [];
             try {
               const parsed = yaml.load(themesYaml);

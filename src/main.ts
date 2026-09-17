@@ -175,12 +175,53 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                             .then(() => buildCardsNative(adapter))
                             .then(native => adapter.sendTo(obj.from, obj.command, native, obj.callback));
                     }
+                } else if (obj.command === 'listCardNames') {
+                    // Admin: file names for the "delete card" dropdown.
+                    if (obj.callback) {
+                        void adapter.apiServer.listCards().then(entries =>
+                            adapter.sendTo(
+                                obj.from,
+                                obj.command,
+                                entries
+                                    .filter(entry => !entry.isDir)
+                                    .map(entry => ({ value: entry.file, label: entry.file })),
+                                obj.callback,
+                            ),
+                        );
+                    }
+                } else if (obj.command === 'deleteCard') {
+                    // Admin: delete a custom-card file, rescan (so the running adapter stops serving
+                    // it), then return the refreshed table.
+                    if (obj.callback) {
+                        const file = (obj.message as { file?: string } | undefined)?.file;
+                        void (async () => {
+                            if (file) {
+                                try {
+                                    await adapter.delFileAsync(adapter.namespace, `/cards/${file}`);
+                                } catch (e) {
+                                    adapter.log.warn(`Could not delete card ${file}: ${String(e)}`);
+                                }
+                            }
+                            await adapter.apiServer
+                                .refreshCardResources()
+                                .catch((e: Error) =>
+                                    adapter.log.warn(`Could not refresh card resources: ${String(e)}`),
+                                );
+                            adapter.sendTo(obj.from, obj.command, await buildCardsNative(adapter), obj.callback);
+                        })();
+                    }
                 } else if (obj.command === 'getThemes') {
                     // Admin: fill the default-theme dropdowns. Parse the YAML the user currently has in
                     // the editor (passed in the message) so unsaved edits are reflected, too. Parsing on
                     // the backend avoids the fragile in-browser YAML parse that broke the dropdowns (#587).
                     if (obj.callback) {
-                        const themesYaml = (obj.message as { themes?: string } | undefined)?.themes || '';
+                        // The editor content is sent along, so unsaved edits are offered too; the
+                        // saved configuration is the fallback.
+                        const sent = (obj.message as { themes?: string } | undefined)?.themes;
+                        const themesYaml =
+                            typeof sent === 'string' && sent.trim()
+                                ? sent
+                                : (adapter.config as { themes?: string }).themes || '';
                         let names: string[] = [];
                         try {
                             const parsed = yaml.load(themesYaml) as Record<string, unknown> | undefined | null;

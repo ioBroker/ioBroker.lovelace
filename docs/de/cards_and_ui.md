@@ -14,7 +14,7 @@ Lovelace lässt sich gut durch selbst erstellte Karten (`Custom Cards`) erweiter
 
 ```iobroker file write PFAD_ZUR_DATEI\bignumber-card.js /lovelace.0/cards/```
 
-Alle Dateien aus dem `cards`-Verzeichnis werden automatisch eingebunden. Nach einem Upload im Reiter `Dateien neu laden` drücken und den Browser neu laden - ein Adapter-Neustart ist nicht nötig. Eine Karte durch eine neuere Datei gleichen Namens zu ersetzen funktioniert ebenfalls.
+Alle Dateien aus dem `cards`-Verzeichnis werden automatisch eingebunden. Nach einem Upload im Reiter `Dateien neu laden` drücken und den Browser neu laden - ein Adapter-Neustart ist nicht nötig. Eine Karte durch eine neuere Datei gleichen Namens zu ersetzen funktioniert ebenfalls, und mit `Zu löschende Datei` plus `Datei löschen` wird eine Karte wieder entfernt.
 
 Benötigt eine Karte zusätzliche Ressourcen (CSS- oder JS-Dateien), muss die Ordnerstruktur im `cards`-Verzeichnis nachgebildet werden. Der Adapter erkennt URLs, die mit `/hacsfiles/` beginnen, und leitet sie auf das `cards`-Verzeichnis um. Bei `404`-Fehlern für `/hacsfiles/`-URLs entsprechend die Ordnerstruktur anpassen. Eine Karte, die z. B. `/hacsfiles/folder1/folder2/file3.json` braucht, muss unter `/lovelace.0/cards/folder1/folder2/file3.json` liegen.
 

@@ -55,6 +55,33 @@ exports.runTests = function (suite) {
             expect((await response.text()).length).to.be.above(0);
         });
 
+        it('offers the card for the delete dropdown and deletes it', async () => {
+            const names = await tools.sendToAsync(harness, 'lovelace.0', 'listCardNames', {});
+            expect(names.map(entry => entry.value)).to.include('test-card.js');
+
+            const answer = await tools.sendToAsync(harness, 'lovelace.0', 'deleteCard', { file: 'test-card.js' });
+            // The answer carries the refreshed table, so the admin page updates right away.
+            expect(answer.native._cardsTable.find(entry => entry.file === 'test-card.js')).to.equal(undefined);
+
+            const afterwards = await tools.sendToAsync(harness, 'lovelace.0', 'listCardNames', {});
+            expect(afterwards.map(entry => entry.value)).to.not.include('test-card.js');
+
+            // put it back for the tests that follow
+            await harness.objects.writeFileAsync('lovelace.0', '/cards/test-card.js', CARD);
+        });
+
+        it('builds the theme list from the yaml the admin page sends', async () => {
+            const list = await tools.sendToAsync(harness, 'lovelace.0', 'getThemes', {
+                themes: 'my-theme:\n  primary-color: "#ff0000"\nother:\n  primary-color: blue\n',
+            });
+            expect(list.map(entry => entry.value)).to.deep.equal(['default', 'my-theme', 'other']);
+        });
+
+        it('answers the theme list with at least the default for broken yaml', async () => {
+            const list = await tools.sendToAsync(harness, 'lovelace.0', 'getThemes', { themes: '\tnot: [yaml' });
+            expect(list).to.deep.equal([{ value: 'default', label: 'default' }]);
+        });
+
         it('compresses what has no precompressed copy on disk', async () => {
             // The cards folder holds the user's files, so there is no .br next to them; they are
             // compressed on the fly instead (small answers stay uncompressed, as they should).
