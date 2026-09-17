@@ -87,6 +87,7 @@ type Modules = {
 const WebSocket = require('ws');
 
 const bodyParser = require('body-parser');
+const compression = require('compression');
 
 const multer = require('multer');
 
@@ -2374,6 +2375,11 @@ class WebServer {
         const upload = multer();
 
         this.adapter.subscribeForeignObjects('*');
+
+        // Compress what is not already compressed on disk: the rendered index, custom cards, the API
+        // answers. Responses that carry a precompressed body (see _sendStaticFile) are left alone.
+        // This is what a remote connection through a cloud proxy (ioBroker.pro) pays for in traffic.
+        this._app.use(compression());
 
         this._app.use(bodyParser.json());
         this._app.use(bodyParser.urlencoded({ extended: false }));

@@ -2,7 +2,8 @@
 const tools = require('./testTools');
 const expect = require('chai').expect;
 
-const CARD = 'console.info(`%c TEST-CARD %c v1.2.3 `, "color: white");';
+// Padded past the compression threshold (1 kB) - a real card is far bigger than the banner.
+const CARD = 'console.info(`%c TEST-CARD %c v1.2.3 `, "color: white");\n' + `/* ${'padding '.repeat(300)} */\n`;
 
 exports.runTests = function (suite) {
     suite('custom_cards', getHarness => {
@@ -51,6 +52,16 @@ exports.runTests = function (suite) {
             expect(response.headers.get('content-type')).to.contain('javascript');
             expect(response.headers.get('cache-control')).to.contain('immutable');
             expect((await response.text()).length).to.be.above(0);
+        });
+
+        it('compresses what has no precompressed copy on disk', async () => {
+            // The cards folder holds the user's files, so there is no .br next to them; they are
+            // compressed on the fly instead (small answers stay uncompressed, as they should).
+            const response = await fetch('http://localhost:38091/cards/test-card.js', {
+                headers: { 'Accept-Encoding': 'gzip' },
+            });
+            expect(response.status).to.equal(200);
+            expect(response.headers.get('content-encoding')).to.equal('gzip');
         });
 
         it('does not cache the index and the service worker', async () => {
