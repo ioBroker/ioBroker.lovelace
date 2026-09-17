@@ -7,6 +7,67 @@ import type https from 'node:https';
 import ApiServer from './lib/server';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const words = require('../admin/words');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const yaml = require('js-yaml') as { load(s: string): unknown };
+
+/**
+ * Format the get/set ids of a STATE or ATTRIBUTE for the admin entities table.
+ *
+ * @param obj - a STATE/ATTRIBUTE descriptor with optional getId/setId
+ */
+function formatEntityIds(obj: { getId?: string; setId?: string } | undefined): string {
+    if (!obj) {
+        return '';
+    }
+    if (obj.getId && obj.setId && obj.getId !== obj.setId) {
+        return `${obj.getId} / ${obj.setId}`;
+    }
+    return obj.getId || obj.setId || '';
+}
+
+/**
+ * Build a readable "attr: ids/value" multiline string for one entity (admin entities table).
+ *
+ * @param entity - the internal entity
+ * @param entity.attributes - the entity's HA attributes
+ * @param entity.context - the entity's adapter context
+ * @param entity.context.ATTRIBUTES - the entity's attribute->state mappings
+ */
+function formatEntityAttributes(entity: {
+    attributes?: Record<string, unknown>;
+    context?: { ATTRIBUTES?: { attribute: string; getId?: string; setId?: string }[] };
+}): string {
+    const parts: string[] = [];
+    const seen = new Set<string>();
+    for (const attr of entity.context?.ATTRIBUTES || []) {
+        parts.push(`${attr.attribute}: ${formatEntityIds(attr)}`);
+        seen.add(attr.attribute);
+    }
+    for (const [key, value] of Object.entries(entity.attributes || {})) {
+        if (!seen.has(key)) {
+            parts.push(`${key}: ${String(value)}`);
+        }
+    }
+    return parts.sort().join('\n');
+}
+
+/**
+ * Build the `{ native: { _cardsTable } }` payload for the admin custom-cards table.
+ *
+ * @param a - the adapter instance
+ */
+async function buildCardsNative(a: AdapterWithExtras): Promise<{ native: { _cardsTable: unknown[] } }> {
+    const entries = await a.apiServer.listCards();
+    const rows = entries
+        .map(entry => ({
+            file: entry.file,
+            version: entry.version || '',
+            size: entry.isDir ? '<dir>' : String(entry.size),
+            modified: entry.modifiedAt ? new Date(entry.modifiedAt).toISOString() : '',
+        }))
+        .sort((x, y) => x.file.localeCompare(y.file));
+    return { native: { _cardsTable: rows } };
+}
 
 interface AdapterConfig extends ioBroker.AdapterConfig {
     secure?: boolean;
@@ -105,18 +166,57 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                                 adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback),
                         );
                 } else if (obj.command === 'listCards') {
-                    const path = (obj.message as { path?: string } | undefined)?.path;
-                    void adapter.apiServer
-                        .listCards(path)
-                        .then(
-                            (list: unknown) =>
-                                obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback),
-                        )
-                        .catch(
-                            (e: Error) =>
-                                obj.callback &&
-                                adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback),
-                        );
+                    // Admin: rescan the cards folder (so the running adapter serves added/removed cards
+                    // without a restart) and fill the read-only custom-cards table.
+                    if (obj.callback) {
+                        void adapter.apiServer
+                            .refreshCardResources()
+                            .catch((e: Error) => adapter.log.warn(`Could not refresh card resources: ${String(e)}`))
+                            .then(() => buildCardsNative(adapter))
+                            .then(native => adapter.sendTo(obj.from, obj.command, native, obj.callback));
+                    }
+                } else if (obj.command === 'getThemes') {
+                    // Admin: fill the default-theme dropdowns. Parse the YAML the user currently has in
+                    // the editor (passed in the message) so unsaved edits are reflected, too. Parsing on
+                    // the backend avoids the fragile in-browser YAML parse that broke the dropdowns (#587).
+                    if (obj.callback) {
+                        const themesYaml = (obj.message as { themes?: string } | undefined)?.themes || '';
+                        let names: string[] = [];
+                        try {
+                            const parsed = yaml.load(themesYaml) as Record<string, unknown> | undefined | null;
+                            names = parsed && typeof parsed === 'object' ? Object.keys(parsed) : [];
+                        } catch {
+                            names = [];
+                        }
+                        const list = [
+                            { value: 'default', label: 'default' },
+                            ...names.map(name => ({ value: name, label: name })),
+                        ];
+                        adapter.sendTo(obj.from, obj.command, list, obj.callback);
+                    }
+                } else if (obj.command === 'listEntities') {
+                    // Admin: fill the read-only entities table (sendTo with useNative -> writes into the
+                    // non-persisted `_entitiesTable` attribute).
+                    if (obj.callback) {
+                        const entities = (
+                            adapter.apiServer.getHassStates() as {
+                                entity_id: string;
+                                isManual?: boolean;
+                                attributes?: Record<string, unknown>;
+                                context?: {
+                                    STATE?: { getId?: string; setId?: string };
+                                    ATTRIBUTES?: { attribute: string; getId?: string; setId?: string }[];
+                                };
+                            }[]
+                        ).map(e => ({
+                            entity_id: e.entity_id,
+                            states: formatEntityIds(e.context?.STATE),
+                            attributes: formatEntityAttributes(e),
+                            manual: !!e.isManual,
+                        }));
+                        entities.sort((a, b) => a.entity_id.localeCompare(b.entity_id));
+                        adapter.sendTo(obj.from, obj.command, { native: { _entitiesTable: entities } }, obj.callback);
+                    }
                 } else if (obj.command === 'send') {
                     void adapter.apiServer
                         .onStateChange(`${adapter.namespace}.notifications.add`, {

@@ -147,7 +147,7 @@
     "type": "visualization",
     "compact": false,
     "adminUI": {
-      "config": "materialize",
+      "config": "json",
       "custom": "json"
     },
     "supportCustoms": true,
@@ -333,7 +333,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.6.20"
+        "admin": ">=7.9.11"
       }
     ]
   },

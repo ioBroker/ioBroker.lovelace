@@ -80,6 +80,7 @@ var import_calendar = __toESM(require("./modules/calendar"));
 var import_storage = require("./modules/storage");
 const WebSocket = require("ws");
 const bodyParser = require("body-parser");
+const compression = require("compression");
 const multer = require("multer");
 const mime = require("mime");
 const jstz = require("jstimezonedetect");
@@ -1344,6 +1345,7 @@ class WebServer {
    */
   async _listFiles() {
     try {
+      this._ressourceConfig.length = 0;
       const staticCards = ["browser_mod.js"];
       for (const file of staticCards) {
         this.log.debug(`Add static card: ${file} as ${"js"}`);
@@ -1381,6 +1383,18 @@ class WebServer {
       }
     }
     this.log.debug("files: init done");
+  }
+  /**
+   * Re-scan the custom-cards folder, rebuild the resource list served on `lovelace/resources`, and
+   * notify open clients via `lovelace_updated`. Lets added/removed cards take effect without an
+   * adapter restart. A browser reload is still required to actually import a brand-new card module
+   * (the backend then already serves it), but no adapter restart is needed anymore.
+   *
+   * @returns resolves when the rescan and notification are done.
+   */
+  async refreshCardResources() {
+    await this._listFiles();
+    this._sendUpdate("lovelace_updated");
   }
   /**
    * List the custom cards of a folder, with the version the card reports about itself.
@@ -1958,6 +1972,7 @@ ${hideScript.join("\n")}
   _init() {
     const upload = multer();
     this.adapter.subscribeForeignObjects("*");
+    this._app.use(compression());
     this._app.use(bodyParser.json());
     this._app.use(bodyParser.urlencoded({ extended: false }));
     this._app.get("/auth/authorize", (req, res) => {

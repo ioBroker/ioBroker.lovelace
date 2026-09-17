@@ -96,6 +96,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Custom cards: the admin page shows the version a card reports about itself.
 * (Garfonso/Claude) The frontend is served precompressed (brotli) and cached for good, its entry points (index, service worker) are revalidated instead. This cuts the traffic of a remote connection (e.g. ioBroker.pro) roughly to a quarter and no longer hides a frontend update.
 * (Garfonso/Claude) Everything else (custom cards, the index page, api answers) is compressed on the fly now.
+* (Garfonso/Claude) The instance settings were rebuilt with jsonConfig: a real YAML editor for the themes, working theme dropdowns, upload/delete of custom cards with their version, and a searchable entity list. Needs admin 7.9.11 or newer. (#587)
 
 ### 6.1.3 (2026-09-01)
 * (Garfonso/Claude) Fixed auto-generated entity_ids growing longer and longer within a single start for devices sharing a generated display name and having no own readable state (e.g. several buttons named the same): they no longer collapse onto the same internal registry key and overwrite each other's name.

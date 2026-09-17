@@ -26,6 +26,41 @@ var utils = __toESM(require("@iobroker/adapter-core"));
 var import_webserver = require("@iobroker/webserver");
 var import_server = __toESM(require("./lib/server"));
 const words = require("../admin/words");
+const yaml = require("js-yaml");
+function formatEntityIds(obj) {
+  if (!obj) {
+    return "";
+  }
+  if (obj.getId && obj.setId && obj.getId !== obj.setId) {
+    return `${obj.getId} / ${obj.setId}`;
+  }
+  return obj.getId || obj.setId || "";
+}
+function formatEntityAttributes(entity) {
+  var _a;
+  const parts = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (const attr of ((_a = entity.context) == null ? void 0 : _a.ATTRIBUTES) || []) {
+    parts.push(`${attr.attribute}: ${formatEntityIds(attr)}`);
+    seen.add(attr.attribute);
+  }
+  for (const [key, value] of Object.entries(entity.attributes || {})) {
+    if (!seen.has(key)) {
+      parts.push(`${key}: ${String(value)}`);
+    }
+  }
+  return parts.sort().join("\n");
+}
+async function buildCardsNative(a) {
+  const entries = await a.apiServer.listCards();
+  const rows = entries.map((entry) => ({
+    file: entry.file,
+    version: entry.version || "",
+    size: entry.isDir ? "<dir>" : String(entry.size),
+    modified: entry.modifiedAt ? new Date(entry.modifiedAt).toISOString() : ""
+  })).sort((x, y) => x.file.localeCompare(y.file));
+  return { native: { _cardsTable: rows } };
+}
 let adapter;
 function startAdapter(options) {
   adapter = utils.adapter(
@@ -71,12 +106,39 @@ function startAdapter(options) {
             (e) => obj.callback && adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback)
           );
         } else if (obj.command === "listCards") {
-          const path = (_b = obj.message) == null ? void 0 : _b.path;
-          void adapter.apiServer.listCards(path).then(
-            (list) => obj.callback && adapter.sendTo(obj.from, obj.command, list, obj.callback)
-          ).catch(
-            (e) => obj.callback && adapter.sendTo(obj.from, obj.command, { error: e.message }, obj.callback)
-          );
+          if (obj.callback) {
+            void adapter.apiServer.refreshCardResources().catch((e) => adapter.log.warn(`Could not refresh card resources: ${String(e)}`)).then(() => buildCardsNative(adapter)).then((native) => adapter.sendTo(obj.from, obj.command, native, obj.callback));
+          }
+        } else if (obj.command === "getThemes") {
+          if (obj.callback) {
+            const themesYaml = ((_b = obj.message) == null ? void 0 : _b.themes) || "";
+            let names = [];
+            try {
+              const parsed = yaml.load(themesYaml);
+              names = parsed && typeof parsed === "object" ? Object.keys(parsed) : [];
+            } catch {
+              names = [];
+            }
+            const list = [
+              { value: "default", label: "default" },
+              ...names.map((name) => ({ value: name, label: name }))
+            ];
+            adapter.sendTo(obj.from, obj.command, list, obj.callback);
+          }
+        } else if (obj.command === "listEntities") {
+          if (obj.callback) {
+            const entities = adapter.apiServer.getHassStates().map((e) => {
+              var _a2;
+              return {
+                entity_id: e.entity_id,
+                states: formatEntityIds((_a2 = e.context) == null ? void 0 : _a2.STATE),
+                attributes: formatEntityAttributes(e),
+                manual: !!e.isManual
+              };
+            });
+            entities.sort((a, b) => a.entity_id.localeCompare(b.entity_id));
+            adapter.sendTo(obj.from, obj.command, { native: { _entitiesTable: entities } }, obj.callback);
+          }
         } else if (obj.command === "send") {
           void adapter.apiServer.onStateChange(`${adapter.namespace}.notifications.add`, {
             val: obj.message,

@@ -8,13 +8,13 @@
 * [UI-Tipps](#ui-tipps)
 
 ## Eigene Karten
-Lovelace lässt sich gut durch selbst erstellte Karten (`Custom Cards`) erweitern. Diese kommen als JavaScript-Datei (*.js), die über die Konfiguration hochgeladen werden muss (Reiter `Eigene Karten` im Admin oder Drag & Drop in den Instanzeinstellungen).
+Lovelace lässt sich gut durch selbst erstellte Karten (`Custom Cards`) erweitern. Diese kommen als JavaScript-Datei (*.js) und werden im Reiter `Eigene Karten` der Instanzeinstellungen hochgeladen, alternativ über den `Dateien`-Bereich des Admin nach `lovelace.<instanz>/cards`. Der Reiter listet die installierten Karten mit der Version, die die jeweilige Karte über sich selbst meldet.
 
 Über die Kommandozeile (dort, wo iobroker installiert ist):
 
 ```iobroker file write PFAD_ZUR_DATEI\bignumber-card.js /lovelace.0/cards/```
 
-Nach einem Neustart des Lovelace-Adapters werden alle Dateien aus dem `cards`-Verzeichnis automatisch eingebunden.
+Alle Dateien aus dem `cards`-Verzeichnis werden automatisch eingebunden. Nach einem Upload im Reiter `Dateien neu laden` drücken und den Browser neu laden - ein Adapter-Neustart ist nicht nötig. Eine Karte durch eine neuere Datei gleichen Namens zu ersetzen funktioniert ebenfalls.
 
 Benötigt eine Karte zusätzliche Ressourcen (CSS- oder JS-Dateien), muss die Ordnerstruktur im `cards`-Verzeichnis nachgebildet werden. Der Adapter erkennt URLs, die mit `/hacsfiles/` beginnen, und leitet sie auf das `cards`-Verzeichnis um. Bei `404`-Fehlern für `/hacsfiles/`-URLs entsprechend die Ordnerstruktur anpassen. Eine Karte, die z. B. `/hacsfiles/folder1/folder2/file3.json` braucht, muss unter `/lovelace.0/cards/folder1/folder2/file3.json` liegen.
 

@@ -22,13 +22,14 @@ exports.runTests = function (suite) {
         it('lists an uploaded card with the version it prints about itself', async () => {
             await harness.objects.writeFileAsync('lovelace.0', '/cards/test-card.js', CARD);
 
-            const list = await tools.sendToAsync(harness, 'lovelace.0', 'listCards', {});
-            const card = list.find(entry => entry.file === 'test-card.js');
+            // The admin page fills its table from this (sendTo with useNative).
+            const answer = await tools.sendToAsync(harness, 'lovelace.0', 'listCards', {});
+            const card = answer.native._cardsTable.find(entry => entry.file === 'test-card.js');
             expect(card).to.be.ok;
             // A card has no metadata file; the version is read out of the source.
             expect(card.version).to.equal('1.2.3');
-            expect(card.isDir).to.equal(false);
-            expect(card.size).to.be.above(0);
+            expect(Number(card.size)).to.be.above(0);
+            expect(card.modified).to.be.a('string');
         });
 
         it('caches a versioned card url for good, an unversioned one only briefly', async () => {
@@ -76,9 +77,9 @@ exports.runTests = function (suite) {
         it('reports a new version after the card file was replaced', async () => {
             await harness.objects.writeFileAsync('lovelace.0', '/cards/test-card.js', CARD.replace('1.2.3', '1.3.0'));
 
-            const list = await tools.sendToAsync(harness, 'lovelace.0', 'listCards', {});
+            const answer = await tools.sendToAsync(harness, 'lovelace.0', 'listCards', {});
             // Overwriting must work - the user should not have to delete the old file first.
-            expect(list.find(entry => entry.file === 'test-card.js').version).to.equal('1.3.0');
+            expect(answer.native._cardsTable.find(entry => entry.file === 'test-card.js').version).to.equal('1.3.0');
         });
     });
 };

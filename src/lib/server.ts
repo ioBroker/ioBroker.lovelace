@@ -1656,6 +1656,9 @@ class WebServer {
      */
     async _listFiles() {
         try {
+            // Rebuild from scratch so this can be called again at runtime (admin refresh) to pick up
+            // added/removed cards. Clear in place to keep the reference handed to `lovelace/resources`.
+            this._ressourceConfig.length = 0;
             const staticCards = ['browser_mod.js'];
             for (const file of staticCards) {
                 this.log.debug(`Add static card: ${file} as ${'js'}`);
@@ -1699,6 +1702,19 @@ class WebServer {
             }
         }
         this.log.debug('files: init done');
+    }
+
+    /**
+     * Re-scan the custom-cards folder, rebuild the resource list served on `lovelace/resources`, and
+     * notify open clients via `lovelace_updated`. Lets added/removed cards take effect without an
+     * adapter restart. A browser reload is still required to actually import a brand-new card module
+     * (the backend then already serves it), but no adapter restart is needed anymore.
+     *
+     * @returns resolves when the rescan and notification are done.
+     */
+    async refreshCardResources(): Promise<void> {
+        await this._listFiles();
+        this._sendUpdate('lovelace_updated');
     }
 
     /**

@@ -8,13 +8,13 @@
 * [UI tips](#ui-tips)
 
 ## Custom cards
-Lovelace can be extended with self-made cards (`custom cards`). They come as a JavaScript file (*.js) that must be uploaded via the lovelace configuration (`Files` tab in Admin, or drag & drop in the instance settings).
+Lovelace can be extended with self-made cards (`custom cards`). They come as a JavaScript file (*.js) that is uploaded on the `Custom Cards` tab of the instance settings, or into `lovelace.<instance>/cards` through the `Files` area of the Admin. The tab lists the installed cards with the version each card reports about itself.
 
 To upload from the command line where iobroker is installed:
 
 ```iobroker file write PATH_TO_FILE\bignumber-card.js /lovelace.0/cards/```
 
-After a restart of the lovelace adapter all files from the `cards` directory are included automatically.
+All files from the `cards` directory are included automatically. Press `Reload files` on the tab after an upload, then reload the browser - an adapter restart is not needed. Replacing a card with a newer file of the same name works as well.
 
 If a card needs additional resources (css or js files), recreate the folder structure in the `cards` directory and place those files there. The adapter detects URLs starting with `/hacsfiles/` and reroutes them to the `cards` directory. So if you see `404` errors for URLs including `/hacsfiles/`, adjust the folder structure accordingly. For example, a card needing `/hacsfiles/folder1/folder2/file3.json` must be placed at `/lovelace.0/cards/folder1/folder2/file3.json`.
 

@@ -1,0 +1,382 @@
+{
+  "i18n": true,
+  "type": "tabs",
+  "items": {
+    "_main": {
+      "type": "panel",
+      "label": "Main settings",
+      "items": {
+        "bind": {
+          "type": "ip",
+          "label": "IP",
+          "listenOnAllPorts": true,
+          "sm": 12,
+          "md": 8,
+          "lg": 5
+        },
+        "port": {
+          "type": "number",
+          "label": "Port",
+          "min": 1,
+          "max": 65535,
+          "newLine": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "secure": {
+          "type": "checkbox",
+          "label": "Secure(HTTPS)",
+          "newLine": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "certPublic": {
+          "type": "certificate",
+          "certType": "public",
+          "label": "Public certificate",
+          "hidden": "!data.secure",
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "certPrivate": {
+          "type": "certificate",
+          "certType": "private",
+          "label": "Private certificate",
+          "hidden": "!data.secure",
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "certChained": {
+          "type": "certificate",
+          "certType": "chained",
+          "label": "Chained certificate",
+          "hidden": "!data.secure",
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "history": {
+          "type": "instance",
+          "adapter": "_dataSources",
+          "isShort": true,
+          "allowDeactivate": true,
+          "label": "Historical instance",
+          "newLine": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "historyMaxCount": {
+          "type": "number",
+          "label": "Maximum history points to fetch",
+          "min": 0,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "auth": {
+          "type": "checkbox",
+          "label": "Authentication",
+          "newLine": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "defaultUser": {
+          "type": "user",
+          "short": true,
+          "label": "Run as",
+          "hidden": "!!data.auth",
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "ttl": {
+          "type": "number",
+          "label": "Login timeout(sec)",
+          "hidden": "!data.auth",
+          "min": 60,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "showUsersOnLoginScreen": {
+          "type": "checkbox",
+          "label": "showUsersOnLoginScreen",
+          "hidden": "!data.auth",
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "language": {
+          "type": "language",
+          "label": "Language",
+          "system": true,
+          "newLine": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "pwaName": {
+          "type": "text",
+          "label": "App name (home screen / PWA)",
+          "help": "To change the browser tab title, edit the dashboard title.",
+          "newLine": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "pwaShortName": {
+          "type": "text",
+          "label": "App short name (PWA)",
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "autoEntityIdFormat": {
+          "type": "select",
+          "label": "Automatic entity_id format",
+          "newLine": true,
+          "options": [
+            { "value": "name", "label": "From object name" },
+            { "value": "roomFunction", "label": "From room and function" },
+            { "value": "iobId", "label": "From ioBroker object id" }
+          ],
+          "sm": 12,
+          "md": 8,
+          "lg": 5
+        },
+        "_regenerate": {
+          "type": "sendTo",
+          "label": "Regenerate entity IDs",
+          "command": "regenerateEntityIds",
+          "jsonData": "{\"format\": \"${data.autoEntityIdFormat}\"}",
+          "showProcess": true,
+          "variant": "contained",
+          "result": { "renamed": { "en": "Done" } },
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "aliasOnly": {
+          "type": "checkbox",
+          "label": "AliasOnly",
+          "newLine": true,
+          "sm": 12,
+          "md": 6,
+          "lg": 5
+        },
+        "blindsInvert": {
+          "type": "checkbox",
+          "label": "blindsInvert",
+          "newLine": true,
+          "sm": 12,
+          "md": 6,
+          "lg": 5
+        },
+        "alarmCheckCodeOnDisarmOnly": {
+          "type": "checkbox",
+          "label": "alarmCheckCodeOnDisarmOnly",
+          "newLine": true,
+          "sm": 12,
+          "md": 6,
+          "lg": 5
+        },
+        "logbookSource": {
+          "type": "select",
+          "label": "Logbook: Source should show",
+          "newLine": true,
+          "options": [
+            { "value": "adapter", "label": "Adapter" },
+            { "value": "user", "label": "User (works only for changes during adapter runtime)" },
+            { "value": "none", "label": "Nothing" }
+          ],
+          "sm": 12,
+          "md": 8,
+          "lg": 5
+        },
+        "maxBrowserInstances": {
+          "type": "number",
+          "label": "Maximum browser instances to keep",
+          "min": 0,
+          "newLine": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "updateTimeout": {
+          "type": "number",
+          "label": "Update interval for the UI (ms)",
+          "help": "How long state changes are collected before they are sent to the browser.",
+          "min": 100,
+          "max": 30000,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        }
+      }
+    },
+    "_le": {
+      "type": "panel",
+      "label": "Let's Encrypt SSL",
+      "hidden": "!data.secure",
+      "items": {
+        "leEnabled": {
+          "type": "checkbox",
+          "label": "Use Lets Encrypt certificates",
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        },
+        "leUpdate": {
+          "type": "checkbox",
+          "label": "Use this instance for automatic update",
+          "hidden": "!data.leEnabled",
+          "newLine": true,
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        },
+        "leCheckPort": {
+          "type": "number",
+          "label": "Port to check the domain",
+          "hidden": "!data.leEnabled || !data.leUpdate",
+          "min": 1,
+          "max": 65535,
+          "newLine": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        }
+      }
+    },
+    "_cards": {
+      "type": "panel",
+      "label": "Custom Cards",
+      "items": {
+        "_cardsInfo": {
+          "type": "staticText",
+          "text": "Upload a custom card here or into the lovelace.<instance>/cards folder via the ioBroker Files area. Press Reload files afterwards; reload the browser to use a newly added card - an adapter restart is no longer needed.",
+          "sm": 12,
+          "md": 12,
+          "lg": 12
+        },
+        "_cardsSelector": {
+          "type": "fileSelector",
+          "label": "Card file",
+          "objectID": "lovelace.%INSTANCE%",
+          "upload": "/cards/",
+          "pattern": "cards/**/*.*",
+          "refresh": true,
+          "withFolder": true,
+          "delete": true,
+          "default": "",
+          "newLine": true,
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        },
+        "_reloadCards": {
+          "type": "sendTo",
+          "label": "Reload files",
+          "command": "listCards",
+          "useNative": true,
+          "onLoaded": true,
+          "showProcess": true,
+          "variant": "contained",
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "_cardsTable": {
+          "type": "table",
+          "noDelete": true,
+          "newLine": true,
+          "label": "Custom Cards",
+          "items": [
+            { "type": "text", "attr": "file", "title": "File", "width": "40%", "filter": true, "sort": true, "readOnly": true },
+            { "type": "text", "attr": "version", "title": "Version", "width": "15%", "readOnly": true },
+            { "type": "text", "attr": "size", "title": "Size", "width": "15%", "readOnly": true },
+            { "type": "text", "attr": "modified", "title": "Modified", "width": "30%", "readOnly": true }
+          ],
+          "sm": 12,
+          "md": 12,
+          "lg": 12
+        }
+      }
+    },
+    "_themes": {
+      "type": "panel",
+      "label": "Themes",
+      "items": {
+        "defaultTheme": {
+          "type": "selectSendTo",
+          "label": "Default theme",
+          "command": "getThemes",
+          "data": { "themes": "${data.themes}" },
+          "alsoDependsOn": ["themes"],
+          "manual": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "defaultThemeDark": {
+          "type": "selectSendTo",
+          "label": "Default theme dark",
+          "command": "getThemes",
+          "data": { "themes": "${data.themes}" },
+          "alsoDependsOn": ["themes"],
+          "manual": true,
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "themes": {
+          "type": "yamlEditor",
+          "label": "Place the themes as YAML here",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12
+        }
+      }
+    },
+    "_entities": {
+      "type": "panel",
+      "label": "Entities",
+      "items": {
+        "_reloadEntities": {
+          "type": "sendTo",
+          "label": "Reload entities",
+          "command": "listEntities",
+          "useNative": true,
+          "onLoaded": true,
+          "showProcess": true,
+          "variant": "contained",
+          "sm": 12,
+          "md": 4,
+          "lg": 3
+        },
+        "_entitiesTable": {
+          "type": "table",
+          "noDelete": true,
+          "newLine": true,
+          "label": "Entities",
+          "items": [
+            { "type": "text", "attr": "entity_id", "title": "Entity ID", "width": "25%", "filter": true, "sort": true, "readOnly": true },
+            { "type": "text", "attr": "states", "title": "States", "width": "30%", "filter": true, "readOnly": true },
+            { "type": "text", "attr": "attributes", "title": "Attributes", "width": "35%", "readOnly": true, "minRows": 2 },
+            { "type": "checkbox", "attr": "manual", "title": "Manual", "width": "10%", "disabled": true }
+          ],
+          "sm": 12,
+          "md": 12,
+          "lg": 12
+        }
+      }
+    }
+  }
+}
