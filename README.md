@@ -30,7 +30,7 @@ Security must be taken from the current user and not from default_user.
 
 ### Version
 Used version of home-assistant-frontend@20260826.7
-Version of Browser Mod: 2.13.5
+Version of Browser Mod: 3.2.3
 
 ### How to build the new Lovelace version
 First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
@@ -98,6 +98,8 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) The instance settings were rebuilt with jsonConfig: a real YAML editor for the themes, working theme dropdowns, upload/delete of custom cards with their version, and a searchable entity list. Needs admin 7.9.11 or newer. (#587)
 * (Garfonso/Claude) The new frontend draws its map with vector tiles: the adapter serves them, together with the TileJSON, the label fonts and the icon sprites, and answers the access-token request the frontend makes for them.
 * (Garfonso/Claude) Vacuums no longer claim the battery feature Home Assistant removed. A manually configured vacuum now gets the same battery sensor entity as an auto-detected one, so the charge level stays visible.
+* (Garfonso/Claude) Updated Browser Mod to 3.2.3 (from 2.13.5). Its settings are split in two pages now: the sidebar entry holds the settings of this browser, the registered browsers and the global/user settings moved to a page of their own behind it.
+* (Garfonso/Claude) Fixed global and per-user Browser Mod settings never being stored: those requests carry no browser id and were dropped.
 * (Garfonso/Claude) Updated the Home Assistant frontend to 20260826.7: new alert card, date on the clock card, search in the media browser, more tile features (vacuum fan speed, light effects, thermostat humidity) and the map now uses sharper vector tiles.
 
 ### 6.1.3 (2026-09-01)

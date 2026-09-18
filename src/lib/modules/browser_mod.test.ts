@@ -226,3 +226,68 @@ describe('modules/browser_mod setting persistence across restarts (#733)', funct
         expect(mod.browserModStorage.settings.hideSidebar).to.equal(true);
     });
 });
+
+describe('modules/browser_mod requests without a browser id (browser_mod 3.x)', function () {
+    function makeWs(): { ws: any; sent: any[] } {
+        const sent: any[] = [];
+        return { ws: { send: (d: string) => sent.push(JSON.parse(d)), on: () => {} }, sent };
+    }
+
+    it('stores a global setting that comes without a browserID', async function () {
+        const mod: any = new BrowserModModule({ adapter: makeAdapter(), objects: {} });
+        const { ws, sent } = makeWs();
+
+        // set_setting(key, value, 'global') sends no browserID - this used to be dropped.
+        const handled = await mod.processMessage(ws, {
+            type: 'browser_mod/settings',
+            key: 'lockRegister',
+            value: true,
+            id: 5,
+        });
+
+        expect(handled).to.equal(true);
+        expect(mod.browserModStorage.settings.lockRegister).to.equal(true);
+        expect(sent[0]).to.include({ id: 5, type: 'result', success: true });
+    });
+
+    it('stores a per-user setting that comes without a browserID', async function () {
+        const mod: any = new BrowserModModule({ adapter: makeAdapter(), objects: {} });
+        const { ws } = makeWs();
+
+        await mod.processMessage(ws, {
+            type: 'browser_mod/settings',
+            user: 'system.user.admin',
+            key: 'defaultPanel',
+            value: 'lovelace',
+            id: 6,
+        });
+
+        expect(mod.browserModStorage.user_settings['system.user.admin'].defaultPanel).to.equal('lovelace');
+    });
+
+    it('accepts the repair-issue messages of browser_mod 3.x without answering them', async function () {
+        const mod: any = new BrowserModModule({ adapter: makeAdapter(), objects: {} });
+        const { ws, sent } = makeWs();
+
+        const handled = await mod.processMessage(ws, {
+            type: 'browser_mod/create_issue',
+            issue_id: 'default_dashboard_plugin_conflict',
+            severity: 'warning',
+            id: 7,
+        });
+
+        expect(handled).to.equal(true);
+        // The frontend sends these without expecting a result.
+        expect(sent).to.have.lengthOf(0);
+    });
+
+    it('still refuses a request that needs a browser id and has none', async function () {
+        const mod: any = new BrowserModModule({ adapter: makeAdapter(), objects: {} });
+        const { ws, sent } = makeWs();
+
+        const handled = await mod.processMessage(ws, { type: 'browser_mod/update', data: {}, id: 8 });
+
+        expect(handled).to.equal(true);
+        expect(sent).to.have.lengthOf(0);
+    });
+});

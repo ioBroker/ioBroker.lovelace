@@ -101,6 +101,16 @@ exports.runTests = function (suite) {
             expect(response.headers.get('content-encoding')).to.equal('gzip');
         });
 
+        it('serves the browser_mod files the panels are loaded from', async () => {
+            // browser_mod 3.x renamed its panel file and added a second one; a rename would
+            // otherwise only show as an empty panel in the browser.
+            for (const file of ['browser_mod.js', 'browser_mod_browser_panel.js', 'browser_mod_config_panel.js']) {
+                const response = await fetch(`http://localhost:38091/cards/_static_${file}`);
+                expect(response.status, file).to.equal(200);
+                expect((await response.text()).length, file).to.be.above(1000);
+            }
+        });
+
         it('does not cache the index and the service worker', async () => {
             const index = await fetch('http://localhost:38091/');
             expect(index.headers.get('cache-control')).to.equal('no-cache');

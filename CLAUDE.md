@@ -133,7 +133,7 @@ Modules:
 - `HistoryModule`, `LogbookModule`, `StatisticsRecorderModule` — history data
 - `PersistentNotifications`, `TodoModule`, `PersonModule`, `ConversationModule` — HA feature parity
 - `EnergyModule` — energy-dashboard prefs
-- `BrowserModModule` — browser_mod integration (target version `2.13.5`; own WS sub-protocol: `connect`/`register`/`settings`/`update`/`store_session`/`delete_session`/`recall_id`/`unregister`, plus services routed through `call_service`)
+- `BrowserModModule` — browser_mod integration (target version `3.2.3`; own WS sub-protocol: `connect`/`register`/`settings`/`update`/`store_session`/`delete_session`/`recall_id`/`unregister`/`log`/`create_issue`/`delete_issue`, plus services routed through `call_service`). Only some of those carry a `browserID`. The shipped frontend files are `hass_frontend/static_cards/browser_mod*.js`; 3.x has two panels (`browser-mod`, `browser-mod-config`, see `src/lib/panels.ts`).
 - `UserDataModule` — `frontend/{subscribe,get,set}_user_data` and the `_system_data` trio
 - `ThemesModule` — theme list/selection (theme names come from the control's `common.states`)
 - `TemplateModule` — `render_template`; subscribes ioBroker states via the injected `subscribeState` callback

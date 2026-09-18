@@ -568,7 +568,8 @@ class BrowserModModule {
     var _a;
     if (message.type && message.type.startsWith("browser_mod/")) {
       const method = message.type.split("/")[1];
-      if (!message.browserID && method !== "recall_id") {
+      const withoutBrowserId = ["recall_id", "delete_session", "settings", "log", "create_issue", "delete_issue"];
+      if (!message.browserID && !withoutBrowserId.includes(method)) {
         this.adapter.log.warn(`No browser ID in browser_mod request: ${JSON.stringify(message)}`);
         return true;
       }
@@ -747,6 +748,8 @@ class BrowserModModule {
         delete this.browserModStorage.browsers[browserId];
         this.adapter.log.debug(`Instance ${browserId} unregistered.`);
         ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
+      } else if (method === "create_issue" || method === "delete_issue") {
+        this.adapter.log.debug(`browser_mod ${method}: ${JSON.stringify(message.issue_id)}`);
       } else {
         this.adapter.log.warn(`Unknown browser_mod method: ${JSON.stringify(message)}`);
         ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));

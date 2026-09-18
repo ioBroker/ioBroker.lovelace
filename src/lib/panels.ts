@@ -66,14 +66,17 @@ const panels = {
         default_visible: false,
         show_in_sidebar: false,
     },
+    // browser_mod 3.x split its old single panel in two: the settings of this browser, and the
+    // configuration of all browsers (which lives in the integration page in Home Assistant, a place
+    // we do not have - it is a panel of its own here, reachable from the browser panel).
     'browser-mod': {
         component_name: 'custom',
         icon: 'mdi:server',
         title: 'Browser Mod',
         config: {
             _panel_custom: {
-                name: 'browser-mod-panel',
-                js_url: '/cards/_static_browser_mod_panel.js',
+                name: 'browser-mod-browser-panel',
+                js_url: '/cards/_static_browser_mod_browser_panel.js',
             },
         },
         url_path: 'browser-mod',
@@ -81,6 +84,22 @@ const panels = {
         config_panel_domain: null,
         default_visible: false,
         show_in_sidebar: true,
+    },
+    'browser-mod-config': {
+        component_name: 'custom',
+        icon: 'mdi:server',
+        title: 'Browser Mod',
+        config: {
+            _panel_custom: {
+                name: 'browser-mod-config-panel',
+                js_url: '/cards/_static_browser_mod_config_panel.js',
+            },
+        },
+        url_path: 'browser-mod-config',
+        require_admin: false,
+        config_panel_domain: null,
+        default_visible: false,
+        show_in_sidebar: false,
     },
 };
 

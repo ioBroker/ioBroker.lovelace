@@ -702,7 +702,12 @@ class BrowserModModule {
         if (message.type && (message.type as string).startsWith('browser_mod/')) {
             const method = (message.type as string).split('/')[1];
 
-            if (!message.browserID && method !== 'recall_id') {
+            // Not every request is about one browser: the id is recalled, a session is dropped, a
+            // global or per-user setting is written, a message is logged, a repair issue is raised.
+            // Those carry no browserID, and rejecting them silently dropped e.g. every global
+            // setting the frontend wrote.
+            const withoutBrowserId = ['recall_id', 'delete_session', 'settings', 'log', 'create_issue', 'delete_issue'];
+            if (!message.browserID && !withoutBrowserId.includes(method)) {
                 this.adapter.log.warn(`No browser ID in browser_mod request: ${JSON.stringify(message)}`);
                 return true;
             }
@@ -922,6 +927,11 @@ class BrowserModModule {
                 delete this.browserModStorage.browsers[browserId];
                 this.adapter.log.debug(`Instance ${browserId} unregistered.`);
                 ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
+            } else if (method === 'create_issue' || method === 'delete_issue') {
+                // browser_mod 3.x reports repair issues (e.g. a conflicting default dashboard). We
+                // have no repairs dashboard, and the frontend expects no answer for these, so they
+                // are only logged.
+                this.adapter.log.debug(`browser_mod ${method}: ${JSON.stringify(message.issue_id)}`);
             } else {
                 this.adapter.log.warn(`Unknown browser_mod method: ${JSON.stringify(message)}`);
                 ws.send(JSON.stringify({ id: message.id, type: 'result', success: true }));
