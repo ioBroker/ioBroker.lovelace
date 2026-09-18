@@ -499,6 +499,40 @@ class BrowserModModule {
     return ((_a = ws.__auth) == null ? void 0 : _a.access_token) || ((_b = ws.__auth) == null ? void 0 : _b.username) || void 0;
   }
   /**
+   * The default dashboard ("defaultPanel") a browser should open, as browser_mod stores it.
+   *
+   * browser_mod 3.x keeps this setting in three scopes and lets the backend decide, because the
+   * frontend asks for it long before browser_mod itself is connected. The order is the one of the
+   * upstream integration: what the user set wins, then what was set for this browser, then the
+   * global setting.
+   *
+   * @param ws - the websocket connection asking for its user data
+   * @returns the panel's url_path, or undefined when nothing is configured
+   */
+  getDefaultPanel(ws) {
+    var _a, _b, _c;
+    const userId = (_a = ws.__auth) == null ? void 0 : _a.username;
+    const userSettings = userId ? this.browserModStorage.user_settings[userId] : void 0;
+    const fromUser = userSettings == null ? void 0 : userSettings.defaultPanel;
+    if (fromUser) {
+      return fromUser;
+    }
+    const browserId = ws.browserID || (this._sessionKey(ws) ? this.browserModStorage.sessions[this._sessionKey(ws)] : void 0);
+    const fromBrowser = browserId ? (_c = (_b = this.browserModStorage.browsers[browserId]) == null ? void 0 : _b.settings) == null ? void 0 : _c.defaultPanel : void 0;
+    if (fromBrowser) {
+      return fromBrowser;
+    }
+    return this.getGlobalDefaultPanel();
+  }
+  /**
+   * The globally configured default dashboard, for the system data every client gets.
+   *
+   * @returns the panel's url_path, or undefined when none is configured
+   */
+  getGlobalDefaultPanel() {
+    return this.browserModStorage.settings.defaultPanel || void 0;
+  }
+  /**
    * Build the `common.states` value→label map of theme names available for set_theme.
    * Parses the same theme YAML the server uses, plus the built-in 'default'/'auto' entries.
    */

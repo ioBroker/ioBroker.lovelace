@@ -291,3 +291,43 @@ describe('modules/browser_mod requests without a browser id (browser_mod 3.x)', 
         expect(sent).to.have.lengthOf(0);
     });
 });
+
+describe('modules/browser_mod default dashboard resolution', function () {
+    function makeModule(): any {
+        return new BrowserModModule({ adapter: makeAdapter(), objects: {} });
+    }
+
+    it('prefers the user setting, then the browser, then the global one', function () {
+        const mod = makeModule();
+        mod.browserModStorage.settings.defaultPanel = 'global-dash';
+        mod.initialiseBrowserSettings('B');
+        mod.browserModStorage.browsers.B.settings.defaultPanel = 'browser-dash';
+        mod.browserModStorage.user_settings['system.user.admin'] = { defaultPanel: 'user-dash' };
+
+        const ws: any = { browserID: 'B', __auth: { username: 'system.user.admin' } };
+        expect(mod.getDefaultPanel(ws)).to.equal('user-dash');
+
+        delete mod.browserModStorage.user_settings['system.user.admin'].defaultPanel;
+        expect(mod.getDefaultPanel(ws)).to.equal('browser-dash');
+
+        delete mod.browserModStorage.browsers.B.settings.defaultPanel;
+        expect(mod.getDefaultPanel(ws)).to.equal('global-dash');
+    });
+
+    it('finds the browser through the sync session before it has connected', function () {
+        const mod = makeModule();
+        mod.initialiseBrowserSettings('B');
+        mod.browserModStorage.browsers.B.settings.defaultPanel = 'browser-dash';
+        mod.browserModStorage.sessions['token-1'] = 'B';
+
+        // No browserID on the websocket yet - the frontend asks for its user data before browser_mod
+        // connects, which is why the session mapping is used.
+        expect(mod.getDefaultPanel({ __auth: { access_token: 'token-1' } } as any)).to.equal('browser-dash');
+    });
+
+    it('answers undefined when nothing is configured', function () {
+        const mod = makeModule();
+        expect(mod.getDefaultPanel({} as any)).to.equal(undefined);
+        expect(mod.getGlobalDefaultPanel()).to.equal(undefined);
+    });
+});

@@ -20,6 +20,8 @@ class UserDataModule {
     private adapter: ioBroker.Adapter;
     private sendResponse: SendResponseFn;
     private getLanguage: () => string | undefined;
+    private getDefaultPanel: (ws: WsWithAuth) => string | undefined;
+    private getGlobalDefaultPanel: () => string | undefined;
     private _userData: Record<string, Record<string, unknown>> = {};
     private readonly _objectId = `${STORAGE_PREFIX}userData`;
 
@@ -30,15 +32,21 @@ class UserDataModule {
      * @param options.adapter - ioBroker adapter instance
      * @param options.sendResponse - send a result to a websocket client
      * @param options.getLanguage - the adapter language (config, else the ioBroker system language)
+     * @param options.getDefaultPanel - browser_mod's default dashboard for this connection
+     * @param options.getGlobalDefaultPanel - browser_mod's global default dashboard
      */
     constructor(options: {
         adapter: ioBroker.Adapter;
         sendResponse: SendResponseFn;
         getLanguage?: () => string | undefined;
+        getDefaultPanel?: (ws: WsWithAuth) => string | undefined;
+        getGlobalDefaultPanel?: () => string | undefined;
     }) {
         this.adapter = options.adapter;
         this.sendResponse = options.sendResponse;
         this.getLanguage = options.getLanguage || (() => undefined);
+        this.getDefaultPanel = options.getDefaultPanel || (() => undefined);
+        this.getGlobalDefaultPanel = options.getGlobalDefaultPanel || (() => undefined);
     }
 
     async init(): Promise<void> {
@@ -84,7 +92,12 @@ class UserDataModule {
     private _getValue(ws: WsWithAuth, key: string): unknown {
         const stored = this._userData[this._getUserKey(ws)]?.[key];
         if (key === 'core') {
-            return { default_panel: 'lovelace', ...(stored || {}) };
+            // The frontend opens whatever `default_panel` says (and crashes without one), so the
+            // lovelace dashboard is the fallback. A default dashboard configured in browser_mod -
+            // for this user, this browser or globally - wins over it; browser_mod itself is not
+            // connected yet when the frontend asks, which is why the backend has to answer this.
+            const browserModPanel = this.getDefaultPanel(ws);
+            return { default_panel: browserModPanel || 'lovelace', ...(stored || {}) };
         }
         if (key === 'language') {
             // The frontend picks its UI language from localStorage / the browser unless the backend
@@ -102,6 +115,20 @@ class UserDataModule {
             return { ...(locale || {}), language };
         }
         return stored ?? null;
+    }
+
+    /**
+     * Read a system-data value. Only the `core` key carries something: the default dashboard set
+     * globally in browser_mod (the per-user and per-browser ones travel in the user data).
+     *
+     * @param key - system-data key
+     */
+    private _getSystemValue(key: string): unknown {
+        if (key === 'core') {
+            const defaultPanel = this.getGlobalDefaultPanel();
+            return defaultPanel ? { default_panel: defaultPanel } : null;
+        }
+        return null;
     }
 
     /**
@@ -135,16 +162,17 @@ class UserDataModule {
                 return true;
             }
             case 'frontend/subscribe_system_data':
-                // We have no per-system data; report empty so the frontend stops waiting.
+                // Only the globally configured default dashboard, if there is one; otherwise we have
+                // no per-system data and report empty so the frontend stops waiting.
                 ws.send(
                     JSON.stringify([
                         { id: message.id, type: 'result', success: true, result: null },
-                        { id: message.id, type: 'event', event: { value: null } },
+                        { id: message.id, type: 'event', event: { value: this._getSystemValue(key) } },
                     ]),
                 );
                 return true;
             case 'frontend/get_system_data':
-                this.sendResponse(ws, message.id, { value: null });
+                this.sendResponse(ws, message.id, { value: this._getSystemValue(key) });
                 return true;
             case 'frontend/set_system_data':
                 this.sendResponse(ws, message.id, null);

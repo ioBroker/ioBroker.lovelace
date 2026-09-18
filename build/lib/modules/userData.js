@@ -4,6 +4,8 @@ class UserDataModule {
   adapter;
   sendResponse;
   getLanguage;
+  getDefaultPanel;
+  getGlobalDefaultPanel;
   _userData = {};
   _objectId = `${import_storage.STORAGE_PREFIX}userData`;
   /**
@@ -13,11 +15,15 @@ class UserDataModule {
    * @param options.adapter - ioBroker adapter instance
    * @param options.sendResponse - send a result to a websocket client
    * @param options.getLanguage - the adapter language (config, else the ioBroker system language)
+   * @param options.getDefaultPanel - browser_mod's default dashboard for this connection
+   * @param options.getGlobalDefaultPanel - browser_mod's global default dashboard
    */
   constructor(options) {
     this.adapter = options.adapter;
     this.sendResponse = options.sendResponse;
     this.getLanguage = options.getLanguage || (() => void 0);
+    this.getDefaultPanel = options.getDefaultPanel || (() => void 0);
+    this.getGlobalDefaultPanel = options.getGlobalDefaultPanel || (() => void 0);
   }
   async init() {
     var _a;
@@ -62,7 +68,8 @@ class UserDataModule {
     var _a;
     const stored = (_a = this._userData[this._getUserKey(ws)]) == null ? void 0 : _a[key];
     if (key === "core") {
-      return { default_panel: "lovelace", ...stored || {} };
+      const browserModPanel = this.getDefaultPanel(ws);
+      return { default_panel: browserModPanel || "lovelace", ...stored || {} };
     }
     if (key === "language") {
       const language = this.getLanguage();
@@ -76,6 +83,19 @@ class UserDataModule {
       return { ...locale || {}, language };
     }
     return stored != null ? stored : null;
+  }
+  /**
+   * Read a system-data value. Only the `core` key carries something: the default dashboard set
+   * globally in browser_mod (the per-user and per-browser ones travel in the user data).
+   *
+   * @param key - system-data key
+   */
+  _getSystemValue(key) {
+    if (key === "core") {
+      const defaultPanel = this.getGlobalDefaultPanel();
+      return defaultPanel ? { default_panel: defaultPanel } : null;
+    }
+    return null;
   }
   /**
    * Handle a frontend user/system data message.
@@ -111,12 +131,12 @@ class UserDataModule {
         ws.send(
           JSON.stringify([
             { id: message.id, type: "result", success: true, result: null },
-            { id: message.id, type: "event", event: { value: null } }
+            { id: message.id, type: "event", event: { value: this._getSystemValue(key) } }
           ])
         );
         return true;
       case "frontend/get_system_data":
-        this.sendResponse(ws, message.id, { value: null });
+        this.sendResponse(ws, message.id, { value: this._getSystemValue(key) });
         return true;
       case "frontend/set_system_data":
         this.sendResponse(ws, message.id, null);

@@ -3,11 +3,17 @@ import { expect } from 'chai';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const UserDataModule = require('../modules/userData');
 
-function makeModule(language: string | undefined, stored: Record<string, Record<string, unknown>> = {}): any {
+function makeModule(
+    language: string | undefined,
+    stored: Record<string, Record<string, unknown>> = {},
+    panels: { own?: string; global?: string } = {},
+): any {
     const mod = new UserDataModule({
         adapter: { log: { debug: () => {}, warn: () => {} } },
         sendResponse: () => {},
         getLanguage: () => language,
+        getDefaultPanel: () => panels.own,
+        getGlobalDefaultPanel: () => panels.global,
     });
     mod._userData = stored;
     return mod;
@@ -51,5 +57,40 @@ describe('modules/userData language', function () {
         );
         expect(sent[0][0]).to.include({ id: 4, type: 'result', success: true });
         expect(sent[0][1].event.value).to.deep.equal({ language: 'en' });
+    });
+});
+
+describe('modules/userData default dashboard from browser_mod', function () {
+    const ws = {} as any;
+
+    it('opens the lovelace dashboard when browser_mod has no default', function () {
+        expect(makeModule('en')._getValue(ws, 'core')).to.deep.equal({ default_panel: 'lovelace' });
+    });
+
+    it('uses the dashboard browser_mod resolved for this connection', function () {
+        const mod = makeModule('en', {}, { own: 'my-dashboard' });
+        // browser_mod is not connected yet when the frontend asks, so the backend answers for it.
+        expect(mod._getValue(ws, 'core')).to.deep.equal({ default_panel: 'my-dashboard' });
+    });
+
+    it('lets a stored frontend value win, as before', function () {
+        const mod = makeModule('en', { _default: { core: { default_panel: 'stored' } } }, { own: 'my-dashboard' });
+        expect(mod._getValue(ws, 'core')).to.deep.equal({ default_panel: 'stored' });
+    });
+
+    it('reports the global default dashboard as system data', function () {
+        const mod = makeModule('en', {}, { global: 'kiosk' });
+        const sent: any[] = [];
+        const client: any = { send: (d: string) => sent.push(JSON.parse(d)) };
+
+        mod.processMessage(client, { type: 'frontend/subscribe_system_data', key: 'core', id: 9 });
+
+        expect(sent[0][1].event.value).to.deep.equal({ default_panel: 'kiosk' });
+    });
+
+    it('keeps system data empty without a global default and for other keys', function () {
+        const mod = makeModule('en', {}, { global: 'kiosk' });
+        expect(mod._getSystemValue('something')).to.equal(null);
+        expect(makeModule('en')._getSystemValue('core')).to.equal(null);
     });
 });

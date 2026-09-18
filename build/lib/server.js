@@ -261,7 +261,10 @@ class WebServer {
         adapter: this.adapter,
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
         // Read lazily: the system language is only known once system.config was read.
-        getLanguage: () => this.lang
+        getLanguage: () => this.lang,
+        // browser_mod can set a default dashboard per user, per browser or globally.
+        getDefaultPanel: (ws) => this._modules.browserMod.getDefaultPanel(ws),
+        getGlobalDefaultPanel: () => this._modules.browserMod.getGlobalDefaultPanel()
       }),
       mapTiles: new import_mapTiles.default({ adapter: this.adapter, version: ADAPTER_VERSION }),
       themes: new import_themes.default({
