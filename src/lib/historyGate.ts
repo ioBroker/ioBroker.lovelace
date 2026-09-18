@@ -19,6 +19,9 @@
 interface SendToAdapter {
     sendToAsync(instanceName: string, command: string, message: unknown): Promise<unknown>;
     log?: { warn(message: string): void };
+    /** The adapter's own timers, so a pending timeout cannot outlive the adapter. */
+    setTimeout?(cb: () => void, ms: number): unknown;
+    clearTimeout?(timer: unknown): void;
 }
 
 /**
@@ -88,22 +91,31 @@ function release(): void {
  */
 export async function getHistoryGated(adapter: SendToAdapter, instance: string, message: unknown): Promise<unknown> {
     await acquire();
-    let timer: ReturnType<typeof setTimeout> | undefined;
+    let timer: unknown;
     try {
         // Race the sendTo against a timeout. On timeout resolve with an empty result so every caller
         // (history / logbook / statistics) just sees "no data" instead of hanging, and the finally
         // below frees the gate slot. The underlying sendTo promise may still be pending, but it no
         // longer blocks the gate.
         const timeout = new Promise<unknown>(resolve => {
-            timer = setTimeout(() => {
+            const fire = (): void => {
                 adapter.log?.warn(`getHistory on ${instance} timed out after ${GET_HISTORY_TIMEOUT_MS} ms`);
                 resolve({ result: [] });
-            }, GET_HISTORY_TIMEOUT_MS);
+            };
+            // The adapter's timer when there is one (it is cleaned up on unload), else a plain one -
+            // the tests hand in a bare object.
+            timer = adapter.setTimeout
+                ? adapter.setTimeout(fire, GET_HISTORY_TIMEOUT_MS)
+                : setTimeout(fire, GET_HISTORY_TIMEOUT_MS);
         });
         return await Promise.race([adapter.sendToAsync(instance, 'getHistory', message), timeout]);
     } finally {
         if (timer) {
-            clearTimeout(timer);
+            if (adapter.clearTimeout) {
+                adapter.clearTimeout(timer);
+            } else {
+                clearTimeout(timer as ReturnType<typeof setTimeout>);
+            }
         }
         release();
     }

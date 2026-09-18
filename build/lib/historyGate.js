@@ -56,16 +56,21 @@ async function getHistoryGated(adapter, instance, message) {
   let timer;
   try {
     const timeout = new Promise((resolve) => {
-      timer = setTimeout(() => {
+      const fire = () => {
         var _a;
         (_a = adapter.log) == null ? void 0 : _a.warn(`getHistory on ${instance} timed out after ${GET_HISTORY_TIMEOUT_MS} ms`);
         resolve({ result: [] });
-      }, GET_HISTORY_TIMEOUT_MS);
+      };
+      timer = adapter.setTimeout ? adapter.setTimeout(fire, GET_HISTORY_TIMEOUT_MS) : setTimeout(fire, GET_HISTORY_TIMEOUT_MS);
     });
     return await Promise.race([adapter.sendToAsync(instance, "getHistory", message), timeout]);
   } finally {
     if (timer) {
-      clearTimeout(timer);
+      if (adapter.clearTimeout) {
+        adapter.clearTimeout(timer);
+      } else {
+        clearTimeout(timer);
+      }
     }
     release();
   }
