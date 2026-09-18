@@ -59,7 +59,7 @@ async function buildCardsNative(a) {
     size: entry.isDir ? "<dir>" : String(entry.size),
     modified: entry.modifiedAt ? new Date(entry.modifiedAt).toISOString() : ""
   })).sort((x, y) => x.file.localeCompare(y.file));
-  return { native: { _cardsTable: rows } };
+  return { native: { _cardsTable: rows, _cardsFolder: `${a.namespace}%2Fcards` } };
 }
 let adapter;
 function startAdapter(options) {
@@ -134,13 +134,7 @@ function startAdapter(options) {
               await adapter.apiServer.refreshCardResources().catch(
                 (e) => adapter.log.warn(`Could not refresh card resources: ${String(e)}`)
               );
-              const cards = await buildCardsNative(adapter);
-              adapter.sendTo(
-                obj.from,
-                obj.command,
-                { native: { _cardToDelete: "", ...cards.native } },
-                obj.callback
-              );
+              adapter.sendTo(obj.from, obj.command, await buildCardsNative(adapter), obj.callback);
             })();
           }
         } else if (obj.command === "getThemes") {

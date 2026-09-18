@@ -260,7 +260,17 @@
       "items": {
         "_cardsInfo": {
           "type": "staticText",
-          "text": "Upload a custom card here or into the lovelace.<instance>/cards folder via the ioBroker Files area. Press Reload files afterwards; reload the browser to use a newly added card - an adapter restart is no longer needed.",
+          "text": "Upload a custom card here or into the cards folder of this instance via the ioBroker file browser. Reload the browser afterwards to use a newly added card - an adapter restart is no longer needed.",
+          "sm": 12,
+          "md": 12,
+          "lg": 12
+        },
+        "_cardsFilesLink": {
+          "type": "staticText",
+          "text": "Open the cards folder in the ioBroker file browser",
+          "href": "#tab-files/select/${data._cardsFolder}",
+          "target": "_blank",
+          "newLine": true,
           "sm": 12,
           "md": 12,
           "lg": 12
@@ -281,7 +291,7 @@
         },
         "_reloadCards": {
           "type": "sendTo",
-          "label": "Reload files",
+          "label": "Refresh overview",
           "command": "listCards",
           "useNative": true,
           "onLoaded": true,
@@ -296,7 +306,7 @@
           "type": "table",
           "noDelete": true,
           "newLine": true,
-          "label": "Custom Cards",
+          "label": "Overview of the installed cards",
           "items": [
             { "type": "text", "attr": "file", "title": "File", "width": "40%", "filter": true, "sort": true, "readOnly": true },
             { "type": "text", "attr": "version", "title": "Version", "width": "15%", "readOnly": true },

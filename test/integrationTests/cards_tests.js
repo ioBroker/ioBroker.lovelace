@@ -32,6 +32,8 @@ exports.runTests = function (suite) {
             expect(card.version).to.equal('1.2.3');
             expect(Number(card.size)).to.be.above(0);
             expect(card.modified).to.be.a('string');
+            // The page links to the cards folder of this instance in the admin file browser.
+            expect(answer.native._cardsFolder).to.equal('lovelace.0%2Fcards');
         });
 
         it('caches a versioned card url for good, an unversioned one only briefly', async () => {
@@ -64,15 +66,13 @@ exports.runTests = function (suite) {
             expect((await response.text()).length).to.be.above(0);
         });
 
-        it('offers the card for the delete dropdown and deletes it', async () => {
+        it('deletes a card and rescans the folder', async () => {
             const names = await tools.sendToAsync(harness, 'lovelace.0', 'listCardNames', {});
             expect(names.map(entry => entry.value)).to.include('test-card.js');
 
             const answer = await tools.sendToAsync(harness, 'lovelace.0', 'deleteCard', { file: 'test-card.js' });
             // The answer carries the refreshed table, so the admin page updates right away.
             expect(answer.native._cardsTable.find(entry => entry.file === 'test-card.js')).to.equal(undefined);
-            // ... and clears the dropdown, which still named the file that is gone now.
-            expect(answer.native._cardToDelete).to.equal('');
 
             const afterwards = await tools.sendToAsync(harness, 'lovelace.0', 'listCardNames', {});
             expect(afterwards.map(entry => entry.value)).to.not.include('test-card.js');

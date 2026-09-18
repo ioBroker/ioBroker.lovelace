@@ -56,7 +56,9 @@ function formatEntityAttributes(entity: {
  *
  * @param a - the adapter instance
  */
-async function buildCardsNative(a: AdapterWithExtras): Promise<{ native: { _cardsTable: unknown[] } }> {
+async function buildCardsNative(
+    a: AdapterWithExtras,
+): Promise<{ native: { _cardsTable: unknown[]; _cardsFolder: string } }> {
     const entries = await a.apiServer.listCards();
     const rows = entries
         .map(entry => ({
@@ -66,7 +68,9 @@ async function buildCardsNative(a: AdapterWithExtras): Promise<{ native: { _card
             modified: entry.modifiedAt ? new Date(entry.modifiedAt).toISOString() : '',
         }))
         .sort((x, y) => x.file.localeCompare(y.file));
-    return { native: { _cardsTable: rows } };
+    // The admin file browser addresses a folder as "<namespace>%2F<path>"; the page links there and
+    // only the backend knows which instance this is.
+    return { native: { _cardsTable: rows, _cardsFolder: `${a.namespace}%2Fcards` } };
 }
 
 interface AdapterConfig extends ioBroker.AdapterConfig {
@@ -207,14 +211,7 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                                 .catch((e: Error) =>
                                     adapter.log.warn(`Could not refresh card resources: ${String(e)}`),
                                 );
-                            const cards = await buildCardsNative(adapter);
-                            // Clear the selection as well: the file it named is gone.
-                            adapter.sendTo(
-                                obj.from,
-                                obj.command,
-                                { native: { _cardToDelete: '', ...cards.native } },
-                                obj.callback,
-                            );
+                            adapter.sendTo(obj.from, obj.command, await buildCardsNative(adapter), obj.callback);
                         })();
                     }
                 } else if (obj.command === 'getThemes') {
