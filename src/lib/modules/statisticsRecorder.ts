@@ -50,6 +50,65 @@ function unitClassForDeviceClass(deviceClass: string | undefined): string | null
     }
 }
 
+/**
+ * How much of the base unit one of these units is. The frontend asks for its statistics in a unit of
+ * its choice (the energy dashboard wants kWh and kW) and expects the backend to convert - Home
+ * Assistant's recorder does that from the statistic's own unit. Without it a meter in Wh is drawn as
+ * if it counted kWh (#741).
+ */
+const UNIT_FACTORS: Record<string, Record<string, number>> = {
+    // base: Wh
+    energy: {
+        Wh: 1,
+        kWh: 1000,
+        MWh: 1e6,
+        GWh: 1e9,
+        TWh: 1e12,
+        mWh: 0.001,
+        J: 1 / 3600,
+        kJ: 1000 / 3600,
+        MJ: 1e6 / 3600,
+        GJ: 1e9 / 3600,
+        cal: 4.184 / 3600,
+        kcal: 4184 / 3600,
+        Mcal: 4.184e6 / 3600,
+        Gcal: 4.184e9 / 3600,
+    },
+    // base: W
+    power: { mW: 0.001, W: 1, kW: 1000, MW: 1e6, GW: 1e9, TW: 1e12 },
+    // base: L
+    volume: {
+        mL: 0.001,
+        L: 1,
+        'm³': 1000,
+        'ft³': 28.316846592,
+        CCF: 2831.6846592,
+        gal: 3.785411784,
+        'fl. oz.': 0.0295735295625,
+    },
+};
+
+/**
+ * Factor to get from one unit into another, or null when the pair is unknown (then nothing is
+ * converted - a wrong factor would be worse than an unconverted value).
+ *
+ * @param unitClass - the unit class both units belong to
+ * @param from - the unit of the statistic
+ * @param to - the unit the frontend asked for
+ */
+function conversionFactor(unitClass: string | null, from: string | undefined, to: string | undefined): number | null {
+    if (!unitClass || !from || !to || from === to) {
+        return null;
+    }
+    const factors = UNIT_FACTORS[unitClass];
+    const fromFactor = factors?.[from];
+    const toFactor = factors?.[to];
+    if (!fromFactor || !toFactor) {
+        return null;
+    }
+    return fromFactor / toFactor;
+}
+
 /** A single statistics bucket in the shape Home Assistant's recorder/statistics_during_period returns. */
 interface StatValue {
     start: number;
@@ -418,6 +477,15 @@ class StatisticsRecorder {
                     if (!id) {
                         continue;
                     }
+                    // The frontend asks for a unit (the energy dashboard wants kWh and kW) and
+                    // expects the values in it.
+                    const units = message.units as Record<string, string> | undefined;
+                    const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
+                    const factor = conversionFactor(
+                        unitClass,
+                        entity.attributes.unit_of_measurement,
+                        unitClass ? units?.[unitClass] : undefined,
+                    );
                     this.log.debug(`Getting statistics for ${entityId}`);
 
                     const buckets = new Map<number, StatValue>();
@@ -495,7 +563,23 @@ class StatisticsRecorder {
                         }
                     }
 
-                    result[entityId] = [...buckets.values()].sort((a, b) => a.start - b.start);
+                    const values = [...buckets.values()].sort((a, b) => a.start - b.start);
+                    if (factor !== null) {
+                        this.log.debug(
+                            `Converting ${entityId} from ${entity.attributes.unit_of_measurement} to ${
+                                units?.[unitClass!]
+                            }`,
+                        );
+                        for (const bucket of values) {
+                            for (const field of ['mean', 'min', 'max', 'state', 'sum', 'change']) {
+                                const value = bucket[field];
+                                if (typeof value === 'number') {
+                                    bucket[field] = value * factor;
+                                }
+                            }
+                        }
+                    }
+                    result[entityId] = values;
                     if (result[entityId].length === 0) {
                         this.log.info(
                             `No history for statistic ${entityId} (state ${id}). The energy/statistics graphs stay empty - make sure a history/SQL/InfluxDB instance is selected in the adapter settings AND logging is enabled for that state.`,

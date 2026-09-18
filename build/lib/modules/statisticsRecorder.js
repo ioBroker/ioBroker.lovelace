@@ -16,6 +16,49 @@ function unitClassForDeviceClass(deviceClass) {
       return null;
   }
 }
+const UNIT_FACTORS = {
+  // base: Wh
+  energy: {
+    Wh: 1,
+    kWh: 1e3,
+    MWh: 1e6,
+    GWh: 1e9,
+    TWh: 1e12,
+    mWh: 1e-3,
+    J: 1 / 3600,
+    kJ: 1e3 / 3600,
+    MJ: 1e6 / 3600,
+    GJ: 1e9 / 3600,
+    cal: 4.184 / 3600,
+    kcal: 4184 / 3600,
+    Mcal: 4184e3 / 3600,
+    Gcal: 4184e6 / 3600
+  },
+  // base: W
+  power: { mW: 1e-3, W: 1, kW: 1e3, MW: 1e6, GW: 1e9, TW: 1e12 },
+  // base: L
+  volume: {
+    mL: 1e-3,
+    L: 1,
+    "m\xB3": 1e3,
+    "ft\xB3": 28.316846592,
+    CCF: 2831.6846592,
+    gal: 3.785411784,
+    "fl. oz.": 0.0295735295625
+  }
+};
+function conversionFactor(unitClass, from, to) {
+  if (!unitClass || !from || !to || from === to) {
+    return null;
+  }
+  const factors = UNIT_FACTORS[unitClass];
+  const fromFactor = factors == null ? void 0 : factors[from];
+  const toFactor = factors == null ? void 0 : factors[to];
+  if (!fromFactor || !toFactor) {
+    return null;
+  }
+  return fromFactor / toFactor;
+}
 class StatisticsRecorder {
   server;
   adapter;
@@ -305,6 +348,13 @@ class StatisticsRecorder {
           if (!id) {
             continue;
           }
+          const units = message.units;
+          const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
+          const factor = conversionFactor(
+            unitClass,
+            entity.attributes.unit_of_measurement,
+            unitClass ? units == null ? void 0 : units[unitClass] : void 0
+          );
           this.log.debug(`Getting statistics for ${entityId}`);
           const buckets = /* @__PURE__ */ new Map();
           const bucketAt = (bucketStart, bucketEnd) => {
@@ -360,7 +410,21 @@ class StatisticsRecorder {
               }
             }
           }
-          result[entityId] = [...buckets.values()].sort((a, b) => a.start - b.start);
+          const values = [...buckets.values()].sort((a, b) => a.start - b.start);
+          if (factor !== null) {
+            this.log.debug(
+              `Converting ${entityId} from ${entity.attributes.unit_of_measurement} to ${units == null ? void 0 : units[unitClass]}`
+            );
+            for (const bucket of values) {
+              for (const field of ["mean", "min", "max", "state", "sum", "change"]) {
+                const value = bucket[field];
+                if (typeof value === "number") {
+                  bucket[field] = value * factor;
+                }
+              }
+            }
+          }
+          result[entityId] = values;
           if (result[entityId].length === 0) {
             this.log.info(
               `No history for statistic ${entityId} (state ${id}). The energy/statistics graphs stay empty - make sure a history/SQL/InfluxDB instance is selected in the adapter settings AND logging is enabled for that state.`

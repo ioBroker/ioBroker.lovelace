@@ -414,3 +414,95 @@ describe('modules/statisticsRecorder energy costs', function () {
         });
     });
 });
+
+describe('modules/statisticsRecorder unit conversion (#741)', function () {
+    const STEP = 3600000; // hour
+    const T0 = Date.parse('2026-06-15T00:00:00.000Z');
+
+    function makeModule(unit: string, deviceClass: string, series: { ts: number; val: number }[]): any {
+        const responses: any[] = [];
+        const entity = {
+            entity_id: 'sensor.meter',
+            attributes: { unit_of_measurement: unit, device_class: deviceClass },
+            context: { STATE: { getId: 'src.0.meter' } },
+        };
+        const mod = new StatisticsRecorder({
+            server: { _sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result) },
+            adapter: { config: { history: 'history.0' }, sendToAsync: () => Promise.resolve({ result: series }) },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
+            personModule: { getUserIDFromName: () => 'system.user.admin' },
+            dataSingleton: { entities: [entity], entityId2Entity: { 'sensor.meter': entity } },
+        });
+        return { mod, responses };
+    }
+
+    async function ask(mod: any, units: Record<string, string> | undefined, types: string[]): Promise<void> {
+        await mod.processMessage(
+            {},
+            {
+                type: 'recorder/statistics_during_period',
+                statistic_ids: ['sensor.meter'],
+                start_time: new Date(T0).toISOString(),
+                end_time: new Date(T0 + 2 * STEP).toISOString(),
+                period: 'hour',
+                units,
+                types,
+                id: 1,
+            },
+        );
+    }
+
+    it('converts a meter counting in Wh into the kWh the dashboard asks for', async function () {
+        // 55 Wh consumed in the bucket - it used to be drawn as 55 kWh.
+        const { mod, responses } = makeModule('Wh', 'energy', [
+            { ts: T0 - STEP, val: 1000 },
+            { ts: T0, val: 1055 },
+        ]);
+
+        await ask(mod, { energy: 'kWh' }, ['change']);
+
+        expect(responses[0]['sensor.meter'][0].change).to.be.closeTo(0.055, 1e-9);
+    });
+
+    it('converts a power sensor in W into kW', async function () {
+        const { mod, responses } = makeModule('W', 'power', [{ ts: T0, val: 107 }]);
+
+        await ask(mod, { power: 'kW' }, ['mean']);
+
+        expect(responses[0]['sensor.meter'][0].mean).to.be.closeTo(0.107, 1e-9);
+    });
+
+    it('leaves the values alone when the unit already matches', async function () {
+        const { mod, responses } = makeModule('kWh', 'energy', [
+            { ts: T0 - STEP, val: 10 },
+            { ts: T0, val: 12 },
+        ]);
+
+        await ask(mod, { energy: 'kWh' }, ['change']);
+
+        expect(responses[0]['sensor.meter'][0].change).to.equal(2);
+    });
+
+    it('leaves the values alone for a unit it does not know', async function () {
+        const { mod, responses } = makeModule('Smoots', 'energy', [
+            { ts: T0 - STEP, val: 10 },
+            { ts: T0, val: 12 },
+        ]);
+
+        await ask(mod, { energy: 'kWh' }, ['change']);
+
+        // A wrong factor would be worse than an unconverted value.
+        expect(responses[0]['sensor.meter'][0].change).to.equal(2);
+    });
+
+    it('leaves the values alone when the frontend asks for no unit', async function () {
+        const { mod, responses } = makeModule('Wh', 'energy', [
+            { ts: T0 - STEP, val: 1000 },
+            { ts: T0, val: 1055 },
+        ]);
+
+        await ask(mod, undefined, ['change']);
+
+        expect(responses[0]['sensor.meter'][0].change).to.equal(55);
+    });
+});
