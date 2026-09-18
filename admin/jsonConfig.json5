@@ -274,32 +274,10 @@
           "refresh": true,
           "default": "",
           "newLine": true,
+          "delete": true,
           "sm": 12,
           "md": 6,
           "lg": 4
-        },
-        "_cardToDelete": {
-          "type": "selectSendTo",
-          "label": "File to delete",
-          "command": "listCardNames",
-          "alsoDependsOn": ["_cardsTable"],
-          "manual": true,
-          "newLine": true,
-          "sm": 12,
-          "md": 6,
-          "lg": 4
-        },
-        "_deleteCard": {
-          "type": "sendTo",
-          "label": "Delete file",
-          "command": "deleteCard",
-          "jsonData": "{ \"file\": \"${data._cardToDelete}\" }",
-          "useNative": true,
-          "showProcess": true,
-          "variant": "outlined",
-          "sm": 12,
-          "md": 4,
-          "lg": 3
         },
         "_reloadCards": {
           "type": "sendTo",
