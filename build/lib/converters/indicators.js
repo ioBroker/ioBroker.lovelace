@@ -21,6 +21,7 @@ __export(indicators_exports, {
   connectivityIndicator: () => connectivityIndicator,
   generateBatterySensor: () => generateBatterySensor,
   generateElectricitySensors: () => generateElectricitySensors,
+  generateMeasurementSensors: () => generateMeasurementSensors,
   processBattery: () => processBattery,
   processError: () => processError,
   processMaintenance: () => processMaintenance,
@@ -72,6 +73,30 @@ const ELECTRICITY_SPECS = [
     label: "Frequency"
   }
 ];
+function generateMeasurementSensors(parameters, measurements, baseName) {
+  var _a;
+  const entities = [];
+  for (const measurement of measurements) {
+    const state = parameters.controls.states.find((s) => s.id && s.name === measurement.state);
+    if (!(state == null ? void 0 : state.id)) {
+      continue;
+    }
+    entities.push(
+      import_sensorEntity.SensorEntity.electricity(
+        state.id,
+        `${parameters.friendlyName || baseName} ${measurement.label}`,
+        parameters.room,
+        parameters.func,
+        (_a = parameters.objects) == null ? void 0 : _a[state.id],
+        `sensor.${baseName}_${measurement.suffix}`,
+        measurement.deviceClass,
+        measurement.unit,
+        measurement.stateClass || "measurement"
+      )
+    );
+  }
+  return entities;
+}
 function generateElectricitySensors(parameters, baseName) {
   var _a;
   const entities = [];
@@ -157,6 +182,7 @@ function processWorking(parameters) {
   connectivityIndicator,
   generateBatterySensor,
   generateElectricitySensors,
+  generateMeasurementSensors,
   processBattery,
   processError,
   processMaintenance,

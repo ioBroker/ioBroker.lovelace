@@ -111,3 +111,31 @@ describe('converters/switch', function () {
         expect(entities[0].iobIds).to.include(ACTUAL_ID);
     });
 });
+
+describe('converters/switch pump (type-detector 6)', function () {
+    it('is a switch plus a sensor for everything the pump measures', function () {
+        const entities = SwitchConverter.convertEntities(
+            makeParameters(
+                [
+                    { id: `${DEVICE_ID}.power`, name: 'POWER' },
+                    { id: `${DEVICE_ID}.pressure`, name: 'PRESSURE' },
+                    { id: `${DEVICE_ID}.flow`, name: 'FLOW' },
+                ],
+                Types.pump,
+            ),
+        );
+
+        expect(entities[0].entity_id.startsWith('switch.')).to.equal(true);
+        // A pump calls its on/off state POWER, the switch entity looks for SET.
+        expect(entities[0].context.STATE.setId).to.equal(`${DEVICE_ID}.power`);
+        expect(entities.slice(1).map(e => e.attributes.device_class)).to.deep.equal(['pressure', 'volume_flow_rate']);
+    });
+
+    it('builds only the sensors when the pump cannot be switched', function () {
+        const entities = SwitchConverter.convertEntities(
+            makeParameters([{ id: `${DEVICE_ID}.pressure`, name: 'PRESSURE' }], Types.pump),
+        );
+        expect(entities).to.have.lengthOf(1);
+        expect(entities[0].entity_id.startsWith('sensor.')).to.equal(true);
+    });
+});

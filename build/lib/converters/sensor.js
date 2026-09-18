@@ -31,10 +31,13 @@ __export(sensor_exports, {
   SensorConverter: () => SensorConverter,
   createHumiditySensor: () => createHumiditySensor,
   createTemperatureSensor: () => createTemperatureSensor,
-  processManualEntity: () => processManualEntity
+  processManualEntity: () => processManualEntity,
+  sensorBaseName: () => sensorBaseName
 });
 module.exports = __toCommonJS(sensor_exports);
 var import_type_detector = require("@iobroker/type-detector");
+var import_indicators = require("./indicators");
+var import_entity_id = require("../entities/entity_id");
 var import_converter = __toESM(require("./converter"));
 var import_sensorEntity = require("../entities/sensorEntity");
 function createHumiditySensor(stateId, name, room, func, obj, forcedEntityId) {
@@ -43,12 +46,61 @@ function createHumiditySensor(stateId, name, room, func, obj, forcedEntityId) {
 function createTemperatureSensor(stateId, name, room, func, obj, forcedEntityId) {
   return import_sensorEntity.SensorEntity.temperature(stateId, name, room, func, obj, forcedEntityId);
 }
+const AIR_QUALITY = [
+  { state: "AQI", suffix: "aqi", label: "Air quality index", deviceClass: "aqi", unit: "" },
+  { state: "CO2", suffix: "co2", label: "CO2", deviceClass: "carbon_dioxide", unit: "ppm" },
+  { state: "CO", suffix: "co", label: "CO", deviceClass: "carbon_monoxide", unit: "ppm" },
+  { state: "TVOC", suffix: "tvoc", label: "VOC", deviceClass: "volatile_organic_compounds", unit: "\xB5g/m\xB3" },
+  { state: "PM1", suffix: "pm1", label: "PM1", deviceClass: "pm1", unit: "\xB5g/m\xB3" },
+  { state: "PM25", suffix: "pm25", label: "PM2.5", deviceClass: "pm25", unit: "\xB5g/m\xB3" },
+  { state: "PM10", suffix: "pm10", label: "PM10", deviceClass: "pm10", unit: "\xB5g/m\xB3" },
+  { state: "NO2", suffix: "no2", label: "NO2", deviceClass: "nitrogen_dioxide", unit: "\xB5g/m\xB3" },
+  { state: "SO2", suffix: "so2", label: "SO2", deviceClass: "sulphur_dioxide", unit: "\xB5g/m\xB3" },
+  { state: "O3", suffix: "o3", label: "Ozone", deviceClass: "ozone", unit: "\xB5g/m\xB3" },
+  // Formaldehyde and radon have no device class in Home Assistant; they are still worth a sensor.
+  { state: "CH2O", suffix: "ch2o", label: "Formaldehyde", deviceClass: "", unit: "\xB5g/m\xB3" },
+  { state: "RN", suffix: "radon", label: "Radon", deviceClass: "", unit: "Bq/m\xB3" },
+  { state: "PRESSURE", suffix: "pressure", label: "Pressure", deviceClass: "pressure", unit: "hPa" },
+  { state: "ACTUAL", suffix: "temperature", label: "Temperature", deviceClass: "temperature", unit: "\xB0C" },
+  { state: "HUMIDITY", suffix: "humidity", label: "Humidity", deviceClass: "humidity", unit: "%" }
+];
+const PRESSURE = {
+  state: "PRESSURE",
+  suffix: "pressure",
+  label: "Pressure",
+  deviceClass: "pressure",
+  unit: "hPa"
+};
+const FLOW = {
+  state: "FLOW",
+  suffix: "flow",
+  label: "Flow",
+  deviceClass: "volume_flow_rate",
+  unit: "m\xB3/h"
+};
+function sensorBaseName(params) {
+  var _a, _b, _c;
+  return (params.forcedEntityId || (0, import_entity_id.getEntityId)("sensor", null, (_a = params.objects) == null ? void 0 : _a[params.id], (_b = params.room) == null ? void 0 : _b._id, (_c = params.func) == null ? void 0 : _c._id)).split(".")[1];
+}
 class SensorConverter extends import_converter.default {
   /** @inheritdoc */
   static convertEntities(params) {
     const { controls, objects, forcedEntityId, friendlyName, room, func } = params;
     if (controls.type === import_type_detector.Types.windowTilt) {
       return [import_sensorEntity.SensorEntity.windowTilt(params)];
+    }
+    if (controls.type === import_type_detector.Types.airQuality) {
+      return (0, import_indicators.generateMeasurementSensors)(params, AIR_QUALITY, sensorBaseName(params));
+    }
+    if (controls.type === import_type_detector.Types.pressure || controls.type === import_type_detector.Types.flow) {
+      return (0, import_indicators.generateMeasurementSensors)(
+        params,
+        [controls.type === import_type_detector.Types.flow ? FLOW : PRESSURE],
+        sensorBaseName(params)
+      );
+    }
+    if (controls.type === import_type_detector.Types.electricity) {
+      return [];
     }
     if (controls.type === import_type_detector.Types.humidity) {
       const state2 = controls.states.find((s) => s.id && s.name === "ACTUAL");
@@ -97,11 +149,16 @@ import_converter.default.converters[import_type_detector.Types.windowTilt] = Sen
 import_converter.default.converters[import_type_detector.Types.temperature] = SensorConverter;
 import_converter.default.converters[import_type_detector.Types.humidity] = SensorConverter;
 import_converter.default.converters[import_type_detector.Types.illuminance] = SensorConverter;
+import_converter.default.converters[import_type_detector.Types.airQuality] = SensorConverter;
+import_converter.default.converters[import_type_detector.Types.pressure] = SensorConverter;
+import_converter.default.converters[import_type_detector.Types.flow] = SensorConverter;
+import_converter.default.converters[import_type_detector.Types.electricity] = SensorConverter;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   SensorConverter,
   createHumiditySensor,
   createTemperatureSensor,
-  processManualEntity
+  processManualEntity,
+  sensorBaseName
 });
 //# sourceMappingURL=sensor.js.map

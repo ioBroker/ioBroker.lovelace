@@ -1,7 +1,9 @@
 "use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -15,13 +17,25 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var fan_exports = {};
 __export(fan_exports, {
+  FanConverter: () => FanConverter,
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(fan_exports);
+var import_type_detector = require("@iobroker/type-detector");
+var import_converter = __toESM(require("./converter"));
 var import_manualStates = require("./manualStates");
+var import_baseEntity = require("../entities/baseEntity");
 const adapterData = require("../../../lib/dataSingleton");
 function augmentPresetMode(presetModeId, stateId, entity, objects) {
   var _a, _b, _c;
@@ -119,6 +133,28 @@ function augmentPresetMode(presetModeId, stateId, entity, objects) {
       return void 0;
     }
   });
+}
+class FanConverter extends import_converter.default {
+  /** @inheritdoc */
+  static convertEntities(params) {
+    const { objects, id, forcedEntityId, friendlyName, room, func, controls } = params;
+    const stateId = (name) => {
+      var _a;
+      return (_a = controls.states.find((s) => s.id && s.name === name)) == null ? void 0 : _a.id;
+    };
+    const speed = stateId("SPEED") || stateId("SPEED_LEVEL");
+    const power = stateId("POWER");
+    if (!speed && !power) {
+      return [];
+    }
+    const entity = new import_baseEntity.BaseEntity(friendlyName, room, func, objects[id], "fan", forcedEntityId);
+    return processManualEntity(speed || power || id, objects[id], entity, objects, {
+      state_SET: power,
+      state_SPEED: speed,
+      state_OSCILLATION: stateId("SWING"),
+      state_DIRECTION: stateId("AIRFLOW_DIRECTION")
+    });
+  }
 }
 function processManualEntity(id, _obj, entity, objects, custom) {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
@@ -247,8 +283,11 @@ adapterData.services.fan = {
     target: { entity: [{ domain: ["fan"] }] }
   }
 };
+import_converter.default.converters[import_type_detector.Types.fan] = FanConverter;
+import_converter.default.converters[import_type_detector.Types.airPurifier] = FanConverter;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  FanConverter,
   processManualEntity
 });
 //# sourceMappingURL=fan.js.map
