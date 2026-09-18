@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunkhome_assistant_frontend=self.rspackChunkhome_assistant_frontend||[]).push([[10213],{30404(s,n,t){var e=t(39573);e.Ay.mount(e.iV),e.Ay.mount(new e.ZZ);const a=e.Ay;t.d(n,{},{default:a})}}]);

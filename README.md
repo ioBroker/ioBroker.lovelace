@@ -29,14 +29,14 @@ Used sources are here https://github.com/GermanBluefox/home-assistant-polymer .
 Security must be taken from the current user and not from default_user.
 
 ### Version
-Used version of home-assistant-frontend@20260527.7
+Used version of home-assistant-frontend@20260826.7
 Version of Browser Mod: 2.13.5
 
 ### How to build the new Lovelace version
 First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20260527.1) following files were modified:
+For now (20260826.7) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
 - `build-scripts/gulp/rspack.js` - Add new gulp task rspack-dev-app
 - `build-scripts/rspack.cjs` - disable source maps in prod build to reduce emitted file count.
@@ -54,13 +54,12 @@ For now (20260527.1) following files were modified:
 - `src/panels/lovelace/hui-root.ts` - added notification button, disable manage dashboards link, hide add (device/automation/area/person) button, open edit-panel dialog for lovelace boards, live dashboard title from hass.panels
 - `src/layouts/hass-router-page.ts` - guard updatePageEl against undefined route during rebuild (panel rename crash).
 - `src/panels/config/dashboard/ha-config-dashboard.ts` - hide settings sections (automations, apps, voice assistants, system, people, tip).
-- `src/panels/config/ha-panel-config.ts` - hide integrations tab in devices & services, land devices & services tile on /config/devices.
-- `src/panels/config/developer-tools/ha-panel-developer-tools.ts` - remove yaml, events and assist tabs from developer tools.
-- `src/panels/config/developer-tools/developer-tools-router.ts` - default to states tab (yaml removed).
+- `src/panels/config/config-sections.ts` - hide integrations tab in devices & services, land devices & services tile on /config/devices.
+- `src/panels/config/tools/ha-panel-tools.ts` - remove yaml, events and assist tabs from developer tools.
+- `src/panels/config/tools/tools-router.ts` - default to states tab (yaml removed).
 - `src/panels/config/info/ha-config-info.ts` - hide doc/credits/community/license links in about (keep keyboard shortcuts).
 - `src/panels/config/lovelace/dashboards/ha-config-lovelace-dashboards.ts` - show fixed panels (incl. browser-mod) in built-in dashboards list.
 - `src/panels/profile/ha-panel-profile.ts` - hide security tab in user profile.
-- `src/common/dom/setup-leaflet-map.ts` - base map from the adapter's tile proxy (OpenStreetMap) instead of CARTO, which watermarks unauthenticated tiles.
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `src/html/index.html.template` - remove Safari smart app banner (apple-itunes-app meta) for HA iOS app (#418).
 - `.husky/pre-commit` - remove git commit hooks.
@@ -97,6 +96,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) The frontend is served precompressed (brotli) and cached for good, its entry points (index, service worker) are revalidated instead. This cuts the traffic of a remote connection (e.g. ioBroker.pro) roughly to a quarter and no longer hides a frontend update.
 * (Garfonso/Claude) Everything else (custom cards, the index page, api answers) is compressed on the fly now.
 * (Garfonso/Claude) The instance settings were rebuilt with jsonConfig: a real YAML editor for the themes, working theme dropdowns, upload/delete of custom cards with their version, and a searchable entity list. Needs admin 7.9.11 or newer. (#587)
+* (Garfonso/Claude) Updated the Home Assistant frontend to 20260826.7: new alert card, date on the clock card, search in the media browser, more tile features (vacuum fan speed, light effects, thermostat humidity) and the map now uses sharper vector tiles.
 
 ### 6.1.3 (2026-09-01)
 * (Garfonso/Claude) Fixed auto-generated entity_ids growing longer and longer within a single start for devices sharing a generated display name and having no own readable state (e.g. several buttons named the same): they no longer collapse onto the same internal registry key and overwrite each other's name.
