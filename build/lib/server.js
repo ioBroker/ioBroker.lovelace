@@ -67,6 +67,7 @@ var import_deviceRegistry = __toESM(require("./modules/deviceRegistry"));
 var import_areaRegistry = __toESM(require("./modules/areaRegistry"));
 var import_energyModule = __toESM(require("./modules/energyModule"));
 var import_userData = __toESM(require("./modules/userData"));
+var import_mapTiles = __toESM(require("./modules/mapTiles"));
 var import_themes = __toESM(require("./modules/themes"));
 var import_panels = __toESM(require("./panels"));
 var import_template = __toESM(require("./modules/template"));
@@ -100,6 +101,7 @@ const TIMEOUT_AUTH_CODE = 1e4;
 const ROOT_DIR = "../../hass_frontend";
 const VERSION = import_node_fs.default.readFileSync(`${getRootPath()}version.txt`, "utf8").replace(/(\d{4})(\d{2})(\d{2})\.(\d).*/s, "$1.$2.$3");
 const NO_TOKEN = "no_token";
+const ADAPTER_VERSION = require("../../package.json").version;
 function getRootPath() {
   if (ROOT_DIR.match(/^\w:/) || ROOT_DIR.startsWith("/")) {
     return `${ROOT_DIR}/`;
@@ -259,6 +261,7 @@ class WebServer {
         // Read lazily: the system language is only known once system.config was read.
         getLanguage: () => this.lang
       }),
+      mapTiles: new import_mapTiles.default({ adapter: this.adapter, version: ADAPTER_VERSION }),
       themes: new import_themes.default({
         adapter: this.adapter,
         sendUpdate: (type) => this._sendUpdate(type)
@@ -487,10 +490,27 @@ class WebServer {
     if (entities.length) {
       const custom = (_c = (_b = (_a = this._objectData.objects[id]) == null ? void 0 : _a.common) == null ? void 0 : _b.custom) == null ? void 0 : _c[this.adapter.namespace];
       if (custom) {
-        (0, import_manualStates.applyCustomAttributes)(entities[0], custom);
+        await this._loadObjects((0, import_manualStates.collectCustomAttributes)(custom).map((mapping) => mapping.getId));
+        (0, import_manualStates.applyCustomAttributes)(entities[0], custom, this._objectData.objects);
       }
     }
     return entities;
+  }
+  /**
+   * Make sure the given ioBroker objects are in the shared cache.
+   *
+   * @param ids - ioBroker object ids to load
+   */
+  async _loadObjects(ids) {
+    for (const stateId of ids) {
+      if (stateId && !this._objectData.objects[stateId]) {
+        try {
+          this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
+        } catch (e) {
+          this.adapter.log.warn(`Could not get object ${stateId}: ${e}`);
+        }
+      }
+    }
   }
   /**
    * Build the entities for a manually configured object (without the expert attributes, those are
@@ -2075,6 +2095,9 @@ ${hideScript.join("\n")}
           this.log.debug(`Connection to client already closed?: ${innerE} could not send error ${e}`);
         }
       }
+    });
+    this._app.get("/api/map_tiles/raster/:z/:x/:y", async (req, res) => {
+      await this._modules.mapTiles.serveRaster(req, res);
     });
     this._app.get("/api/history/period/:start", async (req, res) => {
       void this._modules.history.processRequest(req, res);

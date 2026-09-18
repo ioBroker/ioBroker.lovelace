@@ -15,7 +15,7 @@ import * as converterSensors from './converters/sensor';
 import * as converterGeoLocation from './converters/geo_location';
 import * as converterDeviceTracker from './converters/deviceTracker';
 import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
-import { applyCustomAttributes } from './converters/manualStates';
+import { applyCustomAttributes, collectCustomAttributes } from './converters/manualStates';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -44,6 +44,7 @@ import DeviceRegistryModule from './modules/deviceRegistry';
 import AreaRegistryModule from './modules/areaRegistry';
 import EnergyModule from './modules/energyModule';
 import UserDataModule from './modules/userData';
+import MapTilesModule from './modules/mapTiles';
 import ThemesModule from './modules/themes';
 import PANELS from './panels';
 import TemplateModule from './modules/template';
@@ -69,6 +70,7 @@ type Modules = {
     areaRegistry: InstanceType<typeof AreaRegistryModule>;
     energy: InstanceType<typeof EnergyModule>;
     userData: InstanceType<typeof UserDataModule>;
+    mapTiles: InstanceType<typeof MapTilesModule>;
     themes: InstanceType<typeof ThemesModule>;
     template: InstanceType<typeof TemplateModule>;
     compat: InstanceType<typeof CompatModule>;
@@ -119,6 +121,9 @@ const VERSION = fs
     .readFileSync(`${getRootPath()}version.txt`, 'utf8')
     .replace(/(\d{4})(\d{2})(\d{2})\.(\d).*/s, '$1.$2.$3');
 const NO_TOKEN = 'no_token';
+
+// Our own version (not the frontend's), used to identify this adapter to the map tile servers.
+const ADAPTER_VERSION: string = (require('../../package.json') as { version: string }).version;
 
 function getRootPath() {
     if (ROOT_DIR.match(/^\w:/) || ROOT_DIR.startsWith('/')) {
@@ -372,6 +377,7 @@ class WebServer {
                 // Read lazily: the system language is only known once system.config was read.
                 getLanguage: () => this.lang,
             }),
+            mapTiles: new MapTilesModule({ adapter: this.adapter, version: ADAPTER_VERSION }),
             themes: new ThemesModule({
                 adapter: this.adapter,
                 sendUpdate: (type: string) => this._sendUpdate(type),
@@ -633,12 +639,32 @@ class WebServer {
         if (entities.length) {
             const custom = this._objectData.objects[id]?.common?.custom?.[this.adapter.namespace];
             if (custom) {
+                // The objects tell us whether a state holds JSON (array/object), which decides how
+                // its value is read.
+                await this._loadObjects(collectCustomAttributes(custom).map(mapping => mapping.getId));
                 // Expert setting: arbitrary attributes fed from picked states. Applied last so it
                 // also works for the types that are built by a converter.
-                applyCustomAttributes(entities[0], custom);
+                applyCustomAttributes(entities[0], custom, this._objectData.objects);
             }
         }
         return entities;
+    }
+
+    /**
+     * Make sure the given ioBroker objects are in the shared cache.
+     *
+     * @param ids - ioBroker object ids to load
+     */
+    async _loadObjects(ids: string[]): Promise<void> {
+        for (const stateId of ids) {
+            if (stateId && !this._objectData.objects[stateId]) {
+                try {
+                    this._objectData.objects[stateId] = await this.adapter.getForeignObjectAsync(stateId);
+                } catch (e: any) {
+                    this.adapter.log.warn(`Could not get object ${stateId}: ${e}`);
+                }
+            }
+        }
     }
 
     /**
@@ -2545,6 +2571,12 @@ class WebServer {
                     this.log.debug(`Connection to client already closed?: ${innerE} could not send error ${e}`);
                 }
             }
+        });
+
+        // Base map of the map card / map panel. Proxied (and cached) instead of loaded from a tile
+        // provider directly, see modules/mapTiles.
+        this._app.get('/api/map_tiles/raster/:z/:x/:y', async (req: any, res: any) => {
+            await this._modules.mapTiles.serveRaster(req, res);
         });
 
         this._app.get('/api/history/period/:start', async (req: any, res: any) => {

@@ -1,4 +1,5 @@
-import type { BaseEntity } from '../entities/baseEntity';
+import type { BaseEntity, EntityAttribute } from '../entities/baseEntity';
+import { setJsonAttribute } from '../entities/utils';
 
 /**
  * Collect the state-id map for a manual entity from its custom config.
@@ -54,6 +55,45 @@ export function collectCustomAttributes(custom: Record<string, unknown>): Custom
     return result;
 }
 
+/** ioBroker `common.type`s whose value is stored as a JSON string in the states DB. */
+const JSON_STATE_TYPES = ['array', 'object', 'mixed'];
+
+/**
+ * Parse a state value that holds JSON. ioBroker stores arrays and objects as a JSON string, and a
+ * card that iterates an array (e.g. flex-table-card) gets one long string instead of rows if it is
+ * handed on unparsed. Anything that does not look like JSON - and a `mixed` state often does not -
+ * is passed through unchanged.
+ *
+ * @param value - the raw ioBroker state value
+ * @returns the parsed value, or the original one when it is not JSON
+ */
+export function parseJsonStateValue(value: unknown): unknown {
+    if (typeof value !== 'string') {
+        // Some adapters store a real object; nothing to parse then.
+        return value;
+    }
+    const trimmed = value.trim();
+    if (!trimmed.startsWith('[') && !trimmed.startsWith('{')) {
+        return value;
+    }
+    try {
+        return JSON.parse(trimmed);
+    } catch {
+        return value;
+    }
+}
+
+/**
+ * getParser for an attribute whose state holds JSON (an array or an object).
+ *
+ * @param entity - the entity the attribute belongs to
+ * @param attr - the attribute being updated
+ * @param state - the new ioBroker state
+ */
+function jsonAttributeParser(entity: BaseEntity, attr: EntityAttribute, state: ioBroker.State): void {
+    setJsonAttribute(entity.attributes, attr.attribute, parseJsonStateValue(state?.val));
+}
+
 /**
  * Apply the expert "custom attributes" table onto an already built manual entity.
  *
@@ -63,17 +103,31 @@ export function collectCustomAttributes(custom: Record<string, unknown>): Custom
  *
  * @param entity - the manual entity to extend
  * @param custom - the object's custom settings for our namespace
+ * @param objects - ioBroker objects cache, used to see whether a state holds JSON
  */
-export function applyCustomAttributes(entity: BaseEntity, custom: Record<string, unknown>): void {
+export function applyCustomAttributes(
+    entity: BaseEntity,
+    custom: Record<string, unknown>,
+    objects?: Record<string, ioBroker.Object>,
+): void {
     for (const mapping of collectCustomAttributes(custom)) {
         entity.context.ATTRIBUTES = entity.context.ATTRIBUTES ?? [];
+        const stateType = (objects?.[mapping.getId]?.common as { type?: string } | undefined)?.type;
+        const getParser = JSON_STATE_TYPES.includes(stateType || '') ? jsonAttributeParser : undefined;
         const existing = entity.context.ATTRIBUTES.find(attr => attr.attribute === mapping.attribute);
         if (existing) {
             existing.getId = mapping.getId;
             // The converter's parser belongs to the state it picked, not to this one.
             delete existing.getParser;
+            if (getParser) {
+                existing.getParser = getParser;
+            }
         } else {
-            entity.context.ATTRIBUTES.push({ attribute: mapping.attribute, getId: mapping.getId });
+            const attribute: EntityAttribute = { attribute: mapping.attribute, getId: mapping.getId };
+            if (getParser) {
+                attribute.getParser = getParser;
+            }
+            entity.context.ATTRIBUTES.push(attribute);
         }
         entity.addID2entity(mapping.getId);
     }
