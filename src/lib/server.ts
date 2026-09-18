@@ -198,6 +198,17 @@ const IMMUTABLE_CACHE = 'public, max-age=31536000, immutable';
 // The entry points have no hash in their name - caching them would hide a frontend update.
 // `no-cache` still allows the browser to keep them, it just has to revalidate (a cheap 304).
 const REVALIDATE_CACHE = 'no-cache';
+
+/**
+ * Whether a file name carries a content hash (`core.3a73894c712f397c.js`, `af-09b920...json`), which
+ * makes it safe to cache forever. Everything else under /static (the map style, leaflet.css, icons)
+ * keeps its name across frontend versions and only gets the normal cache time.
+ *
+ * @param name - the file name
+ */
+function looksHashed(name: string): boolean {
+    return /(^|[.\-_])[0-9a-f]{8,}\./.test(name);
+}
 // Custom cards keep their file name when the user uploads a new one, so only the resource url with
 // the modification time (see _listFiles) may be cached forever. A card referenced by hand in a
 // dashboard carries no such marker and is therefore checked once an hour.
@@ -483,6 +494,7 @@ class WebServer {
             storageReady.then(() => this._modules.energy.init()),
             storageReady.then(() => this._modules.dashboard.init()),
             storageReady.then(() => this._modules.userData.init()),
+            this._modules.mapTiles.init(),
             this.adapter
                 .getForeignObjectAsync('system.config')
                 .then((config: any) => {
@@ -2617,11 +2629,22 @@ class WebServer {
             } else if (req.url.includes('/images/')) {
                 //static images:
                 const filePath = req.url.replace(/.*\/images\//, 'static/images/');
-                this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
+                this._sendStaticFile(
+                    req,
+                    res,
+                    `${getRootPath()}${filePath}`,
+                    `public, max-age=${staticOptions.maxAge}`,
+                );
             } else if (req.url.includes('/static/')) {
-                //static:
+                //static: translations and icon sets carry a content hash, the map style and the
+                //leaflet css keep their name across versions.
                 const filePath = req.url.replace(/.*\/static\//, 'static/');
-                this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
+                this._sendStaticFile(
+                    req,
+                    res,
+                    `${getRootPath()}${filePath}`,
+                    looksHashed(path.basename(filePath)) ? IMMUTABLE_CACHE : `public, max-age=${staticOptions.maxAge}`,
+                );
             } else if (req.url.endsWith('favicon.ico')) {
                 res.setHeader('Cache-Control', `public, max-age=${staticOptions.maxAge}`);
                 res.sendFile(path.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
@@ -2691,6 +2714,18 @@ class WebServer {
         // provider directly, see modules/mapTiles.
         this._app.get('/api/map_tiles/raster/:z/:x/:y', async (req: any, res: any) => {
             await this._modules.mapTiles.serveRaster(req, res);
+        });
+        this._app.get('/api/map_tiles/vector/:z/:x/:y', async (req: any, res: any) => {
+            await this._modules.mapTiles.serveVector(req, res);
+        });
+        this._app.get('/api/map_tiles/tilejson.json', async (req: any, res: any) => {
+            await this._modules.mapTiles.serveTileJson(req, res);
+        });
+        this._app.get('/api/map_tiles/fonts/:fontstack/:range', async (req: any, res: any) => {
+            await this._modules.mapTiles.serveGlyphs(req, res);
+        });
+        this._app.get('/api/map_tiles/sprites/:set/:name', async (req: any, res: any) => {
+            await this._modules.mapTiles.serveSprites(req, res);
         });
 
         this._app.get('/api/history/period/:start', async (req: any, res: any) => {

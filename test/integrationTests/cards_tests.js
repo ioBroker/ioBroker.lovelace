@@ -1,4 +1,6 @@
 /* global it before */
+const fs = require('node:fs');
+const path = require('node:path');
 const tools = require('./testTools');
 const expect = require('chai').expect;
 
@@ -44,7 +46,14 @@ exports.runTests = function (suite) {
         });
 
         it('serves the precompressed frontend file when the browser accepts brotli', async () => {
-            const response = await fetch('http://localhost:38091/frontend_latest/core.3a73894c712f397c.js', {
+            // Pick a real file of the current frontend build - the names carry a content hash.
+            const dir = path.join(__dirname, '../../hass_frontend/frontend_latest');
+            const name = fs
+                .readdirSync(dir)
+                .find(file => file.endsWith('.js') && fs.existsSync(path.join(dir, `${file}.br`)));
+            expect(name, 'no precompressed frontend file found').to.be.ok;
+
+            const response = await fetch(`http://localhost:38091/frontend_latest/${name}`, {
                 headers: { 'Accept-Encoding': 'br' },
             });
             expect(response.status).to.equal(200);

@@ -128,6 +128,9 @@ const staticOptions = {
 };
 const IMMUTABLE_CACHE = "public, max-age=31536000, immutable";
 const REVALIDATE_CACHE = "no-cache";
+function looksHashed(name) {
+  return /(^|[.\-_])[0-9a-f]{8,}\./.test(name);
+}
 const CARD_MAX_AGE = 3600;
 class WebServer {
   adapter;
@@ -350,6 +353,7 @@ class WebServer {
       storageReady.then(() => this._modules.energy.init()),
       storageReady.then(() => this._modules.dashboard.init()),
       storageReady.then(() => this._modules.userData.init()),
+      this._modules.mapTiles.init(),
       this.adapter.getForeignObjectAsync("system.config").then((config) => {
         this.lang = this.config.language || config.common.language;
         entityData.lang = this.lang;
@@ -2130,10 +2134,20 @@ ${hideScript.join("\n")}
         );
       } else if (req.url.includes("/images/")) {
         const filePath = req.url.replace(/.*\/images\//, "static/images/");
-        this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
+        this._sendStaticFile(
+          req,
+          res,
+          `${getRootPath()}${filePath}`,
+          `public, max-age=${staticOptions.maxAge}`
+        );
       } else if (req.url.includes("/static/")) {
         const filePath = req.url.replace(/.*\/static\//, "static/");
-        this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
+        this._sendStaticFile(
+          req,
+          res,
+          `${getRootPath()}${filePath}`,
+          looksHashed(import_node_path.default.basename(filePath)) ? IMMUTABLE_CACHE : `public, max-age=${staticOptions.maxAge}`
+        );
       } else if (req.url.endsWith("favicon.ico")) {
         res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
         res.sendFile(import_node_path.default.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
@@ -2184,6 +2198,18 @@ ${hideScript.join("\n")}
     });
     this._app.get("/api/map_tiles/raster/:z/:x/:y", async (req, res) => {
       await this._modules.mapTiles.serveRaster(req, res);
+    });
+    this._app.get("/api/map_tiles/vector/:z/:x/:y", async (req, res) => {
+      await this._modules.mapTiles.serveVector(req, res);
+    });
+    this._app.get("/api/map_tiles/tilejson.json", async (req, res) => {
+      await this._modules.mapTiles.serveTileJson(req, res);
+    });
+    this._app.get("/api/map_tiles/fonts/:fontstack/:range", async (req, res) => {
+      await this._modules.mapTiles.serveGlyphs(req, res);
+    });
+    this._app.get("/api/map_tiles/sprites/:set/:name", async (req, res) => {
+      await this._modules.mapTiles.serveSprites(req, res);
     });
     this._app.get("/api/history/period/:start", async (req, res) => {
       void this._modules.history.processRequest(req, res);
