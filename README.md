@@ -74,7 +74,7 @@ After that checkout modified version in `./build` folder. Then.
 5. `yarn install`
 6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
 7. run script `hass_frontend/static_cards/newFrontend.sh` in adapter repo to update frontend (it assumes that the two repositories are next to each other in the same folder, if not, please adjust script, preferably with some parameter handling and make a PR, thanks :smile: )
-8. Run `gulp rename` task.
+8. Run `npm run rename`.
 9. Update the version in `README.md`.
 
 ## Changelog
@@ -85,6 +85,7 @@ After that checkout modified version in `./build` folder. Then.
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**
+* (@GermanBluefox) Updated dependencies. Node.js >= 22.19.0 is now required.
 * (Garfonso/Claude) Fixed custom cards that fetch history directly (e.g. the windrose card) crashing with "TypeError: t.callback is not a function": a one-shot history request was answered like a subscription. (#722)
 * (Garfonso/Claude) `instances.hideSidebar` / `hideHeader` no longer fall back to the default on an adapter restart. (#733)
 * (Garfonso/Claude) User names from ioBroker (person list, logbook user list) are resolved like every other name, so a multilingual `common.name` cannot break those views. (#731)

@@ -6,4 +6,4 @@ npm i
 gulp run build-app
 xcopy ".\hass_frontend\*.*" "..\..\hass_frontend\" /E /Y
 cd ..\..
-gulp rename
+npm run rename

@@ -8,12 +8,15 @@
     // the compilation is configured in tsconfig.build.json
     "noEmit": true,
 
-    // check JS files, but do not compile them => tsconfig.build.json
-    "allowJs": true,
-    "checkJs": true,
+    // do not type check the legacy JS files in lib/ (they are outside of rootDir), TS code requires them untyped
+    "allowJs": false,
+
+    // TypeScript 6 no longer includes all installed @types packages automatically
+    "types": ["node", "mocha"],
 
     "noEmitOnError": true,
     "outDir": "./build/",
+    "rootDir": "./src",
     "removeComments": false,
 
     // This is necessary for the automatic typing of the adapter config
