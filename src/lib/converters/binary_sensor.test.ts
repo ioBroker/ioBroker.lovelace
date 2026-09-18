@@ -9,6 +9,8 @@ import {
     processError,
     processMaintenance,
     processWorking,
+    processContact,
+    processCoAlarm,
     processManualEntity,
 } from './binary_sensor';
 import type { ConverterParameters, ioBrokerEntity } from './converter';
@@ -261,5 +263,19 @@ describe('binary_sensor converter', function () {
             expect(result[0].context.STATE?.getParser).to.be.a('function');
             expect(result[0].context.STATE?.historyParser).to.be.a('function');
         });
+    });
+});
+
+describe('converters/binary_sensor device types of type-detector 6', function () {
+    it('a contact sensor is an opening', function () {
+        const entities = processContact(makeParameters([{ id: STATE_ID, name: 'ACTUAL' }]));
+        expect(entities[0].entity_id.startsWith('binary_sensor.')).to.equal(true);
+        expect(entities[0].attributes.device_class).to.equal('opening');
+        expect(entities[0].context.STATE.getId).to.equal(STATE_ID);
+    });
+
+    it('a CO alarm carries the carbon monoxide device class', function () {
+        const entities = processCoAlarm(makeParameters([{ id: STATE_ID, name: 'ACTUAL' }]));
+        expect(entities[0].attributes.device_class).to.equal('carbon_monoxide');
     });
 });

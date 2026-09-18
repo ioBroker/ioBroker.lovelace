@@ -31,8 +31,6 @@ import './converters/vacuum';
 import './converters/humidifier';
 import './converters/water_heater';
 import './converters/media_player';
-// the device types type-detector 6 added (fan, pump, air quality, contact, ...)
-import './converters/newDeviceTypes';
 import BrowserModModule from './modules/browser_mod';
 import HistoryModule from './modules/history';
 import ConversationModule from './modules/conversation';

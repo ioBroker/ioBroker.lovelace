@@ -1,15 +1,42 @@
 import { Types } from '@iobroker/type-detector';
 import Converter, { type ConverterParameters, type ioBrokerEntity } from './converter';
 import { SwitchEntity } from '../entities/switchEntity';
+import { generateMeasurementSensors, type Measurement } from './indicators';
+import { sensorBaseName } from './sensor';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData: { services: Record<string, unknown> } = require('../../../lib/dataSingleton');
 
-/** Converter for switch (socket outlet) and button device types. */
+/** What a pump reports besides being on or off; each becomes a sensor of its own. */
+const PUMP_MEASUREMENTS: Measurement[] = [
+    { state: 'PRESSURE', suffix: 'pressure', label: 'Pressure', deviceClass: 'pressure', unit: 'hPa' },
+    { state: 'FLOW', suffix: 'flow', label: 'Flow', deviceClass: 'volume_flow_rate', unit: 'm³/h' },
+    { state: 'TEMPERATURE', suffix: 'temperature', label: 'Temperature', deviceClass: 'temperature', unit: '°C' },
+];
+
+/** Converter for switch (socket outlet), button and pump device types. */
 export class SwitchConverter extends Converter {
     /** @inheritdoc */
     static convertEntities(params: ConverterParameters): ioBrokerEntity[] {
-        return [new SwitchEntity(params)];
+        if (params.controls.type !== Types.pump) {
+            return [new SwitchEntity(params)];
+        }
+
+        // A pump is on or off like a switch, it only calls that state POWER instead of SET.
+        const entities: ioBrokerEntity[] = [];
+        if (params.controls.states.some(s => s.id && s.name === 'POWER')) {
+            entities.push(
+                new SwitchEntity({
+                    ...params,
+                    controls: {
+                        ...params.controls,
+                        states: params.controls.states.map(s => (s.name === 'POWER' ? { ...s, name: 'SET' } : s)),
+                    },
+                }),
+            );
+        }
+        entities.push(...generateMeasurementSensors(params, PUMP_MEASUREMENTS, sensorBaseName(params)));
+        return entities;
     }
 }
 
@@ -39,6 +66,7 @@ export function processManualEntity(
 
 Converter.converters[Types.socket] = SwitchConverter;
 Converter.converters[Types.button] = SwitchConverter;
+Converter.converters[Types.pump] = SwitchConverter;
 
 adapterData.services.switch = {
     turn_off: {

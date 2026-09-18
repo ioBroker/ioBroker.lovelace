@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { processManualEntity } from './fan';
+import { Types } from '@iobroker/type-detector';
+import { FanConverter, processManualEntity } from './fan';
+import type { ConverterParameters } from './converter';
 import { BaseEntity } from '../entities/baseEntity';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -208,5 +210,55 @@ describe('converters/fan', function () {
             await cmd.parseCommand!(entity, cmd, { id: 1, service: 'turn_off', service_data: {} }, 'user');
             expect(setForeignStateAsync.calledWith(STATE_ID, false, false, { user: 'user' })).to.be.true;
         });
+    });
+});
+
+describe('converters/fan detected devices (type-detector 6)', function () {
+    const FAN_ID = 'test.detected_fan';
+
+    function makeParameters(type: Types, states: { id: string; name: string }[]): ConverterParameters {
+        const objects: Record<string, ioBroker.Object> = { [FAN_ID]: makeDeviceObj(FAN_ID) };
+        for (const s of states) {
+            objects[s.id] = makeObj(s.id);
+        }
+        return {
+            id: FAN_ID,
+            controls: { states, type },
+            friendlyName: 'Living Room Fan',
+            room: undefined,
+            func: undefined,
+            objects,
+            existingEntities: [],
+            adapter: { log: { debug: () => {}, warn: () => {} } } as unknown as ioBroker.Adapter,
+            entityRegistry: { getReservedEntityId: () => undefined, reserveEntityId: () => {} },
+        };
+    }
+
+    it('builds a fan from the detected speed, power and swing states', function () {
+        const entities = FanConverter.convertEntities(
+            makeParameters(Types.fan, [
+                { id: `${FAN_ID}.speed`, name: 'SPEED' },
+                { id: `${FAN_ID}.power`, name: 'POWER' },
+                { id: `${FAN_ID}.swing`, name: 'SWING' },
+            ]),
+        );
+
+        expect(entities).to.have.lengthOf(1);
+        const fan = entities[0];
+        expect(fan.entity_id.startsWith('fan.')).to.equal(true);
+        expect(fan.context.STATE.setId).to.equal(`${FAN_ID}.power`);
+        // the swing state is wired as oscillation, so the frontend offers that button
+        expect(fan.context.COMMANDS.map(c => c.service)).to.include('oscillate');
+    });
+
+    it('serves an air purifier as well, which Home Assistant models as a fan', function () {
+        const entities = FanConverter.convertEntities(
+            makeParameters(Types.airPurifier, [{ id: `${FAN_ID}.speed`, name: 'SPEED' }]),
+        );
+        expect(entities[0].entity_id.startsWith('fan.')).to.equal(true);
+    });
+
+    it('builds nothing without a speed and without a power state', function () {
+        expect(FanConverter.convertEntities(makeParameters(Types.fan, []))).to.have.lengthOf(0);
     });
 });

@@ -52,6 +52,24 @@ export function processFloodAlarm(parameters: ConverterParameters): ioBrokerEnti
 }
 
 /**
+ * Create a contact binary_sensor entity (type-detector 6: a generic contact sensor).
+ *
+ * @param parameters - conversion parameters
+ */
+export function processContact(parameters: ConverterParameters): ioBrokerEntity[] {
+    return [new BinarySensorEntity(parameters, { deviceClass: 'opening' })];
+}
+
+/**
+ * Create a carbon monoxide alarm binary_sensor entity (type-detector 6).
+ *
+ * @param parameters - conversion parameters
+ */
+export function processCoAlarm(parameters: ConverterParameters): ioBrokerEntity[] {
+    return [new BinarySensorEntity(parameters, { deviceClass: 'carbon_monoxide' })];
+}
+
+/**
  * Create a button sensor binary_sensor entity.
  *
  * @param parameters - conversion parameters
@@ -114,6 +132,10 @@ export class BinarySensorConverter extends Converter {
                 return processFloodAlarm(params);
             case Types.buttonSensor:
                 return processButtonSensor(params);
+            case Types.contact:
+                return processContact(params);
+            case Types.coAlarm:
+                return processCoAlarm(params);
             default:
                 return [];
         }
@@ -126,6 +148,8 @@ Converter.converters[Types.window] = BinarySensorConverter;
 Converter.converters[Types.fireAlarm] = BinarySensorConverter;
 Converter.converters[Types.floodAlarm] = BinarySensorConverter;
 Converter.converters[Types.buttonSensor] = BinarySensorConverter;
+Converter.converters[Types.contact] = BinarySensorConverter;
+Converter.converters[Types.coAlarm] = BinarySensorConverter;
 
 export default {
     processMotion,
@@ -134,6 +158,8 @@ export default {
     processFireAlarm,
     processFloodAlarm,
     processButtonSensor,
+    processContact,
+    processCoAlarm,
     processManualEntity,
     BinarySensorConverter,
 };

@@ -35,11 +35,34 @@ module.exports = __toCommonJS(switch_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
 var import_switchEntity = require("../entities/switchEntity");
+var import_indicators = require("./indicators");
+var import_sensor = require("./sensor");
 const adapterData = require("../../../lib/dataSingleton");
+const PUMP_MEASUREMENTS = [
+  { state: "PRESSURE", suffix: "pressure", label: "Pressure", deviceClass: "pressure", unit: "hPa" },
+  { state: "FLOW", suffix: "flow", label: "Flow", deviceClass: "volume_flow_rate", unit: "m\xB3/h" },
+  { state: "TEMPERATURE", suffix: "temperature", label: "Temperature", deviceClass: "temperature", unit: "\xB0C" }
+];
 class SwitchConverter extends import_converter.default {
   /** @inheritdoc */
   static convertEntities(params) {
-    return [new import_switchEntity.SwitchEntity(params)];
+    if (params.controls.type !== import_type_detector.Types.pump) {
+      return [new import_switchEntity.SwitchEntity(params)];
+    }
+    const entities = [];
+    if (params.controls.states.some((s) => s.id && s.name === "POWER")) {
+      entities.push(
+        new import_switchEntity.SwitchEntity({
+          ...params,
+          controls: {
+            ...params.controls,
+            states: params.controls.states.map((s) => s.name === "POWER" ? { ...s, name: "SET" } : s)
+          }
+        })
+      );
+    }
+    entities.push(...(0, import_indicators.generateMeasurementSensors)(params, PUMP_MEASUREMENTS, (0, import_sensor.sensorBaseName)(params)));
+    return entities;
   }
 }
 function processManualEntity(_id, obj, entity, _objects, custom) {
@@ -50,6 +73,7 @@ function processManualEntity(_id, obj, entity, _objects, custom) {
 }
 import_converter.default.converters[import_type_detector.Types.socket] = SwitchConverter;
 import_converter.default.converters[import_type_detector.Types.button] = SwitchConverter;
+import_converter.default.converters[import_type_detector.Types.pump] = SwitchConverter;
 adapterData.services.switch = {
   turn_off: {
     name: "Turn off",

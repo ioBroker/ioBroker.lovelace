@@ -23,6 +23,8 @@ __export(binary_sensor_exports, {
   default: () => binary_sensor_default,
   processBattery: () => import_indicators.processBattery,
   processButtonSensor: () => processButtonSensor,
+  processCoAlarm: () => processCoAlarm,
+  processContact: () => processContact,
   processDoor: () => processDoor,
   processError: () => import_indicators.processError,
   processFireAlarm: () => processFireAlarm,
@@ -52,6 +54,12 @@ function processFireAlarm(parameters) {
 }
 function processFloodAlarm(parameters) {
   return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "moisture" })];
+}
+function processContact(parameters) {
+  return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "opening" })];
+}
+function processCoAlarm(parameters) {
+  return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "carbon_monoxide" })];
 }
 function processButtonSensor(parameters) {
   return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "button" })];
@@ -86,6 +94,10 @@ class BinarySensorConverter extends import_converter.Converter {
         return processFloodAlarm(params);
       case import_type_detector.Types.buttonSensor:
         return processButtonSensor(params);
+      case import_type_detector.Types.contact:
+        return processContact(params);
+      case import_type_detector.Types.coAlarm:
+        return processCoAlarm(params);
       default:
         return [];
     }
@@ -97,6 +109,8 @@ import_converter.Converter.converters[import_type_detector.Types.window] = Binar
 import_converter.Converter.converters[import_type_detector.Types.fireAlarm] = BinarySensorConverter;
 import_converter.Converter.converters[import_type_detector.Types.floodAlarm] = BinarySensorConverter;
 import_converter.Converter.converters[import_type_detector.Types.buttonSensor] = BinarySensorConverter;
+import_converter.Converter.converters[import_type_detector.Types.contact] = BinarySensorConverter;
+import_converter.Converter.converters[import_type_detector.Types.coAlarm] = BinarySensorConverter;
 var binary_sensor_default = {
   processMotion,
   processDoor,
@@ -104,6 +118,8 @@ var binary_sensor_default = {
   processFireAlarm,
   processFloodAlarm,
   processButtonSensor,
+  processContact,
+  processCoAlarm,
   processManualEntity,
   BinarySensorConverter
 };
@@ -113,6 +129,8 @@ var binary_sensor_default = {
   connectivityIndicator,
   processBattery,
   processButtonSensor,
+  processCoAlarm,
+  processContact,
   processDoor,
   processError,
   processFireAlarm,

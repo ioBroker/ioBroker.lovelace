@@ -54,6 +54,61 @@ const ELECTRICITY_SPECS: {
     },
 ];
 
+/** One measured value of a device that becomes a sensor entity of its own. */
+export interface Measurement {
+    /** name of the state in the detected device */
+    state: string;
+    /** suffix of the entity id and of the friendly name */
+    suffix: string;
+    /** what the sensor is called */
+    label: string;
+    /** Home Assistant device class, empty when HA has none for this value */
+    deviceClass: string;
+    /** unit to use when the ioBroker object carries none */
+    unit: string;
+    /** `measurement` (a momentary value) by default */
+    stateClass?: string;
+}
+
+/**
+ * Build one sensor entity per measured value a device actually has.
+ *
+ * Home Assistant has no entity for a measuring device as a whole - an air quality monitor is a set
+ * of sensors there, and so is everything a pump reports besides being on.
+ *
+ * @param parameters - converter parameters
+ * @param measurements - the values to look for, in the order the sensors should be created
+ * @param baseName - name part of the entity ids, so the sensors of one device stay together
+ * @returns one entity per value found
+ */
+export function generateMeasurementSensors(
+    parameters: ConverterParameters,
+    measurements: Measurement[],
+    baseName: string,
+): SensorEntity[] {
+    const entities: SensorEntity[] = [];
+    for (const measurement of measurements) {
+        const state = parameters.controls.states.find(s => s.id && s.name === measurement.state);
+        if (!state?.id) {
+            continue;
+        }
+        entities.push(
+            SensorEntity.electricity(
+                state.id,
+                `${parameters.friendlyName || baseName} ${measurement.label}`,
+                parameters.room,
+                parameters.func,
+                parameters.objects?.[state.id],
+                `sensor.${baseName}_${measurement.suffix}`,
+                measurement.deviceClass,
+                measurement.unit,
+                measurement.stateClass || 'measurement',
+            ),
+        );
+    }
+    return entities;
+}
+
 /**
  * Build sensor entities for a device's optional electricity states (power, current, voltage,
  * consumption/energy, frequency). The state's own unit is used when set, otherwise a default.

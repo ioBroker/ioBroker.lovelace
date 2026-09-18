@@ -99,3 +99,60 @@ describe('converters/sensor', function () {
         });
     });
 });
+
+describe('converters/sensor device types of type-detector 6', function () {
+    function makeDeviceParameters(type: Types, states: { id: string; name: string }[]): ConverterParameters {
+        return makeParameters(states, { controls: { states, type } as unknown as PatternControl });
+    }
+
+    it('air quality: one sensor per measured value, with the Home Assistant device classes', function () {
+        const entities = SensorConverter.convertEntities(
+            makeDeviceParameters(Types.airQuality, [
+                { id: `${DEVICE_ID}.aqi`, name: 'AQI' },
+                { id: `${DEVICE_ID}.co2`, name: 'CO2' },
+                { id: `${DEVICE_ID}.pm25`, name: 'PM25' },
+                { id: `${DEVICE_ID}.humidity`, name: 'HUMIDITY' },
+            ]),
+        );
+
+        // Home Assistant has no entity for an air quality device as a whole any more.
+        expect(entities.map(e => e.attributes.device_class)).to.deep.equal([
+            'aqi',
+            'carbon_dioxide',
+            'pm25',
+            'humidity',
+        ]);
+        expect(entities.every(e => e.entity_id.startsWith('sensor.'))).to.equal(true);
+        expect(entities[1].attributes.unit_of_measurement).to.equal('ppm');
+        expect(entities[1].context.STATE.getId).to.equal(`${DEVICE_ID}.co2`);
+    });
+
+    it('air quality: skips the values the device does not have', function () {
+        const entities = SensorConverter.convertEntities(
+            makeDeviceParameters(Types.airQuality, [{ id: `${DEVICE_ID}.aqi`, name: 'AQI' }]),
+        );
+        expect(entities).to.have.lengthOf(1);
+    });
+
+    it('builds a pressure sensor', function () {
+        const entities = SensorConverter.convertEntities(
+            makeDeviceParameters(Types.pressure, [{ id: `${DEVICE_ID}.p`, name: 'PRESSURE' }]),
+        );
+        expect(entities).to.have.lengthOf(1);
+        expect(entities[0].attributes.device_class).to.equal('pressure');
+    });
+
+    it('builds a flow sensor', function () {
+        const entities = SensorConverter.convertEntities(
+            makeDeviceParameters(Types.flow, [{ id: `${DEVICE_ID}.f`, name: 'FLOW' }]),
+        );
+        expect(entities[0].attributes.device_class).to.equal('volume_flow_rate');
+    });
+
+    it('leaves a device that only measures electricity to the shared electricity sensors', function () {
+        const entities = SensorConverter.convertEntities(
+            makeDeviceParameters(Types.electricity, [{ id: `${DEVICE_ID}.power`, name: 'ELECTRIC_POWER' }]),
+        );
+        expect(entities).to.have.lengthOf(0);
+    });
+});

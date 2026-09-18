@@ -1,5 +1,7 @@
-import type { ioBrokerEntity, ServiceCallData } from './converter';
+import { Types } from '@iobroker/type-detector';
+import Converter, { type ConverterParameters, type ioBrokerEntity, type ServiceCallData } from './converter';
 import { collectManualStates } from './manualStates';
+import { BaseEntity } from '../entities/baseEntity';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData = require('../../../lib/dataSingleton') as {
@@ -140,6 +142,33 @@ function augmentPresetMode(
             return undefined;
         },
     });
+}
+
+/**
+ * Converter for the `fan` and `airPurifier` device types type-detector 6 added. Home Assistant has
+ * one `fan` entity for both; the states only have to be named the way the fan logic expects them,
+ * then a detected fan is built exactly like a manually configured one.
+ */
+export class FanConverter extends Converter {
+    /** @inheritdoc */
+    static convertEntities(params: ConverterParameters): ioBrokerEntity[] {
+        const { objects, id, forcedEntityId, friendlyName, room, func, controls } = params;
+        const stateId = (name: string): string | undefined => controls.states.find(s => s.id && s.name === name)?.id;
+
+        const speed = stateId('SPEED') || stateId('SPEED_LEVEL');
+        const power = stateId('POWER');
+        if (!speed && !power) {
+            return [];
+        }
+
+        const entity = new BaseEntity(friendlyName, room, func, objects[id], 'fan', forcedEntityId);
+        return processManualEntity(speed || power || id, objects[id], entity, objects, {
+            state_SET: power,
+            state_SPEED: speed,
+            state_OSCILLATION: stateId('SWING'),
+            state_DIRECTION: stateId('AIRFLOW_DIRECTION'),
+        });
+    }
 }
 
 /**
@@ -296,3 +325,6 @@ adapterData.services.fan = {
         target: { entity: [{ domain: ['fan'] }] },
     },
 };
+
+Converter.converters[Types.fan] = FanConverter;
+Converter.converters[Types.airPurifier] = FanConverter;
