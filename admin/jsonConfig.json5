@@ -291,7 +291,8 @@
         },
         "_reloadCards": {
           "type": "sendTo",
-          "label": "Refresh overview",
+          "label": "Reload cards",
+          "help": "Press after adding, replacing or deleting a card: the adapter reads the folder again and the overview below is updated.",
           "command": "listCards",
           "useNative": true,
           "onLoaded": true,
