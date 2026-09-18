@@ -24,6 +24,7 @@ const manual_light_tests = require('./manual_light_tests');
 const manual_fan_tests = require('./manual_fan_tests');
 const map_tiles_tests = require('./map_tiles_tests');
 const cards_tests = require('./cards_tests');
+const http_static_files_tests = require('./http_static_files_tests');
 
 exports.runTests = function (suite) {
     alarm_control_tests.runTests(suite);
@@ -51,4 +52,5 @@ exports.runTests = function (suite) {
     manual_fan_tests.runTests(suite);
     map_tiles_tests.runTests(suite);
     cards_tests.runTests(suite);
+    http_static_files_tests.runTests(suite);
 };

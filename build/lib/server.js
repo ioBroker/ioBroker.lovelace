@@ -78,6 +78,7 @@ var import_search = __toESM(require("./modules/search"));
 var import_image = __toESM(require("./modules/image"));
 var import_calendar = __toESM(require("./modules/calendar"));
 var import_storage = require("./modules/storage");
+var import_safePath = require("./safePath");
 const WebSocket = require("ws");
 const bodyParser = require("body-parser");
 const compression = require("compression");
@@ -1788,10 +1789,16 @@ ${hideScript.join("\n")}
    *
    * @param req - the request (read for its Accept-Encoding)
    * @param res - the response
-   * @param filePath - absolute path of the uncompressed file
+   * @param baseDir - directory the file has to be located in
+   * @param requestPath - path relative to baseDir, taken from the request url
    * @param cacheControl - value for the Cache-Control header
    */
-  _sendStaticFile(req, res, filePath, cacheControl) {
+  _sendStaticFile(req, res, baseDir, requestPath, cacheControl) {
+    const filePath = (0, import_safePath.resolvePathInside)(baseDir, requestPath);
+    if (!filePath) {
+      res.status(404).send("File not found");
+      return;
+    }
     res.setHeader("Cache-Control", cacheControl);
     res.setHeader("Vary", "Accept-Encoding");
     if (String(req.headers["accept-encoding"] || "").includes("br") && this._hasBrotli(filePath)) {
@@ -1832,11 +1839,20 @@ ${hideScript.join("\n")}
       file = file.substring(0, pos);
     }
     try {
+      if ((0, import_safePath.hasParentSegment)(file)) {
+        throw new Error("path must not contain ..");
+      }
       const user = this._modules.person.getUserIDFromName(req._user);
       let data;
       if (file.startsWith("/lovelace/")) {
-        file = file.replace("/lovelace/", "");
-        data = await import_node_fs.default.promises.readFile(getRootPath() + file, "utf-8");
+        const filePath = (0, import_safePath.resolvePathInside)(
+          `${getRootPath()}static_cards`,
+          file.replace("/lovelace/static_cards/", "")
+        );
+        if (!filePath) {
+          throw new Error("path outside of static_cards");
+        }
+        data = await import_node_fs.default.promises.readFile(filePath, "utf-8");
       } else {
         data = (await this.adapter.readFileAsync(this.adapter.namespace, file, { user })).file;
       }
@@ -2164,40 +2180,54 @@ ${hideScript.join("\n")}
         req.url = req.url.replace(/.*\/local\/custom_ui\//g, "/cards/");
         await this.onCards(req, res);
       } else if (req.url.includes("/frontend_latest/")) {
-        const filePath = req.url.replace(/.*\/frontend_latest\//, "frontend_latest/");
-        this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
-      } else if (req.url.includes("/frontend_es5/")) {
-        const filePath = req.url.replace(/.*\/frontend_es5\//, "frontend_es5/");
-        this._sendStaticFile(req, res, `${getRootPath()}${filePath}`, IMMUTABLE_CACHE);
-      } else if (req.url.includes("/static/icons/")) {
-        const filePath = req.url.replace(/.*\/static\/icons\//, "");
         this._sendStaticFile(
           req,
           res,
-          import_node_path.default.join(__dirname, "/../../assets/icons/", filePath),
+          `${getRootPath()}frontend_latest`,
+          req.url.replace(/.*\/frontend_latest\//, ""),
+          IMMUTABLE_CACHE
+        );
+      } else if (req.url.includes("/frontend_es5/")) {
+        this._sendStaticFile(
+          req,
+          res,
+          `${getRootPath()}frontend_es5`,
+          req.url.replace(/.*\/frontend_es5\//, ""),
+          IMMUTABLE_CACHE
+        );
+      } else if (req.url.includes("/static/icons/")) {
+        this._sendStaticFile(
+          req,
+          res,
+          import_node_path.default.join(__dirname, "../../assets/icons"),
+          req.url.replace(/.*\/static\/icons\//, ""),
           `public, max-age=${staticOptions.maxAge}`
         );
       } else if (req.url.includes("/images/")) {
-        const filePath = req.url.replace(/.*\/images\//, "static/images/");
         this._sendStaticFile(
           req,
           res,
-          `${getRootPath()}${filePath}`,
+          `${getRootPath()}static/images`,
+          req.url.replace(/.*\/images\//, ""),
           `public, max-age=${staticOptions.maxAge}`
         );
       } else if (req.url.includes("/static/")) {
-        const filePath = req.url.replace(/.*\/static\//, "static/");
+        const requestPath = req.url.replace(/.*\/static\//, "");
         this._sendStaticFile(
           req,
           res,
-          `${getRootPath()}${filePath}`,
-          looksHashed(import_node_path.default.basename(filePath)) ? IMMUTABLE_CACHE : `public, max-age=${staticOptions.maxAge}`
+          `${getRootPath()}static`,
+          requestPath,
+          looksHashed(import_node_path.default.basename(requestPath)) ? IMMUTABLE_CACHE : `public, max-age=${staticOptions.maxAge}`
         );
       } else if (req.url.endsWith("favicon.ico")) {
         res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
         res.sendFile(import_node_path.default.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
       } else {
-        const filePath = getRootPath() + req.url.replace(/\.\./g, "").substring(1);
+        const filePath = (0, import_safePath.resolvePathInside)(getRootPath(), req.url);
+        if (!filePath) {
+          return next();
+        }
         import_node_fs.default.access(filePath, import_node_fs.default.constants.R_OK, (err) => {
           if (err) {
             return next();
@@ -2205,7 +2235,7 @@ ${hideScript.join("\n")}
           this.log.debug(`Serving ${filePath}`);
           const name = import_node_path.default.basename(filePath);
           const cacheControl = name.startsWith("sw-") || name.startsWith("service_worker") || name.endsWith(".html") ? REVALIDATE_CACHE : `public, max-age=${staticOptions.maxAge}`;
-          this._sendStaticFile(req, res, filePath, cacheControl);
+          this._sendStaticFile(req, res, getRootPath(), req.url, cacheControl);
         });
       }
     });
