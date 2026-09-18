@@ -77,6 +77,7 @@ var import_search = __toESM(require("./modules/search"));
 var import_image = __toESM(require("./modules/image"));
 var import_calendar = __toESM(require("./modules/calendar"));
 var import_storage = require("./modules/storage");
+var import_safePath = require("./safePath");
 const WebSocket = require("ws");
 const bodyParser = require("body-parser");
 const multer = require("multer");
@@ -122,6 +123,15 @@ const staticOptions = {
   maxAge: 2678400 * 1e3
   // 31 days
 };
+function sendStaticFile(res, baseDir, requestPath) {
+  const filePath = (0, import_safePath.resolvePathInside)(baseDir, requestPath);
+  if (!filePath) {
+    res.status(404).send("File not found");
+    return;
+  }
+  res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
+  res.sendFile(filePath);
+}
 class WebServer {
   adapter;
   config;
@@ -1683,11 +1693,20 @@ ${hideScript.join("\n")}
       file = file.substring(0, pos);
     }
     try {
+      if ((0, import_safePath.hasParentSegment)(file)) {
+        throw new Error("path must not contain ..");
+      }
       const user = this._modules.person.getUserIDFromName(req._user);
       let data;
       if (file.startsWith("/lovelace/")) {
-        file = file.replace("/lovelace/", "");
-        data = await import_node_fs.default.promises.readFile(getRootPath() + file, "utf-8");
+        const filePath = (0, import_safePath.resolvePathInside)(
+          `${getRootPath()}static_cards`,
+          file.replace("/lovelace/static_cards/", "")
+        );
+        if (!filePath) {
+          throw new Error("path outside of static_cards");
+        }
+        data = await import_node_fs.default.promises.readFile(filePath, "utf-8");
       } else {
         data = (await this.adapter.readFileAsync(this.adapter.namespace, file, { user })).file;
       }
@@ -2014,30 +2033,27 @@ ${hideScript.join("\n")}
         req.url = req.url.replace(/.*\/local\/custom_ui\//g, "/cards/");
         await this.onCards(req, res);
       } else if (req.url.includes("/frontend_latest/")) {
-        const filePath = req.url.replace(/.*\/frontend_latest\//, "frontend_latest/");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(`${getRootPath()}${filePath}`);
+        sendStaticFile(res, `${getRootPath()}frontend_latest`, req.url.replace(/.*\/frontend_latest\//, ""));
       } else if (req.url.includes("/frontend_es5/")) {
-        const filePath = req.url.replace(/.*\/frontend_es5\//, "frontend_es5/");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(`${getRootPath()}${filePath}`);
+        sendStaticFile(res, `${getRootPath()}frontend_es5`, req.url.replace(/.*\/frontend_es5\//, ""));
       } else if (req.url.includes("/static/icons/")) {
-        const filePath = req.url.replace(/.*\/static\/icons\//, "");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(import_node_path.default.join(__dirname, "/../../assets/icons/", filePath));
+        sendStaticFile(
+          res,
+          import_node_path.default.join(__dirname, "../../assets/icons"),
+          req.url.replace(/.*\/static\/icons\//, "")
+        );
       } else if (req.url.includes("/images/")) {
-        const filePath = req.url.replace(/.*\/images\//, "static/images/");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(`${getRootPath()}${filePath}`);
+        sendStaticFile(res, `${getRootPath()}static/images`, req.url.replace(/.*\/images\//, ""));
       } else if (req.url.includes("/static/")) {
-        const filePath = req.url.replace(/.*\/static\//, "static/");
-        res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
-        res.sendFile(`${getRootPath()}${filePath}`);
+        sendStaticFile(res, `${getRootPath()}static`, req.url.replace(/.*\/static\//, ""));
       } else if (req.url.endsWith("favicon.ico")) {
         res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
         res.sendFile(import_node_path.default.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
       } else {
-        const filePath = getRootPath() + req.url.replace(/\.\./g, "").substring(1);
+        const filePath = (0, import_safePath.resolvePathInside)(getRootPath(), req.url);
+        if (!filePath) {
+          return next();
+        }
         import_node_fs.default.access(filePath, import_node_fs.default.constants.R_OK, (err) => {
           if (err) {
             return next();

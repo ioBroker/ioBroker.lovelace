@@ -90,6 +90,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) User names from ioBroker (person list, logbook user list) are resolved like every other name, so a multilingual `common.name` cannot break those views. (#731)
 * (Garfonso/Claude) The dashboard now uses the configured adapter language instead of the browser language. A language picked in the frontend profile still wins.
 * (Garfonso/Claude) Custom entities: new expert table at the end of the custom dialog that fills any attribute from a freely picked state.
+* (@GermanBluefox) Security: fixed a path traversal in the card and icon routes (`/cards/`, `/hacsfiles/`, `/local/custom_ui/`, `/static/icons/`) that allowed reading arbitrary files without authentication. All static file routes now verify that the resolved path stays inside the served folder.
 * (Garfonso/Claude) The map no longer shows an "API KEY REQUIRED" watermark: CARTO now requires a key for its tiles, so the base map comes from OpenStreetMap through the adapter (which caches the tiles).
 * (Garfonso/Claude) Expert attributes: a state of type `array`/`object` now arrives as an array/object instead of its JSON string, so cards like flex-table-card can iterate it.
 
