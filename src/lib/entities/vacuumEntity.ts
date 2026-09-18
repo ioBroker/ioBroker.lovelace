@@ -11,10 +11,12 @@ const FEATURE = {
     PAUSE: 4,
     STOP: 8,
     FAN_SPEED: 32,
-    BATTERY: 64,
     STATE: 4096,
     START: 8192,
 } as const;
+// Home Assistant removed VacuumEntityFeature.BATTERY (64) together with the battery attributes of a
+// vacuum; the charge level belongs to a separate battery sensor entity now (we create one from the
+// same BATTERY state). `battery_level` is still filled for custom cards that read it.
 
 /**
  * Map an ioBroker vacuum state value to one of Home Assistant's vacuum states
@@ -125,7 +127,6 @@ export class VacuumEntity extends BaseEntity {
 
         // ----- battery_level -----
         if (battery?.id) {
-            features |= FEATURE.BATTERY;
             this.addID2entity(battery.id);
             this.context.ATTRIBUTES.push({ attribute: 'battery_level', getId: battery.id });
         }

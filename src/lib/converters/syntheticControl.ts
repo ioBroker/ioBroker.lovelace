@@ -2,6 +2,7 @@ import { Types, type PatternControl } from '@iobroker/type-detector';
 import Converter, { type ConverterParameters } from './converter';
 import type { BaseEntity } from '../entities/baseEntity';
 import { collectManualStates } from './manualStates';
+import { generateBatterySensor } from './indicators';
 
 /**
  * Manual entity types that are built by synthesizing a type-detector PatternControl from the picked
@@ -131,6 +132,13 @@ export function buildManualViaConverter(params: SyntheticBridgeParams): BaseEnti
     const entities = ConverterClass.convertEntities(convParams);
     if (entities[0]) {
         applyManualAttributes(entities[0], custom, entityType);
+        // A picked BATTERY state becomes its own sensor, like it does for an auto-detected device.
+        // Home Assistant no longer shows a battery attribute on the entity itself (e.g. on a vacuum).
+        const batterySensor = generateBatterySensor(convParams, entities[0].entity_id.split('.')[1]);
+        if (batterySensor) {
+            batterySensor.context.deviceId = entities[0].context.id;
+            entities.push(batterySensor);
+        }
     }
     for (const entity of entities) {
         entity.isManual = true;

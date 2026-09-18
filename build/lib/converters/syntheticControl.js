@@ -37,6 +37,7 @@ module.exports = __toCommonJS(syntheticControl_exports);
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
 var import_manualStates = require("./manualStates");
+var import_indicators = require("./indicators");
 const SYNTHETIC_CONTROL_TYPES = {
   cover: import_type_detector.Types.blind,
   lock: import_type_detector.Types.lock,
@@ -90,6 +91,11 @@ function buildManualViaConverter(params) {
   const entities = ConverterClass.convertEntities(convParams);
   if (entities[0]) {
     applyManualAttributes(entities[0], custom, entityType);
+    const batterySensor = (0, import_indicators.generateBatterySensor)(convParams, entities[0].entity_id.split(".")[1]);
+    if (batterySensor) {
+      batterySensor.context.deviceId = entities[0].context.id;
+      entities.push(batterySensor);
+    }
   }
   for (const entity of entities) {
     entity.isManual = true;

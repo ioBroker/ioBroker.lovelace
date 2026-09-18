@@ -28,7 +28,6 @@ const FEATURE = {
   PAUSE: 4,
   STOP: 8,
   FAN_SPEED: 32,
-  BATTERY: 64,
   STATE: 4096,
   START: 8192
 };
@@ -112,7 +111,6 @@ class VacuumEntity extends import_baseEntity.BaseEntity {
       });
     }
     if (battery == null ? void 0 : battery.id) {
-      features |= FEATURE.BATTERY;
       this.addID2entity(battery.id);
       this.context.ATTRIBUTES.push({ attribute: "battery_level", getId: battery.id });
     }
