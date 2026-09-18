@@ -32,7 +32,7 @@ function makeParameters(
         objects,
         existingEntities: [],
         adapter: { log: { debug: () => {}, warn: () => {} } } as unknown as ioBroker.Adapter,
-        entityRegistry: { getEntityId: () => undefined, storeEntityId: () => {} },
+        entityRegistry: { getReservedEntityId: () => undefined, reserveEntityId: () => {} },
         ...overrides,
     };
 }
@@ -84,7 +84,7 @@ describe('converters/switch', function () {
             objects,
             existingEntities: [],
             adapter: { log: { debug: () => {}, warn: () => {} } } as unknown as ioBroker.Adapter,
-            entityRegistry: { getEntityId: () => undefined, storeEntityId: () => {} },
+            entityRegistry: { getReservedEntityId: () => undefined, reserveEntityId: () => {} },
         };
 
         const entities = SwitchConverter.convertEntities(params);

@@ -32,7 +32,7 @@ function makeParameters(states: Array<{ id?: string; name: string }>): Converter
         objects,
         existingEntities: [],
         adapter: { log: { debug: () => {}, warn: () => {} } } as unknown as ioBroker.Adapter,
-        entityRegistry: { getEntityId: () => undefined, storeEntityId: () => {} },
+        entityRegistry: { getReservedEntityId: () => undefined, reserveEntityId: () => {} },
     };
 }
 

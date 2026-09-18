@@ -62,7 +62,6 @@
         "history": {
           "type": "instance",
           "adapter": "_dataSources",
-          "isShort": true,
           "allowDeactivate": true,
           "label": "Historical instance",
           "newLine": true,

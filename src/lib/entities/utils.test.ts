@@ -452,10 +452,14 @@ describe('converters/utils replaceEntityIdInConfig', function () {
         };
         const changed = replaceEntityIdInConfig(config, 'light.old', 'light.new');
         expect(changed).to.equal(true);
-        expect(config.views[0].cards[0].entity).to.equal('light.new');
-        expect(config.views[0].cards[1].entities[0]).to.equal('light.new');
-        expect(config.views[0].cards[1].entities[1]).to.equal('light.other');
-        expect((config.views[0].cards[1].entities[2] as { entity: string }).entity).to.equal('light.new');
+        const cards = config.views[0].cards as unknown as [
+            { entity: string },
+            { entities: (string | { entity: string })[] },
+        ];
+        expect(cards[0].entity).to.equal('light.new');
+        expect(cards[1].entities[0]).to.equal('light.new');
+        expect(cards[1].entities[1]).to.equal('light.other');
+        expect((cards[1].entities[2] as { entity: string }).entity).to.equal('light.new');
     });
 
     it('matches whole token only, not a longer id', function () {

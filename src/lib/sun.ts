@@ -39,10 +39,10 @@ export interface SunState {
  */
 export function computeSunState(lat: number, lng: number, now: Date = new Date()): SunState {
     const pos = SunCalc.getPosition(now, lat, lng);
-    const elevation = (pos.altitude * 180) / Math.PI;
-    // suncalc azimuth: 0 = south, increasing towards west, in radians.
-    // Home Assistant azimuth: 0 = north, clockwise. Convert (+180) and normalise to [0,360).
-    const azimuth = ((((pos.azimuth * 180) / Math.PI + 180) % 360) + 360) % 360;
+    // suncalc 2 answers in degrees, with the azimuth measured clockwise from north - the same
+    // convention Home Assistant uses. Only the range is normalised (to [0,360)).
+    const elevation = pos.altitude;
+    const azimuth = ((pos.azimuth % 360) + 360) % 360;
     const later = SunCalc.getPosition(new Date(now.getTime() + 600000), lat, lng);
 
     // The next future occurrence of a suncalc event (checks today, then the following days).
@@ -58,8 +58,9 @@ export function computeSunState(lat: number, lng: number, now: Date = new Date()
     };
 
     return {
-        // -0.833° accounts for atmospheric refraction at the horizon (matches HA's sunrise definition).
-        state: elevation > -0.833 ? 'above_horizon' : 'below_horizon',
+        // suncalc 2 corrects for atmospheric refraction, so the sun stands at about -0.35° at the
+        // moment it rises or sets; that is the line Home Assistant draws as well.
+        state: elevation > -0.349 ? 'above_horizon' : 'below_horizon',
         attributes: {
             elevation: Math.round(elevation * 100) / 100,
             azimuth: Math.round(azimuth * 100) / 100,

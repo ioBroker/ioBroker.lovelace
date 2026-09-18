@@ -6,6 +6,29 @@ export default [
     ...config,
 
     {
+        // tasks.ts is outside of the "src" rootDir of tsconfig.json, so lint it with the default project.
+        // All TS files share one project service, so the option must be the same for all of them (JS files are
+        // linted without type information anyway).
+        files: ['**/*.ts'],
+        languageOptions: {
+            parserOptions: {
+                projectService: {
+                    allowDefaultProject: ['tasks.ts'],
+                },
+                tsconfigRootDir: import.meta.dirname,
+            },
+        },
+    },
+
+    {
+        // node runs tasks.ts directly as CommonJS (the package has no "type": "module"), so it has to use require()
+        files: ['tasks.ts'],
+        rules: {
+            '@typescript-eslint/no-require-imports': 'off',
+        },
+    },
+
+    {
         // specify files to exclude from linting here
         ignores: [
             '.dev-server/',

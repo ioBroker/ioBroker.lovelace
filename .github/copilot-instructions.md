@@ -84,7 +84,7 @@ This is the **ioBroker.lovelace** adapter - an ioBroker adapter that provides vi
 ├── hass_frontend/          # Modified Home Assistant frontend
 ├── docs/                   # Documentation (multi-language)
 ├── test/                   # Test files
-└── gulpfile.js            # Build tasks
+└── tasks.ts               # Frontend patching and dev-server tasks (`node tasks.ts`)
 ```
 
 ## Development Patterns & Conventions
@@ -457,6 +457,7 @@ When creating admin configuration interfaces:
 - `npm run lint` - ESLint code checking
 - `npm run release` - Create new release
 - `gulp build-app` - Build frontend (requires separate setup)
+- `npm run rename` - Patch a newly copied frontend in `hass_frontend`
 
 ### Testing
 - Uses Mocha test framework
@@ -496,7 +497,7 @@ When creating admin configuration interfaces:
 - **io-package.json**: Adapter metadata, instance objects, dependencies
 - **package.json**: Node.js dependencies and scripts
 - **eslint.config.mjs**: Linting configuration
-- **gulpfile.js**: Build tasks
+- **tasks.ts**: Frontend patching (`npm run rename`) and dev-server tasks
 - **lib/defaultConfig.json**: Default adapter configuration
 
 ## Important Concepts

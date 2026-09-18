@@ -395,9 +395,15 @@ class ClimateEntity extends import_baseEntity.BaseEntity {
     for (const state of controls.states) {
       if (state == null ? void 0 : state.id) {
         switch (state.name) {
+          // type-detector 6 reports a setpoint that only heats or only cools under its own
+          // name, and a device with one of them has no plain SET any more. The first one
+          // found is the target temperature; a device with both keeps its heating setpoint.
           case "SET":
-            states.temperature = state.id;
+          case "SET_HEATING":
+          case "SET_COOLING": {
+            states.temperature = states.temperature || state.id;
             break;
+          }
           case "MODE":
             states.hvac_mode = state.id;
             break;

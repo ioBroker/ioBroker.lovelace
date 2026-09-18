@@ -35,7 +35,7 @@ function makeParameters(
         objects,
         existingEntities: [],
         adapter: { log: { debug: () => {}, warn: () => {} } } as unknown as ioBroker.Adapter,
-        entityRegistry: { getEntityId: () => undefined, storeEntityId: () => {} },
+        entityRegistry: { getReservedEntityId: () => undefined, reserveEntityId: () => {} },
     };
 }
 
@@ -56,5 +56,45 @@ describe('converters/climate', function () {
             expect(hp('', true)).to.equal('cool');
             expect(hp('', false)).to.equal('off');
         });
+    });
+});
+
+describe('converters/climate setpoint of type-detector 6', function () {
+    it('takes SET_HEATING as the target temperature when there is no plain SET', function () {
+        // A thermostat whose only setpoint carries the role level.temperature.heating is reported as
+        // SET_HEATING since type-detector 6 - without this the thermostat had no target temperature.
+        const params = makeParameters(
+            [
+                { id: `${DEVICE_ID}.set_heating`, name: 'SET_HEATING' },
+                { id: `${DEVICE_ID}.actual`, name: 'ACTUAL' },
+            ],
+            Types.thermostat,
+        );
+        const entity = ClimateConverter.convertEntities(params)[0];
+
+        const temperature = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
+        expect(temperature?.getId).to.equal(`${DEVICE_ID}.set_heating`);
+    });
+
+    it('takes SET_COOLING for a device that only cools', function () {
+        const params = makeParameters([{ id: `${DEVICE_ID}.set_cooling`, name: 'SET_COOLING' }], Types.airCondition);
+        const entity = ClimateConverter.convertEntities(params)[0];
+
+        const temperature = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
+        expect(temperature?.getId).to.equal(`${DEVICE_ID}.set_cooling`);
+    });
+
+    it('keeps the plain SET of a device that has both', function () {
+        const params = makeParameters(
+            [
+                { id: `${DEVICE_ID}.set`, name: 'SET' },
+                { id: `${DEVICE_ID}.set_cooling`, name: 'SET_COOLING' },
+            ],
+            Types.thermostat,
+        );
+        const entity = ClimateConverter.convertEntities(params)[0];
+
+        const temperature = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
+        expect(temperature?.getId).to.equal(`${DEVICE_ID}.set`);
     });
 });

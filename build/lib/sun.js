@@ -24,8 +24,8 @@ module.exports = __toCommonJS(sun_exports);
 const SunCalc = require("suncalc");
 function computeSunState(lat, lng, now = /* @__PURE__ */ new Date()) {
   const pos = SunCalc.getPosition(now, lat, lng);
-  const elevation = pos.altitude * 180 / Math.PI;
-  const azimuth = ((pos.azimuth * 180 / Math.PI + 180) % 360 + 360) % 360;
+  const elevation = pos.altitude;
+  const azimuth = (pos.azimuth % 360 + 360) % 360;
   const later = SunCalc.getPosition(new Date(now.getTime() + 6e5), lat, lng);
   const nextEvent = (key) => {
     for (let dayOffset = 0; dayOffset <= 2; dayOffset++) {
@@ -38,8 +38,9 @@ function computeSunState(lat, lng, now = /* @__PURE__ */ new Date()) {
     return void 0;
   };
   return {
-    // -0.833° accounts for atmospheric refraction at the horizon (matches HA's sunrise definition).
-    state: elevation > -0.833 ? "above_horizon" : "below_horizon",
+    // suncalc 2 corrects for atmospheric refraction, so the sun stands at about -0.35° at the
+    // moment it rises or sets; that is the line Home Assistant draws as well.
+    state: elevation > -0.349 ? "above_horizon" : "below_horizon",
     attributes: {
       elevation: Math.round(elevation * 100) / 100,
       azimuth: Math.round(azimuth * 100) / 100,

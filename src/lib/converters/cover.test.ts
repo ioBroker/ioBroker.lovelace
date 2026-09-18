@@ -43,7 +43,7 @@ function makeParameters(
         objects,
         existingEntities: [],
         adapter: { log: { debug: () => {}, warn: () => {} } } as unknown as ioBroker.Adapter,
-        entityRegistry: { getEntityId: () => undefined, storeEntityId: () => {} },
+        entityRegistry: { getReservedEntityId: () => undefined, reserveEntityId: () => {} },
         ...overrides,
     };
 }

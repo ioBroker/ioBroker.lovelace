@@ -10,4 +10,4 @@ cat ../../home-assistant-polymer/pyproject.toml | grep version | cut -d'"' -f2 >
 
 cd ../
 
-gulp rename
+npm run rename

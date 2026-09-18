@@ -54,6 +54,7 @@ var import_vacuum = require("./converters/vacuum");
 var import_humidifier = require("./converters/humidifier");
 var import_water_heater = require("./converters/water_heater");
 var import_media_player = require("./converters/media_player");
+var import_newDeviceTypes = require("./converters/newDeviceTypes");
 var import_browser_mod = __toESM(require("./modules/browser_mod"));
 var import_history = __toESM(require("./modules/history"));
 var import_conversation = __toESM(require("./modules/conversation"));

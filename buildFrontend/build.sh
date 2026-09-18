@@ -6,4 +6,4 @@ npm i
 gulp run build-app
 cp -rf ./hass_frontend/* ../../hass_frontend/
 cd ../..
-gulp rename
+npm run rename
