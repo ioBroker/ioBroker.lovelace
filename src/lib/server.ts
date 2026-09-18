@@ -476,6 +476,9 @@ class WebServer {
                 log: this.log,
                 personModule: person,
                 dataSingleton: entityData,
+                // Costs of the energy dashboard: calculated from an energy meter and its price.
+                getCostStatistic: (statisticId: string) => this._modules.energy.getCostStatistic(statisticId),
+                getCurrency: () => (this.systemConfig?.currency as string) || 'EUR',
             }),
         };
 

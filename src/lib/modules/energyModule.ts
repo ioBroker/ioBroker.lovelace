@@ -36,6 +36,16 @@ interface EnergySource {
     [key: string]: unknown;
 }
 
+/** A cost statistic that is calculated from an energy statistic and a price. */
+interface CostStatistic {
+    /** Energy statistic the cost follows. */
+    sourceStatisticId: string;
+    /** Fixed price per unit (e.g. per kWh). */
+    price?: number;
+    /** Entity holding the price, used when it is not a fixed one. */
+    priceEntityId?: string;
+}
+
 interface DeviceConsumption {
     stat_consumption: string;
     [key: string]: unknown;
@@ -134,22 +144,95 @@ class EnergyModule {
         });
     }
 
-    /** Derive cost_sensors map from stored prefs: stat_energy_from → stat_cost */
+    /**
+     * Derive the cost_sensors map from the stored prefs: energy statistic → cost statistic.
+     *
+     * A cost meter the user configured is used as it is. When only a price is configured (a fixed
+     * one or a price entity), Home Assistant creates a cost sensor from it; we announce the same
+     * kind of id and calculate its statistics on the fly (see getCostStatistic).
+     */
     private _getCostSensors(): Record<string, string> {
         const costSensors: Record<string, string> = {};
         for (const source of this._prefs.energy_sources) {
             const from = source.stat_energy_from as string | null | undefined;
             const cost = source.stat_cost as string | null | undefined;
-            if (from && cost) {
-                costSensors[from] = cost;
+            if (from) {
+                if (cost) {
+                    costSensors[from] = cost;
+                } else if (EnergyModule._hasPrice(source.number_energy_price, source.entity_energy_price)) {
+                    costSensors[from] = `${from}_cost`;
+                }
             }
             const comp = source.stat_compensation as string | null | undefined;
             const to = source.stat_energy_to as string | null | undefined;
-            if (to && comp) {
-                costSensors[to] = comp;
+            if (to) {
+                if (comp) {
+                    costSensors[to] = comp;
+                } else if (
+                    EnergyModule._hasPrice(source.number_energy_price_export, source.entity_energy_price_export)
+                ) {
+                    costSensors[to] = `${to}_compensation`;
+                }
             }
         }
         return costSensors;
+    }
+
+    /**
+     * Whether a source carries a usable price.
+     *
+     * @param price - the fixed price of the source
+     * @param priceEntity - the entity holding the price
+     */
+    private static _hasPrice(price: unknown, priceEntity: unknown): boolean {
+        return (typeof price === 'number' && !isNaN(price)) || (typeof priceEntity === 'string' && !!priceEntity);
+    }
+
+    /**
+     * Describe a cost statistic we announce but do not store: what it is derived from and at which
+     * price. Home Assistant runs a cost sensor for this, we calculate the statistics when they are
+     * requested (see the statistics recorder).
+     *
+     * @param statisticId - the cost statistic id the frontend asks for
+     * @returns how to calculate it, or undefined when it is not one of ours
+     */
+    getCostStatistic(statisticId: string): CostStatistic | undefined {
+        for (const source of this._prefs.energy_sources) {
+            const from = source.stat_energy_from as string | null | undefined;
+            if (from && !source.stat_cost && statisticId === `${from}_cost`) {
+                return EnergyModule._costStatistic(from, source.number_energy_price, source.entity_energy_price);
+            }
+            const to = source.stat_energy_to as string | null | undefined;
+            if (to && !source.stat_compensation && statisticId === `${to}_compensation`) {
+                return EnergyModule._costStatistic(
+                    to,
+                    source.number_energy_price_export,
+                    source.entity_energy_price_export,
+                );
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Build the cost description of one direction of a source.
+     *
+     * @param sourceStatisticId - the energy statistic the cost follows
+     * @param price - the fixed price per unit
+     * @param priceEntity - an entity holding the price instead
+     */
+    private static _costStatistic(
+        sourceStatisticId: string,
+        price: unknown,
+        priceEntity: unknown,
+    ): CostStatistic | undefined {
+        if (typeof price === 'number' && !isNaN(price)) {
+            return { sourceStatisticId, price };
+        }
+        if (typeof priceEntity === 'string' && priceEntity) {
+            return { sourceStatisticId, priceEntityId: priceEntity };
+        }
+        return undefined;
     }
 
     /** Build an empty validation result (no issues) for the current prefs */

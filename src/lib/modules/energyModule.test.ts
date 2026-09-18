@@ -120,3 +120,96 @@ describe('modules/energyModule power_config -> stat_rate', function () {
         expect(warnings[1]).to.contain('from/to');
     });
 });
+
+describe('modules/energyModule cost sensors', function () {
+    it('announces a cost statistic for a fixed price and describes how to calculate it', async function () {
+        const { mod, responses } = makeModule({
+            energy_sources: [
+                {
+                    type: 'grid',
+                    stat_energy_from: 'sensor.import',
+                    stat_energy_to: 'sensor.export',
+                    stat_cost: null,
+                    stat_compensation: null,
+                    number_energy_price: 0.32,
+                    number_energy_price_export: 0.08,
+                },
+            ],
+            device_consumption: [],
+            device_consumption_water: [],
+        });
+        await mod.init();
+
+        mod.processMessage({}, { type: 'energy/info', id: 1 });
+        // The dashboard reads the cost statistic of an energy statistic from this map.
+        expect(responses[0].cost_sensors).to.deep.equal({
+            'sensor.import': 'sensor.import_cost',
+            'sensor.export': 'sensor.export_compensation',
+        });
+
+        expect(mod.getCostStatistic('sensor.import_cost')).to.deep.equal({
+            sourceStatisticId: 'sensor.import',
+            price: 0.32,
+        });
+        expect(mod.getCostStatistic('sensor.export_compensation')).to.deep.equal({
+            sourceStatisticId: 'sensor.export',
+            price: 0.08,
+        });
+        expect(mod.getCostStatistic('sensor.something_cost')).to.equal(undefined);
+    });
+
+    it('uses a price entity when there is no fixed price', async function () {
+        const { mod } = makeModule({
+            energy_sources: [
+                {
+                    type: 'gas',
+                    stat_energy_from: 'sensor.gas',
+                    stat_cost: null,
+                    entity_energy_price: 'sensor.gas_price',
+                    number_energy_price: null,
+                },
+            ],
+            device_consumption: [],
+            device_consumption_water: [],
+        });
+        await mod.init();
+
+        expect(mod.getCostStatistic('sensor.gas_cost')).to.deep.equal({
+            sourceStatisticId: 'sensor.gas',
+            priceEntityId: 'sensor.gas_price',
+        });
+    });
+
+    it('leaves a configured cost meter alone', async function () {
+        const { mod, responses } = makeModule({
+            energy_sources: [
+                {
+                    type: 'grid',
+                    stat_energy_from: 'sensor.import',
+                    stat_cost: 'sensor.my_cost_meter',
+                    number_energy_price: 0.32,
+                },
+            ],
+            device_consumption: [],
+            device_consumption_water: [],
+        });
+        await mod.init();
+
+        mod.processMessage({}, { type: 'energy/info', id: 1 });
+        expect(responses[0].cost_sensors).to.deep.equal({ 'sensor.import': 'sensor.my_cost_meter' });
+        // Nothing to calculate: the meter counts the costs itself.
+        expect(mod.getCostStatistic('sensor.import_cost')).to.equal(undefined);
+    });
+
+    it('announces nothing without a price', async function () {
+        const { mod, responses } = makeModule({
+            energy_sources: [{ type: 'solar', stat_energy_from: 'sensor.solar' }],
+            device_consumption: [],
+            device_consumption_water: [],
+        });
+        await mod.init();
+
+        mod.processMessage({}, { type: 'energy/info', id: 1 });
+        expect(responses[0].cost_sensors).to.deep.equal({});
+    });
+});

@@ -301,3 +301,116 @@ describe('modules/statisticsRecorder period step sizes', function () {
         }
     });
 });
+
+describe('modules/statisticsRecorder energy costs', function () {
+    const STEP = 3600000; // hour
+    const T0 = Date.parse('2026-06-15T00:00:00.000Z');
+
+    function makeCostModule(
+        cost: { sourceStatisticId: string; price?: number; priceEntityId?: string },
+        series: Record<string, { ts: number; val: number | null }[]>,
+    ): { mod: any; responses: any[] } {
+        const responses: any[] = [];
+        const energy = {
+            entity_id: 'sensor.energy',
+            attributes: { unit_of_measurement: 'kWh', device_class: 'energy' },
+            context: { STATE: { getId: 'src.0.energy' } },
+        };
+        const price = {
+            entity_id: 'sensor.price',
+            attributes: { unit_of_measurement: 'EUR/kWh' },
+            context: { STATE: { getId: 'src.0.price' } },
+        };
+        const mod = new StatisticsRecorder({
+            server: { _sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result) },
+            adapter: {
+                config: { history: 'history.0' },
+                sendToAsync: (_instance: string, _command: string, message: any) =>
+                    Promise.resolve({ result: series[message.id] || [] }),
+            },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
+            personModule: { getUserIDFromName: () => 'system.user.admin' },
+            dataSingleton: {
+                entities: [energy, price],
+                entityId2Entity: { 'sensor.energy': energy, 'sensor.price': price },
+            },
+            getCostStatistic: (id: string) => (id === 'sensor.energy_cost' ? cost : undefined),
+            getCurrency: () => 'EUR',
+        });
+        return { mod, responses };
+    }
+
+    async function ask(mod: any, types: string[]): Promise<any[]> {
+        await mod.processMessage(
+            {},
+            {
+                type: 'recorder/statistics_during_period',
+                statistic_ids: ['sensor.energy_cost'],
+                start_time: new Date(T0).toISOString(),
+                end_time: new Date(T0 + 3 * STEP).toISOString(),
+                period: 'hour',
+                types,
+                id: 1,
+            },
+        );
+        return mod;
+    }
+
+    it('multiplies the energy of each bucket with the fixed price', async function () {
+        // counter: 10 -> 11 -> 13.5 kWh, i.e. 1 kWh and 2.5 kWh consumed
+        const { mod, responses } = makeCostModule(
+            { sourceStatisticId: 'sensor.energy', price: 0.3 },
+            {
+                'src.0.energy': [
+                    { ts: T0 - STEP, val: 10 },
+                    { ts: T0, val: 11 },
+                    { ts: T0 + STEP, val: 13.5 },
+                ],
+            },
+        );
+
+        await ask(mod, ['change', 'sum']);
+
+        const buckets = responses[0]['sensor.energy_cost'];
+        expect(buckets.map((b: any) => b.change)).to.deep.equal([0.3, 0.75]);
+        // the sum is the running total over the requested range
+        expect(buckets.map((b: any) => Number(b.sum.toFixed(4)))).to.deep.equal([0.3, 1.05]);
+    });
+
+    it('uses the price entity of the bucket when there is no fixed price', async function () {
+        const { mod, responses } = makeCostModule(
+            { sourceStatisticId: 'sensor.energy', priceEntityId: 'sensor.price' },
+            {
+                'src.0.energy': [
+                    { ts: T0 - STEP, val: 10 },
+                    { ts: T0, val: 11 },
+                    { ts: T0 + STEP, val: 12 },
+                ],
+                // second bucket has no price -> the last known one is kept, like a cost sensor does
+                'src.0.price': [{ ts: T0, val: 0.4 }],
+            },
+        );
+
+        await ask(mod, ['change']);
+
+        expect(responses[0]['sensor.energy_cost'].map((b: any) => b.change)).to.deep.equal([0.4, 0.4]);
+    });
+
+    it('reports the cost statistic as money in the metadata', async function () {
+        const { mod, responses } = makeCostModule({ sourceStatisticId: 'sensor.energy', price: 0.3 }, {});
+
+        await mod.processMessage(
+            {},
+            { type: 'recorder/get_statistics_metadata', statistic_ids: ['sensor.energy_cost'], id: 2 },
+        );
+
+        expect(responses[0][0]).to.include({
+            statistic_id: 'sensor.energy_cost',
+            statistics_unit_of_measurement: 'EUR',
+            has_sum: true,
+            has_mean: false,
+            // no unit class: nothing must try to convert money
+            unit_class: null,
+        });
+    });
+});
