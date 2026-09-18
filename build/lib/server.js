@@ -144,6 +144,8 @@ class WebServer {
   _ressourceConfig;
   /** Remembers which frontend files have a `.br` next to them (see _sendStaticFile). */
   _brotliFiles = /* @__PURE__ */ new Map();
+  /** Collects a burst of card file changes into one rescan. */
+  _cardsChangedTimer = null;
   _requestableFiles;
   _subscribed;
   /** true when we subscribed to all foreign states ('*') and filter in onStateChange instead. */
@@ -378,7 +380,7 @@ class WebServer {
         }
       }).then(() => this._modules.browserMod.init(this._lovelaceConfig)),
       entityRegistryReady.then(() => this._readAllEntities()),
-      this._listFiles(),
+      this._listFiles().then(() => this._watchCardFiles()),
       this._modules.themes.init()
     ];
     Promise.all(concurrentPromises).then(() => {
@@ -1396,6 +1398,40 @@ class WebServer {
       }
     }
     this.log.debug("files: init done");
+  }
+  /**
+   * Watch the custom-cards folder, so a card added, replaced or deleted anywhere (the admin file
+   * browser, the file selector of the settings page, `iobroker file write`) is picked up without
+   * pressing anything.
+   */
+  async _watchCardFiles() {
+    try {
+      await this.adapter.subscribeForeignFiles(this.adapter.namespace, "cards/*");
+    } catch (e) {
+      this.log.info(`Could not watch the cards folder, cards are only re-read on demand: ${e}`);
+    }
+  }
+  /**
+   * A file below our own namespace changed. Re-read the cards folder, collecting the changes of a
+   * bulk upload into one rescan.
+   *
+   * @param id - the object the file belongs to (our namespace)
+   * @param fileName - the file, relative to that object
+   */
+  onFileChange(id, fileName) {
+    if (id !== this.adapter.namespace || !(fileName == null ? void 0 : fileName.startsWith("cards/"))) {
+      return;
+    }
+    this.log.debug(`Custom card ${fileName} changed`);
+    if (this._cardsChangedTimer) {
+      this.adapter.clearTimeout(this._cardsChangedTimer);
+    }
+    this._cardsChangedTimer = this.adapter.setTimeout(() => {
+      this._cardsChangedTimer = null;
+      void this.refreshCardResources().catch(
+        (e) => this.log.warn(`Could not refresh card resources: ${String(e)}`)
+      );
+    }, 1e3);
   }
   /**
    * Re-scan the custom-cards folder, rebuild the resource list served on `lovelace/resources`, and
@@ -3081,6 +3117,8 @@ ${hideScript.join("\n")}
     this._sunInterval = null;
     this._updateTimer && this.adapter.clearTimeout(this._updateTimer);
     this._updateTimer = null;
+    this._cardsChangedTimer && this.adapter.clearTimeout(this._cardsChangedTimer);
+    this._cardsChangedTimer = null;
     for (const mod of Object.values(this._modules)) {
       void ((_a = mod.cleanup) == null ? void 0 : _a.call(mod));
     }

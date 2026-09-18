@@ -144,6 +144,10 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                 void adapter.apiServer.onObjectChange(id, obj);
             },
 
+            fileChange: (id: string, fileName: string) => {
+                adapter.apiServer?.onFileChange(id, fileName);
+            },
+
             stateChange: (id: string, state: ioBroker.State | null | undefined) => {
                 if (state) {
                     void adapter.apiServer.onStateChange(id, state);

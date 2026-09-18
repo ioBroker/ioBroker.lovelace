@@ -87,6 +87,10 @@ function startAdapter(options) {
       objectChange: (id, obj) => {
         void adapter.apiServer.onObjectChange(id, obj);
       },
+      fileChange: (id, fileName) => {
+        var _a;
+        (_a = adapter.apiServer) == null ? void 0 : _a.onFileChange(id, fileName);
+      },
       stateChange: (id, state) => {
         if (state) {
           void adapter.apiServer.onStateChange(id, state);

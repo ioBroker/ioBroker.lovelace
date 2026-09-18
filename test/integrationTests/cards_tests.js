@@ -1,4 +1,5 @@
 /* global it before */
+const WebSocket = require('ws');
 const fs = require('node:fs');
 const path = require('node:path');
 const tools = require('./testTools');
@@ -6,6 +7,29 @@ const expect = require('chai').expect;
 
 // Padded past the compression threshold (1 kB) - a real card is far bigger than the banner.
 const CARD = 'console.info(`%c TEST-CARD %c v1.2.3 `, "color: white");\n' + `/* ${'padding '.repeat(300)} */\n`;
+
+/** Ask the adapter which resources (custom cards) it offers to the frontend. */
+async function readResources() {
+    const client = new WebSocket(`ws://localhost:38091`);
+    try {
+        return await new Promise((resolve, reject) => {
+            client.on('error', reject);
+            client.on('open', () => client.send(JSON.stringify({ id: 1, type: 'lovelace/resources' })));
+            client.on('message', data => {
+                for (const message of [].concat(JSON.parse(data.toString('utf8')))) {
+                    if (message.type === 'auth_required' || message.type === 'auth_ok') {
+                        client.send(JSON.stringify({ type: 'auth', access_token: 'no_token' }));
+                        client.send(JSON.stringify({ id: 1, type: 'lovelace/resources' }));
+                    } else if (message.id === 1 && message.type === 'result') {
+                        resolve(message.result || []);
+                    }
+                }
+            });
+        });
+    } finally {
+        client.close();
+    }
+}
 
 exports.runTests = function (suite) {
     suite('custom_cards', getHarness => {
@@ -64,6 +88,25 @@ exports.runTests = function (suite) {
             expect(response.headers.get('content-type')).to.contain('javascript');
             expect(response.headers.get('cache-control')).to.contain('immutable');
             expect((await response.text()).length).to.be.above(0);
+        });
+
+        it('picks up a card written to the folder without being asked', async () => {
+            // Someone drops a card into lovelace.0/cards through the admin file browser. The adapter
+            // watches the folder, so it ends up in the resource list the frontend loads - without
+            // anyone pressing "Reload cards".
+            await harness.objects.writeFileAsync('lovelace.0', '/cards/watched-card.js', CARD);
+
+            let resources = [];
+            for (let i = 0; i < 20; i++) {
+                await tools.delay(250);
+                resources = await readResources();
+                if (resources.some(entry => entry.url.startsWith('/cards/watched-card.js'))) {
+                    break;
+                }
+            }
+            expect(resources.map(entry => entry.url).join(' ')).to.contain('/cards/watched-card.js');
+
+            await harness.objects.unlinkAsync('lovelace.0', '/cards/watched-card.js');
         });
 
         it('deletes a card and rescans the folder', async () => {
