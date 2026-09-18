@@ -71,6 +71,8 @@ exports.runTests = function (suite) {
             const answer = await tools.sendToAsync(harness, 'lovelace.0', 'deleteCard', { file: 'test-card.js' });
             // The answer carries the refreshed table, so the admin page updates right away.
             expect(answer.native._cardsTable.find(entry => entry.file === 'test-card.js')).to.equal(undefined);
+            // ... and clears the dropdown, which still named the file that is gone now.
+            expect(answer.native._cardToDelete).to.equal('');
 
             const afterwards = await tools.sendToAsync(harness, 'lovelace.0', 'listCardNames', {});
             expect(afterwards.map(entry => entry.value)).to.not.include('test-card.js');

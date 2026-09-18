@@ -296,13 +296,6 @@
           "jsonData": "{ \"file\": \"${data._cardToDelete}\" }",
           "useNative": true,
           "showProcess": true,
-          "confirm": {
-            "condition": "!!data._cardToDelete",
-            "title": "Delete file",
-            "text": "Delete the selected card file?",
-            "ok": "Delete file",
-            "type": "warning"
-          },
           "variant": "outlined",
           "sm": 12,
           "md": 4,

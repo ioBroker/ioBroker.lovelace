@@ -207,7 +207,14 @@ function startAdapter(options?: Partial<ioBroker.AdapterOptions>): ioBroker.Adap
                                 .catch((e: Error) =>
                                     adapter.log.warn(`Could not refresh card resources: ${String(e)}`),
                                 );
-                            adapter.sendTo(obj.from, obj.command, await buildCardsNative(adapter), obj.callback);
+                            const cards = await buildCardsNative(adapter);
+                            // Clear the selection as well: the file it named is gone.
+                            adapter.sendTo(
+                                obj.from,
+                                obj.command,
+                                { native: { _cardToDelete: '', ...cards.native } },
+                                obj.callback,
+                            );
                         })();
                     }
                 } else if (obj.command === 'getThemes') {

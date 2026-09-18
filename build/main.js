@@ -134,7 +134,13 @@ function startAdapter(options) {
               await adapter.apiServer.refreshCardResources().catch(
                 (e) => adapter.log.warn(`Could not refresh card resources: ${String(e)}`)
               );
-              adapter.sendTo(obj.from, obj.command, await buildCardsNative(adapter), obj.callback);
+              const cards = await buildCardsNative(adapter);
+              adapter.sendTo(
+                obj.from,
+                obj.command,
+                { native: { _cardToDelete: "", ...cards.native } },
+                obj.callback
+              );
             })();
           }
         } else if (obj.command === "getThemes") {
