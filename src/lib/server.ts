@@ -18,6 +18,7 @@ import * as converterDeviceTracker from './converters/deviceTracker';
 import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
 import { applyCustomAttributes, collectCustomAttributes } from './converters/manualStates';
 import { cacheBuster, detectCardVersion, staticCardUrl } from './cards';
+import { stateToResponse } from './stateResponse';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -2718,30 +2719,31 @@ class WebServer {
             await this._modules.image.replyWithImage(req, res);
         });
 
-        // Init read from states
+        // Serve the value of a single ioBroker state, e.g. an image a camera stored as a data URL.
+        // This used to read a binary state; ioBroker has none any more (js-controller 6 removed them
+        // with getBinaryStateAsync), which made every request to this route fail (#723).
         this._app.get('/state/*state', async (req: any, res: any) => {
+            // Not req.params: with the wildcard route of express 5 a nested id would arrive as an
+            // array of its path segments.
+            const id = decodeURIComponent(req.url.substring('/state/'.length).split('?')[0].split('/')[0]);
             try {
-                const fileName = req.url.split('/', 3)[2].split('?', 2);
-                const obj = await this.adapter.getForeignObjectAsync(fileName[0]);
-                let contentType = 'text/plain';
-                if (obj && obj.common.type === 'file') {
-                    contentType = (mime.getType || mime.lookup).call(mime, fileName[0]);
+                if (!id) {
+                    this.log.warn(`No state id in ${req.url}`);
+                    res.status(400).send('400. No state id given');
+                    return;
                 }
                 const user = this._modules.person.getUserIDFromName(req._user);
-                const data = await this.adapter.getBinaryStateAsync(fileName[0], { user });
-                if (data !== null && obj !== undefined) {
-                    if (data && typeof data === 'object' && data.val !== undefined && data.ack !== undefined) {
-                        res.set('Content-Type', 'application/json');
-                    } else {
-                        res.set('Content-Type', contentType || 'text/plain');
-                    }
-                    res.status(200).send(data);
-                } else {
-                    res.status(404).send(`404 Not found. File ${fileName[0]} not found`);
+                const state = await this.adapter.getForeignStateAsync(id, { user });
+                if (!state) {
+                    res.status(404).send(`404 Not found. State ${id} not found`);
+                    return;
                 }
+                const { contentType, body } = stateToResponse(state.val);
+                res.set('Content-Type', contentType);
+                res.status(200).send(body);
             } catch (e: any) {
                 try {
-                    this.log.warn(`Error serving states: ${e}`);
+                    this.log.warn(`Error serving state ${id} for ${req.url}: ${e}`);
                     res.status(500).send(`500. Error${e}`);
                 } catch (innerE) {
                     // connection to a client is not open anymore. Don't kill server here!

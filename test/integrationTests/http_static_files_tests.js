@@ -74,5 +74,41 @@ exports.runTests = function (suite) {
             expect(body).to.not.include('"secret"');
             expect(status).to.equal(404);
         });
+
+        it('serves the value of a state, an image as the image it holds (#723)', async () => {
+            const harness = getHarness();
+            const image = Buffer.from('fake png');
+            await harness.objects.setObjectAsync('lovelace.0.test.snapshot', {
+                type: 'state',
+                common: { name: 'snapshot', type: 'string', role: 'state', read: true, write: false },
+                native: {},
+            });
+            await harness.objects.setObjectAsync('lovelace.0.test.text', {
+                type: 'state',
+                common: { name: 'text', type: 'string', role: 'state', read: true, write: false },
+                native: {},
+            });
+            await harness.states.setStateAsync(
+                'lovelace.0.test.snapshot',
+                `data:image/png;base64,${image.toString('base64')}`,
+                true,
+            );
+            await harness.states.setStateAsync('lovelace.0.test.text', 'hello', true);
+
+            // Before, this route read a binary state, which ioBroker does not have any more - every
+            // request answered with 500 "getBinaryStateAsync is not a function".
+            const snapshot = await rawGet('/state/lovelace.0.test.snapshot');
+            expect(snapshot.status).to.equal(200);
+            expect(snapshot.body).to.contain('fake png');
+
+            const text = await rawGet('/state/lovelace.0.test.text');
+            expect(text.status).to.equal(200);
+            expect(text.body).to.equal('hello');
+
+            expect((await rawGet('/state/lovelace.0.does.not.exist')).status).to.equal(404);
+            // /state/ alone does not even reach the route (its wildcard needs a segment) and lands on
+            // the index page - it must not answer with an error.
+            expect((await rawGet('/state/')).status).to.not.equal(500);
+        });
     });
 };
