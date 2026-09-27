@@ -3,6 +3,19 @@
     "name": "lovelace",
     "version": "7.1.0",
     "news": {
+      "7.1.1": {
+        "en": "Images a card loads from another adapter with a /state/ url are shown again.",
+        "de": "Bilder, die eine Karte über eine /state/-URL aus einem anderen Adapter lädt, werden wieder angezeigt.",
+        "ru": "Изображения, которые карточка загружает из другого адаптера по /state/-адресу, снова отображаются.",
+        "pt": "As imagens que um cartão carrega de outro adaptador através de um URL /state/ são novamente exibidas.",
+        "nl": "Afbeeldingen die een kaart via een /state/-URL uit een andere adapter laadt, worden weer weergegeven.",
+        "fr": "Les images qu'une carte charge depuis un autre adaptateur via une URL /state/ s'affichent à nouveau.",
+        "it": "Le immagini che una scheda carica da un altro adapter tramite un URL /state/ vengono di nuovo visualizzate.",
+        "es": "Las imágenes que una tarjeta carga de otro adaptador mediante una URL /state/ vuelven a mostrarse.",
+        "pl": "Obrazy, które karta ładuje z innego adaptera przez adres /state/, są znów wyświetlane.",
+        "uk": "Зображення, які картка завантажує з іншого адаптера за /state/-адресою, знову відображаються.",
+        "zh-cn": "卡片通过 /state/ 地址从其他适配器加载的图片重新显示。"
+      },
       "7.1.0": {
         "en": "Weather: cards set up in the editor show the forecast, icons of daswetter 4 are shown.\nThe buttons of timer entities work.\nEnergy costs of meters counting Wh are correct.\nBrowser Mod no longer reports a version mismatch.\nRemoved interfaces neither the frontend nor Home Assistant use any more.",
         "de": "Wetter: Im Editor angelegte Karten zeigen die Vorhersage, Icons von daswetter 4 werden angezeigt.\nDie Knöpfe von Timer-Entitäten funktionieren.\nEnergiekosten von Zählern in Wh stimmen.\nBrowser Mod meldet keinen Versionskonflikt mehr.\nSchnittstellen entfernt, die weder das Frontend noch Home Assistant noch nutzen.",
