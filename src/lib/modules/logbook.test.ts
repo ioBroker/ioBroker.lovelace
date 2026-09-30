@@ -6,10 +6,10 @@ const LogbookModule = require('../modules/logbook');
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const singleton = require('../../../lib/dataSingleton');
 
-function makeModule(): { mod: any; sendToAsync: sinon.SinonStub } {
+function makeModule(source?: string): { mod: any; sendToAsync: sinon.SinonStub } {
     const sendToAsync = sinon.stub().resolves({ result: [] });
     const adapter = {
-        config: { history: 'history.0', historyMaxCount: 100 },
+        config: { history: 'history.0', historyMaxCount: 100, logbookSource: source },
         log: { debug: () => {}, warn: () => {}, error: () => {} },
         getObjectView: (_d: string, _t: string, _p: unknown, cb: (e: unknown, r: unknown) => void) =>
             cb(null, { rows: [] }),
@@ -150,28 +150,54 @@ describe('modules/logbook deduplication', function () {
     });
 });
 
-describe('modules/logbook user list names (#731 follow-up)', function () {
-    it('reduces a translated user name for config/auth/list', async function () {
-        const adapter = {
-            lang: 'de',
-            config: { logbookSource: 'user', history: 'history.0' },
-            log: { debug: () => {}, warn: () => {}, error: () => {} },
-            getObjectView: (_d: string, _t: string, _p: unknown, cb: (e: unknown, r: unknown) => void) =>
-                cb(null, {
-                    rows: [
-                        { value: { _id: 'system.user.guest', common: { name: { de: 'Gast', en: 'Guest' } } } },
-                        { value: { _id: 'system.user.admin', common: { name: 'admin' } } },
-                    ],
-                }),
-        };
-        const mod = new LogbookModule({ adapter, getUsedEntityIDs: () => [] });
+describe('modules/logbook who caused a change', function () {
+    const entity = { entity_id: 'sensor.x', context: { STATE: { getId: 'js.0.x' } } } as any;
+
+    it('names the adapter as the integration behind the change', function () {
+        // The frontend renders a context_name as "integration". Before this, the adapters had to be
+        // handed out as users, which browser_mod and the user settings then offered to pick (#751).
+        const { mod } = makeModule('adapter');
         const { ws, sent } = makeWs();
 
-        expect(await mod.processMessage(ws, { type: 'config/auth/list', id: 3 })).to.equal(true);
-        // The frontend does string operations on these names - an object breaks the list (#731).
-        expect(sent[0].result).to.deep.equal([
-            { name: 'Gast', id: 'system.user.guest' },
-            { name: 'admin', id: 'system.user.admin' },
+        mod.sendLogbookResponse(ws, 1, undefined, undefined, [
+            { entity, state: { val: 5, ts: 1000, from: 'system.adapter.hm-rpc.0' } },
         ]);
+
+        expect(sent[0].event.events[0]).to.deep.equal({
+            when: 1,
+            state: '5',
+            entity_id: 'sensor.x',
+            context_name: 'hm-rpc.0',
+        });
+        expect(sent[0].event.events[0]).to.not.have.property('context_user_id');
+    });
+
+    it('names the user through the user list', function () {
+        const { mod } = makeModule('user');
+        const { ws, sent } = makeWs();
+
+        mod.sendLogbookResponse(ws, 1, undefined, undefined, [
+            { entity, state: { val: 5, ts: 1000, from: 'system.adapter.lovelace.0', user: 'system.user.admin' } },
+        ]);
+
+        expect(sent[0].event.events[0].context_user_id).to.equal('system.user.admin');
+        expect(sent[0].event.events[0]).to.not.have.property('context_name');
+    });
+
+    it('says nothing about the cause when the source is turned off', function () {
+        const { mod } = makeModule('none');
+        const { ws, sent } = makeWs();
+
+        mod.sendLogbookResponse(ws, 1, undefined, undefined, [
+            { entity, state: { val: 5, ts: 1000, from: 'system.adapter.hm-rpc.0', user: 'system.user.admin' } },
+        ]);
+
+        expect(sent[0].event.events[0]).to.deep.equal({ when: 1, state: '5', entity_id: 'sensor.x' });
+    });
+
+    it('no longer answers the user list itself', async function () {
+        const { mod } = makeModule('user');
+        const { ws } = makeWs();
+        expect(await mod.processMessage(ws, { type: 'config/auth/list', id: 3 })).to.equal(false);
     });
 });

@@ -1,5 +1,3 @@
-import { resolveTranslatedName } from '../translatedName';
-
 const WS_OPEN = 1; // WebSocket.OPEN
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -58,12 +56,24 @@ type AdapterWithConfig = ioBroker.Adapter & {
 };
 
 /**
+ * The adapter instance behind the `from` of an ioBroker state, e.g. `hm-rpc.0`.
+ *
+ * @param from - what the state carries as its origin, e.g. `system.adapter.hm-rpc.0`
+ * @returns the instance, or undefined when there is none
+ */
+function adapterOfState(from: string | undefined): string | undefined {
+    if (!from) {
+        return undefined;
+    }
+    return from.startsWith('system.adapter.') ? from.substring('system.adapter.'.length) : from;
+}
+
+/**
  * Logbook module - kind of "history" for the frontend.
  */
 class LogbookModule {
     private adapter: AdapterWithConfig;
     private getUsedEntityIDs: () => string[];
-    private instances: { name: string; id: string }[];
 
     /**
      * Create a new logbook module.
@@ -75,36 +85,6 @@ class LogbookModule {
     constructor(options: { adapter: AdapterWithConfig; getUsedEntityIDs: () => string[] }) {
         this.adapter = options.adapter;
         this.getUsedEntityIDs = options.getUsedEntityIDs;
-
-        this.instances = [];
-        let objectType = 'instance';
-        const params: { startkey: string; endkey: string } = {
-            startkey: 'system.adapter.',
-            endkey: 'system.adapter.\u9999',
-        };
-        if (this.adapter.config.logbookSource === 'user') {
-            objectType = 'user';
-            params.startkey = 'system.user.';
-            params.endkey = 'system.user.\u9999';
-        }
-        if (this.adapter.config.logbookSource !== 'none') {
-            this.adapter.getObjectView('system', objectType, params, (err, instances) => {
-                if (err) {
-                    this.adapter.log.warn(`Could not get instances: ${err}`);
-                } else if (instances) {
-                    for (const row of instances.rows) {
-                        if (row.value && row.value._id) {
-                            const id = row.value._id;
-                            let name = id.split('.').splice(2).join('.');
-                            if (this.adapter.config.logbookSource === 'user') {
-                                name = resolveTranslatedName(row.value.common.name, this.adapter.lang, id);
-                            }
-                            this.instances.push({ name, id });
-                        }
-                    }
-                }
-            });
-        }
     }
 
     /**
@@ -157,19 +137,24 @@ class LogbookModule {
 
         const events = event.events as Record<string, unknown>[];
         for (const result of results) {
-            let from: unknown = undefined;
-            if (this.adapter.config.logbookSource === 'user') {
-                from = (result.state as unknown as Record<string, unknown>).user;
-            }
-            if (this.adapter.config.logbookSource === 'adapter') {
-                from = result.state.from;
-            }
-            events.push({
+            const entry: Record<string, unknown> = {
                 when: result.state.ts / 1000,
                 state: this.renderState(result.entity, result.state.val),
                 entity_id: result.entity.entity_id,
-                context_user_id: from,
-            });
+            };
+            if (this.adapter.config.logbookSource === 'user') {
+                // A user id of ioBroker, which the frontend resolves through the user list.
+                entry.context_user_id = (result.state as unknown as Record<string, unknown>).user;
+            }
+            if (this.adapter.config.logbookSource === 'adapter') {
+                // The adapter that wrote the state is named directly ("triggered by <adapter>"). The
+                // frontend shows a context_name as the integration behind a change - before, the
+                // adapters had to be handed out as users for this, which is what browser_mod and the
+                // user settings then offered to pick from (#751). No context_domain: that would make
+                // the frontend look for a brand logo on the Home Assistant servers.
+                entry.context_name = adapterOfState(result.state.from);
+            }
+            events.push(entry);
         }
         events.sort((a, b) => (a.when as number) - (b.when as number));
         // Drop consecutive duplicate states per entity. A history backend may re-log unchanged values
@@ -295,10 +280,6 @@ class LogbookModule {
                 this.adapter.log.error(`Could not create logbook answer: ${(e as Error).stack}`);
                 this.sendLogbookResponse(ws, message.id, undefined, undefined, []);
             }
-            return true;
-        } else if (message.type === 'config/auth/list') {
-            const result = this.instances;
-            ws.send(JSON.stringify({ id: message.id, type: 'result', success: true, result }));
             return true;
         } else if (message.type === 'trace/contexts') {
             ws.send(JSON.stringify({ id: message.id, type: 'result', success: true, result: {} }));
