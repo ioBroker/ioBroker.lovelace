@@ -53,6 +53,22 @@ class CompatModule {
           ])
         );
         return true;
+      case "http/config": {
+        const http = {
+          use_x_forwarded_for: false,
+          trusted_proxies: [],
+          use_x_frame_options: true,
+          ip_ban_enabled: false,
+          login_attempts_threshold: -1
+        };
+        this.sendResponse(ws, message.id, {
+          stable: http,
+          pending: null,
+          active_config_type: "storage",
+          default: http
+        });
+        return true;
+      }
       case "manifest/list":
         this.sendResponse(ws, message.id, []);
         return true;

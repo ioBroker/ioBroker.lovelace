@@ -48,3 +48,29 @@ describe('modules/compat empty stub replies', function () {
         });
     }
 });
+
+describe('modules/compat http/config', function () {
+    it('answers the http settings with nothing pending', function () {
+        // The frontend asks for them right after connecting as an administrator; unanswered this only
+        // produced "Unknown request: {"type":"http/config"}" in the log of the adapter.
+        const responses: { id: unknown; result: any }[] = [];
+        const mod = new CompatModule({
+            sendResponse: (_ws: unknown, id: unknown, result: unknown) => responses.push({ id, result }),
+        });
+
+        const handled = mod.processMessage({ send: () => {} }, { type: 'http/config', id: 53 });
+
+        expect(handled).to.equal(true);
+        expect(responses[0].id).to.equal(53);
+        // A pending configuration would open a dialog asking to review it.
+        expect(responses[0].result.pending).to.equal(null);
+        expect(responses[0].result.stable).to.deep.equal({
+            use_x_forwarded_for: false,
+            trusted_proxies: [],
+            use_x_frame_options: true,
+            ip_ban_enabled: false,
+            login_attempts_threshold: -1,
+        });
+        expect(responses[0].result.default).to.deep.equal(responses[0].result.stable);
+    });
+});

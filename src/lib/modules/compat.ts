@@ -77,6 +77,26 @@ class CompatModule {
                     ]),
                 );
                 return true;
+            case 'http/config': {
+                // The frontend asks for the http settings right after connecting (as an administrator)
+                // to see whether a pending configuration has to be reviewed, and shows them on the
+                // network page. We have no such settings - the port and SSL belong to the instance
+                // configuration - so the answer says "nothing pending, nothing to review".
+                const http = {
+                    use_x_forwarded_for: false,
+                    trusted_proxies: [] as string[],
+                    use_x_frame_options: true,
+                    ip_ban_enabled: false,
+                    login_attempts_threshold: -1,
+                };
+                this.sendResponse(ws, message.id, {
+                    stable: http,
+                    pending: null,
+                    active_config_type: 'storage',
+                    default: http,
+                });
+                return true;
+            }
             case 'manifest/list':
                 this.sendResponse(ws, message.id, []);
                 return true;
