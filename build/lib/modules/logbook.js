@@ -67,11 +67,13 @@ class LogbookModule {
         state: this.renderState(result.entity, result.state.val),
         entity_id: result.entity.entity_id
       };
-      if (this.adapter.config.logbookSource === "user") {
-        entry.context_user_id = result.state.user;
+      const user = result.state.user;
+      if (user) {
+        entry.context_user_id = user;
       }
-      if (this.adapter.config.logbookSource === "adapter") {
-        entry.context_name = adapterOfState(result.state.from);
+      const adapter = adapterOfState(result.state.from);
+      if (adapter) {
+        entry.context_name = adapter;
       }
       events.push(entry);
     }
