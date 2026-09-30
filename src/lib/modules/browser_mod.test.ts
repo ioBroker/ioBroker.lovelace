@@ -34,7 +34,7 @@ function makeAdapter(): any {
         setState: async () => {},
         setObjectNotExistsAsync: async () => {},
         getObjectAsync: () => Promise.resolve(null),
-        extendObjectAsync: () => Promise.resolve(),
+        setObjectAsync: () => Promise.resolve(),
         extendObject: (_id: string, _o: unknown, cb?: () => void) => cb && cb(),
         delObjectAsync: async () => {},
     };
@@ -357,9 +357,10 @@ describe('modules/browser_mod settings storage (#751)', function () {
      */
     function makeAdapterWithStorage(stored: Record<string, any>): any {
         const adapter = makeAdapter();
-        adapter.getObjectAsync = (id: string) => Promise.resolve(stored[id] || null);
-        adapter.extendObjectAsync = (id: string, obj: any) => {
-            stored[id] = { ...(stored[id] || {}), ...obj, native: { ...obj.native } };
+        adapter.getObjectAsync = (id: string) => Promise.resolve(stored[id] ? { ...stored[id] } : null);
+        adapter.setObjectAsync = (id: string, obj: any) => {
+            // Store a copy: the module hands over its live settings object.
+            stored[id] = { ...obj, native: JSON.parse(JSON.stringify(obj.native)) };
             return Promise.resolve();
         };
         return adapter;
@@ -414,6 +415,31 @@ describe('modules/browser_mod settings storage (#751)', function () {
         expect(mod.browserModStorage.browsers.A.settings.hideHeader).to.equal(true);
         expect(mod.browserModStorage.user_settings['system.user.admin']).to.deep.equal({ theme: 'dark' });
         expect(mod.browserModStorage.sessions.key).to.equal('A');
+    });
+
+    it('drops what was removed instead of keeping it forever', async function () {
+        // Written with setObject, not extendObject: the latter merges deeply, so an unregistered
+        // browser would stay in the stored settings.
+        const stored: Record<string, any> = {
+            'storage.browserMod': {
+                type: 'channel',
+                common: { name: 'Storage for browser_mod settings' },
+                native: {
+                    settings: {},
+                    browsers: { A: { last_seen: 1, registered: true, settings: {} } },
+                    user_settings: {},
+                    sessions: {},
+                },
+            },
+        };
+        const mod: any = new BrowserModModule({ adapter: makeAdapterWithStorage(stored), objects: {} });
+        await mod.init({ views: [] });
+        expect(Object.keys(mod.browserModStorage.browsers)).to.deep.equal(['A']);
+
+        delete mod.browserModStorage.browsers.A;
+        await mod._saveStorage();
+
+        expect(stored['storage.browserMod'].native.browsers).to.deep.equal({});
     });
 
     it('hands last_seen to the frontend as a string', function () {

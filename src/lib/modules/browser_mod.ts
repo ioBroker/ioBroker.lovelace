@@ -1354,11 +1354,15 @@ class BrowserModModule {
      */
     private async _saveStorage(): Promise<void> {
         try {
-            await this.adapter.extendObjectAsync(BrowserModModule.STORAGE_ID, {
-                type: 'channel',
+            // setObject, not extendObject: the latter merges deeply, so an unregistered browser or a
+            // setting the user cleared would stay in the object forever.
+            const storage = (await this.adapter.getObjectAsync(BrowserModModule.STORAGE_ID)) || {
+                type: 'channel' as const,
                 common: { name: 'Storage for browser_mod settings' },
-                native: this.browserModStorage as unknown as Record<string, unknown>,
-            });
+                native: {},
+            };
+            storage.native = this.browserModStorage;
+            await this.adapter.setObjectAsync(BrowserModModule.STORAGE_ID, storage);
         } catch (e) {
             this.adapter.log.warn(`Could not store the browser_mod settings: ${String(e)}`);
         }
