@@ -19,6 +19,7 @@ import { buildManualViaConverter, syntheticControlStates } from './converters/sy
 import { applyCustomAttributes, collectCustomAttributes } from './converters/manualStates';
 import { cacheBuster, detectCardVersion, staticCardUrl } from './cards';
 import { stateToResponse } from './stateResponse';
+import { toCurrencyCode } from './currency';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -489,7 +490,7 @@ class WebServer {
                 dataSingleton: entityData,
                 // Costs of the energy dashboard: calculated from an energy meter and its price.
                 getCostStatistic: (statisticId: string) => this._modules.energy.getCostStatistic(statisticId),
-                getCurrency: () => (this.systemConfig?.currency as string) || 'EUR',
+                getCurrency: () => toCurrencyCode(this.systemConfig?.currency),
             }),
         };
 
@@ -2090,7 +2091,8 @@ class WebServer {
             state: 'RUNNING',
             external_url: null, // hm.. what happens if we fill this?
             internal_url: null,
-            currency: this.systemConfig.currency || 'EUR',
+            // The ioBroker setting is free text, the frontend needs an ISO code (#749).
+            currency: toCurrencyCode(this.systemConfig.currency),
             country: this.systemConfig.country,
             language: this.lang,
         };

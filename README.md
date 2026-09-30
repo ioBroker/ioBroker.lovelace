@@ -83,6 +83,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) The energy dashboard works with a currency symbol in the ioBroker settings; it stayed on "loading" before. (#749)
+
 ### 7.1.1 (2026-09-27)
 * (Garfonso/Claude) The /state/ url serves the value of a state again, instead of answering with an error. (#723)
 
