@@ -1,13 +1,17 @@
 "use strict";
-var import_translatedName = require("../translatedName");
 const WS_OPEN = 1;
 const entityDataSingleton = require("../../../lib/dataSingleton");
 const { iobState2EntityState } = require("../converters/genericConverter");
 const { getHistoryGated, boundHistoryCount } = require("../historyGate");
+function adapterOfState(from) {
+  if (!from) {
+    return void 0;
+  }
+  return from.startsWith("system.adapter.") ? from.substring("system.adapter.".length) : from;
+}
 class LogbookModule {
   adapter;
   getUsedEntityIDs;
-  instances;
   /**
    * Create a new logbook module.
    *
@@ -18,35 +22,6 @@ class LogbookModule {
   constructor(options) {
     this.adapter = options.adapter;
     this.getUsedEntityIDs = options.getUsedEntityIDs;
-    this.instances = [];
-    let objectType = "instance";
-    const params = {
-      startkey: "system.adapter.",
-      endkey: "system.adapter.\u9999"
-    };
-    if (this.adapter.config.logbookSource === "user") {
-      objectType = "user";
-      params.startkey = "system.user.";
-      params.endkey = "system.user.\u9999";
-    }
-    if (this.adapter.config.logbookSource !== "none") {
-      this.adapter.getObjectView("system", objectType, params, (err, instances) => {
-        if (err) {
-          this.adapter.log.warn(`Could not get instances: ${err}`);
-        } else if (instances) {
-          for (const row of instances.rows) {
-            if (row.value && row.value._id) {
-              const id = row.value._id;
-              let name = id.split(".").splice(2).join(".");
-              if (this.adapter.config.logbookSource === "user") {
-                name = (0, import_translatedName.resolveTranslatedName)(row.value.common.name, this.adapter.lang, id);
-              }
-              this.instances.push({ name, id });
-            }
-          }
-        }
-      });
-    }
   }
   /**
    * Render an ioBroker state value to the HA logbook state string for an entity.
@@ -87,19 +62,20 @@ class LogbookModule {
     }
     const events = event.events;
     for (const result of results) {
-      let from = void 0;
-      if (this.adapter.config.logbookSource === "user") {
-        from = result.state.user;
-      }
-      if (this.adapter.config.logbookSource === "adapter") {
-        from = result.state.from;
-      }
-      events.push({
+      const entry = {
         when: result.state.ts / 1e3,
         state: this.renderState(result.entity, result.state.val),
-        entity_id: result.entity.entity_id,
-        context_user_id: from
-      });
+        entity_id: result.entity.entity_id
+      };
+      const user = result.state.user;
+      if (user) {
+        entry.context_user_id = user;
+      }
+      const adapter = adapterOfState(result.state.from);
+      if (adapter) {
+        entry.context_name = adapter;
+      }
+      events.push(entry);
     }
     events.sort((a, b) => a.when - b.when);
     const lastStatePerEntity = {};
@@ -208,10 +184,6 @@ class LogbookModule {
         this.adapter.log.error(`Could not create logbook answer: ${e.stack}`);
         this.sendLogbookResponse(ws, message.id, void 0, void 0, []);
       }
-      return true;
-    } else if (message.type === "config/auth/list") {
-      const result = this.instances;
-      ws.send(JSON.stringify({ id: message.id, type: "result", success: true, result }));
       return true;
     } else if (message.type === "trace/contexts") {
       ws.send(JSON.stringify({ id: message.id, type: "result", success: true, result: {} }));

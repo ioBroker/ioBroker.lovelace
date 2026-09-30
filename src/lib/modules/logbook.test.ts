@@ -150,28 +150,66 @@ describe('modules/logbook deduplication', function () {
     });
 });
 
-describe('modules/logbook user list names (#731 follow-up)', function () {
-    it('reduces a translated user name for config/auth/list', async function () {
-        const adapter = {
-            lang: 'de',
-            config: { logbookSource: 'user', history: 'history.0' },
-            log: { debug: () => {}, warn: () => {}, error: () => {} },
-            getObjectView: (_d: string, _t: string, _p: unknown, cb: (e: unknown, r: unknown) => void) =>
-                cb(null, {
-                    rows: [
-                        { value: { _id: 'system.user.guest', common: { name: { de: 'Gast', en: 'Guest' } } } },
-                        { value: { _id: 'system.user.admin', common: { name: 'admin' } } },
-                    ],
-                }),
-        };
-        const mod = new LogbookModule({ adapter, getUsedEntityIDs: () => [] });
+describe('modules/logbook who caused a change', function () {
+    const entity = { entity_id: 'sensor.x', context: { STATE: { getId: 'js.0.x' } } } as any;
+
+    /**
+     * The one entry of the last logbook message that was sent.
+     *
+     * @param sent - the messages the websocket received
+     * @returns the single logbook entry of the last message
+     */
+    function entryOf(sent: any[]): any {
+        return sent[sent.length - 1].event.events[0];
+    }
+
+    it('names the user of a change and the adapter that wrote it', function () {
+        // Both go out and the frontend picks: the user through the user list, otherwise the
+        // context_name as the integration behind the change (#751).
+        const { mod } = makeModule();
         const { ws, sent } = makeWs();
 
-        expect(await mod.processMessage(ws, { type: 'config/auth/list', id: 3 })).to.equal(true);
-        // The frontend does string operations on these names - an object breaks the list (#731).
-        expect(sent[0].result).to.deep.equal([
-            { name: 'Gast', id: 'system.user.guest' },
-            { name: 'admin', id: 'system.user.admin' },
+        mod.sendLogbookResponse(ws, 1, undefined, undefined, [
+            { entity, state: { val: 5, ts: 1000, from: 'system.adapter.lovelace.0', user: 'system.user.admin' } },
         ]);
+
+        expect(entryOf(sent)).to.deep.equal({
+            when: 1,
+            state: '5',
+            entity_id: 'sensor.x',
+            context_user_id: 'system.user.admin',
+            context_name: 'lovelace.0',
+        });
+    });
+
+    it('names the adapter alone when no user is behind the change', function () {
+        const { mod } = makeModule();
+        const { ws, sent } = makeWs();
+
+        mod.sendLogbookResponse(ws, 1, undefined, undefined, [
+            { entity, state: { val: 5, ts: 1000, from: 'system.adapter.hm-rpc.0' } },
+        ]);
+
+        expect(entryOf(sent)).to.deep.equal({
+            when: 1,
+            state: '5',
+            entity_id: 'sensor.x',
+            context_name: 'hm-rpc.0',
+        });
+    });
+
+    it('leaves out what it does not know', function () {
+        const { mod } = makeModule();
+        const { ws, sent } = makeWs();
+
+        mod.sendLogbookResponse(ws, 1, undefined, undefined, [{ entity, state: { val: 5, ts: 1000 } }]);
+
+        expect(entryOf(sent)).to.deep.equal({ when: 1, state: '5', entity_id: 'sensor.x' });
+    });
+
+    it('no longer answers the user list itself', async function () {
+        const { mod } = makeModule();
+        const { ws } = makeWs();
+        expect(await mod.processMessage(ws, { type: 'config/auth/list', id: 3 })).to.equal(false);
     });
 });

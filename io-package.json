@@ -362,7 +362,6 @@
     "alarmCheckCodeOnDisarmOnly": false,
     "language": "",
     "updateTimeout": 5000,
-    "logbookSource": "adapter",
     "maxBrowserInstances": 10,
     "pwaName": "ioBroker",
     "pwaShortName": "IoB",
@@ -475,6 +474,15 @@
       "type": "channel",
       "common": {
         "name": "Storage for dashboards"
+      },
+      "native": {}
+    },
+
+    {
+      "_id": "storage.browserMod",
+      "type": "channel",
+      "common": {
+        "name": "Storage for browser_mod settings"
       },
       "native": {}
     },

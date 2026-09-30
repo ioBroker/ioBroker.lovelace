@@ -1,10 +1,15 @@
 "use strict";
 var import_themesYaml = require("../themesYaml");
+var import_storage = require("./storage");
 const instancesPath = "instances.";
 const BROWSER_MOD_VERSION = "3.2.3";
 class BrowserModModule {
   /** Version reported to the browser_mod frontend, see BROWSER_MOD_VERSION. */
   static VERSION = BROWSER_MOD_VERSION;
+  /** Object the settings are stored in, so they survive a restart (#751). */
+  static STORAGE_ID = `${import_storage.STORAGE_PREFIX}browserMod`;
+  /** Pending write of the settings; they change in bursts while a browser connects. */
+  saveTimer;
   adapter;
   objects;
   clients;
@@ -384,7 +389,8 @@ class BrowserModModule {
    */
   async _handleUpdate(ioBrokerDeviceId, message) {
     if (message.browserID && this.browserModStorage.browsers[message.browserID]) {
-      this.browserModStorage.browsers[message.browserID].last_seen = Date.now() / 1e3;
+      this.browserModStorage.browsers[message.browserID].last_seen = Date.now();
+      this._scheduleSave();
     }
     const data = message.data;
     if (data) {
@@ -449,7 +455,7 @@ class BrowserModModule {
       event: {
         event_type: "ready",
         origin: "LOCAL",
-        result: this.browserModStorage,
+        result: this._storageForFrontend(),
         time_fired: (/* @__PURE__ */ new Date()).toISOString()
       }
     });
@@ -646,7 +652,7 @@ class BrowserModModule {
               event: {
                 event_type: "ready",
                 origin: "LOCAL",
-                result: this.browserModStorage,
+                result: this._storageForFrontend(),
                 time_fired: (/* @__PURE__ */ new Date()).toISOString()
               }
             }
@@ -677,6 +683,7 @@ class BrowserModModule {
         }
       } else if (method === "register") {
         this.initialiseBrowserSettings(message.browserID, true);
+        this._scheduleSave();
         const msgData = message.data;
         if (msgData && msgData.browserID) {
           const oldBrowserId = message.browserID;
@@ -753,18 +760,21 @@ class BrowserModModule {
           this.adapter.log.debug(
             `Updated browser_mod settings: ${message.key} to ${String(message.value)}`
           );
+          this._scheduleSave();
         }
         ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
       } else if (method === "store_session") {
         const sessionKey = this._sessionKey(ws);
         if (sessionKey && message.browserID) {
           this.browserModStorage.sessions[sessionKey] = message.browserID;
+          this._scheduleSave();
         }
         ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
       } else if (method === "delete_session") {
         const sessionKey = this._sessionKey(ws);
         if (sessionKey) {
           delete this.browserModStorage.sessions[sessionKey];
+          this._scheduleSave();
         }
         ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
       } else if (method === "recall_id") {
@@ -781,6 +791,7 @@ class BrowserModModule {
           this.adapter.log.info("Maybe was already deleted?");
         }
         delete this.browserModStorage.browsers[browserId];
+        this._scheduleSave();
         this.adapter.log.debug(`Instance ${browserId} unregistered.`);
         ws.send(JSON.stringify({ id: message.id, type: "result", success: true }));
       } else if (method === "create_issue" || method === "delete_issue") {
@@ -939,7 +950,8 @@ class BrowserModModule {
               this.initialiseBrowserSettings(browserId);
               this.browserModStorage.browsers[browserId].settings[key] = val;
             }
-            event = { result: this.browserModStorage };
+            this._scheduleSave();
+            event = { result: this._storageForFrontend() };
             break;
           }
           default:
@@ -1025,6 +1037,7 @@ class BrowserModModule {
    */
   async init(lovelaceConfig) {
     this.handeUpdatedConfig(lovelaceConfig);
+    await this._loadStorage();
     await this._checkObjects(instancesPath.substring(0, instancesPath.length - 1));
     const ownStateIds = await this._listOwnInstanceStateIds();
     const garbageIds = /* @__PURE__ */ new Set();
@@ -1074,6 +1087,98 @@ class BrowserModModule {
     }
     await this._cleanUpInstances();
     this.adapter.log.debug("modules/browser_mod: init done.");
+  }
+  /**
+   * Read the stored settings back. Without this every global and per-browser setting - the sidebar
+   * title, the default dashboard, kiosk mode - was gone after a restart of the adapter (#751).
+   *
+   * @returns resolves when read
+   */
+  async _loadStorage() {
+    let stored;
+    try {
+      stored = await this.adapter.getObjectAsync(BrowserModModule.STORAGE_ID);
+    } catch (e) {
+      this.adapter.log.warn(`Could not read the browser_mod settings: ${String(e)}`);
+      return;
+    }
+    const native = stored == null ? void 0 : stored.native;
+    if (!native) {
+      return;
+    }
+    this.browserModStorage.settings = { ...this.browserModStorage.settings, ...native.settings || {} };
+    this.browserModStorage.user_settings = native.user_settings || {};
+    this.browserModStorage.sessions = native.sessions || {};
+    for (const [browserId, browser] of Object.entries(native.browsers || {})) {
+      this.initialiseBrowserSettings(browserId);
+      this.browserModStorage.browsers[browserId] = {
+        ...this.browserModStorage.browsers[browserId],
+        ...browser,
+        // The browser is not connected yet, whatever was stored.
+        settings: { ...this.browserModStorage.browsers[browserId].settings, ...browser.settings || {} }
+      };
+    }
+    this.adapter.log.debug("modules/browser_mod: settings restored.");
+  }
+  /**
+   * Store the settings. Called on every change, so it waits a moment: a browser that connects
+   * writes several of them in a row.
+   */
+  _scheduleSave() {
+    if (this.saveTimer) {
+      return;
+    }
+    this.saveTimer = setTimeout(() => {
+      this.saveTimer = void 0;
+      void this._saveStorage();
+    }, 2e3);
+  }
+  /**
+   * Write the settings into their storage object.
+   *
+   * @returns resolves when written
+   */
+  async _saveStorage() {
+    try {
+      await this.adapter.extendObjectAsync(BrowserModModule.STORAGE_ID, {
+        type: "channel",
+        common: { name: "Storage for browser_mod settings" },
+        native: this.browserModStorage
+      });
+    } catch (e) {
+      this.adapter.log.warn(`Could not store the browser_mod settings: ${String(e)}`);
+    }
+  }
+  /**
+   * The settings in the shape the frontend reads them.
+   *
+   * `last_seen` has to be a string: the browser_mod panel hands it to `ha-relative-time`, which
+   * converts a string but calls `getTime()` on anything else - a number made the panel throw
+   * "t.getTime is not a function" and left the browsers table unfinished.
+   *
+   * @returns a copy of the settings, safe to serialize
+   */
+  _storageForFrontend() {
+    const browsers = {};
+    for (const [browserId, browser] of Object.entries(this.browserModStorage.browsers)) {
+      browsers[browserId] = {
+        ...browser,
+        last_seen: browser.last_seen ? new Date(browser.last_seen).toISOString() : null
+      };
+    }
+    return { ...this.browserModStorage, browsers };
+  }
+  /**
+   * Stop and write pending settings.
+   *
+   * @returns resolves when written
+   */
+  async cleanup() {
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+      this.saveTimer = void 0;
+      await this._saveStorage();
+    }
   }
   /**
    * Augment the services object with browser_mod services.

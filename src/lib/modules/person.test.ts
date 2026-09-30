@@ -80,3 +80,63 @@ describe('modules/person translated user names (#731 follow-up)', function () {
         expect(mod.getShorList()).to.deep.equal({ 'system.user.admin': 'Administrator' });
     });
 });
+
+describe('modules/person config/auth/list', function () {
+    it('answers with the ioBroker users in the shape of Home Assistant users', function () {
+        // The frontend resolves the user of a logbook entry through this list, and browser_mod offers
+        // its entries to assign a browser to. Adapters have no business in here (#751).
+        const mod = new PersonModule({
+            adapter: { config: { auth: true, defaultUser: 'admin' }, log: { warn: () => {} } },
+        });
+        mod.usersCache = {
+            'system.user.admin': { iobId: 'system.user.admin', name: 'Admin' },
+            'system.user.guest': { iobId: 'system.user.guest', name: 'Gast' },
+        };
+
+        const sent: any[] = [];
+        const handled = mod.processMessage(
+            { send: (d: string) => sent.push(JSON.parse(d)) },
+            { type: 'config/auth/list', id: 3 },
+        );
+
+        expect(handled).to.equal(true);
+        expect(sent[0]).to.include({ id: 3, type: 'result', success: true });
+        expect(sent[0].result).to.deep.equal([
+            {
+                id: 'system.user.admin',
+                name: 'Admin',
+                username: 'admin',
+                group_ids: ['system-admin'],
+                is_owner: true,
+                is_active: true,
+                system_generated: false,
+                local_only: false,
+            },
+            {
+                id: 'system.user.guest',
+                name: 'Gast',
+                username: 'guest',
+                group_ids: ['system-users'],
+                is_owner: false,
+                is_active: true,
+                system_generated: false,
+                local_only: false,
+            },
+        ]);
+    });
+
+    it('hands out names as strings, whatever the ioBroker object holds (#731)', function () {
+        const mod = new PersonModule({
+            adapter: { config: { auth: true }, lang: 'de', log: { warn: () => {}, debug: () => {} } },
+        });
+        // A multilingual common.name is reduced when the cache is filled; the list must never carry
+        // an object - the frontend does string operations on the name.
+        mod.onObjectChange('system.user.guest', {
+            _id: 'system.user.guest',
+            type: 'user',
+            common: { name: { de: 'Gast', en: 'Guest' }, enabled: true },
+        });
+
+        expect(mod.getHassUsers()[0].name).to.equal('Gast');
+    });
+});

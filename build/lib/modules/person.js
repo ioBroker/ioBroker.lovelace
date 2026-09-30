@@ -25,6 +25,17 @@ class PersonModule {
    * @returns true if handled
    */
   processMessage(ws, message) {
+    if (message.type === "config/auth/list") {
+      ws.send(
+        JSON.stringify({
+          id: message.id,
+          type: "result",
+          success: true,
+          result: this.getHassUsers()
+        })
+      );
+      return true;
+    }
     if (message.type === "person/list") {
       const storage = Object.entries(this.usersCache).map(([userId, user]) => {
         var _a;
@@ -47,6 +58,24 @@ class PersonModule {
       return true;
     }
     return false;
+  }
+  /**
+   * The ioBroker users in the shape Home Assistant describes its own users with.
+   *
+   * @returns one entry per enabled ioBroker user
+   */
+  getHassUsers() {
+    return Object.entries(this.usersCache).map(([userId, user]) => ({
+      id: userId,
+      name: user.name,
+      username: userId.startsWith("system.user.") ? userId.substring("system.user.".length) : userId,
+      // ioBroker has its own groups; the frontend only tells "administrator" from "user" here.
+      group_ids: [userId === "system.user.admin" ? "system-admin" : "system-users"],
+      is_owner: userId === "system.user.admin",
+      is_active: true,
+      system_generated: false,
+      local_only: false
+    }));
   }
   /**
    * Get a short list of users.
