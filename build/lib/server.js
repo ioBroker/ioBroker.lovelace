@@ -42,6 +42,7 @@ var import_syntheticControl = require("./converters/syntheticControl");
 var import_manualStates = require("./converters/manualStates");
 var import_cards = require("./cards");
 var import_stateResponse = require("./stateResponse");
+var import_currency = require("./currency");
 var converterDatetime = __toESM(require("./converters/input_datetime"));
 var converterAlarmCP = __toESM(require("./converters/alarm_control_panel"));
 var converterInputSelect = __toESM(require("./converters/input_select"));
@@ -355,7 +356,7 @@ class WebServer {
         getCostStatistic: (statisticId) => this._modules.energy.getCostStatistic(statisticId),
         getCurrency: () => {
           var _a;
-          return ((_a = this.systemConfig) == null ? void 0 : _a.currency) || "EUR";
+          return (0, import_currency.toCurrencyCode)((_a = this.systemConfig) == null ? void 0 : _a.currency);
         }
       })
     };
@@ -1708,7 +1709,8 @@ ${hideScript.join("\n")}
       external_url: null,
       // hm.. what happens if we fill this?
       internal_url: null,
-      currency: this.systemConfig.currency || "EUR",
+      // The ioBroker setting is free text, the frontend needs an ISO code (#749).
+      currency: (0, import_currency.toCurrencyCode)(this.systemConfig.currency),
       country: this.systemConfig.country,
       language: this.lang
     };
