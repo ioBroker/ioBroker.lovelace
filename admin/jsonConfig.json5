@@ -10,9 +10,11 @@
           "type": "ip",
           "label": "IP",
           "listenOnAllPorts": true,
+          "xs": 12,
           "sm": 12,
           "md": 8,
-          "lg": 5
+          "lg": 5,
+          "xl": 5
         },
         "port": {
           "type": "number",
@@ -20,44 +22,54 @@
           "min": 1,
           "max": 65535,
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "secure": {
           "type": "checkbox",
           "label": "Secure(HTTPS)",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "certPublic": {
           "type": "certificate",
           "certType": "public",
           "label": "Public certificate",
           "hidden": "!data.secure",
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "certPrivate": {
           "type": "certificate",
           "certType": "private",
           "label": "Private certificate",
           "hidden": "!data.secure",
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "certChained": {
           "type": "certificate",
           "certType": "chained",
           "label": "Chained certificate",
           "hidden": "!data.secure",
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "history": {
           "type": "instance",
@@ -65,76 +77,94 @@
           "allowDeactivate": true,
           "label": "Historical instance",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "historyMaxCount": {
           "type": "number",
           "label": "Maximum history points to fetch",
           "min": 0,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "auth": {
           "type": "checkbox",
           "label": "Authentication",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "defaultUser": {
           "type": "user",
           "short": true,
           "label": "Run as",
           "hidden": "!!data.auth",
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "ttl": {
           "type": "number",
           "label": "Login timeout(sec)",
           "hidden": "!data.auth",
           "min": 60,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "showUsersOnLoginScreen": {
           "type": "checkbox",
           "label": "showUsersOnLoginScreen",
           "hidden": "!data.auth",
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "language": {
           "type": "language",
           "label": "Language",
           "system": true,
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "pwaName": {
           "type": "text",
           "label": "App name (home screen / PWA)",
           "help": "To change the browser tab title, edit the dashboard title.",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "pwaShortName": {
           "type": "text",
           "label": "App short name (PWA)",
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "autoEntityIdFormat": {
           "type": "select",
@@ -145,9 +175,11 @@
             { "value": "roomFunction", "label": "From room and function" },
             { "value": "iobId", "label": "From ioBroker object id" }
           ],
+          "xs": 12,
           "sm": 12,
           "md": 8,
-          "lg": 5
+          "lg": 5,
+          "xl": 5
         },
         "_regenerate": {
           "type": "sendTo",
@@ -157,42 +189,52 @@
           "showProcess": true,
           "variant": "contained",
           "result": { "renamed": { "en": "Done" } },
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "aliasOnly": {
           "type": "checkbox",
           "label": "AliasOnly",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 5
+          "lg": 5,
+          "xl": 5
         },
         "blindsInvert": {
           "type": "checkbox",
           "label": "blindsInvert",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 5
+          "lg": 5,
+          "xl": 5
         },
         "alarmCheckCodeOnDisarmOnly": {
           "type": "checkbox",
           "label": "alarmCheckCodeOnDisarmOnly",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 5
+          "lg": 5,
+          "xl": 5
         },
         "maxBrowserInstances": {
           "type": "number",
           "label": "Maximum browser instances to keep",
           "min": 0,
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "updateTimeout": {
           "type": "number",
@@ -200,9 +242,11 @@
           "help": "How long state changes are collected before they are sent to the browser.",
           "min": 100,
           "max": 30000,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         }
       }
     },
@@ -214,18 +258,22 @@
         "leEnabled": {
           "type": "checkbox",
           "label": "Use Lets Encrypt certificates",
+          "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl": 4
         },
         "leUpdate": {
           "type": "checkbox",
           "label": "Use this instance for automatic update",
           "hidden": "!data.leEnabled",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl": 4
         },
         "leCheckPort": {
           "type": "number",
@@ -234,9 +282,11 @@
           "min": 1,
           "max": 65535,
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         }
       }
     },
@@ -247,9 +297,11 @@
         "_cardsInfo": {
           "type": "staticText",
           "text": "Upload a custom card here or into the cards folder of this instance via the ioBroker file browser. Reload the browser afterwards to use a newly added card - an adapter restart is no longer needed.",
+          "xs": 12,
           "sm": 12,
           "md": 12,
-          "lg": 12
+          "lg": 12,
+          "xl": 12
         },
         "_cardsFilesLink": {
           "type": "staticText",
@@ -257,9 +309,11 @@
           "href": "#tab-files/select/${data._cardsFolder}",
           "target": "_blank",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
-          "lg": 12
+          "lg": 12,
+          "xl": 12
         },
         "_cardsSelector": {
           "type": "fileSelector",
@@ -271,9 +325,11 @@
           "default": "",
           "newLine": true,
           "delete": true,
+          "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl": 4
         },
         "_reloadCards": {
           "type": "sendTo",
@@ -285,9 +341,11 @@
           "showProcess": true,
           "variant": "contained",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "_cardsTable": {
           "type": "table",
@@ -300,9 +358,11 @@
             { "type": "text", "attr": "size", "title": "Size", "width": "15%", "readOnly": true },
             { "type": "text", "attr": "modified", "title": "Modified", "width": "30%", "readOnly": true }
           ],
+          "xs": 12,
           "sm": 12,
           "md": 12,
-          "lg": 12
+          "lg": 12,
+          "xl": 12
         }
       }
     },
@@ -317,9 +377,11 @@
           "jsonData": "{\"themes\": ${JSON.stringify(data.themes || '')}}",
           "alsoDependsOn": ["themes"],
           "manual": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "defaultThemeDark": {
           "type": "selectSendTo",
@@ -328,17 +390,21 @@
           "jsonData": "{\"themes\": ${JSON.stringify(data.themes || '')}}",
           "alsoDependsOn": ["themes"],
           "manual": true,
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "themes": {
           "type": "yamlEditor",
           "label": "Place the themes as YAML here",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
-          "lg": 12
+          "lg": 12,
+          "xl": 12
         }
       }
     },
@@ -354,9 +420,11 @@
           "onLoaded": true,
           "showProcess": true,
           "variant": "contained",
+          "xs": 12,
           "sm": 12,
           "md": 4,
-          "lg": 3
+          "lg": 3,
+          "xl": 3
         },
         "_entitiesTable": {
           "type": "table",
@@ -369,9 +437,11 @@
             { "type": "text", "attr": "attributes", "title": "Attributes", "width": "35%", "readOnly": true, "minRows": 2 },
             { "type": "checkbox", "attr": "manual", "title": "Manual", "width": "10%", "disabled": true }
           ],
+          "xs": 12,
           "sm": 12,
           "md": 12,
-          "lg": 12
+          "lg": 12,
+          "xl": 12
         }
       }
     }
