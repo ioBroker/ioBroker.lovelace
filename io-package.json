@@ -154,6 +154,7 @@
     "messagebox": true,
     "connectionType": "local",
     "dataSource": "push",
+    "declareUsedResources": true,
     "localLinks": {
       "_default": {
         "link": "%protocol%://%ip%:%port%/",
