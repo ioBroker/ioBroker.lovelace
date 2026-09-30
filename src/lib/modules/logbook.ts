@@ -48,7 +48,6 @@ interface LogbookSubscription {
 
 type AdapterWithConfig = ioBroker.Adapter & {
     config: {
-        logbookSource?: string;
         history?: string;
         historyMaxCount?: number;
     };
@@ -142,17 +141,18 @@ class LogbookModule {
                 state: this.renderState(result.entity, result.state.val),
                 entity_id: result.entity.entity_id,
             };
-            if (this.adapter.config.logbookSource === 'user') {
-                // A user id of ioBroker, which the frontend resolves through the user list.
-                entry.context_user_id = (result.state as unknown as Record<string, unknown>).user;
+            // Both are handed over, and the frontend picks: it resolves a context_user_id through
+            // the user list and falls back to the context_name as the integration behind the change.
+            // So a change a user made in the dashboard names the user, one an adapter made names the
+            // adapter - no setting needed to choose. No context_domain is sent: the frontend would
+            // look for a brand logo of it on the Home Assistant servers.
+            const user = (result.state as unknown as Record<string, unknown>).user;
+            if (user) {
+                entry.context_user_id = user;
             }
-            if (this.adapter.config.logbookSource === 'adapter') {
-                // The adapter that wrote the state is named directly ("triggered by <adapter>"). The
-                // frontend shows a context_name as the integration behind a change - before, the
-                // adapters had to be handed out as users for this, which is what browser_mod and the
-                // user settings then offered to pick from (#751). No context_domain: that would make
-                // the frontend look for a brand logo on the Home Assistant servers.
-                entry.context_name = adapterOfState(result.state.from);
+            const adapter = adapterOfState(result.state.from);
+            if (adapter) {
+                entry.context_name = adapter;
             }
             events.push(entry);
         }

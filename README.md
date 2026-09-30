@@ -85,7 +85,7 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) The energy dashboard works with a currency symbol in the ioBroker settings; it stayed on "loading" before. (#749)
-* (Garfonso/Claude) The user settings and browser_mod offer the ioBroker users again instead of the adapters; the logbook names the adapter as the integration behind a change. (#751)
+* (Garfonso/Claude) The user settings and browser_mod offer the ioBroker users again instead of the adapters. The logbook names the user of a change, or the adapter that made it - the setting which of both to show is gone. (#751)
 * (Garfonso/Claude) browser_mod settings (sidebar title, default dashboard, per browser settings) survive a restart of the adapter. (#751)
 * (Garfonso/Claude) The browser_mod configuration page shows the browsers again ("last connected" broke it).
 

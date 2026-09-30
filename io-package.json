@@ -362,7 +362,6 @@
     "alarmCheckCodeOnDisarmOnly": false,
     "language": "",
     "updateTimeout": 5000,
-    "logbookSource": "adapter",
     "maxBrowserInstances": 10,
     "pwaName": "ioBroker",
     "pwaShortName": "IoB",

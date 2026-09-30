@@ -185,19 +185,6 @@
           "md": 6,
           "lg": 5
         },
-        "logbookSource": {
-          "type": "select",
-          "label": "Logbook: Source should show",
-          "newLine": true,
-          "options": [
-            { "value": "adapter", "label": "Adapter" },
-            { "value": "user", "label": "User (works only for changes during adapter runtime)" },
-            { "value": "none", "label": "Nothing" }
-          ],
-          "sm": 12,
-          "md": 8,
-          "lg": 5
-        },
         "maxBrowserInstances": {
           "type": "number",
           "label": "Maximum browser instances to keep",

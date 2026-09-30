@@ -6,10 +6,10 @@ const LogbookModule = require('../modules/logbook');
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const singleton = require('../../../lib/dataSingleton');
 
-function makeModule(source?: string): { mod: any; sendToAsync: sinon.SinonStub } {
+function makeModule(): { mod: any; sendToAsync: sinon.SinonStub } {
     const sendToAsync = sinon.stub().resolves({ result: [] });
     const adapter = {
-        config: { history: 'history.0', historyMaxCount: 100, logbookSource: source },
+        config: { history: 'history.0', historyMaxCount: 100 },
         log: { debug: () => {}, warn: () => {}, error: () => {} },
         getObjectView: (_d: string, _t: string, _p: unknown, cb: (e: unknown, r: unknown) => void) =>
             cb(null, { rows: [] }),
@@ -153,50 +153,62 @@ describe('modules/logbook deduplication', function () {
 describe('modules/logbook who caused a change', function () {
     const entity = { entity_id: 'sensor.x', context: { STATE: { getId: 'js.0.x' } } } as any;
 
-    it('names the adapter as the integration behind the change', function () {
-        // The frontend renders a context_name as "integration". Before this, the adapters had to be
-        // handed out as users, which browser_mod and the user settings then offered to pick (#751).
-        const { mod } = makeModule('adapter');
-        const { ws, sent } = makeWs();
+    /**
+     * The one entry of the last logbook message that was sent.
+     *
+     * @param sent - the messages the websocket received
+     * @returns the single logbook entry of the last message
+     */
+    function entryOf(sent: any[]): any {
+        return sent[sent.length - 1].event.events[0];
+    }
 
-        mod.sendLogbookResponse(ws, 1, undefined, undefined, [
-            { entity, state: { val: 5, ts: 1000, from: 'system.adapter.hm-rpc.0' } },
-        ]);
-
-        expect(sent[0].event.events[0]).to.deep.equal({
-            when: 1,
-            state: '5',
-            entity_id: 'sensor.x',
-            context_name: 'hm-rpc.0',
-        });
-        expect(sent[0].event.events[0]).to.not.have.property('context_user_id');
-    });
-
-    it('names the user through the user list', function () {
-        const { mod } = makeModule('user');
+    it('names the user of a change and the adapter that wrote it', function () {
+        // Both go out and the frontend picks: the user through the user list, otherwise the
+        // context_name as the integration behind the change (#751).
+        const { mod } = makeModule();
         const { ws, sent } = makeWs();
 
         mod.sendLogbookResponse(ws, 1, undefined, undefined, [
             { entity, state: { val: 5, ts: 1000, from: 'system.adapter.lovelace.0', user: 'system.user.admin' } },
         ]);
 
-        expect(sent[0].event.events[0].context_user_id).to.equal('system.user.admin');
-        expect(sent[0].event.events[0]).to.not.have.property('context_name');
+        expect(entryOf(sent)).to.deep.equal({
+            when: 1,
+            state: '5',
+            entity_id: 'sensor.x',
+            context_user_id: 'system.user.admin',
+            context_name: 'lovelace.0',
+        });
     });
 
-    it('says nothing about the cause when the source is turned off', function () {
-        const { mod } = makeModule('none');
+    it('names the adapter alone when no user is behind the change', function () {
+        const { mod } = makeModule();
         const { ws, sent } = makeWs();
 
         mod.sendLogbookResponse(ws, 1, undefined, undefined, [
-            { entity, state: { val: 5, ts: 1000, from: 'system.adapter.hm-rpc.0', user: 'system.user.admin' } },
+            { entity, state: { val: 5, ts: 1000, from: 'system.adapter.hm-rpc.0' } },
         ]);
 
-        expect(sent[0].event.events[0]).to.deep.equal({ when: 1, state: '5', entity_id: 'sensor.x' });
+        expect(entryOf(sent)).to.deep.equal({
+            when: 1,
+            state: '5',
+            entity_id: 'sensor.x',
+            context_name: 'hm-rpc.0',
+        });
+    });
+
+    it('leaves out what it does not know', function () {
+        const { mod } = makeModule();
+        const { ws, sent } = makeWs();
+
+        mod.sendLogbookResponse(ws, 1, undefined, undefined, [{ entity, state: { val: 5, ts: 1000 } }]);
+
+        expect(entryOf(sent)).to.deep.equal({ when: 1, state: '5', entity_id: 'sensor.x' });
     });
 
     it('no longer answers the user list itself', async function () {
-        const { mod } = makeModule('user');
+        const { mod } = makeModule();
         const { ws } = makeWs();
         expect(await mod.processMessage(ws, { type: 'config/auth/list', id: 3 })).to.equal(false);
     });
