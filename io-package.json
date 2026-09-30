@@ -478,6 +478,15 @@
       },
       "native": {}
     },
+
+    {
+      "_id": "storage.browserMod",
+      "type": "channel",
+      "common": {
+        "name": "Storage for browser_mod settings"
+      },
+      "native": {}
+    },
     {
       "_id": "session",
       "type": "state",

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { readFileSync } from 'node:fs';
 import { detectCardVersion } from '../cards';
 
@@ -32,6 +33,8 @@ function makeAdapter(): any {
         setStateAsync: async () => {},
         setState: async () => {},
         setObjectNotExistsAsync: async () => {},
+        getObjectAsync: () => Promise.resolve(null),
+        extendObjectAsync: () => Promise.resolve(),
         extendObject: (_id: string, _o: unknown, cb?: () => void) => cb && cb(),
         delObjectAsync: async () => {},
     };
@@ -342,5 +345,88 @@ describe('modules/browser_mod version', function () {
         const shipped = detectCardVersion(card);
         expect(shipped, 'no version found in the shipped browser_mod.js').to.be.a('string');
         expect(BrowserModModule.VERSION).to.equal(shipped);
+    });
+});
+
+describe('modules/browser_mod settings storage (#751)', function () {
+    /**
+     * An adapter whose storage object survives, the way ioBroker keeps it over a restart.
+     *
+     * @param stored - the objects that survive a restart, keyed by id
+     * @returns the adapter mock
+     */
+    function makeAdapterWithStorage(stored: Record<string, any>): any {
+        const adapter = makeAdapter();
+        adapter.getObjectAsync = (id: string) => Promise.resolve(stored[id] || null);
+        adapter.extendObjectAsync = (id: string, obj: any) => {
+            stored[id] = { ...(stored[id] || {}), ...obj, native: { ...obj.native } };
+            return Promise.resolve();
+        };
+        return adapter;
+    }
+
+    it('stores a global setting and reads it back after a restart', async function () {
+        const clock = sinon.useFakeTimers();
+        try {
+            const stored: Record<string, any> = {};
+            const first: any = new BrowserModModule({ adapter: makeAdapterWithStorage(stored), objects: {} });
+            const ws = { send: () => {}, __auth: { username: 'admin' } };
+
+            // What the frontend sends when the sidebar title is changed for all browsers.
+            await first.processMessage(ws, {
+                type: 'browser_mod/settings',
+                key: 'sidebarTitle',
+                value: 'ioBroker',
+                id: 1,
+            });
+            // The write waits a moment for the other settings of a connecting browser.
+            expect(stored['storage.browserMod']).to.equal(undefined);
+            clock.tick(2500);
+            await Promise.resolve();
+
+            expect(stored['storage.browserMod'].native.settings.sidebarTitle).to.equal('ioBroker');
+
+            const second: any = new BrowserModModule({ adapter: makeAdapterWithStorage(stored), objects: {} });
+            await second.init({ views: [] });
+            expect(second.browserModStorage.settings.sidebarTitle).to.equal('ioBroker');
+            // The seeded defaults are kept next to what was stored.
+            expect(second.browserModStorage.settings.hideSidebar).to.equal(true);
+        } finally {
+            clock.restore();
+        }
+    });
+
+    it('restores the settings of a browser and its last_seen', async function () {
+        const stored: Record<string, any> = {
+            'storage.browserMod': {
+                native: {
+                    settings: {},
+                    browsers: { A: { last_seen: 1700000000000, registered: true, settings: { hideHeader: true } } },
+                    user_settings: { 'system.user.admin': { theme: 'dark' } },
+                    sessions: { key: 'A' },
+                },
+            },
+        };
+        const mod: any = new BrowserModModule({ adapter: makeAdapterWithStorage(stored), objects: {} });
+        await mod.init({ views: [] });
+
+        expect(mod.browserModStorage.browsers.A.last_seen).to.equal(1700000000000);
+        expect(mod.browserModStorage.browsers.A.settings.hideHeader).to.equal(true);
+        expect(mod.browserModStorage.user_settings['system.user.admin']).to.deep.equal({ theme: 'dark' });
+        expect(mod.browserModStorage.sessions.key).to.equal('A');
+    });
+
+    it('hands last_seen to the frontend as a string', function () {
+        // The browser_mod panel gives it to ha-relative-time, which converts a string but calls
+        // getTime() on a number - that threw "t.getTime is not a function" and left the table broken.
+        const mod: any = new BrowserModModule({ adapter: makeAdapter(), objects: {} });
+        mod.initialiseBrowserSettings('A');
+        mod.browserModStorage.browsers.A.last_seen = 1700000000000;
+
+        const forFrontend = mod._storageForFrontend();
+        expect(forFrontend.browsers.A.last_seen).to.equal(new Date(1700000000000).toISOString());
+        // never seen -> null, which the frontend shows as "never"
+        mod.initialiseBrowserSettings('B');
+        expect(mod._storageForFrontend().browsers.B.last_seen).to.equal(null);
     });
 });
