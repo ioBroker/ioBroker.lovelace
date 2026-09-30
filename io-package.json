@@ -3,6 +3,19 @@
     "name": "lovelace",
     "version": "7.1.1",
     "news": {
+      "7.2.0": {
+        "en": "The energy dashboard shows the costs again, whatever currency is configured in ioBroker.\nThe user settings and browser_mod offer the ioBroker users again; the logbook names the user or the adapter behind a change, so the setting for it is gone.\nbrowser_mod keeps its settings over a restart, the sidebar title among them, and its configuration page shows the browsers again.",
+        "de": "Das Energie-Dashboard zeigt die Kosten wieder, egal welche Währung in ioBroker eingestellt ist.\nDie Benutzereinstellungen und browser_mod zeigen wieder die ioBroker-Benutzer; das Logbuch nennt den Benutzer oder den Adapter hinter einer Änderung, die Einstellung dafür entfällt.\nbrowser_mod behält seine Einstellungen über einen Neustart, darunter den Titel der Seitenleiste, und seine Konfigurationsseite zeigt die Browser wieder an.",
+        "ru": "Панель энергии снова показывает затраты, какая бы валюта ни была задана в ioBroker.\nНастройки пользователей и browser_mod снова предлагают пользователей ioBroker; журнал называет пользователя или адаптер, вызвавший изменение, поэтому соответствующая настройка удалена.\nbrowser_mod сохраняет свои настройки при перезапуске, включая заголовок боковой панели, и его страница настроек снова показывает браузеры.",
+        "pt": "O painel de energia volta a mostrar os custos, qualquer que seja a moeda configurada no ioBroker.\nAs configurações de utilizador e o browser_mod voltam a oferecer os utilizadores do ioBroker; o diário indica o utilizador ou o adaptador por trás de uma alteração, pelo que a configuração para isso desapareceu.\nO browser_mod mantém as suas configurações após um reinício, entre elas o título da barra lateral, e a sua página de configuração volta a mostrar os navegadores.",
+        "nl": "Het energiedashboard toont de kosten weer, welke valuta er ook in ioBroker is ingesteld.\nDe gebruikersinstellingen en browser_mod tonen weer de ioBroker-gebruikers; het logboek noemt de gebruiker of de adapter achter een wijziging, dus de instelling daarvoor is verdwenen.\nbrowser_mod behoudt zijn instellingen na een herstart, waaronder de titel van de zijbalk, en zijn configuratiepagina toont de browsers weer.",
+        "fr": "Le tableau de bord énergie affiche à nouveau les coûts, quelle que soit la devise configurée dans ioBroker.\nLes paramètres des utilisateurs et browser_mod proposent à nouveau les utilisateurs ioBroker ; le journal nomme l'utilisateur ou l'adaptateur à l'origine d'un changement, le réglage correspondant disparaît donc.\nbrowser_mod conserve ses réglages après un redémarrage, dont le titre de la barre latérale, et sa page de configuration affiche à nouveau les navigateurs.",
+        "it": "La dashboard energia mostra di nuovo i costi, qualunque valuta sia impostata in ioBroker.\nLe impostazioni utente e browser_mod offrono di nuovo gli utenti di ioBroker; il diario indica l'utente o l'adapter dietro una modifica, quindi la relativa impostazione è stata rimossa.\nbrowser_mod conserva le sue impostazioni dopo un riavvio, tra cui il titolo della barra laterale, e la sua pagina di configurazione mostra di nuovo i browser.",
+        "es": "El panel de energía vuelve a mostrar los costes, sea cual sea la moneda configurada en ioBroker.\nLa configuración de usuarios y browser_mod vuelven a ofrecer los usuarios de ioBroker; el registro indica el usuario o el adaptador detrás de un cambio, por lo que el ajuste correspondiente desaparece.\nbrowser_mod conserva sus ajustes tras un reinicio, entre ellos el título de la barra lateral, y su página de configuración vuelve a mostrar los navegadores.",
+        "pl": "Panel energii znów pokazuje koszty, niezależnie od waluty ustawionej w ioBroker.\nUstawienia użytkowników i browser_mod znów pokazują użytkowników ioBroker; dziennik podaje użytkownika lub adapter, który spowodował zmianę, więc dotychczasowe ustawienie zniknęło.\nbrowser_mod zachowuje swoje ustawienia po restarcie, w tym tytuł paska bocznego, a jego strona konfiguracji znów pokazuje przeglądarki.",
+        "uk": "Панель енергії знову показує витрати, яку б валюту не було задано в ioBroker.\nНалаштування користувачів і browser_mod знову пропонують користувачів ioBroker; журнал називає користувача або адаптер, що спричинив зміну, тому відповідне налаштування вилучено.\nbrowser_mod зберігає свої налаштування після перезапуску, зокрема заголовок бічної панелі, а його сторінка налаштувань знову показує браузери.",
+        "zh-cn": "无论 ioBroker 中设置了哪种货币，能源面板都会重新显示费用。\n用户设置和 browser_mod 重新提供 ioBroker 用户；日志会指出更改背后的用户或适配器，因此相关设置被移除。\nbrowser_mod 的设置在重启后保留，包括侧边栏标题，其配置页面也重新显示浏览器。"
+      },
       "7.1.1": {
         "en": "Images a card loads from another adapter with a /state/ url are shown again.",
         "de": "Bilder, die eine Karte über eine /state/-URL aus einem anderen Adapter lädt, werden wieder angezeigt.",
@@ -477,7 +490,6 @@
       },
       "native": {}
     },
-
     {
       "_id": "storage.browserMod",
       "type": "channel",
