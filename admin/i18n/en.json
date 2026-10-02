@@ -393,7 +393,6 @@
     "Update interval for the UI (ms)": "Update interval for the UI (ms)",
     "update — on: Update available / off: Up-to-date": "update — on: Update available / off: Up-to-date",
     "Upload a custom card here or into the cards folder of this instance via the ioBroker file browser. Reload the browser afterwards to use a newly added card - an adapter restart is no longer needed.": "Upload a custom card here or into the cards folder of this instance via the ioBroker file browser. Reload the browser afterwards to use a newly added card - an adapter restart is no longer needed.",
-    "Upload a custom card here or into the lovelace.<instance>/cards folder via the ioBroker Files area. Press Reload files afterwards; reload the browser to use a newly added card - an adapter restart is no longer needed.": "Upload a custom card here or into the lovelace.<instance>/cards folder via the ioBroker Files area. Press Reload files afterwards; reload the browser to use a newly added card - an adapter restart is no longer needed.",
     "Upload custom card files into the lovelace.<instance>/cards folder via the ioBroker Files area, then press Reload files. Reload the browser to use a newly added card - an adapter restart is no longer needed.": "Upload custom card files into the lovelace.<instance>/cards folder via the ioBroker Files area, then press Reload files. Reload the browser to use a newly added card - an adapter restart is no longer needed.",
     "uptime — Uptime / last boot": "uptime",
     "Use Lets Encrypt certificates": "Use Let's Encrypt certificates",

@@ -3,6 +3,7 @@ import * as utils from '@iobroker/adapter-core';
 import { WebServer } from '@iobroker/webserver';
 import type http from 'node:http';
 import type https from 'node:https';
+import type http2 from 'node:http2';
 
 import ApiServer from './lib/server';
 import { parseThemes } from './lib/themesYaml';
@@ -96,7 +97,9 @@ type AdapterWithExtras = ioBroker.Adapter & {
 
 interface ServerBundle {
     app: ReturnType<typeof express>;
-    server: (http.Server | https.Server) & { __server?: ServerBundle };
+    // @iobroker/webserver speaks HTTP/2 on a secure server since 3.2 (with HTTP/1.1 as fallback, so
+    // the WebSocket upgrade keeps working on its own HTTP/1.1 connection).
+    server: (http.Server | https.Server | http2.Http2SecureServer) & { __server?: ServerBundle };
     api: null;
     io: null;
     settings: AdapterConfig;

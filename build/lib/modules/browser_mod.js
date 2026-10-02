@@ -1140,11 +1140,13 @@ class BrowserModModule {
    */
   async _saveStorage() {
     try {
-      await this.adapter.extendObjectAsync(BrowserModModule.STORAGE_ID, {
+      const storage = await this.adapter.getObjectAsync(BrowserModModule.STORAGE_ID) || {
         type: "channel",
         common: { name: "Storage for browser_mod settings" },
-        native: this.browserModStorage
-      });
+        native: {}
+      };
+      storage.native = this.browserModStorage;
+      await this.adapter.setObjectAsync(BrowserModModule.STORAGE_ID, storage);
     } catch (e) {
       this.adapter.log.warn(`Could not store the browser_mod settings: ${String(e)}`);
     }

@@ -83,6 +83,12 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) An unregistered browser_mod browser no longer comes back after a restart of the adapter.
+* (Garfonso/Claude) Settings page: the responsive sizes of all fields are complete, and six texts are translated in every language. (#725)
+* (Garfonso/Claude) Dependencies updated; a secure web server speaks HTTP/2 now (@iobroker/webserver 3.2).
+* (Garfonso/Claude) The adapter reports the port it listens on to js-controller 8, so a new instance can be given a free one.
+
 ### 7.2.0 (2026-09-30)
 * (Garfonso/Claude) The energy dashboard works with a currency symbol in the ioBroker settings; it stayed on "loading" before. (#749)
 * (Garfonso/Claude) The user settings and browser_mod offer the ioBroker users again instead of the adapters. The logbook names the user of a change, or the adapter that made it - the setting which of both to show is gone. (#751)
