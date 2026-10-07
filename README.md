@@ -81,10 +81,10 @@ After that checkout modified version in `./build` folder. Then.
 <!--
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
-* (Garfonso/Claude) The calendar REST endpoint answers with start/end as objects, the way Home Assistant does, so cards like Calendar Card Pro show the events. (#756)
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**
+* (Garfonso/Claude) The calendar REST endpoint answers with start/end as objects, the way Home Assistant does, so cards like Calendar Card Pro show the events. (#756)
 * (Garfonso/Claude) An unregistered browser_mod browser no longer comes back after a restart of the adapter.
 * (Garfonso/Claude) Settings page: the responsive sizes of all fields are complete, and six texts are translated in every language. (#725)
 * (Garfonso/Claude) Dependencies updated; a secure web server speaks HTTP/2 now (@iobroker/webserver 3.2).
