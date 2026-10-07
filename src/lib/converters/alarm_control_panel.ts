@@ -1,3 +1,4 @@
+import { normalizeStates } from '../statesMap';
 import type { ioBrokerEntity, ServiceCallData } from './converter';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -73,7 +74,9 @@ function fillAlarmControlPanelFromStates(
                 }
             }
             entity.context.STATE.isBoolean = obj.common.type === 'boolean';
-            entity.context.STATE.map = obj.common.states as Record<string, string | number>;
+            entity.context.STATE.map = normalizeStates(obj.common.states) as
+                | Record<string, string | number>
+                | undefined;
         }
         entity.context.STATE.setId = states.state;
         entity.context.STATE.getId = states.state;
@@ -88,7 +91,7 @@ function fillAlarmControlPanelFromStates(
             attribute: 'arm_state',
             getId: id,
             setId: id,
-            map: (obj?.common?.states as Record<string | number, string>) ?? undefined,
+            map: (normalizeStates(obj?.common?.states) as Record<string | number, string>) ?? undefined,
             getParser: (ent, attr, state): void => parseAlarmState(ent, attr.map, state),
         });
         entity.addID2entity(id);

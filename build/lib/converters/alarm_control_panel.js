@@ -21,6 +21,7 @@ __export(alarm_control_panel_exports, {
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(alarm_control_panel_exports);
+var import_statesMap = require("../statesMap");
 const adapterData = require("../../../lib/dataSingleton");
 function parseAlarmState(entity, attrMap, state) {
   if (!state) {
@@ -57,7 +58,7 @@ function fillAlarmControlPanelFromStates(states, objects, entity) {
         }
       }
       entity.context.STATE.isBoolean = obj.common.type === "boolean";
-      entity.context.STATE.map = obj.common.states;
+      entity.context.STATE.map = (0, import_statesMap.normalizeStates)(obj.common.states);
     }
     entity.context.STATE.setId = states.state;
     entity.context.STATE.getId = states.state;
@@ -71,7 +72,7 @@ function fillAlarmControlPanelFromStates(states, objects, entity) {
       attribute: "arm_state",
       getId: id,
       setId: id,
-      map: (_c = (_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.states) != null ? _c : void 0,
+      map: (_c = (0, import_statesMap.normalizeStates)((_b = obj == null ? void 0 : obj.common) == null ? void 0 : _b.states)) != null ? _c : void 0,
       getParser: (ent, attr, state) => parseAlarmState(ent, attr.map, state)
     });
     entity.addID2entity(id);

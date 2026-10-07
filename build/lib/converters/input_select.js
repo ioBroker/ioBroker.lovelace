@@ -21,6 +21,7 @@ __export(input_select_exports, {
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(input_select_exports);
+var import_statesMap = require("../statesMap");
 const adapterData = require("../../../lib/dataSingleton");
 async function fillInputSelectEntity(stateId, entity, objects) {
   var _a, _b, _c;
@@ -30,20 +31,16 @@ async function fillInputSelectEntity(stateId, entity, objects) {
     common.type = "string";
   }
   entity.context.STATE.isNumber = common.type.toLowerCase() === "number";
-  const rawStates = common.states;
+  const rawStates = (0, import_statesMap.normalizeStates)(
+    common.states,
+    () => adapterData.log.warn(
+      `${String(obj._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`
+    )
+  );
   if (rawStates) {
     if (Array.isArray(rawStates)) {
       entity.context.STATE.isStringArray = true;
       entity.attributes.options = rawStates;
-    } else if (typeof rawStates === "string") {
-      adapterData.log.warn(
-        `${String(obj._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`
-      );
-      entity.context.STATE.map2lovelace = {};
-      for (const kv of rawStates.split(";")) {
-        const [key, value] = kv.split(":");
-        entity.context.STATE.map2lovelace[key] = value;
-      }
     } else {
       entity.context.STATE.map2lovelace = rawStates;
       entity.context.STATE.isNumber = common.type !== void 0 && common.type.toLowerCase() === "number";

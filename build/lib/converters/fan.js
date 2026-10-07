@@ -32,6 +32,7 @@ __export(fan_exports, {
   processManualEntity: () => processManualEntity
 });
 module.exports = __toCommonJS(fan_exports);
+var import_statesMap = require("../statesMap");
 var import_type_detector = require("@iobroker/type-detector");
 var import_converter = __toESM(require("./converter"));
 var import_manualStates = require("./manualStates");
@@ -52,20 +53,16 @@ function augmentPresetMode(presetModeId, stateId, entity, objects) {
   if (!common.states) {
     common.states = { 0: "off", 1: "low", 2: "medium", 3: "high" };
   }
-  const rawStates = common.states;
+  const rawStates = (0, import_statesMap.normalizeStates)(
+    common.states,
+    () => adapterData.log.warn(
+      `${String(obj._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`
+    )
+  );
   if (rawStates) {
     if (Array.isArray(rawStates)) {
       attr.isStringArray = true;
       entity.attributes.preset_modes = rawStates;
-    } else if (typeof rawStates === "string") {
-      adapterData.log.warn(
-        `${String(obj._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`
-      );
-      attr.map2lovelace = {};
-      for (const kv of rawStates.split(";")) {
-        const [key, value] = kv.split(":");
-        attr.map2lovelace[key] = value;
-      }
     } else {
       attr.map2lovelace = rawStates;
       attr.isNumber = common.type !== void 0 && common.type.toLowerCase() === "number";

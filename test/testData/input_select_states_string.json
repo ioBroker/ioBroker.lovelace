@@ -1,0 +1,29 @@
+{
+  "adapter.0.input_select.states_string": {
+    "type": "state",
+    "common": {
+      "name": "states_string",
+      "type": "string",
+      "states": "Inland:Inland;Ausland:Ausland;Paket:Paket",
+      "read": true,
+      "write": true,
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "input_select",
+          "name": "input_select_states_string"
+        }
+      }
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616034,
+    "_id": "adapter.0.input_select.states_string",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

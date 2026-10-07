@@ -20,6 +20,7 @@ import { applyCustomAttributes, collectCustomAttributes } from './converters/man
 import { cacheBuster, detectCardVersion, staticCardUrl } from './cards';
 import { stateToResponse } from './stateResponse';
 import { toCurrencyCode } from './currency';
+import { normalizeStates } from './statesMap';
 import * as converterDatetime from './converters/input_datetime';
 import * as converterAlarmCP from './converters/alarm_control_panel';
 import * as converterInputSelect from './converters/input_select';
@@ -776,12 +777,13 @@ class WebServer {
 
             entity.context.STATE = { getId: id, setId: id, attribute: 'state' as const };
             if (obj && obj.common && obj.common.states && ['string', 'number'].includes(obj.common.type)) {
-                entity.context.STATE.map2lovelace = obj.common.states;
-                if (!(obj.common.states instanceof Array)) {
+                // common.states can be a string of pairs ("0:off;1:on") - the map it describes.
+                const states = normalizeStates(obj.common.states);
+                // An array is used as an index map here, as before - only the way back needs keys.
+                entity.context.STATE.map2lovelace = states as Record<string | number, string | number> | undefined;
+                if (states && !Array.isArray(states)) {
                     entity.context.STATE.map2iob = {};
-                    Object.keys(obj.common.states).forEach(
-                        k => (entity.context.STATE.map2iob![obj.common.states[k]] = k),
-                    );
+                    Object.keys(states).forEach(k => (entity.context.STATE.map2iob![states[k]] = k));
                 }
             }
 

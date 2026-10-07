@@ -1,3 +1,4 @@
+import { normalizeStates } from '../statesMap';
 import { Types } from '@iobroker/type-detector';
 import Converter, { type ConverterParameters, type ioBrokerEntity, type ServiceCallData } from './converter';
 import { collectManualStates } from './manualStates';
@@ -46,22 +47,19 @@ function augmentPresetMode(
         common.states = { 0: 'off', 1: 'low', 2: 'medium', 3: 'high' };
     }
 
-    const rawStates = common.states;
+    // A string ("0:off;1:low") is the map it describes, so the preset modes and the way back to
+    // ioBroker are built from it like from any other map.
+    const rawStates = normalizeStates(common.states, () =>
+        adapterData.log.warn(
+            `${String((obj as { _id?: string })._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`,
+        ),
+    );
     if (rawStates) {
         if (Array.isArray(rawStates)) {
             attr.isStringArray = true;
             entity.attributes.preset_modes = rawStates;
-        } else if (typeof rawStates === 'string') {
-            adapterData.log.warn(
-                `${String((obj as { _id?: string })._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`,
-            );
-            attr.map2lovelace = {};
-            for (const kv of rawStates.split(';')) {
-                const [key, value] = kv.split(':');
-                attr.map2lovelace[key] = value;
-            }
         } else {
-            attr.map2lovelace = rawStates as Record<string | number, string | number>;
+            attr.map2lovelace = rawStates;
             attr.isNumber = common.type !== undefined && (common.type as string).toLowerCase() === 'number';
             attr.map2iob = {};
             entity.attributes.preset_modes = [];
