@@ -22,10 +22,28 @@ interface RawCalendarEvent {
     [key: string]: unknown;
 }
 
-/** A calendar event in the shape the Home Assistant frontend expects. */
+/** A calendar event in the shape the websocket subscription delivers it. */
 interface CalendarEvent {
     start: string;
     end: string;
+    summary: string;
+    uid: string;
+    location?: string;
+    description?: string;
+}
+
+/** The same event as above, plus whether it covers whole days. */
+interface InternalEvent extends CalendarEvent {
+    allDay: boolean;
+}
+
+/** A date as the REST api of Home Assistant names it: a moment, or a whole day. */
+type RestDate = { dateTime: string } | { date: string };
+
+/** A calendar event in the shape the REST api of Home Assistant answers with. */
+interface RestEvent {
+    start: RestDate;
+    end: RestDate;
     summary: string;
     uid: string;
     location?: string;
@@ -106,13 +124,61 @@ class CalendarModule {
     }
 
     /**
+     * Whether a value names a whole day instead of a moment, i.e. "2026-10-07".
+     *
+     * @param value - the value of a start/end field
+     * @returns true for a date without a time
+     */
+    private static _isDateOnly(value: unknown): boolean {
+        const text = typeof value === 'string' ? value : (value as { date?: string } | undefined)?.date;
+        return typeof text === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(text);
+    }
+
+    /**
+     * An event in the shape the REST api of Home Assistant answers with: `start` and `end` are
+     * objects there, `{ dateTime }` for a moment and `{ date }` for a whole day, while the websocket
+     * subscription delivers plain strings. A card reading `event.start.dateTime` (Calendar Card Pro,
+     * for one) finds nothing in the websocket shape (#756).
+     *
+     * @param event - the event as it was read from the ioBroker state
+     * @returns the event for the REST answer
+     */
+    private static _toRestEvent(event: InternalEvent): RestEvent {
+        const asDate = (iso: string): RestDate => ({ date: iso.substring(0, 10) });
+        const rest: RestEvent = {
+            start: event.allDay ? asDate(event.start) : { dateTime: event.start },
+            end: event.allDay ? asDate(event.end) : { dateTime: event.end },
+            summary: event.summary,
+            uid: event.uid,
+        };
+        if (event.location) {
+            rest.location = event.location;
+        }
+        if (event.description) {
+            rest.description = event.description;
+        }
+        return rest;
+    }
+
+    /**
+     * Drop what only we know about an event, so the websocket answer keeps the shape it had.
+     *
+     * @param event - the event as it was read from the ioBroker state
+     * @returns the event for the websocket answer
+     */
+    private static _toWsEvent(event: InternalEvent): CalendarEvent {
+        const { allDay: _allDay, ...rest } = event;
+        return rest;
+    }
+
+    /**
      * Parse a calendar state value into the events that overlap the [start, end] window.
      *
      * @param value - raw ioBroker state value (JSON string or array)
      * @param start - window start in ms
      * @param end - window end in ms
      */
-    private _eventsInRange(value: unknown, start: number, end: number): CalendarEvent[] {
+    private _eventsInRange(value: unknown, start: number, end: number): InternalEvent[] {
         let events: unknown = value;
         if (typeof value === 'string') {
             try {
@@ -126,7 +192,7 @@ class CalendarModule {
             return [];
         }
 
-        const result: CalendarEvent[] = [];
+        const result: InternalEvent[] = [];
         events.forEach((raw: RawCalendarEvent, index: number) => {
             const startStr = raw._date ?? this._dateOf(raw.start);
             const endStr = raw._end ?? this._dateOf(raw.end) ?? startStr;
@@ -141,18 +207,26 @@ class CalendarModule {
             const endMs = isNaN(evEnd) ? evStart : evEnd;
             // Overlap test: event touches the requested window.
             if (evStart < end && endMs > start) {
-                const event: CalendarEvent = {
+                const event: InternalEvent = {
                     start: new Date(evStart).toISOString(),
                     end: new Date(endMs).toISOString(),
                     summary: String(raw.event ?? raw.summary ?? ''),
                     uid: String(index),
+                    // ioBroker.ical marks an event covering whole days with _allDay; a source that
+                    // writes HA-style events says the same by giving a date without a time.
+                    allDay:
+                        raw._allDay === true ||
+                        CalendarModule._isDateOnly(raw.start) ||
+                        CalendarModule._isDateOnly(raw._date),
                 };
                 // Optional fields the newer frontend shows in the event detail (only if present).
                 if (typeof raw.location === 'string' && raw.location) {
                     event.location = raw.location;
                 }
-                if (typeof raw.description === 'string' && raw.description) {
-                    event.description = raw.description;
+                // _section is where ioBroker.ical puts the description of an event.
+                const description = raw.description ?? raw._section;
+                if (typeof description === 'string' && description) {
+                    event.description = description;
                 }
                 result.push(event);
             }
@@ -177,7 +251,31 @@ class CalendarModule {
         }
         try {
             const state = await this.adapter.getForeignStateAsync(getId, { user });
-            return this._eventsInRange(state?.val, start, end);
+            return this._eventsInRange(state?.val, start, end).map(event => CalendarModule._toWsEvent(event));
+        } catch (e) {
+            this.adapter.log.warn(`Could not read calendar state for ${entityId}: ${String(e)}`);
+            return [];
+        }
+    }
+
+    /**
+     * The events of a calendar entity for the REST endpoint `/api/calendars/<entity_id>`.
+     *
+     * @param entityId - HA calendar entity_id
+     * @param start - window start in ms
+     * @param end - window end in ms
+     * @param user - ioBroker user id for the foreign-state read
+     * @returns the events, with start/end as the REST api names them
+     */
+    async getRestEvents(entityId: string, start: number, end: number, user: string): Promise<RestEvent[]> {
+        const entity = this.entityData.entityId2Entity[entityId];
+        const getId = entity?.context?.STATE?.getId;
+        if (!getId) {
+            return [];
+        }
+        try {
+            const state = await this.adapter.getForeignStateAsync(getId, { user });
+            return this._eventsInRange(state?.val, start, end).map(event => CalendarModule._toRestEvent(event));
         } catch (e) {
             this.adapter.log.warn(`Could not read calendar state for ${entityId}: ${String(e)}`);
             return [];
@@ -241,7 +339,9 @@ class CalendarModule {
             }
             for (const sub of client.__calendarSubs) {
                 if (sub.getId === id) {
-                    const events = this._eventsInRange(state?.val, sub.start, sub.end);
+                    const events = this._eventsInRange(state?.val, sub.start, sub.end).map(event =>
+                        CalendarModule._toWsEvent(event),
+                    );
                     const eventsJson = JSON.stringify(events);
                     // Only push when the events for this window actually changed. Calendar source
                     // adapters often rewrite their state regularly with identical data; re-pushing

@@ -81,6 +81,7 @@ After that checkout modified version in `./build` folder. Then.
 <!--
 	PLACEHOLDER for the next version:
 	### **WORK IN PROGRESS**
+* (Garfonso/Claude) The calendar REST endpoint answers with start/end as objects, the way Home Assistant does, so cards like Calendar Card Pro show the events. (#756)
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**

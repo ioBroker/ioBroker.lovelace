@@ -26,6 +26,7 @@ const map_tiles_tests = require('./map_tiles_tests');
 const cards_tests = require('./cards_tests');
 const http_static_files_tests = require('./http_static_files_tests');
 const config_tests = require('./config_tests');
+const calendar_tests = require('./calendar_tests');
 
 exports.runTests = function (suite) {
     alarm_control_tests.runTests(suite);
@@ -55,4 +56,5 @@ exports.runTests = function (suite) {
     cards_tests.runTests(suite);
     http_static_files_tests.runTests(suite);
     config_tests.runTests(suite);
+    calendar_tests.runTests(suite);
 };
