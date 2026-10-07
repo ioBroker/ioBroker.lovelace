@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "7.2.1",
+    "version": "7.2.2",
     "news": {
       "7.2.2": {
         "en": "The energy dashboard calculates the costs from a price entity again.\nCards that read the calendar over the REST endpoint show their events again.\nAn unregistered browser_mod browser stays gone over a restart.\nDependencies updated: a secure web server speaks HTTP/2, and the adapter reports its port to js-controller 8.",
