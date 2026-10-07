@@ -115,11 +115,33 @@ class PersistentNotificationsModule {
     }
 
     /**
+     * Whether two notifications say the same thing - everything but when they were created and
+     * which id they carry.
+     *
+     * @param one - a notification
+     * @param other - another notification
+     */
+    private static _sameContent(one: NotificationInfo, other: NotificationInfo): boolean {
+        const content = (notification: NotificationInfo): string => {
+            const rest: Record<string, unknown> = { ...notification };
+            delete rest.created_at;
+            delete rest.notification_id;
+            return JSON.stringify(
+                Object.keys(rest)
+                    .sort()
+                    .map(key => [key, rest[key]]),
+            );
+        };
+        return content(one) === content(other);
+    }
+
+    /**
      * Add a notification to the persistent notifications list.
      *
      * @param info - notification data (string, JSON string, or object)
+     * @param writtenAt - timestamp of the state that carried it, if it came from one
      */
-    private async _addNotification(info: unknown): Promise<Record<string, NotificationInfo>> {
+    private async _addNotification(info: unknown, writtenAt?: number): Promise<Record<string, NotificationInfo>> {
         let notification: NotificationInfo;
         if (typeof info !== 'object' || info === null) {
             const str = String(info);
@@ -138,14 +160,20 @@ class PersistentNotificationsModule {
 
         let type = 'added';
         if (notification.notification_id === undefined) {
-            notification.notification_id = Date.now();
-            while (this._notifications[notification.notification_id]) {
+            // The timestamp of the write names the notification. Should the same change arrive
+            // twice - a states database that fans out per matching subscription pattern delivers it
+            // twice - the second one lands on the same id and replaces the first, instead of adding
+            // a copy of it. Only a notification that says something else gets the next free id.
+            notification.notification_id = writtenAt ?? Date.now();
+            let existing = this._notifications[notification.notification_id];
+            while (existing && !PersistentNotificationsModule._sameContent(existing, notification)) {
                 notification.notification_id += 1;
+                existing = this._notifications[notification.notification_id];
             }
         } else {
             type = 'updated';
         }
-        notification.created_at = notification.created_at || Date.now();
+        notification.created_at = notification.created_at || writtenAt || Date.now();
 
         this._notifications[notification.notification_id] = notification;
         this.publishNotificationsUpdate({ [notification.notification_id]: notification }, type);
@@ -235,7 +263,7 @@ class PersistentNotificationsModule {
             }
             return this.publishNotificationsUpdate(this._notifications, 'current');
         } else if (id === `${this.adapter.namespace}.notifications.add`) {
-            return !state?.ack && this._addNotification(state?.val);
+            return !state?.ack && this._addNotification(state?.val, state?.ts);
         } else if (id === `${this.adapter.namespace}.notifications.clear`) {
             return !state?.ack && this._clearNotification(state?.val);
         }

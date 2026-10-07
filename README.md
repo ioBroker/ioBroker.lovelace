@@ -83,6 +83,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Writing lovelace.0.notifications.add creates one notification, not two.
+
 ### 7.2.2 (2026-10-07)
 * (Garfonso/Claude) The energy dashboard calculates the costs from a price entity again; they stayed at 0.00. (#749)
 * (Garfonso/Claude) The calendar REST endpoint answers with start/end as objects, the way Home Assistant does, so cards like Calendar Card Pro show the events. (#756)
