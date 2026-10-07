@@ -176,3 +176,73 @@ describe('modules/calendar', function () {
         expect(await mod.processMessage({ send: () => {} }, { type: 'other', id: 1 })).to.equal(false);
     });
 });
+
+describe('modules/calendar REST shape (#756)', function () {
+    it('answers with start/end as objects, the way the REST api of Home Assistant does', async function () {
+        // A card reading event.start.dateTime (e.g. Calendar Card Pro) found nothing in the plain
+        // strings the websocket subscription uses.
+        const { mod } = makeModule(JSON.stringify(EVENTS));
+        const res = await mod.getRestEvents('calendar.abfall', T0, T0 + DAY, 'system.user.admin');
+
+        expect(res).to.deep.equal([
+            {
+                start: { dateTime: '2026-06-13T08:00:00.000Z' },
+                end: { dateTime: '2026-06-13T09:00:00.000Z' },
+                summary: 'Restmüll',
+                uid: '0',
+            },
+        ]);
+    });
+
+    it('names a whole day with "date" instead of "dateTime"', async function () {
+        const allDay = [
+            {
+                _date: '2026-06-13T00:00:00.000Z',
+                _end: '2026-06-14T00:00:00.000Z',
+                event: 'Urlaub',
+                _allDay: true,
+            },
+        ];
+        const { mod } = makeModule(JSON.stringify(allDay));
+        const res = await mod.getRestEvents('calendar.abfall', T0, T0 + DAY, 'system.user.admin');
+
+        expect(res[0].start).to.deep.equal({ date: '2026-06-13' });
+        expect(res[0].end).to.deep.equal({ date: '2026-06-14' });
+    });
+
+    it('recognises a whole day from a date without a time', async function () {
+        const { mod } = makeModule(JSON.stringify([{ start: '2026-06-13', end: '2026-06-14', summary: 'Feiertag' }]));
+        const res = await mod.getRestEvents('calendar.abfall', T0, T0 + DAY, 'system.user.admin');
+        expect(res[0].start).to.deep.equal({ date: '2026-06-13' });
+    });
+
+    it('keeps location and description, and leaves out what is missing', async function () {
+        const events = [
+            {
+                _date: '2026-06-13T08:00:00.000Z',
+                _end: '2026-06-13T09:00:00.000Z',
+                event: 'Mathe',
+                location: 'Raum 1',
+                // ioBroker.ical puts the description here
+                _section: 'Kapitel 3',
+            },
+        ];
+        const { mod } = makeModule(JSON.stringify(events));
+        const res = await mod.getRestEvents('calendar.abfall', T0, T0 + DAY, 'system.user.admin');
+        expect(res[0].location).to.equal('Raum 1');
+        expect(res[0].description).to.equal('Kapitel 3');
+        expect(res[0]).to.not.have.property('rrule');
+    });
+
+    it('still delivers plain strings over the websocket, and no all-day flag', async function () {
+        const { mod } = makeModule(JSON.stringify(EVENTS));
+        const res = await mod.getEvents('calendar.abfall', T0, T0 + DAY, 'system.user.admin');
+        expect(res[0].start).to.equal('2026-06-13T08:00:00.000Z');
+        expect(res[0]).to.not.have.property('allDay');
+    });
+
+    it('has no events for an unknown entity', async function () {
+        const { mod } = makeModule(JSON.stringify(EVENTS));
+        expect(await mod.getRestEvents('calendar.nope', T0, T0 + DAY, 'system.user.admin')).to.deep.equal([]);
+    });
+});
