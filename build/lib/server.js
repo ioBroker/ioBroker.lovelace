@@ -2329,7 +2329,7 @@ ${hideScript.join("\n")}
         return res.status(404).json({ error: "Start or end misformated" });
       }
       const user = this._modules.person.getUserIDFromName(req._user);
-      res.json(await this._modules.calendar.getEvents(req.params.entity_id, start, end, user));
+      res.json(await this._modules.calendar.getRestEvents(req.params.entity_id, start, end, user));
     });
     this._app.use((req, res) => {
       this.log.info(`Unknown request for ${req.url}`);
