@@ -85,8 +85,6 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) The energy dashboard calculates the costs from a price entity again; they stayed at 0.00. (#749)
-
-### 7.2.1 (2026-10-07)
 * (Garfonso/Claude) The calendar REST endpoint answers with start/end as objects, the way Home Assistant does, so cards like Calendar Card Pro show the events. (#756)
 * (Garfonso/Claude) An unregistered browser_mod browser no longer comes back after a restart of the adapter.
 * (Garfonso/Claude) Settings page: the responsive sizes of all fields are complete, and six texts are translated in every language. (#725)
