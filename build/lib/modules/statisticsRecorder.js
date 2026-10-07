@@ -156,6 +156,52 @@ class StatisticsRecorder {
     return priceUnit && ((_c = UNIT_FACTORS[unitClass]) == null ? void 0 : _c[priceUnit]) ? priceUnit : fallback;
   }
   /**
+   * The values of a price entity over the requested range, oldest first.
+   *
+   * A price is rarely written often: a fixed tariff is logged once and never again, and plenty of
+   * price states are not logged at all. In both cases the range holds no value, and the current
+   * one is the only price there is - the one the user sees in the object and expects the costs to
+   * be calculated with.
+   *
+   * @param priceEntityId - the entity holding the price
+   * @param start - start of the requested range in milliseconds
+   * @param end - end of the requested range in milliseconds
+   * @param step - bucket size in milliseconds
+   * @param user - ioBroker user id for access control
+   * @returns the prices over time, undefined when there is no price at all
+   */
+  async _priceTimeline(priceEntityId, start, end, step, user) {
+    const priceEntity = this.dataSingleton.entityId2Entity[priceEntityId];
+    const priceId = (priceEntity == null ? void 0 : priceEntity.context.STATE.getId) || (priceEntity == null ? void 0 : priceEntity.context.STATE.setId) || "";
+    if (!priceId) {
+      this.log.warn(`Cannot calculate costs: the price entity ${priceEntityId} has no state to read.`);
+      return void 0;
+    }
+    const series = await this.getHistory(priceId, start, end, step, "max", user);
+    const prices = [];
+    for (const point of series) {
+      const value = Number(point == null ? void 0 : point.val);
+      if ((point == null ? void 0 : point.val) != null && !isNaN(value)) {
+        prices.push({ ts: point.ts, val: value });
+      }
+    }
+    if (prices.length) {
+      return prices.sort((a, b) => a.ts - b.ts);
+    }
+    const state = await this.adapter.getForeignStateAsync(priceId);
+    const current = Number(state == null ? void 0 : state.val);
+    if ((state == null ? void 0 : state.val) == null || isNaN(current)) {
+      this.log.warn(
+        `Cannot calculate costs: the price entity ${priceEntityId} has no value in the requested range and no current value either.`
+      );
+      return void 0;
+    }
+    this.log.debug(
+      `${priceId} has no history in the requested range, calculating the costs with its current value ${current}.`
+    );
+    return [{ ts: 0, val: current }];
+  }
+  /**
    * Build the statistics of a cost that Home Assistant would record with a cost sensor: the energy
    * consumed in each bucket, multiplied by the price of that bucket.
    *
@@ -175,20 +221,11 @@ class StatisticsRecorder {
       this.log.warn(`Cannot calculate the costs of ${cost.sourceStatisticId}: the entity has no state to read.`);
       return [];
     }
-    const prices = /* @__PURE__ */ new Map();
+    let prices;
     if (cost.priceEntityId) {
-      const priceEntity = this.dataSingleton.entityId2Entity[cost.priceEntityId];
-      const priceId = (priceEntity == null ? void 0 : priceEntity.context.STATE.getId) || (priceEntity == null ? void 0 : priceEntity.context.STATE.setId) || "";
-      if (!priceId) {
-        this.log.warn(`Cannot calculate costs: the price entity ${cost.priceEntityId} has no state to read.`);
+      prices = await this._priceTimeline(cost.priceEntityId, start, end, step, user);
+      if (!prices) {
         return [];
-      }
-      const priceSeries = await this.getHistory(priceId, start, end, step, "average", user);
-      for (const point of priceSeries) {
-        const value = Number(point.val);
-        if (point.val != null && !isNaN(value)) {
-          prices.set(point.ts, value);
-        }
       }
     }
     const unitClass = unitClassForDeviceClass(source.attributes.device_class);
@@ -200,7 +237,7 @@ class StatisticsRecorder {
     const wantChange = types == null ? void 0 : types.includes("change");
     const buckets = [];
     let previous;
-    let lastPrice = cost.price;
+    let priceIndex = -1;
     let total = 0;
     for (let i = 0; i < series.length; i++) {
       const value = Number(series[i].val);
@@ -208,11 +245,14 @@ class StatisticsRecorder {
         continue;
       }
       if (series[i].ts >= start && series[i].ts <= end) {
-        const price = cost.priceEntityId ? (_b = prices.get(series[i].ts)) != null ? _b : lastPrice : cost.price;
-        if (price !== void 0) {
-          lastPrice = price;
+        const bucketEnd = Math.min((_c = (_b = series[i + 1]) == null ? void 0 : _b.ts) != null ? _c : end, end);
+        if (prices) {
+          while (priceIndex + 1 < prices.length && prices[priceIndex + 1].ts <= bucketEnd) {
+            priceIndex++;
+          }
         }
-        const bucket = { start: series[i].ts, end: Math.min((_d = (_c = series[i + 1]) == null ? void 0 : _c.ts) != null ? _d : end, end) };
+        const price = prices ? (_d = prices[Math.max(priceIndex, 0)]) == null ? void 0 : _d.val : cost.price;
+        const bucket = { start: series[i].ts, end: bucketEnd };
         const consumed = previous !== void 0 && value >= previous ? value - previous : null;
         const change = consumed !== null && price !== void 0 ? consumed * factor * price : null;
         if (change !== null) {

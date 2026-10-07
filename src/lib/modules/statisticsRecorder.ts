@@ -109,6 +109,12 @@ function conversionFactor(unitClass: string | null, from: string | undefined, to
     return fromFactor / toFactor;
 }
 
+/** One value of a price entity, as the costs are calculated with it. */
+interface PricePoint {
+    ts: number;
+    val: number;
+}
+
 /** A single statistics bucket in the shape Home Assistant's recorder/statistics_during_period returns. */
 interface StatValue {
     start: number;
@@ -257,6 +263,67 @@ class StatisticsRecorder {
     }
 
     /**
+     * The values of a price entity over the requested range, oldest first.
+     *
+     * A price is rarely written often: a fixed tariff is logged once and never again, and plenty of
+     * price states are not logged at all. In both cases the range holds no value, and the current
+     * one is the only price there is - the one the user sees in the object and expects the costs to
+     * be calculated with.
+     *
+     * @param priceEntityId - the entity holding the price
+     * @param start - start of the requested range in milliseconds
+     * @param end - end of the requested range in milliseconds
+     * @param step - bucket size in milliseconds
+     * @param user - ioBroker user id for access control
+     * @returns the prices over time, undefined when there is no price at all
+     */
+    private async _priceTimeline(
+        priceEntityId: string,
+        start: number,
+        end: number,
+        step: number,
+        user: string,
+    ): Promise<PricePoint[] | undefined> {
+        const priceEntity = this.dataSingleton.entityId2Entity[priceEntityId];
+        const priceId = priceEntity?.context.STATE.getId || priceEntity?.context.STATE.setId || '';
+        if (!priceId) {
+            this.log.warn(`Cannot calculate costs: the price entity ${priceEntityId} has no state to read.`);
+            return undefined;
+        }
+        // "max" rather than "average": the average of a bucket is rounded to two decimals by the
+        // history adapters, which turns a price of 0.314 per kWh into 0.31 and a price per Wh into
+        // nothing at all. The min/max aggregation hands out the values themselves, with their own
+        // timestamps - which is exactly what a timeline needs.
+        const series = (await this.getHistory(priceId, start, end, step, 'max', user)) as {
+            ts: number;
+            val: unknown;
+        }[];
+        const prices: PricePoint[] = [];
+        for (const point of series) {
+            const value = Number(point?.val);
+            if (point?.val != null && !isNaN(value)) {
+                prices.push({ ts: point.ts, val: value });
+            }
+        }
+        if (prices.length) {
+            return prices.sort((a, b) => a.ts - b.ts);
+        }
+
+        const state = await this.adapter.getForeignStateAsync(priceId);
+        const current = Number(state?.val);
+        if (state?.val == null || isNaN(current)) {
+            this.log.warn(
+                `Cannot calculate costs: the price entity ${priceEntityId} has no value in the requested range and no current value either.`,
+            );
+            return undefined;
+        }
+        this.log.debug(
+            `${priceId} has no history in the requested range, calculating the costs with its current value ${current}.`,
+        );
+        return [{ ts: 0, val: current }];
+    }
+
+    /**
      * Build the statistics of a cost that Home Assistant would record with a cost sensor: the energy
      * consumed in each bucket, multiplied by the price of that bucket.
      *
@@ -283,24 +350,13 @@ class StatisticsRecorder {
             return [];
         }
 
-        // Prices per bucket: either the fixed one, or what the price entity averaged in that bucket.
-        const prices = new Map<number, number>();
+        // When the price comes from an entity: its values over time, to look the price of a bucket up
+        // by time.
+        let prices: PricePoint[] | undefined;
         if (cost.priceEntityId) {
-            const priceEntity = this.dataSingleton.entityId2Entity[cost.priceEntityId];
-            const priceId = priceEntity?.context.STATE.getId || priceEntity?.context.STATE.setId || '';
-            if (!priceId) {
-                this.log.warn(`Cannot calculate costs: the price entity ${cost.priceEntityId} has no state to read.`);
+            prices = await this._priceTimeline(cost.priceEntityId, start, end, step, user);
+            if (!prices) {
                 return [];
-            }
-            const priceSeries = (await this.getHistory(priceId, start, end, step, 'average', user)) as {
-                ts: number;
-                val: unknown;
-            }[];
-            for (const point of priceSeries) {
-                const value = Number(point.val);
-                if (point.val != null && !isNaN(value)) {
-                    prices.set(point.ts, value);
-                }
             }
         }
 
@@ -322,7 +378,7 @@ class StatisticsRecorder {
         const wantChange = types?.includes('change');
         const buckets: StatValue[] = [];
         let previous: number | undefined;
-        let lastPrice = cost.price;
+        let priceIndex = -1;
         let total = 0;
         for (let i = 0; i < series.length; i++) {
             const value = Number(series[i].val);
@@ -330,13 +386,19 @@ class StatisticsRecorder {
                 continue; // gap: keep the previous reading so the next one still gets a delta
             }
             if (series[i].ts >= start && series[i].ts <= end) {
-                // A price entity without a value in this bucket keeps the last known price, the way
-                // a cost sensor would: it only changes when the price entity changes.
-                const price = cost.priceEntityId ? (prices.get(series[i].ts) ?? lastPrice) : cost.price;
-                if (price !== undefined) {
-                    lastPrice = price;
+                const bucketEnd = Math.min(series[i + 1]?.ts ?? end, end);
+                // The price in force in this bucket: the newest one up to its end, the way a cost
+                // sensor uses the price at the moment of consumption. The price is looked up by
+                // time, not by timestamp: the meter and the price are aggregated separately, so
+                // their timestamps are those of their own values and never match (#749). Before the
+                // first known price the earliest one is used, rather than no cost at all.
+                if (prices) {
+                    while (priceIndex + 1 < prices.length && prices[priceIndex + 1].ts <= bucketEnd) {
+                        priceIndex++;
+                    }
                 }
-                const bucket: StatValue = { start: series[i].ts, end: Math.min(series[i + 1]?.ts ?? end, end) };
+                const price = prices ? prices[Math.max(priceIndex, 0)]?.val : cost.price;
+                const bucket: StatValue = { start: series[i].ts, end: bucketEnd };
                 const consumed = previous !== undefined && value >= previous ? value - previous : null;
                 const change = consumed !== null && price !== undefined ? consumed * factor * price : null;
                 if (change !== null) {
