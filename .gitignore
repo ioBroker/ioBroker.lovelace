@@ -13,7 +13,6 @@ iobroker.*.tgz
 Thumbs.db
 # temporary release script file, might still linger around, if release script failed.
 .commitinfo
-.commitmessage
 
 # NYC coverage files
 coverage
