@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "7.2.0",
+    "version": "7.2.1",
     "news": {
       "7.2.1": {
         "en": "Cards that read the calendar over the REST endpoint show their events again.\nAn unregistered browser_mod browser stays gone over a restart.\nDependencies updated: a secure web server speaks HTTP/2, and the adapter reports its port to js-controller 8.",
