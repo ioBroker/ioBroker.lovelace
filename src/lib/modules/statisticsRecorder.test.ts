@@ -311,6 +311,7 @@ describe('modules/statisticsRecorder energy costs', function () {
         series: Record<string, { ts: number; val: number | null }[]>,
         energyUnit = 'kWh',
         priceUnit = 'EUR/kWh',
+        currentPrice: number | null = null,
     ): { mod: any; responses: any[] } {
         const responses: any[] = [];
         const energy = {
@@ -329,6 +330,8 @@ describe('modules/statisticsRecorder energy costs', function () {
                 config: { history: 'history.0' },
                 sendToAsync: (_instance: string, _command: string, message: any) =>
                     Promise.resolve({ result: series[message.id] || [] }),
+                getForeignStateAsync: (id: string) =>
+                    Promise.resolve(id === 'src.0.price' && currentPrice !== null ? { val: currentPrice } : null),
             },
             log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
             personModule: { getUserIDFromName: () => 'system.user.admin' },
@@ -398,6 +401,87 @@ describe('modules/statisticsRecorder energy costs', function () {
         expect(responses[0]['sensor.energy_cost'].map((b: any) => b.change)).to.deep.equal([0.4, 0.4]);
     });
 
+    it('finds the price although its timestamps are not those of the meter (#749)', async function () {
+        // The meter and the price are logged independently and aggregated separately, so their
+        // timestamps never line up. Matching them exactly left every bucket without a price - and
+        // the costs at 0.00.
+        const { mod, responses } = makeCostModule(
+            { sourceStatisticId: 'sensor.energy', priceEntityId: 'sensor.price' },
+            {
+                'src.0.energy': [
+                    { ts: T0 - STEP, val: 10 },
+                    { ts: T0, val: 11 },
+                    { ts: T0 + STEP, val: 12 },
+                ],
+                'src.0.price': [
+                    { ts: T0 + 123, val: 0.4 },
+                    { ts: T0 + STEP + 456, val: 0.5 },
+                ],
+            },
+        );
+
+        await ask(mod, ['change']);
+
+        expect(responses[0]['sensor.energy_cost'].map((b: any) => b.change)).to.deep.equal([0.4, 0.5]);
+    });
+
+    it('uses the oldest known price for the time before it (#749)', async function () {
+        // A price that is only logged in the middle of the range (because it changed then, or
+        // because logging started then) must not leave the buckets before it at 0.00.
+        const { mod, responses } = makeCostModule(
+            { sourceStatisticId: 'sensor.energy', priceEntityId: 'sensor.price' },
+            {
+                'src.0.energy': [
+                    { ts: T0 - STEP, val: 10 },
+                    { ts: T0, val: 11 },
+                    { ts: T0 + STEP, val: 12 },
+                ],
+                'src.0.price': [{ ts: T0 + STEP + 10, val: 0.3 }],
+            },
+        );
+
+        await ask(mod, ['change']);
+
+        expect(responses[0]['sensor.energy_cost'].map((b: any) => b.change)).to.deep.equal([0.3, 0.3]);
+    });
+
+    it('calculates with the current price when the price has no history (#749)', async function () {
+        // A fixed tariff is written once and never logged again, and many price states are not
+        // logged at all. Its current value is then the only price there is.
+        const { mod, responses } = makeCostModule(
+            { sourceStatisticId: 'sensor.energy', priceEntityId: 'sensor.price' },
+            {
+                'src.0.energy': [
+                    { ts: T0 - STEP, val: 10 },
+                    { ts: T0, val: 11 },
+                ],
+            },
+            'kWh',
+            'EUR/kWh',
+            0.314,
+        );
+
+        await ask(mod, ['change']);
+
+        expect(responses[0]['sensor.energy_cost'].map((b: any) => b.change)).to.deep.equal([0.314]);
+    });
+
+    it('reports no costs when the price has neither history nor a value', async function () {
+        const { mod, responses } = makeCostModule(
+            { sourceStatisticId: 'sensor.energy', priceEntityId: 'sensor.price' },
+            {
+                'src.0.energy': [
+                    { ts: T0 - STEP, val: 10 },
+                    { ts: T0, val: 11 },
+                ],
+            },
+        );
+
+        await ask(mod, ['change']);
+
+        expect(responses[0]['sensor.energy_cost']).to.deep.equal([]);
+    });
+
     it('converts a meter counting Wh into kWh before applying the fixed price', async function () {
         // The fixed price is per kWh. Without the conversion 1000 Wh would cost 1000 * 0.3.
         const { mod, responses } = makeCostModule(
@@ -425,7 +509,7 @@ describe('modules/statisticsRecorder energy costs', function () {
                     { ts: T0 - STEP, val: 10000 },
                     { ts: T0, val: 11000 },
                 ],
-                'src.0.price': [{ ts: T0, val: 0.0003 }],
+                'src.0.price': [{ ts: T0 + 500, val: 0.0003 }],
             },
             'Wh',
             'EUR/Wh',
