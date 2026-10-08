@@ -83,11 +83,30 @@ class PersistentNotificationsModule {
     return this._notifications;
   }
   /**
+   * Whether two notifications say the same thing - everything but when they were created and
+   * which id they carry.
+   *
+   * @param one - a notification
+   * @param other - another notification
+   */
+  static _sameContent(one, other) {
+    const content = (notification) => {
+      const rest = { ...notification };
+      delete rest.created_at;
+      delete rest.notification_id;
+      return JSON.stringify(
+        Object.keys(rest).sort().map((key) => [key, rest[key]])
+      );
+    };
+    return content(one) === content(other);
+  }
+  /**
    * Add a notification to the persistent notifications list.
    *
    * @param info - notification data (string, JSON string, or object)
+   * @param writtenAt - timestamp of the state that carried it, if it came from one
    */
-  async _addNotification(info) {
+  async _addNotification(info, writtenAt) {
     let notification;
     if (typeof info !== "object" || info === null) {
       const str = String(info);
@@ -105,14 +124,16 @@ class PersistentNotificationsModule {
     }
     let type = "added";
     if (notification.notification_id === void 0) {
-      notification.notification_id = Date.now();
-      while (this._notifications[notification.notification_id]) {
+      notification.notification_id = writtenAt != null ? writtenAt : Date.now();
+      let existing = this._notifications[notification.notification_id];
+      while (existing && !PersistentNotificationsModule._sameContent(existing, notification)) {
         notification.notification_id += 1;
+        existing = this._notifications[notification.notification_id];
       }
     } else {
       type = "updated";
     }
-    notification.created_at = notification.created_at || Date.now();
+    notification.created_at = notification.created_at || writtenAt || Date.now();
     this._notifications[notification.notification_id] = notification;
     this.publishNotificationsUpdate({ [notification.notification_id]: notification }, type);
     return this._saveNotifications();
@@ -196,7 +217,7 @@ class PersistentNotificationsModule {
       }
       return this.publishNotificationsUpdate(this._notifications, "current");
     } else if (id === `${this.adapter.namespace}.notifications.add`) {
-      return !(state == null ? void 0 : state.ack) && this._addNotification(state == null ? void 0 : state.val);
+      return !(state == null ? void 0 : state.ack) && this._addNotification(state == null ? void 0 : state.val, state == null ? void 0 : state.ts);
     } else if (id === `${this.adapter.namespace}.notifications.clear`) {
       return !(state == null ? void 0 : state.ack) && this._clearNotification(state == null ? void 0 : state.val);
     }

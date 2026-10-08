@@ -161,6 +161,13 @@ class WebServer {
   _auth_flows;
   _objectData;
   _modules;
+  /**
+   * Patterns of our own states we react to. While subscribed to all states ('*') they are not
+   * subscribed on top of it: a states database that fans out per matching pattern - redis does -
+   * delivers such a change twice, and a write to notifications.add then created two notifications.
+   */
+  _ownStatePatterns = ["control.*", "notifications.*", "instances.*", "conversation"];
+  _ownStatesSubscribed = false;
   _wss;
   _indexHtml;
   _clearInterval;
@@ -396,10 +403,7 @@ class WebServer {
     Promise.all(concurrentPromises).then(() => {
       var _a;
       this.adapter.subscribeObjects("configuration");
-      this.adapter.subscribeStates("control.*");
-      this.adapter.subscribeStates("notifications.*");
-      this.adapter.subscribeStates("instances.*");
-      this.adapter.subscribeStates("conversation");
+      this._subscribeOwnStates();
       this._init();
       for (const mod of Object.values(this._modules)) {
         (_a = mod.augmentServices) == null ? void 0 : _a.call(mod, entityData.services);
@@ -1523,6 +1527,7 @@ class WebServer {
         this._subscribed = [];
         await this.adapter.subscribeForeignStatesAsync("*");
         this._subscribedAll = true;
+        this._unsubscribeOwnStates();
         this.log.info(
           `Subscribing to all states (${ids.length} > ${MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS}) and filtering in the adapter.`
         );
@@ -1533,6 +1538,7 @@ class WebServer {
       this.adapter.unsubscribeForeignStates("*");
       this._subscribedAll = false;
       this._subscribed = [];
+      this._subscribeOwnStates();
       this.log.info(`Switched back to individual state subscriptions (${ids.length}).`);
     }
     const deleted = this._subscribed.filter((id) => ids.indexOf(id) === -1);
@@ -3081,6 +3087,26 @@ ${hideScript.join("\n")}
       (_a = mod.onObjectChange) == null ? void 0 : _a.call(mod, id, obj);
     }
   }
+  /** Subscribe to our own states, unless the '*' subscription covers them already. */
+  _subscribeOwnStates() {
+    if (this._ownStatesSubscribed || this._subscribedAll) {
+      return;
+    }
+    for (const pattern of this._ownStatePatterns) {
+      this.adapter.subscribeStates(pattern);
+    }
+    this._ownStatesSubscribed = true;
+  }
+  /** Drop the subscriptions of our own states. */
+  _unsubscribeOwnStates() {
+    if (!this._ownStatesSubscribed) {
+      return;
+    }
+    for (const pattern of this._ownStatePatterns) {
+      this.adapter.unsubscribeStates(pattern);
+    }
+    this._ownStatesSubscribed = false;
+  }
   /**
    * Destroy the webserver and all its connections.
    *
@@ -3088,9 +3114,7 @@ ${hideScript.join("\n")}
    */
   destroy(cb) {
     var _a;
-    this.adapter.unsubscribeStates("control.*");
-    this.adapter.unsubscribeStates("notifications.*");
-    this.adapter.unsubscribeStates("instances.*");
+    this._unsubscribeOwnStates();
     this.adapter.setState("info.readyForClients", false, true);
     this._saveAuth(() => {
       this.adapter.unsubscribeForeignObjects("*");
