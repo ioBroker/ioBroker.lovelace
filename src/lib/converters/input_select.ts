@@ -1,3 +1,4 @@
+import { normalizeStates } from '../statesMap';
 import type { ioBrokerEntity, ServiceCallData } from './converter';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -33,22 +34,19 @@ async function fillInputSelectEntity(
 
     entity.context.STATE.isNumber = (common.type as string).toLowerCase() === 'number';
 
-    const rawStates = common.states;
+    // The string form of common.states ("0:off;1:on") becomes the map it describes, so the options
+    // are built from it like from any other map - they stayed empty before.
+    const rawStates = normalizeStates(common.states, () =>
+        adapterData.log.warn(
+            `${String(obj._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`,
+        ),
+    );
     if (rawStates) {
         if (Array.isArray(rawStates)) {
             entity.context.STATE.isStringArray = true;
             entity.attributes.options = rawStates;
-        } else if (typeof rawStates === 'string') {
-            adapterData.log.warn(
-                `${String(obj._id)}: states is of type string. Problems might occur. Please fix states to be of type object.`,
-            );
-            entity.context.STATE.map2lovelace = {};
-            for (const kv of rawStates.split(';')) {
-                const [key, value] = kv.split(':');
-                entity.context.STATE.map2lovelace[key] = value;
-            }
         } else {
-            entity.context.STATE.map2lovelace = rawStates as Record<string | number, string | number>;
+            entity.context.STATE.map2lovelace = rawStates;
             entity.context.STATE.isNumber =
                 common.type !== undefined && (common.type as string).toLowerCase() === 'number';
             entity.attributes.options = Object.values(entity.context.STATE.map2lovelace);

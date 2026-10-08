@@ -43,6 +43,7 @@ var import_manualStates = require("./converters/manualStates");
 var import_cards = require("./cards");
 var import_stateResponse = require("./stateResponse");
 var import_currency = require("./currency");
+var import_statesMap = require("./statesMap");
 var converterDatetime = __toESM(require("./converters/input_datetime"));
 var converterAlarmCP = __toESM(require("./converters/alarm_control_panel"));
 var converterInputSelect = __toESM(require("./converters/input_select"));
@@ -596,12 +597,11 @@ class WebServer {
       }
       entity.context.STATE = { getId: id, setId: id, attribute: "state" };
       if (obj && obj.common && obj.common.states && ["string", "number"].includes(obj.common.type)) {
-        entity.context.STATE.map2lovelace = obj.common.states;
-        if (!(obj.common.states instanceof Array)) {
+        const states = (0, import_statesMap.normalizeStates)(obj.common.states);
+        entity.context.STATE.map2lovelace = states;
+        if (states && !Array.isArray(states)) {
           entity.context.STATE.map2iob = {};
-          Object.keys(obj.common.states).forEach(
-            (k) => entity.context.STATE.map2iob[obj.common.states[k]] = k
-          );
+          Object.keys(states).forEach((k) => entity.context.STATE.map2iob[states[k]] = k);
         }
       }
       entity.addID2entity(id);

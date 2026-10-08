@@ -10,12 +10,16 @@ exports.runTests = function (suite) {
         let objects;
 
         //load all test objects here:
-        const jsonFiles = ['../testData/input_select_with_states.json'];
+        const jsonFiles = ['../testData/input_select_with_states.json', '../testData/input_select_states_string.json'];
 
         //start adapter and get initial entities.
         const idsWithEnums = [];
         const deviceId = 'adapter.0.input_select.with_states';
-        const initialStates = [{ id: deviceId, val: 1 }];
+        const stringDeviceId = 'adapter.0.input_select.states_string';
+        const initialStates = [
+            { id: deviceId, val: 1 },
+            { id: stringDeviceId, val: 'Ausland' },
+        ];
         before(async () => {
             tools.clearClient();
             //get harness && entities here.
@@ -294,6 +298,26 @@ exports.runTests = function (suite) {
                 },
                 deviceId,
                 state => expect(state.val).to.equal('somethingfromlovelace'),
+            );
+        });
+        // common.states as a string of pairs ("Inland:Inland;Ausland:Ausland") is still written by
+        // hand in ioBroker. Its options were lost when the converter moved to TypeScript (5.1.0).
+        it('offers the options of a states string', async () => {
+            const entity = entities.find(e => e.context.deviceId === stringDeviceId);
+            expect(entity).to.be.ok;
+            expect(entity.attributes.options).to.deep.equal(['Inland', 'Ausland', 'Paket']);
+            expect(entity).to.have.property('state', 'Ausland');
+
+            await tools.validateUIInput(
+                harness,
+                entity,
+                m => {
+                    m.domain = 'input_select';
+                    m.service = 'select_option';
+                    m.service_data = { option: 'Paket' };
+                },
+                stringDeviceId,
+                state => expect(state.val).to.equal('Paket'),
             );
         });
     });
