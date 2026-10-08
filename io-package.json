@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "7.2.2",
+    "version": "7.2.3",
     "news": {
       "7.2.3": {
         "en": "common.states written as a string is understood again, so such an input_select offers its options.\nWriting lovelace.0.notifications.add creates one notification, not two.",
