@@ -137,7 +137,6 @@ const REVALIDATE_CACHE = "no-cache";
 function looksHashed(name) {
   return /(^|[.\-_])[0-9a-f]{8,}\./.test(name);
 }
-const CARD_MAX_AGE = 3600;
 class WebServer {
   adapter;
   config;
@@ -1350,7 +1349,7 @@ class WebServer {
           if (!file.isDir) {
             const pos = file.file.lastIndexOf(".");
             const type = file.file.substring(pos + 1).toLowerCase();
-            const url = `/cards/${file.file}${(0, import_cards.cacheBuster)(file)}`;
+            const url = `/cards/${file.file}`;
             if (type === "js") {
               this.log.debug(`Add custom cards: ${file.file} as ${type}`);
               this._ressourceConfig.push({
@@ -1838,7 +1837,10 @@ ${hideScript.join("\n")}
         "content-type",
         (mime.getType || mime.lookup).call(data.mimeType, file.substring(pos2 + 1).toLowerCase())
       );
-      res.setHeader("Cache-Control", versioned ? IMMUTABLE_CACHE : `public, max-age=${CARD_MAX_AGE}`);
+      res.setHeader(
+        "Cache-Control",
+        versioned && file.startsWith("/lovelace/") ? IMMUTABLE_CACHE : REVALIDATE_CACHE
+      );
       res.send(data);
     } catch (err) {
       this.log.warn(`Could not read card ${file}: ${err}`);

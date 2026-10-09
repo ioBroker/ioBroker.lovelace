@@ -1,12 +1,32 @@
 /* global it before */
 const WebSocket = require('ws');
 const fs = require('node:fs');
+const http = require('node:http');
 const path = require('node:path');
 const tools = require('./testTools');
 const expect = require('chai').expect;
 
 // Padded past the compression threshold (1 kB) - a real card is far bigger than the banner.
 const CARD = 'console.info(`%c TEST-CARD %c v1.2.3 `, "color: white");\n' + `/* ${'padding '.repeat(300)} */\n`;
+
+/**
+ * GET a url with the given headers, without a fetch library in between.
+ *
+ * `fetch` adds "cache-control: no-cache" as soon as a conditional header is set by hand, and that
+ * tells the server to answer in full - a browser revalidating its cache does not do that.
+ *
+ * @param url - what to request
+ * @param headers - request headers
+ * @returns status and headers of the answer
+ */
+async function request(url, headers = {}) {
+    return new Promise((resolve, reject) => {
+        http.get(url, { headers }, res => {
+            res.resume();
+            res.on('end', () => resolve({ status: res.statusCode, headers: res.headers }));
+        }).on('error', reject);
+    });
+}
 
 /** Ask the adapter which resources (custom cards) it offers to the frontend. */
 async function readResources() {
@@ -60,15 +80,26 @@ exports.runTests = function (suite) {
             expect(answer.native._cardsFolder).to.equal('lovelace.0%2Fcards');
         });
 
-        it('caches a versioned card url for good, an unversioned one only briefly', async () => {
-            // The resource list points at "?v=<modified>", so that url can be cached forever; a card
-            // referenced by hand has no marker, and caching it would hide the next update.
-            const versioned = await fetch('http://localhost:38091/cards/test-card.js?v=4711');
-            expect(versioned.status).to.equal(200);
-            expect(versioned.headers.get('cache-control')).to.contain('immutable');
+        it('offers a custom card under its plain url and revalidates it (#755)', async () => {
+            // A card may import a sibling file relatively ("./test-card-editor.js"). That import
+            // never carries a version marker, so the resource url must not carry one either -
+            // otherwise the browser loads the same module twice and the second
+            // customElements.define() throws.
+            const resources = await readResources();
+            const entry = resources.find(resource => resource.url.startsWith('/cards/test-card.js'));
+            expect(entry.url).to.equal('/cards/test-card.js');
 
-            const plain = await fetch('http://localhost:38091/cards/test-card.js');
-            expect(plain.headers.get('cache-control')).to.equal('public, max-age=3600');
+            const response = await request('http://localhost:38091/cards/test-card.js');
+            expect(response.status).to.equal(200);
+            expect(response.headers['cache-control']).to.equal('no-cache');
+
+            // Instead of a cache time, the unchanged card is confirmed with a cheap 304.
+            const etag = response.headers.etag;
+            expect(etag).to.be.ok;
+            const again = await request('http://localhost:38091/cards/test-card.js', {
+                'if-none-match': etag,
+            });
+            expect(again.status).to.equal(304);
         });
 
         it('serves the precompressed frontend file when the browser accepts brotli', async () => {

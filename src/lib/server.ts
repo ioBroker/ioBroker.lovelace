@@ -17,7 +17,7 @@ import * as converterGeoLocation from './converters/geo_location';
 import * as converterDeviceTracker from './converters/deviceTracker';
 import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
 import { applyCustomAttributes, collectCustomAttributes } from './converters/manualStates';
-import { cacheBuster, detectCardVersion, staticCardUrl } from './cards';
+import { detectCardVersion, staticCardUrl } from './cards';
 import { stateToResponse } from './stateResponse';
 import { toCurrencyCode } from './currency';
 import { normalizeStates } from './statesMap';
@@ -216,10 +216,6 @@ const REVALIDATE_CACHE = 'no-cache';
 function looksHashed(name: string): boolean {
     return /(^|[.\-_])[0-9a-f]{8,}\./.test(name);
 }
-// Custom cards keep their file name when the user uploads a new one, so only the resource url with
-// the modification time (see _listFiles) may be cached forever. A card referenced by hand in a
-// dashboard carries no such marker and is therefore checked once an hour.
-const CARD_MAX_AGE = 3600; // 1 hour
 
 type AdapterInstance = ioBroker.Adapter & { config: Record<string, unknown> };
 
@@ -1667,9 +1663,12 @@ class WebServer {
                     if (!file.isDir) {
                         const pos = file.file.lastIndexOf('.');
                         const type = file.file.substring(pos + 1).toLowerCase();
-                        // A new version of a card keeps its file name, so the url has to change for
-                        // the browser to load it again instead of its cached copy.
-                        const url = `/cards/${file.file}${cacheBuster(file)}`;
+                        // No version marker in the url: a card may import a sibling file relatively
+                        // ("./x-card-editor.js"), and that import would not carry the marker - the
+                        // browser then loads the same module under two urls and the second
+                        // customElements.define() throws. (#755) The card is revalidated instead,
+                        // see onCards().
+                        const url = `/cards/${file.file}`;
                         if (type === 'js') {
                             //we do not really need to advertise the images, do we? Hm.
                             this.log.debug(`Add custom cards: ${file.file} as ${type}`);
@@ -2208,6 +2207,7 @@ class WebServer {
         let file = req.url.replace('hacsfiles', 'cards');
         file = file.replace('/cards/_static_', '/lovelace/static_cards/');
         const pos = file.indexOf('?');
+        // Only the cards we ship ourselves carry a version marker, and theirs is the adapter version.
         const versioned = pos !== -1 && /[?&]v=/.test(file.substring(pos));
         if (pos !== -1) {
             file = file.substring(0, pos);
@@ -2238,11 +2238,14 @@ class WebServer {
                 'content-type',
                 (mime.getType || mime.lookup).call(data.mimeType, file.substring(pos + 1).toLowerCase()),
             );
-            // The resource list gives each card a "?v=<modified>" marker, so that url always
-            // points at this exact version and can be cached for good. A card referenced by hand
-            // (e.g. in yaml) has no marker and is rechecked regularly, or replacing it would again
-            // have no effect for the user.
-            res.setHeader('Cache-Control', versioned ? IMMUTABLE_CACHE : `public, max-age=${CARD_MAX_AGE}`);
+            // A static card is requested with the adapter version in its url and can be cached for
+            // good. A custom card is served under its plain url, because the card itself may import
+            // a sibling file by that url (#755), so it is revalidated: express answers a 304 from
+            // the ETag while the file is unchanged, and a replaced card takes effect on a reload.
+            res.setHeader(
+                'Cache-Control',
+                versioned && file.startsWith('/lovelace/') ? IMMUTABLE_CACHE : REVALIDATE_CACHE,
+            );
             res.send(data);
         } catch (err: any) {
             this.log.warn(`Could not read card ${file}: ${err}`);

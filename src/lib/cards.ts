@@ -52,28 +52,6 @@ export function detectCardVersion(content: string): string | undefined {
     return constant?.[1];
 }
 
-/** What `readDir` tells us about a file; enough to see whether it changed. */
-export interface FileStamp {
-    /** Timestamp of the last change, as readDir reports it. */
-    modifiedAt?: number;
-    /** File system stats, the fallback when there is no modifiedAt. */
-    stats?: { mtimeMs?: number; size?: number };
-}
-
-/**
- * Version marker for a custom card's url, so a replaced file is loaded instead of the cached copy.
- *
- * A new version of a card is uploaded under the same file name, and the browser caches modules by
- * url - without this it keeps running the old card until its cache expires.
- *
- * @param file - the entry from readDir
- * @returns a query string like "?v=1758...", empty when the file carries no timestamp at all
- */
-export function cacheBuster(file: FileStamp): string {
-    const version = file.modifiedAt || file.stats?.mtimeMs || file.stats?.size;
-    return version ? `?v=${version}` : '';
-}
-
 /** Version of this adapter, used as the cache marker of the cards we ship ourselves. */
 const ADAPTER_VERSION: string = (
     JSON.parse(readFileSync(`${__dirname}/../../package.json`, 'utf8')) as { version: string }

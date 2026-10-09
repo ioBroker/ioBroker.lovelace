@@ -18,7 +18,6 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var cards_exports = {};
 __export(cards_exports, {
-  cacheBuster: () => cacheBuster,
   detectCardVersion: () => detectCardVersion,
   staticCardUrl: () => staticCardUrl
 });
@@ -48,18 +47,12 @@ function detectCardVersion(content) {
   const constant = new RegExp(`(?:card[_ ]?version|version)["'\`\\s:=]{1,12}v?${SEMVER}`, "i").exec(content);
   return constant == null ? void 0 : constant[1];
 }
-function cacheBuster(file) {
-  var _a, _b;
-  const version = file.modifiedAt || ((_a = file.stats) == null ? void 0 : _a.mtimeMs) || ((_b = file.stats) == null ? void 0 : _b.size);
-  return version ? `?v=${version}` : "";
-}
 const ADAPTER_VERSION = JSON.parse((0, import_node_fs.readFileSync)(`${__dirname}/../../package.json`, "utf8")).version;
 function staticCardUrl(file) {
   return `/cards/_static_${file}?v=${ADAPTER_VERSION}`;
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  cacheBuster,
   detectCardVersion,
   staticCardUrl
 });
