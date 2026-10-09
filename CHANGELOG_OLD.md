@@ -1,4 +1,17 @@
 # Older Changes
+## 7.1.0 (2026-09-21)
+* (Garfonso/Claude) Removed endpoints and services that neither the frontend nor Home Assistant offer any more (camera_thumbnail, conversation/agent/info, /api/person, sensor/numeric_device_classes, image/list, fan.set_speed).
+* (Garfonso/Claude) The action picker only offers services the adapter can really execute.
+* (Garfonso/Claude) Removed the old shopping list api, the shopping list has been a todo list for a long time.
+* (Garfonso/Claude) The buttons of a timer entity work now (start, cancel, finish, change).
+* (Garfonso/Claude) Energy costs of a meter counting Wh are no longer a thousand times too high.
+* (Garfonso/Claude) Weather icons of daswetter 4 are shown again.
+* (Garfonso/Claude) Weather cards set up in the editor show the forecast (weather/subscribe_forecast).
+* (Garfonso/Claude) Browser Mod no longer asks to reload because of a version mismatch.
+* (Garfonso/Claude) Shipped cards (browser_mod) get the adapter version in their url, so an update is loaded instead of the cached copy.
+* (Garfonso/Claude) Service calls that fail now always answer, instead of leaving the frontend waiting.
+* (Garfonso/Claude) homeassistant.update_entity rereads the states of the entity instead of failing.
+
 ## 7.0.0 (2026-09-18)
 * (Garfonso/Claude) Fixed custom cards that fetch history directly (e.g. the windrose card) crashing with "TypeError: t.callback is not a function": a one-shot history request was answered like a subscription. (#722)
 * (Garfonso/Claude) `instances.hideSidebar` / `hideHeader` no longer fall back to the default on an adapter restart. (#733)

@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "7.2.3",
+    "version": "7.2.4",
     "news": {
       "7.2.4": {
         "en": "Custom cards made up of several files (like refreshable-picture-card) work again.",
