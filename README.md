@@ -83,6 +83,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Custom cards that consist of several files (like refreshable-picture-card) work again. (#755)
+
 ### 7.2.3 (2026-10-08)
 * (Garfonso/Claude) common.states written as a string ("Inland:Inland;Ausland:Ausland") is understood again, so such an input_select offers its options.
 * (Garfonso/Claude) Writing lovelace.0.notifications.add creates one notification, not two.

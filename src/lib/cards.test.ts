@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { readFileSync } from 'node:fs';
-import { cacheBuster, detectCardVersion, staticCardUrl } from './cards';
+import { detectCardVersion, staticCardUrl } from './cards';
 
 describe('lib/cards detectCardVersion', function () {
     it('reads a version printed literally in the console banner', function () {
@@ -30,21 +30,6 @@ describe('lib/cards detectCardVersion', function () {
 
     it('returns undefined when the file has no version at all', function () {
         expect(detectCardVersion('customElements.define("x-card", XCard);')).to.equal(undefined);
-    });
-});
-
-describe('lib/cards cacheBuster', function () {
-    it('marks the url with the modification time', function () {
-        expect(cacheBuster({ modifiedAt: 1758000000000 })).to.equal('?v=1758000000000');
-    });
-
-    it('falls back to what the file system offers', function () {
-        expect(cacheBuster({ stats: { mtimeMs: 17, size: 100 } })).to.equal('?v=17');
-        expect(cacheBuster({ stats: { size: 100 } })).to.equal('?v=100');
-    });
-
-    it('stays empty when nothing identifies the version', function () {
-        expect(cacheBuster({})).to.equal('');
     });
 });
 
