@@ -83,6 +83,8 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) Editing the themes no longer loses the selected theme, and broken theme YAML cannot be saved any more.
 ### 7.2.4 (2026-10-09)
 * (Garfonso/Claude) Custom cards that consist of several files (like refreshable-picture-card) work again. (#755)
 

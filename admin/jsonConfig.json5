@@ -399,6 +399,9 @@
         "themes": {
           "type": "yamlEditor",
           "label": "Place the themes as YAML here",
+          // Broken YAML must not reach the configuration: the adapter cannot offer the themes then,
+          // and the theme selection would show the default look until it is fixed.
+          "doNotApplyWithError": true,
           "newLine": true,
           "xs": 12,
           "sm": 12,
