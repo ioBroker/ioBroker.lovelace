@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "7.2.4",
+    "version": "7.2.5",
     "news": {
       "7.2.5": {
         "en": "Editing the themes no longer loses the selected theme.\nCustom cards are cached again, so the ioBroker app shows them.",

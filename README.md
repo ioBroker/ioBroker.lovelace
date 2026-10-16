@@ -83,9 +83,10 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 7.2.5 (2026-10-16)
 * (Garfonso/Claude) Editing the themes no longer loses the selected theme, and broken theme YAML cannot be saved any more.
 * (Garfonso/Claude) Custom cards are cached again, so a dashboard in the ioBroker app loads them without asking the server every time. (#755)
+
 ### 7.2.4 (2026-10-09)
 * (Garfonso/Claude) Custom cards that consist of several files (like refreshable-picture-card) work again. (#755)
 
@@ -107,9 +108,6 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) browser_mod settings (sidebar title, default dashboard, per browser settings) survive a restart of the adapter. (#751)
 * (Garfonso/Claude) The browser_mod configuration page shows the browsers again ("last connected" broke it).
 * (Garfonso/Claude) The http settings the frontend asks an administrator for are answered, instead of logging an unknown request.
-
-### 7.1.1 (2026-09-27)
-* (Garfonso/Claude) The /state/ url serves the value of a state again, instead of answering with an error. (#723)
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
