@@ -101,7 +101,14 @@ class TemplateModule {
       this.adapter.log.warn(`Ignoring render_template without template string: ${JSON.stringify(message)}`);
       return true;
     }
-    const obj = { template, ids: [], id: message.id, jinja: (0, import_jinja.isJinjaTemplate)(template) };
+    const variables = message.variables || null;
+    const obj = {
+      template,
+      ids: [],
+      id: message.id,
+      jinja: (0, import_jinja.isJinjaTemplate)(template),
+      variables
+    };
     (_a = ws.__templates) == null ? void 0 : _a.push(obj);
     const promises = [];
     const processId = async (id) => {
@@ -117,7 +124,7 @@ class TemplateModule {
       }
     };
     if (obj.jinja) {
-      for (const entityId of (0, import_jinja.extractEntityIds)(template)) {
+      for (const entityId of (0, import_jinja.extractEntityIds)([template, JSON.stringify(variables || {})].join(" "))) {
         const entity = adapterData.entityId2Entity[entityId];
         const getId = (_c = (_b = entity == null ? void 0 : entity.context) == null ? void 0 : _b.STATE) == null ? void 0 : _c.getId;
         if (getId) {
@@ -171,6 +178,37 @@ class TemplateModule {
     return true;
   }
   /**
+   * Home Assistant renders a template to a native value, not to a string: `{{ is_state(...) }}`
+   * arrives at the frontend as a boolean, a number stays a number, and a list or object is sent
+   * as such. Cards rely on it - template-entity-row's `active` and `toggle` options check the
+   * value itself, and the string "false" is truthy. So take the rendered text apart the same way.
+   *
+   * @param text - the rendered template
+   */
+  static _parseResult(text) {
+    const trimmed = text.trim();
+    if (trimmed === "true" || trimmed === "True") {
+      return true;
+    }
+    if (trimmed === "false" || trimmed === "False") {
+      return false;
+    }
+    if (trimmed === "none" || trimmed === "None") {
+      return null;
+    }
+    if (trimmed && String(Number(trimmed)) === trimmed) {
+      return Number(trimmed);
+    }
+    if (/^[[{]/.test(trimmed)) {
+      try {
+        return JSON.parse(trimmed);
+      } catch {
+        return text;
+      }
+    }
+    return text;
+  }
+  /**
    * Render a template entry to its result string: Jinja2 via nunjucks (against the live entity
    * store), or the ioBroker {id} binding via lib/bindings.
    *
@@ -178,7 +216,7 @@ class TemplateModule {
    */
   _render(entry) {
     if (entry.jinja) {
-      return (0, import_jinja.renderJinja)(String(entry.template));
+      return TemplateModule._parseResult((0, import_jinja.renderJinja)(String(entry.template), entry.variables));
     }
     return bindings.formatBinding(entry.template, this.templateStates);
   }

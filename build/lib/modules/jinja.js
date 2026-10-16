@@ -75,6 +75,36 @@ function buildStatesAccessor() {
     }
   });
 }
+function allEntities() {
+  return adapterData.entities || [];
+}
+function resolveArea(lookup) {
+  var _a, _b, _c, _d, _e, _f, _g, _h;
+  const needle = typeof lookup === "string" ? lookup : "";
+  if (!needle) {
+    return { id: null, name: null };
+  }
+  const entity = getEntity(needle) || allEntities().find((e) => {
+    var _a2;
+    return ((_a2 = e.context) == null ? void 0 : _a2.deviceId) === needle;
+  });
+  if (entity) {
+    return { id: (_b = (_a = entity.context) == null ? void 0 : _a.roomId) != null ? _b : null, name: (_d = (_c = entity.context) == null ? void 0 : _c.room) != null ? _d : null };
+  }
+  const inArea = allEntities().find((e) => {
+    var _a2, _b2;
+    return ((_a2 = e.context) == null ? void 0 : _a2.roomId) === needle || ((_b2 = e.context) == null ? void 0 : _b2.room) === needle;
+  });
+  return inArea ? { id: (_f = (_e = inArea.context) == null ? void 0 : _e.roomId) != null ? _f : null, name: (_h = (_g = inArea.context) == null ? void 0 : _g.room) != null ? _h : null } : { id: null, name: null };
+}
+function toNumber(value, fallback, asInt) {
+  const text = typeof value === "number" ? String(value) : typeof value === "string" ? value.trim() : "";
+  const num = text ? Number(text) : NaN;
+  if (isNaN(num)) {
+    return fallback === void 0 ? 0 : fallback;
+  }
+  return asInt ? Math.trunc(num) : num;
+}
 let env = null;
 function getEnv() {
   if (env) {
@@ -103,11 +133,57 @@ function getEnv() {
   });
   env.addGlobal("now", () => /* @__PURE__ */ new Date());
   env.addGlobal("utcnow", () => /* @__PURE__ */ new Date());
+  env.addGlobal("area_id", (lookup) => resolveArea(lookup).id);
+  env.addGlobal("area_name", (lookup) => resolveArea(lookup).name);
+  env.addGlobal("areas", () => [
+    ...new Set(
+      allEntities().map((e) => {
+        var _a;
+        return (_a = e.context) == null ? void 0 : _a.roomId;
+      }).filter((id) => !!id)
+    )
+  ]);
+  env.addGlobal("area_entities", (lookup) => {
+    const area = resolveArea(lookup);
+    return area.id ? allEntities().filter((e) => {
+      var _a;
+      return ((_a = e.context) == null ? void 0 : _a.roomId) === area.id;
+    }).map((e) => e.entity_id) : [];
+  });
+  env.addGlobal("device_id", (entityId) => {
+    var _a, _b, _c;
+    return (_c = (_b = (_a = getEntity(String(entityId))) == null ? void 0 : _a.context) == null ? void 0 : _b.deviceId) != null ? _c : null;
+  });
+  env.addGlobal(
+    "device_entities",
+    (deviceId) => allEntities().filter((e) => {
+      var _a;
+      return ((_a = e.context) == null ? void 0 : _a.deviceId) === String(deviceId);
+    }).map((e) => e.entity_id)
+  );
+  env.addGlobal(
+    "expand",
+    (...args) => args.flat().map((id) => getEntity(String(id))).filter((e) => !!e).map((e) => ({ entity_id: e.entity_id, state: e.state, attributes: e.attributes || {} }))
+  );
+  env.addGlobal(
+    "iif",
+    (condition, ifTrue = true, ifFalse = false) => condition ? ifTrue : ifFalse
+  );
+  env.addGlobal("float", (value, fallback) => toNumber(value, fallback, false));
+  env.addGlobal("int", (value, fallback) => toNumber(value, fallback, true));
+  env.addGlobal("as_timestamp", (value, fallback) => {
+    const date = value instanceof Date ? value : new Date(String(value));
+    return isNaN(date.getTime()) ? fallback != null ? fallback : null : date.getTime() / 1e3;
+  });
+  env.addFilter(
+    "count",
+    (value) => Array.isArray(value) || typeof value === "string" ? value.length : Object.keys(value || {}).length
+  );
   return env;
 }
-function renderJinja(template) {
+function renderJinja(template, variables) {
   try {
-    return getEnv().renderString(template, {});
+    return getEnv().renderString(template, variables ? { ...variables } : {});
   } catch (e) {
     return `Template error: ${e.message}`;
   }

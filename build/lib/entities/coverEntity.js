@@ -84,8 +84,10 @@ function addCommand(entity, control, stateName, serviceName, featureBit, onWrite
     service: serviceName,
     setId: stateId,
     parseCommand: (ent, command, _data, user) => new Promise((resolve, reject) => {
+      var _a, _b;
       if (typeof onWrite === "function") {
         onWrite(ent);
+        (_b = (_a = adapterData.server) == null ? void 0 : _a.updateEntityInFrontend) == null ? void 0 : _b.call(_a, ent);
       }
       adapterData.adapter.setForeignState(
         command.setId,
@@ -326,8 +328,11 @@ class CoverEntity extends import_baseEntity.BaseEntity {
       addCommand(entity, controls, "STOP", "stop_cover", 8);
       return entities;
     }
-    if (addBlindLevel(entities, controls, objects, "SET", room, func, objects[params.id])) {
+    const havePosition = addBlindLevel(entities, controls, objects, "SET", room, func, objects[params.id]);
+    if (havePosition) {
       entity.context.STATE.invert = !!adapterData.adapter.config.blindsInvert;
+    } else {
+      entity.attributes.assumed_state = true;
     }
     if (addTiltLevel(entity, controls, objects, "TILT_SET")) {
       const attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "tilt");
@@ -335,12 +340,21 @@ class CoverEntity extends import_baseEntity.BaseEntity {
         attr.invert = !!adapterData.adapter.config.blindsInvert;
       }
     }
-    addCommand(entity, controls, "STOP", "stop_cover", 8);
+    addCommand(
+      entity,
+      controls,
+      "STOP",
+      "stop_cover",
+      8,
+      havePosition ? void 0 : (ent) => {
+        ent.state = "unknown";
+      }
+    );
     const haveOpen = addCommand(entity, controls, "OPEN", "open_cover", 1, (ent) => {
-      ent.state = "opening";
+      ent.state = havePosition ? "opening" : "open";
     });
     const haveClose = addCommand(entity, controls, "CLOSE", "close_cover", 2, (ent) => {
-      ent.state = "closing";
+      ent.state = havePosition ? "closing" : "closed";
     });
     addCommand(entity, controls, "TILT_OPEN", "open_cover_tilt", 16);
     addCommand(entity, controls, "TILT_CLOSE", "close_cover_tilt", 32);
