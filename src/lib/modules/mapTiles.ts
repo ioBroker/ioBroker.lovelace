@@ -11,8 +11,9 @@ import { randomBytes, timingSafeEqual } from 'node:crypto';
  * (possibly external) URL of the user's ioBroker installation to a third party.
  *
  * The frontend draws the map with MapLibre from vector tiles and falls back to raster tiles when the
- * device has no WebGL2. Both come through here, together with the TileJSON, the label glyphs and the
- * icon sprites the vector style references.
+ * device has no WebGL2. Both come through here, together with the TileJSON and the label glyphs the
+ * vector style references. The icon sprites do not: since the Versatiles v6 style (frontend
+ * 20260930) the frontend ships them itself, under `/static/map/sprites/`.
  *
  * The proxy also caches: the OSMF asks consumers to cache tiles, and a dashboard with a map card
  * re-requests the same tiles on every reload.
@@ -20,7 +21,7 @@ import { randomBytes, timingSafeEqual } from 'node:crypto';
 
 /** Upstream raster tiles. */
 const RASTER_URL = 'https://tile.openstreetmap.org';
-/** Upstream vector tiles, their TileJSON and the assets of the "shortbread" style. */
+/** Upstream vector tiles, their TileJSON and the glyphs of the "shortbread" style. */
 const VECTOR_URL = 'https://vector.openstreetmap.org';
 const TILEJSON_URL = `${VECTOR_URL}/shortbread_v1/tilejson.json`;
 /** OSM raster stops here; Leaflet scales the last level up for closer zooms. */
@@ -35,7 +36,7 @@ const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">Op
 const CACHE_MAX_BYTES = 32 * 1024 * 1024;
 /** How long a cached tile is served without asking upstream again. */
 const TILE_TTL = 7 * 24 * 60 * 60 * 1000;
-/** Glyphs and sprites are pinned to an upstream release and practically never change. */
+/** Glyphs are pinned to an upstream release and practically never change. */
 const ASSET_TTL = 30 * 24 * 60 * 60 * 1000;
 /** Short: the TileJSON is how upstream would announce a moved tile endpoint. */
 const TILEJSON_TTL = 60 * 60 * 1000;
@@ -55,8 +56,6 @@ const MAX_COORDINATE_DIGITS = 8;
 /** A font stack as MapLibre requests it, e.g. "Noto Sans Regular,Arial Unicode MS Regular". */
 const FONTSTACK_RE = /^[A-Za-z0-9 _-]{1,64}(?:,[A-Za-z0-9 _-]{1,64}){0,7}$/;
 const GLYPH_RANGE_RE = /^\d{1,5}-\d{1,5}\.pbf$/;
-const SPRITE_SET_RE = /^[a-z0-9_-]{1,32}$/;
-const SPRITE_NAME_RE = /^sprites(?:@2x)?$/;
 
 /** Bytes of entropy per access token. */
 const TOKEN_SIZE = 32;
@@ -464,31 +463,6 @@ class MapTilesModule {
             // The font stack may contain spaces; express handed it to us decoded.
             `${VECTOR_URL}/styles/shortbread/fonts/${encodeURIComponent(fontstack)}/${range}`,
             'application/x-protobuf',
-            ASSET_TTL,
-            ASSET_MAX_AGE,
-        );
-    }
-
-    /**
-     * Express handler for the icon sprites (`/api/map_tiles/sprites/{set}/sprites[@2x].json|png`).
-     *
-     * @param req - the request, with set/name route parameters
-     * @param res - the response
-     */
-    async serveSprites(req: TileRequest, res: TileResponse): Promise<void> {
-        const set = req.params.set;
-        const file = req.params.name || '';
-        const match = /^(.+)\.(json|png)$/.exec(file);
-        if (!SPRITE_SET_RE.test(set) || !match || !SPRITE_NAME_RE.test(match[1])) {
-            res.status(400).send('Invalid sprite request');
-            return;
-        }
-        const path = `sprites/${set}/${match[1]}.${match[2]}`;
-        await this.serveAsset(
-            res,
-            path,
-            `${VECTOR_URL}/styles/shortbread/${path}`,
-            match[2] === 'json' ? 'application/json' : 'image/png',
             ASSET_TTL,
             ASSET_MAX_AGE,
         );

@@ -204,33 +204,13 @@ describe('modules/mapTiles vector map endpoints', function () {
         expect(sent.headers['Content-Type']).to.equal('application/x-protobuf');
     });
 
-    it('refuses a font or sprite request that is not one', async function () {
+    it('refuses a font request that is not one', async function () {
         const mod = makeModule();
         const glyphs = makeRes();
         await mod.serveGlyphs({ params: { fontstack: '../../etc', range: '0-255.pbf' } }, glyphs.res);
         expect(glyphs.sent.status).to.equal(400);
 
-        const sprites = makeRes();
-        await mod.serveSprites({ params: { set: 'basics', name: 'passwd.json' } }, sprites.res);
-        expect(sprites.sent.status).to.equal(400);
-
         expect(requests).to.have.lengthOf(0);
-    });
-
-    it('serves both sprite files of a set', async function () {
-        const mod = makeModule();
-        const index = makeRes();
-        const sheet = makeRes();
-
-        await mod.serveSprites({ params: { set: 'basics', name: 'sprites.json' } }, index.res);
-        await mod.serveSprites({ params: { set: 'basics', name: 'sprites@2x.png' } }, sheet.res);
-
-        expect(requests).to.deep.equal([
-            'https://vector.openstreetmap.org/styles/shortbread/sprites/basics/sprites.json',
-            'https://vector.openstreetmap.org/styles/shortbread/sprites/basics/sprites@2x.png',
-        ]);
-        expect(index.sent.headers['Content-Type']).to.equal('application/json');
-        expect(sheet.sent.headers['Content-Type']).to.equal('image/png');
     });
 
     it('republishes the TileJSON with our own tile url', async function () {

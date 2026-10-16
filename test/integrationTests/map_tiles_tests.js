@@ -87,7 +87,6 @@ exports.runTests = function (suite) {
                 'http://localhost:38091/api/map_tiles/tilejson.json',
                 'http://localhost:38091/api/map_tiles/vector/1/0/0.mvt',
                 'http://localhost:38091/api/map_tiles/fonts/noto_sans_regular/0-255.pbf',
-                'http://localhost:38091/api/map_tiles/sprites/basics/sprites.json',
             ]) {
                 const response = await fetch(url);
                 expect(response.status, url).to.equal(403);

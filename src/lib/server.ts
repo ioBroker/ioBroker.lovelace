@@ -2821,9 +2821,6 @@ class WebServer {
         this._app.get('/api/map_tiles/fonts/:fontstack/:range', async (req: any, res: any) => {
             await this._modules.mapTiles.serveGlyphs(req, res);
         });
-        this._app.get('/api/map_tiles/sprites/:set/:name', async (req: any, res: any) => {
-            await this._modules.mapTiles.serveSprites(req, res);
-        });
 
         this._app.get('/api/history/period/:start', async (req: any, res: any) => {
             void this._modules.history.processRequest(req, res);
