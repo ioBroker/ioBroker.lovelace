@@ -28,6 +28,8 @@ interface TemplateEntry {
     id: unknown;
     /** true for HA Jinja2 templates (rendered via nunjucks), false for ioBroker {id} bindings. */
     jinja?: boolean;
+    /** Variables the caller sent along with the template, available to the template by name. */
+    variables?: Record<string, unknown> | null;
 }
 
 interface WsWithTemplates {
@@ -158,7 +160,16 @@ class TemplateModule {
             return true;
         }
 
-        const obj: TemplateEntry = { template, ids: [], id: message.id, jinja: isJinjaTemplate(template) };
+        // Cards pass the entity they are about in `variables` (template-entity-row sends `config`,
+        // `user`, `browser` and `hash`), so a template may well mention no entity_id of its own.
+        const variables = (message.variables as Record<string, unknown> | undefined) || null;
+        const obj: TemplateEntry = {
+            template,
+            ids: [],
+            id: message.id,
+            jinja: isJinjaTemplate(template),
+            variables,
+        };
         ws.__templates?.push(obj);
 
         const promises: Promise<void>[] = [];
@@ -179,7 +190,7 @@ class TemplateModule {
         if (obj.jinja) {
             // HA Jinja2 template: subscribe the ioBroker states behind every referenced entity (its
             // main state + any attribute states) so we re-render when they change.
-            for (const entityId of extractEntityIds(template)) {
+            for (const entityId of extractEntityIds([template, JSON.stringify(variables || {})].join(' '))) {
                 const entity = adapterData.entityId2Entity[entityId];
                 const getId = entity?.context?.STATE?.getId;
                 if (getId) {
@@ -235,6 +246,40 @@ class TemplateModule {
     }
 
     /**
+     * Home Assistant renders a template to a native value, not to a string: `{{ is_state(...) }}`
+     * arrives at the frontend as a boolean, a number stays a number, and a list or object is sent
+     * as such. Cards rely on it - template-entity-row's `active` and `toggle` options check the
+     * value itself, and the string "false" is truthy. So take the rendered text apart the same way.
+     *
+     * @param text - the rendered template
+     */
+    private static _parseResult(text: string): unknown {
+        const trimmed = text.trim();
+        if (trimmed === 'true' || trimmed === 'True') {
+            return true;
+        }
+        if (trimmed === 'false' || trimmed === 'False') {
+            return false;
+        }
+        if (trimmed === 'none' || trimmed === 'None') {
+            return null;
+        }
+        // Only a number that survives the round trip, so a padded "01" or a version "1.2.3" stays
+        // the text it is.
+        if (trimmed && String(Number(trimmed)) === trimmed) {
+            return Number(trimmed);
+        }
+        if (/^[[{]/.test(trimmed)) {
+            try {
+                return JSON.parse(trimmed);
+            } catch {
+                return text; // not JSON after all -> keep the text
+            }
+        }
+        return text;
+    }
+
+    /**
      * Render a template entry to its result string: Jinja2 via nunjucks (against the live entity
      * store), or the ioBroker {id} binding via lib/bindings.
      *
@@ -242,7 +287,7 @@ class TemplateModule {
      */
     private _render(entry: TemplateEntry): unknown {
         if (entry.jinja) {
-            return renderJinja(String(entry.template));
+            return TemplateModule._parseResult(renderJinja(String(entry.template), entry.variables));
         }
         return bindings.formatBinding(entry.template, this.templateStates);
     }

@@ -6,10 +6,21 @@ const entityData = require('../../../lib/dataSingleton');
 
 function setEntities(): void {
     entityData.entityId2Entity = {
-        'sensor.temp': { entity_id: 'sensor.temp', state: 21.5, attributes: { unit_of_measurement: '°C' } },
+        'sensor.temp': {
+            entity_id: 'sensor.temp',
+            state: 21.5,
+            attributes: { unit_of_measurement: '°C' },
+            context: { room: 'Kitchen', roomId: 'enum.rooms.kitchen', deviceId: 'zigbee.0.sensor' },
+        },
         'sun.sun': { entity_id: 'sun.sun', state: 'above_horizon', attributes: { elevation: 12 } },
-        'light.kitchen': { entity_id: 'light.kitchen', state: 'on', attributes: {} },
+        'light.kitchen': {
+            entity_id: 'light.kitchen',
+            state: 'on',
+            attributes: {},
+            context: { room: 'Kitchen', roomId: 'enum.rooms.kitchen', deviceId: 'hue.0.kitchen' },
+        },
     };
+    entityData.entities = Object.values(entityData.entityId2Entity);
 }
 
 describe('modules/jinja', function () {
@@ -47,6 +58,45 @@ describe('modules/jinja', function () {
         const out = renderJinja('{{ states( }}');
         expect(out).to.be.a('string');
         expect(out.toLowerCase()).to.contain('error');
+    });
+
+    it('renders the variables the caller sent along', function () {
+        //this is how template-entity-row and friends pass the row they are about
+        const vars = { config: { entity: 'light.kitchen' }, user: 'achim' };
+        expect(renderJinja('{{ user }}: {{ config.entity }}', vars)).to.equal('achim: light.kitchen');
+        expect(renderJinja('{{ states(config.entity) }}', vars)).to.equal('on');
+        expect(renderJinja('{{ config.entity }}')).to.equal('');
+    });
+
+    it('answers the area functions from the room the entity is in', function () {
+        expect(renderJinja('{{ area_name("light.kitchen") }}')).to.equal('Kitchen');
+        expect(renderJinja('{{ area_id("light.kitchen") }}')).to.equal('enum.rooms.kitchen');
+        //a device id and an area name are lookups as well, just like in Home Assistant
+        expect(renderJinja('{{ area_name("hue.0.kitchen") }}')).to.equal('Kitchen');
+        expect(renderJinja('{{ area_entities("Kitchen") | count }}')).to.equal('2');
+        expect(renderJinja('{{ areas() | join(",") }}')).to.equal('enum.rooms.kitchen');
+        //an entity without a room has no area, and that must not throw
+        expect(renderJinja('{{ area_name("sun.sun") }}')).to.equal('');
+    });
+
+    it('answers the device functions', function () {
+        expect(renderJinja('{{ device_id("light.kitchen") }}')).to.equal('hue.0.kitchen');
+        expect(renderJinja('{{ device_entities("hue.0.kitchen") | join(",") }}')).to.equal('light.kitchen');
+    });
+
+    it('supports iif, float and int', function () {
+        expect(renderJinja('{{ iif(is_state("light.kitchen", "on"), "AN", "AUS") }}')).to.equal('AN');
+        expect(renderJinja('{{ float(states("sensor.temp")) + 1 }}')).to.equal('22.5');
+        expect(renderJinja('{{ int(states("sensor.temp")) }}')).to.equal('21');
+        //not a number -> the given default, instead of aborting the template
+        expect(renderJinja('{{ float(states("light.kitchen"), 0) }}')).to.equal('0');
+        expect(renderJinja('{{ int("7x", 5) }}')).to.equal('5');
+    });
+
+    it('expands a list of entity ids to their states', function () {
+        expect(renderJinja('{% for e in expand(area_entities("Kitchen")) %}{{ e.state }};{% endfor %}')).to.equal(
+            '21.5;on;',
+        );
     });
 
     it('extracts referenced entity_ids (known ones only)', function () {
