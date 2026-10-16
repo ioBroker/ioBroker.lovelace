@@ -2784,6 +2784,18 @@ class WebServer {
 
         // Base map of the map card / map panel. Proxied (and cached) instead of loaded from a tile
         // provider directly, see modules/mapTiles.
+        //
+        // One guard in front of all of them, so a route added later cannot forget it. 403 is the
+        // status the frontend reacts to: it fetches a fresh token and reloads the style, instead of
+        // leaving the map grey.
+        this._app.use('/api/map_tiles', (req: any, res: any, next: any) => {
+            if (this._modules.mapTiles.isAuthorized(req)) {
+                next();
+            } else {
+                this.log.debug(`Map tiles request without a valid token: ${req.url}`);
+                res.status(403).send('Invalid map tiles token');
+            }
+        });
         this._app.get('/api/map_tiles/raster/:z/:x/:y', async (req: any, res: any) => {
             await this._modules.mapTiles.serveRaster(req, res);
         });

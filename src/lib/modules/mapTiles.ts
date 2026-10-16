@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { randomBytes, timingSafeEqual } from 'node:crypto';
 
 /**
  * Map tile proxy for the frontend's base map.
@@ -60,6 +60,12 @@ const SPRITE_NAME_RE = /^sprites(?:@2x)?$/;
 
 /** Bytes of entropy per access token. */
 const TOKEN_SIZE = 32;
+/**
+ * Header the frontend sends the access token in. Mirrors `TOKEN_HEADER` of the `map_tiles`
+ * integration of Home Assistant, which the frontend was built against.
+ */
+const TOKEN_HEADER = 'x-map-tiles-token';
+
 /** Two tokens are live at a time, so one stays valid for 30 to 60 minutes. */
 const TOKEN_CHANGE_INTERVAL = 30 * 60 * 1000;
 
@@ -73,6 +79,8 @@ interface CachedAsset {
 interface TileRequest {
     url: string;
     params: Record<string, string>;
+    headers?: Record<string, string | string[] | undefined>;
+    query?: Record<string, unknown>;
 }
 
 interface TileResponse {
@@ -143,8 +151,8 @@ class MapTilesModule {
     }
 
     /**
-     * Answer `map_tiles/access_token`. The frontend puts the token into the tile urls, because a
-     * Leaflet raster layer loads its tiles with an `<img>`, which can carry no header.
+     * Answer `map_tiles/access_token`. The frontend sends the token back either in the
+     * `X-Map-Tiles-Token` header or in the url, see `isAuthorized()`.
      *
      * @param ws - websocket connection
      * @param message - the message from the frontend
@@ -163,6 +171,46 @@ class MapTilesModule {
             }),
         );
         return true;
+    }
+
+    /**
+     * Is this proxy request allowed?
+     *
+     * The frontend asks for a token over the websocket (`map_tiles/access_token`) and sends it back
+     * two ways, so both are accepted:
+     * - in the `X-Map-Tiles-Token` header, which keeps the url - and with it the browser's cache
+     *   key - stable across a token rotation. Used for the vector tiles, the TileJSON and the
+     *   glyphs, which MapLibre fetches and can add a header to.
+     * - in the `token` query parameter, for everything that cannot set a header: a Leaflet raster
+     *   layer loads its tiles with an `<img>`, and on a cross-origin page (Cast) a custom header
+     *   would cost a CORS preflight per tile.
+     *
+     * Two tokens are live at a time, so one handed out shortly before a rotation stays usable.
+     *
+     * @param req - the request to check
+     * @returns true when the request carries one of the live tokens
+     */
+    isAuthorized(req: TileRequest): boolean {
+        const header = req.headers?.[TOKEN_HEADER];
+        const sent = (Array.isArray(header) ? header[0] : header) || req.query?.token;
+        if (typeof sent !== 'string' || !sent) {
+            return false;
+        }
+        return this.tokens.some(token => !!token && MapTilesModule.isSameToken(token, sent));
+    }
+
+    /**
+     * Compare two tokens without leaking how far they match through the time taken.
+     *
+     * @param expected - one of the live tokens
+     * @param sent - what the request carried
+     * @returns true when both are the same
+     */
+    private static isSameToken(expected: string, sent: string): boolean {
+        const left = Buffer.from(expected, 'utf8');
+        const right = Buffer.from(sent, 'utf8');
+        // timingSafeEqual throws on different lengths, and the length is not a secret.
+        return left.length === right.length && timingSafeEqual(left, right);
     }
 
     /**

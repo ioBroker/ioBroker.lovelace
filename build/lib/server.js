@@ -2261,6 +2261,14 @@ ${hideScript.join("\n")}
         }
       }
     });
+    this._app.use("/api/map_tiles", (req, res, next) => {
+      if (this._modules.mapTiles.isAuthorized(req)) {
+        next();
+      } else {
+        this.log.debug(`Map tiles request without a valid token: ${req.url}`);
+        res.status(403).send("Invalid map tiles token");
+      }
+    });
     this._app.get("/api/map_tiles/raster/:z/:x/:y", async (req, res) => {
       await this._modules.mapTiles.serveRaster(req, res);
     });

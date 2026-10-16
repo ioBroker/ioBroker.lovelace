@@ -285,3 +285,73 @@ describe('modules/mapTiles access token', function () {
         expect(makeModule().processMessage({ send: () => {} }, { type: 'other', id: 1 })).to.equal(false);
     });
 });
+
+describe('modules/mapTiles isAuthorized', function () {
+    /**
+     * The token the module handed out over the websocket.
+     *
+     * @param mod - the module under test
+     * @returns the current token
+     */
+    function handedOutToken(mod: any): string {
+        const sent: any[] = [];
+        mod.processMessage(
+            { send: (data: string) => sent.push(JSON.parse(data)) },
+            {
+                type: 'map_tiles/access_token',
+                id: 7,
+            },
+        );
+        return sent[0].result.token;
+    }
+
+    it('accepts the token in the X-Map-Tiles-Token header', function () {
+        // Keeps the url stable across a rotation, so the browser's tile cache survives it.
+        const mod = makeModule();
+        const token = handedOutToken(mod);
+        expect(mod.isAuthorized({ headers: { 'x-map-tiles-token': token } })).to.equal(true);
+    });
+
+    it('accepts the token in the query', function () {
+        // A Leaflet raster layer loads its tiles with an <img>, which can carry no header, and a
+        // cross-origin page would pay a CORS preflight per tile for one.
+        const mod = makeModule();
+        expect(mod.isAuthorized({ query: { token: handedOutToken(mod) } })).to.equal(true);
+    });
+
+    it('still accepts the previous token after a rotation', function () {
+        // Two are live at a time, or a browser holding one would be cut off mid-map.
+        const mod = makeModule();
+        const first = handedOutToken(mod);
+        mod.tokens = ['second', first];
+        expect(mod.isAuthorized({ query: { token: first } })).to.equal(true);
+        expect(mod.isAuthorized({ query: { token: 'second' } })).to.equal(true);
+    });
+
+    it('refuses a request without a token', function () {
+        const mod = makeModule();
+        expect(mod.isAuthorized({})).to.equal(false);
+        expect(mod.isAuthorized({ headers: {}, query: {} })).to.equal(false);
+        expect(mod.isAuthorized({ query: { token: '' } })).to.equal(false);
+    });
+
+    it('refuses a wrong token, and one of another length', function () {
+        const mod = makeModule();
+        const token = handedOutToken(mod);
+        expect(mod.isAuthorized({ query: { token: `${token}x` } })).to.equal(false);
+        expect(mod.isAuthorized({ query: { token: token.slice(0, -1) } })).to.equal(false);
+        expect(mod.isAuthorized({ query: { token: 'nonsense' } })).to.equal(false);
+    });
+
+    it('drops a token that is not a string', function () {
+        // Express hands over an array when the parameter is repeated.
+        const mod = makeModule();
+        expect(mod.isAuthorized({ query: { token: ['a', 'b'] } })).to.equal(false);
+    });
+
+    it('takes the first value of a repeated header', function () {
+        const mod = makeModule();
+        const token = handedOutToken(mod);
+        expect(mod.isAuthorized({ headers: { 'x-map-tiles-token': [token, 'other'] } })).to.equal(true);
+    });
+});

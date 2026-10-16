@@ -23,6 +23,7 @@ const GLYPH_RANGE_RE = /^\d{1,5}-\d{1,5}\.pbf$/;
 const SPRITE_SET_RE = /^[a-z0-9_-]{1,32}$/;
 const SPRITE_NAME_RE = /^sprites(?:@2x)?$/;
 const TOKEN_SIZE = 32;
+const TOKEN_HEADER = "x-map-tiles-token";
 const TOKEN_CHANGE_INTERVAL = 30 * 60 * 1e3;
 class MapTilesModule {
   adapter;
@@ -71,8 +72,8 @@ class MapTilesModule {
     return (0, import_node_crypto.randomBytes)(TOKEN_SIZE).toString("hex");
   }
   /**
-   * Answer `map_tiles/access_token`. The frontend puts the token into the tile urls, because a
-   * Leaflet raster layer loads its tiles with an `<img>`, which can carry no header.
+   * Answer `map_tiles/access_token`. The frontend sends the token back either in the
+   * `X-Map-Tiles-Token` header or in the url, see `isAuthorized()`.
    *
    * @param ws - websocket connection
    * @param message - the message from the frontend
@@ -91,6 +92,44 @@ class MapTilesModule {
       })
     );
     return true;
+  }
+  /**
+   * Is this proxy request allowed?
+   *
+   * The frontend asks for a token over the websocket (`map_tiles/access_token`) and sends it back
+   * two ways, so both are accepted:
+   * - in the `X-Map-Tiles-Token` header, which keeps the url - and with it the browser's cache
+   *   key - stable across a token rotation. Used for the vector tiles, the TileJSON and the
+   *   glyphs, which MapLibre fetches and can add a header to.
+   * - in the `token` query parameter, for everything that cannot set a header: a Leaflet raster
+   *   layer loads its tiles with an `<img>`, and on a cross-origin page (Cast) a custom header
+   *   would cost a CORS preflight per tile.
+   *
+   * Two tokens are live at a time, so one handed out shortly before a rotation stays usable.
+   *
+   * @param req - the request to check
+   * @returns true when the request carries one of the live tokens
+   */
+  isAuthorized(req) {
+    var _a, _b;
+    const header = (_a = req.headers) == null ? void 0 : _a[TOKEN_HEADER];
+    const sent = (Array.isArray(header) ? header[0] : header) || ((_b = req.query) == null ? void 0 : _b.token);
+    if (typeof sent !== "string" || !sent) {
+      return false;
+    }
+    return this.tokens.some((token) => !!token && MapTilesModule.isSameToken(token, sent));
+  }
+  /**
+   * Compare two tokens without leaking how far they match through the time taken.
+   *
+   * @param expected - one of the live tokens
+   * @param sent - what the request carried
+   * @returns true when both are the same
+   */
+  static isSameToken(expected, sent) {
+    const left = Buffer.from(expected, "utf8");
+    const right = Buffer.from(sent, "utf8");
+    return left.length === right.length && (0, import_node_crypto.timingSafeEqual)(left, right);
   }
   /**
    * Parse and validate the tile coordinates of a request path.
