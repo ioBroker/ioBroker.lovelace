@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunkhome_assistant_frontend=self.rspackChunkhome_assistant_frontend||[]).push([[88293],{57188(s,a,t){t.a(s,async function(s,e){try{t.r(a);var n=t(89797),c=t(65183),r=t(1245),o=s([r]);r=(o.then?(await o)():o)[0];class d extends r.HaAppSelector{}d=(0,n.Cg)([(0,c.EM)("ha-selector-addon")],d),t.d(a,{HaAddonSelector:()=>d}),e()}catch(s){e(s)}})}}]);

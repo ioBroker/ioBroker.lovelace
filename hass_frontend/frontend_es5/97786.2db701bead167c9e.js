@@ -1,0 +1,1 @@
+"use strict";(self.rspackChunkhome_assistant_frontend=self.rspackChunkhome_assistant_frontend||[]).push([[97786],{40769(s,n,t){var a=t(31095);t.d(n,{OA:()=>a.OA,WL:()=>a.WL,u$:()=>a.u$})}}]);

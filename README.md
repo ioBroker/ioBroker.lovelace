@@ -29,14 +29,14 @@ Used sources are here https://github.com/GermanBluefox/home-assistant-polymer .
 Security must be taken from the current user and not from default_user.
 
 ### Version
-Used version of home-assistant-frontend@20260826.7
+Used version of home-assistant-frontend@20260930.3
 Version of Browser Mod: 3.2.3
 
 ### How to build the new Lovelace version
 First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
 
 All changes for ioBroker are marked with comment `// IoB`.
-For now (20260826.7) following files were modified:
+For now (20260930.3) following files were modified:
 - `build-scripts/gulp/app.js` - Add new gulp task develop-iob
 - `build-scripts/gulp/rspack.js` - Add new gulp task rspack-dev-app
 - `build-scripts/rspack.cjs` - disable source maps in prod build to reduce emitted file count.
@@ -59,7 +59,7 @@ For now (20260826.7) following files were modified:
 - `src/panels/config/tools/tools-router.ts` - default to states tab (yaml removed).
 - `src/panels/config/info/ha-config-info.ts` - hide doc/credits/community/license links in about (keep keyboard shortcuts).
 - `src/panels/config/lovelace/dashboards/ha-config-lovelace-dashboards.ts` - show fixed panels (incl. browser-mod) in built-in dashboards list.
-- `src/panels/profile/ha-panel-profile.ts` - hide security tab in user profile.
+- `src/panels/profile/ha-profile-dashboard.ts` - hide security tab in user profile.
 - `src/util/documentation-url.ts` - for link to iobroker help instead of home assistant.
 - `src/html/index.html.template` - remove Safari smart app banner (apple-itunes-app meta) for HA iOS app (#418).
 - `.husky/pre-commit` - remove git commit hooks.
@@ -70,8 +70,8 @@ After that checkout modified version in `./build` folder. Then.
 2. `git clone https://github.com/GermanBluefox/home-assistant-polymer.git` it is a fork of https://github.com/home-assistant/frontend.git, but some things are modified (see the file list earlier).
 3. `cd home-assistant-polymer`
 4. `git checkout master`
-5. `yarn install`
-6. `gulp build-app` for release or `gulp develop-iob` for the debugging version. To build web after changes you can call `webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
+5. `pnpm install` (the frontend migrated from Yarn to pnpm; if pnpm is missing, `corepack enable` or `npm i -g pnpm@11.28.0`).
+6. `pnpm exec gulp build-app` for release or `pnpm exec gulp develop-iob` for the debugging version. To build web after changes you can call `pnpm exec gulp webpack-dev-app` for faster build, but you need to call `build-app` anyway after the version is ready for use.
 7. run script `hass_frontend/static_cards/newFrontend.sh` in adapter repo to update frontend (it assumes that the two repositories are next to each other in the same folder, if not, please adjust script, preferably with some parameter handling and make a PR, thanks :smile: )
 8. Run `npm run rename` (renames and rewrites the copied frontend for ioBroker; it replaced the former `gulp rename` task).
 9. Update the version in `README.md`.
@@ -84,6 +84,7 @@ After that checkout modified version in `./build` folder. Then.
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**
+* (Garfonso/Claude) Updated the Home Assistant frontend to 20260930.3: the map no longer flickers while loading history and its tiles stay cached, and the digital-clock card can take its font from the theme.
 * (Garfonso/Claude) The map tile proxy now checks the access token the frontend sends, instead of serving anyone who can reach the port.
 * (Garfonso/Claude) Static files are found again when the frontend asks for them with a cache buster, so the map keeps its style and its icons.
 * (Garfonso/Claude) Dropped the map sprite proxy: since the new map style the frontend brings the map icons along itself.
