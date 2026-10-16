@@ -150,7 +150,7 @@ Persistent module storage moved out of the adapter root into a `storage` folder.
 
 ### WebSocket protocol & the newer frontend
 
-`hass_frontend/` is a **pre-built fork** of Home Assistant's polymer frontend (current `hass_frontend/version.txt` = `20260527.1`, our branch `iob202605`), built from a separate repo (`buildFrontend/build.sh`) — it is not built in this repo. **Prefer backend (this repo) fixes over patching the fork**, so the fork can be re-synced from upstream periodically.
+`hass_frontend/` is a **pre-built fork** of Home Assistant's polymer frontend (current `hass_frontend/version.txt` = `20260930.3`, our branch `iob202609`), built from a separate repo (`buildFrontend/build.sh`) — it is not built in this repo. **Prefer backend (this repo) fixes over patching the fork**, so the fork can be re-synced from upstream periodically.
 
 Beyond the classic messages (`auth`, `subscribe_events`, `get_states`, `get_config`, `get_services`, `get_panels`, `call_service`, `subscribe_entities`, …), the newer frontend requires these handlers (added across `server.ts` and the modules):
 - `frontend/subscribe_user_data` / `get_user_data` / `set_user_data` and the `_system_data` trio (`UserDataModule`). `frontend/subscribe_user_data` for `core` must return `{ default_panel: 'lovelace' }`, otherwise initial load crashes in `getDefaultPanel()`.
