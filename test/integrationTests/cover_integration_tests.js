@@ -220,6 +220,9 @@ exports.runTests = function (suite) {
                 // 1 open + 2 close + 8 stop, no position
                 expect(entity).to.have.nested.property('attributes.supported_features', 11);
                 expect(findOfType(entities, deviceId, 'input_number')).to.be.undefined;
+                //we never learn where such a cover is, so the frontend must keep both arrows usable
+                expect(entity).to.have.nested.property('attributes.assumed_state', true);
+                expect(entity).to.have.property('state', 'unknown');
 
                 const working = entities.find(e => e.context.deviceId === deviceId && e.context.iobType === 'WORKING');
                 expect(working, 'working indicator').to.be.ok;
@@ -235,6 +238,38 @@ exports.runTests = function (suite) {
                     `${deviceId}.up`,
                     state => expect(state.val).to.equal(true),
                 );
+            });
+
+            it('is open after driving up, and of unknown position after a stop', async () => {
+                const deviceId = 'adapter.0.cover.blindsButton';
+                const entity = findOfType(entities, deviceId, 'cover');
+
+                //no position state ever reports back, so the cover goes to the end state at once
+                //instead of staying in opening/closing forever
+                await tools.validateUIInput(harness, entity, m => {
+                    m.domain = 'cover';
+                    m.service = 'open_cover';
+                    m.service_data = {};
+                });
+                let current = await tools.sendToAsync(harness, 'lovelace.0', 'browse');
+                expect(findOfType(current, deviceId, 'cover')).to.have.property('state', 'open');
+
+                //stopped somewhere in the middle: we do not know where it stands now
+                await tools.validateUIInput(harness, entity, m => {
+                    m.domain = 'cover';
+                    m.service = 'stop_cover';
+                    m.service_data = {};
+                });
+                current = await tools.sendToAsync(harness, 'lovelace.0', 'browse');
+                expect(findOfType(current, deviceId, 'cover')).to.have.property('state', 'unknown');
+
+                await tools.validateUIInput(harness, entity, m => {
+                    m.domain = 'cover';
+                    m.service = 'close_cover';
+                    m.service_data = {};
+                });
+                current = await tools.sendToAsync(harness, 'lovelace.0', 'browse');
+                expect(findOfType(current, deviceId, 'cover')).to.have.property('state', 'closed');
             });
         });
     });

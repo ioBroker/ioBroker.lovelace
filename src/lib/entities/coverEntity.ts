@@ -7,6 +7,7 @@ import type { ConverterParameters } from '../converters/converter';
 const adapterData = require('../../../lib/dataSingleton') as {
     adapter: ioBroker.Adapter & { config: Record<string, unknown> };
     log: ioBroker.Logger;
+    server: { updateEntityInFrontend?: (entity: BaseEntity) => void };
 };
 
 /**
@@ -110,6 +111,9 @@ function addCommand(
             new Promise<void>((resolve, reject) => {
                 if (typeof onWrite === 'function') {
                     onWrite(ent);
+                    // A cover without a position state has no ioBroker state to read its own state
+                    // back from, so the frontend only learns about it if we tell it.
+                    adapterData.server?.updateEntityInFrontend?.(ent);
                 }
                 adapterData.adapter.setForeignState(command.setId!, true, false, { user }, err =>
                     err ? reject(err) : resolve(),
@@ -398,8 +402,14 @@ export class CoverEntity extends BaseEntity {
             return entities;
         }
 
-        if (addBlindLevel(entities, controls, objects, 'SET', room, func, objects[params.id])) {
+        const havePosition = addBlindLevel(entities, controls, objects, 'SET', room, func, objects[params.id]);
+        if (havePosition) {
             entity.context.STATE.invert = !!(adapterData.adapter.config as Record<string, unknown>).blindsInvert;
+        } else {
+            // Blinds that only have up/down/stop buttons never tell us where they are. Home
+            // Assistant calls that an assumed state: the frontend then keeps both arrows usable
+            // instead of greying out the one it thinks the cover has already reached.
+            entity.attributes.assumed_state = true;
         }
 
         if (addTiltLevel(entity, controls, objects, 'TILT_SET')) {
@@ -409,12 +419,28 @@ export class CoverEntity extends BaseEntity {
             }
         }
 
-        addCommand(entity, controls, 'STOP', 'stop_cover', 8);
+        // With a position state the real value follows in a moment, so opening/closing is only a
+        // transient guess. Without one it would stay forever, so we go straight to the end state -
+        // and after a stop we honestly do not know where the cover ended up (Home Assistant has
+        // `unknown` for exactly that case: its cover entity reports no state when `is_closed`
+        // is None).
+        addCommand(
+            entity,
+            controls,
+            'STOP',
+            'stop_cover',
+            8,
+            havePosition
+                ? undefined
+                : ent => {
+                      ent.state = 'unknown';
+                  },
+        );
         const haveOpen = addCommand(entity, controls, 'OPEN', 'open_cover', 1, ent => {
-            ent.state = 'opening';
+            ent.state = havePosition ? 'opening' : 'open';
         });
         const haveClose = addCommand(entity, controls, 'CLOSE', 'close_cover', 2, ent => {
-            ent.state = 'closing';
+            ent.state = havePosition ? 'closing' : 'closed';
         });
         addCommand(entity, controls, 'TILT_OPEN', 'open_cover_tilt', 16);
         addCommand(entity, controls, 'TILT_CLOSE', 'close_cover_tilt', 32);

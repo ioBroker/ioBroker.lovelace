@@ -90,6 +90,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Dropped the map sprite proxy: since the new map style the frontend brings the map icons along itself.
 * (Garfonso/Claude) New entity type `image`: an ioBroker state holding a picture can be mapped to it, and the picture can then be picked as a card or view background.
 * (Garfonso/Claude) A unit typed into the object settings is kept, and defaults are only filled in for the entity type that uses them.
+* (Garfonso/Claude) Blinds that only have up, down and stop buttons keep both arrows usable, and after a stop they report an unknown position instead of staying "opening".
 
 ### 7.2.5 (2026-10-16)
 * (Garfonso/Claude) Editing the themes no longer loses the selected theme, and broken theme YAML cannot be saved any more.
