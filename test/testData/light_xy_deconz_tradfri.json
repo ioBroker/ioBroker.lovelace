@@ -1,0 +1,451 @@
+{
+    "deconz.0.Lights.8": {
+        "type": "device",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA)",
+            "role": "light",
+            "enums": [
+                {
+                    "_id": "enum.functions.Licht",
+                    "common": {
+                        "name": "Licht"
+                    },
+                    "native": {
+                        "Name": "Licht",
+                        "TypeName": "ENUM",
+                        "EnumInfo": ""
+                    },
+                    "type": "enum"
+                },
+                {
+                    "_id": "enum.rooms.Garten",
+                    "common": {
+                        "name": "Garten",
+                        "desc": ""
+                    },
+                    "native": {
+                        "Name": "Garten",
+                        "TypeName": "ENUM",
+                        "EnumInfo": ""
+                    },
+                    "type": "enum"
+                }
+            ]
+        },
+        "native": {
+            "etag": "d6c708f892e1d441283280ca2e03f5f7",
+            "hascolor": true,
+            "id": "8",
+            "manufacturername": "IKEA of Sweden",
+            "modelid": null,
+            "swversion": null,
+            "type": "Color light",
+            "uniqueid": "00:0d:6f:ff:fe:26:78:4b-01"
+        },
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1627997699000,
+        "_id": "deconz.0.Lights.8",
+        "acl": {
+            "object": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.action": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) action",
+            "role": "argument",
+            "type": "string",
+            "read": false,
+            "write": true
+        },
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1628015290696,
+        "_id": "deconz.0.Lights.8.action",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.alert": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) alert",
+            "type": "string",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "states": {
+                "none": "none",
+                "select": "select",
+                "lselect": "lselect",
+                "blink": "blink"
+            },
+            "def": "none"
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460361037,
+        "_id": "deconz.0.Lights.8.alert",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.bri": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) bri",
+            "type": "number",
+            "role": "level.brightness",
+            "read": true,
+            "write": true,
+            "min": 0,
+            "max": 255,
+            "def": 255
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460361236,
+        "_id": "deconz.0.Lights.8.bri",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.colormode": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) colormode",
+            "type": "string",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "states": {
+                "hs": "hs",
+                "xy": "xy",
+                "ct": "ct"
+            }
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460361749,
+        "_id": "deconz.0.Lights.8.colormode",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.colorspeed": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) colorspeed",
+            "type": "number",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "min": 1,
+            "max": 255,
+            "def": 255
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460361962,
+        "_id": "deconz.0.Lights.8.colorspeed",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.dimdown": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) dimdown",
+            "role": "button",
+            "type": "boolean",
+            "read": false,
+            "write": true
+        },
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1628015290695,
+        "_id": "deconz.0.Lights.8.dimdown",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.dimspeed": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) dimspeed",
+            "type": "number",
+            "role": "level.dimspeed",
+            "min": 0,
+            "max": 254,
+            "read": false,
+            "write": true
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1628015290695,
+        "_id": "deconz.0.Lights.8.dimspeed",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.dimup": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) dimup",
+            "role": "button",
+            "type": "boolean",
+            "read": false,
+            "write": true
+        },
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1628015290695,
+        "_id": "deconz.0.Lights.8.dimup",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.effect": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) effect",
+            "type": "string",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "states": {
+                "none": "none",
+                "colorloop": "colorloop",
+                "steady": "steady",
+                "snow": "snow",
+                "rainbow": "rainbow",
+                "snake": "snake",
+                "twinkle": "twinkle",
+                "fireworks": "fireworks",
+                "flag": "flag",
+                "waves": "waves",
+                "updown": "updown",
+                "vintage": "vintage",
+                "fading": "fading",
+                "collide": "collide",
+                "strobe": "strobe",
+                "sparkles": "sparkles",
+                "carnival": "carnival",
+                "glow": "glow",
+                "sunset": "sunset",
+                "party": "party",
+                "worklight": "worklight",
+                "campfire": "campfire",
+                "romance": "romance",
+                "nightlight": "nightlight"
+            }
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460362179,
+        "_id": "deconz.0.Lights.8.effect",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.hue": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) hue",
+            "type": "number",
+            "role": "level.color.hue",
+            "read": true,
+            "write": true,
+            "unit": "°",
+            "min": 0,
+            "max": 360,
+            "def": 360
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1648806483119,
+        "_id": "deconz.0.Lights.8.hue",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.level": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) level",
+            "type": "number",
+            "role": "level.brightness",
+            "read": true,
+            "write": true,
+            "unit": "%",
+            "min": 0,
+            "max": 100,
+            "def": 100
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460361132,
+        "_id": "deconz.0.Lights.8.level",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.on": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) on",
+            "type": "boolean",
+            "role": "switch",
+            "read": true,
+            "write": true
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460362524,
+        "_id": "deconz.0.Lights.8.on",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.reachable": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) reachable",
+            "type": "boolean",
+            "role": "indicator.reachable",
+            "read": true,
+            "write": false
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460362619,
+        "_id": "deconz.0.Lights.8.reachable",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.sat": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) sat",
+            "type": "number",
+            "role": "level.color.saturation",
+            "read": true,
+            "write": true,
+            "min": 0,
+            "max": 255,
+            "def": 255
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1648806483275,
+        "_id": "deconz.0.Lights.8.sat",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.transitiontime": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) transitiontime",
+            "type": "number",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "unit": "s",
+            "def": 0
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1643815601682,
+        "_id": "deconz.0.Lights.8.transitiontime",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.8.xy": {
+        "type": "state",
+        "common": {
+            "name": "Kugellampe - Garten 01 (IKEA) xy",
+            "type": "array",
+            "role": "color.CIE",
+            "read": true,
+            "write": true,
+            "def": [
+                0.1,
+                0.1
+            ]
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1649460362707,
+        "_id": "deconz.0.Lights.8.xy",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    }
+}

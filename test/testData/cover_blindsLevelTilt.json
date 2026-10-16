@@ -1,0 +1,131 @@
+{
+  "adapter.0.cover.blindsLevelTilt": {
+    "type": "device",
+    "common": {
+      "name": "Blinds"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616034,
+    "_id": "adapter.0.cover.blindsLevelTilt",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsLevelTilt.down": {
+    "type": "state",
+    "common": {
+      "name": "Blinds down",
+      "read": true,
+      "write": true,
+      "role": "button.close.blind",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsLevelTilt.down",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592656258791,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsLevelTilt.stop": {
+    "type": "state",
+    "common": {
+      "name": "Blinds stop",
+      "read": true,
+      "write": true,
+      "role": "button.stop.blind",
+      "type": "boolean"
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsLevelTilt.stop",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1606520221622,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsLevelTilt.up": {
+    "type": "state",
+    "common": {
+      "name": "Blinds up",
+      "read": true,
+      "write": true,
+      "role": "button.open.blind",
+      "type": "boolean",
+      "min": false,
+      "max": true
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsLevelTilt.up",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592656258891,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsLevelTilt.level": {
+    "type": "state",
+    "common": {
+      "name": "Blinds level",
+      "read": true,
+      "write": true,
+      "role": "level.blind",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsLevelTilt.level",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592656258891,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.cover.blindsLevelTilt.tilt": {
+    "type": "state",
+    "common": {
+      "name": "Blinds tilt",
+      "read": true,
+      "write": true,
+      "role": "level.tilt",
+      "type": "number",
+      "min": 0,
+      "max": 100,
+      "unit": "%"
+    },
+    "native": {},
+    "_id": "adapter.0.cover.blindsLevelTilt.tilt",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592656258891,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

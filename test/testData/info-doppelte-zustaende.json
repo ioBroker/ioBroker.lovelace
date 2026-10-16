@@ -1,0 +1,203 @@
+{
+  "alias.0.devicesTests.doppelteZustaende": {
+    "_id": "alias.0.devicesTests.doppelteZustaende",
+    "common": {
+      "name": {
+        "de": "Zaehler EG"
+      },
+      "role": "info",
+      "icon": "",
+      "color": null
+    },
+    "native": {},
+    "type": "channel",
+    "from": "system.adapter.admin.0",
+    "user": "system.user.frank",
+    "ts": 1692169164181,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.frank",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "alias.0.devicesTests.doppelteZustaende.ACTUAL": {
+    "_id": "alias.0.devicesTests.doppelteZustaende.ACTUAL",
+    "common": {
+      "name": "ACTUAL",
+      "role": "state",
+      "type": "number",
+      "read": true,
+      "write": false,
+      "alias": {
+        "id": "0_userdata.0.JSON-Test",
+        "read": "JSON.parse(val).EGStrom.aktuell"
+      },
+      "custom": {
+        "influxdb.0": {
+          "enabled": true,
+          "storageType": "",
+          "aliasId": "EGAktuell",
+          "debounceTime": 0,
+          "blockTime": 0,
+          "changesOnly": false,
+          "changesRelogInterval": 10,
+          "changesMinDelta": 0,
+          "ignoreBelowNumber": "",
+          "disableSkippedValueLogging": false,
+          "enableDebugLogs": false,
+          "debounce": 0
+        }
+      },
+      "unit": "W"
+    },
+    "native": {},
+    "type": "state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.frank",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.frank",
+    "ts": 1692180087516
+  },
+  "alias.0.devicesTests.doppelteZustaende.EINSPEISUNG": {
+    "_id": "alias.0.devicesTests.doppelteZustaende.EINSPEISUNG",
+    "common": {
+      "name": "EINSPEISUNG",
+      "role": "value.total_returned",
+      "type": "number",
+      "unit": "kWh",
+      "read": true,
+      "write": true,
+      "alias": {
+        "id": "0_userdata.0.JSON-Test",
+        "read": "JSON.parse(val).EGStrom.Einsp_ges"
+      }
+    },
+    "type": "state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.frank",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.frank",
+    "ts": 1692170291943,
+    "native": {}
+  },
+  "alias.0.devicesTests.doppelteZustaende.VERBRAUCH": {
+    "_id": "alias.0.devicesTests.doppelteZustaende.VERBRAUCH",
+    "common": {
+      "name": "VERBRAUCH",
+      "role": "value.total",
+      "type": "number",
+      "unit": "kWh",
+      "read": true,
+      "write": false,
+      "alias": {
+        "id": "0_userdata.0.JSON-Test",
+        "read": "JSON.parse(val).EGStrom.Verbr_ges"
+      }
+    },
+    "type": "state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.frank",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.frank",
+    "ts": 1692170162330,
+    "native": {}
+  },
+  "alias.0.devicesTests.doppelteZustaende.Wh_EG_Einspeisung": {
+    "common": {
+      "name": "Wh_EG_Einspeisung",
+      "desc": "Manuell erzeugt",
+      "role": "state",
+      "type": "number",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "unit": "Wh",
+      "alias": {
+        "id": "0_userdata.0.NummerSensor"
+      },
+      "custom": {
+        "influxdb.0": {
+          "enabled": true,
+          "storageType": "",
+          "aliasId": "EGEinspeisungWh",
+          "debounceTime": 0,
+          "blockTime": 0,
+          "changesOnly": false,
+          "changesRelogInterval": 10,
+          "changesMinDelta": 0,
+          "ignoreBelowNumber": "",
+          "disableSkippedValueLogging": false,
+          "enableDebugLogs": false,
+          "debounce": 1000
+        }
+      }
+    },
+    "type": "state",
+    "native": {},
+    "_id": "alias.0.devicesTests.doppelteZustaende.Wh_EG_Einspeisung",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.frank",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.frank",
+    "ts": 1692171535534
+  },
+  "alias.0.devicesTests.doppelteZustaende.Wh_EG_Verbrauch": {
+    "common": {
+      "name": "Wh_EG_Verbrauch",
+      "desc": "Manuell erzeugt",
+      "role": "state",
+      "type": "number",
+      "read": true,
+      "write": true,
+      "def": 0,
+      "unit": "Wh",
+      "alias": {
+        "id": "0_userdata.0.MarkdownSecondsToHoursTest"
+      },
+      "custom": {
+        "influxdb.0": {
+          "enabled": true,
+          "storageType": "",
+          "aliasId": "EGVerbrauchWh",
+          "debounceTime": 0,
+          "blockTime": 0,
+          "changesOnly": false,
+          "changesRelogInterval": 10,
+          "changesMinDelta": 0,
+          "ignoreBelowNumber": "",
+          "disableSkippedValueLogging": false,
+          "enableDebugLogs": false,
+          "debounce": 1000
+        }
+      }
+    },
+    "type": "state",
+    "native": {},
+    "_id": "alias.0.devicesTests.doppelteZustaende.Wh_EG_Verbrauch",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.frank",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.frank",
+    "ts": 1692171530828
+  }
+}

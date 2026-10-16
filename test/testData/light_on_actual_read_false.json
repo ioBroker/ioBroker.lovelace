@@ -1,0 +1,64 @@
+{
+  "adapter.0.light.on_actual_read_false": {
+    "_id": "adapter.0.light.on_actual_read_false",
+    "common": {
+      "name": {
+        "de": "on_actual_read_false"
+      },
+      "role": "light",
+      "icon": "",
+      "color": null
+    },
+    "native": {},
+    "type": "channel",
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1682013579311,
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.light.on_actual_read_false.ON_ACTUAL": {
+    "_id": "adapter.0.light.on_actual_read_false.ON_ACTUAL",
+    "native": {},
+    "type": "state",
+    "common": {
+      "name": "ON_ACTUAL",
+      "role": "sensor.light",
+      "write": false,
+      "type": "boolean"
+    },
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1689404577376
+  },
+  "adapter.0.light.on_actual_read_false.SET": {
+    "_id": "adapter.0.light.on_actual_read_false.SET",
+    "common": {
+      "name": "SET",
+      "role": "switch.light",
+      "type": "boolean",
+      "read": true,
+      "write": true
+    },
+    "native": {},
+    "type": "state",
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    },
+    "from": "system.adapter.admin.0",
+    "user": "system.user.admin",
+    "ts": 1689404577387
+  }
+}

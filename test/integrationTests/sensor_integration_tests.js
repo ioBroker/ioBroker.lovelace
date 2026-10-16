@@ -65,5 +65,22 @@ exports.runTests = function (suite) {
                 });
             });
         });
+
+        describe('Test info devices', () => {
+            jsonFiles.push('../testData/info-doppelte-zustaende.json');
+            idsWithEnums.push('alias.0.devicesTests.doppelteZustaende');
+            initialStates.push(
+                { id: 'alias.0.devicesTests.doppelteZustaende.ACTUAL', val: 500 },
+                { id: 'alias.0.devicesTests.doppelteZustaende.VERBRAUCH', val: 1200 },
+            );
+            it('an info channel with several values creates nothing today', async () => {
+                //the type-detector puts all five states into one device of type `info`, each of them
+                //named ACTUAL. We have no converter for that type, so none of the meter readings
+                //shows up. Documented here so the day we add one, this test tells us.
+                const deviceId = 'alias.0.devicesTests.doppelteZustaende';
+                const found = entities.filter(e => e.context.deviceId === deviceId);
+                expect(found).to.be.an('array').that.is.empty;
+            });
+        });
     });
 };

@@ -1390,6 +1390,86 @@ exports.runTests = function (suite) {
                 expect(brAttr).to.be.ok;
                 expect(brAttr).to.have.property('getId', `${deviceId}.level`);
             });
+
+            jsonFiles.push('../testData/light_xy_deconz.json');
+            idsWithEnums.push('deconz.0.Lights.62');
+            initialStates.push(
+                { id: 'deconz.0.Lights.62.on', val: true },
+                { id: 'deconz.0.Lights.62.level', val: 70 },
+                { id: 'deconz.0.Lights.62.hue', val: 180 },
+                { id: 'deconz.0.Lights.62.sat', val: 255 },
+            );
+            it('deconz light is hue + color temperature, its xy state stays unused', async () => {
+                //the deconz xy state has role color.CIE, which the type-detector does not know (it
+                //looks for level.color.cie), so it never reaches us and we cannot offer XY here.
+                const deviceId = 'deconz.0.Lights.62';
+                const entity = entities.find(e => e.context.deviceId === deviceId && e.context.type === 'light');
+                expect(entity).to.be.ok;
+                tools.expectEntity(entity, 'light', deviceId);
+                expect(entity).to.have.property('state', 'on');
+                expect(entity.attributes.supported_color_modes).to.include('hs');
+                expect(entity.attributes.supported_color_modes).to.include('color_temp');
+                expect(entity.attributes.supported_color_modes).to.not.include('xy');
+
+                //brightness comes from level (0-100 %), not from bri (0-255)
+                const brAttr = entity.context.ATTRIBUTES.find(a => a.attribute === 'brightness');
+                expect(brAttr).to.be.ok;
+                expect(brAttr).to.have.property('getId', `${deviceId}.level`);
+
+                expect(entity.context.ATTRIBUTES.find(a => a.attribute === 'xy_color')).to.not.be.ok;
+
+                await tools.validateStateChange(
+                    harness,
+                    entity.entity_id,
+                    async () => await harness.states.setStateAsync(`${deviceId}.on`, false, true),
+                    entity => expect(entity).to.have.property('state', 'off'),
+                );
+
+                await tools.validateMultiUIInput(
+                    harness,
+                    entity,
+                    m => {
+                        m.domain = 'light';
+                        m.service = 'turn_on';
+                        m.service_data = { hs_color: [120, 50] };
+                    },
+                    [`${deviceId}.hue`, `${deviceId}.sat`],
+                    states => {
+                        expect(states[`${deviceId}.hue`].val).to.equal(120);
+                        expect(states[`${deviceId}.sat`].val).to.equal(127.5); //50 % of 255
+                    },
+                );
+            });
+
+            jsonFiles.push('../testData/light_xy_deconz_tradfri.json');
+            idsWithEnums.push('deconz.0.Lights.8');
+            initialStates.push({ id: 'deconz.0.Lights.8.on', val: true }, { id: 'deconz.0.Lights.8.level', val: 100 });
+            it('deconz tradfri light has no color temperature, but still hue', async () => {
+                const deviceId = 'deconz.0.Lights.8';
+                const entity = entities.find(e => e.context.deviceId === deviceId && e.context.type === 'light');
+                expect(entity).to.be.ok;
+                tools.expectEntity(entity, 'light', deviceId);
+                expect(entity.attributes.supported_color_modes).to.include('hs');
+                expect(entity.attributes.supported_color_modes).to.not.include('color_temp');
+                expect(entity.context.ATTRIBUTES.find(a => a.attribute === 'xy_color')).to.not.be.ok;
+            });
+
+            jsonFiles.push('../testData/light_on_actual_read_false.json');
+            idsWithEnums.push('adapter.0.light.on_actual_read_false');
+            initialStates.push(
+                { id: 'adapter.0.light.on_actual_read_false.SET', val: false },
+                { id: 'adapter.0.light.on_actual_read_false.ON_ACTUAL', val: true },
+            );
+            it('light reads its state from ON_ACTUAL even when that state has no read flag', async () => {
+                const deviceId = 'adapter.0.light.on_actual_read_false';
+                const entity = entities.find(e => e.context.deviceId === deviceId);
+                expect(entity).to.be.ok;
+                tools.expectEntity(entity, 'light', deviceId, undefined, {
+                    getId: `${deviceId}.ON_ACTUAL`,
+                    setId: `${deviceId}.SET`,
+                });
+                expect(entity).to.have.property('state', 'on'); //from ON_ACTUAL, SET is false
+            });
         });
     });
 };

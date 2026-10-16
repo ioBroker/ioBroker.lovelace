@@ -1,0 +1,339 @@
+{
+    "deconz.0.Lights.62": {
+        "type": "device",
+        "common": {
+            "name": "Extended color light 62",
+            "role": "light"
+        },
+        "native": {
+            "etag": "74103373355d84191dc77c1c7e7f13e4",
+            "hascolor": true,
+            "id": "62",
+            "manufacturername": "LIDL Livarno Lux",
+            "modelid": "HG06106C",
+            "swversion": null,
+            "type": "Extended color light",
+            "uniqueid": "58:8e:81:ff:fe:f1:c5:fe-01"
+        },
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361860406,
+        "_id": "deconz.0.Lights.62",
+        "acl": {
+            "object": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.alert": {
+        "type": "state",
+        "common": {
+            "name": "undefined alert",
+            "type": "string",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "states": {
+                "none": "none",
+                "select": "select",
+                "lselect": "lselect",
+                "blink": "blink"
+            },
+            "def": "none"
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361860411,
+        "_id": "deconz.0.Lights.62.alert",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.bri": {
+        "type": "state",
+        "common": {
+            "name": "undefined bri",
+            "type": "number",
+            "role": "level.brightness",
+            "read": true,
+            "write": true,
+            "min": 0,
+            "max": 255,
+            "def": 255
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361860706,
+        "_id": "deconz.0.Lights.62.bri",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.colormode": {
+        "type": "state",
+        "common": {
+            "name": "undefined colormode",
+            "type": "string",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "states": {
+                "hs": "hs",
+                "xy": "xy",
+                "ct": "ct"
+            }
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361860771,
+        "_id": "deconz.0.Lights.62.colormode",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.colorspeed": {
+        "type": "state",
+        "common": {
+            "name": "undefined colorspeed",
+            "type": "number",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "min": 1,
+            "max": 255,
+            "def": 255
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361860930,
+        "_id": "deconz.0.Lights.62.colorspeed",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.ct": {
+        "type": "state",
+        "common": {
+            "name": "undefined ct",
+            "type": "number",
+            "role": "level.color.temperature",
+            "read": true,
+            "write": true,
+            "min": 0,
+            "max": 8000,
+            "def": 8000
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361860855,
+        "_id": "deconz.0.Lights.62.ct",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.effect": {
+        "type": "state",
+        "common": {
+            "name": "undefined effect",
+            "type": "string",
+            "role": "state",
+            "read": true,
+            "write": true,
+            "states": {
+                "none": "none",
+                "colorloop": "colorloop",
+                "steady": "steady",
+                "snow": "snow",
+                "rainbow": "rainbow",
+                "snake": "snake",
+                "twinkle": "twinkle",
+                "fireworks": "fireworks",
+                "flag": "flag",
+                "waves": "waves",
+                "updown": "updown",
+                "vintage": "vintage",
+                "fading": "fading",
+                "collide": "collide",
+                "strobe": "strobe",
+                "sparkles": "sparkles",
+                "carnival": "carnival",
+                "glow": "glow",
+                "sunset": "sunset",
+                "party": "party",
+                "worklight": "worklight",
+                "campfire": "campfire",
+                "romance": "romance",
+                "nightlight": "nightlight"
+            }
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361860958,
+        "_id": "deconz.0.Lights.62.effect",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.hue": {
+        "type": "state",
+        "common": {
+            "name": "undefined hue",
+            "type": "number",
+            "role": "level.color.hue",
+            "read": true,
+            "write": true,
+            "unit": "°",
+            "min": 0,
+            "max": 360,
+            "def": 360
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361861015,
+        "_id": "deconz.0.Lights.62.hue",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.level": {
+        "type": "state",
+        "common": {
+            "name": "undefined level",
+            "type": "number",
+            "role": "level.brightness",
+            "read": true,
+            "write": true,
+            "unit": "%",
+            "min": 0,
+            "max": 100,
+            "def": 100
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361860619,
+        "_id": "deconz.0.Lights.62.level",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.on": {
+        "type": "state",
+        "common": {
+            "name": "undefined on",
+            "type": "boolean",
+            "role": "switch",
+            "read": true,
+            "write": true
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361861087,
+        "_id": "deconz.0.Lights.62.on",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.reachable": {
+        "type": "state",
+        "common": {
+            "name": "undefined reachable",
+            "type": "boolean",
+            "role": "indicator.reachable",
+            "read": true,
+            "write": false
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361861139,
+        "_id": "deconz.0.Lights.62.reachable",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.sat": {
+        "type": "state",
+        "common": {
+            "name": "undefined sat",
+            "type": "number",
+            "role": "level.color.saturation",
+            "read": true,
+            "write": true,
+            "min": 0,
+            "max": 255,
+            "def": 255
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361861323,
+        "_id": "deconz.0.Lights.62.sat",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    },
+    "deconz.0.Lights.62.xy": {
+        "type": "state",
+        "common": {
+            "name": "undefined xy",
+            "type": "array",
+            "role": "color.CIE",
+            "read": true,
+            "write": true,
+            "def": "[0.1,0.1]"
+        },
+        "native": {},
+        "from": "system.adapter.deconz.0",
+        "user": "system.user.admin",
+        "ts": 1664361861459,
+        "_id": "deconz.0.Lights.62.xy",
+        "acl": {
+            "object": 1636,
+            "state": 1636,
+            "owner": "system.user.admin",
+            "ownerGroup": "system.group.administrator"
+        }
+    }
+}
