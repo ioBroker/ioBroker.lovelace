@@ -22,6 +22,7 @@ const manual_water_heater_tests = require('./manual_water_heater_tests');
 const manual_climate_tests = require('./manual_climate_tests');
 const manual_light_tests = require('./manual_light_tests');
 const manual_fan_tests = require('./manual_fan_tests');
+const manual_image_tests = require('./manual_image_tests');
 const map_tiles_tests = require('./map_tiles_tests');
 const cards_tests = require('./cards_tests');
 const http_static_files_tests = require('./http_static_files_tests');
@@ -48,6 +49,7 @@ exports.runTests = function (suite) {
     manual_lock_tests.runTests(suite);
     manual_media_tests.runTests(suite);
     manual_vacuum_tests.runTests(suite);
+    manual_image_tests.runTests(suite);
     manual_humidifier_tests.runTests(suite);
     manual_water_heater_tests.runTests(suite);
     manual_climate_tests.runTests(suite);

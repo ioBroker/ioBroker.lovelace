@@ -1,17 +1,6 @@
-import crypto from 'node:crypto';
 import { BaseEntity } from './baseEntity';
+import { generateAccessToken } from './utils';
 import type { ConverterParameters } from '../converters/converter';
-
-/**
- * Generate a non-cryptographic random access-token used by HA when fetching the
- * camera image URL. Matches the pattern used by the original JS converter.
- */
-function generateAccessToken(): string {
-    return crypto
-        .createHmac('sha256', (crypto.webcrypto.getRandomValues(new Uint32Array(1))[0] * 1_000_000_000).toString())
-        .update(Date.now().toString())
-        .digest('hex');
-}
 
 /**
  * Apply the standard "camera URL" attributes to a pre-built BaseEntity.  Shared between

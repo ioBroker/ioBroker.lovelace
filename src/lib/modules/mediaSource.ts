@@ -1,4 +1,13 @@
+import { imageProxyUrl } from '../entities/imageEntity';
+
 type SendResponseFn = (ws: unknown, id: unknown, result?: unknown) => void;
+
+/** What this module needs of an entity: the `image` ones and what builds their picture url. */
+interface EntityLike {
+    entity_id: string;
+    state: string;
+    attributes: { friendly_name?: string; access_token?: string; entity_picture?: string };
+}
 
 interface MediaSourceItem {
     title: string;
@@ -20,6 +29,9 @@ const CARDS_FOLDER = 'cards';
 const ROOT = 'media-source://';
 const SRC_IMAGES = 'media-source://image_upload';
 const SRC_CARDS = 'media-source://lovelace_cards';
+// Home Assistant's source for the `image` entities. The frontend recognizes an item of it by its
+// id and loads the picture through the image proxy instead of resolving the item.
+const SRC_ENTITIES = 'media-source://image';
 
 /**
  * Map a file name to a Home Assistant media_class + mime type based on its extension.
@@ -51,15 +63,23 @@ function mediaClassForFile(name: string): { media_class: string; media_content_t
 class MediaSourceModule {
     private adapter: ioBroker.Adapter;
     private sendResponse: SendResponseFn;
+    private entityData: { entities: EntityLike[] };
 
     /**
      * @param options - options
      * @param options.adapter - ioBroker adapter instance (for file storage access)
      * @param options.sendResponse - function to send a response to a client
+     * @param options.entityData - the shared entity data, read for the image entities
+     * @param options.entityData.entities - the active entities
      */
-    constructor(options: { adapter: ioBroker.Adapter; sendResponse: SendResponseFn }) {
+    constructor(options: {
+        adapter: ioBroker.Adapter;
+        sendResponse: SendResponseFn;
+        entityData: { entities: EntityLike[] };
+    }) {
         this.adapter = options.adapter;
         this.sendResponse = options.sendResponse;
+        this.entityData = options.entityData;
     }
 
     /**
@@ -144,10 +164,16 @@ class MediaSourceModule {
      */
     private async _browse(mediaContentId: string): Promise<MediaSourceItem> {
         if (mediaContentId === ROOT) {
-            return this.dir('ioBroker Lovelace', ROOT, 'directory', [
-                this.dir('Uploaded images', SRC_IMAGES, 'image'),
-                this.dir('Cards', SRC_CARDS, 'image'),
-            ]);
+            const root = [this.dir('Uploaded images', SRC_IMAGES, 'image'), this.dir('Cards', SRC_CARDS, 'image')];
+            // Only offered when there is something to pick, so an installation without image
+            // entities does not get an empty folder.
+            if (this._imageEntities().length) {
+                root.push(this.dir('Image entities', SRC_ENTITIES, 'image'));
+            }
+            return this.dir('ioBroker Lovelace', ROOT, 'directory', root);
+        }
+        if (mediaContentId === SRC_ENTITIES) {
+            return this.dir('Image entities', SRC_ENTITIES, 'image', this._browseImageEntities());
         }
         if (mediaContentId === SRC_IMAGES) {
             return this.dir('Uploaded images', SRC_IMAGES, 'image', await this._browseImages());
@@ -156,6 +182,29 @@ class MediaSourceModule {
             return this.dir('Cards', SRC_CARDS, 'image', await this._browseCards());
         }
         return this.dir(mediaContentId, mediaContentId, 'directory', []);
+    }
+
+    /** The `image` entities, which are the ones that can be picked as a picture. */
+    private _imageEntities(): EntityLike[] {
+        return (this.entityData.entities || []).filter(entity => entity.entity_id?.startsWith('image.'));
+    }
+
+    /**
+     * List the image entities as media items.
+     *
+     * @returns the image entity media items
+     */
+    private _browseImageEntities(): MediaSourceItem[] {
+        return this._imageEntities().map(entity => ({
+            title: entity.attributes.friendly_name || entity.entity_id,
+            media_class: 'image',
+            media_content_type: 'image/*',
+            media_content_id: `${SRC_ENTITIES}/${entity.entity_id}`,
+            can_play: true,
+            can_expand: false,
+            children_media_class: null,
+            thumbnail: imageProxyUrl(entity.entity_id, entity.attributes.access_token, entity.state) || null,
+        }));
     }
 
     /**
@@ -256,6 +305,14 @@ class MediaSourceModule {
                 // ignore -> keep default mime
             }
             return { url: `/api/image/serve/${id}`, mime_type: mime };
+        }
+        if (mediaContentId?.startsWith(`${SRC_ENTITIES}/`)) {
+            const entityId = mediaContentId.substring(SRC_ENTITIES.length + 1);
+            const entity = this._imageEntities().find(candidate => candidate.entity_id === entityId);
+            return {
+                url: entity ? imageProxyUrl(entityId, entity.attributes.access_token, entity.state) || '' : '',
+                mime_type: 'image/*',
+            };
         }
         if (mediaContentId?.startsWith(`${SRC_CARDS}/`)) {
             const file = mediaContentId.substring(SRC_CARDS.length + 1).replace(/\.\.+/g, '');

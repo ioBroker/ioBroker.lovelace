@@ -3,7 +3,10 @@ import { expect } from 'chai';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const MediaSourceModule = require('./mediaSource');
 
-function makeModule(dirs: Record<string, { file: string; isDir: boolean }[]>): {
+function makeModule(
+    dirs: Record<string, { file: string; isDir: boolean }[]>,
+    entities: any[] = [],
+): {
     mod: any;
     responses: any[];
     deleted: string[];
@@ -27,6 +30,7 @@ function makeModule(dirs: Record<string, { file: string; isDir: boolean }[]>): {
     const mod = new MediaSourceModule({
         adapter,
         sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result),
+        entityData: { entities },
     });
     return { mod, responses, deleted };
 }
@@ -44,6 +48,45 @@ describe('modules/mediaSource', function () {
         const ids = responses[0].children.map((c: any) => c.media_content_id);
         expect(ids).to.include('media-source://image_upload');
         expect(ids).to.include('media-source://lovelace_cards');
+        // Nothing to pick -> no folder for it.
+        expect(ids).to.not.include('media-source://image');
+    });
+
+    const imageEntity = {
+        entity_id: 'image.doorbell',
+        state: '2026-10-16T08:00:00.000Z',
+        attributes: { friendly_name: 'Doorbell', access_token: 'tok' },
+    };
+
+    it('offers the image entities as a picture source', async function () {
+        const { mod, responses } = makeModule({}, [
+            imageEntity,
+            { entity_id: 'camera.cam', state: 'on', attributes: {} },
+        ]);
+        await mod.processMessage({}, { type: 'media_source/browse_media', id: 1 });
+        expect(responses[0].children.map((c: any) => c.media_content_id)).to.include('media-source://image');
+
+        await mod.processMessage(
+            {},
+            { type: 'media_source/browse_media', media_content_id: 'media-source://image', id: 2 },
+        );
+        const children = responses[1].children;
+        expect(children).to.have.lengthOf(1);
+        expect(children[0].title).to.equal('Doorbell');
+        // The frontend takes the entity_id out of this id and builds the url itself.
+        expect(children[0].media_content_id).to.equal('media-source://image/image.doorbell');
+        expect(children[0].thumbnail).to.equal(
+            '/api/image_proxy/image.doorbell?token=tok&state=2026-10-16T08:00:00.000Z',
+        );
+    });
+
+    it('resolves an image entity to its proxy url', async function () {
+        const { mod, responses } = makeModule({}, [imageEntity]);
+        await mod.processMessage(
+            {},
+            { type: 'media_source/resolve_media', media_content_id: 'media-source://image/image.doorbell', id: 1 },
+        );
+        expect(responses[0].url).to.equal('/api/image_proxy/image.doorbell?token=tok&state=2026-10-16T08:00:00.000Z');
     });
 
     it('lists uploaded images and skips .json sidecars', async function () {

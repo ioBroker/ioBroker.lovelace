@@ -6,6 +6,7 @@ import { handleAutoEntitiesCard } from './modules/autoEntities';
 import * as utils from './entities/utils';
 import { BaseEntity } from './entities/baseEntity';
 import { getFriendlyName } from './entities/friendly_name';
+import { applyImageAttributes } from './entities/imageEntity';
 import { computeSunState } from './sun';
 import { iobState2EntityState } from './converters/genericConverter';
 import { Converter } from './converters/converter';
@@ -436,6 +437,7 @@ class WebServer {
             mediaSource: new MediaSourceModule({
                 adapter: this.adapter,
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
+                entityData,
             }),
             search: new SearchModule({
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
@@ -861,6 +863,9 @@ class WebServer {
                 entity.attributes.model_name = 'Simulated URL';
                 entity.attributes.brand = 'ioBroker';
                 entity.attributes.motion_detection = false;
+            } else if (entityType === 'image') {
+                // A still picture instead of the camera the image types used to be mapped to.
+                applyImageAttributes(entity, entity.context.STATE.getId || id);
             } else if (entityType === 'alarm_control_panel') {
                 return converterAlarmCP.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'input_number') {
@@ -2830,6 +2835,12 @@ class WebServer {
         });
 
         this._app.get('/api/camera_proxy/:entity_id', async (req: any, res: any) => {
+            await this._modules.image.replyWithImage(req, res);
+        });
+
+        // The picture of an `image` entity. Same handler as the camera proxy - the frontend just
+        // asks for it under this name, and it checks the entity's access token.
+        this._app.get('/api/image_proxy/:entity_id', async (req: any, res: any) => {
             await this._modules.image.replyWithImage(req, res);
         });
 

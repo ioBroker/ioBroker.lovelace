@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import type { BaseEntity } from './baseEntity';
 import { getEntityId } from './entity_id';
 
@@ -433,4 +434,17 @@ export function createEntityNameFromCustom(obj: ioBroker.Object, namespace: stri
         }
         return `${custom[namespace].entity}.${custom[namespace].name}`;
     }
+}
+
+/**
+ * Random access token, handed to the frontend as an entity attribute so it may load the entity's
+ * image through the proxy routes without sending credentials with every `<img>`.
+ *
+ * @returns a hex token
+ */
+export function generateAccessToken(): string {
+    return crypto
+        .createHmac('sha256', (crypto.webcrypto.getRandomValues(new Uint32Array(1))[0] * 1_000_000_000).toString())
+        .update(Date.now().toString())
+        .digest('hex');
 }

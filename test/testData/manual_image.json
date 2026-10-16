@@ -1,0 +1,25 @@
+{
+  "0_userdata.0.doorbell_snapshot": {
+    "type": "state",
+    "common": {
+      "name": "doorbell snapshot",
+      "type": "string",
+      "role": "state",
+      "read": true,
+      "write": false,
+      "custom": {
+        "lovelace.0": {
+          "enabled": true,
+          "entity": "image",
+          "name": "doorbell"
+        }
+      }
+    },
+    "native": {},
+    "_id": "0_userdata.0.doorbell_snapshot",
+    "acl": { "object": 1636, "state": 1636, "owner": "system.user.admin", "ownerGroup": "system.group.administrator" },
+    "from": "system.adapter.admin.2",
+    "user": "system.user.admin",
+    "ts": 1622288803859
+  }
+}

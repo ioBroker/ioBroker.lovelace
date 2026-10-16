@@ -48,6 +48,10 @@
           "label": "camera"
         },
         {
+          "value": "image",
+          "label": "image"
+        },
+        {
           "value": "calendar",
           "label": "calendar"
         },
