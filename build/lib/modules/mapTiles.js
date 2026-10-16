@@ -20,8 +20,6 @@ const MAX_TILE_BYTES = 8 * 1024 * 1024;
 const MAX_COORDINATE_DIGITS = 8;
 const FONTSTACK_RE = /^[A-Za-z0-9 _-]{1,64}(?:,[A-Za-z0-9 _-]{1,64}){0,7}$/;
 const GLYPH_RANGE_RE = /^\d{1,5}-\d{1,5}\.pbf$/;
-const SPRITE_SET_RE = /^[a-z0-9_-]{1,32}$/;
-const SPRITE_NAME_RE = /^sprites(?:@2x)?$/;
 const TOKEN_SIZE = 32;
 const TOKEN_HEADER = "x-map-tiles-token";
 const TOKEN_CHANGE_INTERVAL = 30 * 60 * 1e3;
@@ -347,30 +345,6 @@ class MapTilesModule {
       // The font stack may contain spaces; express handed it to us decoded.
       `${VECTOR_URL}/styles/shortbread/fonts/${encodeURIComponent(fontstack)}/${range}`,
       "application/x-protobuf",
-      ASSET_TTL,
-      ASSET_MAX_AGE
-    );
-  }
-  /**
-   * Express handler for the icon sprites (`/api/map_tiles/sprites/{set}/sprites[@2x].json|png`).
-   *
-   * @param req - the request, with set/name route parameters
-   * @param res - the response
-   */
-  async serveSprites(req, res) {
-    const set = req.params.set;
-    const file = req.params.name || "";
-    const match = /^(.+)\.(json|png)$/.exec(file);
-    if (!SPRITE_SET_RE.test(set) || !match || !SPRITE_NAME_RE.test(match[1])) {
-      res.status(400).send("Invalid sprite request");
-      return;
-    }
-    const path = `sprites/${set}/${match[1]}.${match[2]}`;
-    await this.serveAsset(
-      res,
-      path,
-      `${VECTOR_URL}/styles/shortbread/${path}`,
-      match[2] === "json" ? "application/json" : "image/png",
       ASSET_TTL,
       ASSET_MAX_AGE
     );

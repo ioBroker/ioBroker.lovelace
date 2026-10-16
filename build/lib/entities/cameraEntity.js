@@ -1,9 +1,7 @@
 "use strict";
-var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -17,14 +15,6 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var cameraEntity_exports = {};
 __export(cameraEntity_exports, {
@@ -32,11 +22,8 @@ __export(cameraEntity_exports, {
   applyCameraUrlAttributes: () => applyCameraUrlAttributes
 });
 module.exports = __toCommonJS(cameraEntity_exports);
-var import_node_crypto = __toESM(require("node:crypto"));
 var import_baseEntity = require("./baseEntity");
-function generateAccessToken() {
-  return import_node_crypto.default.createHmac("sha256", (import_node_crypto.default.webcrypto.getRandomValues(new Uint32Array(1))[0] * 1e9).toString()).update(Date.now().toString()).digest("hex");
-}
+var import_utils = require("./utils");
 function applyCameraUrlAttributes(entity, urlStateId) {
   entity.context.STATE.getId = urlStateId;
   entity.context.STATE.getParser = (ent, _attr, state) => {
@@ -44,7 +31,7 @@ function applyCameraUrlAttributes(entity, urlStateId) {
   };
   entity.context.ATTRIBUTES = [{ getId: urlStateId, attribute: "url" }];
   entity.attributes.code_format = "number";
-  entity.attributes.access_token = generateAccessToken();
+  entity.attributes.access_token = (0, import_utils.generateAccessToken)();
   entity.attributes.model_name = "Simulated URL";
   entity.attributes.brand = "ioBroker";
   entity.attributes.motion_detection = false;

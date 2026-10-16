@@ -1,9 +1,11 @@
 "use strict";
+var import_imageEntity = require("../entities/imageEntity");
 const IMAGE_FOLDER = "uploaded_images";
 const CARDS_FOLDER = "cards";
 const ROOT = "media-source://";
 const SRC_IMAGES = "media-source://image_upload";
 const SRC_CARDS = "media-source://lovelace_cards";
+const SRC_ENTITIES = "media-source://image";
 function mediaClassForFile(name) {
   var _a;
   const ext = ((_a = name.split(".").pop()) == null ? void 0 : _a.toLowerCase()) || "";
@@ -22,14 +24,18 @@ function mediaClassForFile(name) {
 class MediaSourceModule {
   adapter;
   sendResponse;
+  entityData;
   /**
    * @param options - options
    * @param options.adapter - ioBroker adapter instance (for file storage access)
    * @param options.sendResponse - function to send a response to a client
+   * @param options.entityData - the shared entity data, read for the image entities
+   * @param options.entityData.entities - the active entities
    */
   constructor(options) {
     this.adapter = options.adapter;
     this.sendResponse = options.sendResponse;
+    this.entityData = options.entityData;
   }
   /**
    * Handle a media_source message.
@@ -104,10 +110,14 @@ class MediaSourceModule {
    */
   async _browse(mediaContentId) {
     if (mediaContentId === ROOT) {
-      return this.dir("ioBroker Lovelace", ROOT, "directory", [
-        this.dir("Uploaded images", SRC_IMAGES, "image"),
-        this.dir("Cards", SRC_CARDS, "image")
-      ]);
+      const root = [this.dir("Uploaded images", SRC_IMAGES, "image"), this.dir("Cards", SRC_CARDS, "image")];
+      if (this._imageEntities().length) {
+        root.push(this.dir("Image entities", SRC_ENTITIES, "image"));
+      }
+      return this.dir("ioBroker Lovelace", ROOT, "directory", root);
+    }
+    if (mediaContentId === SRC_ENTITIES) {
+      return this.dir("Image entities", SRC_ENTITIES, "image", this._browseImageEntities());
     }
     if (mediaContentId === SRC_IMAGES) {
       return this.dir("Uploaded images", SRC_IMAGES, "image", await this._browseImages());
@@ -116,6 +126,30 @@ class MediaSourceModule {
       return this.dir("Cards", SRC_CARDS, "image", await this._browseCards());
     }
     return this.dir(mediaContentId, mediaContentId, "directory", []);
+  }
+  /** The `image` entities, which are the ones that can be picked as a picture. */
+  _imageEntities() {
+    return (this.entityData.entities || []).filter((entity) => {
+      var _a;
+      return (_a = entity.entity_id) == null ? void 0 : _a.startsWith("image.");
+    });
+  }
+  /**
+   * List the image entities as media items.
+   *
+   * @returns the image entity media items
+   */
+  _browseImageEntities() {
+    return this._imageEntities().map((entity) => ({
+      title: entity.attributes.friendly_name || entity.entity_id,
+      media_class: "image",
+      media_content_type: "image/*",
+      media_content_id: `${SRC_ENTITIES}/${entity.entity_id}`,
+      can_play: true,
+      can_expand: false,
+      children_media_class: null,
+      thumbnail: (0, import_imageEntity.imageProxyUrl)(entity.entity_id, entity.attributes.access_token, entity.state) || null
+    }));
   }
   /**
    * List uploaded images as media items (reads each `<id>.json` sidecar for name/content type).
@@ -207,6 +241,14 @@ class MediaSourceModule {
       } catch {
       }
       return { url: `/api/image/serve/${id}`, mime_type: mime };
+    }
+    if (mediaContentId == null ? void 0 : mediaContentId.startsWith(`${SRC_ENTITIES}/`)) {
+      const entityId = mediaContentId.substring(SRC_ENTITIES.length + 1);
+      const entity = this._imageEntities().find((candidate) => candidate.entity_id === entityId);
+      return {
+        url: entity ? (0, import_imageEntity.imageProxyUrl)(entityId, entity.attributes.access_token, entity.state) || "" : "",
+        mime_type: "image/*"
+      };
     }
     if (mediaContentId == null ? void 0 : mediaContentId.startsWith(`${SRC_CARDS}/`)) {
       const file = mediaContentId.substring(SRC_CARDS.length + 1).replace(/\.\.+/g, "");

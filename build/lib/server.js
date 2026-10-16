@@ -29,6 +29,7 @@ var import_autoEntities = require("./modules/autoEntities");
 var utils = __toESM(require("./entities/utils"));
 var import_baseEntity = require("./entities/baseEntity");
 var import_friendly_name = require("./entities/friendly_name");
+var import_imageEntity = require("./entities/imageEntity");
 var import_sun = require("./sun");
 var import_genericConverter = require("./converters/genericConverter");
 var import_converter = require("./converters/converter");
@@ -308,7 +309,8 @@ class WebServer {
       }),
       mediaSource: new import_mediaSource.default({
         adapter: this.adapter,
-        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        entityData
       }),
       search: new import_search.default({
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
@@ -668,6 +670,8 @@ class WebServer {
         entity.attributes.model_name = "Simulated URL";
         entity.attributes.brand = "ioBroker";
         entity.attributes.motion_detection = false;
+      } else if (entityType === "image") {
+        (0, import_imageEntity.applyImageAttributes)(entity, entity.context.STATE.getId || id);
       } else if (entityType === "alarm_control_panel") {
         return converterAlarmCP.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "input_number") {
@@ -1780,6 +1784,13 @@ ${hideScript.join("\n")}
    * @param cacheControl - value for the Cache-Control header
    */
   _sendStaticFile(req, res, baseDir, requestPath, cacheControl) {
+    const query = requestPath.indexOf("?");
+    if (query !== -1) {
+      if (/[?&]v=/.test(requestPath.substring(query))) {
+        cacheControl = IMMUTABLE_CACHE;
+      }
+      requestPath = requestPath.substring(0, query);
+    }
     const filePath = (0, import_safePath.resolvePathInside)(baseDir, requestPath);
     if (!filePath) {
       res.status(404).send("File not found");
@@ -2217,7 +2228,8 @@ ${hideScript.join("\n")}
         res.setHeader("Cache-Control", `public, max-age=${staticOptions.maxAge}`);
         res.sendFile(import_node_path.default.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
       } else {
-        const filePath = (0, import_safePath.resolvePathInside)(getRootPath(), req.url);
+        const rootPath = req.url.split("?")[0];
+        const filePath = (0, import_safePath.resolvePathInside)(getRootPath(), rootPath);
         if (!filePath) {
           return next();
         }
@@ -2228,7 +2240,7 @@ ${hideScript.join("\n")}
           this.log.debug(`Serving ${filePath}`);
           const name = import_node_path.default.basename(filePath);
           const cacheControl = name.startsWith("sw-") || name.startsWith("service_worker") || name.endsWith(".html") ? REVALIDATE_CACHE : `public, max-age=${staticOptions.maxAge}`;
-          this._sendStaticFile(req, res, getRootPath(), req.url, cacheControl);
+          this._sendStaticFile(req, res, getRootPath(), rootPath, cacheControl);
         });
       }
     });
@@ -2281,9 +2293,6 @@ ${hideScript.join("\n")}
     this._app.get("/api/map_tiles/fonts/:fontstack/:range", async (req, res) => {
       await this._modules.mapTiles.serveGlyphs(req, res);
     });
-    this._app.get("/api/map_tiles/sprites/:set/:name", async (req, res) => {
-      await this._modules.mapTiles.serveSprites(req, res);
-    });
     this._app.get("/api/history/period/:start", async (req, res) => {
       void this._modules.history.processRequest(req, res);
     });
@@ -2291,6 +2300,9 @@ ${hideScript.join("\n")}
       await this._modules.image.replyWithImage(req, res);
     });
     this._app.get("/api/camera_proxy/:entity_id", async (req, res) => {
+      await this._modules.image.replyWithImage(req, res);
+    });
+    this._app.get("/api/image_proxy/:entity_id", async (req, res) => {
       await this._modules.image.replyWithImage(req, res);
     });
     const IMAGE_FOLDER = "uploaded_images";
