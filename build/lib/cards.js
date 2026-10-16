@@ -18,8 +18,10 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var cards_exports = {};
 __export(cards_exports, {
+  cardsVersion: () => cardsVersion,
   detectCardVersion: () => detectCardVersion,
-  staticCardUrl: () => staticCardUrl
+  staticCardUrl: () => staticCardUrl,
+  stripCardsVersion: () => stripCardsVersion
 });
 module.exports = __toCommonJS(cards_exports);
 var import_node_fs = require("node:fs");
@@ -51,9 +53,27 @@ const ADAPTER_VERSION = JSON.parse((0, import_node_fs.readFileSync)(`${__dirname
 function staticCardUrl(file) {
   return `/cards/_static_${file}?v=${ADAPTER_VERSION}`;
 }
+const CARDS_VERSION_PREFIX = "_v";
+function cardsVersion(files) {
+  var _a, _b;
+  let newest = 0;
+  for (const file of files) {
+    const stamp = file.modifiedAt || ((_a = file.stats) == null ? void 0 : _a.mtimeMs) || ((_b = file.stats) == null ? void 0 : _b.size) || 0;
+    if (stamp > newest) {
+      newest = stamp;
+    }
+  }
+  return newest ? `${CARDS_VERSION_PREFIX}${newest}` : "";
+}
+function stripCardsVersion(file) {
+  const match = new RegExp(`^/cards/${CARDS_VERSION_PREFIX}\\d+/`).exec(file);
+  return match ? { file: `/cards/${file.substring(match[0].length)}`, versioned: true } : { file, versioned: false };
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  cardsVersion,
   detectCardVersion,
-  staticCardUrl
+  staticCardUrl,
+  stripCardsVersion
 });
 //# sourceMappingURL=cards.js.map

@@ -80,20 +80,48 @@ exports.runTests = function (suite) {
             expect(answer.native._cardsFolder).to.equal('lovelace.0%2Fcards');
         });
 
-        it('offers a custom card under its plain url and revalidates it (#755)', async () => {
-            // A card may import a sibling file relatively ("./test-card-editor.js"). That import
-            // never carries a version marker, so the resource url must not carry one either -
-            // otherwise the browser loads the same module twice and the second
-            // customElements.define() throws.
-            const resources = await readResources();
-            const entry = resources.find(resource => resource.url.startsWith('/cards/test-card.js'));
-            expect(entry.url).to.equal('/cards/test-card.js');
+        it('offers a custom card under a versioned path a relative import stays inside (#755)', async () => {
+            // A card may import a sibling file relatively ("./test-card-editor.js"). Such an import
+            // keeps the path it was loaded from but drops a query, so the marker has to live in a
+            // path segment: with "?v=" the sibling loaded under a second url, the module ran twice
+            // and the second customElements.define() threw.
+            await harness.objects.writeFileAsync('lovelace.0', '/cards/test-card-editor.js', CARD);
 
+            // The folder is watched, so the rescan comes on its own.
+            let resources = [];
+            for (let i = 0; i < 20; i++) {
+                await tools.delay(250);
+                resources = await readResources();
+                if (resources.some(resource => resource.url.endsWith('/test-card-editor.js'))) {
+                    break;
+                }
+            }
+            const entry = resources.find(resource => resource.url.endsWith('/test-card.js'));
+            expect(entry.url).to.match(/^\/cards\/_v\d+\/test-card\.js$/);
+            const folder = entry.url.substring(0, entry.url.lastIndexOf('/'));
+
+            // The card itself can be cached for good now: a changed folder hands out a new url.
+            const card = await request(`http://localhost:38091${entry.url}`);
+            expect(card.status).to.equal(200);
+            expect(card.headers['cache-control']).to.contain('immutable');
+
+            // What the card imports relatively arrives below the same marker and is served from it.
+            const sibling = await request(`http://localhost:38091${folder}/test-card-editor.js`);
+            expect(sibling.status).to.equal(200);
+            expect(sibling.headers['cache-control']).to.contain('immutable');
+
+            await harness.objects.unlinkAsync('lovelace.0', '/cards/test-card-editor.js');
+        });
+
+        it('revalidates a card referenced by hand, without a marker', async () => {
+            // Someone may point at /cards/test-card.js in yaml. That url cannot be cached for good,
+            // or replacing the card would have no effect for them.
             const response = await request('http://localhost:38091/cards/test-card.js');
             expect(response.status).to.equal(200);
             expect(response.headers['cache-control']).to.equal('no-cache');
+            // For a client that revalidates with a date rather than with the ETag.
+            expect(response.headers['last-modified']).to.be.ok;
 
-            // Instead of a cache time, the unchanged card is confirmed with a cheap 304.
             const etag = response.headers.etag;
             expect(etag).to.be.ok;
             const again = await request('http://localhost:38091/cards/test-card.js', {
@@ -131,11 +159,11 @@ exports.runTests = function (suite) {
             for (let i = 0; i < 20; i++) {
                 await tools.delay(250);
                 resources = await readResources();
-                if (resources.some(entry => entry.url.startsWith('/cards/watched-card.js'))) {
+                if (resources.some(entry => entry.url.endsWith('/watched-card.js'))) {
                     break;
                 }
             }
-            expect(resources.map(entry => entry.url).join(' ')).to.contain('/cards/watched-card.js');
+            expect(resources.map(entry => entry.url).join(' ')).to.contain('/watched-card.js');
 
             await harness.objects.unlinkAsync('lovelace.0', '/cards/watched-card.js');
         });

@@ -85,6 +85,7 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) Editing the themes no longer loses the selected theme, and broken theme YAML cannot be saved any more.
+* (Garfonso/Claude) Custom cards are cached again, so a dashboard in the ioBroker app loads them without asking the server every time. (#755)
 ### 7.2.4 (2026-10-09)
 * (Garfonso/Claude) Custom cards that consist of several files (like refreshable-picture-card) work again. (#755)
 

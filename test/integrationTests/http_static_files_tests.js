@@ -54,6 +54,7 @@ exports.runTests = function (suite) {
             '/local/custom_ui/_static_/../../package.json',
             '/foo/cards/_static_/../../package.json',
             '/cards/_static_/..\\..\\package.json',
+            '/cards/_v1/../../package.json', // the version marker is stripped before the path is checked
             '/static/icons/../../package.json', // assets/icons -> adapter root
             '/frontend_latest/../../package.json',
             '/frontend_es5/../../package.json',

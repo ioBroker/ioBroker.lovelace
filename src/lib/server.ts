@@ -17,7 +17,7 @@ import * as converterGeoLocation from './converters/geo_location';
 import * as converterDeviceTracker from './converters/deviceTracker';
 import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
 import { applyCustomAttributes, collectCustomAttributes } from './converters/manualStates';
-import { detectCardVersion, staticCardUrl } from './cards';
+import { cardsVersion, detectCardVersion, staticCardUrl, stripCardsVersion } from './cards';
 import { stateToResponse } from './stateResponse';
 import { toCurrencyCode } from './currency';
 import { normalizeStates } from './statesMap';
@@ -246,6 +246,8 @@ class WebServer {
     private _lovelaceConfig: any;
 
     private _ressourceConfig: any[];
+    /** file name below `cards/` -> its modification time, filled by `_listFiles()` */
+    private _cardModified: Record<string, number> = {};
     /** Remembers which frontend files have a `.br` next to them (see _sendStaticFile). */
     private _brotliFiles = new Map<string, boolean>();
     /** Collects a burst of card file changes into one rescan. */
@@ -1657,18 +1659,23 @@ class WebServer {
             }
 
             const list = await this.adapter.readDirAsync(this.adapter.namespace, '/cards/');
+            this._cardModified = {};
             if (list.length) {
+                // One marker for the whole folder, inside the path - see cardsVersion(). It lets the
+                // browser cache a card for good while a relative import of a sibling file keeps
+                // working (#755), and it does so without knowing how many files a card consists of.
+                const version = cardsVersion(list);
+                const folder = version ? `/cards/${version}` : '/cards';
                 //keep static cards! Just add the dynamic ones during startup.
                 for (const file of list) {
                     if (!file.isDir) {
                         const pos = file.file.lastIndexOf('.');
                         const type = file.file.substring(pos + 1).toLowerCase();
-                        // No version marker in the url: a card may import a sibling file relatively
-                        // ("./x-card-editor.js"), and that import would not carry the marker - the
-                        // browser then loads the same module under two urls and the second
-                        // customElements.define() throws. (#755) The card is revalidated instead,
-                        // see onCards().
-                        const url = `/cards/${file.file}`;
+                        const stamp = file.modifiedAt || file.stats?.mtimeMs;
+                        if (stamp) {
+                            this._cardModified[file.file] = stamp;
+                        }
+                        const url = `${folder}/${file.file}`;
                         if (type === 'js') {
                             //we do not really need to advertise the images, do we? Hm.
                             this.log.debug(`Add custom cards: ${file.file} as ${type}`);
@@ -2207,11 +2214,15 @@ class WebServer {
         let file = req.url.replace('hacsfiles', 'cards');
         file = file.replace('/cards/_static_', '/lovelace/static_cards/');
         const pos = file.indexOf('?');
-        // Only the cards we ship ourselves carry a version marker, and theirs is the adapter version.
-        const versioned = pos !== -1 && /[?&]v=/.test(file.substring(pos));
+        // The cards we ship ourselves carry the adapter version as a query.
+        const staticVersioned = pos !== -1 && /[?&]v=/.test(file.substring(pos));
         if (pos !== -1) {
             file = file.substring(0, pos);
         }
+        // A custom card carries the marker of its folder as a path segment, which is taken off again
+        // to find the file. Everything the card imports relatively arrives with the same segment.
+        const custom = stripCardsVersion(file);
+        file = custom.file;
         try {
             //cards are delivered without authentication -> never allow leaving the cards folders.
             if (hasParentSegment(file)) {
@@ -2238,14 +2249,18 @@ class WebServer {
                 'content-type',
                 (mime.getType || mime.lookup).call(data.mimeType, file.substring(pos + 1).toLowerCase()),
             );
-            // A static card is requested with the adapter version in its url and can be cached for
-            // good. A custom card is served under its plain url, because the card itself may import
-            // a sibling file by that url (#755), so it is revalidated: express answers a 304 from
-            // the ETag while the file is unchanged, and a replaced card takes effect on a reload.
-            res.setHeader(
-                'Cache-Control',
-                versioned && file.startsWith('/lovelace/') ? IMMUTABLE_CACHE : REVALIDATE_CACHE,
-            );
+            // Anything requested with a version marker can be cached for good: a new adapter or a
+            // changed cards folder hands out a new url. A card referenced by hand (e.g. in yaml
+            // below `/cards/`) carries no marker and is revalidated instead - express answers a 304
+            // from the ETag while the file is unchanged, and a replaced card takes effect on a
+            // reload. Last-Modified is sent along for clients that revalidate with
+            // If-Modified-Since rather than with the ETag.
+            const marked = custom.versioned || (staticVersioned && file.startsWith('/lovelace/'));
+            res.setHeader('Cache-Control', marked ? IMMUTABLE_CACHE : REVALIDATE_CACHE);
+            const modified = this._cardModified[file.replace('/cards/', '')];
+            if (modified) {
+                res.setHeader('Last-Modified', new Date(modified).toUTCString());
+            }
             res.send(data);
         } catch (err: any) {
             this.log.warn(`Could not read card ${file}: ${err}`);

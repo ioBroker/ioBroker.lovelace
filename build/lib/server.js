@@ -147,6 +147,8 @@ class WebServer {
   systemConfig;
   _lovelaceConfig;
   _ressourceConfig;
+  /** file name below `cards/` -> its modification time, filled by `_listFiles()` */
+  _cardModified = {};
   /** Remembers which frontend files have a `.br` next to them (see _sendStaticFile). */
   _brotliFiles = /* @__PURE__ */ new Map();
   /** Collects a burst of card file changes into one rescan. */
@@ -1333,6 +1335,7 @@ class WebServer {
    * @returns resolves when done.
    */
   async _listFiles() {
+    var _a;
     try {
       this._ressourceConfig.length = 0;
       const staticCards = ["browser_mod.js"];
@@ -1344,12 +1347,19 @@ class WebServer {
         });
       }
       const list = await this.adapter.readDirAsync(this.adapter.namespace, "/cards/");
+      this._cardModified = {};
       if (list.length) {
+        const version = (0, import_cards.cardsVersion)(list);
+        const folder = version ? `/cards/${version}` : "/cards";
         for (const file of list) {
           if (!file.isDir) {
             const pos = file.file.lastIndexOf(".");
             const type = file.file.substring(pos + 1).toLowerCase();
-            const url = `/cards/${file.file}`;
+            const stamp = file.modifiedAt || ((_a = file.stats) == null ? void 0 : _a.mtimeMs);
+            if (stamp) {
+              this._cardModified[file.file] = stamp;
+            }
+            const url = `${folder}/${file.file}`;
             if (type === "js") {
               this.log.debug(`Add custom cards: ${file.file} as ${type}`);
               this._ressourceConfig.push({
@@ -1810,10 +1820,12 @@ ${hideScript.join("\n")}
     let file = req.url.replace("hacsfiles", "cards");
     file = file.replace("/cards/_static_", "/lovelace/static_cards/");
     const pos = file.indexOf("?");
-    const versioned = pos !== -1 && /[?&]v=/.test(file.substring(pos));
+    const staticVersioned = pos !== -1 && /[?&]v=/.test(file.substring(pos));
     if (pos !== -1) {
       file = file.substring(0, pos);
     }
+    const custom = (0, import_cards.stripCardsVersion)(file);
+    file = custom.file;
     try {
       if ((0, import_safePath.hasParentSegment)(file)) {
         throw new Error("path must not contain ..");
@@ -1837,10 +1849,12 @@ ${hideScript.join("\n")}
         "content-type",
         (mime.getType || mime.lookup).call(data.mimeType, file.substring(pos2 + 1).toLowerCase())
       );
-      res.setHeader(
-        "Cache-Control",
-        versioned && file.startsWith("/lovelace/") ? IMMUTABLE_CACHE : REVALIDATE_CACHE
-      );
+      const marked = custom.versioned || staticVersioned && file.startsWith("/lovelace/");
+      res.setHeader("Cache-Control", marked ? IMMUTABLE_CACHE : REVALIDATE_CACHE);
+      const modified = this._cardModified[file.replace("/cards/", "")];
+      if (modified) {
+        res.setHeader("Last-Modified", new Date(modified).toUTCString());
+      }
       res.send(data);
     } catch (err) {
       this.log.warn(`Could not read card ${file}: ${err}`);

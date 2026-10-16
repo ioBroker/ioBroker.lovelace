@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { readFileSync } from 'node:fs';
-import { detectCardVersion, staticCardUrl } from './cards';
+import { cardsVersion, detectCardVersion, staticCardUrl, stripCardsVersion } from './cards';
 
 describe('lib/cards detectCardVersion', function () {
     it('reads a version printed literally in the console banner', function () {
@@ -38,5 +38,60 @@ describe('lib/cards staticCardUrl', function () {
         const version = (JSON.parse(readFileSync(`${__dirname}/../../package.json`, 'utf8')) as { version: string })
             .version;
         expect(staticCardUrl('browser_mod.js')).to.equal(`/cards/_static_browser_mod.js?v=${version}`);
+    });
+});
+
+describe('lib/cards cardsVersion', function () {
+    it('takes the newest modification time of the folder', function () {
+        expect(cardsVersion([{ modifiedAt: 1758291000000 }, { modifiedAt: 1758292000000 }])).to.equal(
+            '_v1758292000000',
+        );
+    });
+
+    it('falls back to what a file system backend reports', function () {
+        expect(cardsVersion([{ stats: { mtimeMs: 1758291000000 } }])).to.equal('_v1758291000000');
+        expect(cardsVersion([{ stats: { size: 4711 } }])).to.equal('_v4711');
+    });
+
+    it('has no marker when nothing carries a stamp', function () {
+        // Without a marker the cards are served under their plain url and revalidated.
+        expect(cardsVersion([{}])).to.equal('');
+        expect(cardsVersion([])).to.equal('');
+    });
+
+    it('gives one marker for the whole folder', function () {
+        // One stamp per file would leave the url of the importer unchanged when only the sibling it
+        // imports was replaced - the new sibling would never be fetched.
+        const files = [{ modifiedAt: 1758291000000 }, { modifiedAt: 1758292000000 }];
+        expect(cardsVersion([files[0]])).to.not.equal(cardsVersion(files));
+    });
+});
+
+describe('lib/cards stripCardsVersion', function () {
+    it('takes the marker off again to find the file', function () {
+        expect(stripCardsVersion('/cards/_v1758292000000/my-card.js')).to.deep.equal({
+            file: '/cards/my-card.js',
+            versioned: true,
+        });
+    });
+
+    it('keeps a sub folder of the card below the marker', function () {
+        expect(stripCardsVersion('/cards/_v1/pack/editor.js')).to.deep.equal({
+            file: '/cards/pack/editor.js',
+            versioned: true,
+        });
+    });
+
+    it('leaves a url without a marker alone', function () {
+        expect(stripCardsVersion('/cards/my-card.js')).to.deep.equal({
+            file: '/cards/my-card.js',
+            versioned: false,
+        });
+    });
+
+    it('does not take a card named like the marker for one', function () {
+        // The marker is "_v" followed by digits and a slash, nothing else.
+        expect(stripCardsVersion('/cards/_version-card.js').versioned).to.equal(false);
+        expect(stripCardsVersion('/cards/_vX/card.js').versioned).to.equal(false);
     });
 });
