@@ -265,7 +265,14 @@
           "type": "select",
           "label": "Source type",
           "help": "How the location is determined (device_tracker only).",
-          "default": "gps",
+          "defaultFunc": "data.entity === 'person' ? 'gps' : undefined",
+          "onChange": {
+            "alsoDependsOn": [
+              "entity"
+            ],
+            "calculateFunc": "data.entity === 'person' ? 'gps' : undefined",
+            "ignoreOwnChanges": true
+          },
           "hidden": "data.entity === 'person'",
           "options": [
             {
@@ -854,7 +861,14 @@
           "type": "select",
           "label": "Heating or cooling",
           "help": "Only used when no HVAC mode state is mapped above.",
-          "default": "heat",
+          "defaultFunc": "data.entity === 'climate' ? 'heat' : undefined",
+          "onChange": {
+            "alsoDependsOn": [
+              "entity"
+            ],
+            "calculateFunc": "data.entity === 'climate' ? 'heat' : undefined",
+            "ignoreOwnChanges": true
+          },
           "hidden": "!!data.state_MODE",
           "options": [
             {
@@ -1572,7 +1586,14 @@
           "sm": 6,
           "md": 4,
           "lg": 3,
-          "defaultFunc": "data.entity === 'sensor' && customObj.common && customObj.common.unit ? {'°C':'temperature','°F':'temperature','K':'temperature','W':'power','kW':'power','mW':'power','MW':'power','Wh':'energy','kWh':'energy','MWh':'energy','GWh':'energy','A':'current','mA':'current','V':'voltage','mV':'voltage','kV':'voltage','Hz':'frequency','kHz':'frequency','lx':'illuminance','lux':'illuminance','hPa':'pressure','mbar':'pressure','bar':'pressure','Pa':'pressure','psi':'pressure','dBm':'signal_strength'}[customObj.common.unit] : undefined"
+          "defaultFunc": "data.entity === 'sensor' && customObj.common && customObj.common.unit ? {'°C':'temperature','°F':'temperature','K':'temperature','W':'power','kW':'power','mW':'power','MW':'power','Wh':'energy','kWh':'energy','MWh':'energy','GWh':'energy','A':'current','mA':'current','V':'voltage','mV':'voltage','kV':'voltage','Hz':'frequency','kHz':'frequency','lx':'illuminance','lux':'illuminance','hPa':'pressure','mbar':'pressure','bar':'pressure','Pa':'pressure','psi':'pressure','dBm':'signal_strength'}[customObj.common.unit] : undefined",
+          "onChange": {
+            "alsoDependsOn": [
+              "entity"
+            ],
+            "calculateFunc": "data.entity === 'sensor' && customObj.common && customObj.common.unit ? {'°C':'temperature','°F':'temperature','K':'temperature','W':'power','kW':'power','mW':'power','MW':'power','Wh':'energy','kWh':'energy','MWh':'energy','GWh':'energy','A':'current','mA':'current','V':'voltage','mV':'voltage','kV':'voltage','Hz':'frequency','kHz':'frequency','lx':'illuminance','lux':'illuminance','hPa':'pressure','mbar':'pressure','bar':'pressure','Pa':'pressure','psi':'pressure','dBm':'signal_strength'}[customObj.common.unit] : undefined",
+            "ignoreOwnChanges": true
+          }
         },
         "attr_unit_of_measurement": {
           "type": "text",
@@ -1580,10 +1601,11 @@
           "defaultFunc": "data.entity === 'sensor' ? (customObj.common && customObj.common.unit) ? customObj.common.unit : {'battery': '%', 'carbon_dioxide':'ppm', 'carbon_monoxide':'ppm', 'humidity': '%', 'illuminance': 'lux', 'signal_strength': 'db', 'temperature': '°C', 'timestamp':'', 'power':'W', 'pressure':'hPa', 'current':'A', 'energy':'Wh', 'power_factor':'%', 'voltage':'V' }[data.attr_device_class] : undefined",
           "onChange": {
             "alsoDependsOn": [
-              "attr_device_class"
+              "attr_device_class",
+              "entity"
             ],
             "calculateFunc": "data.entity === 'sensor' ? (customObj.common && customObj.common.unit) ? customObj.common.unit : {'battery': '%', 'carbon_dioxide':'ppm', 'carbon_monoxide':'ppm', 'humidity': '%', 'illuminance': 'lux', 'signal_strength': 'db', 'temperature': '°C', 'timestamp':'', 'power':'W', 'pressure':'hPa', 'current':'A', 'energy':'Wh', 'power_factor':'%', 'voltage':'V' }[data.attr_device_class] : undefined",
-            "ignoreOwnChanges": false
+            "ignoreOwnChanges": true
           },
           "hidden": "data.entity !== 'sensor'",
           "xs": 12,
