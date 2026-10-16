@@ -7,7 +7,7 @@ const expect = require('chai').expect;
  * GET request that sends the path exactly as given. Unlike browsers or curl, node does not resolve .. segments.
  *
  * @param {string} urlPath path to request, may contain .. segments
- * @returns {Promise<{status: number, body: string}>} status and body of the response
+ * @returns {Promise<{status: number, headers: object, body: string}>} status, headers and body of the response
  */
 function rawGet(urlPath) {
     return new Promise((resolve, reject) => {
@@ -15,7 +15,7 @@ function rawGet(urlPath) {
             let body = '';
             res.setEncoding('utf8');
             res.on('data', chunk => (body += chunk));
-            res.on('end', () => resolve({ status: res.statusCode, body }));
+            res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, body }));
         }).on('error', reject);
     });
 }
@@ -60,6 +60,7 @@ exports.runTests = function (suite) {
             '/frontend_es5/../../package.json',
             '/static/images/../../../package.json',
             '/static/../../package.json',
+            '/static/../../package.json?v=1', // the query is cut off before the path is checked
             '/../package.json',
         ];
         // Unknown urls may fall back to the index page (status 200), so check the content instead of the status.
@@ -69,6 +70,20 @@ exports.runTests = function (suite) {
                 expect(body).to.not.include('"iobroker.lovelace"');
             });
         }
+
+        it('serves a static file that is asked for with a cache buster', async () => {
+            // The frontend builds the map style from these two, both with a `?v=` query. Looking for
+            // a file literally named "urls.json?v=20260930.3" left the map without a style at all.
+            const urls = await rawGet('/static/map/urls.json?v=20260930.3');
+            expect(urls.status).to.equal(200);
+            expect(JSON.parse(urls.body).glyphsPattern).to.contain('/api/map_tiles/fonts/');
+            // A cache buster makes the url change with the content, so it may be cached for good.
+            expect(urls.headers['cache-control']).to.contain('immutable');
+
+            const sprite = await rawGet('/static/map/sprites/base.json?v=f18fcb40');
+            expect(sprite.status).to.equal(200);
+            expect(JSON.parse(sprite.body)).to.be.an('object');
+        });
 
         it('does not leave the cards folder of the file storage', async () => {
             const { status, body } = await rawGet('/cards/../uploaded_images/secret.json');

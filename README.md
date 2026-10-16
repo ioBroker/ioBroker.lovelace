@@ -85,6 +85,7 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) The map tile proxy now checks the access token the frontend sends, instead of serving anyone who can reach the port.
+* (Garfonso/Claude) Static files are found again when the frontend asks for them with a cache buster, so the map keeps its style and its icons.
 
 ### 7.2.5 (2026-10-16)
 * (Garfonso/Claude) Editing the themes no longer loses the selected theme, and broken theme YAML cannot be saved any more.

@@ -2167,6 +2167,18 @@ class WebServer {
      * @param cacheControl - value for the Cache-Control header
      */
     _sendStaticFile(req: any, res: any, baseDir: string, requestPath: string, cacheControl: string): void {
+        // A query is not part of the file name: the frontend asks for the map urls and the map
+        // sprites with a `?v=` cache buster, and those requests used to end up looking for a file
+        // called "urls.json?v=20260930.3" - which does not exist, so the map could not be built.
+        const query = requestPath.indexOf('?');
+        if (query !== -1) {
+            // A cache buster is the frontend's promise that the content changes with the url, so
+            // the answer may be cached for good - the same deal as a hashed file name.
+            if (/[?&]v=/.test(requestPath.substring(query))) {
+                cacheControl = IMMUTABLE_CACHE;
+            }
+            requestPath = requestPath.substring(0, query);
+        }
         // Most of these routes are reachable without authentication, so a url must never be able to
         // point outside the directory it is served from (#739).
         const filePath = resolvePathInside(baseDir, requestPath);
@@ -2720,7 +2732,8 @@ class WebServer {
                 res.sendFile(path.resolve(`${__dirname}/../../assets/icons/favicon.ico`));
             } else {
                 //try to load file from root, but never from outside of it.
-                const filePath = resolvePathInside(getRootPath(), req.url);
+                const rootPath = req.url.split('?')[0];
+                const filePath = resolvePathInside(getRootPath(), rootPath);
                 if (!filePath) {
                     return next();
                 }
@@ -2736,7 +2749,7 @@ class WebServer {
                         name.startsWith('sw-') || name.startsWith('service_worker') || name.endsWith('.html')
                             ? REVALIDATE_CACHE
                             : `public, max-age=${staticOptions.maxAge}`;
-                    this._sendStaticFile(req, res, getRootPath(), req.url, cacheControl);
+                    this._sendStaticFile(req, res, getRootPath(), rootPath, cacheControl);
                 });
             }
         });
