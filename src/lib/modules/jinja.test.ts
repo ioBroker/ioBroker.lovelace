@@ -99,6 +99,50 @@ describe('modules/jinja', function () {
         );
     });
 
+    it('formats a date with strftime, like now() in Home Assistant', function () {
+        //a fixed point in time, read in UTC so the result does not depend on the test machine
+        const ts = 1792260309; // 2026-10-17T18:05:09Z, a Saturday
+        expect(renderJinja(`{{ ${ts} | timestamp_custom("%Y-%m-%d %H:%M:%S", false) }}`)).to.equal(
+            '2026-10-17 18:05:09',
+        );
+        expect(renderJinja(`{{ ${ts} | timestamp_custom("%A, %d. %B %Y", false) }}`)).to.equal(
+            'Saturday, 17. October 2026',
+        );
+        expect(renderJinja(`{{ ${ts} | timestamp_custom("%d.%m.%y %I:%M %p", false) }}`)).to.equal('17.10.26 06:05 PM');
+        //glibc "%-d" asks for the number without padding, and %% is a literal percent
+        expect(renderJinja(`{{ ${ts} | timestamp_custom("%-d.%-m. 100%%", false) }}`)).to.equal('17.10. 100%');
+        expect(renderJinja(`{{ ${ts} | timestamp_utc }}`)).to.equal('2026-10-17T18:05:09+00:00');
+        expect(renderJinja(`{{ ${ts} | as_datetime | as_timestamp }}`)).to.equal(String(ts));
+    });
+
+    it('gives now() and utcnow() the fields of a Python datetime', function () {
+        const now = new Date();
+        expect(renderJinja('{{ now().strftime("%Y") }}')).to.equal(String(now.getFullYear()));
+        expect(renderJinja('{{ now().year }}-{{ now().month }}')).to.equal(
+            `${now.getFullYear()}-${now.getMonth() + 1}`,
+        );
+        //the hour is padded by strftime but not as an attribute - as in Home Assistant
+        expect(renderJinja('{{ now().strftime("%H") }}')).to.equal(String(now.getHours()).padStart(2, '0'));
+        expect(renderJinja('{{ utcnow().strftime("%Y-%m-%dT%H:%M") }}')).to.equal(now.toISOString().slice(0, 16));
+        //a bare now() prints the way str(datetime) does, not as a JS date string
+        expect(renderJinja('{{ now() }}')).to.match(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/);
+        expect(renderJinja('{{ (now().timestamp() - now().timestamp()) | int }}')).to.equal('0');
+        //today_at is the usual way to compare a time of day
+        expect(renderJinja('{{ today_at("07:30").strftime("%H:%M:%S") }}')).to.equal('07:30:00');
+    });
+
+    it('turns a state into a date and formats it', function () {
+        entityData.entityId2Entity['sensor.last_seen'] = {
+            entity_id: 'sensor.last_seen',
+            state: '2026-10-17T18:05:09+00:00',
+            attributes: {},
+        };
+        expect(renderJinja('{{ states("sensor.last_seen") | as_datetime | as_timestamp }}')).to.equal('1792260309');
+        expect(renderJinja('{{ as_datetime(states("sensor.last_seen")).strftime("%Y") }}')).to.equal('2026');
+        //an unparsable value gives the default instead of aborting the template
+        expect(renderJinja('{{ as_datetime(states("light.kitchen"), "nie") }}')).to.equal('nie');
+    });
+
     it('extracts referenced entity_ids (known ones only)', function () {
         const ids = extractEntityIds('{{ states("sensor.temp") }} {{ is_state("sun.sun","x") }} {{ states("a.b") }}');
         expect(ids).to.have.members(['sensor.temp', 'sun.sun']);

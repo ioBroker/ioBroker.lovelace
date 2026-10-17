@@ -92,6 +92,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) A unit typed into the object settings is kept, and defaults are only filled in for the entity type that uses them.
 * (Garfonso/Claude) Blinds that only have up, down and stop buttons keep both arrows usable, and after a stop they report an unknown position instead of staying "opening".
 * (Garfonso/Claude) Templates are rendered with the variables a card sends along (needed by `custom:template-entity-row`) and know the area and device functions.
+* (Garfonso/Claude) Templates can format dates: `now()` behaves like a datetime (`strftime`, `hour`, `timestamp()`), plus `as_datetime`, `today_at` and the `timestamp_*` filters.
 
 ### 7.2.5 (2026-10-16)
 * (Garfonso/Claude) Editing the themes no longer loses the selected theme, and broken theme YAML cannot be saved any more.
