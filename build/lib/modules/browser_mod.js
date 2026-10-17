@@ -2,7 +2,7 @@
 var import_themesYaml = require("../themesYaml");
 var import_storage = require("./storage");
 const instancesPath = "instances.";
-const BROWSER_MOD_VERSION = "3.2.3";
+const BROWSER_MOD_VERSION = "3.3.0";
 class BrowserModModule {
   /** Version reported to the browser_mod frontend, see BROWSER_MOD_VERSION. */
   static VERSION = BROWSER_MOD_VERSION;

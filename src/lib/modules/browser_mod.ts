@@ -63,7 +63,7 @@ type AdapterWithConfig = ioBroker.Adapter & {
  * the frontend shows a "Browser Mod version mismatch" reload prompt. Bump this whenever the
  * shipped browser_mod frontend is updated.
  */
-const BROWSER_MOD_VERSION = '3.2.3';
+const BROWSER_MOD_VERSION = '3.3.0';
 
 /**
  * Support for browser_mod integration.

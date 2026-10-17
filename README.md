@@ -30,7 +30,7 @@ Security must be taken from the current user and not from default_user.
 
 ### Version
 Used version of home-assistant-frontend@20260930.3
-Version of Browser Mod: 3.2.3
+Version of Browser Mod: 3.3.0
 
 ### How to build the new Lovelace version
 First of all, the actual https://github.com/home-assistant/frontend (dev branch) must be **manually** merged into https://github.com/GermanBluefox/home-assistant-polymer.git (***iob*** branch!).
@@ -92,6 +92,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) A unit typed into the object settings is kept, and defaults are only filled in for the entity type that uses them.
 * (Garfonso/Claude) Blinds that only have up, down and stop buttons keep both arrows usable, and after a stop they report an unknown position instead of staying "opening".
 * (Garfonso/Claude) Templates are rendered with the variables a card sends along (needed by `custom:template-entity-row`) and know the area and device functions.
+* (Garfonso/Claude) Updated Browser Mod to 3.3.0: the profile page shows again which browser-specific default dashboard Browser Mod manages.
 * (Garfonso/Claude) Templates can format dates: `now()` behaves like a datetime (`strftime`, `hour`, `timestamp()`), plus `as_datetime`, `today_at` and the `timestamp_*` filters.
 
 ### 7.2.5 (2026-10-16)
