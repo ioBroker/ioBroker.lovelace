@@ -38,7 +38,7 @@
     "multer": "^2.4.0",
     "nunjucks": "^3.2.4",
     "pinyin": "^4.0.0",
-    "suncalc": "^2.0.2",
+    "suncalc": "^2.1.1",
     "translit-rus-eng": "^2.0.0",
     "ws": "^8.22.0"
   },
