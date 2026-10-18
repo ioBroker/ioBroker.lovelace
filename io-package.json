@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "lovelace",
-    "version": "7.2.5",
+    "version": "7.3.0",
     "news": {
       "7.3.0": {
         "en": "New frontend 20260930.3: the map no longer flickers and keeps its tiles cached.\nThe map tile proxy now checks the access token.\nNew entity type image for an ioBroker state that holds a picture.\nBlinds with only buttons keep both arrows usable and report an unknown position after a stop.\nTemplates know the variables a card sends along, the area and device functions and date formatting.\nBrowser Mod 3.3.0 and a newer type detector, which detects more devices.",
@@ -93,19 +93,6 @@
         "pl": "Obrazy, które karta ładuje z innego adaptera przez adres /state/, są znów wyświetlane.",
         "uk": "Зображення, які картка завантажує з іншого адаптера за /state/-адресою, знову відображаються.",
         "zh-cn": "卡片通过 /state/ 地址从其他适配器加载的图片重新显示。"
-      },
-      "7.1.0": {
-        "en": "Weather: cards set up in the editor show the forecast, icons of daswetter 4 are shown.\nThe buttons of timer entities work.\nEnergy costs of meters counting Wh are correct.\nBrowser Mod no longer reports a version mismatch.\nRemoved interfaces neither the frontend nor Home Assistant use any more.",
-        "de": "Wetter: Im Editor angelegte Karten zeigen die Vorhersage, Icons von daswetter 4 werden angezeigt.\nDie Knöpfe von Timer-Entitäten funktionieren.\nEnergiekosten von Zählern in Wh stimmen.\nBrowser Mod meldet keinen Versionskonflikt mehr.\nSchnittstellen entfernt, die weder das Frontend noch Home Assistant noch nutzen.",
-        "ru": "Погода: карточки, созданные в редакторе, показывают прогноз, отображаются значки daswetter 4.\nКнопки сущностей таймера работают.\nЗатраты на энергию для счётчиков в Wh рассчитываются верно.\nBrowser Mod больше не сообщает о несовпадении версий.\nУдалены интерфейсы, которые больше не используют ни фронтенд, ни Home Assistant.",
-        "pt": "Tempo: os cartões criados no editor mostram a previsão, os ícones do daswetter 4 são exibidos.\nOs botões das entidades de temporizador funcionam.\nOs custos de energia de medidores em Wh estão corretos.\nO Browser Mod já não indica uma incompatibilidade de versão.\nRemovidas interfaces que nem o frontend nem o Home Assistant usam mais.",
-        "nl": "Weer: in de editor aangemaakte kaarten tonen de voorspelling, iconen van daswetter 4 worden getoond.\nDe knoppen van timer-entiteiten werken.\nEnergiekosten van meters in Wh kloppen.\nBrowser Mod meldt geen versieconflict meer.\nInterfaces verwijderd die noch de frontend noch Home Assistant nog gebruiken.",
-        "fr": "Météo : les cartes créées dans l'éditeur affichent les prévisions, les icônes de daswetter 4 s'affichent.\nLes boutons des entités minuteur fonctionnent.\nLes coûts énergétiques des compteurs en Wh sont corrects.\nBrowser Mod ne signale plus de différence de version.\nSuppression des interfaces que ni le frontend ni Home Assistant n'utilisent plus.",
-        "it": "Meteo: le schede create nell'editor mostrano le previsioni, le icone di daswetter 4 vengono visualizzate.\nI pulsanti delle entità timer funzionano.\nI costi energetici dei contatori in Wh sono corretti.\nBrowser Mod non segnala più una versione non corrispondente.\nRimosse le interfacce che né il frontend né Home Assistant usano più.",
-        "es": "Tiempo: las tarjetas creadas en el editor muestran la previsión, se muestran los iconos de daswetter 4.\nLos botones de las entidades de temporizador funcionan.\nLos costes de energía de contadores en Wh son correctos.\nBrowser Mod ya no indica una discrepancia de versión.\nEliminadas interfaces que ya no usan ni el frontend ni Home Assistant.",
-        "pl": "Pogoda: karty utworzone w edytorze pokazują prognozę, wyświetlane są ikony daswetter 4.\nPrzyciski encji timera działają.\nKoszty energii liczników w Wh są prawidłowe.\nBrowser Mod nie zgłasza już niezgodności wersji.\nUsunięto interfejsy, których nie używa już ani frontend, ani Home Assistant.",
-        "uk": "Погода: картки, створені в редакторі, показують прогноз, відображаються значки daswetter 4.\nКнопки сутностей таймера працюють.\nВитрати на енергію для лічильників у Wh розраховуються правильно.\nBrowser Mod більше не повідомляє про невідповідність версій.\nВилучено інтерфейси, які більше не використовують ні фронтенд, ні Home Assistant.",
-        "zh-cn": "天气：在编辑器中创建的卡片显示预报，并显示 daswetter 4 的图标。\n计时器实体的按钮可用。\n以 Wh 计量的电表能源费用正确。\nBrowser Mod 不再提示版本不匹配。\n移除了前端和 Home Assistant 都已不再使用的接口。"
       }
     },
     "titleLang": {
