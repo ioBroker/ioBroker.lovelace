@@ -273,6 +273,37 @@ describe('binary_sensor converter', function () {
             expect(result[0].context.STATE?.historyParser).to.be.a('function');
         });
 
+        it('inverts for every role that ends in unreach, whatever its prefix is', function () {
+            //ioBroker renamed the role to indicator.maintenance.unreach
+            for (const role of ['indicator.unreach', 'indicator.maintenance.unreach', 'Indicator.UNREACH']) {
+                const result = processManualEntity(
+                    DEVICE_ID,
+                    makeObj(role),
+                    makeEntity(),
+                    {},
+                    {
+                        attr_device_class: 'connectivity',
+                    },
+                );
+                expect(readState(result[0], true), role).to.equal('off');
+            }
+        });
+
+        it('does not invert an online/reachable indicator', function () {
+            for (const role of ['indicator.online', 'indicator.reachable', 'indicator.maintenance.unreachable']) {
+                const result = processManualEntity(
+                    DEVICE_ID,
+                    makeObj(role),
+                    makeEntity(),
+                    {},
+                    {
+                        attr_device_class: 'connectivity',
+                    },
+                );
+                expect(result[0].context.STATE?.getParser, role).to.equal(undefined);
+            }
+        });
+
         it('inverts when the checkbox is set, whatever the role and device class are', function () {
             const entity = makeEntity();
             const result = processManualEntity(

@@ -85,6 +85,8 @@ After that checkout modified version in `./build` folder. Then.
 -->
 ### **WORK IN PROGRESS**
 * (Garfonso/Claude) A manually mapped `binary_sensor` has a checkbox next to the device class to invert its state, for an ioBroker state that is true when the device is not in the shown state.
+* (Garfonso/Claude) A manually mapped `binary_sensor` on a state whose role ends in `.unreach` is inverted, not only on the old role `indicator.unreach`.
+* (Garfonso/Claude) The extra entities of a detected device (connectivity, battery, error, maintenance, working, power, energy) are named after the device, so they are no longer all called "UNREACH" or similar.
 
 ### 7.3.0 (2026-10-18)
 * (Garfonso/Claude) Updated the Home Assistant frontend to 20260930.3: the map no longer flickers while loading history and its tiles stay cached, and the digital-clock card can take its font from the theme.

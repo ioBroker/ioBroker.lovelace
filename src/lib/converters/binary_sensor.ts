@@ -79,6 +79,18 @@ export function processButtonSensor(parameters: ConverterParameters): ioBrokerEn
 }
 
 /**
+ * Whether a role marks a state that is true when the device is NOT reachable. ioBroker moved the
+ * role from `indicator.unreach` to `indicator.maintenance.unreach`, and adapters use their own
+ * prefixes as well, so the suffix decides. `.online` and friends must not match - those are true
+ * when the device IS there.
+ *
+ * @param role - the ioBroker role of the state
+ */
+function isUnreachRole(role: unknown): boolean {
+    return typeof role === 'string' && /\.unreach$/i.test(role);
+}
+
+/**
  * Apply manual entity configuration to a pre-created binary_sensor entity.
  * Called from server.js for user-configured (non-auto-detected) entities.
  *
@@ -97,12 +109,11 @@ export function processManualEntity(
 ): ioBrokerEntity[] {
     entity.attributes.device_class = custom.attr_device_class as string | undefined;
     // The "invert" checkbox decides, once it has been touched. Configurations that predate it keep
-    // the old automatic behaviour: a connectivity sensor on an `indicator.unreach` state, which is
-    // true when the device is NOT connected.
+    // the old automatic behaviour: a connectivity sensor on an unreach state, which is true when
+    // the device is NOT connected.
     const invert =
         custom.invert_state === undefined || custom.invert_state === null
-            ? custom.attr_device_class === 'connectivity' &&
-              (obj as ioBroker.StateObject).common?.role === 'indicator.unreach'
+            ? custom.attr_device_class === 'connectivity' && isUnreachRole((obj as ioBroker.StateObject).common?.role)
             : !!custom.invert_state;
     if (invert) {
         // The entity is a plain BaseEntity built by the server, so invert it with the same helper

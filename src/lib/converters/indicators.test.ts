@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { generateElectricitySensors, generateBatterySensor } from './indicators';
+import { generateElectricitySensors, generateBatterySensor, connectivityIndicator, processBattery } from './indicators';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const entityData = require('../../../lib/dataSingleton');
@@ -76,5 +76,42 @@ describe('converters/indicators generateBatterySensor', function () {
     it('returns null without a BATTERY state (LOWBAT alone is the separate warning indicator)', function () {
         const res = generateBatterySensor(makeParams([{ id: 'x.lowbat', name: 'LOWBAT' }], {}, 'X'), 'x');
         expect(res).to.equal(null);
+    });
+});
+
+describe('converters/indicators naming', function () {
+    it('names an indicator after its device, not after the state', function () {
+        //most adapters call the state itself UNREACH, which is what the user used to see
+        const objects = {
+            'hue.0.lamp.unreach': { _id: 'hue.0.lamp.unreach', common: { name: 'UNREACH', type: 'boolean' } },
+        };
+        const entity = connectivityIndicator(
+            makeParams([{ id: 'hue.0.lamp.unreach', name: 'UNREACH' }], objects, 'Kitchen lamp'),
+            'Connectivity',
+        )!;
+        expect(entity.attributes.friendly_name).to.equal('Kitchen lamp Connectivity');
+        //and it still is the inverted connectivity sensor
+        expect(entity.attributes.device_class).to.equal('connectivity');
+        expect(entity.context.STATE.getParser).to.be.a('function');
+    });
+
+    it('keeps a smart name the user put on the indicator state', function () {
+        const objects = {
+            'hue.0.lamp.lowbat': {
+                _id: 'hue.0.lamp.lowbat',
+                common: { name: 'LOWBAT', smartName: 'Lamp battery', type: 'boolean' },
+            },
+        };
+        const entity = processBattery(
+            makeParams([{ id: 'hue.0.lamp.lowbat', name: 'LOWBAT' }], objects, 'Kitchen lamp'),
+            'Battery warning',
+        )!;
+        expect(entity.attributes.friendly_name).to.equal('Lamp battery');
+    });
+
+    it('without a label the name is resolved as before', function () {
+        const objects = { 'hue.0.lamp.lowbat': { _id: 'hue.0.lamp.lowbat', common: { name: 'LOWBAT' } } };
+        const entity = processBattery(makeParams([{ id: 'hue.0.lamp.lowbat', name: 'LOWBAT' }], objects, 'Lamp'))!;
+        expect(entity.attributes.friendly_name).to.equal('Lamp');
     });
 });

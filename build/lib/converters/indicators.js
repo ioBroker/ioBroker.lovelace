@@ -140,42 +140,60 @@ function generateBatterySensor(parameters, baseName) {
     "measurement"
   );
 }
-function makeIndicator(parameters, stateName, iobType, deviceClass, inverted = false) {
+function indicatorName(deviceName, stateObj, label) {
+  var _a;
+  if (!label || !deviceName) {
+    return deviceName;
+  }
+  if ((_a = stateObj == null ? void 0 : stateObj.common) == null ? void 0 : _a.smartName) {
+    return void 0;
+  }
+  return `${deviceName} ${label}`;
+}
+function makeIndicator(parameters, stateName, iobType, deviceClass, inverted = false, label) {
   const state = parameters.controls.states.find((s) => s.id && s.name === stateName);
   if (!(state == null ? void 0 : state.id)) {
     return null;
   }
-  return new import_binarySensorEntity.BinarySensorEntity(parameters, {
-    stateId: state.id,
-    sourceObj: parameters.objects[state.id],
-    deviceClass,
-    iobType,
-    inverted
-  });
+  const sourceObj = parameters.objects[state.id];
+  return new import_binarySensorEntity.BinarySensorEntity(
+    { ...parameters, friendlyName: indicatorName(parameters.friendlyName, sourceObj, label) },
+    {
+      stateId: state.id,
+      sourceObj,
+      deviceClass,
+      iobType,
+      inverted
+    }
+  );
 }
-function processBattery(parameters) {
-  return makeIndicator(parameters, "LOWBAT", "LOWBAT", "battery");
+function processBattery(parameters, label) {
+  return makeIndicator(parameters, "LOWBAT", "LOWBAT", "battery", false, label);
 }
-function connectivityIndicator(parameters) {
+function connectivityIndicator(parameters, label) {
   const offlineState = parameters.controls.states.find((s) => s.id && (s.name === "UNREACH" || s.name === "OFFLINE"));
   if (offlineState == null ? void 0 : offlineState.id) {
-    return new import_binarySensorEntity.BinarySensorEntity(parameters, {
-      stateId: offlineState.id,
-      sourceObj: parameters.objects[offlineState.id],
-      iobType: "OFFLINE",
-      inverted: true
-    });
+    const sourceObj = parameters.objects[offlineState.id];
+    return new import_binarySensorEntity.BinarySensorEntity(
+      { ...parameters, friendlyName: indicatorName(parameters.friendlyName, sourceObj, label) },
+      {
+        stateId: offlineState.id,
+        sourceObj,
+        iobType: "OFFLINE",
+        inverted: true
+      }
+    );
   }
-  return makeIndicator(parameters, "CONNECTED", "CONNECTED", "connectivity");
+  return makeIndicator(parameters, "CONNECTED", "CONNECTED", "connectivity", false, label);
 }
-function processError(parameters) {
-  return makeIndicator(parameters, "ERROR", "ERROR", "problem");
+function processError(parameters, label) {
+  return makeIndicator(parameters, "ERROR", "ERROR", "problem", false, label);
 }
-function processMaintenance(parameters) {
-  return makeIndicator(parameters, "MAINTAIN", "MAINTAIN", "update");
+function processMaintenance(parameters, label) {
+  return makeIndicator(parameters, "MAINTAIN", "MAINTAIN", "update", false, label);
 }
-function processWorking(parameters) {
-  return makeIndicator(parameters, "WORKING", "WORKING", "running");
+function processWorking(parameters, label) {
+  return makeIndicator(parameters, "WORKING", "WORKING", "running", false, label);
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {

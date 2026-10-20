@@ -126,8 +126,9 @@ class Converter {
     if (mainEntity) {
       entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
       const baseName = mainEntity.entity_id.split(".")[1];
-      const extraSensors = (0, import_indicators.generateElectricitySensors)(params, baseName);
-      const batterySensor = (0, import_indicators.generateBatterySensor)(params, baseName);
+      const named = { ...params, friendlyName: String(mainEntity.attributes.friendly_name || baseName) };
+      const extraSensors = (0, import_indicators.generateElectricitySensors)(named, baseName);
+      const batterySensor = (0, import_indicators.generateBatterySensor)(named, baseName);
       if (batterySensor) {
         extraSensors.push(batterySensor);
       }
@@ -247,11 +248,27 @@ class Converter {
         entities.push(entity);
       }
     };
-    add((0, import_indicators.processBattery)({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_BatteryWarning` }));
-    add((0, import_indicators.connectivityIndicator)({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Connectivity` }));
-    add((0, import_indicators.processError)({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Error` }));
-    add((0, import_indicators.processMaintenance)({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Maintenance` }));
-    add((0, import_indicators.processWorking)({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Working` }));
+    const deviceName = { ...parameters, friendlyName: String(mainEntity.attributes.friendly_name || baseName) };
+    add(
+      (0, import_indicators.processBattery)(
+        { ...deviceName, forcedEntityId: `binary_sensor.${baseName}_BatteryWarning` },
+        "Battery warning"
+      )
+    );
+    add(
+      (0, import_indicators.connectivityIndicator)(
+        { ...deviceName, forcedEntityId: `binary_sensor.${baseName}_Connectivity` },
+        "Connectivity"
+      )
+    );
+    add((0, import_indicators.processError)({ ...deviceName, forcedEntityId: `binary_sensor.${baseName}_Error` }, "Error"));
+    add(
+      (0, import_indicators.processMaintenance)(
+        { ...deviceName, forcedEntityId: `binary_sensor.${baseName}_Maintenance` },
+        "Maintenance"
+      )
+    );
+    add((0, import_indicators.processWorking)({ ...deviceName, forcedEntityId: `binary_sensor.${baseName}_Working` }, "Working"));
     return entities;
   }
   /**

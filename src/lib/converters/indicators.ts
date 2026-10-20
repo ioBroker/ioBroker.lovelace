@@ -175,6 +175,30 @@ export function generateBatterySensor(parameters: ConverterParameters, baseName:
 }
 
 /**
+ * Name an indicator entity after the device it belongs to: "Kitchen lamp Connectivity" instead of
+ * the name the state carries, which is "UNREACH" with most adapters and not friendly at all. A
+ * smart name on the indicator state itself is the user's own wording, so in that case no name is
+ * forced and the usual resolution (smart name, then common.name) applies.
+ *
+ * @param deviceName - the name of the device the indicator belongs to
+ * @param stateObj - the ioBroker object of the indicator state
+ * @param label - what the indicator is, e.g. 'Connectivity'
+ */
+function indicatorName(
+    deviceName: string | undefined,
+    stateObj: ioBroker.Object | undefined,
+    label?: string,
+): string | undefined {
+    if (!label || !deviceName) {
+        return deviceName;
+    }
+    if ((stateObj?.common as { smartName?: unknown } | undefined)?.smartName) {
+        return undefined;
+    }
+    return `${deviceName} ${label}`;
+}
+
+/**
  * Build a binary_sensor indicator entity from a state name in controls.states.
  * Returns null when no matching state is found.
  *
@@ -183,6 +207,7 @@ export function generateBatterySensor(parameters: ConverterParameters, baseName:
  * @param iobType - tag stored on context.iobType (mirrors the state name in most cases)
  * @param deviceClass - HA binary_sensor device_class to assign
  * @param inverted - if true, applies offline-inversion (UNREACH/OFFLINE → connectivity 'on')
+ * @param label - what the indicator is, appended to the device's name (see `indicatorName`)
  */
 function makeIndicator(
     parameters: ConverterParameters,
@@ -190,27 +215,33 @@ function makeIndicator(
     iobType: string,
     deviceClass: string,
     inverted = false,
+    label?: string,
 ): BinarySensorEntity | null {
     const state = parameters.controls.states.find(s => s.id && s.name === stateName);
     if (!state?.id) {
         return null;
     }
-    return new BinarySensorEntity(parameters, {
-        stateId: state.id,
-        sourceObj: parameters.objects[state.id],
-        deviceClass,
-        iobType,
-        inverted,
-    });
+    const sourceObj = parameters.objects[state.id];
+    return new BinarySensorEntity(
+        { ...parameters, friendlyName: indicatorName(parameters.friendlyName, sourceObj, label) },
+        {
+            stateId: state.id,
+            sourceObj,
+            deviceClass,
+            iobType,
+            inverted,
+        },
+    );
 }
 
 /**
  * Create a battery warning binary_sensor entity from a LOWBAT indicator state.
  *
  * @param parameters - conversion parameters
+ * @param label - what to append to the device's name
  */
-export function processBattery(parameters: ConverterParameters): ioBrokerEntity | null {
-    return makeIndicator(parameters, 'LOWBAT', 'LOWBAT', 'battery');
+export function processBattery(parameters: ConverterParameters, label?: string): ioBrokerEntity | null {
+    return makeIndicator(parameters, 'LOWBAT', 'LOWBAT', 'battery', false, label);
 }
 
 /**
@@ -218,43 +249,51 @@ export function processBattery(parameters: ConverterParameters): ioBrokerEntity 
  * UNREACH/OFFLINE are inverted (offline ioBroker state → connectivity off in HA).
  *
  * @param parameters - conversion parameters
+ * @param label - what to append to the device's name
  */
-export function connectivityIndicator(parameters: ConverterParameters): ioBrokerEntity | null {
+export function connectivityIndicator(parameters: ConverterParameters, label?: string): ioBrokerEntity | null {
     const offlineState = parameters.controls.states.find(s => s.id && (s.name === 'UNREACH' || s.name === 'OFFLINE'));
     if (offlineState?.id) {
-        return new BinarySensorEntity(parameters, {
-            stateId: offlineState.id,
-            sourceObj: parameters.objects[offlineState.id],
-            iobType: 'OFFLINE',
-            inverted: true,
-        });
+        const sourceObj = parameters.objects[offlineState.id];
+        return new BinarySensorEntity(
+            { ...parameters, friendlyName: indicatorName(parameters.friendlyName, sourceObj, label) },
+            {
+                stateId: offlineState.id,
+                sourceObj,
+                iobType: 'OFFLINE',
+                inverted: true,
+            },
+        );
     }
-    return makeIndicator(parameters, 'CONNECTED', 'CONNECTED', 'connectivity');
+    return makeIndicator(parameters, 'CONNECTED', 'CONNECTED', 'connectivity', false, label);
 }
 
 /**
  * Create an error binary_sensor entity from an ERROR indicator state.
  *
  * @param parameters - conversion parameters
+ * @param label - what to append to the device's name
  */
-export function processError(parameters: ConverterParameters): ioBrokerEntity | null {
-    return makeIndicator(parameters, 'ERROR', 'ERROR', 'problem');
+export function processError(parameters: ConverterParameters, label?: string): ioBrokerEntity | null {
+    return makeIndicator(parameters, 'ERROR', 'ERROR', 'problem', false, label);
 }
 
 /**
  * Create a maintenance binary_sensor entity from a MAINTAIN indicator state.
  *
  * @param parameters - conversion parameters
+ * @param label - what to append to the device's name
  */
-export function processMaintenance(parameters: ConverterParameters): ioBrokerEntity | null {
-    return makeIndicator(parameters, 'MAINTAIN', 'MAINTAIN', 'update');
+export function processMaintenance(parameters: ConverterParameters, label?: string): ioBrokerEntity | null {
+    return makeIndicator(parameters, 'MAINTAIN', 'MAINTAIN', 'update', false, label);
 }
 
 /**
  * Create a working binary_sensor entity from a WORKING indicator state.
  *
  * @param parameters - conversion parameters
+ * @param label - what to append to the device's name
  */
-export function processWorking(parameters: ConverterParameters): ioBrokerEntity | null {
-    return makeIndicator(parameters, 'WORKING', 'WORKING', 'running');
+export function processWorking(parameters: ConverterParameters, label?: string): ioBrokerEntity | null {
+    return makeIndicator(parameters, 'WORKING', 'WORKING', 'running', false, label);
 }

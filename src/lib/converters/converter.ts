@@ -217,9 +217,11 @@ export class Converter {
             entities.push(...Converter._generateEntitiesFromIndicators(mainEntity, params));
             const baseName = mainEntity.entity_id.split('.')[1];
             // Optional electricity states (power, current, voltage, consumption, frequency) -> sensors.
-            const extraSensors = generateElectricitySensors(params, baseName);
+            // Same naming as the indicators: the device's name, not the entity id of the device.
+            const named = { ...params, friendlyName: String(mainEntity.attributes.friendly_name || baseName) };
+            const extraSensors = generateElectricitySensors(named, baseName);
             // Optional BATTERY state (numeric charge level) -> sensor, for every type that has it.
-            const batterySensor = generateBatterySensor(params, baseName);
+            const batterySensor = generateBatterySensor(named, baseName);
             if (batterySensor) {
                 extraSensors.push(batterySensor);
             }
@@ -362,11 +364,30 @@ export class Converter {
             }
         };
 
-        add(processBattery({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_BatteryWarning` }));
-        add(connectivityIndicator({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Connectivity` }));
-        add(processError({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Error` }));
-        add(processMaintenance({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Maintenance` }));
-        add(processWorking({ ...parameters, forcedEntityId: `binary_sensor.${baseName}_Working` }));
+        // Name the indicators after the device, not after the state they come from: without this
+        // every device contributes an entity called "UNREACH".
+        const deviceName = { ...parameters, friendlyName: String(mainEntity.attributes.friendly_name || baseName) };
+
+        add(
+            processBattery(
+                { ...deviceName, forcedEntityId: `binary_sensor.${baseName}_BatteryWarning` },
+                'Battery warning',
+            ),
+        );
+        add(
+            connectivityIndicator(
+                { ...deviceName, forcedEntityId: `binary_sensor.${baseName}_Connectivity` },
+                'Connectivity',
+            ),
+        );
+        add(processError({ ...deviceName, forcedEntityId: `binary_sensor.${baseName}_Error` }, 'Error'));
+        add(
+            processMaintenance(
+                { ...deviceName, forcedEntityId: `binary_sensor.${baseName}_Maintenance` },
+                'Maintenance',
+            ),
+        );
+        add(processWorking({ ...deviceName, forcedEntityId: `binary_sensor.${baseName}_Working` }, 'Working'));
 
         return entities;
     }

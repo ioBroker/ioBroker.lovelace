@@ -64,10 +64,13 @@ function processCoAlarm(parameters) {
 function processButtonSensor(parameters) {
   return [new import_binarySensorEntity.BinarySensorEntity(parameters, { deviceClass: "button" })];
 }
+function isUnreachRole(role) {
+  return typeof role === "string" && /\.unreach$/i.test(role);
+}
 function processManualEntity(_id, obj, entity, _objects, custom) {
   var _a;
   entity.attributes.device_class = custom.attr_device_class;
-  const invert = custom.invert_state === void 0 || custom.invert_state === null ? custom.attr_device_class === "connectivity" && ((_a = obj.common) == null ? void 0 : _a.role) === "indicator.unreach" : !!custom.invert_state;
+  const invert = custom.invert_state === void 0 || custom.invert_state === null ? custom.attr_device_class === "connectivity" && isUnreachRole((_a = obj.common) == null ? void 0 : _a.role) : !!custom.invert_state;
   if (invert) {
     (0, import_binarySensorEntity.invertBinaryState)(entity);
   }

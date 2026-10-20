@@ -67,7 +67,12 @@ exports.runTests = function (suite) {
                 expect(binarySensor).to.be.ok;
                 expect(battery).to.be.ok;
                 expectMotion(binarySensor, deviceId, objects[deviceId].common.name, `${deviceId}.motion`);
-                expectBattery(battery, `${deviceId}.batteryWarning`, objects[`${deviceId}.batteryWarning`].common.name);
+                //the indicator is named after its device, not after the state (which is called "batteryWarning")
+                expectBattery(
+                    battery,
+                    `${deviceId}.batteryWarning`,
+                    `${objects[deviceId].common.name} Battery warning`,
+                );
             });
 
             it('creates a battery level sensor from the numeric BATTERY state', async () => {
@@ -93,7 +98,7 @@ exports.runTests = function (suite) {
                 expectBattery(
                     battery,
                     `${deviceId}.LOW_BAT`,
-                    objects[`${deviceId}.LOW_BAT`].common.name,
+                    `${objects[deviceId].common.name} Battery warning`,
                     `${deviceId}.LOW_BAT`,
                 );
             });
@@ -108,7 +113,7 @@ exports.runTests = function (suite) {
                 const battery = entities.find(e => e.context.id === batteryId);
                 expect(binarySensor).to.be.ok;
                 expect(battery).to.be.ok;
-                expectBattery(battery, batteryId, objects[batteryId].common.name, batteryId);
+                expectBattery(battery, batteryId, `${objects[deviceId].common.name} Battery warning`, batteryId);
                 expect(binarySensor).to.have.nested.property('attributes.device_class', 'smoke');
                 expectBinarySensor(binarySensor, deviceId, objects[deviceId].common.name, alarmId);
             });
