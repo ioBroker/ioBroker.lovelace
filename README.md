@@ -88,6 +88,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) A manually mapped `binary_sensor` on a state whose role ends in `.unreach` is inverted, not only on the old role `indicator.unreach`.
 * (Garfonso/Claude) The extra entities of a detected device (connectivity, battery, error, maintenance, working, power, energy) are named after the device, so they are no longer all called "UNREACH" or similar.
 * (Garfonso/Claude) The labels of those extra entities are translated, and a name you wrote on the ioBroker object yourself is kept.
+* (Garfonso/Claude) An `input_datetime` on a state without a date (null) is unknown instead of a dummy date, and no longer warns about it. (#768)
 
 ### 7.3.0 (2026-10-18)
 * (Garfonso/Claude) Updated the Home Assistant frontend to 20260930.3: the map no longer flickers while loading history and its tiles stay cached, and the digital-clock card can take its font from the theme.

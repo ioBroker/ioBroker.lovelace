@@ -40,6 +40,13 @@ function stateFromAttributes(entity) {
     entity.state += `${String(attrs.hour)}:${String(attrs.minute)}:${String(attrs.second)}`;
   }
 }
+function stateToUnknown(entity) {
+  const attrs = entity.attributes;
+  for (const attr of ["year", "month", "day", "hour", "minute", "second"]) {
+    delete attrs[attr];
+  }
+  entity.state = "unknown";
+}
 function timeToAttributes(entity, date) {
   const attrs = entity.attributes;
   if (attrs.has_date) {
@@ -68,6 +75,13 @@ function fillInputDatetimeEntity(stateId, isString, entity) {
       let date = /* @__PURE__ */ new Date();
       if (entAttrs.has_date) {
         date = sd.date ? new Date(sd.date) : new Date(entAttrs.year, entAttrs.month - 1, entAttrs.day);
+        if (isNaN(date.getTime())) {
+          adapterData.log.debug(
+            `${ent.entity_id} has no date to set ${JSON.stringify(sd)} on, writing null.`
+          );
+          stateToUnknown(ent);
+          return adapterData.adapter.setForeignStateAsync(command.setId, null, false, { user });
+        }
       }
       if (entAttrs.has_time && sd.time) {
         const parts = sd.time.split(":");
@@ -89,8 +103,8 @@ function fillInputDatetimeEntity(stateId, isString, entity) {
       if (date.getTime() >= 0) {
         timeToAttributes(ent, date);
       } else {
-        adapterData.log.warn(`${String(s.val)} is not a valid date. Error in ${ent.entity_id}`);
-        ent.state = String(s.val) || "unknown";
+        adapterData.log.debug(`${String(s.val)} is not a date, ${ent.entity_id} is unknown.`);
+        stateToUnknown(ent);
       }
     } else if (typeof s.val === "string") {
       let timeStr;
@@ -101,6 +115,11 @@ function fillInputDatetimeEntity(stateId, isString, entity) {
         dateStr = s.val;
       } else if (/\d{1,2}:\d{1,2}(:\d{1,2})?/.test(s.val)) {
         timeStr = s.val;
+      }
+      if (!dateStr && !timeStr) {
+        adapterData.log.debug(`${String(s.val)} is not a date, ${ent.entity_id} is unknown.`);
+        stateToUnknown(ent);
+        return;
       }
       if (dateStr) {
         const parts = dateStr.split("-");
@@ -116,8 +135,8 @@ function fillInputDatetimeEntity(stateId, isString, entity) {
       }
       stateFromAttributes(ent);
     } else {
-      adapterData.log.warn(`${String(s.val)} is not a valid date. Error in ${ent.entity_id}`);
-      ent.state = "2022-04-10 20:23";
+      adapterData.log.debug(`${String(s.val)} is not a date, ${ent.entity_id} is unknown.`);
+      stateToUnknown(ent);
     }
   };
   entity.context.capabilities = {

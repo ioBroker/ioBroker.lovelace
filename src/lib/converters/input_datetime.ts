@@ -38,6 +38,22 @@ function stateFromAttributes(entity: ioBrokerEntity): void {
 }
 
 /**
+ * An ioBroker state without a usable date (null, an empty string, something unparsable) becomes
+ * `unknown`, like an input_datetime in Home Assistant that has no value: the frontend shows
+ * "Unknown" for it and leaves the date/time pickers empty, and HA leaves out the component
+ * attributes in that case as well.
+ *
+ * @param entity - the input_datetime entity
+ */
+function stateToUnknown(entity: ioBrokerEntity): void {
+    const attrs = entity.attributes as Record<string, unknown>;
+    for (const attr of ['year', 'month', 'day', 'hour', 'minute', 'second']) {
+        delete attrs[attr];
+    }
+    entity.state = 'unknown';
+}
+
+/**
  * Explode a Date into the entity's year/month/day/hour/minute/second attributes.
  *
  * @param entity - the input_datetime entity
@@ -82,6 +98,17 @@ function fillInputDatetimeEntity(stateId: string, isString: boolean, entity: ioB
                 date = sd.date
                     ? new Date(sd.date)
                     : new Date(entAttrs.year as number, (entAttrs.month as number) - 1, entAttrs.day as number);
+                if (isNaN(date.getTime())) {
+                    // The frontend sends the state as the date, so an entity without a value sends
+                    // "unknown" (and there are no component attributes to build a date from either).
+                    // null is the ioBroker equivalent of unknown; writing it rather than deleting the
+                    // state keeps the timestamp and who wrote it.
+                    adapterData.log.debug(
+                        `${ent.entity_id} has no date to set ${JSON.stringify(sd)} on, writing null.`,
+                    );
+                    stateToUnknown(ent);
+                    return adapterData.adapter.setForeignStateAsync(command.setId!, null, false, { user });
+                }
             }
             if (entAttrs.has_time && sd.time) {
                 const parts = sd.time.split(':');
@@ -105,8 +132,8 @@ function fillInputDatetimeEntity(stateId: string, isString: boolean, entity: ioB
             if (date.getTime() >= 0) {
                 timeToAttributes(ent, date);
             } else {
-                adapterData.log.warn(`${String(s.val)} is not a valid date. Error in ${ent.entity_id}`);
-                ent.state = String(s.val) || 'unknown';
+                adapterData.log.debug(`${String(s.val)} is not a date, ${ent.entity_id} is unknown.`);
+                stateToUnknown(ent);
             }
         } else if (typeof s.val === 'string') {
             let timeStr: string | undefined;
@@ -120,6 +147,11 @@ function fillInputDatetimeEntity(stateId: string, isString: boolean, entity: ioB
                 timeStr = s.val;
             }
 
+            if (!dateStr && !timeStr) {
+                adapterData.log.debug(`${String(s.val)} is not a date, ${ent.entity_id} is unknown.`);
+                stateToUnknown(ent);
+                return;
+            }
             if (dateStr) {
                 const parts = dateStr.split('-');
                 entAttrs.year = Number(parts[0]) || 1970;
@@ -134,8 +166,9 @@ function fillInputDatetimeEntity(stateId: string, isString: boolean, entity: ioB
             }
             stateFromAttributes(ent);
         } else {
-            adapterData.log.warn(`${String(s.val)} is not a valid date. Error in ${ent.entity_id}`);
-            ent.state = '2022-04-10 20:23'; // dummy date so UI doesn't error
+            // null is normal: an adapter that has no timestamp yet (e.g. dwd without a warning).
+            adapterData.log.debug(`${String(s.val)} is not a date, ${ent.entity_id} is unknown.`);
+            stateToUnknown(ent);
         }
     };
 
