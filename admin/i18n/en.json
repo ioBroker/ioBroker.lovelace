@@ -29,6 +29,7 @@
     "automation": "automation",
     "Awning": "Awning",
     "awning — awning": "awning",
+    "Battery": "Battery",
     "battery — Battery level (%)": "battery (%)",
     "battery — on: Low / off: Normal": "battery — on: Low / off: Normal",
     "Battery (BATTERY)": "Battery (BATTERY)",
@@ -92,6 +93,7 @@
     "Delete file": "Delete file",
     "Delete the selected card file?": "Delete the selected card file?",
     "Device class": "Device class",
+    "Error": "Error",
     "Invert state (ioBroker true = off)": "Invert state (ioBroker true = off)",
     "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.": "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.",
     "device_tracker": "device_tracker",
@@ -206,6 +208,7 @@
     "Longitude state": "Longitude state",
     "lovelace adapter settings": "Adapter settings for lovelace",
     "Main settings": "Main settings",
+    "Maintenance": "Maintenance",
     "Manual": "Manual",
     "Map image (MAP)": "Map image (MAP)",
     "Maximum browser instances to keep": "Maximum browser instances to keep",
@@ -432,5 +435,6 @@
     "wind_speed — Wind speed (m/s)": "wind_speed (m/s)",
     "Window": "Window",
     "window — on: Open / off: Closed": "window — on: Open / off: Closed",
-    "window — window": "window"
+    "window — window": "window",
+    "Working": "Working"
 }

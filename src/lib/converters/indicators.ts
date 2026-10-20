@@ -2,6 +2,90 @@ import type { ioBrokerEntity, ConverterParameters } from './converter';
 import { BinarySensorEntity } from '../entities/binarySensorEntity';
 import { SensorEntity } from '../entities/sensorEntity';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const adapterData = require('../../../lib/dataSingleton') as {
+    lang: string;
+    words: Record<string, Record<string, string>> | undefined;
+};
+
+/**
+ * Translate a label of an extra entity ('Battery warning', 'Power', ...) into the admin language.
+ * Unknown words stay English - the labels double as the English text in `admin/words.js`.
+ *
+ * @param label - the English label
+ */
+function translateLabel(label: string): string {
+    const entry = adapterData.words?.[label];
+    return (entry && (entry[adapterData.lang] || entry.en)) || label;
+}
+
+/**
+ * Words adapters use when they name a state after what it is instead of giving it a name of its
+ * own. The last word of the name decides, because adapters prefix the device: ioBroker.devices
+ * writes "UNREACH", hm-rpc writes "FireAlarm - HomeMatic.LOWBAT", others "Motion With Battery
+ * batteryWarning". A name whose last word is none of these is the user's own wording and is kept.
+ */
+const GENERATED_NAME_TAIL =
+    /^(unreach|unreachable|offline|online|connected|connection|connectivity|reachable|alive|lowbat|lowbattery|batterywarning|battery|bat|warning|error|fault|maintain|maintenance|working|busy|state|value|actual|power|current|voltage|energy|consumption|frequency|level)$/i;
+
+/**
+ * Whether a name looks like the one an adapter generates for a state, as opposed to a name the user
+ * wrote. Only the last word is looked at, so "Fridge UNREACH" counts as generated while a
+ * hand-written "Kühlschrank Verbindung" does not.
+ *
+ * @param name - the `common.name` of the state
+ */
+function isGeneratedName(name: string): boolean {
+    const words = name.split(/[\s._:\-/]+/).filter(w => w);
+    const tail = words[words.length - 1];
+    return !tail || GENERATED_NAME_TAIL.test(tail);
+}
+
+/**
+ * Compare two names while ignoring case and punctuation, so "FireAlarm - HomeMatic" and
+ * "FireAlarm HomeMatic" count as the same name.
+ *
+ * @param name - the name to simplify
+ */
+function simplifyName(name: string): string {
+    return name.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+}
+
+/**
+ * Name an extra entity of a device after the device it belongs to: "Kitchen lamp Connectivity"
+ * instead of the name the state carries, which is "UNREACH" with most adapters and not friendly at
+ * all. Returns undefined when the state has a name of its own that the user wrote - a smart name,
+ * or a `common.name` that is not one an adapter generates - so the usual name resolution keeps it.
+ *
+ * @param deviceName - the name of the device the entity belongs to
+ * @param stateObj - the ioBroker object of the state behind the entity
+ * @param label - what the entity is, e.g. 'Connectivity'
+ */
+function derivedName(
+    deviceName: string | undefined,
+    stateObj: ioBroker.Object | undefined,
+    label?: string,
+): string | undefined {
+    if (!label || !deviceName) {
+        return deviceName;
+    }
+    const common = stateObj?.common as { smartName?: unknown; name?: ioBroker.StringOrTranslated } | undefined;
+    if (common?.smartName) {
+        return undefined;
+    }
+    const raw = common?.name;
+    const own =
+        typeof raw === 'object' && raw
+            ? (raw as Record<string, string>)[adapterData.lang] || (raw as Record<string, string>).en
+            : raw;
+    // A state named exactly like its device (ioBroker.devices does that) says nothing about what
+    // the state is, so it gets the label as well.
+    if (own && !isGeneratedName(own) && simplifyName(own) !== simplifyName(deviceName)) {
+        return undefined;
+    }
+    return `${deviceName} ${translateLabel(label)}`;
+}
+
 /** Optional electricity states a device may expose (type-detector ElectricityPatterns) -> sensor specs. */
 const ELECTRICITY_SPECS: {
     name: string;
@@ -92,10 +176,11 @@ export function generateMeasurementSensors(
         if (!state?.id) {
             continue;
         }
+        const sourceObj = parameters.objects?.[state.id];
         entities.push(
             SensorEntity.electricity(
                 state.id,
-                `${parameters.friendlyName || baseName} ${measurement.label}`,
+                derivedName(parameters.friendlyName || baseName, sourceObj, measurement.label),
                 parameters.room,
                 parameters.func,
                 parameters.objects?.[state.id],
@@ -124,7 +209,7 @@ export function generateElectricitySensors(parameters: ConverterParameters, base
         if (!state?.id) {
             continue;
         }
-        const name = `${parameters.friendlyName || baseName} ${spec.label}`;
+        const name = derivedName(parameters.friendlyName || baseName, parameters.objects?.[state.id], spec.label);
         entities.push(
             SensorEntity.electricity(
                 state.id,
@@ -163,7 +248,7 @@ export function generateBatterySensor(parameters: ConverterParameters, baseName:
     }
     return SensorEntity.electricity(
         state.id,
-        `${parameters.friendlyName || baseName} Battery`,
+        derivedName(parameters.friendlyName || baseName, parameters.objects?.[state.id], 'Battery'),
         parameters.room,
         parameters.func,
         parameters.objects?.[state.id],
@@ -175,30 +260,6 @@ export function generateBatterySensor(parameters: ConverterParameters, baseName:
 }
 
 /**
- * Name an indicator entity after the device it belongs to: "Kitchen lamp Connectivity" instead of
- * the name the state carries, which is "UNREACH" with most adapters and not friendly at all. A
- * smart name on the indicator state itself is the user's own wording, so in that case no name is
- * forced and the usual resolution (smart name, then common.name) applies.
- *
- * @param deviceName - the name of the device the indicator belongs to
- * @param stateObj - the ioBroker object of the indicator state
- * @param label - what the indicator is, e.g. 'Connectivity'
- */
-function indicatorName(
-    deviceName: string | undefined,
-    stateObj: ioBroker.Object | undefined,
-    label?: string,
-): string | undefined {
-    if (!label || !deviceName) {
-        return deviceName;
-    }
-    if ((stateObj?.common as { smartName?: unknown } | undefined)?.smartName) {
-        return undefined;
-    }
-    return `${deviceName} ${label}`;
-}
-
-/**
  * Build a binary_sensor indicator entity from a state name in controls.states.
  * Returns null when no matching state is found.
  *
@@ -207,7 +268,7 @@ function indicatorName(
  * @param iobType - tag stored on context.iobType (mirrors the state name in most cases)
  * @param deviceClass - HA binary_sensor device_class to assign
  * @param inverted - if true, applies offline-inversion (UNREACH/OFFLINE → connectivity 'on')
- * @param label - what the indicator is, appended to the device's name (see `indicatorName`)
+ * @param label - what the indicator is, appended to the device's name (see `derivedName`)
  */
 function makeIndicator(
     parameters: ConverterParameters,
@@ -223,7 +284,7 @@ function makeIndicator(
     }
     const sourceObj = parameters.objects[state.id];
     return new BinarySensorEntity(
-        { ...parameters, friendlyName: indicatorName(parameters.friendlyName, sourceObj, label) },
+        { ...parameters, friendlyName: derivedName(parameters.friendlyName, sourceObj, label) },
         {
             stateId: state.id,
             sourceObj,
@@ -256,7 +317,7 @@ export function connectivityIndicator(parameters: ConverterParameters, label?: s
     if (offlineState?.id) {
         const sourceObj = parameters.objects[offlineState.id];
         return new BinarySensorEntity(
-            { ...parameters, friendlyName: indicatorName(parameters.friendlyName, sourceObj, label) },
+            { ...parameters, friendlyName: derivedName(parameters.friendlyName, sourceObj, label) },
             {
                 stateId: offlineState.id,
                 sourceObj,

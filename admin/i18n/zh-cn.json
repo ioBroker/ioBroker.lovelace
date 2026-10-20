@@ -29,6 +29,7 @@
     "automation": "自动化",
     "Awning": "棚",
     "awning — awning": "awning — 遮阳篷",
+    "Battery": "电池",
     "battery — Battery level (%)": "battery — 电池电量 (%)",
     "battery — on: Low / off: Normal": "battery — 开: 低 / 关: 正常",
     "Battery (BATTERY)": "电池 (BATTERY)",
@@ -92,6 +93,7 @@
     "Delete file": "删除文件",
     "Delete the selected card file?": "Delete the selected card file?",
     "Device class": "设备类",
+    "Error": "错误",
     "Invert state (ioBroker true = off)": "反转状态（ioBroker true = 关）",
     "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.": "用于设备不处于所显示状态时为 true 的状态，例如设备类别为 connectivity 的 indicator.unreach。",
     "device_tracker": "device_tracker",
@@ -206,6 +208,7 @@
     "Longitude state": "经度 state",
     "lovelace adapter settings": "lovelace的适配器设置",
     "Main settings": "主要设置",
+    "Maintenance": "维护",
     "Manual": "手动",
     "Map image (MAP)": "地图图像 (MAP)",
     "Maximum browser instances to keep": "最大浏览器实例保留",
@@ -432,5 +435,6 @@
     "wind_speed — Wind speed (m/s)": "wind_speed — 风速 (m/s)",
     "Window": "窗户",
     "window — on: Open / off: Closed": "window — 开: 打开 / 关: 关闭",
-    "window — window": "window — 窗户"
+    "window — window": "window — 窗户",
+    "Working": "工作中"
 }

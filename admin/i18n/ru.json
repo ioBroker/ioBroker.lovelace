@@ -29,6 +29,7 @@
     "automation": "автоматизация",
     "Awning": "Тент",
     "awning — awning": "awning — Маркиза",
+    "Battery": "Батарея",
     "battery — Battery level (%)": "battery — Уровень заряда (%)",
     "battery — on: Low / off: Normal": "battery — вкл: Низкий / выкл: Норма",
     "Battery (BATTERY)": "Батарея (BATTERY)",
@@ -92,6 +93,7 @@
     "Delete file": "Удалить файл",
     "Delete the selected card file?": "Delete the selected card file?",
     "Device class": "Класс устройства",
+    "Error": "Ошибка",
     "Invert state (ioBroker true = off)": "Инвертировать состояние (ioBroker true = выкл.)",
     "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.": "Для состояния, которое равно true, когда устройство НЕ находится в показанном состоянии, например indicator.unreach с классом устройства connectivity.",
     "device_tracker": "device_tracker",
@@ -206,6 +208,7 @@
     "Longitude state": "State долготы",
     "lovelace adapter settings": "Настройки адаптера для lovelace",
     "Main settings": "Основные настройки",
+    "Maintenance": "Обслуживание",
     "Manual": "Вручную",
     "Map image (MAP)": "Изображение карты (MAP)",
     "Maximum browser instances to keep": "Максимальные экземпляры браузера, чтобы сохранить",
@@ -432,5 +435,6 @@
     "wind_speed — Wind speed (m/s)": "wind_speed — Скорость ветра (m/s)",
     "Window": "Окно",
     "window — on: Open / off: Closed": "window — вкл: Открыто / выкл: Закрыто",
-    "window — window": "window — Окно"
+    "window — window": "window — Окно",
+    "Working": "Работает"
 }

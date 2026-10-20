@@ -29,6 +29,7 @@
     "automation": "automatisering",
     "Awning": "Luifel",
     "awning — awning": "awning — Zonnescherm",
+    "Battery": "Batterij",
     "battery — Battery level (%)": "battery — Batterijniveau (%)",
     "battery — on: Low / off: Normal": "battery — aan: Laag / uit: Normaal",
     "Battery (BATTERY)": "Batterij (BATTERY)",
@@ -92,6 +93,7 @@
     "Delete file": "Bestand verwijderen",
     "Delete the selected card file?": "Delete the selected card file?",
     "Device class": "Apparaatklasse",
+    "Error": "Fout",
     "Invert state (ioBroker true = off)": "Status omdraaien (ioBroker true = uit)",
     "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.": "Voor een state die true is als het apparaat NIET in de weergegeven toestand is, bijvoorbeeld indicator.unreach met de apparaatklasse connectivity.",
     "device_tracker": "device_tracker",
@@ -206,6 +208,7 @@
     "Longitude state": "Lengtegraad (state)",
     "lovelace adapter settings": "Adapterinstellingen voor lovelace",
     "Main settings": "Hoofdinstellingen",
+    "Maintenance": "Onderhoud",
     "Manual": "Handmatig",
     "Map image (MAP)": "Kaartafbeelding (MAP)",
     "Maximum browser instances to keep": "Maximale browserinstanties om te behouden",
@@ -432,5 +435,6 @@
     "wind_speed — Wind speed (m/s)": "wind_speed — Windsnelheid (m/s)",
     "Window": "Venster",
     "window — on: Open / off: Closed": "window — aan: Open / uit: Dicht",
-    "window — window": "window — Raam"
+    "window — window": "window — Raam",
+    "Working": "Actief"
 }

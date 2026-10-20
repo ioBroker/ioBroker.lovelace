@@ -29,6 +29,7 @@
     "automation": "автоматизація",
     "Awning": "Тентовий",
     "awning — awning": "awning — Маркіза",
+    "Battery": "Батарея",
     "battery — Battery level (%)": "battery — Рівень заряду (%)",
     "battery — on: Low / off: Normal": "battery — увімк: Низький / вимк: Норма",
     "Battery (BATTERY)": "Батарея (BATTERY)",
@@ -92,6 +93,7 @@
     "Delete file": "Видалити файл",
     "Delete the selected card file?": "Delete the selected card file?",
     "Device class": "Клас пристрою",
+    "Error": "Помилка",
     "Invert state (ioBroker true = off)": "Інвертувати стан (ioBroker true = вимк.)",
     "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.": "Для стану, який дорівнює true, коли пристрій НЕ в показаному стані, наприклад indicator.unreach з класом пристрою connectivity.",
     "device_tracker": "device_tracker",
@@ -206,6 +208,7 @@
     "Longitude state": "State довготи",
     "lovelace adapter settings": "Налаштування адаптера для lovelace",
     "Main settings": "Основні налаштування",
+    "Maintenance": "Обслуговування",
     "Manual": "Вручну",
     "Map image (MAP)": "Зображення карти (MAP)",
     "Maximum browser instances to keep": "Максимальні екземпляри браузера для збереження",
@@ -432,5 +435,6 @@
     "wind_speed — Wind speed (m/s)": "wind_speed — Швидкість вітру (m/s)",
     "Window": "Вікно",
     "window — on: Open / off: Closed": "window — увімк: Відчинено / вимк: Зачинено",
-    "window — window": "window — Вікно"
+    "window — window": "window — Вікно",
+    "Working": "Працює"
 }

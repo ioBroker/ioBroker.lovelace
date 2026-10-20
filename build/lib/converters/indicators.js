@@ -30,6 +30,36 @@ __export(indicators_exports, {
 module.exports = __toCommonJS(indicators_exports);
 var import_binarySensorEntity = require("../entities/binarySensorEntity");
 var import_sensorEntity = require("../entities/sensorEntity");
+const adapterData = require("../../../lib/dataSingleton");
+function translateLabel(label) {
+  var _a;
+  const entry = (_a = adapterData.words) == null ? void 0 : _a[label];
+  return entry && (entry[adapterData.lang] || entry.en) || label;
+}
+const GENERATED_NAME_TAIL = /^(unreach|unreachable|offline|online|connected|connection|connectivity|reachable|alive|lowbat|lowbattery|batterywarning|battery|bat|warning|error|fault|maintain|maintenance|working|busy|state|value|actual|power|current|voltage|energy|consumption|frequency|level)$/i;
+function isGeneratedName(name) {
+  const words = name.split(/[\s._:\-/]+/).filter((w) => w);
+  const tail = words[words.length - 1];
+  return !tail || GENERATED_NAME_TAIL.test(tail);
+}
+function simplifyName(name) {
+  return name.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+}
+function derivedName(deviceName, stateObj, label) {
+  if (!label || !deviceName) {
+    return deviceName;
+  }
+  const common = stateObj == null ? void 0 : stateObj.common;
+  if (common == null ? void 0 : common.smartName) {
+    return void 0;
+  }
+  const raw = common == null ? void 0 : common.name;
+  const own = typeof raw === "object" && raw ? raw[adapterData.lang] || raw.en : raw;
+  if (own && !isGeneratedName(own) && simplifyName(own) !== simplifyName(deviceName)) {
+    return void 0;
+  }
+  return `${deviceName} ${translateLabel(label)}`;
+}
 const ELECTRICITY_SPECS = [
   {
     name: "ELECTRIC_POWER",
@@ -74,20 +104,21 @@ const ELECTRICITY_SPECS = [
   }
 ];
 function generateMeasurementSensors(parameters, measurements, baseName) {
-  var _a;
+  var _a, _b;
   const entities = [];
   for (const measurement of measurements) {
     const state = parameters.controls.states.find((s) => s.id && s.name === measurement.state);
     if (!(state == null ? void 0 : state.id)) {
       continue;
     }
+    const sourceObj = (_a = parameters.objects) == null ? void 0 : _a[state.id];
     entities.push(
       import_sensorEntity.SensorEntity.electricity(
         state.id,
-        `${parameters.friendlyName || baseName} ${measurement.label}`,
+        derivedName(parameters.friendlyName || baseName, sourceObj, measurement.label),
         parameters.room,
         parameters.func,
-        (_a = parameters.objects) == null ? void 0 : _a[state.id],
+        (_b = parameters.objects) == null ? void 0 : _b[state.id],
         `sensor.${baseName}_${measurement.suffix}`,
         measurement.deviceClass,
         measurement.unit,
@@ -98,21 +129,21 @@ function generateMeasurementSensors(parameters, measurements, baseName) {
   return entities;
 }
 function generateElectricitySensors(parameters, baseName) {
-  var _a;
+  var _a, _b;
   const entities = [];
   for (const spec of ELECTRICITY_SPECS) {
     const state = parameters.controls.states.find((s) => s.id && s.name === spec.name);
     if (!(state == null ? void 0 : state.id)) {
       continue;
     }
-    const name = `${parameters.friendlyName || baseName} ${spec.label}`;
+    const name = derivedName(parameters.friendlyName || baseName, (_a = parameters.objects) == null ? void 0 : _a[state.id], spec.label);
     entities.push(
       import_sensorEntity.SensorEntity.electricity(
         state.id,
         name,
         parameters.room,
         parameters.func,
-        (_a = parameters.objects) == null ? void 0 : _a[state.id],
+        (_b = parameters.objects) == null ? void 0 : _b[state.id],
         `sensor.${baseName}_${spec.suffix}`,
         spec.deviceClass,
         spec.unit,
@@ -123,32 +154,22 @@ function generateElectricitySensors(parameters, baseName) {
   return entities;
 }
 function generateBatterySensor(parameters, baseName) {
-  var _a;
+  var _a, _b;
   const state = parameters.controls.states.find((s) => s.id && s.name === "BATTERY");
   if (!(state == null ? void 0 : state.id)) {
     return null;
   }
   return import_sensorEntity.SensorEntity.electricity(
     state.id,
-    `${parameters.friendlyName || baseName} Battery`,
+    derivedName(parameters.friendlyName || baseName, (_a = parameters.objects) == null ? void 0 : _a[state.id], "Battery"),
     parameters.room,
     parameters.func,
-    (_a = parameters.objects) == null ? void 0 : _a[state.id],
+    (_b = parameters.objects) == null ? void 0 : _b[state.id],
     `sensor.${baseName}_battery`,
     "battery",
     "%",
     "measurement"
   );
-}
-function indicatorName(deviceName, stateObj, label) {
-  var _a;
-  if (!label || !deviceName) {
-    return deviceName;
-  }
-  if ((_a = stateObj == null ? void 0 : stateObj.common) == null ? void 0 : _a.smartName) {
-    return void 0;
-  }
-  return `${deviceName} ${label}`;
 }
 function makeIndicator(parameters, stateName, iobType, deviceClass, inverted = false, label) {
   const state = parameters.controls.states.find((s) => s.id && s.name === stateName);
@@ -157,7 +178,7 @@ function makeIndicator(parameters, stateName, iobType, deviceClass, inverted = f
   }
   const sourceObj = parameters.objects[state.id];
   return new import_binarySensorEntity.BinarySensorEntity(
-    { ...parameters, friendlyName: indicatorName(parameters.friendlyName, sourceObj, label) },
+    { ...parameters, friendlyName: derivedName(parameters.friendlyName, sourceObj, label) },
     {
       stateId: state.id,
       sourceObj,
@@ -175,7 +196,7 @@ function connectivityIndicator(parameters, label) {
   if (offlineState == null ? void 0 : offlineState.id) {
     const sourceObj = parameters.objects[offlineState.id];
     return new import_binarySensorEntity.BinarySensorEntity(
-      { ...parameters, friendlyName: indicatorName(parameters.friendlyName, sourceObj, label) },
+      { ...parameters, friendlyName: derivedName(parameters.friendlyName, sourceObj, label) },
       {
         stateId: offlineState.id,
         sourceObj,

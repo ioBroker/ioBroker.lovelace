@@ -109,6 +109,63 @@ describe('converters/indicators naming', function () {
         expect(entity.attributes.friendly_name).to.equal('Lamp battery');
     });
 
+    it('keeps a name the user wrote on the indicator object', function () {
+        //an object renamed by hand must not be overwritten by "<device> Connectivity"
+        const objects = {
+            'hue.0.lamp.unreach': {
+                _id: 'hue.0.lamp.unreach',
+                common: { name: 'Lampe Kueche erreichbar', type: 'boolean' },
+            },
+        };
+        const entity = connectivityIndicator(
+            makeParams([{ id: 'hue.0.lamp.unreach', name: 'UNREACH' }], objects, 'Kitchen lamp'),
+            'Connectivity',
+        )!;
+        expect(entity.attributes.friendly_name).to.equal('Lampe Kueche erreichbar');
+    });
+
+    it('overwrites the names adapters generate, however they build them', function () {
+        //the last word decides: everything an adapter appends to the device name is a known one
+        const generated = ['UNREACH', 'FireAlarm - HomeMatic.LOWBAT', 'Motion With Battery batteryWarning'];
+        for (const name of generated) {
+            const objects = { 'a.0.unreach': { _id: 'a.0.unreach', common: { name, type: 'boolean' } } };
+            const entity = connectivityIndicator(
+                makeParams([{ id: 'a.0.unreach', name: 'UNREACH' }], objects, 'Fridge'),
+                'Connectivity',
+            )!;
+            expect(entity.attributes.friendly_name, name).to.equal('Fridge Connectivity');
+        }
+    });
+
+    it('labels a state named exactly like its device', function () {
+        //ioBroker.devices names every state of a device after the device, which says nothing
+        const objects = {
+            'dev.0.m.LOW_BAT': { _id: 'dev.0.m.LOW_BAT', common: { name: 'Room Motion', type: 'boolean' } },
+        };
+        const entity = processBattery(
+            makeParams([{ id: 'dev.0.m.LOW_BAT', name: 'LOWBAT' }], objects, 'Room Motion'),
+            'Battery warning',
+        )!;
+        expect(entity.attributes.friendly_name).to.equal('Room Motion Battery warning');
+    });
+
+    it('translates the label into the admin language', function () {
+        const objects = { 'a.0.unreach': { _id: 'a.0.unreach', common: { name: 'UNREACH', type: 'boolean' } } };
+        const words = entityData.words;
+        entityData.lang = 'de';
+        entityData.words = { Connectivity: { en: 'Connectivity', de: 'Verbindung' } };
+        try {
+            const entity = connectivityIndicator(
+                makeParams([{ id: 'a.0.unreach', name: 'UNREACH' }], objects, 'Kuehlschrank'),
+                'Connectivity',
+            )!;
+            expect(entity.attributes.friendly_name).to.equal('Kuehlschrank Verbindung');
+        } finally {
+            entityData.lang = 'en';
+            entityData.words = words;
+        }
+    });
+
     it('without a label the name is resolved as before', function () {
         const objects = { 'hue.0.lamp.lowbat': { _id: 'hue.0.lamp.lowbat', common: { name: 'LOWBAT' } } };
         const entity = processBattery(makeParams([{ id: 'hue.0.lamp.lowbat', name: 'LOWBAT' }], objects, 'Lamp'))!;
