@@ -1595,6 +1595,13 @@
             "ignoreOwnChanges": true
           }
         },
+        "invert_state": {
+          "type": "checkbox",
+          "label": "Invert state (ioBroker true = off)",
+          "help": "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.",
+          "hidden": "data.entity !== 'binary_sensor'",
+          "defaultFunc": "data.entity === 'binary_sensor' && !!customObj.common && customObj.common.role === 'indicator.unreach'"
+        },
         "attr_unit_of_measurement": {
           "type": "text",
           "label": "Unit of measurement",

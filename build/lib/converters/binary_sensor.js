@@ -67,14 +67,9 @@ function processButtonSensor(parameters) {
 function processManualEntity(_id, obj, entity, _objects, custom) {
   var _a;
   entity.attributes.device_class = custom.attr_device_class;
-  if (custom.attr_device_class === "connectivity" && ((_a = obj.common) == null ? void 0 : _a.role) === "indicator.unreach") {
-    entity.attributes.device_class = "connectivity";
-    entity.context.STATE.getParser = (e, _attr, state) => {
-      e.state = (state == null ? void 0 : state.val) ? "off" : "on";
-    };
-    entity.context.STATE.historyParser = (_iobId, val) => {
-      return val ? "off" : "on";
-    };
+  const invert = custom.invert_state === void 0 || custom.invert_state === null ? custom.attr_device_class === "connectivity" && ((_a = obj.common) == null ? void 0 : _a.role) === "indicator.unreach" : !!custom.invert_state;
+  if (invert) {
+    (0, import_binarySensorEntity.invertBinaryState)(entity);
   }
   return [entity];
 }

@@ -32,6 +32,21 @@ export interface BinarySensorOptions {
 }
 
 /**
+ * Make a binary_sensor report the opposite of its ioBroker state: an ioBroker `true` becomes HA
+ * `off`. ioBroker is full of inverted indicators - `indicator.unreach` is true exactly when the
+ * device is gone - and a manually configured binary_sensor can ask for the same with the "invert"
+ * checkbox in the object settings.
+ *
+ * @param entity - the entity whose state parsers are replaced
+ */
+export function invertBinaryState(entity: BaseEntity): void {
+    entity.context.STATE.getParser = (ent, _attr, state): void => {
+        ent.state = state?.val ? 'off' : 'on';
+    };
+    entity.context.STATE.historyParser = (_iobId: string, val: ioBroker.StateValue): string => (val ? 'off' : 'on');
+}
+
+/**
  * BinarySensorEntity — single class for every Home Assistant binary_sensor.
  *
  * Covers the type-detector binary-sensor types (motion / door / window / fireAlarm)
@@ -83,11 +98,6 @@ export class BinarySensorEntity extends BaseEntity {
      */
     applyOfflineInversion(): void {
         this.attributes.device_class = 'connectivity';
-        this.context.STATE.getParser = (entity, _attr, state): void => {
-            entity.state = state?.val ? 'off' : 'on';
-        };
-        this.context.STATE.historyParser = (_iobId: string, val: ioBroker.StateValue): string => {
-            return val ? 'off' : 'on';
-        };
+        invertBinaryState(this);
     }
 }

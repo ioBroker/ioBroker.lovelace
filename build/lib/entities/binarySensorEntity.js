@@ -18,10 +18,17 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var binarySensorEntity_exports = {};
 __export(binarySensorEntity_exports, {
-  BinarySensorEntity: () => BinarySensorEntity
+  BinarySensorEntity: () => BinarySensorEntity,
+  invertBinaryState: () => invertBinaryState
 });
 module.exports = __toCommonJS(binarySensorEntity_exports);
 var import_baseEntity = require("./baseEntity");
+function invertBinaryState(entity) {
+  entity.context.STATE.getParser = (ent, _attr, state) => {
+    ent.state = (state == null ? void 0 : state.val) ? "off" : "on";
+  };
+  entity.context.STATE.historyParser = (_iobId, val) => val ? "off" : "on";
+}
 class BinarySensorEntity extends import_baseEntity.BaseEntity {
   /**
    * @param params - converter parameters
@@ -63,16 +70,12 @@ class BinarySensorEntity extends import_baseEntity.BaseEntity {
    */
   applyOfflineInversion() {
     this.attributes.device_class = "connectivity";
-    this.context.STATE.getParser = (entity, _attr, state) => {
-      entity.state = (state == null ? void 0 : state.val) ? "off" : "on";
-    };
-    this.context.STATE.historyParser = (_iobId, val) => {
-      return val ? "off" : "on";
-    };
+    invertBinaryState(this);
   }
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  BinarySensorEntity
+  BinarySensorEntity,
+  invertBinaryState
 });
 //# sourceMappingURL=binarySensorEntity.js.map

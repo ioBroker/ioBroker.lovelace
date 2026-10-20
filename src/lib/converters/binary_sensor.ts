@@ -1,7 +1,7 @@
 import { Types } from '@iobroker/type-detector';
 import { Converter } from './converter';
 import type { ConverterParameters, ioBrokerEntity } from './converter';
-import { BinarySensorEntity } from '../entities/binarySensorEntity';
+import { BinarySensorEntity, invertBinaryState } from '../entities/binarySensorEntity';
 
 // Re-export indicator functions so callers importing from binary_sensor still work.
 export { processBattery, connectivityIndicator, processError, processMaintenance, processWorking } from './indicators';
@@ -86,7 +86,7 @@ export function processButtonSensor(parameters: ConverterParameters): ioBrokerEn
  * @param obj - ioBroker object
  * @param entity - already created entity to configure
  * @param _objects - ioBroker objects cache (unused here)
- * @param custom - custom lovelace settings from the ioBroker object
+ * @param custom - custom lovelace settings from the ioBroker object (`invert_state` flips the state)
  */
 export function processManualEntity(
     _id: string,
@@ -96,18 +96,18 @@ export function processManualEntity(
     custom: Record<string, unknown>,
 ): ioBrokerEntity[] {
     entity.attributes.device_class = custom.attr_device_class as string | undefined;
-    if (
-        custom.attr_device_class === 'connectivity' &&
-        (obj as ioBroker.StateObject).common?.role === 'indicator.unreach'
-    ) {
-        // entity is already a BaseEntity from server.js processCommon; reuse the inversion logic.
-        entity.attributes.device_class = 'connectivity';
-        entity.context.STATE.getParser = (e, _attr, state): void => {
-            e.state = state?.val ? 'off' : 'on';
-        };
-        entity.context.STATE.historyParser = (_iobId: string, val: ioBroker.StateValue): string => {
-            return val ? 'off' : 'on';
-        };
+    // The "invert" checkbox decides, once it has been touched. Configurations that predate it keep
+    // the old automatic behaviour: a connectivity sensor on an `indicator.unreach` state, which is
+    // true when the device is NOT connected.
+    const invert =
+        custom.invert_state === undefined || custom.invert_state === null
+            ? custom.attr_device_class === 'connectivity' &&
+              (obj as ioBroker.StateObject).common?.role === 'indicator.unreach'
+            : !!custom.invert_state;
+    if (invert) {
+        // The entity is a plain BaseEntity built by the server, so invert it with the same helper
+        // the auto-detected connectivity indicator uses.
+        invertBinaryState(entity);
     }
     return [entity];
 }

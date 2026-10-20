@@ -92,6 +92,8 @@
     "Delete file": "删除文件",
     "Delete the selected card file?": "Delete the selected card file?",
     "Device class": "设备类",
+    "Invert state (ioBroker true = off)": "反转状态（ioBroker true = 关）",
+    "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.": "用于设备不处于所显示状态时为 true 的状态，例如设备类别为 connectivity 的 indicator.unreach。",
     "device_tracker": "device_tracker",
     "Direction (DIRECTION)": "方向 (DIRECTION)",
     "Disable authentication": "禁用身份验证",

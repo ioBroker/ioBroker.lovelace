@@ -251,6 +251,15 @@ describe('binary_sensor converter', function () {
             expect(result[0].attributes.device_class).to.equal('motion');
         });
 
+        const makeEntity = (): ioBrokerEntity =>
+            ({ attributes: {}, context: { STATE: { getId: STATE_ID } } }) as unknown as ioBrokerEntity;
+        const makeObj = (role: string): ioBroker.Object =>
+            ({ _id: DEVICE_ID, type: 'state', common: { role, name: '' }, native: {} }) as ioBroker.Object;
+        const readState = (entity: ioBrokerEntity, val: boolean): unknown => {
+            entity.context.STATE.getParser!(entity, 'state', { val } as ioBroker.State);
+            return entity.state;
+        };
+
         it('adds connectivity inversion for unreach indicator', function () {
             const entity = { attributes: {}, context: { STATE: { getId: STATE_ID } } } as unknown as ioBrokerEntity;
             const obj = {
@@ -262,6 +271,39 @@ describe('binary_sensor converter', function () {
             const result = processManualEntity(DEVICE_ID, obj, entity, {}, { attr_device_class: 'connectivity' });
             expect(result[0].context.STATE?.getParser).to.be.a('function');
             expect(result[0].context.STATE?.historyParser).to.be.a('function');
+        });
+
+        it('inverts when the checkbox is set, whatever the role and device class are', function () {
+            const entity = makeEntity();
+            const result = processManualEntity(
+                DEVICE_ID,
+                makeObj('state'),
+                entity,
+                {},
+                {
+                    attr_device_class: 'window',
+                    invert_state: true,
+                },
+            );
+            //an ioBroker window contact that is true while the window is closed
+            expect(readState(result[0], true)).to.equal('off');
+            expect(readState(result[0], false)).to.equal('on');
+            expect(result[0].attributes.device_class).to.equal('window');
+        });
+
+        it('does not invert when the checkbox is cleared, even for an unreach indicator', function () {
+            const entity = makeEntity();
+            const result = processManualEntity(
+                DEVICE_ID,
+                makeObj('indicator.unreach'),
+                entity,
+                {},
+                {
+                    attr_device_class: 'connectivity',
+                    invert_state: false,
+                },
+            );
+            expect(result[0].context.STATE?.getParser).to.equal(undefined);
         });
     });
 });

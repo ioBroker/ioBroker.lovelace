@@ -92,6 +92,8 @@
     "Delete file": "Supprimer le fichier",
     "Delete the selected card file?": "Delete the selected card file?",
     "Device class": "Classe d'appareil",
+    "Invert state (ioBroker true = off)": "Inverser l'état (ioBroker true = arrêt)",
+    "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.": "Pour un état qui est true lorsque l'appareil n'est PAS dans l'état affiché, par exemple indicator.unreach avec la classe d'appareil connectivity.",
     "device_tracker": "device_tracker",
     "Direction (DIRECTION)": "Direction (DIRECTION)",
     "Disable authentication": "Désactiver l'authentification",

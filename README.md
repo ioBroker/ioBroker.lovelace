@@ -83,6 +83,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Garfonso/Claude) A manually mapped `binary_sensor` has a checkbox next to the device class to invert its state, for an ioBroker state that is true when the device is not in the shown state.
+
 ### 7.3.0 (2026-10-18)
 * (Garfonso/Claude) Updated the Home Assistant frontend to 20260930.3: the map no longer flickers while loading history and its tiles stay cached, and the digital-clock card can take its font from the theme.
 * (Garfonso/Claude) The map tile proxy now checks the access token the frontend sends, instead of serving anyone who can reach the port.
