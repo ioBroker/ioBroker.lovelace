@@ -83,7 +83,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 7.4.0 (2026-10-21)
 * (Garfonso/Claude) A manually mapped `binary_sensor` has a checkbox next to the device class to invert its state, for an ioBroker state that is true when the device is not in the shown state.
 * (Garfonso/Claude) A manually mapped `binary_sensor` on a state whose role ends in `.unreach` is inverted, not only on the old role `indicator.unreach`.
 * (Garfonso/Claude) The extra entities of a detected device (connectivity, battery, error, maintenance, working, power, energy) are named after the device, so they are no longer all called "UNREACH" or similar.
@@ -113,14 +113,6 @@ After that checkout modified version in `./build` folder. Then.
 ### 7.2.3 (2026-10-08)
 * (Garfonso/Claude) common.states written as a string ("Inland:Inland;Ausland:Ausland") is understood again, so such an input_select offers its options.
 * (Garfonso/Claude) Writing lovelace.0.notifications.add creates one notification, not two.
-
-### 7.2.2 (2026-10-07)
-* (Garfonso/Claude) The energy dashboard calculates the costs from a price entity again; they stayed at 0.00. (#749)
-* (Garfonso/Claude) The calendar REST endpoint answers with start/end as objects, the way Home Assistant does, so cards like Calendar Card Pro show the events. (#756)
-* (Garfonso/Claude) An unregistered browser_mod browser no longer comes back after a restart of the adapter.
-* (Garfonso/Claude) Settings page: the responsive sizes of all fields are complete, and six texts are translated in every language. (#725)
-* (Garfonso/Claude) Dependencies updated; a secure web server speaks HTTP/2 now (@iobroker/webserver 3.2).
-* (Garfonso/Claude) The adapter reports the port it listens on to js-controller 8, so a new instance can be given a free one.
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
