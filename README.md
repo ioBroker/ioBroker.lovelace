@@ -83,7 +83,7 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
-### **WORK IN PROGRESS**
+### 7.4.1 (2026-10-22)
 * (Garfonso/Claude) Conditional cards and the `visibility` of cards, badges, sections and views work again: the new frontend asks the server to evaluate the conditions (`subscribe_condition`), which the adapter answered with "Unknown request" before, so everything conditional stayed hidden.
 
 ### 7.4.0 (2026-10-21)
@@ -112,10 +112,6 @@ After that checkout modified version in `./build` folder. Then.
 
 ### 7.2.4 (2026-10-09)
 * (Garfonso/Claude) Custom cards that consist of several files (like refreshable-picture-card) work again. (#755)
-
-### 7.2.3 (2026-10-08)
-* (Garfonso/Claude) common.states written as a string ("Inland:Inland;Ausland:Ausland") is understood again, so such an input_select offers its options.
-* (Garfonso/Claude) Writing lovelace.0.notifications.add creates one notification, not two.
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 

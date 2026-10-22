@@ -1,4 +1,8 @@
 # Older Changes
+## 7.2.3 (2026-10-08)
+* (Garfonso/Claude) common.states written as a string ("Inland:Inland;Ausland:Ausland") is understood again, so such an input_select offers its options.
+* (Garfonso/Claude) Writing lovelace.0.notifications.add creates one notification, not two.
+
 ## 7.2.2 (2026-10-07)
 * (Garfonso/Claude) The energy dashboard calculates the costs from a price entity again; they stayed at 0.00. (#749)
 * (Garfonso/Claude) The calendar REST endpoint answers with start/end as objects, the way Home Assistant does, so cards like Calendar Card Pro show the events. (#756)
