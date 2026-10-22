@@ -25,15 +25,8 @@ __export(deviceTracker_exports, {
 module.exports = __toCommonJS(deviceTracker_exports);
 var import_geoLocationEntity = require("../entities/geoLocationEntity");
 var import_manualStates = require("./manualStates");
+var import_geo = require("../geo");
 const entityData = require("../../../lib/dataSingleton");
-const EARTH_RADIUS_KM = 6371;
-function haversineKm(lat1, lon1, lat2, lon2) {
-  const toRad = (d) => d * Math.PI / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-  return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
 function presenceFromValue(val) {
   if (typeof val === "boolean") {
     return val ? "home" : "not_home";
@@ -52,19 +45,26 @@ function presenceFromValue(val) {
   }
   return val;
 }
-function presenceFromGps(lat, lon) {
-  var _a, _b, _c, _d;
-  const home = (_a = entityData.entityId2Entity) == null ? void 0 : _a["zone.home"];
+function presenceFromGps(lat, lon, accuracyM = 0) {
+  var _a;
   const la = Number(lat);
   const lo = Number(lon);
-  const homeLat = Number((_b = home == null ? void 0 : home.attributes) == null ? void 0 : _b.latitude);
-  const homeLon = Number((_c = home == null ? void 0 : home.attributes) == null ? void 0 : _c.longitude);
-  if (!isFinite(la) || !isFinite(lo) || !isFinite(homeLat) || !isFinite(homeLon)) {
+  if (!isFinite(la) || !isFinite(lo)) {
     return null;
   }
-  const radiusM = Number((_d = home == null ? void 0 : home.attributes) == null ? void 0 : _d.radius) || 100;
-  const distanceM = haversineKm(la, lo, homeLat, homeLon) * 1e3;
-  return distanceM <= radiusM ? "home" : "not_home";
+  const zones = (entityData.entities || []).filter((entity) => {
+    var _a2;
+    return (_a2 = entity == null ? void 0 : entity.entity_id) == null ? void 0 : _a2.startsWith("zone.");
+  });
+  if (!zones.length) {
+    return null;
+  }
+  const zone = (0, import_geo.findActiveZone)(la, lo, zones, accuracyM);
+  if (!zone) {
+    return "not_home";
+  }
+  const name = (_a = zone.attributes) == null ? void 0 : _a.friendly_name;
+  return zone.entity_id === "zone.home" ? "home" : typeof name === "string" && name ? name : zone.entity_id;
 }
 function processManualEntity(id, obj, entity, objects, custom) {
   var _a, _b, _c, _d, _e;
@@ -105,7 +105,11 @@ function processManualEntity(id, obj, entity, objects, custom) {
         getId: gpsId,
         attribute: "state",
         getParser: (ent) => {
-          const derived = presenceFromGps(ent.attributes.latitude, ent.attributes.longitude);
+          const derived = presenceFromGps(
+            ent.attributes.latitude,
+            ent.attributes.longitude,
+            Number(ent.attributes.gps_accuracy) || 0
+          );
           ent.state = derived != null ? derived : "unknown";
         }
       };

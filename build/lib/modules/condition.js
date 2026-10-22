@@ -59,9 +59,10 @@ class ConditionModule {
       return false;
     }
     const condition = message.condition;
+    const delays = [];
     let result;
     try {
-      result = (0, import_conditionEvaluator.evaluateCondition)(condition);
+      result = (0, import_conditionEvaluator.evaluateCondition)(condition, { schedule: (delay) => delays.push(delay) });
     } catch (e) {
       this.adapter.log.debug(`Cannot evaluate condition ${JSON.stringify(condition)}: ${String(e)}`);
       this._sendError(ws, message.id, e);
@@ -75,6 +76,9 @@ class ConditionModule {
     };
     ws.__conditions = ws.__conditions || [];
     ws.__conditions.push(subscription);
+    for (const delay of delays) {
+      this._arm(ws, subscription, delay);
+    }
     this.sendResponse(ws, message.id);
     this._send(ws, subscription, result);
     return true;
@@ -117,16 +121,7 @@ class ConditionModule {
     let result;
     try {
       result = (0, import_conditionEvaluator.evaluateCondition)(subscription.condition, {
-        schedule: (delay) => {
-          subscription.timers.push(
-            setTimeout(() => {
-              var _a;
-              if ((_a = ws.__conditions) == null ? void 0 : _a.includes(subscription)) {
-                this._reevaluate(ws, subscription);
-              }
-            }, delay)
-          );
-        }
+        schedule: (delay) => this._arm(ws, subscription, delay)
       });
     } catch (e) {
       this.adapter.log.debug(`Cannot evaluate condition ${JSON.stringify(subscription.condition)}: ${String(e)}`);
@@ -135,6 +130,23 @@ class ConditionModule {
     if (result !== subscription.result) {
       this._send(ws, subscription, result);
     }
+  }
+  /**
+   * Evaluate a subscription again after a delay, as the condition asked for.
+   *
+   * @param ws - websocket connection
+   * @param subscription - the subscription to re-evaluate later
+   * @param delay - milliseconds to wait
+   */
+  _arm(ws, subscription, delay) {
+    subscription.timers.push(
+      setTimeout(() => {
+        var _a;
+        if ((_a = ws.__conditions) == null ? void 0 : _a.includes(subscription)) {
+          this._reevaluate(ws, subscription);
+        }
+      }, delay)
+    );
   }
   /**
    * Send a condition result to the client.

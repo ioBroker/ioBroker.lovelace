@@ -25,11 +25,14 @@ __export(conditionEvaluator_exports, {
 });
 module.exports = __toCommonJS(conditionEvaluator_exports);
 var import_jinja = require("./jinja");
+var import_geo = require("../geo");
+var import_sun = require("../sun");
 const adapterData = require("../../../lib/dataSingleton");
 class UnsupportedConditionError extends Error {
 }
 const CLIENT_CONDITIONS = ["screen", "user", "view_columns", "location", "time"];
 const TRUTHY = ["true", "yes", "on", "enable", "1"];
+const SUN_EVENTS = ["sunrise", "sunset"];
 function asArray(value) {
   if (value === void 0 || value === null) {
     return [];
@@ -71,12 +74,13 @@ function durationToMs(duration) {
     return duration * 1e3;
   }
   if (typeof duration === "string") {
-    const parts = duration.split(":").map((p) => Number(p));
+    const sign = duration.trim().startsWith("-") ? -1 : 1;
+    const parts = duration.trim().replace(/^[+-]/, "").split(":").map(Number);
     if (parts.some((p) => isNaN(p))) {
       return 0;
     }
     const [hours = 0, minutes = 0, seconds = 0] = parts;
-    return ((hours * 60 + minutes) * 60 + seconds) * 1e3;
+    return sign * ((hours * 60 + minutes) * 60 + seconds) * 1e3;
   }
   if (typeof duration === "object") {
     const d = duration;
@@ -156,6 +160,82 @@ function evaluateNumericState(condition) {
   });
   return condition.match === "any" ? results.some(Boolean) : results.every(Boolean);
 }
+function evaluateZone(condition) {
+  const entityIds = asArray(condition.entity_id);
+  const zoneIds = asArray(condition.zone);
+  if (!entityIds.length || !zoneIds.length) {
+    return false;
+  }
+  return entityIds.every((entityId) => {
+    var _a, _b, _c;
+    const entity = entityOf(entityId);
+    if (!entity) {
+      return false;
+    }
+    const latitude = Number((_a = entity.attributes) == null ? void 0 : _a.latitude);
+    const longitude = Number((_b = entity.attributes) == null ? void 0 : _b.longitude);
+    const accuracy = Number((_c = entity.attributes) == null ? void 0 : _c.gps_accuracy) || 0;
+    return zoneIds.some((zoneId) => (0, import_geo.inZone)(latitude, longitude, entityOf(zoneId), accuracy));
+  });
+}
+function homeCoordinates() {
+  var _a, _b;
+  const home = adapterData.entityId2Entity["zone.home"];
+  const lat = Number((_a = home == null ? void 0 : home.attributes) == null ? void 0 : _a.latitude);
+  const lng = Number((_b = home == null ? void 0 : home.attributes) == null ? void 0 : _b.longitude);
+  return isFinite(lat) && isFinite(lng) ? { lat, lng } : void 0;
+}
+function sunLimit(event, offset, lat, lng, dayOffset) {
+  if (typeof event !== "string" || !SUN_EVENTS.includes(event)) {
+    return void 0;
+  }
+  const day = /* @__PURE__ */ new Date();
+  day.setDate(day.getDate() + dayOffset);
+  const time = (0, import_sun.sunEventTime)(event, lat, lng, day);
+  return time ? time.getTime() + durationToMs(offset) : void 0;
+}
+function evaluateSun(condition, context) {
+  var _a;
+  const home = homeCoordinates();
+  if (!home) {
+    throw new UnsupportedConditionError(
+      "condition sun needs the latitude/longitude from the ioBroker system settings"
+    );
+  }
+  const namesBefore = typeof condition.before === "string" && SUN_EVENTS.includes(condition.before);
+  const namesAfter = typeof condition.after === "string" && SUN_EVENTS.includes(condition.after);
+  if (!namesBefore && !namesAfter) {
+    return true;
+  }
+  const now = Date.now();
+  const before = sunLimit(condition.before, condition.before_offset, home.lat, home.lng, 0);
+  const after = sunLimit(condition.after, condition.after_offset, home.lat, home.lng, 0);
+  const midnight = /* @__PURE__ */ new Date();
+  midnight.setHours(24, 0, 0, 0);
+  const next = [
+    before,
+    after,
+    sunLimit(condition.before, condition.before_offset, home.lat, home.lng, 1),
+    sunLimit(condition.after, condition.after_offset, home.lat, home.lng, 1),
+    midnight.getTime()
+  ].reduce(
+    (soonest, time) => time !== void 0 && time > now && (soonest === void 0 || time < soonest) ? time : soonest,
+    void 0
+  );
+  if (next !== void 0) {
+    (_a = context.schedule) == null ? void 0 : _a.call(context, next - now + 1e3);
+  }
+  if (namesBefore && before === void 0 || namesAfter && after === void 0) {
+    return false;
+  }
+  if (before !== void 0 && now > before) {
+    return false;
+  }
+  if (after !== void 0 && now < after) {
+    return false;
+  }
+  return true;
+}
 function evaluateTemplate(condition) {
   if (typeof condition.value_template !== "string") {
     return false;
@@ -189,6 +269,10 @@ function evaluateCondition(condition, context = {}) {
       return evaluateNumericState(cond);
     case "template":
       return evaluateTemplate(cond);
+    case "zone":
+      return evaluateZone(cond);
+    case "sun":
+      return evaluateSun(cond, context);
     default:
       throw new UnsupportedConditionError(
         CLIENT_CONDITIONS.includes(type) ? `condition ${type} is evaluated in the browser and should not be sent here` : `condition ${type} is not supported by ioBroker.lovelace`
@@ -205,6 +289,11 @@ function collectEntityIds(condition) {
     for (const entityId of asArray(cond.entity_id)) {
       if (typeof entityId === "string") {
         ids.add(entityId);
+      }
+    }
+    for (const zoneId of asArray(cond.zone)) {
+      if (typeof zoneId === "string") {
+        ids.add(zoneId);
       }
     }
     for (const candidate of [cond.entity, cond.above, cond.below]) {
