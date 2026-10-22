@@ -3,6 +3,19 @@
     "name": "lovelace",
     "version": "7.4.0",
     "news": {
+      "7.4.1": {
+        "en": "Conditional cards and the visibility of cards, badges, sections and views work again: the new frontend has the server evaluate the conditions.",
+        "de": "Conditional-Cards und die Sichtbarkeit von Cards, Badges, Sections und Views funktionieren wieder: das neue Frontend lässt die Bedingungen vom Server auswerten.",
+        "ru": "Условные карточки и видимость карточек, значков, секций и представлений снова работают: новый интерфейс поручает вычисление условий серверу.",
+        "pt": "Os cartões condicionais e a visibilidade de cartões, badges, secções e vistas voltam a funcionar: o novo frontend deixa o servidor avaliar as condições.",
+        "nl": "Conditional kaarten en de zichtbaarheid van kaarten, badges, secties en weergaven werken weer: de nieuwe frontend laat de server de voorwaarden evalueren.",
+        "fr": "Les cartes conditionnelles et la visibilité des cartes, badges, sections et vues fonctionnent à nouveau : le nouveau frontend laisse le serveur évaluer les conditions.",
+        "it": "Le card condizionali e la visibilità di card, badge, sezioni e viste funzionano di nuovo: il nuovo frontend fa valutare le condizioni dal server.",
+        "es": "Las tarjetas condicionales y la visibilidad de tarjetas, badges, secciones y vistas vuelven a funcionar: el nuevo frontend deja que el servidor evalúe las condiciones.",
+        "pl": "Karty warunkowe oraz widoczność kart, odznak, sekcji i widoków znowu działają: nowy frontend pozostawia ocenę warunków serwerowi.",
+        "uk": "Умовні картки та видимість карток, значків, секцій і подань знову працюють: новий інтерфейс доручає обчислення умов серверу.",
+        "zh-cn": "条件卡片以及卡片、徽章、分区和视图的可见性恢复正常：新前端把条件交给服务器求值。"
+      },
       "7.4.0": {
         "en": "A manually mapped binary_sensor can invert its state, and a role ending in .unreach is detected again.\nThe extra entities of a device (connectivity, battery, error, ...) are named after the device and translated; a name you set yourself is kept.\nAn input_datetime on a state without a date is unknown instead of a dummy date and no longer warns.",
         "de": "Ein manuell zugeordneter binary_sensor kann seinen Zustand umdrehen, und eine Rolle, die auf .unreach endet, wird wieder erkannt.\nDie Zusatz-Entities eines Geräts (Verbindung, Batterie, Fehler, ...) heißen nach dem Gerät und sind übersetzt; ein selbst gesetzter Name bleibt erhalten.\nEin input_datetime auf einem State ohne Datum ist unbekannt statt eines Dummy-Datums und warnt nicht mehr.",
