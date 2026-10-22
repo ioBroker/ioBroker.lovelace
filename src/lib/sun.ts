@@ -74,3 +74,17 @@ export function computeSunState(lat: number, lng: number, now: Date = new Date()
         },
     };
 }
+
+/**
+ * The time of a sun event on the day of `date`, or undefined when the event does not happen on
+ * that day (polar day/night).
+ *
+ * @param event - sunrise or sunset
+ * @param lat - latitude in degrees
+ * @param lng - longitude in degrees
+ * @param date - any time on the day in question
+ */
+export function sunEventTime(event: 'sunrise' | 'sunset', lat: number, lng: number, date: Date): Date | undefined {
+    const time = SunCalc.getTimes(date, lat, lng)[event] as Date | undefined;
+    return time instanceof Date && !isNaN(time.getTime()) ? time : undefined;
+}

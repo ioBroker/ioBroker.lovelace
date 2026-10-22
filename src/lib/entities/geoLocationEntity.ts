@@ -1,5 +1,6 @@
 import { BaseEntity, type EntityAttribute } from './baseEntity';
 import type { ConverterParameters } from '../converters/converter';
+import { haversineKm } from '../geo';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const entityData: { entityId2Entity: Record<string, unknown> } = require('../../../lib/dataSingleton');
@@ -21,23 +22,6 @@ export interface GeoStates {
     gps_accuracy?: string;
     /** ioBroker state id for battery level */
     battery?: string;
-}
-
-/**
- * Haversine great-circle distance in km.
- *
- * @param lat1 - first latitude
- * @param lon1 - first longitude
- * @param lat2 - second latitude
- * @param lon2 - second longitude
- */
-function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
-    const R = 6371;
-    const toRad = (d: number): number => (d * Math.PI) / 180;
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 /**

@@ -142,11 +142,70 @@ describe('modules/condition evaluator', function () {
     });
 
     it('refuses a condition type we cannot evaluate instead of guessing', function () {
-        expect(() => evaluateCondition({ condition: 'zone', entity_id: 'person.me' })).to.throw(
-            UnsupportedConditionError,
-        );
+        expect(() => evaluateCondition({ condition: 'device', device_id: 'abc' })).to.throw(UnsupportedConditionError);
         //the browser evaluates these itself, so one arriving here is a frontend change we missed
         expect(() => evaluateCondition({ condition: 'screen', media_query: '(max-width: 100px)' })).to.throw(/browser/);
+    });
+
+    it('evaluates a zone condition against the coordinates of the entity', function () {
+        setEntities({
+            'device_tracker.phone': makeEntity('device_tracker.phone', 'home', {
+                latitude: 52.52,
+                longitude: 13.405,
+            }),
+            'device_tracker.car': makeEntity('device_tracker.car', 'not_home', { latitude: 52.4, longitude: 13.2 }),
+            'zone.home': makeEntity('zone.home', 'zoning', { latitude: 52.52, longitude: 13.405, radius: 100 }),
+            'zone.work': makeEntity('zone.work', 'zoning', { latitude: 52.4, longitude: 13.2, radius: 200 }),
+        });
+        const inHome = { condition: 'zone', entity_id: 'device_tracker.phone', zone: 'zone.home' };
+        expect(evaluateCondition(inHome)).to.equal(true);
+        expect(evaluateCondition({ ...inHome, zone: 'zone.work' })).to.equal(false);
+        //one of the zones is enough, but every entity has to be in one of them
+        expect(evaluateCondition({ ...inHome, zone: ['zone.work', 'zone.home'] })).to.equal(true);
+        expect(
+            evaluateCondition({
+                condition: 'zone',
+                entity_id: ['device_tracker.phone', 'device_tracker.car'],
+                zone: ['zone.home', 'zone.work'],
+            }),
+        ).to.equal(true);
+        expect(
+            evaluateCondition({
+                condition: 'zone',
+                entity_id: ['device_tracker.phone', 'device_tracker.car'],
+                zone: 'zone.home',
+            }),
+        ).to.equal(false);
+        //an entity without coordinates is in no zone
+        expect(evaluateCondition({ condition: 'zone', entity_id: 'input_boolean.pv', zone: 'zone.home' })).to.equal(
+            false,
+        );
+    });
+
+    it('evaluates a sun condition against todays sunrise and sunset', function () {
+        setEntities({
+            'zone.home': makeEntity('zone.home', 'zoning', { latitude: 52.52, longitude: 13.405, radius: 100 }),
+        });
+        //an offset of half a day puts the boundary safely into the past resp. future
+        expect(evaluateCondition({ condition: 'sun', after: 'sunrise', after_offset: '-12:00:00' })).to.equal(true);
+        expect(evaluateCondition({ condition: 'sun', before: 'sunrise', before_offset: '-12:00:00' })).to.equal(false);
+        expect(evaluateCondition({ condition: 'sun', before: 'sunset', before_offset: '12:00:00' })).to.equal(true);
+        expect(evaluateCondition({ condition: 'sun', after: 'sunset', after_offset: '12:00:00' })).to.equal(false);
+        //without before/after there is nothing to check
+        expect(evaluateCondition({ condition: 'sun' })).to.equal(true);
+
+        //the sun moves without any state changing, so the condition asks to be looked at again
+        const delays: number[] = [];
+        evaluateCondition({ condition: 'sun', after: 'sunrise' }, { schedule: d => delays.push(d) });
+        expect(delays).to.have.lengthOf(1);
+        expect(delays[0]).to.be.greaterThan(0);
+        expect(delays[0]).to.be.lessThan(2 * 86400000);
+    });
+
+    it('cannot evaluate a sun condition without a location', function () {
+        setEntities({});
+        expect(() => evaluateCondition({ condition: 'sun', after: 'sunset' })).to.throw(UnsupportedConditionError);
+        expect(() => evaluateCondition({ condition: 'sun', after: 'sunset' })).to.throw(/system settings/);
     });
 
     it('collects the entities a condition reads, templates included', function () {
@@ -156,9 +215,16 @@ describe('modules/condition evaluator', function () {
                 { condition: 'state', entity_id: ['input_boolean.pv'], state: 'on' },
                 { condition: 'numeric_state', entity_id: 'sensor.power', above: 'sensor.limit' },
                 { condition: 'template', value_template: '{{ is_state("sensor.limit", "x") }}' },
+                { condition: 'zone', entity_id: 'device_tracker.phone', zone: 'zone.home' },
             ],
         });
-        expect(ids.sort()).to.deep.equal(['input_boolean.pv', 'sensor.limit', 'sensor.power']);
+        expect(ids.sort()).to.deep.equal([
+            'device_tracker.phone',
+            'input_boolean.pv',
+            'sensor.limit',
+            'sensor.power',
+            'zone.home',
+        ]);
     });
 });
 
@@ -213,13 +279,31 @@ describe('modules/condition subscriptions', function () {
         mod.processMessage(ws, {
             type: 'subscribe_condition',
             id: 9,
-            condition: { condition: 'sun', after: 'sunset' },
+            condition: { condition: 'device', device_id: 'abc' },
         });
 
         expect(sent).to.have.lengthOf(1);
         expect(sent[0]).to.deep.include({ id: 9, type: 'result', success: false });
         expect(sent[0].error.code).to.equal('not_supported');
         expect(ws.__conditions || []).to.have.lengthOf(0);
+    });
+
+    it('arms the timer of a sun subscription right away', function () {
+        setEntities({ 'zone.home': makeEntity('zone.home', 'zoning', { latitude: 52.52, longitude: 13.405 }) });
+        const { mod } = makeModule();
+        const { ws, sent } = makeWs();
+        try {
+            mod.processMessage(ws, {
+                type: 'subscribe_condition',
+                id: 11,
+                condition: { condition: 'sun', after: 'sunrise' },
+            });
+            expect(sent[0]).to.deep.include({ id: 11, type: 'result', success: true });
+            //nothing changes the sun but time, so the subscription waits for the next sun event
+            expect(ws.__conditions[0].timers).to.have.lengthOf(1);
+        } finally {
+            mod.clearWs(ws);
+        }
     });
 
     it('answers test_condition once', function () {

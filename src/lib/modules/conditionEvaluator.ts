@@ -1,4 +1,6 @@
 import { renderJinja, extractEntityIds } from './jinja';
+import { inZone } from '../geo';
+import { sunEventTime } from '../sun';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const adapterData = require('../../../lib/dataSingleton') as {
     entityId2Entity: Record<string, EntityLike | undefined>;
@@ -24,6 +26,9 @@ const CLIENT_CONDITIONS = ['screen', 'user', 'view_columns', 'location', 'time']
 
 /** What Home Assistant's `result_as_boolean` takes for true. */
 const TRUTHY = ['true', 'yes', 'on', 'enable', '1'];
+
+/** The sun events a `sun` condition can name. */
+const SUN_EVENTS = ['sunrise', 'sunset'];
 
 /**
  * Wrap a single value into an array, like Home Assistant's config validation does for the
@@ -106,12 +111,15 @@ function durationToMs(duration: unknown): number {
         return duration * 1000;
     }
     if (typeof duration === 'string') {
-        const parts = duration.split(':').map(p => Number(p));
+        // An offset of a sun condition can be negative ("-00:30:00"), and then the whole duration
+        // is, not only its first part.
+        const sign = duration.trim().startsWith('-') ? -1 : 1;
+        const parts = duration.trim().replace(/^[+-]/, '').split(':').map(Number);
         if (parts.some(p => isNaN(p))) {
             return 0;
         }
         const [hours = 0, minutes = 0, seconds = 0] = parts;
-        return ((hours * 60 + minutes) * 60 + seconds) * 1000;
+        return sign * ((hours * 60 + minutes) * 60 + seconds) * 1000;
     }
     if (typeof duration === 'object') {
         const d = duration as Record<string, unknown>;
@@ -227,6 +235,120 @@ function evaluateNumericState(condition: Condition): boolean {
 }
 
 /**
+ * Evaluate a `zone` condition: every entity is inside at least one of the given zones. The
+ * coordinates come from the entity's `latitude`/`longitude` attributes (a device_tracker, person
+ * or geo_location), and its `gps_accuracy` is subtracted from the distance, like in core.
+ *
+ * @param condition - the zone condition
+ */
+function evaluateZone(condition: Condition): boolean {
+    const entityIds = asArray(condition.entity_id);
+    const zoneIds = asArray(condition.zone);
+    if (!entityIds.length || !zoneIds.length) {
+        return false;
+    }
+    return entityIds.every(entityId => {
+        const entity = entityOf(entityId);
+        if (!entity) {
+            return false;
+        }
+        const latitude = Number(entity.attributes?.latitude);
+        const longitude = Number(entity.attributes?.longitude);
+        const accuracy = Number(entity.attributes?.gps_accuracy) || 0;
+        return zoneIds.some(zoneId => inZone(latitude, longitude, entityOf(zoneId), accuracy));
+    });
+}
+
+/** The location of zone.home, which the adapter keeps in sync with the ioBroker system settings. */
+function homeCoordinates(): { lat: number; lng: number } | undefined {
+    const home = adapterData.entityId2Entity['zone.home'];
+    const lat = Number(home?.attributes?.latitude);
+    const lng = Number(home?.attributes?.longitude);
+    return isFinite(lat) && isFinite(lng) ? { lat, lng } : undefined;
+}
+
+/**
+ * The time a sun condition compares against: the sunrise or sunset of the given day plus the
+ * offset. Undefined when the condition does not name this event, or when the event does not
+ * happen on that day (polar day/night).
+ *
+ * @param event - the `before` or `after` value of the condition
+ * @param offset - the matching `before_offset` / `after_offset`
+ * @param lat - latitude of the location
+ * @param lng - longitude of the location
+ * @param dayOffset - 0 for today, 1 for tomorrow
+ */
+function sunLimit(event: unknown, offset: unknown, lat: number, lng: number, dayOffset: number): number | undefined {
+    if (typeof event !== 'string' || !SUN_EVENTS.includes(event)) {
+        return undefined;
+    }
+    const day = new Date();
+    day.setDate(day.getDate() + dayOffset);
+    const time = sunEventTime(event as 'sunrise' | 'sunset', lat, lng, day);
+    return time ? time.getTime() + durationToMs(offset) : undefined;
+}
+
+/**
+ * Evaluate a `sun` condition the way Home Assistant core does: `before`/`after` are compared
+ * against *today's* sunrise/sunset plus the given offset. That means `after: sunset` together with
+ * `before: sunrise` is never true - the night across midnight needs two conditions in an `or`,
+ * exactly as in core.
+ *
+ * The sun moves without any ioBroker state changing, so the next evaluation is scheduled for the
+ * next time the result can change (a boundary, or local midnight, where "today" moves on).
+ *
+ * @param condition - the sun condition
+ * @param context - evaluation context
+ * @throws {UnsupportedConditionError} when no location is configured in ioBroker
+ */
+function evaluateSun(condition: Condition, context: EvaluationContext): boolean {
+    const home = homeCoordinates();
+    if (!home) {
+        throw new UnsupportedConditionError(
+            'condition sun needs the latitude/longitude from the ioBroker system settings',
+        );
+    }
+    const namesBefore = typeof condition.before === 'string' && SUN_EVENTS.includes(condition.before);
+    const namesAfter = typeof condition.after === 'string' && SUN_EVENTS.includes(condition.after);
+    if (!namesBefore && !namesAfter) {
+        return true;
+    }
+
+    const now = Date.now();
+    const before = sunLimit(condition.before, condition.before_offset, home.lat, home.lng, 0);
+    const after = sunLimit(condition.after, condition.after_offset, home.lat, home.lng, 0);
+
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    const next = [
+        before,
+        after,
+        sunLimit(condition.before, condition.before_offset, home.lat, home.lng, 1),
+        sunLimit(condition.after, condition.after_offset, home.lat, home.lng, 1),
+        midnight.getTime(),
+    ].reduce<number | undefined>(
+        (soonest, time) =>
+            time !== undefined && time > now && (soonest === undefined || time < soonest) ? time : soonest,
+        undefined,
+    );
+    if (next !== undefined) {
+        context.schedule?.(next - now + 1000);
+    }
+
+    // Polar day or night: the event the condition names does not happen today.
+    if ((namesBefore && before === undefined) || (namesAfter && after === undefined)) {
+        return false;
+    }
+    if (before !== undefined && now > before) {
+        return false;
+    }
+    if (after !== undefined && now < after) {
+        return false;
+    }
+    return true;
+}
+
+/**
  * Evaluate a `template` condition through the Jinja2 emulation, with Home Assistant's idea of a
  * truthy result.
  *
@@ -282,6 +404,10 @@ export function evaluateCondition(condition: unknown, context: EvaluationContext
             return evaluateNumericState(cond);
         case 'template':
             return evaluateTemplate(cond);
+        case 'zone':
+            return evaluateZone(cond);
+        case 'sun':
+            return evaluateSun(cond, context);
         default:
             throw new UnsupportedConditionError(
                 CLIENT_CONDITIONS.includes(type)
@@ -307,6 +433,12 @@ export function collectEntityIds(condition: unknown): string[] {
         for (const entityId of asArray(cond.entity_id)) {
             if (typeof entityId === 'string') {
                 ids.add(entityId);
+            }
+        }
+        // A zone condition reads the zones as well, so moving a zone re-evaluates it.
+        for (const zoneId of asArray(cond.zone)) {
+            if (typeof zoneId === 'string') {
+                ids.add(zoneId);
             }
         }
         // The lovelace shape uses `entity`, and a bound may name an entity instead of a number.

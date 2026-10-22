@@ -116,9 +116,12 @@ class ConditionModule {
         }
 
         const condition = message.condition as Condition;
+        // A condition can ask to be looked at again (a `for` that has not elapsed, a sun condition
+        // waiting for sunrise). The timers are armed once the subscription is stored.
+        const delays: number[] = [];
         let result: boolean;
         try {
-            result = evaluateCondition(condition);
+            result = evaluateCondition(condition, { schedule: (delay: number) => delays.push(delay) });
         } catch (e) {
             this.adapter.log.debug(`Cannot evaluate condition ${JSON.stringify(condition)}: ${String(e)}`);
             this._sendError(ws, message.id, e);
@@ -133,6 +136,9 @@ class ConditionModule {
         };
         ws.__conditions = ws.__conditions || [];
         ws.__conditions.push(subscription);
+        for (const delay of delays) {
+            this._arm(ws, subscription, delay);
+        }
 
         this.sendResponse(ws, message.id);
         this._send(ws, subscription, result);
@@ -178,15 +184,7 @@ class ConditionModule {
         let result: boolean;
         try {
             result = evaluateCondition(subscription.condition, {
-                schedule: (delay: number) => {
-                    subscription.timers.push(
-                        setTimeout(() => {
-                            if (ws.__conditions?.includes(subscription)) {
-                                this._reevaluate(ws, subscription);
-                            }
-                        }, delay),
-                    );
-                },
+                schedule: (delay: number) => this._arm(ws, subscription, delay),
             });
         } catch (e) {
             // The condition was fine when it arrived, so this is a template that broke on new data.
@@ -196,6 +194,23 @@ class ConditionModule {
         if (result !== subscription.result) {
             this._send(ws, subscription, result);
         }
+    }
+
+    /**
+     * Evaluate a subscription again after a delay, as the condition asked for.
+     *
+     * @param ws - websocket connection
+     * @param subscription - the subscription to re-evaluate later
+     * @param delay - milliseconds to wait
+     */
+    private _arm(ws: WsWithConditions, subscription: ConditionSubscription, delay: number): void {
+        subscription.timers.push(
+            setTimeout(() => {
+                if (ws.__conditions?.includes(subscription)) {
+                    this._reevaluate(ws, subscription);
+                }
+            }, delay),
+        );
     }
 
     /**
