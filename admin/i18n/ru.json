@@ -1,9 +1,11 @@
 {
     "(none)": "(нет)",
     "(unique for one entity type)": "(уникально для одного типа объекта)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "Пассивная зона игнорируется при определении присутствия, но может использоваться в условиях.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Один state со значением \"latitude;longitude\". Используйте его ИЛИ отдельные states широты/долготы.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "State, содержащий URL изображения. Имеет приоритет над фиксированным URL выше.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "State с картой в виде URL или base64-изображения; показывается как изображение пылесоса.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "Зона — это круг на карте. По ней проверяются трекеры и условия zone.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — Абсолютная влажность (g/m³)",
     "Additional Attributes": "Дополнительные атрибуты",
     "Air Quality Index": "Индекс качества воздуха",
@@ -188,6 +190,7 @@
     "labelModeBox": "Поле для ввода чисел",
     "labelOverwriteAutoEntity": "Сущность перезапишет автоматически созданную сущность, рассмотрите возможность использования вместо нее автоматически созданной сущности или измените имя.",
     "Language": "Язык",
+    "Latitude": "Широта",
     "Latitude state": "State широты",
     "Let's Encrypt settings": "Настройкт Let's Encrypt",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Запереть/отпереть (SET)",
     "Lock states": "States замка",
     "Login timeout(sec)": "Время ожидания входа (сек)",
+    "Longitude": "Долгота",
     "Longitude state": "State долготы",
     "lovelace adapter settings": "Настройки адаптера для lovelace",
     "Main settings": "Основные настройки",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Частичное вещество размером менее 10 микрометров",
     "Particular matter less than 2.5 micrometer": "Частичное вещество размером менее 2,5 микрометра",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Пассивная зона",
     "Password": "Пароль",
     "Pause (PAUSE)": "Пауза (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "Проблема",
     "problem — on: Problem detected / off: OK": "problem — вкл: Проблема / выкл: OK",
     "Public certificate": "Публичный сертификат",
+    "Radius (m)": "Радиус (м)",
+    "Radius state": "State радиуса",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — Реактивная энергия (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — Реактивная мощность (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Пересоздать все автоматические entity_id с настроенным форматом и обновить панели? Переименованные вами сущности сохраняются.",
@@ -436,5 +443,6 @@
     "Window": "Окно",
     "window — on: Open / off: Closed": "window — вкл: Открыто / выкл: Закрыто",
     "window — window": "window — Окно",
-    "Working": "Работает"
+    "Working": "Работает",
+    "Zone position and radius": "Положение зоны и радиус"
 }

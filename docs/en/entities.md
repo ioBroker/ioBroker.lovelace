@@ -51,6 +51,19 @@ For the **multi-state** types you pick the ioBroker states per role in the custo
 | `humidifier` | `POWER` (on/off), `SET` (target humidity), `ACTUAL` (current humidity), `MODE` | `on` / `off` |
 | `water_heater` | `SET` (target temp), `ACTUAL` (current temp), `POWER` (on/off), `MODE` (operation) | the operation mode |
 | `device_tracker` / `person` | presence, GPS (`"lat;lon"` or separate latitude/longitude), GPS accuracy, battery, picture (URL or state), source type | `home` / `not_home` / a zone name |
+| `zone` | latitude, longitude and radius (in metres) as fixed values or from states (GPS `"lat;lon"`, or separate ones), *passive* | `zoning` |
+
+#### Zones
+A `zone` is a circle on the map: latitude, longitude and a radius in metres. `zone.home` is created
+from the location in the ioBroker system settings (radius 100 m); every further zone is a manual
+entity of the type `zone`. Its position can be fixed or follow ioBroker states, so a zone can move
+with a caravan or a boat.
+
+Zones are what a `device_tracker` / `person` without an own presence state is checked against: it
+reports `home` inside `zone.home`, the name of the zone inside another one, and `not_home` outside
+all of them - plus the `zone` condition of conditional cards and the `visibility` of cards, badges,
+sections and views. A *passive* zone is left out of the presence detection but can still be used in
+a condition.
 
 #### Expert: any attribute from a state
 At the bottom of the custom dialog the table *Expert: attributes from states* maps any Home Assistant attribute of the entity to an ioBroker state. Enter the attribute name, pick the state, done: the value follows that state like every other attribute.

@@ -1,9 +1,11 @@
 {
     "(none)": "(немає)",
     "(unique for one entity type)": "(унікальний для одного типу сутності)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "Пасивна зона ігнорується при визначенні присутності, але її можна використовувати в умовах.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Один state зі значенням \"latitude;longitude\". Використовуйте його АБО окремі states широти/довготи.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "State, що містить URL зображення. Має пріоритет над фіксованим URL вище.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "State з картою як URL або base64-зображення; показується як зображення пилососа.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "Зона — це коло на карті. За нею перевіряються трекери та умови zone.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — Абсолютна вологість (g/m³)",
     "Additional Attributes": "Додаткові атрибути",
     "Air Quality Index": "Індекс якості повітря",
@@ -188,6 +190,7 @@
     "labelModeBox": "Поле для введення цифр",
     "labelOverwriteAutoEntity": "Об’єкт перезапише автоматично створений об’єкт, будь ласка, подумайте про використання автоматично створеного об’єкта або змініть ім’я.",
     "Language": "Мова",
+    "Latitude": "Широта",
     "Latitude state": "State широти",
     "Let's Encrypt settings": "Давайте зашифруємо налаштування",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Замкнути/відімкнути (SET)",
     "Lock states": "States замка",
     "Login timeout(sec)": "Час очікування входу (с)",
+    "Longitude": "Довгота",
     "Longitude state": "State довготи",
     "lovelace adapter settings": "Налаштування адаптера для lovelace",
     "Main settings": "Основні налаштування",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Окремі речовини менше 10 мікрометрів",
     "Particular matter less than 2.5 micrometer": "Окремі речовини менше 2,5 мікрометра",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Пасивна зона",
     "Password": "Пароль",
     "Pause (PAUSE)": "Пауза (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "проблема",
     "problem — on: Problem detected / off: OK": "problem — увімк: Проблема / вимк: OK",
     "Public certificate": "Публічний сертифікат",
+    "Radius (m)": "Радіус (м)",
+    "Radius state": "State радіуса",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — Реактивна енергія (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — Реактивна потужність (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Перегенерувати всі автоматичні entity_id з налаштованим форматом та оновити панелі? Перейменовані вами сутності зберігаються.",
@@ -436,5 +443,6 @@
     "Window": "Вікно",
     "window — on: Open / off: Closed": "window — увімк: Відчинено / вимк: Зачинено",
     "window — window": "window — Вікно",
-    "Working": "Працює"
+    "Working": "Працює",
+    "Zone position and radius": "Положення зони та радіус"
 }

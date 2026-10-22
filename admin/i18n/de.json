@@ -1,9 +1,11 @@
 {
     "(none)": "(keine)",
     "(unique for one entity type)": "(eindeutig für einen Entitätstyp)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "Eine passive Zone wird bei der Anwesenheitserkennung ignoriert, kann aber in Bedingungen genutzt werden.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Ein einzelner State mit \"latitude;longitude\". Entweder diesen ODER die getrennten Breiten-/Längengrad-States verwenden.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "Ein State mit der Bild-URL. Hat Vorrang vor der festen URL oben.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "Ein State mit der Karte als URL oder base64-Bild; wird als Bild des Saugroboters angezeigt.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "Eine Zone ist ein Kreis auf der Karte. Tracker und Zone-Bedingungen werden dagegen geprüft.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — Absolute Luftfeuchtigkeit (g/m³)",
     "Additional Attributes": "Zusätzliche Attribute",
     "Air Quality Index": "Luftqualitätsindex",
@@ -188,6 +190,7 @@
     "labelModeBox": "Feld zum Eingeben von Zahlen",
     "labelOverwriteAutoEntity": "Die Entität überschreibt eine automatisch erstellte Entität. Bitte verwenden Sie, wenn möglich, die automatisch erstellte Entität.",
     "Language": "Sprache",
+    "Latitude": "Breitengrad",
     "Latitude state": "Breitengrad (State)",
     "Let's Encrypt settings": "Einstellungen von Let's Encrypt",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Ver-/Entriegeln (SET)",
     "Lock states": "Schloss-States",
     "Login timeout(sec)": "Anmeldezeitlimit (Sek.)",
+    "Longitude": "Längengrad",
     "Longitude state": "Längengrad (State)",
     "lovelace adapter settings": "Adaptereinstellungen für lovelace",
     "Main settings": "Haupteinstellungen",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Feinstaub kleiner als 10 Mikrometer",
     "Particular matter less than 2.5 micrometer": "Feinstaub kleiner als 2,5 Mikrometer",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Passive Zone",
     "Password": "Passwort",
     "Pause (PAUSE)": "Pause (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "Störung",
     "problem — on: Problem detected / off: OK": "problem — an: Problem erkannt / aus: OK",
     "Public certificate": "Öffentliches Zertifikat",
+    "Radius (m)": "Radius (m)",
+    "Radius state": "Radius (State)",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — Blindenergie (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — Blindleistung (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Alle automatischen entity_ids mit dem konfigurierten Format neu erzeugen und Dashboards aktualisieren? Von dir umbenannte Entitäten bleiben erhalten.",
@@ -436,5 +443,6 @@
     "Window": "Fenster",
     "window — on: Open / off: Closed": "window — an: Offen / aus: Geschlossen",
     "window — window": "window — Fenster",
-    "Working": "Arbeitet"
+    "Working": "Arbeitet",
+    "Zone position and radius": "Zonen-Position und Radius"
 }

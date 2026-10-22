@@ -1,9 +1,11 @@
 {
     "(none)": "（无）",
     "(unique for one entity type)": "(唯一的一个实体的类型)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "被动区域不参与在家状态判断，但仍可用于条件。",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "保存 \"latitude;longitude\" 的单个 state。使用此项或分开的纬度/经度 state。",
     "A state that holds the picture URL. Wins over the fixed URL above.": "保存图片 URL 的 state。优先于上方的固定 URL。",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "保存地图（URL 或 base64 图像）的 state；显示为扫地机的图片。",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "区域是地图上的一个圆。追踪器和 zone 条件会与它比较。",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — 绝对湿度 (g/m³)",
     "Additional Attributes": "附加属性",
     "Air Quality Index": "空气质量指数",
@@ -188,6 +190,7 @@
     "labelModeBox": "输入数字的框",
     "labelOverwriteAutoEntity": "实体会覆盖自动创建的实体，请考虑改用自动创建的实体或更改名称。",
     "Language": "语",
+    "Latitude": "纬度",
     "Latitude state": "纬度 state",
     "Let's Encrypt settings": "让我们加密设置",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "上锁/开锁 (SET)",
     "Lock states": "门锁 state",
     "Login timeout(sec)": "登录超时(sec)",
+    "Longitude": "经度",
     "Longitude state": "经度 state",
     "lovelace adapter settings": "lovelace的适配器设置",
     "Main settings": "主要设置",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "小于 10 微米的特殊物质",
     "Particular matter less than 2.5 micrometer": "小于 2.5 微米的特殊物质",
     "Party (PARTY)": "派对 (PARTY)",
+    "Passive zone": "被动区域",
     "Password": "密码",
     "Pause (PAUSE)": "暂停 (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "问题",
     "problem — on: Problem detected / off: OK": "problem — 开: 检测到问题 / 关: 正常",
     "Public certificate": "公共证书",
+    "Radius (m)": "半径（米）",
+    "Radius state": "半径状态",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — 无功电能 (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — 无功功率 (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "使用配置的格式重新生成所有自动 entity_id 并更新仪表板？您重命名的实体将保留。",
@@ -436,5 +443,6 @@
     "Window": "窗户",
     "window — on: Open / off: Closed": "window — 开: 打开 / 关: 关闭",
     "window — window": "window — 窗户",
-    "Working": "工作中"
+    "Working": "工作中",
+    "Zone position and radius": "区域位置和半径"
 }

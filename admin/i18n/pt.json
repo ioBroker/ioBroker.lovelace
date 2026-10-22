@@ -1,9 +1,11 @@
 {
     "(none)": "(nenhum)",
     "(unique for one entity type)": "(exclusivo para um tipo de entidade)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "Uma zona passiva é ignorada na deteção de presença, mas pode ser usada em condições.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Um único state com \"latitude;longitude\". Use este OU os states separados de latitude/longitude.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "Um state que contém o URL da imagem. Tem prioridade sobre o URL fixo acima.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "Um state com o mapa como URL ou imagem base64; mostrado como a imagem do aspirador.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "Uma zona é um círculo no mapa. Trackers e condições zone são verificados em relação a ela.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — Humidade absoluta (g/m³)",
     "Additional Attributes": "Atributos Adicionais",
     "Air Quality Index": "Índice de qualidade do ar",
@@ -188,6 +190,7 @@
     "labelModeBox": "Caixa para inserir números",
     "labelOverwriteAutoEntity": "A entidade substituirá a entidade criada automaticamente, considere usar a entidade criada automaticamente ou altere o nome.",
     "Language": "Linguagem",
+    "Latitude": "Latitude",
     "Latitude state": "State de latitude",
     "Let's Encrypt settings": "Vamos criptografar configurações",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Trancar/destrancar (SET)",
     "Lock states": "States da fechadura",
     "Login timeout(sec)": "Tempo limite de login (s)",
+    "Longitude": "Longitude",
     "Longitude state": "State de longitude",
     "lovelace adapter settings": "Configurações do adaptador para lovelace",
     "Main settings": "Configurações principais",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Matéria particular menor que 10 micrômetros",
     "Particular matter less than 2.5 micrometer": "Matéria particular menor que 2,5 micrômetros",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Zona passiva",
     "Password": "Senha",
     "Pause (PAUSE)": "Pausa (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "Problema",
     "problem — on: Problem detected / off: OK": "problem — lig: Problema detetado / desl: OK",
     "Public certificate": "Certificado público",
+    "Radius (m)": "Raio (m)",
+    "Radius state": "State do raio",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — Energia reativa (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — Potência reativa (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Regenerar todos os entity_ids automáticos com o formato configurado e atualizar os painéis? As entidades que você renomeou são mantidas.",
@@ -436,5 +443,6 @@
     "Window": "Janela",
     "window — on: Open / off: Closed": "window — lig: Aberto / desl: Fechado",
     "window — window": "window — Janela",
-    "Working": "Em funcionamento"
+    "Working": "Em funcionamento",
+    "Zone position and radius": "Posição e raio da zona"
 }

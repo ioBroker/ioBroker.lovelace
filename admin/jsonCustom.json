@@ -130,6 +130,10 @@
         {
           "value": "person",
           "label": "person"
+        },
+        {
+          "value": "zone",
+          "label": "zone"
         }
       ],
       "defaultFunc": "!customObj.common ? 'sensor' : customObj.common.write ? (customObj.common.states ? 'input_select' : customObj.common.role === 'date' ? 'input_datetime' : customObj.common.type === 'boolean' ? 'input_boolean' : customObj.common.type === 'number' ? 'input_number' : 'input_text') : (customObj.common.type === 'boolean' ? 'binary_sensor' : 'sensor');",
@@ -194,6 +198,94 @@
       },
       "jsonData": "{\"entity\": \"${data.entity}\", \"name\": \"${data.name}\", \"objectId\": \"${customObj._id}\"}",
       "hidden": "data._entityDuplicateError"
+    },
+    "_zoneStates": {
+      "newLine": true,
+      "type": "panel",
+      "hidden": "data.entity !== 'zone'",
+      "items": {
+        "_zoneHeading": {
+          "type": "header",
+          "size": 1,
+          "text": "Zone position and radius",
+          "help": "A zone is a circle on the map. Trackers and zone conditions are checked against it."
+        },
+        "attr_latitude": {
+          "type": "number",
+          "label": "Latitude",
+          "hidden": "!!data.state_gps || !!data.state_latitude",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "attr_longitude": {
+          "type": "number",
+          "label": "Longitude",
+          "hidden": "!!data.state_gps || !!data.state_longitude",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "attr_radius": {
+          "type": "number",
+          "label": "Radius (m)",
+          "min": 1,
+          "default": 100,
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_gps": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "GPS state (\"lat;lon\")",
+          "help": "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 6
+        },
+        "state_radius": {
+          "type": "objectId",
+          "label": "Radius state",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 6
+        },
+        "state_latitude": {
+          "newLine": true,
+          "type": "objectId",
+          "label": "Latitude state",
+          "hidden": "!!data.state_gps",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "state_longitude": {
+          "type": "objectId",
+          "label": "Longitude state",
+          "hidden": "!!data.state_gps",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
+        "attr_passive": {
+          "newLine": true,
+          "type": "checkbox",
+          "label": "Passive zone",
+          "help": "A passive zone is ignored by the presence detection, but can still be used in conditions.",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        }
+      }
     },
     "_trackerStates": {
       "newLine": true,

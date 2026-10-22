@@ -1,9 +1,11 @@
 {
     "(none)": "(ninguno)",
     "(unique for one entity type)": "(exclusivo para un tipo de entidad)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "Una zona pasiva se ignora en la detección de presencia, pero puede usarse en condiciones.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Un único state con \"latitude;longitude\". Use este O los states separados de latitud/longitud.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "Un state que contiene la URL de la imagen. Tiene prioridad sobre la URL fija de arriba.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "Un state con el mapa como URL o imagen base64; se muestra como la imagen de la aspiradora.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "Una zona es un círculo en el mapa. Los trackers y las condiciones zone se comprueban con ella.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — Humedad absoluta (g/m³)",
     "Additional Attributes": "Atributos adicionales",
     "Air Quality Index": "Índice de calidad del aire",
@@ -188,6 +190,7 @@
     "labelModeBox": "Cuadro para ingresar números",
     "labelOverwriteAutoEntity": "La entidad sobrescribirá la entidad creada automáticamente, considere usar la entidad creada automáticamente en su lugar o cambie el nombre.",
     "Language": "Idioma",
+    "Latitude": "Latitud",
     "Latitude state": "State de latitud",
     "Let's Encrypt settings": "Cifremos la configuración",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Bloquear/desbloquear (SET)",
     "Lock states": "States de la cerradura",
     "Login timeout(sec)": "Tiempo de espera de inicio de sesión (seg.)",
+    "Longitude": "Longitud",
     "Longitude state": "State de longitud",
     "lovelace adapter settings": "Ajustes del adaptador para lovelace",
     "Main settings": "Ajustes principales",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Materia particular de menos de 10 micrómetros",
     "Particular matter less than 2.5 micrometer": "Materia particular de menos de 2,5 micrómetros",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Zona pasiva",
     "Password": "Contraseña",
     "Pause (PAUSE)": "Pausa (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "Problema",
     "problem — on: Problem detected / off: OK": "problem — on: Problema detectado / off: OK",
     "Public certificate": "Certificado público",
+    "Radius (m)": "Radio (m)",
+    "Radius state": "State del radio",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — Energía reactiva (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — Potencia reactiva (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "¿Regenerar todos los entity_id automáticos con el formato configurado y actualizar los paneles? Las entidades que renombraste se conservan.",
@@ -436,5 +443,6 @@
     "Window": "Ventana",
     "window — on: Open / off: Closed": "window — on: Abierto / off: Cerrado",
     "window — window": "window — Ventana",
-    "Working": "En funcionamiento"
+    "Working": "En funcionamiento",
+    "Zone position and radius": "Posición y radio de la zona"
 }

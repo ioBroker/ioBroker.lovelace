@@ -1,9 +1,11 @@
 {
     "(none)": "(geen)",
     "(unique for one entity type)": "(uniek voor één entiteitstype)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "Een passieve zone wordt genegeerd bij aanwezigheidsdetectie, maar kan wel in voorwaarden worden gebruikt.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Eén state met \"latitude;longitude\". Gebruik deze OF de aparte states voor breedte-/lengtegraad.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "Een state met de afbeeldings-URL. Heeft voorrang op de vaste URL hierboven.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "Een state met de kaart als URL of base64-afbeelding; getoond als de afbeelding van de stofzuiger.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "Een zone is een cirkel op de kaart. Trackers en zone-voorwaarden worden hiertegen getest.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — Absolute luchtvochtigheid (g/m³)",
     "Additional Attributes": "Extra attributen",
     "Air Quality Index": "Luchtkwaliteitsindex",
@@ -188,6 +190,7 @@
     "labelModeBox": "Vak om cijfers in te voeren",
     "labelOverwriteAutoEntity": "Entiteit overschrijft automatisch aangemaakte entiteit. Overweeg om in plaats daarvan automatisch aangemaakte entiteit te gebruiken of wijzig de naam.",
     "Language": "Taal",
+    "Latitude": "Breedtegraad",
     "Latitude state": "Breedtegraad (state)",
     "Let's Encrypt settings": "Laten we de instellingen coderen",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Vergrendelen/ontgrendelen (SET)",
     "Lock states": "Slot-states",
     "Login timeout(sec)": "Login timeout (sec)",
+    "Longitude": "Lengtegraad",
     "Longitude state": "Lengtegraad (state)",
     "lovelace adapter settings": "Adapterinstellingen voor lovelace",
     "Main settings": "Hoofdinstellingen",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Bijzondere materie kleiner dan 10 micrometer",
     "Particular matter less than 2.5 micrometer": "Bijzondere materie kleiner dan 2,5 micrometer",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Passieve zone",
     "Password": "Wachtwoord",
     "Pause (PAUSE)": "Pauze (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "Probleem",
     "problem — on: Problem detected / off: OK": "problem — aan: Probleem gedetecteerd / uit: OK",
     "Public certificate": "Openbaar certificaat",
+    "Radius (m)": "Radius (m)",
+    "Radius state": "Radius-state",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — Reactieve energie (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — Reactief vermogen (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Alle automatische entity_ids met het ingestelde formaat opnieuw genereren en dashboards bijwerken? Door jou hernoemde entiteiten blijven behouden.",
@@ -436,5 +443,6 @@
     "Window": "Venster",
     "window — on: Open / off: Closed": "window — aan: Open / uit: Dicht",
     "window — window": "window — Raam",
-    "Working": "Actief"
+    "Working": "Actief",
+    "Zone position and radius": "Zonepositie en radius"
 }

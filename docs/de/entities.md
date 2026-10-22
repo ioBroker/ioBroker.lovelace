@@ -51,6 +51,19 @@ Bei den **mehrteiligen** Typen wählt man die ioBroker-States je Rolle im Custom
 | `humidifier` | `POWER` (an/aus), `SET` (Soll-Feuchte), `ACTUAL` (Ist-Feuchte), `MODE` | `on` / `off` |
 | `water_heater` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `POWER` (an/aus), `MODE` (Betriebsmodus) | der Betriebsmodus |
 | `device_tracker` / `person` | Anwesenheit, GPS (`"lat;lon"` oder getrennt Breite/Länge), GPS-Genauigkeit, Batterie, Bild (URL oder State), Quellentyp | `home` / `not_home` / ein Zonenname |
+| `zone` | Breiten-, Längengrad und Radius (in Metern) als feste Werte oder aus States (GPS `"lat;lon"` oder getrennt), *passiv* | `zoning` |
+
+#### Zonen
+Eine `zone` ist ein Kreis auf der Karte: Breitengrad, Längengrad und ein Radius in Metern.
+`zone.home` entsteht aus dem Standort in der ioBroker-Systemkonfiguration (Radius 100 m), jede
+weitere Zone ist eine manuelle Entity des Typs `zone`. Ihre Position kann fest sein oder ioBroker-
+States folgen, eine Zone kann also mit einem Wohnwagen oder Boot mitwandern.
+
+Gegen die Zonen wird ein `device_tracker` / eine `person` ohne eigenen Anwesenheits-State geprüft:
+in `zone.home` ist der Zustand `home`, in einer anderen Zone deren Name, außerhalb aller Zonen
+`not_home`. Außerdem nutzen die `zone`-Bedingung von Conditional-Cards und die `visibility` von
+Cards, Badges, Sections und Views die Zonen. Eine *passive* Zone bleibt bei der
+Anwesenheitserkennung außen vor, kann aber in einer Bedingung verwendet werden.
 
 #### Experte: beliebiges Attribut aus einem State
 Ganz unten im Custom-Dialog liegt die Tabelle *Experte: Attribute aus States*. Sie verbindet ein beliebiges Home-Assistant-Attribut der Entity mit einem ioBroker-State. Attributname eintragen, State auswählen, fertig: der Wert folgt dem State wie jedes andere Attribut.

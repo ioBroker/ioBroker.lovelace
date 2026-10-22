@@ -16,6 +16,7 @@ import * as converterBinarySensors from './converters/binary_sensor';
 import * as converterSensors from './converters/sensor';
 import * as converterGeoLocation from './converters/geo_location';
 import * as converterDeviceTracker from './converters/deviceTracker';
+import * as converterZone from './converters/zone';
 import { buildManualViaConverter, syntheticControlStates } from './converters/syntheticControl';
 import { applyCustomAttributes, collectCustomAttributes } from './converters/manualStates';
 import { cardsVersion, detectCardVersion, staticCardUrl, stripCardsVersion } from './cards';
@@ -855,6 +856,8 @@ class WebServer {
                 return converterGeoLocation.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'device_tracker' || entityType === 'person') {
                 return converterDeviceTracker.processManualEntity(id, obj, entity, this._objectData.objects, custom);
+            } else if (entityType === 'zone') {
+                return converterZone.processManualEntity(id, obj, entity, this._objectData.objects, custom);
             } else if (entityType === 'camera') {
                 entity.context.STATE = { getValue: 'on', getId: null, attribute: 'state' as const };
                 entity.context.ATTRIBUTES = [{ getId: id, attribute: 'url' }];
@@ -1370,7 +1373,11 @@ class WebServer {
                 state: 'zoning',
                 attributes: {
                     hidden: true,
-                    radius: 10,
+                    // Home Assistant creates the home zone with 100 m, which is also what the
+                    // presence detection assumed when a zone had no radius.
+                    radius: 100,
+                    passive: false,
+                    editable: false,
                     friendly_name: 'Home',
                     icon: 'mdi:home',
                 },

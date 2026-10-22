@@ -1,9 +1,11 @@
 {
     "(none)": "(brak)",
     "(unique for one entity type)": "(unikalny dla jednego typu jednostki)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "Strefa pasywna jest pomijana przy wykrywaniu obecności, ale można jej użyć w warunkach.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Pojedynczy state z wartością \"latitude;longitude\". Użyj tego ALBO osobnych stanów szerokości/długości.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "Stan zawierający URL obrazu. Ma pierwszeństwo przed stałym URL powyżej.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "Stan z mapą jako URL lub obraz base64; pokazywany jako obraz odkurzacza.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "Strefa to okrąg na mapie. Trackery i warunki zone są sprawdzane względem niej.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — Wilgotność bezwzględna (g/m³)",
     "Additional Attributes": "Dodatkowe atrybuty",
     "Air Quality Index": "Wskaźnik jakości powietrza",
@@ -188,6 +190,7 @@
     "labelModeBox": "Pole do wpisywania cyfr",
     "labelOverwriteAutoEntity": "Jednostka nadpisze automatycznie utworzoną jednostkę, rozważ użycie automatycznie utworzonej jednostki lub zmień nazwę.",
     "Language": "Język",
+    "Latitude": "Szerokość geograficzna",
     "Latitude state": "Stan szerokości geogr.",
     "Let's Encrypt settings": "Ustawienia niech szyfruj ",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Zamknij/otwórz (SET)",
     "Lock states": "Stany zamka",
     "Login timeout(sec)": "Czas oczekiwania logowania(sek.)",
+    "Longitude": "Długość geograficzna",
     "Longitude state": "Stan długości geogr.",
     "lovelace adapter settings": "Ustawienia adaptera dla lovelace",
     "Main settings": "Ustawienia główne",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Materia szczególna mniejsza niż 10 mikrometrów",
     "Particular matter less than 2.5 micrometer": "Materia szczególna mniejsza niż 2,5 mikrometra",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Strefa pasywna",
     "Password": "Hasło",
     "Pause (PAUSE)": "Pauza (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "Problem",
     "problem — on: Problem detected / off: OK": "problem — wł: Wykryto problem / wył: OK",
     "Public certificate": "Certyfikat publiczny",
+    "Radius (m)": "Promień (m)",
+    "Radius state": "State promienia",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — Energia bierna (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — Moc bierna (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Wygenerować ponownie wszystkie automatyczne entity_id z wybranym formatem i zaktualizować pulpity? Encje zmienione przez Ciebie zostają zachowane.",
@@ -436,5 +443,6 @@
     "Window": "Okno",
     "window — on: Open / off: Closed": "window — wł: Otwarte / wył: Zamknięte",
     "window — window": "window — Okno",
-    "Working": "Pracuje"
+    "Working": "Pracuje",
+    "Zone position and radius": "Pozycja i promień strefy"
 }

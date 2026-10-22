@@ -1,9 +1,11 @@
 {
     "(none)": "(none)",
     "(unique for one entity type)": "(unique for one entity type)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "A passive zone is ignored by the presence detection, but can still be used in conditions.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "A state that holds the picture URL. Wins over the fixed URL above.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "A state with the map as a URL or base64 image; shown as the vacuum's picture.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "A zone is a circle on the map. Trackers and zone conditions are checked against it.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity (g/m³)",
     "Additional Attributes": "Additional Attributes",
     "Air Quality Index": "Air Quality Index",
@@ -188,6 +190,7 @@
     "labelModeBox": "Box to enter numbers",
     "labelOverwriteAutoEntity": "Entity will overwrite automatically created entity, please consider using automatically created entity instead or change name.",
     "Language": "Language",
+    "Latitude": "Latitude",
     "Latitude state": "Latitude state",
     "Let's Encrypt settings": "Let's Encrypt settings",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Lock / unlock (SET)",
     "Lock states": "Lock states",
     "Login timeout(sec)": "Login timeout(sec)",
+    "Longitude": "Longitude",
     "Longitude state": "Longitude state",
     "lovelace adapter settings": "Adapter settings for lovelace",
     "Main settings": "Main settings",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Particular matter less than 10 micrometer",
     "Particular matter less than 2.5 micrometer": "Particular matter less than 2.5 micrometer",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Passive zone",
     "Password": "Password",
     "Pause (PAUSE)": "Pause (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "Problem",
     "problem — on: Problem detected / off: OK": "problem — on: Problem detected / off: OK",
     "Public certificate": "Public certificate",
+    "Radius (m)": "Radius (m)",
+    "Radius state": "Radius state",
     "reactive_energy — Reactive energy (varh)": "reactive_energy (varh)",
     "reactive_power — Reactive power (var)": "reactive_power (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.",
@@ -436,5 +443,6 @@
     "Window": "Window",
     "window — on: Open / off: Closed": "window — on: Open / off: Closed",
     "window — window": "window",
-    "Working": "Working"
+    "Working": "Working",
+    "Zone position and radius": "Zone position and radius"
 }

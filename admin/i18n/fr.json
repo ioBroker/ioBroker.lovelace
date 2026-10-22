@@ -1,9 +1,11 @@
 {
     "(none)": "(aucun)",
     "(unique for one entity type)": "(unique pour un type d'entité)",
+    "A passive zone is ignored by the presence detection, but can still be used in conditions.": "Une zone passive est ignorée par la détection de présence, mais reste utilisable dans les conditions.",
     "A single state holding \"latitude;longitude\". Use this OR the separate latitude/longitude states.": "Un seul state contenant \"latitude;longitude\". Utilisez celui-ci OU les states séparés de latitude/longitude.",
     "A state that holds the picture URL. Wins over the fixed URL above.": "Un state contenant l'URL de l'image. Prioritaire sur l'URL fixe ci-dessus.",
     "A state with the map as a URL or base64 image; shown as the vacuum's picture.": "Un state avec la carte sous forme d'URL ou d'image base64 ; affiché comme image de l'aspirateur.",
+    "A zone is a circle on the map. Trackers and zone conditions are checked against it.": "Une zone est un cercle sur la carte. Les trackers et les conditions zone sont vérifiés par rapport à elle.",
     "absolute_humidity — Absolute humidity (g/m³)": "absolute_humidity — Humidité absolue (g/m³)",
     "Additional Attributes": "Attributs supplémentaires",
     "Air Quality Index": "Indice de qualité de l'air",
@@ -188,6 +190,7 @@
     "labelModeBox": "Boîte pour saisir des nombres",
     "labelOverwriteAutoEntity": "L'entité écrasera l'entité créée automatiquement, veuillez envisager d'utiliser l'entité créée automatiquement à la place ou de changer le nom.",
     "Language": "Langue",
+    "Latitude": "Latitude",
     "Latitude state": "State de latitude",
     "Let's Encrypt settings": "Encodons les paramètres",
     "Let's Encrypt SSL": "Let's Encrypt SSL",
@@ -205,6 +208,7 @@
     "Lock / unlock (SET)": "Verrouiller/déverrouiller (SET)",
     "Lock states": "States de la serrure",
     "Login timeout(sec)": "Délai de connexion (en secondes)",
+    "Longitude": "Longitude",
     "Longitude state": "State de longitude",
     "lovelace adapter settings": "Paramètres d'adaptateur pour lovelace",
     "Main settings": "Paramètres principaux",
@@ -262,6 +266,7 @@
     "Particular matter less than 10 micrometer": "Matière particulière inférieure à 10 micromètres",
     "Particular matter less than 2.5 micrometer": "Matière particulière inférieure à 2,5 micromètres",
     "Party (PARTY)": "Party (PARTY)",
+    "Passive zone": "Zone passive",
     "Password": "Mot de passe",
     "Pause (PAUSE)": "Pause (PAUSE)",
     "person": "person",
@@ -306,6 +311,8 @@
     "Problem": "Problème",
     "problem — on: Problem detected / off: OK": "problem — on: Problème détecté / off: OK",
     "Public certificate": "Certificat public",
+    "Radius (m)": "Rayon (m)",
+    "Radius state": "State du rayon",
     "reactive_energy — Reactive energy (varh)": "reactive_energy — Énergie réactive (varh)",
     "reactive_power — Reactive power (var)": "reactive_power — Puissance réactive (var)",
     "Regenerate all automatic entity_ids with the configured format and update dashboards? Entities you renamed are kept.": "Régénérer tous les entity_ids automatiques avec le format configuré et mettre à jour les tableaux de bord ? Les entités que vous avez renommées sont conservées.",
@@ -436,5 +443,6 @@
     "Window": "La fenêtre",
     "window — on: Open / off: Closed": "window — on: Ouvert / off: Fermé",
     "window — window": "window — Fenêtre",
-    "Working": "En marche"
+    "Working": "En marche",
+    "Zone position and radius": "Position et rayon de la zone"
 }
