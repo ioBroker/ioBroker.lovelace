@@ -54,6 +54,7 @@ import MapTilesModule from './modules/mapTiles';
 import ThemesModule from './modules/themes';
 import PANELS from './panels';
 import TemplateModule from './modules/template';
+import ConditionModule from './modules/condition';
 import CompatModule from './modules/compat';
 import MediaSourceModule from './modules/mediaSource';
 import SearchModule from './modules/search';
@@ -80,6 +81,7 @@ type Modules = {
     mapTiles: InstanceType<typeof MapTilesModule>;
     themes: InstanceType<typeof ThemesModule>;
     template: InstanceType<typeof TemplateModule>;
+    condition: InstanceType<typeof ConditionModule>;
     compat: InstanceType<typeof CompatModule>;
     mediaSource: InstanceType<typeof MediaSourceModule>;
     search: InstanceType<typeof SearchModule>;
@@ -430,6 +432,10 @@ class WebServer {
                         this.log.debug(`IoB Subscribe on ${id}`);
                     }
                 },
+            }),
+            condition: new ConditionModule({
+                adapter: this.adapter,
+                sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
             }),
             compat: new CompatModule({
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
@@ -3360,6 +3366,7 @@ class WebServer {
                         });
 
                     this._modules.template.removeTemplate(ws, message.subscription);
+                    this._modules.condition.removeSubscription(ws, message.subscription);
                     this._modules.calendar.removeSubscription(ws, message.subscription);
                     this._modules.weatherForecast.removeSubscription(ws, message.subscription);
                 }
@@ -3525,6 +3532,7 @@ class WebServer {
             //this.log.debug('PRO-debug: ws close');
             ws._subscribes = null;
             this._modules.template.clearWs(ws);
+            this._modules.condition.clearWs(ws);
             clearInterval(testTimer);
             testTimer = null;
         });

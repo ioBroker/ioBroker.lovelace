@@ -77,6 +77,7 @@ var import_mapTiles = __toESM(require("./modules/mapTiles"));
 var import_themes = __toESM(require("./modules/themes"));
 var import_panels = __toESM(require("./panels"));
 var import_template = __toESM(require("./modules/template"));
+var import_condition = __toESM(require("./modules/condition"));
 var import_compat = __toESM(require("./modules/compat"));
 var import_mediaSource = __toESM(require("./modules/mediaSource"));
 var import_search = __toESM(require("./modules/search"));
@@ -303,6 +304,10 @@ class WebServer {
             this.log.debug(`IoB Subscribe on ${id}`);
           }
         }
+      }),
+      condition: new import_condition.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
       }),
       compat: new import_compat.default({
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result)
@@ -2745,6 +2750,7 @@ ${hideScript.join("\n")}
             }
           });
           this._modules.template.removeTemplate(ws, message.subscription);
+          this._modules.condition.removeSubscription(ws, message.subscription);
           this._modules.calendar.removeSubscription(ws, message.subscription);
           this._modules.weatherForecast.removeSubscription(ws, message.subscription);
         }
@@ -2885,6 +2891,7 @@ ${hideScript.join("\n")}
       this.log.debug("Connection closed");
       ws._subscribes = null;
       this._modules.template.clearWs(ws);
+      this._modules.condition.clearWs(ws);
       clearInterval(testTimer);
       testTimer = null;
     });
