@@ -16,6 +16,8 @@ function unitClassForDeviceClass(deviceClass) {
       return null;
   }
 }
+const SUM_STATISTIC_TYPES = ["change", "state", "sum"];
+const MEAN_STATISTIC_TYPES = ["mean", "min", "max"];
 const UNIT_FACTORS = {
   // base: Wh
   energy: {
@@ -387,17 +389,18 @@ class StatisticsRecorder {
             step = 36e5;
             break;
         }
-        const types = message.types;
-        const wantMean = types == null ? void 0 : types.includes("mean");
-        const wantMin = types == null ? void 0 : types.includes("min");
-        const wantMax = types == null ? void 0 : types.includes("max");
-        const wantState = types == null ? void 0 : types.includes("state");
-        const wantSum = types == null ? void 0 : types.includes("sum");
-        const wantChange = types == null ? void 0 : types.includes("change");
+        const requestedTypes = message.types;
         for (const entityId of message.statistic_ids) {
           const cost = this.getCostStatistic(entityId);
           if (cost) {
-            result[entityId] = await this._costStatistics(cost, start, end, step, user, types);
+            result[entityId] = await this._costStatistics(
+              cost,
+              start,
+              end,
+              step,
+              user,
+              requestedTypes != null ? requestedTypes : SUM_STATISTIC_TYPES
+            );
             continue;
           }
           const entity = this.dataSingleton.entityId2Entity[entityId];
@@ -411,6 +414,14 @@ class StatisticsRecorder {
           }
           const units = message.units;
           const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
+          const isSum = unitClass === "energy" || unitClass === "volume";
+          const types = requestedTypes != null ? requestedTypes : isSum ? SUM_STATISTIC_TYPES : MEAN_STATISTIC_TYPES;
+          const wantMean = types.includes("mean");
+          const wantMin = types.includes("min");
+          const wantMax = types.includes("max");
+          const wantState = types.includes("state");
+          const wantSum = types.includes("sum");
+          const wantChange = types.includes("change");
           const factor = conversionFactor(
             unitClass,
             entity.attributes.unit_of_measurement,
