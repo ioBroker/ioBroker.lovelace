@@ -83,6 +83,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (Bluefox/Claude) `/index.html` is rendered like `/` instead of being sent as the raw frontend template, which stopped with "Unexpected token '%'". The ioBroker.visu app opens Lovelace on ioBroker.pro by this name.
+
 ### 7.4.1 (2026-10-22)
 * (Garfonso/Claude) Conditional cards and the `visibility` of cards, badges, sections and views work again: the new frontend asks the server to evaluate the conditions (`subscribe_condition`), which the adapter answered with "Unknown request" before, so everything conditional stayed hidden.
 
