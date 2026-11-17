@@ -40,7 +40,7 @@
     "pinyin": "^4.0.0",
     "suncalc": "^2.1.1",
     "translit-rus-eng": "^2.0.0",
-    "ws": "^8.22.0"
+    "ws": "^8.22.2"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^5.2.1",
