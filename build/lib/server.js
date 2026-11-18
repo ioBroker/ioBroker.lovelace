@@ -85,6 +85,7 @@ var import_search = __toESM(require("./modules/search"));
 var import_image = __toESM(require("./modules/image"));
 var import_calendar = __toESM(require("./modules/calendar"));
 var import_weatherForecast = __toESM(require("./modules/weatherForecast"));
+var import_iobroker = __toESM(require("./modules/iobroker"));
 var import_storage = require("./modules/storage");
 var import_safePath = require("./safePath");
 const WebSocket = require("ws");
@@ -293,18 +294,13 @@ class WebServer {
       template: new import_template.default({
         adapter: this.adapter,
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
-        subscribeState: (id) => {
-          if (this._subscribedAll) {
-            return;
-          }
-          if (this._subscribed.indexOf(id) === -1) {
-            this._subscribed.push(id);
-            Promise.resolve(this.adapter.subscribeForeignStatesAsync(id)).catch(
-              (e) => this.log.warn(`Could not subscribe to ${id}: ${String(e)}`)
-            );
-            this.log.debug(`IoB Subscribe on ${id}`);
-          }
-        }
+        subscribeState: (id) => this._subscribeExtraState(id)
+      }),
+      iobroker: new import_iobroker.default({
+        adapter: this.adapter,
+        sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
+        getUserIDFromName: (name) => this._modules.person.getUserIDFromName(name),
+        subscribeState: (id) => this._subscribeExtraState(id)
       }),
       condition: new import_condition.default({
         adapter: this.adapter,
@@ -959,10 +955,27 @@ class WebServer {
    * @param forceUpdate force entity.state update of all clients
    * @returns resolves when done.
    */
+  /**
+   * Subscribe a single foreign state that is not behind an entity (render_template, iobroker/subscribe_states).
+   *
+   * @param id - ioBroker state id
+   */
+  _subscribeExtraState(id) {
+    if (this._subscribedAll) {
+      return;
+    }
+    if (this._subscribed.indexOf(id) === -1) {
+      this._subscribed.push(id);
+      Promise.resolve(this.adapter.subscribeForeignStatesAsync(id)).catch(
+        (e) => this.log.warn(`Could not subscribe to ${id}: ${String(e)}`)
+      );
+      this.log.debug(`IoB Subscribe on ${id}`);
+    }
+  }
   async onStateChange(id, state, forceUpdate = false) {
     var _a;
     if (this._subscribedAll && !forceUpdate) {
-      const relevant = !!entityData.iobID2entity[id] || id.startsWith(`${this.adapter.namespace}.`) || this._modules.template.referencesState(id, this._wss);
+      const relevant = !!entityData.iobID2entity[id] || id.startsWith(`${this.adapter.namespace}.`) || this._modules.template.referencesState(id, this._wss) || this._modules.iobroker.referencesState(id, this._wss);
       if (!relevant) {
         return;
       }
@@ -1354,7 +1367,7 @@ class WebServer {
     var _a;
     try {
       this._ressourceConfig.length = 0;
-      const staticCards = ["browser_mod.js"];
+      const staticCards = ["browser_mod.js", "iob-web-component-card.js"];
       for (const file of staticCards) {
         this.log.debug(`Add static card: ${file} as ${"js"}`);
         this._ressourceConfig.push({
@@ -1543,6 +1556,7 @@ class WebServer {
       }
     });
     ids = ids.concat(this._modules.template.collectSubscribedIds(this._wss));
+    ids = ids.concat(this._modules.iobroker.collectSubscribedIds(this._wss));
     const MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS = 50;
     if (ids.length > MAX_INDIVIDUAL_STATE_SUBSCRIPTIONS) {
       if (!this._subscribedAll) {
@@ -2195,6 +2209,15 @@ ${hideScript.join("\n")}
         req.url = req.url.replace(/.*\/hacsfiles\//g, "/cards/");
         req.url = req.url.replace(/.*\/local\/custom_ui\//g, "/cards/");
         await this.onCards(req, res);
+      } else if (/\/lib\/esm\/react-1[89]\.js(\?|$)/.test(req.url)) {
+        const file = /react-1[89]\.js/.exec(req.url)[0];
+        this._sendStaticFile(
+          req,
+          res,
+          import_node_path.default.dirname(require.resolve(`@iobroker/web-components/esm/${file}`)),
+          file,
+          REVALIDATE_CACHE
+        );
       } else if (req.url.includes("/frontend_latest/")) {
         this._sendStaticFile(
           req,
@@ -2760,6 +2783,7 @@ ${hideScript.join("\n")}
           this._modules.condition.removeSubscription(ws, message.subscription);
           this._modules.calendar.removeSubscription(ws, message.subscription);
           this._modules.weatherForecast.removeSubscription(ws, message.subscription);
+          this._modules.iobroker.removeSubscription(ws, message.subscription);
         }
         this._sendResponse(ws, message.id);
       } else if (message.type === "subscribe_entities") {
@@ -2899,6 +2923,7 @@ ${hideScript.join("\n")}
       ws._subscribes = null;
       this._modules.template.clearWs(ws);
       this._modules.condition.clearWs(ws);
+      this._modules.iobroker.clearWs(ws);
       clearInterval(testTimer);
       testTimer = null;
     });
