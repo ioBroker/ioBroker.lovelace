@@ -2668,7 +2668,11 @@ class WebServer {
         //handle static files here.
         this._app.use(async (req: any, res: any, next: any) => {
             //console.log('url', req.url);
-            if (req.url.endsWith('/')) {
+            // index.html by its name as well: the file is the Jinja template of the frontend, and sent as
+            // it lies on disk it stopped with "Unexpected token '%'" and lacked what _renderIndex() puts in
+            // (hassNoAuth, the style, browser_mod). ioBroker.pro asks for exactly this when the visu app
+            // opens /lovelace/index.html.
+            if (req.url.endsWith('/') || req.url.split('?')[0] === '/index.html') {
                 //index: never cached, it names the hashed frontend files of the current build.
                 res.setHeader('Cache-Control', REVALIDATE_CACHE);
                 res.send(this._renderIndex());

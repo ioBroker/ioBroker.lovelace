@@ -2177,7 +2177,7 @@ ${hideScript.join("\n")}
       }
     });
     this._app.use(async (req, res, next) => {
-      if (req.url.endsWith("/")) {
+      if (req.url.endsWith("/") || req.url.split("?")[0] === "/index.html") {
         res.setHeader("Cache-Control", REVALIDATE_CACHE);
         res.send(this._renderIndex());
       } else if (req.url.endsWith("manifest.json")) {
