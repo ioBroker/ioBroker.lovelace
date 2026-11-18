@@ -83,6 +83,10 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (ipod86) Widgets of ioBroker adapters (web components, as in vis-2) can be added as cards: the shipped card `iob-web-component-card` offers every web component of the installed adapters in the card picker, with an editor for its settings.
+* (ipod86) Cards can use ioBroker over the connection Lovelace has anyway (`iobroker/*` websocket messages, with the rights of the logged-in user).
+* (ipod86) React is served at `/lib/esm/react-19.js` and `/lib/esm/react-18.js` for web components that use it.
 ### 7.4.1 (2026-10-22)
 * (Garfonso/Claude) Conditional cards and the `visibility` of cards, badges, sections and views work again: the new frontend asks the server to evaluate the conditions (`subscribe_condition`), which the adapter answered with "Unknown request" before, so everything conditional stayed hidden.
 

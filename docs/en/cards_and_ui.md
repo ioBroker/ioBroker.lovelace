@@ -27,6 +27,26 @@ The following cards were tested by the developer or the community and work. In g
 * **[Mini Media Player](https://github.com/kalkih/mini-media-player)** — a very configurable media player that also supports [text-to-speech and shortcut buttons](#mini-media-card-with-tts-and-shortcuts).
 * **[Mini Graph Card](https://github.com/kalkih/mini-graph-card)** — a very configurable card for sensor data, showing several entities as graphs or bar charts.
 
+## Widgets of ioBroker adapters (web components)
+
+Adapters can bring widgets as *web components* (the same ones vis-2 and other visualisations show, see [`@iobroker/web-components`](https://github.com/ioBroker/web-components)). The adapter ships the card `iob-web-component-card` that shows them in Lovelace - nothing to install:
+
+![Alarm panel of home-guard and weather widget of openmeteo-notify as Lovelace cards](../de/media/web-components.png)
+
+* In the card picker every web component of the installed adapters has an entry of its own (`ioBroker: <name>`). Pick it, and set it up in the card editor: the settings are the ones of the component, with the same lists and fields as in vis-2.
+* The height follows the content; `height: 500` fixes it.
+* The card uses the connection Lovelace has anyway, with the rights of the logged-in user - no second connection to the web adapter.
+
+```yaml
+type: custom:iob-web-component-card
+adapter: home-guard
+component: home-guard-panel
+settings:
+  instance: home-guard.0
+```
+
+For developers: the card talks to the adapter with the websocket messages `iobroker/info`, `iobroker/get_state`, `iobroker/set_state`, `iobroker/subscribe_states`, `iobroker/get_object`, `iobroker/get_object_view`, `iobroker/send_to` (needs the right *sendto* of the user), `iobroker/get_history` and `iobroker/read_file`. React for components built with it is served at `/lib/esm/react-19.js` and `/lib/esm/react-18.js`, as by web and admin.
+
 ## Own images
 Custom images (e.g. for a background) can be uploaded via the same dialog as custom cards. Use them like this in the lovelace configuration:
 
