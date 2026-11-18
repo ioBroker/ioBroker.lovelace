@@ -83,6 +83,9 @@ After that checkout modified version in `./build` folder. Then.
 	### **WORK IN PROGRESS**
     ### for next frontend update, update of auto entities card will be necessary!
 -->
+### **WORK IN PROGRESS**
+* (disaster123/Claude) Statistics requests without `types` return data again, as in Home Assistant: a measurement gets mean, min and max, a meter gets change, state and sum. Custom cards that send no `types`, such as apexcharts-card with `statistics`, stayed on "Loading…" before and the log claimed there was no history.
+
 ### 7.4.1 (2026-10-22)
 * (Garfonso/Claude) Conditional cards and the `visibility` of cards, badges, sections and views work again: the new frontend asks the server to evaluate the conditions (`subscribe_condition`), which the adapter answered with "Unknown request" before, so everything conditional stayed hidden.
 
