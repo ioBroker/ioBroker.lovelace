@@ -948,6 +948,14 @@
           "md": 4,
           "lg": 4
         },
+        "state_ECO": {
+          "type": "objectId",
+          "label": "Eco (ECO)",
+          "xs": 12,
+          "sm": 6,
+          "md": 4,
+          "lg": 4
+        },
         "hvac_default": {
           "newLine": true,
           "type": "select",

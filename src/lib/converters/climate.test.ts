@@ -1,11 +1,29 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Types } from '@iobroker/type-detector';
 import type { PatternControl } from '@iobroker/type-detector';
 import { ClimateConverter } from './climate';
 import type { ConverterParameters } from './converter';
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const entityData = require('../../../lib/dataSingleton');
+entityData.adapter = entityData.adapter || {};
+entityData.log = entityData.log || { warn: () => {}, error: () => {}, debug: () => {}, info: () => {} };
+
 const DEVICE_ID = 'test.climate_device';
 const POWER_ID = `${DEVICE_ID}.power`;
+const BOOST_ID = `${DEVICE_ID}.boost`;
+const PARTY_ID = `${DEVICE_ID}.party`;
+const ECO_ID = `${DEVICE_ID}.eco`;
+
+/**
+ * A state value as the parsers get it.
+ *
+ * @param val - the ioBroker state value
+ */
+function state(val: ioBroker.StateValue): ioBroker.State {
+    return { val, ts: Date.now(), lc: Date.now(), ack: true, from: '' };
+}
 
 function makeObj(id: string): ioBroker.Object {
     return {
@@ -96,5 +114,77 @@ describe('converters/climate setpoint of type-detector 6', function () {
 
         const temperature = entity.context.ATTRIBUTES.find(a => a.attribute === 'temperature');
         expect(temperature?.getId).to.equal(`${DEVICE_ID}.set`);
+    });
+});
+
+describe('converters/climate presets', function () {
+    function makePresetEntity(): ReturnType<typeof ClimateConverter.convertEntities>[0] {
+        return ClimateConverter.convertEntities(
+            makeParameters(
+                [
+                    { id: POWER_ID, name: 'POWER' },
+                    { id: BOOST_ID, name: 'BOOST' },
+                    { id: PARTY_ID, name: 'PARTY' },
+                    { id: ECO_ID, name: 'ECO' },
+                ],
+                Types.thermostat,
+            ),
+        )[0];
+    }
+
+    it('offers every mapped preset switch as a preset mode', function () {
+        const entity = makePresetEntity();
+        expect(entity.attributes.preset_modes).to.deep.equal(['none', 'boost', 'party', 'eco']);
+        expect(entity.attributes.preset_mode).to.equal('none');
+        //ECO is a preset, it must not show up as an hvac mode (HA only knows a fixed set of those)
+        expect(entity.attributes.hvac_modes).to.not.include('eco');
+    });
+
+    it('reports the switch that is on as the preset mode', function () {
+        const entity = makePresetEntity();
+        const eco = entity.context.ATTRIBUTES.find(a => a.attribute === 'eco')!;
+        const boost = entity.context.ATTRIBUTES.find(a => a.attribute === 'boost')!;
+
+        eco.getParser!(entity, eco, state(true));
+        expect(entity.attributes.eco).to.equal('on');
+        expect(entity.attributes.preset_mode).to.equal('eco');
+
+        //boost wins over eco while both are on, and eco is back once boost goes off again
+        boost.getParser!(entity, boost, state(true));
+        expect(entity.attributes.preset_mode).to.equal('boost');
+        boost.getParser!(entity, boost, state(false));
+        expect(entity.attributes.preset_mode).to.equal('eco');
+
+        eco.getParser!(entity, eco, state(false));
+        expect(entity.attributes.preset_mode).to.equal('none');
+        expect(eco.historyParser!('', true)).to.equal('eco');
+        expect(eco.historyParser!('', false)).to.equal('none');
+    });
+
+    it('set_preset_mode switches the chosen preset on and the others off', async function () {
+        const entity = makePresetEntity();
+        const setForeignStateAsync = sinon.stub().resolves();
+        entityData.adapter.setForeignStateAsync = setForeignStateAsync;
+        const cmd = entity.context.COMMANDS.find(c => c.service === 'set_preset_mode')!;
+
+        await cmd.parseCommand!(
+            entity,
+            cmd,
+            { id: 1, service: 'set_preset_mode', service_data: { preset_mode: 'eco' } },
+            'user',
+        );
+        expect(setForeignStateAsync.calledWith(ECO_ID, true, false, { user: 'user' })).to.be.true;
+        expect(setForeignStateAsync.calledWith(BOOST_ID, false, false, { user: 'user' })).to.be.true;
+        expect(setForeignStateAsync.calledWith(PARTY_ID, false, false, { user: 'user' })).to.be.true;
+
+        setForeignStateAsync.resetHistory();
+        await cmd.parseCommand!(
+            entity,
+            cmd,
+            { id: 2, service: 'set_preset_mode', service_data: { preset_mode: 'none' } },
+            'user',
+        );
+        expect(setForeignStateAsync.args.every(args => args[1] === false)).to.be.true;
+        sinon.restore();
     });
 });

@@ -44,7 +44,7 @@ Bei den **mehrteiligen** Typen wählt man die ioBroker-States je Rolle im Custom
 |---|---|---|
 | `light` | `ON` (an/aus), `ON_ACTUAL`, `DIMMER` (Helligkeit), `TEMPERATURE` (Farbtemp.), `RGB`, `HUE`, `SATURATION`, `EFFECT` | `on` / `off` |
 | `cover` | `SET` (Pegel), `ACTUAL`, `OPEN`/`CLOSE`/`STOP`, `TILT_SET`/`TILT_ACTUAL` | `open` / `closed` / `opening` / `closing` |
-| `climate` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `MODE` (HVAC-Modus), `POWER` (an/aus), `HUMIDITY`, `SPEED`, `SWING`, `BOOST`, `PARTY`; eine *Heizen/Kühlen*-Auswahl erscheint, wenn kein `MODE` zugeordnet ist | der HVAC-Modus: `heat` / `cool` / `off` |
+| `climate` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `MODE` (HVAC-Modus), `POWER` (an/aus), `HUMIDITY`, `SPEED`, `SWING`, `BOOST`, `PARTY`, `ECO`; eine *Heizen/Kühlen*-Auswahl erscheint, wenn kein `MODE` zugeordnet ist | der HVAC-Modus: `heat` / `cool` / `off` |
 | `lock` | `SET` (ver-/entriegeln), `ACTUAL`, `OPEN` (Türöffner) | `locked` / `unlocked` |
 | `media_player` | `STATE`, `POWER`, `PLAY`/`PAUSE`/`STOP`/`NEXT`/`PREV`, `VOLUME`/`VOLUME_ACTUAL`/`MUTE`, `SEEK`/`REPEAT`/`SHUFFLE`, `TITLE`/`ARTIST`/`COVER`/`DURATION`/`ELAPSED` | `playing` / `paused` / `idle` |
 | `vacuum` | `STATE` (Status), `POWER` (Start/Stopp), `PAUSE`, `BATTERY`, `WORK_MODE` (Lüfterstufe) | `cleaning` / `docked` / `paused` / `returning` / `idle` / `error` |
@@ -239,7 +239,7 @@ ioBroker-Geräte: Thermostat (`thermostat`), Klimaanlage (`airCondition`).
 
 ![Clima Karte](media/climate-entity-full.JPG)
 
-Die Temperatur wird in Lovelace über einen runden Slider gesteuert. Darunter gibt es Knöpfe zur Wahl des Modus (nur bei bekannten Modi). Die Modi werden mittels `states` im ioBroker-State auf Zahlen abgebildet. Lovelace kennt `auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` und `off`; diese werden als übersetzte Schaltflächen angezeigt. Abweichende States erscheinen im More-Info-Fenster als Dropdown, dort gibt es auch Dropdowns für Presets (falls `boost` oder `party` im ioBroker-Gerät vorhanden) sowie Ventilator / Swing, falls erkannt (deren States werden 1:1 angezeigt).
+Die Temperatur wird in Lovelace über einen runden Slider gesteuert. Darunter gibt es Knöpfe zur Wahl des Modus (nur bei bekannten Modi). Die Modi werden mittels `states` im ioBroker-State auf Zahlen abgebildet. Lovelace kennt `auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` und `off`; diese werden als übersetzte Schaltflächen angezeigt. Abweichende States erscheinen im More-Info-Fenster als Dropdown, dort gibt es auch Dropdowns für Presets (falls `boost`, `party` oder `eco` im ioBroker-Gerät vorhanden) sowie Ventilator / Swing, falls erkannt (deren States werden 1:1 angezeigt).
 
 ![Clima More Info](media/climate-entity-full-moreinfo.JPG)
 ![Clima Attributes](media/climate-entity-full-attributes.JPG)

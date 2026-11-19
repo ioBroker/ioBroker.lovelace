@@ -95,6 +95,7 @@
     "Delete file": "Datei löschen",
     "Delete the selected card file?": "Ausgewählte Karten-Datei löschen?",
     "Device class": "Geräteklasse",
+    "Eco (ECO)": "Eco (ECO)",
     "Error": "Fehler",
     "Invert state (ioBroker true = off)": "Zustand umdrehen (ioBroker true = aus)",
     "For a state that is true when the device is NOT in the shown state, like indicator.unreach with the device class connectivity.": "Für einen State, der true ist, wenn das Gerät NICHT im angezeigten Zustand ist, z.B. indicator.unreach mit der Geräteklasse connectivity.",

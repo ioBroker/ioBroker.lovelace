@@ -87,6 +87,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) Conditions of the type `sun` and `zone` are evaluated too, so a card can be visible after sunset or while somebody is in a zone.
 * (Garfonso/Claude) New manual entity type `zone`: a circle on the map, with a fixed position or following a GPS state.
 * (Garfonso/Claude) A `device_tracker`/`person` without a presence state reports the zone it is in, not only `home`/`not_home`, and `zone.home` has Home Assistant's default radius of 100 m.
+* (Garfonso/Claude) A climate `ECO` state becomes the `eco` preset, like `BOOST` and `PARTY` do.
 
 ### 7.4.1 (2026-10-22)
 * (Garfonso/Claude) Conditional cards and the `visibility` of cards, badges, sections and views work again: the new frontend asks the server to evaluate the conditions (`subscribe_condition`), which the adapter answered with "Unknown request" before, so everything conditional stayed hidden.

@@ -1,5 +1,5 @@
 import { Types } from '@iobroker/type-detector';
-import { BaseEntity, type ServiceCallData } from './baseEntity';
+import { BaseEntity, type EntityAttribute, type ServiceCallData } from './baseEntity';
 import type { ConverterParameters } from '../converters/converter';
 import { SensorEntity } from './sensorEntity';
 
@@ -22,6 +22,13 @@ export const supportedFlags = {
     CLIMATE_SUPPORT_PRESET_MODE,
     CLIMATE_SUPPORT_SWING_MODE,
 };
+
+/**
+ * The ioBroker preset switches we map to Home Assistant preset modes, in priority order (the first
+ * one that is on is the reported preset_mode). `boost` and `eco` are standard Home Assistant preset
+ * names, `party` is an ioBroker speciality - all three are plain strings on the wire.
+ */
+const PRESET_SWITCHES = ['boost', 'party', 'eco'];
 
 /**
  * Normalise an ioBroker hvac mode name to the HA expected name.
@@ -194,26 +201,22 @@ export function applyClimateStates(
         entity.attributes.preset_mode = 'none';
         entity.attributes.preset_modes = ['none'];
 
-        const boost_attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'boost');
-        if (boost_attr) {
-            (entity.attributes.preset_modes as string[]).push('boost');
-            boost_attr.getParser = (ent, _attr, state): void => {
-                const val = state ? state.val : null;
-                ent.attributes.boost = val ? 'on' : 'off';
-                ent.attributes.preset_mode = val ? 'boost' : ent.attributes.party === 'on' ? 'party' : 'none';
-            };
-            boost_attr.historyParser = (_id, val) => (val ? 'boost' : 'none');
-        }
+        // Home Assistant has no dedicated support for boost / party / eco: they are preset modes,
+        // switched with climate.set_preset_mode. In ioBroker each of them is a boolean state of its
+        // own, so the entity's single preset_mode is "the first switch that is on", and setting a
+        // preset switches the others off.
+        const presets = PRESET_SWITCHES.map(name => ({
+            name,
+            attr: entity.context.ATTRIBUTES.find(a => a.attribute === name),
+        })).filter((preset): preset is { name: string; attr: EntityAttribute } => !!preset.attr);
 
-        const party_attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'party');
-        if (party_attr) {
-            (entity.attributes.preset_modes as string[]).push('party');
-            party_attr.getParser = (ent, _attr, state): void => {
-                const val = state ? state.val : null;
-                ent.attributes.party = val ? 'on' : 'off';
-                ent.attributes.preset_mode = val ? 'party' : ent.attributes.boost === 'on' ? 'boost' : 'none';
+        for (const { name, attr } of presets) {
+            (entity.attributes.preset_modes as string[]).push(name);
+            attr.getParser = (ent, _attr, state): void => {
+                ent.attributes[name] = state && state.val ? 'on' : 'off';
+                ent.attributes.preset_mode = presets.find(p => ent.attributes[p.name] === 'on')?.name ?? 'none';
             };
-            party_attr.historyParser = (_id, val) => (val ? 'party' : 'none');
+            attr.historyParser = (_id, val) => (val ? name : 'none');
         }
 
         const preset_attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'preset_mode');
@@ -225,18 +228,16 @@ export function applyClimateStates(
             service: 'set_preset_mode',
             parseCommand: async (_ent, _command, data: ServiceCallData, user): Promise<unknown> => {
                 const preset = (data.service_data as Record<string, string>).preset_mode;
-                const boostVal = preset === 'boost';
-                const partyVal = preset === 'party';
                 const promises: Promise<unknown>[] = [];
-                if (party_attr?.getId) {
-                    promises.push(
-                        adapterData.adapter.setForeignStateAsync(party_attr.getId, partyVal, false, { user }),
-                    );
-                }
-                if (boost_attr?.getId) {
-                    promises.push(
-                        adapterData.adapter.setForeignStateAsync(boost_attr.getId, boostVal, false, { user }),
-                    );
+                // The chosen preset is switched on first and the others off after it, so a client
+                // that watches one of the states never sees a moment with no preset at all.
+                const ordered = presets.filter(p => p.name === preset).concat(presets.filter(p => p.name !== preset));
+                for (const { name, attr } of ordered) {
+                    if (attr.getId) {
+                        promises.push(
+                            adapterData.adapter.setForeignStateAsync(attr.getId, preset === name, false, { user }),
+                        );
+                    }
                 }
                 return Promise.all(promises);
             },
@@ -472,6 +473,10 @@ export class ClimateEntity extends BaseEntity {
                     case 'PARTY':
                         states.preset_mode = state.id;
                         states.party = state.id;
+                        break;
+                    case 'ECO':
+                        states.preset_mode = state.id;
+                        states.eco = state.id;
                         break;
                     case 'SPEED':
                         states.fan_mode = state.id;

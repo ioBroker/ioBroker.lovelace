@@ -37,6 +37,7 @@ const supportedFlags = {
   CLIMATE_SUPPORT_PRESET_MODE,
   CLIMATE_SUPPORT_SWING_MODE
 };
+const PRESET_SWITCHES = ["boost", "party", "eco"];
 function translateModeNameForLovelace(modeNameIn) {
   const lower = modeNameIn.toLowerCase();
   switch (lower) {
@@ -183,25 +184,18 @@ function applyClimateStates(states, objects, entity, iobType) {
     entity.attributes.supported_features = entity.attributes.supported_features | CLIMATE_SUPPORT_PRESET_MODE;
     entity.attributes.preset_mode = "none";
     entity.attributes.preset_modes = ["none"];
-    const boost_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "boost");
-    if (boost_attr) {
-      entity.attributes.preset_modes.push("boost");
-      boost_attr.getParser = (ent, _attr, state) => {
-        const val = state ? state.val : null;
-        ent.attributes.boost = val ? "on" : "off";
-        ent.attributes.preset_mode = val ? "boost" : ent.attributes.party === "on" ? "party" : "none";
+    const presets = PRESET_SWITCHES.map((name) => ({
+      name,
+      attr: entity.context.ATTRIBUTES.find((a) => a.attribute === name)
+    })).filter((preset) => !!preset.attr);
+    for (const { name, attr } of presets) {
+      entity.attributes.preset_modes.push(name);
+      attr.getParser = (ent, _attr, state) => {
+        var _a2, _b2;
+        ent.attributes[name] = state && state.val ? "on" : "off";
+        ent.attributes.preset_mode = (_b2 = (_a2 = presets.find((p) => ent.attributes[p.name] === "on")) == null ? void 0 : _a2.name) != null ? _b2 : "none";
       };
-      boost_attr.historyParser = (_id, val) => val ? "boost" : "none";
-    }
-    const party_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "party");
-    if (party_attr) {
-      entity.attributes.preset_modes.push("party");
-      party_attr.getParser = (ent, _attr, state) => {
-        const val = state ? state.val : null;
-        ent.attributes.party = val ? "on" : "off";
-        ent.attributes.preset_mode = val ? "party" : ent.attributes.boost === "on" ? "boost" : "none";
-      };
-      party_attr.historyParser = (_id, val) => val ? "party" : "none";
+      attr.historyParser = (_id, val) => val ? name : "none";
     }
     const preset_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "preset_mode");
     if (preset_attr) {
@@ -211,18 +205,14 @@ function applyClimateStates(states, objects, entity, iobType) {
       service: "set_preset_mode",
       parseCommand: async (_ent, _command, data, user) => {
         const preset = data.service_data.preset_mode;
-        const boostVal = preset === "boost";
-        const partyVal = preset === "party";
         const promises = [];
-        if (party_attr == null ? void 0 : party_attr.getId) {
-          promises.push(
-            adapterData.adapter.setForeignStateAsync(party_attr.getId, partyVal, false, { user })
-          );
-        }
-        if (boost_attr == null ? void 0 : boost_attr.getId) {
-          promises.push(
-            adapterData.adapter.setForeignStateAsync(boost_attr.getId, boostVal, false, { user })
-          );
+        const ordered = presets.filter((p) => p.name === preset).concat(presets.filter((p) => p.name !== preset));
+        for (const { name, attr } of ordered) {
+          if (attr.getId) {
+            promises.push(
+              adapterData.adapter.setForeignStateAsync(attr.getId, preset === name, false, { user })
+            );
+          }
         }
         return Promise.all(promises);
       }
@@ -425,6 +415,10 @@ class ClimateEntity extends import_baseEntity.BaseEntity {
           case "PARTY":
             states.preset_mode = state.id;
             states.party = state.id;
+            break;
+          case "ECO":
+            states.preset_mode = state.id;
+            states.eco = state.id;
             break;
           case "SPEED":
             states.fan_mode = state.id;

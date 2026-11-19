@@ -44,7 +44,7 @@ For the **multi-state** types you pick the ioBroker states per role in the custo
 |---|---|---|
 | `light` | `ON` (on/off), `ON_ACTUAL`, `DIMMER` (brightness), `TEMPERATURE` (colour temp), `RGB`, `HUE`, `SATURATION`, `EFFECT` | `on` / `off` |
 | `cover` | `SET` (level), `ACTUAL`, `OPEN`/`CLOSE`/`STOP`, `TILT_SET`/`TILT_ACTUAL` | `open` / `closed` / `opening` / `closing` |
-| `climate` | `SET` (target temp), `ACTUAL` (current temp), `MODE` (HVAC mode), `POWER` (on/off), `HUMIDITY`, `SPEED`, `SWING`, `BOOST`, `PARTY`; a *Heating/cooling* choice appears when no `MODE` is mapped | the HVAC mode: `heat` / `cool` / `off` |
+| `climate` | `SET` (target temp), `ACTUAL` (current temp), `MODE` (HVAC mode), `POWER` (on/off), `HUMIDITY`, `SPEED`, `SWING`, `BOOST`, `PARTY`, `ECO`; a *Heating/cooling* choice appears when no `MODE` is mapped | the HVAC mode: `heat` / `cool` / `off` |
 | `lock` | `SET` (lock/unlock), `ACTUAL`, `OPEN` (latch) | `locked` / `unlocked` |
 | `media_player` | `STATE`, `POWER`, `PLAY`/`PAUSE`/`STOP`/`NEXT`/`PREV`, `VOLUME`/`VOLUME_ACTUAL`/`MUTE`, `SEEK`/`REPEAT`/`SHUFFLE`, `TITLE`/`ARTIST`/`COVER`/`DURATION`/`ELAPSED` | `playing` / `paused` / `idle` |
 | `vacuum` | `STATE` (status), `POWER` (start/stop), `PAUSE`, `BATTERY`, `WORK_MODE` (fan speed) | `cleaning` / `docked` / `paused` / `returning` / `idle` / `error` |
@@ -239,7 +239,7 @@ ioBroker devices: thermostat (`thermostat`), air condition (`airCondition`).
 
 ![Climate card](../de/media/climate-entity-full.JPG)
 
-Temperature is controlled in Lovelace via a round slider. Below it, buttons select the mode (only for known modes). Modes are mapped to numbers via `states` in the ioBroker state. Lovelace knows `auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` and `off`; these are shown as translated buttons. Other states are shown as a dropdown in the more-info dialog, which also has dropdowns for presets (if `boost` or `party` exist in the ioBroker device) and fan / swing if detected (their states are shown 1:1).
+Temperature is controlled in Lovelace via a round slider. Below it, buttons select the mode (only for known modes). Modes are mapped to numbers via `states` in the ioBroker state. Lovelace knows `auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` and `off`; these are shown as translated buttons. Other states are shown as a dropdown in the more-info dialog, which also has dropdowns for presets (if `boost`, `party` or `eco` exist in the ioBroker device) and fan / swing if detected (their states are shown 1:1).
 
 ![Climate more info](../de/media/climate-entity-full-moreinfo.JPG)
 ![Climate attributes](../de/media/climate-entity-full-attributes.JPG)
