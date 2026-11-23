@@ -289,6 +289,7 @@
     "pm10 — Particulates < 10 µm (µg/m³)": "pm10 — Partículas < 10 µm (µg/m³)",
     "pm25 — Particulates < 2.5 µm (µg/m³)": "pm25 — Partículas < 2,5 µm (µg/m³)",
     "pm4 — Particulates < 4 µm (µg/m³)": "pm4 — Partículas < 4 µm (µg/m³)",
+    "Points a single history request may read per state. Too few cut long graphs short, 0 uses the default of 10000.": "Puntos que una sola consulta de historial puede leer por estado. Pocos recortan los gráficos largos, 0 usa el valor predeterminado de 10000.",
     "Port": "Puerto",
     "Port to check the domain": "Puerto para verificar el dominio",
     "Power": "Energía",

@@ -289,6 +289,7 @@
     "pm10 — Particulates < 10 µm (µg/m³)": "pm10 — 颗粒物 < 10 µm (µg/m³)",
     "pm25 — Particulates < 2.5 µm (µg/m³)": "pm25 — 颗粒物 < 2.5 µm (µg/m³)",
     "pm4 — Particulates < 4 µm (µg/m³)": "pm4 — 颗粒物 < 4 µm (µg/m³)",
+    "Points a single history request may read per state. Too few cut long graphs short, 0 uses the default of 10000.": "单次历史查询每个状态可读取的数据点数量。过少会截断长时间曲线，0 表示使用默认值 10000。",
     "Port": "口",
     "Port to check the domain": "港口检查的领域",
     "Power": "力量",

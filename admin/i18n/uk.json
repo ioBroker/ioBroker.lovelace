@@ -289,6 +289,7 @@
     "pm10 — Particulates < 10 µm (µg/m³)": "pm10 — Частинки < 10 мкм (µg/m³)",
     "pm25 — Particulates < 2.5 µm (µg/m³)": "pm25 — Частинки < 2,5 мкм (µg/m³)",
     "pm4 — Particulates < 4 µm (µg/m³)": "pm4 — Частинки < 4 мкм (µg/m³)",
+    "Points a single history request may read per state. Too few cut long graphs short, 0 uses the default of 10000.": "Кількість точок, яку один запит історії може прочитати для одного стану. Надто мало — довгі графіки обрізаються, 0 — типове значення 10000.",
     "Port": "Порт",
     "Port to check the domain": "Порт для перевірки домену",
     "Power": "потужність",

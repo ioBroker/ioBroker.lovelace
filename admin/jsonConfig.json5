@@ -86,6 +86,7 @@
         "historyMaxCount": {
           "type": "number",
           "label": "Maximum history points to fetch",
+          "help": "Points a single history request may read per state. Too few cut long graphs short, 0 uses the default of 10000.",
           "min": 0,
           "xs": 12,
           "sm": 12,
