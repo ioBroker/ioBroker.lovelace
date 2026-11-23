@@ -1,0 +1,64 @@
+{
+  "adapter.0.aircondition.EcoMode": {
+    "type": "device",
+    "common": {
+      "name": "AirCondition Eco Mode"
+    },
+    "native": {},
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592055616031,
+    "_id": "adapter.0.aircondition.EcoMode",
+    "acl": {
+      "object": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.EcoMode.mode": {
+    "type": "state",
+    "common": {
+      "name": "AirCondition Eco Mode Mode",
+      "read": true,
+      "write": true,
+      "role": "level.mode.airconditioner",
+      "type": "number",
+      "states": {"0": "AUTO", "1": "COOL", "2": "ECO", "3": "OFF"}
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.EcoMode.mode",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  },
+  "adapter.0.aircondition.EcoMode.target": {
+    "type": "state",
+    "common": {
+      "name": "AirCondition Eco Mode Target",
+      "read": true,
+      "write": true,
+      "role": "level.temperature",
+      "type": "number",
+      "unit": "°C",
+      "min": 16,
+      "max": 30
+    },
+    "native": {},
+    "_id": "adapter.0.aircondition.EcoMode.target",
+    "from": "system.adapter.javascript.1",
+    "user": "system.user.admin",
+    "ts": 1592049829108,
+    "acl": {
+      "object": 1636,
+      "state": 1636,
+      "owner": "system.user.admin",
+      "ownerGroup": "system.group.administrator"
+    }
+  }
+}

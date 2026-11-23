@@ -30,6 +30,16 @@ export const supportedFlags = {
  */
 const PRESET_SWITCHES = ['boost', 'party', 'eco'];
 
+/** The hvac modes Home Assistant knows. Anything else in a MODE state is not an hvac mode. */
+const HVAC_MODES = ['off', 'heat', 'cool', 'heat_cool', 'auto', 'dry', 'fan_only'];
+
+/**
+ * Mode values Home Assistant knows as a preset instead of an hvac mode. type-detector reports e.g.
+ * ECO as a value of an air conditioner's MODE state, but HA's hvac_modes are a fixed set - such a
+ * value becomes a preset mode, so the frontend shows it as a preset and not as a bogus hvac mode.
+ */
+const PRESET_MODE_VALUES = ['eco', 'boost', 'party', 'comfort', 'sleep', 'away', 'home', 'activity'];
+
 /**
  * Normalise an ioBroker hvac mode name to the HA expected name.
  *
@@ -71,6 +81,34 @@ export function applyClimateStates(
 
     entity.attributes.supported_features = CLIMATE_SUPPORT_TARGET_TEMPERATURE;
     entity.context.COMMANDS = [];
+
+    /** The hvac mode a device without a MODE state reports while it is on. */
+    const defaultMode = iobType === Types.airCondition ? 'cool' : 'heat';
+
+    // Presets reach us in two shapes: a boolean switch state of its own (BOOST / PARTY / ECO) and a
+    // value of the MODE state that HA knows as a preset (ECO on an air conditioner). Both feed the
+    // single preset_mode attribute, so they are collected here and resolved together below.
+    let presetSwitches: { name: string; attr: EntityAttribute }[] = [];
+    const modePresets: string[] = [];
+
+    /**
+     * The preset the entity is in. A MODE state holding a preset wins over a preset switch, since
+     * the device cannot be in a real hvac mode then.
+     *
+     * @param ent - the entity to look at
+     */
+    const activePreset = (ent: BaseEntity): string =>
+        ent.context.iobModePreset ?? presetSwitches.find(p => ent.attributes[p.name] === 'on')?.name ?? 'none';
+
+    /**
+     * The hvac_mode to report for an ioBroker MODE value. While the MODE state holds a preset the
+     * device has no hvac mode of its own, so the last real one is kept (HA needs a valid one).
+     *
+     * @param ent - the entity to look at
+     * @param modeName - the mode name the MODE value translates to
+     */
+    const hvacModeFor = (ent: BaseEntity, modeName: string): string =>
+        modePresets.includes(modeName) ? (ent.context.iobLastHvacMode ?? defaultMode) : modeName;
 
     if (states.state || states.hvac_mode) {
         entity.context.COMMANDS.push({
@@ -114,7 +152,7 @@ export function applyClimateStates(
                     ent.attributes.hvac_mode = 'off';
                 } else if (ent.context.iobMode !== undefined) {
                     const mode = ent.context.iobMode as string | number;
-                    ent.attributes.hvac_mode = hvac_attr.iobToLovelace?.[mode] ?? String(mode);
+                    ent.attributes.hvac_mode = hvacModeFor(ent, hvac_attr.iobToLovelace?.[mode] ?? String(mode));
                 } else {
                     adapterData.log.warn(
                         `No mode for ${ent.entity_id} received, yet. Asking database. Will delay update.`,
@@ -125,9 +163,10 @@ export function applyClimateStates(
                             const val = stateVal ? stateVal.val : null;
                             if (ent.context.iobMode === undefined) {
                                 ent.context.iobMode = val;
-                                const resolved =
-                                    hvac_attr.iobToLovelace?.[val as string | number] ??
-                                    (iobType === Types.airCondition ? 'cool' : 'heat');
+                                const resolved = hvacModeFor(
+                                    ent,
+                                    hvac_attr.iobToLovelace?.[val as string | number] ?? defaultMode,
+                                );
                                 ent.state = resolved;
                                 ent.attributes.hvac_mode = resolved;
                             }
@@ -161,7 +200,11 @@ export function applyClimateStates(
                 for (const key of Object.keys(rawStates)) {
                     const mode = rawStates[key];
                     const modeName = translateModeNameForLovelace(mode);
-                    (entity.attributes.hvac_modes as string[]).push(modeName);
+                    if (!HVAC_MODES.includes(modeName) && PRESET_MODE_VALUES.includes(modeName)) {
+                        modePresets.push(modeName);
+                    } else {
+                        (entity.attributes.hvac_modes as string[]).push(modeName);
+                    }
                     hvac_attr.lovelaceToIob[modeName] = parseInt(key, 10);
                     hvac_attr.iobToLovelace[key] = modeName;
                 }
@@ -184,7 +227,17 @@ export function applyClimateStates(
             hvac_attr.getParser = (ent, attr, state): void => {
                 const s = state ?? ({ val: null } as ioBroker.State);
                 ent.context.iobMode = s.val;
-                ent.attributes.hvac_mode = attr.iobToLovelace?.[s.val as string | number] ?? String(s.val);
+                const modeName = attr.iobToLovelace?.[s.val as string | number] ?? String(s.val);
+                if (modePresets.includes(modeName)) {
+                    ent.context.iobModePreset = modeName;
+                } else {
+                    ent.context.iobModePreset = undefined;
+                    ent.context.iobLastHvacMode = modeName;
+                }
+                ent.attributes.hvac_mode = hvacModeFor(ent, modeName);
+                if (ent.attributes.preset_modes) {
+                    ent.attributes.preset_mode = activePreset(ent);
+                }
                 if (!ent.context.iobPower && (states.state || states.stateRead) && ent.state === 'off') {
                     ent.attributes.hvac_mode = ent.state;
                 } else {
@@ -192,31 +245,45 @@ export function applyClimateStates(
                 }
                 ent.attributes.hvac_action = undefined;
             };
-            hvac_attr.historyParser = (_id, val) => hvac_attr.iobToLovelace?.[val as string | number] ?? String(val);
+            hvac_attr.historyParser = (_id, val) => {
+                const modeName = hvac_attr.iobToLovelace?.[val as string | number] ?? String(val);
+                //a preset is no state of its own in the history graph, so show the default mode
+                return modePresets.includes(modeName) ? defaultMode : modeName;
+            };
         }
     }
 
     if (states.preset_mode) {
-        entity.attributes.supported_features = entity.attributes.supported_features | CLIMATE_SUPPORT_PRESET_MODE;
-        entity.attributes.preset_mode = 'none';
-        entity.attributes.preset_modes = ['none'];
-
         // Home Assistant has no dedicated support for boost / party / eco: they are preset modes,
         // switched with climate.set_preset_mode. In ioBroker each of them is a boolean state of its
         // own, so the entity's single preset_mode is "the first switch that is on", and setting a
         // preset switches the others off.
-        const presets = PRESET_SWITCHES.map(name => ({
+        presetSwitches = PRESET_SWITCHES.map(name => ({
             name,
             attr: entity.context.ATTRIBUTES.find(a => a.attribute === name),
         })).filter((preset): preset is { name: string; attr: EntityAttribute } => !!preset.attr);
+    }
 
-        for (const { name, attr } of presets) {
-            (entity.attributes.preset_modes as string[]).push(name);
+    if (presetSwitches.length || modePresets.length) {
+        entity.attributes.supported_features = entity.attributes.supported_features | CLIMATE_SUPPORT_PRESET_MODE;
+        entity.attributes.preset_mode = 'none';
+        entity.attributes.preset_modes = ['none'];
+        const presetModes = entity.attributes.preset_modes as string[];
+
+        for (const { name, attr } of presetSwitches) {
+            presetModes.push(name);
             attr.getParser = (ent, _attr, state): void => {
                 ent.attributes[name] = state && state.val ? 'on' : 'off';
-                ent.attributes.preset_mode = presets.find(p => ent.attributes[p.name] === 'on')?.name ?? 'none';
+                ent.attributes.preset_mode = activePreset(ent);
             };
             attr.historyParser = (_id, val) => (val ? name : 'none');
+        }
+        // A preset the MODE state holds is offered next to the switches (a device that has both the
+        // switch and the mode value lists it once).
+        for (const name of modePresets) {
+            if (!presetModes.includes(name)) {
+                presetModes.push(name);
+            }
         }
 
         const preset_attr = entity.context.ATTRIBUTES.find(a => a.attribute === 'preset_mode');
@@ -226,12 +293,31 @@ export function applyClimateStates(
 
         entity.context.COMMANDS.push({
             service: 'set_preset_mode',
-            parseCommand: async (_ent, _command, data: ServiceCallData, user): Promise<unknown> => {
+            parseCommand: async (ent, _command, data: ServiceCallData, user): Promise<unknown> => {
                 const preset = (data.service_data as Record<string, string>).preset_mode;
                 const promises: Promise<unknown>[] = [];
+                const hvac_attr = ent.context.ATTRIBUTES.find(a => a.attribute === 'hvac_mode');
+                // A preset that lives in the MODE state is written there; leaving it means going
+                // back to the last real hvac mode, since the MODE state holds only one of them.
+                let modeTarget: string | undefined;
+                if (modePresets.includes(preset)) {
+                    modeTarget = preset;
+                } else if (ent.context.iobModePreset) {
+                    modeTarget = ent.context.iobLastHvacMode ?? defaultMode;
+                }
+                if (modeTarget !== undefined && hvac_attr?.setId) {
+                    const value = hvac_attr.lovelaceToIob?.[modeTarget];
+                    if (value !== undefined) {
+                        promises.push(
+                            adapterData.adapter.setForeignStateAsync(hvac_attr.setId, value, false, { user }),
+                        );
+                    }
+                }
                 // The chosen preset is switched on first and the others off after it, so a client
                 // that watches one of the states never sees a moment with no preset at all.
-                const ordered = presets.filter(p => p.name === preset).concat(presets.filter(p => p.name !== preset));
+                const ordered = presetSwitches
+                    .filter(p => p.name === preset)
+                    .concat(presetSwitches.filter(p => p.name !== preset));
                 for (const { name, attr } of ordered) {
                     if (attr.getId) {
                         promises.push(

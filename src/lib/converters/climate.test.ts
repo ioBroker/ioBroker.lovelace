@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Types } from '@iobroker/type-detector';
 import type { PatternControl } from '@iobroker/type-detector';
-import { ClimateConverter } from './climate';
+import { ClimateConverter, supportedFlags } from './climate';
 import type { ConverterParameters } from './converter';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -185,6 +185,77 @@ describe('converters/climate presets', function () {
             'user',
         );
         expect(setForeignStateAsync.args.every(args => args[1] === false)).to.be.true;
+        sinon.restore();
+    });
+});
+
+describe('converters/climate ECO as a mode value', function () {
+    const MODE_ID = `${DEVICE_ID}.mode`;
+    //type-detector reports ECO as a value of an air conditioner's MODE state
+    const MODE_STATES = { 0: 'AUTO', 3: 'COOL', 5: 'ECO', 8: 'OFF' };
+
+    function makeModeEntity(): ReturnType<typeof ClimateConverter.convertEntities>[0] {
+        const params = makeParameters([{ id: MODE_ID, name: 'MODE' }], Types.airCondition);
+        (params.objects[MODE_ID].common as ioBroker.StateCommon).states = MODE_STATES;
+        (params.objects[MODE_ID].common as ioBroker.StateCommon).type = 'number';
+        return ClimateConverter.convertEntities(params)[0];
+    }
+
+    it('offers eco as a preset and keeps it out of the hvac modes', function () {
+        const entity = makeModeEntity();
+        expect(entity.attributes.hvac_modes).to.have.members(['auto', 'cool', 'off']);
+        expect(entity.attributes.preset_modes).to.deep.equal(['none', 'eco']);
+        expect(Number(entity.attributes.supported_features) & supportedFlags.CLIMATE_SUPPORT_PRESET_MODE).to.be.above(
+            0,
+        );
+    });
+
+    it('reports the eco preset and keeps the last real hvac mode', function () {
+        const entity = makeModeEntity();
+        const mode = entity.context.ATTRIBUTES.find(a => a.attribute === 'hvac_mode')!;
+
+        mode.getParser!(entity, mode, state(0));
+        expect(entity.attributes.hvac_mode).to.equal('auto');
+        expect(entity.attributes.preset_mode).to.equal('none');
+
+        mode.getParser!(entity, mode, state(5));
+        expect(entity.attributes.preset_mode).to.equal('eco');
+        //HA only knows a fixed set of hvac modes, so the last real one is kept
+        expect(entity.attributes.hvac_mode).to.equal('auto');
+        expect(entity.state).to.equal('auto');
+        //a preset is no state of its own in a history graph
+        expect(mode.historyParser!('', 5)).to.equal('cool');
+
+        mode.getParser!(entity, mode, state(3));
+        expect(entity.attributes.hvac_mode).to.equal('cool');
+        expect(entity.attributes.preset_mode).to.equal('none');
+    });
+
+    it('set_preset_mode writes the mode value and switches back to the last real mode', async function () {
+        const entity = makeModeEntity();
+        const setForeignStateAsync = sinon.stub().resolves();
+        entityData.adapter.setForeignStateAsync = setForeignStateAsync;
+        const mode = entity.context.ATTRIBUTES.find(a => a.attribute === 'hvac_mode')!;
+        const cmd = entity.context.COMMANDS.find(c => c.service === 'set_preset_mode')!;
+
+        mode.getParser!(entity, mode, state(3));
+        await cmd.parseCommand!(
+            entity,
+            cmd,
+            { id: 1, service: 'set_preset_mode', service_data: { preset_mode: 'eco' } },
+            'user',
+        );
+        expect(setForeignStateAsync.calledWith(MODE_ID, 5, false, { user: 'user' })).to.be.true;
+
+        mode.getParser!(entity, mode, state(5));
+        setForeignStateAsync.resetHistory();
+        await cmd.parseCommand!(
+            entity,
+            cmd,
+            { id: 2, service: 'set_preset_mode', service_data: { preset_mode: 'none' } },
+            'user',
+        );
+        expect(setForeignStateAsync.calledWith(MODE_ID, 3, false, { user: 'user' })).to.be.true;
         sinon.restore();
     });
 });

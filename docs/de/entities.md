@@ -239,7 +239,7 @@ ioBroker-Geräte: Thermostat (`thermostat`), Klimaanlage (`airCondition`).
 
 ![Clima Karte](media/climate-entity-full.JPG)
 
-Die Temperatur wird in Lovelace über einen runden Slider gesteuert. Darunter gibt es Knöpfe zur Wahl des Modus (nur bei bekannten Modi). Die Modi werden mittels `states` im ioBroker-State auf Zahlen abgebildet. Lovelace kennt `auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` und `off`; diese werden als übersetzte Schaltflächen angezeigt. Abweichende States erscheinen im More-Info-Fenster als Dropdown, dort gibt es auch Dropdowns für Presets (falls `boost`, `party` oder `eco` im ioBroker-Gerät vorhanden) sowie Ventilator / Swing, falls erkannt (deren States werden 1:1 angezeigt).
+Die Temperatur wird in Lovelace über einen runden Slider gesteuert. Darunter gibt es Knöpfe zur Wahl des Modus (nur bei bekannten Modi). Die Modi werden mittels `states` im ioBroker-State auf Zahlen abgebildet. Lovelace kennt `auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` und `off`; diese werden als übersetzte Schaltflächen angezeigt. Abweichende States erscheinen im More-Info-Fenster als Dropdown, dort gibt es auch Dropdowns für Presets (falls `boost`, `party` oder `eco` im ioBroker-Gerät vorhanden) sowie Ventilator / Swing, falls erkannt (deren States werden 1:1 angezeigt). Ein Modus, den Home Assistant stattdessen als Preset kennt (`ECO`, `BOOST`, `PARTY`, `COMFORT`, `SLEEP`, `AWAY`, `HOME`, `ACTIVITY`), wird als Preset angeboten und nicht als HVAC-Modus: Auswählen schreibt den Wert in den Mode-State, Verlassen schaltet zurück auf den zuvor genutzten Modus.
 
 ![Clima More Info](media/climate-entity-full-moreinfo.JPG)
 ![Clima Attributes](media/climate-entity-full-attributes.JPG)
