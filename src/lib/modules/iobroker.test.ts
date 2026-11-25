@@ -43,7 +43,17 @@ function makeAdapter(rights: Record<string, Record<string, boolean>> = {}): { ad
         }),
         getForeignObjectAsync: later((id: string, options?: { user?: string }) => {
             calls.push({ fn: 'getForeignObject', args: [id, options] });
-            return id === 'system.config' ? { common: { language: 'de' } } : { _id: id, type: 'state', common: {} };
+            if (id === 'system.config') {
+                return { common: { language: 'de' } };
+            }
+            // history adapters (history, sql, influxdb) set common.getHistory
+            if (id === 'system.adapter.sql.0' || id === 'system.adapter.history.0') {
+                return { _id: id, type: 'instance', common: { getHistory: true } };
+            }
+            if (id.startsWith('system.adapter.')) {
+                return { _id: id, type: 'instance', common: {} };
+            }
+            return { _id: id, type: 'state', common: {} };
         }),
         getObjectViewAsync: later((design: string, type: string, params: unknown, options: unknown) => {
             calls.push({ fn: 'getObjectView', args: [design, type, params, options] });
@@ -235,6 +245,32 @@ describe('modules/iobroker', function () {
             'getHistory',
             { id: 'home-guard.0.status.mode', options: { count: 5 } },
         ]);
+    });
+
+    it('sends get_history only to history instances', async function () {
+        const { mod, calls } = makeModule();
+        const { ws, sent } = makeWs();
+        await mod.processMessage(ws, {
+            id: 30,
+            type: 'iobroker/get_history',
+            state_id: 'home-guard.0.status.mode',
+            options: { instance: 'history.0' },
+        });
+        expect(sent[0].success).to.equal(true);
+        for (const instance of ['javascript.0', 'admin', '../sql.0']) {
+            calls.length = 0;
+            await mod.processMessage(ws, {
+                id: 31,
+                type: 'iobroker/get_history',
+                state_id: 'home-guard.0.status.mode',
+                options: { instance },
+            });
+            expect(sent.at(-1).success, instance).to.equal(false);
+            expect(
+                calls.some(c => c.fn === 'sendTo'),
+                instance,
+            ).to.equal(false);
+        }
     });
 
     it('reads files as text or base64 and refuses to leave the folder', async function () {

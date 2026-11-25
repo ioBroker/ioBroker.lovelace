@@ -193,6 +193,7 @@ class IoBrokerModule {
         if (!instance) {
           throw new IobError("not_supported", "no history instance configured");
         }
+        await this._checkHistoryInstance(instance);
         const res = await (0, import_historyGate.getHistoryGated)(this.adapter, instance, {
           id,
           options: historyOptions
@@ -239,6 +240,21 @@ class IoBrokerModule {
     }
     const permissions = await this.adapter.calculatePermissionsAsync(user, []);
     return !!((_b = (_a = permissions == null ? void 0 : permissions.acl) == null ? void 0 : _a.other) == null ? void 0 : _b[operation]);
+  }
+  /**
+   * Throws unless the instance belongs to a history adapter (common.getHistory, as history, sql and influxdb set it),
+   * so a client cannot send a getHistory message to any other instance.
+   *
+   * @param instance - e.g. history.0
+   */
+  async _checkHistoryInstance(instance) {
+    if (!/^[a-z0-9_-]+\.\d+$/.test(instance)) {
+      throw new IobError("invalid_format", "invalid history instance");
+    }
+    const obj = await this.adapter.getForeignObjectAsync(`system.adapter.${instance}`);
+    if ((obj == null ? void 0 : obj.type) !== "instance" || !obj.common.getHistory) {
+      throw new IobError("not_supported", `${instance} is not a history instance`);
+    }
   }
   async _systemLang() {
     var _a;
