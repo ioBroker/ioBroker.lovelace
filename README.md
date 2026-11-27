@@ -84,6 +84,7 @@ After that checkout modified version in `./build` folder. Then.
     ### for next frontend update, update of auto entities card will be necessary!
 -->
 ### **WORK IN PROGRESS**
+* (disaster123/Claude) Statistics requests without `types` return data again, as in Home Assistant: a measurement gets mean, min and max, a meter gets change, state and sum. Custom cards that send no `types`, such as apexcharts-card with `statistics`, stayed on "Loading…" before and the log claimed there was no history.
 * (Garfonso/Claude) Conditions of the type `sun` and `zone` are evaluated too, so a card can be visible after sunset or while somebody is in a zone.
 * (Garfonso/Claude) New manual entity type `zone`: a circle on the map, with a fixed position or following a GPS state.
 * (Garfonso/Claude) A `device_tracker`/`person` without a presence state reports the zone it is in, not only `home`/`not_home`, and `zone.home` has Home Assistant's default radius of 100 m.
@@ -91,6 +92,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) An `ECO` value in a climate mode list becomes the `eco` preset instead of an invalid HVAC mode.
 * (Garfonso/Claude) The default for the maximum history points per request is 10000 instead of 2000, so long graphs are no longer coarse.
 * (Bluefox/Claude) `/index.html` is rendered like `/` instead of being sent as the raw frontend template, which stopped with "Unexpected token '%'". The ioBroker.visu app opens Lovelace on ioBroker.pro by this name.
+
 
 ### 7.4.1 (2026-10-22)
 * (Garfonso/Claude) Conditional cards and the `visibility` of cards, badges, sections and views work again: the new frontend asks the server to evaluate the conditions (`subscribe_condition`), which the adapter answered with "Unknown request" before, so everything conditional stayed hidden.

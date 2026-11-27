@@ -302,6 +302,81 @@ describe('modules/statisticsRecorder period step sizes', function () {
     });
 });
 
+describe('modules/statisticsRecorder request without types', function () {
+    const STEP = 86400000; // day
+    const T0 = Date.parse('2026-10-20T00:00:00.000Z');
+
+    function makeTypedModule(entity: any): { mod: any; responses: any[]; aggregates: string[] } {
+        const responses: any[] = [];
+        const aggregates: string[] = [];
+        const mod = new StatisticsRecorder({
+            server: { _sendResponse: (_ws: unknown, _id: unknown, result: unknown) => responses.push(result) },
+            adapter: {
+                config: { history: 'history.0' },
+                sendToAsync: (
+                    _instance: string,
+                    _command: string,
+                    message: { options: { aggregate: string; start: number } },
+                ) => {
+                    aggregates.push(message.options.aggregate);
+                    const series = [
+                        { ts: T0 - STEP, val: 4 },
+                        { ts: T0, val: 6 },
+                        { ts: T0 + STEP, val: 9 },
+                    ];
+                    return Promise.resolve({ result: series.filter(p => p.ts >= message.options.start) });
+                },
+            },
+            log: { debug: () => {}, info: () => {}, warn: () => {}, error: () => {} },
+            personModule: { getUserIDFromName: () => 'system.user.admin' },
+            dataSingleton: { entities: [entity], entityId2Entity: { [entity.entity_id]: entity } },
+        });
+        return { mod, responses, aggregates };
+    }
+
+    function request(statisticId: string): Record<string, unknown> {
+        // Like apexcharts-card: no `types` in the request.
+        return {
+            type: 'recorder/statistics_during_period',
+            id: 1,
+            start_time: new Date(T0).toISOString(),
+            end_time: new Date(T0 + 2 * STEP).toISOString(),
+            period: 'day',
+            statistic_ids: [statisticId],
+        };
+    }
+
+    it('returns mean, min and max for a measurement when no types are requested', async function () {
+        const entity = {
+            entity_id: 'sensor.gas_today',
+            attributes: { unit_of_measurement: 'm³' },
+            context: { STATE: { getId: 'src.0.gas' } },
+        };
+        const { mod, responses, aggregates } = makeTypedModule(entity);
+        await mod.processMessage({ __auth: { username: 'admin' } }, request('sensor.gas_today'));
+
+        expect(aggregates).to.have.members(['average', 'min', 'max']);
+        const buckets = responses[0]['sensor.gas_today'];
+        expect(buckets).to.have.lengthOf(2);
+        expect(buckets[0]).to.include({ start: T0, max: 6, mean: 6, min: 6 });
+    });
+
+    it('returns change, state and sum for a meter when no types are requested', async function () {
+        const entity = {
+            entity_id: 'sensor.energy',
+            attributes: { unit_of_measurement: 'kWh', device_class: 'energy' },
+            context: { STATE: { getId: 'src.0.energy' } },
+        };
+        const { mod, responses } = makeTypedModule(entity);
+        await mod.processMessage({ __auth: { username: 'admin' } }, request('sensor.energy'));
+
+        const buckets = responses[0]['sensor.energy'];
+        expect(buckets).to.have.lengthOf(2);
+        expect(buckets[0]).to.include({ start: T0, change: 2, state: 6, sum: 6 });
+        expect(buckets[1]).to.include({ start: T0 + STEP, change: 3, state: 9, sum: 9 });
+    });
+});
+
 describe('modules/statisticsRecorder energy costs', function () {
     const STEP = 3600000; // hour
     const T0 = Date.parse('2026-06-15T00:00:00.000Z');
