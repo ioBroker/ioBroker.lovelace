@@ -13,14 +13,6 @@ if(-1===navigator.userAgent.indexOf("Android")){function _pf(o,t){var n=document
 isModern&&(import("./frontend_latest/core.809b4e9fd5bc020d.js"),import("./frontend_latest/app.2b2c77c47b35f605.js"),window.customPanelJS="frontend_latest/custom-panel.2ab1e16ed8058cdc.js",window.latestJS=!0)
 </script>
 <script>
-{%- for extra_module in extra_modules -%}
-        // Caught, or the boot recovery guard reads it as a stale build.
-        import("{{ extra_module }}").catch(function (err) {
-          console.error("Failed to load extra module {{ extra_module }}", err);
-        });
-        {%- endfor -%}
-</script>
-<script>
 window.latestJS||(window.customPanelJS="frontend_es5/custom-panel.480aab51e4f41752.js",_ls("frontend_es5/core.84458eba591763e0.js",!0),_ls("frontend_es5/app.036e00ae6f5ab51d.js",!0))
 </script>
 </body></html>

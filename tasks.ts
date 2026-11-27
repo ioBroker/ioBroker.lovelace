@@ -45,6 +45,26 @@ function filesWalk(folder: string, func: (fileName: string) => void): void {
 }
 
 /**
+ * Removes the script blocks of index.html that exist only for the optional extra modules and scripts of Home
+ * Assistant, which we do not have. Those blocks are Jinja templates, so they must not reach the browser.
+ *
+ * Matching their exact wording used to break silently whenever upstream changed them (that is how
+ * `import("{{ extra_module }}").catch(...)` once survived the rename), so every script block that contains a
+ * template statement goes and anything left over is logged. `{{ ... }}` placeholders are not touched here:
+ * `_renderIndex()` in server.ts substitutes them at runtime.
+ *
+ * @param text content of index.html
+ * @returns the content without the template-only script blocks
+ */
+function removeTemplateScripts(text: string): string {
+    const newText = text.replace(/<script[^>]*>(?:(?!<\/script>)[\s\S])*?{%[\s\S]*?<\/script>\n?/g, '');
+    if (newText.includes('{%')) {
+        console.error('index.html still contains template statements ({%), please check removeTemplateScripts.');
+    }
+    return newText;
+}
+
+/**
  * Patches the frontend copied into hass_frontend: replaces the Home Assistant branding, makes the paths in
  * index.html relative and deletes files that are not needed.
  */
@@ -88,14 +108,7 @@ function rename(): void {
                 newText = newText.replace(/\n\n\n/g, '\n');
                 newText = newText.replace(/\n\n/g, '\n');
                 // remove optional load module stuff we don't have.
-                newText = newText.replace(
-                    /<script>\n*\s*{%- for extra_module in extra_modules -%}\n*\s*import\("{{ extra_module }}"\);\n*\s*{%- endfor -%}\n*\s*<\/script>/g,
-                    '',
-                );
-                newText = newText.replace(
-                    /<script>\n*\s*if \(!window.latestJS\) {\n*\s*{%- for extra_script in extra_js_es5 -%}\n*\s*_ls\("{{ extra_script }}"\);\n*\s*{%- endfor -%}\n*\s*}\n*\s*<\/script>/g,
-                    '',
-                );
+                newText = removeTemplateScripts(newText);
 
                 //open home foundation logo (display none, because completely removing the div breaks... uhm.. everything?)
                 newText = newText.replace(/<div class="ohf-logo">/gm, '<div class="ohf-logo" style="display:none">');
