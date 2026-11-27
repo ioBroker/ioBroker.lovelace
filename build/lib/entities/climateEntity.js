@@ -88,6 +88,8 @@ function applyClimateStates(states, objects, entity, iobType) {
           const target = (_a2 = hvac_attr.lovelaceToIob) == null ? void 0 : _a2[value];
           if (target !== void 0) {
             await adapterData.adapter.setForeignStateAsync(hvac_attr.setId, target, false, { user });
+            ent.context.iobModePreset = void 0;
+            ent.context.iobLastHvacMode = value;
           }
         }
         ent.attributes.hvac_action = void 0;
@@ -258,6 +260,7 @@ function applyClimateStates(states, objects, entity, iobType) {
             promises.push(
               adapterData.adapter.setForeignStateAsync(hvac_attr.setId, value, false, { user })
             );
+            ent.context.iobModePreset = modePresets.includes(modeTarget) ? modeTarget : void 0;
           }
         }
         const ordered = presetSwitches.filter((p) => p.name === preset).concat(presetSwitches.filter((p) => p.name !== preset));

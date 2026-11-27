@@ -231,6 +231,62 @@ describe('converters/climate ECO as a mode value', function () {
         expect(entity.attributes.preset_mode).to.equal('none');
     });
 
+    it('switches back even when the state change has not come in yet', async function () {
+        const entity = makeModeEntity();
+        const setForeignStateAsync = sinon.stub().resolves();
+        entityData.adapter.setForeignStateAsync = setForeignStateAsync;
+        const mode = entity.context.ATTRIBUTES.find(a => a.attribute === 'hvac_mode')!;
+        const cmd = entity.context.COMMANDS.find(c => c.service === 'set_preset_mode')!;
+
+        mode.getParser!(entity, mode, state(3));
+        await cmd.parseCommand!(
+            entity,
+            cmd,
+            { id: 1, service: 'set_preset_mode', service_data: { preset_mode: 'eco' } },
+            'user',
+        );
+        //no getParser call in between: the write is not acknowledged yet, which a quick second click
+        //(or a slow states DB) looks exactly like
+        setForeignStateAsync.resetHistory();
+        await cmd.parseCommand!(
+            entity,
+            cmd,
+            { id: 2, service: 'set_preset_mode', service_data: { preset_mode: 'none' } },
+            'user',
+        );
+        expect(setForeignStateAsync.calledWith(MODE_ID, 3, false, { user: 'user' })).to.be.true;
+        sinon.restore();
+    });
+
+    it('set_hvac_mode makes a following preset call see the new mode', async function () {
+        const entity = makeModeEntity();
+        const setForeignStateAsync = sinon.stub().resolves();
+        entityData.adapter.setForeignStateAsync = setForeignStateAsync;
+        const mode = entity.context.ATTRIBUTES.find(a => a.attribute === 'hvac_mode')!;
+        const hvacCmd = entity.context.COMMANDS.find(c => c.service === 'set_hvac_mode')!;
+        const presetCmd = entity.context.COMMANDS.find(c => c.service === 'set_preset_mode')!;
+
+        mode.getParser!(entity, mode, state(5));
+        await hvacCmd.parseCommand!(
+            entity,
+            hvacCmd,
+            { id: 1, service: 'set_hvac_mode', service_data: { hvac_mode: 'auto' } },
+            'user',
+        );
+        expect(setForeignStateAsync.calledWith(MODE_ID, 0, false, { user: 'user' })).to.be.true;
+
+        //the preset is gone with the new mode, so leaving it writes nothing
+        setForeignStateAsync.resetHistory();
+        await presetCmd.parseCommand!(
+            entity,
+            presetCmd,
+            { id: 2, service: 'set_preset_mode', service_data: { preset_mode: 'none' } },
+            'user',
+        );
+        expect(setForeignStateAsync.called).to.be.false;
+        sinon.restore();
+    });
+
     it('set_preset_mode writes the mode value and switches back to the last real mode', async function () {
         const entity = makeModeEntity();
         const setForeignStateAsync = sinon.stub().resolves();

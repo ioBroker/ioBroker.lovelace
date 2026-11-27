@@ -126,6 +126,10 @@ export function applyClimateStates(
                     const target = hvac_attr.lovelaceToIob?.[value];
                     if (target !== undefined) {
                         await adapterData.adapter.setForeignStateAsync(hvac_attr.setId!, target, false, { user });
+                        // Remember what was written right away: the state change that confirms it can take a
+                        // moment and until then a following service call must not act on the old value.
+                        ent.context.iobModePreset = undefined;
+                        ent.context.iobLastHvacMode = value;
                     }
                 }
                 ent.attributes.hvac_action = undefined;
@@ -311,6 +315,10 @@ export function applyClimateStates(
                         promises.push(
                             adapterData.adapter.setForeignStateAsync(hvac_attr.setId, value, false, { user }),
                         );
+                        // Remember what was written right away: the state change that confirms it can take a
+                        // moment and until then a second call would still see the preset it replaced - going
+                        // from eco back to none in quick succession would write nothing at all.
+                        ent.context.iobModePreset = modePresets.includes(modeTarget) ? modeTarget : undefined;
                     }
                 }
                 // The chosen preset is switched on first and the others off after it, so a client
