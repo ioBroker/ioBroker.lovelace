@@ -92,7 +92,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) An `ECO` value in a climate mode list becomes the `eco` preset instead of an invalid HVAC mode.
 * (Garfonso/Claude) The default for the maximum history points per request is 10000 instead of 2000, so long graphs are no longer coarse.
 * (Bluefox/Claude) `/index.html` is rendered like `/` instead of being sent as the raw frontend template, which stopped with "Unexpected token '%'". The ioBroker.visu app opens Lovelace on ioBroker.pro by this name.
-* (ipod86) Widgets of ioBroker adapters (web components, as in vis-2) can be added as cards: the shipped card `iob-web-component-card` offers every web component of the installed adapters in the card picker, with an editor for its settings.
+* (ipod86) Widgets of ioBroker adapters (web components, as in vis-2) can be added as cards: the shipped card `iob-web-component-card` offers every web component of the installed adapters in the card picker, with an editor for its settings. Switched on with the new instance setting "Web component cards" (off by default).
 * (ipod86) Cards can use ioBroker over the connection Lovelace has anyway (`iobroker/*` websocket messages, with the rights of the logged-in user).
 * (ipod86) React is served at `/lib/esm/react-19.js` and `/lib/esm/react-18.js` for web components that use it.
 

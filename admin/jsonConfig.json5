@@ -94,6 +94,17 @@
           "lg": 3,
           "xl": 3
         },
+        "webComponents": {
+          "type": "checkbox",
+          "label": "Web component cards",
+          "help": "Shows widgets of ioBroker adapters (web components) as Lovelace cards. The cards can then read and write states, read objects and send messages to adapter instances – with the rights of the logged-in user, or of the \"Run as\" user without authentication. Only switch it on when you use these cards.",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 8,
+          "lg": 6,
+          "xl": 6
+        },
         "auth": {
           "type": "checkbox",
           "label": "Authentication",

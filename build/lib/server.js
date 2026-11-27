@@ -300,7 +300,8 @@ class WebServer {
         adapter: this.adapter,
         sendResponse: (ws, id, result) => this._sendResponse(ws, id, result),
         getUserIDFromName: (name) => this._modules.person.getUserIDFromName(name),
-        subscribeState: (id) => this._subscribeExtraState(id)
+        subscribeState: (id) => this._subscribeExtraState(id),
+        getLanguage: () => this.lang
       }),
       condition: new import_condition.default({
         adapter: this.adapter,
@@ -2211,13 +2212,18 @@ ${hideScript.join("\n")}
         await this.onCards(req, res);
       } else if (/\/lib\/esm\/react-1[89]\.js(\?|$)/.test(req.url)) {
         const file = /react-1[89]\.js/.exec(req.url)[0];
-        this._sendStaticFile(
-          req,
-          res,
-          import_node_path.default.dirname(require.resolve(`@iobroker/web-components/esm/${file}`)),
-          file,
-          REVALIDATE_CACHE
-        );
+        let dir;
+        try {
+          dir = import_node_path.default.dirname(require.resolve(`@iobroker/web-components/esm/${file}`));
+        } catch (e) {
+          this.adapter.log.warn(`Cannot find ${file} in @iobroker/web-components: ${String(e)}`);
+        }
+        if (dir) {
+          this._sendStaticFile(req, res, dir, file, REVALIDATE_CACHE);
+        } else {
+          res.writeHead(404);
+          res.end("Not found");
+        }
       } else if (req.url.includes("/frontend_latest/")) {
         this._sendStaticFile(
           req,

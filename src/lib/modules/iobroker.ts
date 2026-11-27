@@ -31,6 +31,7 @@ class IobError extends Error {
         message: string,
     ) {
         super(message);
+        this.name = 'IobError';
     }
 }
 
@@ -43,23 +44,35 @@ class IobError extends Error {
  * It lets web components of ioBroker adapters (`@iobroker/web-components`, used by vis-2 and others)
  * run as Lovelace cards without a second connection to the web adapter - so without another port, a
  * second login, mixed http/https or CORS.
+ *
+ * Off by default: only with the instance setting `webComponents` the messages are answered, otherwise every
+ * `iobroker/*` message gets the error `not_enabled` (so the card does not even look for components).
  */
 class IoBrokerModule {
     private adapter: ioBroker.Adapter;
     private sendResponse: SendResponseFn;
     private getUserIDFromName: (name: string | undefined) => string;
     private subscribeState: (id: string) => void;
+    private getLanguage: () => string;
 
     constructor(options: {
         adapter: ioBroker.Adapter;
         sendResponse: SendResponseFn;
         getUserIDFromName: (name: string | undefined) => string;
         subscribeState: (id: string) => void;
+        /** the frontend language of the instance (its own setting or the system language) */
+        getLanguage: () => string;
     }) {
         this.adapter = options.adapter;
         this.sendResponse = options.sendResponse;
         this.getUserIDFromName = options.getUserIDFromName;
         this.subscribeState = options.subscribeState;
+        this.getLanguage = options.getLanguage;
+    }
+
+    /** Whether the instance setting "web component cards" is on. */
+    get enabled(): boolean {
+        return !!(this.adapter.config as { webComponents?: boolean }).webComponents;
     }
 
     /**
@@ -156,6 +169,9 @@ class IoBrokerModule {
         }
         const user = this.getUserIDFromName(ws.__auth?.username);
         try {
+            if (!this.enabled) {
+                throw new IobError('not_enabled', 'web component cards are switched off in the instance settings');
+            }
             const result = await this._handle(ws, type, message, user);
             this.sendResponse(ws, message.id, result);
         } catch (e) {
@@ -179,7 +195,7 @@ class IoBrokerModule {
         const options = { user };
         switch (type) {
             case 'iobroker/info':
-                return { version: IOBROKER_PROTOCOL_VERSION, systemLang: await this._systemLang() };
+                return { version: IOBROKER_PROTOCOL_VERSION, systemLang: this.getLanguage() || 'en' };
 
             case 'iobroker/get_state':
                 return (await this.adapter.getForeignStateAsync(this._id(m.state_id), options)) ?? null;
@@ -267,10 +283,18 @@ class IoBrokerModule {
             }
 
             case 'iobroker/read_file': {
+                // only what web components need: the files under webcomponents/ of an adapter's admin folder
                 const adapterName = this._id(m.adapter);
                 const file = typeof m.file === 'string' ? m.file : '';
-                if (!file || file.split('/').includes('..')) {
-                    throw new IobError('invalid_format', 'invalid file name');
+                if (!/^[a-z0-9_-]+\.admin$/.test(adapterName)) {
+                    throw new IobError('invalid_format', 'only <adapter>.admin can be read');
+                }
+                if (
+                    !file.startsWith('webcomponents/') ||
+                    /\\/.test(file) ||
+                    file.split('/').some(p => p === '..' || p === '.')
+                ) {
+                    throw new IobError('invalid_format', 'only files under webcomponents/ can be read');
                 }
                 const res = await this.adapter.readFileAsync(adapterName, file, options);
                 const data = res?.file;
@@ -328,11 +352,6 @@ class IoBrokerModule {
         if (obj?.type !== 'instance' || !(obj.common as { getHistory?: boolean }).getHistory) {
             throw new IobError('not_supported', `${instance} is not a history instance`);
         }
-    }
-
-    private async _systemLang(): Promise<string> {
-        const config = await this.adapter.getForeignObjectAsync('system.config');
-        return (config?.common as { language?: string } | undefined)?.language || 'en';
     }
 }
 

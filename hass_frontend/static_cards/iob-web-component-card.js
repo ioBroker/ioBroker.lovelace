@@ -13,7 +13,7 @@
  * Lovelace has anyway: the `iobroker/*` messages of the lovelace adapter, with the rights of the logged-in user.
  */
 (() => {
-    const VERSION = '1.0.0';
+    const VERSION = '1.1.0';
     const modules = new Map(); // adapter/component -> Promise<manifest>
 
     const lang = () => (document.documentElement.lang || navigator.language || 'en').slice(0, 2);
@@ -124,7 +124,12 @@
                 new Promise((_r, rej) => setTimeout(() => rej(new Error('timeout')), 4000)),
             ]).then(
                 info => new HassSocket(conn, info),
-                () => null,
+                e => ({
+                    error:
+                        e?.code === 'not_enabled'
+                            ? 'web component cards are switched off - enable "Web component cards" in the settings of the lovelace instance'
+                            : 'the lovelace adapter does not answer iobroker/* - please update it',
+                }),
             );
         }
         return native;
@@ -137,7 +142,10 @@
     async function connect(hass) {
         const socket = await nativeSocket(hass);
         if (!socket) {
-            throw new Error('the lovelace adapter does not answer iobroker/* - please update it');
+            throw new Error('no connection to the lovelace adapter');
+        }
+        if (socket.error) {
+            throw new Error(socket.error);
         }
         return socket;
     }
@@ -349,6 +357,15 @@
         getCardSize() {
             return Math.max(1, Math.round((this._height || 300) / 50));
         }
+        /** sizing in the sections view (current API) */
+        getGridOptions() {
+            return {
+                columns: 12,
+                min_columns: 6,
+                rows: Math.max(2, Math.round((this._height || 300) / 56)),
+            };
+        }
+        /** older sizing API, still read by the frontend */
         getLayoutOptions() {
             return {
                 grid_columns: 4,

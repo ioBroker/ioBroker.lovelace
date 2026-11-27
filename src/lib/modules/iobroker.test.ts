@@ -31,7 +31,7 @@ function makeAdapter(rights: Record<string, Record<string, boolean>> = {}): { ad
             Promise.resolve().then(() => fn(...args));
     const adapter = {
         log: { debug: () => {}, warn: () => {} },
-        config: { history: 'sql.0' },
+        config: { history: 'sql.0', webComponents: true } as Record<string, unknown>,
         getForeignStateAsync: later((id: string, options?: { user?: string }) => {
             calls.push({ fn: 'getForeignState', args: [id, options] });
             check(options, id);
@@ -85,6 +85,7 @@ function makeModule(rights?: Record<string, Record<string, boolean>>): {
     mod: any;
     calls: Call[];
     subscribed: string[];
+    adapter: any;
 } {
     const { adapter, calls } = makeAdapter(rights);
     const subscribed: string[] = [];
@@ -94,8 +95,9 @@ function makeModule(rights?: Record<string, Record<string, boolean>>): {
             ws.send(JSON.stringify({ id, type: 'result', success: true, result: result ?? null })),
         getUserIDFromName: (name: string | undefined) => `system.user.${name || 'admin'}`,
         subscribeState: (id: string) => subscribed.push(id),
+        getLanguage: () => 'de',
     });
-    return { mod, calls, subscribed };
+    return { mod, calls, subscribed, adapter };
 }
 
 function makeWs(username = 'admin'): { ws: any; sent: any[] } {
@@ -112,7 +114,17 @@ describe('modules/iobroker', function () {
         expect(sent).to.have.length(0);
     });
 
-    it('answers info with the protocol version and the system language', async function () {
+    it('answers nothing but not_enabled while the instance setting is off', async function () {
+        const { mod, adapter, calls } = makeModule();
+        adapter.config.webComponents = false;
+        const { ws, sent } = makeWs();
+        expect(await mod.processMessage(ws, { id: 1, type: 'iobroker/info' })).to.equal(true);
+        await mod.processMessage(ws, { id: 2, type: 'iobroker/send_to', instance: 'a.0', command: 'x' });
+        expect(sent.map(m => m.error?.code)).to.deep.equal(['not_enabled', 'not_enabled']);
+        expect(calls).to.have.length(0);
+    });
+
+    it('answers info with the protocol version and the language of the instance', async function () {
         const { mod } = makeModule();
         const { ws, sent } = makeWs();
         await mod.processMessage(ws, { id: 1, type: 'iobroker/info' });
@@ -287,15 +299,20 @@ describe('modules/iobroker', function () {
             id: 15,
             type: 'iobroker/read_file',
             adapter: 'home-guard.admin',
-            file: 'img/a.png',
+            file: 'webcomponents/img/a.png',
         });
         expect(sent[1].result).to.deep.equal({ mimeType: 'image/png', base64: 'AQID' });
-        await mod.processMessage(ws, {
-            id: 16,
-            type: 'iobroker/read_file',
-            adapter: 'home-guard.admin',
-            file: '../../etc/passwd',
-        });
-        expect(sent[2].success).to.equal(false);
+        const refused = [
+            { adapter: 'home-guard.admin', file: '../../etc/passwd' },
+            { adapter: 'home-guard.admin', file: 'webcomponents/../../x.json' },
+            { adapter: 'home-guard.admin', file: 'img/a.png' },
+            { adapter: '..', file: 'webcomponents/a.js' },
+            { adapter: 'vis.0', file: 'webcomponents/main/vis-views.json' },
+            { adapter: 'web.0', file: 'webcomponents/a.js' },
+        ];
+        for (const [i, r] of refused.entries()) {
+            await mod.processMessage(ws, { id: 16 + i, type: 'iobroker/read_file', ...r });
+        }
+        expect(sent.slice(2).map(m => m.success)).to.deep.equal(refused.map(() => false));
     });
 });

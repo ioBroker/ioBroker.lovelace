@@ -427,6 +427,7 @@ class WebServer {
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
                 getUserIDFromName: (name: string | undefined) => this._modules.person.getUserIDFromName(name),
                 subscribeState: (id: string) => this._subscribeExtraState(id),
+                getLanguage: () => this.lang,
             }),
             condition: new ConditionModule({
                 adapter: this.adapter,
@@ -2721,13 +2722,18 @@ class WebServer {
                 // React as one ES module, for web components that use it (`@iobroker/web-components`):
                 // they import `../../../lib/esm/react-19.js` like under web and admin.
                 const file = /react-1[89]\.js/.exec(req.url)![0];
-                this._sendStaticFile(
-                    req,
-                    res,
-                    path.dirname(require.resolve(`@iobroker/web-components/esm/${file}`)),
-                    file,
-                    REVALIDATE_CACHE,
-                );
+                let dir: string | undefined;
+                try {
+                    dir = path.dirname(require.resolve(`@iobroker/web-components/esm/${file}`));
+                } catch (e) {
+                    this.adapter.log.warn(`Cannot find ${file} in @iobroker/web-components: ${String(e)}`);
+                }
+                if (dir) {
+                    this._sendStaticFile(req, res, dir, file, REVALIDATE_CACHE);
+                } else {
+                    res.writeHead(404);
+                    res.end('Not found');
+                }
             } else if (req.url.includes('/frontend_latest/')) {
                 //serve frontend:
                 //remove all from before frontend_latest.

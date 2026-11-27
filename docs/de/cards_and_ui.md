@@ -32,7 +32,7 @@ Die folgenden Karten wurden vom Entwickler oder der Community getestet und funkt
 
 ## Widgets von ioBroker-Adaptern (Web-Komponenten)
 
-Adapter können Widgets als *Web-Komponenten* mitbringen (dieselben, die vis-2 und andere Visualisierungen anzeigen, siehe [`@iobroker/web-components`](https://github.com/ioBroker/web-components)). Der Adapter bringt die Karte `iob-web-component-card` mit, die sie in Lovelace anzeigt - es muss nichts installiert werden:
+Adapter können Widgets als *Web-Komponenten* mitbringen (dieselben, die vis-2 und andere Visualisierungen anzeigen, siehe [`@iobroker/web-components`](https://github.com/ioBroker/web-components)). Der Adapter bringt die Karte `iob-web-component-card` mit, die sie in Lovelace anzeigt - es muss nichts installiert werden, nur in den Instanzeinstellungen **Web-Component-Karten** einschalten (standardmäßig aus):
 
 ![Bedienfeld von home-guard und Wetter-Widget von openmeteo-notify als Lovelace-Karten](../de/media/web-components.png)
 
@@ -48,7 +48,9 @@ settings:
   instance: home-guard.0
 ```
 
-Für Entwickler: Die Karte spricht mit dem Adapter über die Websocket-Nachrichten `iobroker/info`, `iobroker/get_state`, `iobroker/set_state`, `iobroker/subscribe_states`, `iobroker/get_object`, `iobroker/get_object_view`, `iobroker/send_to` (braucht das Recht *sendto* des Benutzers), `iobroker/get_history` und `iobroker/read_file`. React für Komponenten, die damit gebaut sind, liefert der Adapter unter `/lib/esm/react-19.js` und `/lib/esm/react-18.js` aus, wie web und admin.
+Für Entwickler: Die Karte spricht mit dem Adapter über die Websocket-Nachrichten `iobroker/info`, `iobroker/get_state`, `iobroker/set_state`, `iobroker/subscribe_states`, `iobroker/get_object`, `iobroker/get_object_view`, `iobroker/send_to` (braucht das Recht *sendto* des Benutzers), `iobroker/get_history` und `iobroker/read_file`. React für Komponenten, die damit gebaut sind, liefert der Adapter unter `/lib/esm/react-19.js` und `/lib/esm/react-18.js` aus, wie web und admin. `iobroker/read_file` liest nur Dateien unter `webcomponents/` von `<Adapter>.admin`.
+
+Sicherheit: Die Karte lädt das JavaScript der installierten Adapter und führt es im Dashboard aus (und wertet die `hidden`/`disabled`-Ausdrücke ihrer Manifeste aus). Das ist dasselbe Vertrauen wie bei admin, vis-2 und Custom Cards: Ein installierter Adapter kann Code im Dashboard ausführen. Ohne Anmeldung handeln die Karten mit den Rechten des Benutzers unter *Ausführen als* - steht dort `admin`, kann jeder, der den Port erreicht, auch Nachrichten an jede Instanz senden (`iobroker/send_to`). Die Einstellung deshalb nur einschalten, wenn die Karten genutzt werden, am besten mit Anmeldung oder einem *Ausführen als*-Benutzer mit eingeschränkten Rechten.
 
 ## Eigene Bilder
 Eigene Bilder (z. B. für einen Hintergrund) können über denselben Dialog wie Custom Cards hochgeladen werden. Verwendung in der Lovelace-Konfiguration:

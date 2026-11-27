@@ -6,6 +6,7 @@ class IobError extends Error {
   constructor(code, message) {
     super(message);
     this.code = code;
+    this.name = "IobError";
   }
 }
 class IoBrokerModule {
@@ -13,11 +14,17 @@ class IoBrokerModule {
   sendResponse;
   getUserIDFromName;
   subscribeState;
+  getLanguage;
   constructor(options) {
     this.adapter = options.adapter;
     this.sendResponse = options.sendResponse;
     this.getUserIDFromName = options.getUserIDFromName;
     this.subscribeState = options.subscribeState;
+    this.getLanguage = options.getLanguage;
+  }
+  /** Whether the instance setting "web component cards" is on. */
+  get enabled() {
+    return !!this.adapter.config.webComponents;
   }
   /**
    * Drop every subscription of a connection. Call when a websocket closes.
@@ -110,6 +117,9 @@ class IoBrokerModule {
     }
     const user = this.getUserIDFromName((_a = ws.__auth) == null ? void 0 : _a.username);
     try {
+      if (!this.enabled) {
+        throw new IobError("not_enabled", "web component cards are switched off in the instance settings");
+      }
       const result = await this._handle(ws, type, message, user);
       this.sendResponse(ws, message.id, result);
     } catch (e) {
@@ -133,7 +143,7 @@ class IoBrokerModule {
     const options = { user };
     switch (type) {
       case "iobroker/info":
-        return { version: IOBROKER_PROTOCOL_VERSION, systemLang: await this._systemLang() };
+        return { version: IOBROKER_PROTOCOL_VERSION, systemLang: this.getLanguage() || "en" };
       case "iobroker/get_state":
         return (_a = await this.adapter.getForeignStateAsync(this._id(m.state_id), options)) != null ? _a : null;
       case "iobroker/set_state": {
@@ -206,8 +216,11 @@ class IoBrokerModule {
       case "iobroker/read_file": {
         const adapterName = this._id(m.adapter);
         const file = typeof m.file === "string" ? m.file : "";
-        if (!file || file.split("/").includes("..")) {
-          throw new IobError("invalid_format", "invalid file name");
+        if (!/^[a-z0-9_-]+\.admin$/.test(adapterName)) {
+          throw new IobError("invalid_format", "only <adapter>.admin can be read");
+        }
+        if (!file.startsWith("webcomponents/") || /\\/.test(file) || file.split("/").some((p) => p === ".." || p === ".")) {
+          throw new IobError("invalid_format", "only files under webcomponents/ can be read");
         }
         const res = await this.adapter.readFileAsync(adapterName, file, options);
         const data = res == null ? void 0 : res.file;
@@ -255,11 +268,6 @@ class IoBrokerModule {
     if ((obj == null ? void 0 : obj.type) !== "instance" || !obj.common.getHistory) {
       throw new IobError("not_supported", `${instance} is not a history instance`);
     }
-  }
-  async _systemLang() {
-    var _a;
-    const config = await this.adapter.getForeignObjectAsync("system.config");
-    return ((_a = config == null ? void 0 : config.common) == null ? void 0 : _a.language) || "en";
   }
 }
 module.exports = IoBrokerModule;
