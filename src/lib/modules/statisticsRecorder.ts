@@ -50,6 +50,19 @@ function unitClassForDeviceClass(deviceClass: string | undefined): string | null
     }
 }
 
+/**
+ * Whether a statistic counts up (a meter in an energy or volume unit) instead of being measured. It decides
+ * `has_sum`/`has_mean` in the metadata, which statistics a `statistic_type` filter keeps, and which types a
+ * request that names none gets - so all three must agree.
+ *
+ * @param deviceClass - HA device_class of the entity behind the statistic
+ * @returns true for a meter, false for a measurement
+ */
+function isSumStatistic(deviceClass: string | undefined): boolean {
+    const unitClass = unitClassForDeviceClass(deviceClass);
+    return unitClass === 'energy' || unitClass === 'volume';
+}
+
 /** Statistic types Home Assistant returns when a request names none, by kind of statistic. */
 const SUM_STATISTIC_TYPES = ['change', 'state', 'sum'];
 const MEAN_STATISTIC_TYPES = ['mean', 'min', 'max'];
@@ -464,7 +477,7 @@ class StatisticsRecorder {
                     }
                     this.log.debug(`Getting metadata for ${entityId}`);
                     const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
-                    const isSum = unitClass === 'energy' || unitClass === 'volume';
+                    const isSum = isSumStatistic(entity.attributes.device_class);
                     result.push({
                         statistic_id: entityId,
                         display_unit_of_measurement: entity.attributes.unit_of_measurement,
@@ -490,7 +503,7 @@ class StatisticsRecorder {
                         continue;
                     }
                     const unitClass = unitClassForDeviceClass(entity.attributes?.device_class);
-                    const isSum = unitClass === 'energy' || unitClass === 'volume';
+                    const isSum = isSumStatistic(entity.attributes?.device_class);
                     if (filter === 'sum' && !isSum) {
                         continue;
                     }
@@ -546,8 +559,10 @@ class StatisticsRecorder {
                         break;
                 }
                 // `types` is optional in Home Assistant: without it the recorder returns every type the
-                // statistic has. Custom cards rely on that (e.g. apexcharts-card sends no `types`).
-                const requestedTypes = message.types as string[] | undefined;
+                // statistic has. Custom cards rely on that (e.g. apexcharts-card sends no `types`). An empty
+                // list says no more than a missing one, so it is treated the same way.
+                const askedTypes = message.types as string[] | undefined;
+                const requestedTypes = askedTypes?.length ? askedTypes : undefined;
 
                 for (const entityId of message.statistic_ids as string[]) {
                     // The energy dashboard asks for cost statistics that no entity stands behind:
@@ -577,7 +592,7 @@ class StatisticsRecorder {
                     // expects the values in it.
                     const units = message.units as Record<string, string> | undefined;
                     const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
-                    const isSum = unitClass === 'energy' || unitClass === 'volume';
+                    const isSum = isSumStatistic(entity.attributes.device_class);
                     const types = requestedTypes ?? (isSum ? SUM_STATISTIC_TYPES : MEAN_STATISTIC_TYPES);
                     const wantMean = types.includes('mean');
                     const wantMin = types.includes('min');

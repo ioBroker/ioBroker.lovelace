@@ -334,7 +334,7 @@ describe('modules/statisticsRecorder request without types', function () {
         return { mod, responses, aggregates };
     }
 
-    function request(statisticId: string): Record<string, unknown> {
+    function request(statisticId: string, types?: string[]): Record<string, unknown> {
         // Like apexcharts-card: no `types` in the request.
         return {
             type: 'recorder/statistics_during_period',
@@ -343,6 +343,7 @@ describe('modules/statisticsRecorder request without types', function () {
             end_time: new Date(T0 + 2 * STEP).toISOString(),
             period: 'day',
             statistic_ids: [statisticId],
+            ...(types ? { types } : {}),
         };
     }
 
@@ -359,6 +360,19 @@ describe('modules/statisticsRecorder request without types', function () {
         const buckets = responses[0]['sensor.gas_today'];
         expect(buckets).to.have.lengthOf(2);
         expect(buckets[0]).to.include({ start: T0, max: 6, mean: 6, min: 6 });
+    });
+
+    it('treats an empty type list like a missing one', async function () {
+        const entity = {
+            entity_id: 'sensor.gas_today',
+            attributes: { unit_of_measurement: 'm³' },
+            context: { STATE: { getId: 'src.0.gas' } },
+        };
+        const { mod, responses, aggregates } = makeTypedModule(entity);
+        await mod.processMessage({ __auth: { username: 'admin' } }, request('sensor.gas_today', []));
+
+        expect(aggregates).to.have.members(['average', 'min', 'max']);
+        expect(responses[0]['sensor.gas_today'][0]).to.include({ start: T0, max: 6, mean: 6, min: 6 });
     });
 
     it('returns change, state and sum for a meter when no types are requested', async function () {

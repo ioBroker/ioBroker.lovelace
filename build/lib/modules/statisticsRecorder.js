@@ -16,6 +16,10 @@ function unitClassForDeviceClass(deviceClass) {
       return null;
   }
 }
+function isSumStatistic(deviceClass) {
+  const unitClass = unitClassForDeviceClass(deviceClass);
+  return unitClass === "energy" || unitClass === "volume";
+}
 const SUM_STATISTIC_TYPES = ["change", "state", "sum"];
 const MEAN_STATISTIC_TYPES = ["mean", "min", "max"];
 const UNIT_FACTORS = {
@@ -276,7 +280,7 @@ class StatisticsRecorder {
     return buckets;
   }
   async processMessage(ws, message) {
-    var _a, _b, _c, _d, _e, _f, _g;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     const msgType = message.type;
     if (msgType == null ? void 0 : msgType.startsWith("recorder/")) {
       if (msgType === "recorder/info") {
@@ -315,7 +319,7 @@ class StatisticsRecorder {
           }
           this.log.debug(`Getting metadata for ${entityId}`);
           const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
-          const isSum = unitClass === "energy" || unitClass === "volume";
+          const isSum = isSumStatistic(entity.attributes.device_class);
           result.push({
             statistic_id: entityId,
             display_unit_of_measurement: entity.attributes.unit_of_measurement,
@@ -338,7 +342,7 @@ class StatisticsRecorder {
             continue;
           }
           const unitClass = unitClassForDeviceClass((_b = entity.attributes) == null ? void 0 : _b.device_class);
-          const isSum = unitClass === "energy" || unitClass === "volume";
+          const isSum = isSumStatistic((_c = entity.attributes) == null ? void 0 : _c.device_class);
           if (filter === "sum" && !isSum) {
             continue;
           }
@@ -363,7 +367,7 @@ class StatisticsRecorder {
         this.log.debug(`Getting statistics for period ${JSON.stringify(message)}`);
         const result = {};
         const wsWithAuth = ws;
-        const user = this.personModule.getUserIDFromName((_c = wsWithAuth.__auth) == null ? void 0 : _c.username);
+        const user = this.personModule.getUserIDFromName((_d = wsWithAuth.__auth) == null ? void 0 : _d.username);
         const start = new Date(message.start_time).getTime();
         const requestedEnd = message.end_time ? new Date(message.end_time).getTime() : Date.now();
         const end = Math.min(requestedEnd, Date.now());
@@ -389,7 +393,8 @@ class StatisticsRecorder {
             step = 36e5;
             break;
         }
-        const requestedTypes = message.types;
+        const askedTypes = message.types;
+        const requestedTypes = (askedTypes == null ? void 0 : askedTypes.length) ? askedTypes : void 0;
         for (const entityId of message.statistic_ids) {
           const cost = this.getCostStatistic(entityId);
           if (cost) {
@@ -414,7 +419,7 @@ class StatisticsRecorder {
           }
           const units = message.units;
           const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
-          const isSum = unitClass === "energy" || unitClass === "volume";
+          const isSum = isSumStatistic(entity.attributes.device_class);
           const types = requestedTypes != null ? requestedTypes : isSum ? SUM_STATISTIC_TYPES : MEAN_STATISTIC_TYPES;
           const wantMean = types.includes("mean");
           const wantMin = types.includes("min");
@@ -453,7 +458,7 @@ class StatisticsRecorder {
               }
               const value = Number(series[i].val);
               if (!isNaN(value) && series[i].ts <= end) {
-                bucketAt(series[i].ts, Math.min((_e = (_d = series[i + 1]) == null ? void 0 : _d.ts) != null ? _e : end, end))[field] = value;
+                bucketAt(series[i].ts, Math.min((_f = (_e = series[i + 1]) == null ? void 0 : _e.ts) != null ? _f : end, end))[field] = value;
               }
             }
           }
@@ -466,7 +471,7 @@ class StatisticsRecorder {
               }
               const value = Number(series[i].val);
               if (series[i].ts >= start && series[i].ts <= end && !isNaN(value)) {
-                const bucket = bucketAt(series[i].ts, Math.min((_g = (_f = series[i + 1]) == null ? void 0 : _f.ts) != null ? _g : end, end));
+                const bucket = bucketAt(series[i].ts, Math.min((_h = (_g = series[i + 1]) == null ? void 0 : _g.ts) != null ? _h : end, end));
                 if (wantSum) {
                   bucket.sum = value;
                 }
