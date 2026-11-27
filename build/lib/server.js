@@ -949,14 +949,6 @@ class WebServer {
     }
   }
   /**
-   * Handle a state change.
-   *
-   * @param id id of the state
-   * @param state new state object
-   * @param forceUpdate force entity.state update of all clients
-   * @returns resolves when done.
-   */
-  /**
    * Subscribe a single foreign state that is not behind an entity (render_template, iobroker/subscribe_states).
    *
    * @param id - ioBroker state id
@@ -973,6 +965,14 @@ class WebServer {
       this.log.debug(`IoB Subscribe on ${id}`);
     }
   }
+  /**
+   * Handle a state change.
+   *
+   * @param id id of the state
+   * @param state new state object
+   * @param forceUpdate force entity.state update of all clients
+   * @returns resolves when done.
+   */
   async onStateChange(id, state, forceUpdate = false) {
     var _a;
     if (this._subscribedAll && !forceUpdate) {
@@ -1368,7 +1368,10 @@ class WebServer {
     var _a;
     try {
       this._ressourceConfig.length = 0;
-      const staticCards = ["browser_mod.js", "iob-web-component-card.js"];
+      const staticCards = ["browser_mod.js"];
+      if (this.adapter.config.webComponents) {
+        staticCards.push("iob-web-component-card.js");
+      }
       for (const file of staticCards) {
         this.log.debug(`Add static card: ${file} as ${"js"}`);
         this._ressourceConfig.push({

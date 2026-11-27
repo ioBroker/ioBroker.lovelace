@@ -1176,14 +1176,6 @@ class WebServer {
     }
 
     /**
-     * Handle a state change.
-     *
-     * @param id id of the state
-     * @param state new state object
-     * @param forceUpdate force entity.state update of all clients
-     * @returns resolves when done.
-     */
-    /**
      * Subscribe a single foreign state that is not behind an entity (render_template, iobroker/subscribe_states).
      *
      * @param id - ioBroker state id
@@ -1204,6 +1196,14 @@ class WebServer {
         }
     }
 
+    /**
+     * Handle a state change.
+     *
+     * @param id id of the state
+     * @param state new state object
+     * @param forceUpdate force entity.state update of all clients
+     * @returns resolves when done.
+     */
     async onStateChange(id: string, state: any, forceUpdate = false) {
         // Under the all-states subscription we receive EVERY state change in the system. Skip the ones
         // we don't care about up front, otherwise the per-change work (modules, entity lookup) for a
@@ -1684,8 +1684,11 @@ class WebServer {
             // Rebuild from scratch so this can be called again at runtime (admin refresh) to pick up
             // added/removed cards. Clear in place to keep the reference handed to `lovelace/resources`.
             this._ressourceConfig.length = 0;
-            // iob-web-component-card: web components of ioBroker adapters (vis-2 widgets) as cards
-            const staticCards = ['browser_mod.js', 'iob-web-component-card.js'];
+            // iob-web-component-card: web components of ioBroker adapters (vis-2 widgets) as cards, only with the setting
+            const staticCards = ['browser_mod.js'];
+            if ((this.adapter.config as { webComponents?: boolean }).webComponents) {
+                staticCards.push('iob-web-component-card.js');
+            }
             for (const file of staticCards) {
                 this.log.debug(`Add static card: ${file} as ${'js'}`);
                 this._ressourceConfig.push({
