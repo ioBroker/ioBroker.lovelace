@@ -90,6 +90,7 @@ After that checkout modified version in `./build` folder. Then.
 * (Garfonso/Claude) A climate `ECO` state becomes the `eco` preset, like `BOOST` and `PARTY` do.
 * (Garfonso/Claude) An `ECO` value in a climate mode list becomes the `eco` preset instead of an invalid HVAC mode.
 * (Garfonso/Claude) The default for the maximum history points per request is 10000 instead of 2000, so long graphs are no longer coarse.
+* (Bluefox/Claude) `/index.html` is rendered like `/` instead of being sent as the raw frontend template, which stopped with "Unexpected token '%'". The ioBroker.visu app opens Lovelace on ioBroker.pro by this name.
 
 ### 7.4.1 (2026-10-22)
 * (Garfonso/Claude) Conditional cards and the `visibility` of cards, badges, sections and views work again: the new frontend asks the server to evaluate the conditions (`subscribe_condition`), which the adapter answered with "Unknown request" before, so everything conditional stayed hidden.
