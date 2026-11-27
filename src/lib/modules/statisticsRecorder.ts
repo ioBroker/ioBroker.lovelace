@@ -50,6 +50,10 @@ function unitClassForDeviceClass(deviceClass: string | undefined): string | null
     }
 }
 
+/** Statistic types Home Assistant returns when a request names none, by kind of statistic. */
+const SUM_STATISTIC_TYPES = ['change', 'state', 'sum'];
+const MEAN_STATISTIC_TYPES = ['mean', 'min', 'max'];
+
 /**
  * How much of the base unit one of these units is. The frontend asks for its statistics in a unit of
  * its choice (the energy dashboard wants kWh and kW) and expects the backend to convert - Home
@@ -541,20 +545,23 @@ class StatisticsRecorder {
                         step = 3600000;
                         break;
                 }
-                const types = message.types as string[] | undefined;
-                const wantMean = types?.includes('mean');
-                const wantMin = types?.includes('min');
-                const wantMax = types?.includes('max');
-                const wantState = types?.includes('state');
-                const wantSum = types?.includes('sum');
-                const wantChange = types?.includes('change');
+                // `types` is optional in Home Assistant: without it the recorder returns every type the
+                // statistic has. Custom cards rely on that (e.g. apexcharts-card sends no `types`).
+                const requestedTypes = message.types as string[] | undefined;
 
                 for (const entityId of message.statistic_ids as string[]) {
                     // The energy dashboard asks for cost statistics that no entity stands behind:
                     // they follow an energy meter at the price configured for it.
                     const cost = this.getCostStatistic(entityId);
                     if (cost) {
-                        result[entityId] = await this._costStatistics(cost, start, end, step, user, types);
+                        result[entityId] = await this._costStatistics(
+                            cost,
+                            start,
+                            end,
+                            step,
+                            user,
+                            requestedTypes ?? SUM_STATISTIC_TYPES,
+                        );
                         continue;
                     }
                     const entity = this.dataSingleton.entityId2Entity[entityId];
@@ -570,6 +577,14 @@ class StatisticsRecorder {
                     // expects the values in it.
                     const units = message.units as Record<string, string> | undefined;
                     const unitClass = unitClassForDeviceClass(entity.attributes.device_class);
+                    const isSum = unitClass === 'energy' || unitClass === 'volume';
+                    const types = requestedTypes ?? (isSum ? SUM_STATISTIC_TYPES : MEAN_STATISTIC_TYPES);
+                    const wantMean = types.includes('mean');
+                    const wantMin = types.includes('min');
+                    const wantMax = types.includes('max');
+                    const wantState = types.includes('state');
+                    const wantSum = types.includes('sum');
+                    const wantChange = types.includes('change');
                     const factor = conversionFactor(
                         unitClass,
                         entity.attributes.unit_of_measurement,
