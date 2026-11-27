@@ -4,6 +4,14 @@ import { expect } from 'chai';
 const entityData = require('../../../lib/dataSingleton');
 import { processManualEntity, presenceFromValue, presenceFromGps } from './deviceTracker';
 
+function setZones(zones: { entity_id: string; attributes: Record<string, unknown> }[]): void {
+    entityData.entityId2Entity = entityData.entityId2Entity || {};
+    for (const zone of zones) {
+        entityData.entityId2Entity[zone.entity_id] = zone;
+    }
+    entityData.entities = zones;
+}
+
 function makeEntity(type: string): any {
     return {
         entity_id: `${type}.phone`,
@@ -32,23 +40,48 @@ describe('converters/deviceTracker', function () {
     });
 
     describe('presenceFromGps', function () {
+        let previousEntities: unknown;
         beforeEach(function () {
-            entityData.entityId2Entity = entityData.entityId2Entity || {};
-            entityData.entityId2Entity['zone.home'] = {
-                attributes: { latitude: 52.52, longitude: 13.405, radius: 100 },
-            };
+            previousEntities = entityData.entities;
+            setZones([{ entity_id: 'zone.home', attributes: { latitude: 52.52, longitude: 13.405, radius: 100 } }]);
         });
         afterEach(function () {
             delete entityData.entityId2Entity['zone.home'];
+            delete entityData.entityId2Entity['zone.work'];
+            entityData.entities = previousEntities;
         });
 
         it('returns home inside the radius and not_home outside', function () {
             expect(presenceFromGps(52.52, 13.405)).to.equal('home');
             expect(presenceFromGps(52.6, 13.5)).to.equal('not_home');
         });
-        it('returns null without home coordinates', function () {
-            delete entityData.entityId2Entity['zone.home'];
+        it('returns null without any zone', function () {
+            setZones([]);
             expect(presenceFromGps(52.52, 13.405)).to.equal(null);
+        });
+        it('names the zone the coordinates are in, like Home Assistant does', function () {
+            setZones([
+                { entity_id: 'zone.home', attributes: { latitude: 52.52, longitude: 13.405, radius: 100 } },
+                {
+                    entity_id: 'zone.work',
+                    attributes: { latitude: 52.4, longitude: 13.2, radius: 200, friendly_name: 'Work' },
+                },
+            ]);
+            expect(presenceFromGps(52.4, 13.2)).to.equal('Work');
+        });
+        it('ignores a passive zone', function () {
+            setZones([
+                {
+                    entity_id: 'zone.work',
+                    attributes: { latitude: 52.4, longitude: 13.2, radius: 200, friendly_name: 'Work', passive: true },
+                },
+            ]);
+            expect(presenceFromGps(52.4, 13.2)).to.equal('not_home');
+        });
+        it('allows for the GPS accuracy', function () {
+            // 150 m away from home, which has a radius of 100 m - inside only with a sloppy fix
+            expect(presenceFromGps(52.5213, 13.405)).to.equal('not_home');
+            expect(presenceFromGps(52.5213, 13.405, 200)).to.equal('home');
         });
     });
 
@@ -122,10 +155,8 @@ describe('converters/deviceTracker', function () {
         });
 
         it('derives presence from gps when there is no presence state', function () {
-            entityData.entityId2Entity = entityData.entityId2Entity || {};
-            entityData.entityId2Entity['zone.home'] = {
-                attributes: { latitude: 52.52, longitude: 13.405, radius: 100 },
-            };
+            const previousEntities = entityData.entities;
+            setZones([{ entity_id: 'zone.home', attributes: { latitude: 52.52, longitude: 13.405, radius: 100 } }]);
             const entity = makeEntity('device_tracker');
             // main object is a number -> not usable as presence; gps state provided instead
             processManualEntity(
@@ -141,6 +172,7 @@ describe('converters/deviceTracker', function () {
             entity.context.STATE.getParser(entity, 'state', { val: '52.52;13.405' });
             expect(entity.state).to.equal('home');
             delete entityData.entityId2Entity['zone.home'];
+            entityData.entities = previousEntities;
         });
     });
 });

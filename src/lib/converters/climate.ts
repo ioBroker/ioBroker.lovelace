@@ -80,7 +80,7 @@ adapterData.services.climate = {
             preset_mode: {
                 required: true,
                 selector: {
-                    select: { options: ['boost', 'party'], translation_key: 'preset_mode' },
+                    select: { options: ['none', 'boost', 'party', 'eco'], translation_key: 'preset_mode' },
                 },
                 name: 'Preset mode',
                 description: 'The target preset mode to set.',

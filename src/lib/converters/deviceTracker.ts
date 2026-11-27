@@ -2,9 +2,13 @@ import type { ioBrokerEntity } from './converter';
 import type { BaseEntity } from '../entities/baseEntity';
 import { applyGeoLocationStates, type GeoStates } from '../entities/geoLocationEntity';
 import { collectManualStates } from './manualStates';
+import { findActiveZone, type ZoneLike } from '../geo';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const entityData: { entityId2Entity: Record<string, unknown> } = require('../../../lib/dataSingleton');
+const entityData = require('../../../lib/dataSingleton') as {
+    entityId2Entity: Record<string, unknown>;
+    entities: ZoneLike[];
+};
 
 /**
  * State-id map for a manually configured device_tracker / person entity.
@@ -15,24 +19,6 @@ export interface TrackerStates extends GeoStates {
     presence?: string;
     /** ioBroker state id holding the picture URL (entity_picture). */
     entity_picture?: string;
-}
-
-const EARTH_RADIUS_KM = 6371;
-
-/**
- * Haversine great-circle distance in km.
- *
- * @param lat1 - first latitude
- * @param lon1 - first longitude
- * @param lat2 - second latitude
- * @param lon2 - second longitude
- */
-function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
-    const toRad = (d: number): number => (d * Math.PI) / 180;
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-    return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 /**
@@ -62,26 +48,31 @@ export function presenceFromValue(val: unknown): string {
 }
 
 /**
- * Derive home/not_home from coordinates relative to zone.home and its radius.
- * Returns null when home coordinates / the entity coordinates are not available.
+ * Derive the tracker state from coordinates: the name of the zone the coordinates are in, 'home'
+ * for zone.home, 'not_home' when they are in no zone at all. Returns null when the coordinates or
+ * the zones are not available.
  *
  * @param lat - entity latitude
  * @param lon - entity longitude
+ * @param accuracyM - GPS accuracy in metres, which Home Assistant allows for
  */
-export function presenceFromGps(lat: unknown, lon: unknown): string | null {
-    const home = (entityData.entityId2Entity as Record<string, { attributes?: Record<string, unknown> }>)?.[
-        'zone.home'
-    ];
+export function presenceFromGps(lat: unknown, lon: unknown, accuracyM = 0): string | null {
     const la = Number(lat);
     const lo = Number(lon);
-    const homeLat = Number(home?.attributes?.latitude);
-    const homeLon = Number(home?.attributes?.longitude);
-    if (!isFinite(la) || !isFinite(lo) || !isFinite(homeLat) || !isFinite(homeLon)) {
+    if (!isFinite(la) || !isFinite(lo)) {
         return null;
     }
-    const radiusM = Number(home?.attributes?.radius) || 100;
-    const distanceM = haversineKm(la, lo, homeLat, homeLon) * 1000;
-    return distanceM <= radiusM ? 'home' : 'not_home';
+    const zones = (entityData.entities || []).filter(entity => entity?.entity_id?.startsWith('zone.'));
+    if (!zones.length) {
+        return null;
+    }
+    const zone = findActiveZone(la, lo, zones, accuracyM);
+    if (!zone) {
+        return 'not_home';
+    }
+    // Home Assistant reports 'home' for the home zone and the zone name for every other one.
+    const name = zone.attributes?.friendly_name;
+    return zone.entity_id === 'zone.home' ? 'home' : typeof name === 'string' && name ? name : zone.entity_id;
 }
 
 /**
@@ -156,7 +147,11 @@ export function processManualEntity(
                 getId: gpsId,
                 attribute: 'state',
                 getParser: (ent: BaseEntity): void => {
-                    const derived = presenceFromGps(ent.attributes.latitude, ent.attributes.longitude);
+                    const derived = presenceFromGps(
+                        ent.attributes.latitude,
+                        ent.attributes.longitude,
+                        Number(ent.attributes.gps_accuracy) || 0,
+                    );
                     ent.state = derived ?? 'unknown';
                 },
             };

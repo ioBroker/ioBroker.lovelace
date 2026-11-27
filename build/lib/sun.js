@@ -18,7 +18,8 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var sun_exports = {};
 __export(sun_exports, {
-  computeSunState: () => computeSunState
+  computeSunState: () => computeSunState,
+  sunEventTime: () => sunEventTime
 });
 module.exports = __toCommonJS(sun_exports);
 const SunCalc = require("suncalc");
@@ -54,8 +55,13 @@ function computeSunState(lat, lng, now = /* @__PURE__ */ new Date()) {
     }
   };
 }
+function sunEventTime(event, lat, lng, date) {
+  const time = SunCalc.getTimes(date, lat, lng)[event];
+  return time instanceof Date && !isNaN(time.getTime()) ? time : void 0;
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  computeSunState
+  computeSunState,
+  sunEventTime
 });
 //# sourceMappingURL=sun.js.map

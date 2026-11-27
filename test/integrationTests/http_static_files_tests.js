@@ -71,6 +71,18 @@ exports.runTests = function (suite) {
             });
         }
 
+        it('renders the start page when it is asked for by its file name', async () => {
+            // ioBroker.pro asks for /index.html when the visu app opens /lovelace/index.html. The file is the
+            // Jinja template of the frontend: sent as it lies on disk, it stopped with "Unexpected token '%'".
+            for (const url of ['/', '/index.html', '/index.html?kiosk']) {
+                const page = await rawGet(url);
+                expect(page.status, url).to.equal(200);
+                expect(page.body, url).to.not.include('{%');
+                expect(page.body, url).to.include('browser_mod.js');
+                expect(page.headers['cache-control'], url).to.equal('no-cache');
+            }
+        });
+
         it('serves a static file that is asked for with a cache buster', async () => {
             // The frontend builds the map style from these two, both with a `?v=` query. Looking for
             // a file literally named "urls.json?v=20260930.3" left the map without a style at all.

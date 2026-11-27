@@ -25,7 +25,7 @@ __export(historyGate_exports, {
 });
 module.exports = __toCommonJS(historyGate_exports);
 const GET_HISTORY_TIMEOUT_MS = 6e4;
-const DEFAULT_HISTORY_MAX_COUNT = 2e3;
+const DEFAULT_HISTORY_MAX_COUNT = 1e4;
 const HARD_HISTORY_MAX_COUNT = 5e4;
 function boundHistoryCount(configured) {
   if (!configured || configured < 1) {

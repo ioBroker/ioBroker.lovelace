@@ -23,15 +23,8 @@ __export(geoLocationEntity_exports, {
 });
 module.exports = __toCommonJS(geoLocationEntity_exports);
 var import_baseEntity = require("./baseEntity");
+var import_geo = require("../geo");
 const entityData = require("../../../lib/dataSingleton");
-function haversineKm(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const toRad = (d) => d * Math.PI / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
 function distanceFromHome(lat, lon) {
   var _a, _b;
   const entityId2Entity = entityData.entityId2Entity;
@@ -41,7 +34,7 @@ function distanceFromHome(lat, lon) {
   if (!isFinite(lat) || !isFinite(lon) || homeLat == null || !isFinite(homeLat) || homeLon == null || !isFinite(homeLon)) {
     return null;
   }
-  return haversineKm(lat, lon, homeLat, homeLon).toFixed(1);
+  return (0, import_geo.haversineKm)(lat, lon, homeLat, homeLon).toFixed(1);
 }
 function parseGps(entity, _attr, iobState) {
   var _a;

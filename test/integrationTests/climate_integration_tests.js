@@ -1179,5 +1179,71 @@ exports.runTests = function (suite) {
                 );
             });
         });
+
+        describe('airCondition with eco in the mode list', async () => {
+            jsonFiles.push('../testData/climate_aircondition_eco_mode.json');
+            idsWithEnums.push('adapter.0.aircondition.EcoMode');
+            initialStates.push({ id: 'adapter.0.aircondition.EcoMode.mode', val: 1 });
+            it('should offer eco as a preset and not as an hvac mode', async () => {
+                const deviceId = 'adapter.0.aircondition.EcoMode';
+                const deviceObj = objects[deviceId];
+                const entity = entities.find(e => e.context.deviceId === deviceId);
+                expect(entity).to.be.ok;
+                tools.expectEntity(entity, 'climate', deviceId, deviceObj.name);
+
+                //eco is a preset in Home Assistant, its hvac modes are a fixed set.
+                expect(entity.attributes.hvac_modes).to.have.members(['auto', 'cool', 'off']);
+                expect(entity.attributes.preset_modes).to.have.members(['none', 'eco']);
+                expect(
+                    entity.attributes.supported_features & climate.supportedFlags.CLIMATE_SUPPORT_PRESET_MODE,
+                ).to.be.above(0);
+                expect(entity).to.have.property('state', 'cool');
+                expect(entity).to.have.nested.property('attributes.preset_mode', 'none');
+
+                //going to eco keeps the last real hvac mode, so the entity keeps a valid state.
+                await tools.validateStateChange(
+                    harness,
+                    entity.entity_id,
+                    async () => await harness.states.setStateAsync(`${deviceId}.mode`, 2, true),
+                    entity => {
+                        expect(entity).to.have.nested.property('attributes.preset_mode', 'eco');
+                        expect(entity).to.have.nested.property('attributes.hvac_mode', 'cool');
+                    },
+                );
+                await tools.validateStateChange(
+                    harness,
+                    entity.entity_id,
+                    async () => await harness.states.setStateAsync(`${deviceId}.mode`, 0, true),
+                    entity => {
+                        expect(entity).to.have.nested.property('attributes.preset_mode', 'none');
+                        expect(entity).to.have.nested.property('attributes.hvac_mode', 'auto');
+                    },
+                );
+
+                //set_preset_mode writes the eco value into the mode state and back again.
+                await tools.validateUIInput(
+                    harness,
+                    entity,
+                    m => {
+                        m.domain = 'climate';
+                        m.service = 'set_preset_mode';
+                        m.service_data = { preset_mode: 'eco' };
+                    },
+                    `${deviceId}.mode`,
+                    state => expect(state.val).to.equal(2),
+                );
+                await tools.validateUIInput(
+                    harness,
+                    entity,
+                    m => {
+                        m.domain = 'climate';
+                        m.service = 'set_preset_mode';
+                        m.service_data = { preset_mode: 'none' };
+                    },
+                    `${deviceId}.mode`,
+                    state => expect(state.val).to.equal(0),
+                );
+            });
+        });
     });
 };

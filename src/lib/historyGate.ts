@@ -39,8 +39,13 @@ const GET_HISTORY_TIMEOUT_MS = 60000;
  * applied). An unbounded request returns the whole range, which on a long window / busy state can be
  * hundreds of MB - transferred through the states DB it overflows the redis output buffer and drops
  * the connection. Always bound it.
+ *
+ * The count has to be set at all because a history adapter applies its own default otherwise
+ * (influxdb: 500 points), which cuts long graphs short. 10000 points of a numeric state are a few
+ * hundred KB - small enough for the states DB, while a week of history still has a point per minute.
+ * What protects the states-DB connection is not this number but the concurrency gate below.
  */
-export const DEFAULT_HISTORY_MAX_COUNT = 2000;
+export const DEFAULT_HISTORY_MAX_COUNT = 10000;
 
 /** Hard upper bound so even an explicitly huge historyMaxCount cannot produce an oversized reply. */
 export const HARD_HISTORY_MAX_COUNT = 50000;

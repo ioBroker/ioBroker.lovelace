@@ -37,6 +37,9 @@ const supportedFlags = {
   CLIMATE_SUPPORT_PRESET_MODE,
   CLIMATE_SUPPORT_SWING_MODE
 };
+const PRESET_SWITCHES = ["boost", "party", "eco"];
+const HVAC_MODES = ["off", "heat", "cool", "heat_cool", "auto", "dry", "fan_only"];
+const PRESET_MODE_VALUES = ["eco", "boost", "party", "comfort", "sleep", "away", "home", "activity"];
 function translateModeNameForLovelace(modeNameIn) {
   const lower = modeNameIn.toLowerCase();
   switch (lower) {
@@ -57,6 +60,17 @@ function applyClimateStates(states, objects, entity, iobType) {
   entity.fillFromStates(states, objects);
   entity.attributes.supported_features = CLIMATE_SUPPORT_TARGET_TEMPERATURE;
   entity.context.COMMANDS = [];
+  const defaultMode = iobType === import_type_detector.Types.airCondition ? "cool" : "heat";
+  let presetSwitches = [];
+  const modePresets = [];
+  const activePreset = (ent) => {
+    var _a2, _b2, _c2;
+    return (_c2 = (_b2 = ent.context.iobModePreset) != null ? _b2 : (_a2 = presetSwitches.find((p) => ent.attributes[p.name] === "on")) == null ? void 0 : _a2.name) != null ? _c2 : "none";
+  };
+  const hvacModeFor = (ent, modeName) => {
+    var _a2;
+    return modePresets.includes(modeName) ? (_a2 = ent.context.iobLastHvacMode) != null ? _a2 : defaultMode : modeName;
+  };
   if (states.state || states.hvac_mode) {
     entity.context.COMMANDS.push({
       service: "set_hvac_mode",
@@ -100,7 +114,7 @@ function applyClimateStates(states, objects, entity, iobType) {
           ent.attributes.hvac_mode = "off";
         } else if (ent.context.iobMode !== void 0) {
           const mode = ent.context.iobMode;
-          ent.attributes.hvac_mode = (_b2 = (_a2 = hvac_attr.iobToLovelace) == null ? void 0 : _a2[mode]) != null ? _b2 : String(mode);
+          ent.attributes.hvac_mode = hvacModeFor(ent, (_b2 = (_a2 = hvac_attr.iobToLovelace) == null ? void 0 : _a2[mode]) != null ? _b2 : String(mode));
         } else {
           adapterData.log.warn(
             `No mode for ${ent.entity_id} received, yet. Asking database. Will delay update.`
@@ -110,7 +124,10 @@ function applyClimateStates(states, objects, entity, iobType) {
             const val = stateVal ? stateVal.val : null;
             if (ent.context.iobMode === void 0) {
               ent.context.iobMode = val;
-              const resolved = (_b3 = (_a3 = hvac_attr.iobToLovelace) == null ? void 0 : _a3[val]) != null ? _b3 : iobType === import_type_detector.Types.airCondition ? "cool" : "heat";
+              const resolved = hvacModeFor(
+                ent,
+                (_b3 = (_a3 = hvac_attr.iobToLovelace) == null ? void 0 : _a3[val]) != null ? _b3 : defaultMode
+              );
               ent.state = resolved;
               ent.attributes.hvac_mode = resolved;
             }
@@ -141,7 +158,11 @@ function applyClimateStates(states, objects, entity, iobType) {
         for (const key of Object.keys(rawStates)) {
           const mode = rawStates[key];
           const modeName = translateModeNameForLovelace(mode);
-          entity.attributes.hvac_modes.push(modeName);
+          if (!HVAC_MODES.includes(modeName) && PRESET_MODE_VALUES.includes(modeName)) {
+            modePresets.push(modeName);
+          } else {
+            entity.attributes.hvac_modes.push(modeName);
+          }
           hvac_attr.lovelaceToIob[modeName] = parseInt(key, 10);
           hvac_attr.iobToLovelace[key] = modeName;
         }
@@ -165,7 +186,17 @@ function applyClimateStates(states, objects, entity, iobType) {
         var _a2, _b2;
         const s = state != null ? state : { val: null };
         ent.context.iobMode = s.val;
-        ent.attributes.hvac_mode = (_b2 = (_a2 = attr.iobToLovelace) == null ? void 0 : _a2[s.val]) != null ? _b2 : String(s.val);
+        const modeName = (_b2 = (_a2 = attr.iobToLovelace) == null ? void 0 : _a2[s.val]) != null ? _b2 : String(s.val);
+        if (modePresets.includes(modeName)) {
+          ent.context.iobModePreset = modeName;
+        } else {
+          ent.context.iobModePreset = void 0;
+          ent.context.iobLastHvacMode = modeName;
+        }
+        ent.attributes.hvac_mode = hvacModeFor(ent, modeName);
+        if (ent.attributes.preset_modes) {
+          ent.attributes.preset_mode = activePreset(ent);
+        }
         if (!ent.context.iobPower && (states.state || states.stateRead) && ent.state === "off") {
           ent.attributes.hvac_mode = ent.state;
         } else {
@@ -175,33 +206,34 @@ function applyClimateStates(states, objects, entity, iobType) {
       };
       hvac_attr.historyParser = (_id, val) => {
         var _a2, _b2;
-        return (_b2 = (_a2 = hvac_attr.iobToLovelace) == null ? void 0 : _a2[val]) != null ? _b2 : String(val);
+        const modeName = (_b2 = (_a2 = hvac_attr.iobToLovelace) == null ? void 0 : _a2[val]) != null ? _b2 : String(val);
+        return modePresets.includes(modeName) ? defaultMode : modeName;
       };
     }
   }
   if (states.preset_mode) {
+    presetSwitches = PRESET_SWITCHES.map((name) => ({
+      name,
+      attr: entity.context.ATTRIBUTES.find((a) => a.attribute === name)
+    })).filter((preset) => !!preset.attr);
+  }
+  if (presetSwitches.length || modePresets.length) {
     entity.attributes.supported_features = entity.attributes.supported_features | CLIMATE_SUPPORT_PRESET_MODE;
     entity.attributes.preset_mode = "none";
     entity.attributes.preset_modes = ["none"];
-    const boost_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "boost");
-    if (boost_attr) {
-      entity.attributes.preset_modes.push("boost");
-      boost_attr.getParser = (ent, _attr, state) => {
-        const val = state ? state.val : null;
-        ent.attributes.boost = val ? "on" : "off";
-        ent.attributes.preset_mode = val ? "boost" : ent.attributes.party === "on" ? "party" : "none";
+    const presetModes = entity.attributes.preset_modes;
+    for (const { name, attr } of presetSwitches) {
+      presetModes.push(name);
+      attr.getParser = (ent, _attr, state) => {
+        ent.attributes[name] = state && state.val ? "on" : "off";
+        ent.attributes.preset_mode = activePreset(ent);
       };
-      boost_attr.historyParser = (_id, val) => val ? "boost" : "none";
+      attr.historyParser = (_id, val) => val ? name : "none";
     }
-    const party_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "party");
-    if (party_attr) {
-      entity.attributes.preset_modes.push("party");
-      party_attr.getParser = (ent, _attr, state) => {
-        const val = state ? state.val : null;
-        ent.attributes.party = val ? "on" : "off";
-        ent.attributes.preset_mode = val ? "party" : ent.attributes.boost === "on" ? "boost" : "none";
-      };
-      party_attr.historyParser = (_id, val) => val ? "party" : "none";
+    for (const name of modePresets) {
+      if (!presetModes.includes(name)) {
+        presetModes.push(name);
+      }
     }
     const preset_attr = entity.context.ATTRIBUTES.find((a) => a.attribute === "preset_mode");
     if (preset_attr) {
@@ -209,20 +241,32 @@ function applyClimateStates(states, objects, entity, iobType) {
     }
     entity.context.COMMANDS.push({
       service: "set_preset_mode",
-      parseCommand: async (_ent, _command, data, user) => {
+      parseCommand: async (ent, _command, data, user) => {
+        var _a2, _b2;
         const preset = data.service_data.preset_mode;
-        const boostVal = preset === "boost";
-        const partyVal = preset === "party";
         const promises = [];
-        if (party_attr == null ? void 0 : party_attr.getId) {
-          promises.push(
-            adapterData.adapter.setForeignStateAsync(party_attr.getId, partyVal, false, { user })
-          );
+        const hvac_attr = ent.context.ATTRIBUTES.find((a) => a.attribute === "hvac_mode");
+        let modeTarget;
+        if (modePresets.includes(preset)) {
+          modeTarget = preset;
+        } else if (ent.context.iobModePreset) {
+          modeTarget = (_a2 = ent.context.iobLastHvacMode) != null ? _a2 : defaultMode;
         }
-        if (boost_attr == null ? void 0 : boost_attr.getId) {
-          promises.push(
-            adapterData.adapter.setForeignStateAsync(boost_attr.getId, boostVal, false, { user })
-          );
+        if (modeTarget !== void 0 && (hvac_attr == null ? void 0 : hvac_attr.setId)) {
+          const value = (_b2 = hvac_attr.lovelaceToIob) == null ? void 0 : _b2[modeTarget];
+          if (value !== void 0) {
+            promises.push(
+              adapterData.adapter.setForeignStateAsync(hvac_attr.setId, value, false, { user })
+            );
+          }
+        }
+        const ordered = presetSwitches.filter((p) => p.name === preset).concat(presetSwitches.filter((p) => p.name !== preset));
+        for (const { name, attr } of ordered) {
+          if (attr.getId) {
+            promises.push(
+              adapterData.adapter.setForeignStateAsync(attr.getId, preset === name, false, { user })
+            );
+          }
         }
         return Promise.all(promises);
       }
@@ -425,6 +469,10 @@ class ClimateEntity extends import_baseEntity.BaseEntity {
           case "PARTY":
             states.preset_mode = state.id;
             states.party = state.id;
+            break;
+          case "ECO":
+            states.preset_mode = state.id;
+            states.eco = state.id;
             break;
           case "SPEED":
             states.fan_mode = state.id;

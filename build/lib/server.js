@@ -39,6 +39,7 @@ var converterBinarySensors = __toESM(require("./converters/binary_sensor"));
 var converterSensors = __toESM(require("./converters/sensor"));
 var converterGeoLocation = __toESM(require("./converters/geo_location"));
 var converterDeviceTracker = __toESM(require("./converters/deviceTracker"));
+var converterZone = __toESM(require("./converters/zone"));
 var import_syntheticControl = require("./converters/syntheticControl");
 var import_manualStates = require("./converters/manualStates");
 var import_cards = require("./cards");
@@ -664,6 +665,8 @@ class WebServer {
         return converterGeoLocation.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "device_tracker" || entityType === "person") {
         return converterDeviceTracker.processManualEntity(id, obj, entity, this._objectData.objects, custom);
+      } else if (entityType === "zone") {
+        return converterZone.processManualEntity(id, obj, entity, this._objectData.objects, custom);
       } else if (entityType === "camera") {
         entity.context.STATE = { getValue: "on", getId: null, attribute: "state" };
         entity.context.ATTRIBUTES = [{ getId: id, attribute: "url" }];
@@ -1100,7 +1103,11 @@ class WebServer {
         state: "zoning",
         attributes: {
           hidden: true,
-          radius: 10,
+          // Home Assistant creates the home zone with 100 m, which is also what the
+          // presence detection assumed when a zone had no radius.
+          radius: 100,
+          passive: false,
+          editable: false,
           friendly_name: "Home",
           icon: "mdi:home"
         },
@@ -2177,7 +2184,7 @@ ${hideScript.join("\n")}
       }
     });
     this._app.use(async (req, res, next) => {
-      if (req.url.endsWith("/")) {
+      if (req.url.endsWith("/") || req.url.split("?")[0] === "/index.html") {
         res.setHeader("Cache-Control", REVALIDATE_CACHE);
         res.send(this._renderIndex());
       } else if (req.url.endsWith("manifest.json")) {

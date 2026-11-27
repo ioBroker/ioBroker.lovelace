@@ -269,6 +269,10 @@ export class BaseEntity {
         // --- Converter-specific runtime fields ---
         iobPower?: unknown;
         iobMode?: unknown;
+        /** climate: the preset the MODE state currently holds (e.g. 'eco'), if any. */
+        iobModePreset?: string;
+        /** climate: the last real hvac mode, kept while the MODE state holds a preset. */
+        iobLastHvacMode?: string;
         capabilities?: InputDateTimeCapabilities;
         lastValue?: unknown;
     };

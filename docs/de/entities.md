@@ -44,13 +44,26 @@ Bei den **mehrteiligen** Typen wählt man die ioBroker-States je Rolle im Custom
 |---|---|---|
 | `light` | `ON` (an/aus), `ON_ACTUAL`, `DIMMER` (Helligkeit), `TEMPERATURE` (Farbtemp.), `RGB`, `HUE`, `SATURATION`, `EFFECT` | `on` / `off` |
 | `cover` | `SET` (Pegel), `ACTUAL`, `OPEN`/`CLOSE`/`STOP`, `TILT_SET`/`TILT_ACTUAL` | `open` / `closed` / `opening` / `closing` |
-| `climate` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `MODE` (HVAC-Modus), `POWER` (an/aus), `HUMIDITY`, `SPEED`, `SWING`, `BOOST`, `PARTY`; eine *Heizen/Kühlen*-Auswahl erscheint, wenn kein `MODE` zugeordnet ist | der HVAC-Modus: `heat` / `cool` / `off` |
+| `climate` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `MODE` (HVAC-Modus), `POWER` (an/aus), `HUMIDITY`, `SPEED`, `SWING`, `BOOST`, `PARTY`, `ECO`; eine *Heizen/Kühlen*-Auswahl erscheint, wenn kein `MODE` zugeordnet ist | der HVAC-Modus: `heat` / `cool` / `off` |
 | `lock` | `SET` (ver-/entriegeln), `ACTUAL`, `OPEN` (Türöffner) | `locked` / `unlocked` |
 | `media_player` | `STATE`, `POWER`, `PLAY`/`PAUSE`/`STOP`/`NEXT`/`PREV`, `VOLUME`/`VOLUME_ACTUAL`/`MUTE`, `SEEK`/`REPEAT`/`SHUFFLE`, `TITLE`/`ARTIST`/`COVER`/`DURATION`/`ELAPSED` | `playing` / `paused` / `idle` |
 | `vacuum` | `STATE` (Status), `POWER` (Start/Stopp), `PAUSE`, `BATTERY`, `WORK_MODE` (Lüfterstufe) | `cleaning` / `docked` / `paused` / `returning` / `idle` / `error` |
 | `humidifier` | `POWER` (an/aus), `SET` (Soll-Feuchte), `ACTUAL` (Ist-Feuchte), `MODE` | `on` / `off` |
 | `water_heater` | `SET` (Soll-Temp.), `ACTUAL` (Ist-Temp.), `POWER` (an/aus), `MODE` (Betriebsmodus) | der Betriebsmodus |
 | `device_tracker` / `person` | Anwesenheit, GPS (`"lat;lon"` oder getrennt Breite/Länge), GPS-Genauigkeit, Batterie, Bild (URL oder State), Quellentyp | `home` / `not_home` / ein Zonenname |
+| `zone` | Breiten-, Längengrad und Radius (in Metern) als feste Werte oder aus States (GPS `"lat;lon"` oder getrennt), *passiv* | `zoning` |
+
+#### Zonen
+Eine `zone` ist ein Kreis auf der Karte: Breitengrad, Längengrad und ein Radius in Metern.
+`zone.home` entsteht aus dem Standort in der ioBroker-Systemkonfiguration (Radius 100 m), jede
+weitere Zone ist eine manuelle Entity des Typs `zone`. Ihre Position kann fest sein oder ioBroker-
+States folgen, eine Zone kann also mit einem Wohnwagen oder Boot mitwandern.
+
+Gegen die Zonen wird ein `device_tracker` / eine `person` ohne eigenen Anwesenheits-State geprüft:
+in `zone.home` ist der Zustand `home`, in einer anderen Zone deren Name, außerhalb aller Zonen
+`not_home`. Außerdem nutzen die `zone`-Bedingung von Conditional-Cards und die `visibility` von
+Cards, Badges, Sections und Views die Zonen. Eine *passive* Zone bleibt bei der
+Anwesenheitserkennung außen vor, kann aber in einer Bedingung verwendet werden.
 
 #### Experte: beliebiges Attribut aus einem State
 Ganz unten im Custom-Dialog liegt die Tabelle *Experte: Attribute aus States*. Sie verbindet ein beliebiges Home-Assistant-Attribut der Entity mit einem ioBroker-State. Attributname eintragen, State auswählen, fertig: der Wert folgt dem State wie jedes andere Attribut.
@@ -226,7 +239,7 @@ ioBroker-Geräte: Thermostat (`thermostat`), Klimaanlage (`airCondition`).
 
 ![Clima Karte](media/climate-entity-full.JPG)
 
-Die Temperatur wird in Lovelace über einen runden Slider gesteuert. Darunter gibt es Knöpfe zur Wahl des Modus (nur bei bekannten Modi). Die Modi werden mittels `states` im ioBroker-State auf Zahlen abgebildet. Lovelace kennt `auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` und `off`; diese werden als übersetzte Schaltflächen angezeigt. Abweichende States erscheinen im More-Info-Fenster als Dropdown, dort gibt es auch Dropdowns für Presets (falls `boost` oder `party` im ioBroker-Gerät vorhanden) sowie Ventilator / Swing, falls erkannt (deren States werden 1:1 angezeigt).
+Die Temperatur wird in Lovelace über einen runden Slider gesteuert. Darunter gibt es Knöpfe zur Wahl des Modus (nur bei bekannten Modi). Die Modi werden mittels `states` im ioBroker-State auf Zahlen abgebildet. Lovelace kennt `auto`, `heat`, `cool`, `heat_cool`, `dry`, `fan_only` und `off`; diese werden als übersetzte Schaltflächen angezeigt. Abweichende States erscheinen im More-Info-Fenster als Dropdown, dort gibt es auch Dropdowns für Presets (falls `boost`, `party` oder `eco` im ioBroker-Gerät vorhanden) sowie Ventilator / Swing, falls erkannt (deren States werden 1:1 angezeigt). Ein Modus, den Home Assistant stattdessen als Preset kennt (`ECO`, `BOOST`, `PARTY`, `COMFORT`, `SLEEP`, `AWAY`, `HOME`, `ACTIVITY`), wird als Preset angeboten und nicht als HVAC-Modus: Auswählen schreibt den Wert in den Mode-State, Verlassen schaltet zurück auf den zuvor genutzten Modus.
 
 ![Clima More Info](media/climate-entity-full-moreinfo.JPG)
 ![Clima Attributes](media/climate-entity-full-attributes.JPG)
