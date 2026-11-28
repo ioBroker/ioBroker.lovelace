@@ -62,6 +62,7 @@ import SearchModule from './modules/search';
 import ImageModule from './modules/image';
 import CalendarModule from './modules/calendar';
 import WeatherForecastModule from './modules/weatherForecast';
+import IoBrokerModule from './modules/iobroker';
 import { migrateStorageObjects } from './modules/storage';
 import { resolvePathInside, hasParentSegment } from './safePath';
 import type { IModule } from './modules/iModule';
@@ -89,6 +90,7 @@ type Modules = {
     image: InstanceType<typeof ImageModule>;
     calendar: InstanceType<typeof CalendarModule>;
     weatherForecast: InstanceType<typeof WeatherForecastModule>;
+    iobroker: InstanceType<typeof IoBrokerModule>;
     history: InstanceType<typeof HistoryModule>;
     statisticsRecorder: InstanceType<typeof StatisticsRecorderModule>;
 };
@@ -418,21 +420,14 @@ class WebServer {
             template: new TemplateModule({
                 adapter: this.adapter,
                 sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
-                subscribeState: (id: string) => {
-                    // Already covered when we subscribed to all states.
-                    if (this._subscribedAll) {
-                        return;
-                    }
-                    if (this._subscribed.indexOf(id) === -1) {
-                        this._subscribed.push(id);
-                        // Never let a bad id (e.g. from a mis-parsed template) reject unhandled and
-                        // take the adapter down - log and move on.
-                        Promise.resolve(this.adapter.subscribeForeignStatesAsync(id)).catch(e =>
-                            this.log.warn(`Could not subscribe to ${id}: ${String(e)}`),
-                        );
-                        this.log.debug(`IoB Subscribe on ${id}`);
-                    }
-                },
+                subscribeState: (id: string) => this._subscribeExtraState(id),
+            }),
+            iobroker: new IoBrokerModule({
+                adapter: this.adapter,
+                sendResponse: (ws: unknown, id: unknown, result?: unknown) => this._sendResponse(ws, id, result),
+                getUserIDFromName: (name: string | undefined) => this._modules.person.getUserIDFromName(name),
+                subscribeState: (id: string) => this._subscribeExtraState(id),
+                getLanguage: () => this.lang,
             }),
             condition: new ConditionModule({
                 adapter: this.adapter,
@@ -1181,6 +1176,27 @@ class WebServer {
     }
 
     /**
+     * Subscribe a single foreign state that is not behind an entity (render_template, iobroker/subscribe_states).
+     *
+     * @param id - ioBroker state id
+     */
+    _subscribeExtraState(id: string): void {
+        // Already covered when we subscribed to all states.
+        if (this._subscribedAll) {
+            return;
+        }
+        if (this._subscribed.indexOf(id) === -1) {
+            this._subscribed.push(id);
+            // Never let a bad id (e.g. from a mis-parsed template) reject unhandled and
+            // take the adapter down - log and move on.
+            Promise.resolve(this.adapter.subscribeForeignStatesAsync(id)).catch(e =>
+                this.log.warn(`Could not subscribe to ${id}: ${String(e)}`),
+            );
+            this.log.debug(`IoB Subscribe on ${id}`);
+        }
+    }
+
+    /**
      * Handle a state change.
      *
      * @param id id of the state
@@ -1197,7 +1213,8 @@ class WebServer {
             const relevant =
                 !!entityData.iobID2entity[id] ||
                 id.startsWith(`${this.adapter.namespace}.`) ||
-                this._modules.template.referencesState(id, this._wss);
+                this._modules.template.referencesState(id, this._wss) ||
+                this._modules.iobroker.referencesState(id, this._wss);
             if (!relevant) {
                 return;
             }
@@ -1667,7 +1684,11 @@ class WebServer {
             // Rebuild from scratch so this can be called again at runtime (admin refresh) to pick up
             // added/removed cards. Clear in place to keep the reference handed to `lovelace/resources`.
             this._ressourceConfig.length = 0;
+            // iob-web-component-card: web components of ioBroker adapters (vis-2 widgets) as cards, only with the setting
             const staticCards = ['browser_mod.js'];
+            if ((this.adapter.config as { webComponents?: boolean }).webComponents) {
+                staticCards.push('iob-web-component-card.js');
+            }
             for (const file of staticCards) {
                 this.log.debug(`Add static card: ${file} as ${'js'}`);
                 this._ressourceConfig.push({
@@ -1893,6 +1914,8 @@ class WebServer {
 
         // include states referenced by active render_template subscriptions
         ids = ids.concat(this._modules.template.collectSubscribedIds(this._wss));
+        // and by iobroker/subscribe_states (web components as cards)
+        ids = ids.concat(this._modules.iobroker.collectSubscribedIds(this._wss));
 
         // Many individual foreign-state subscriptions strain the states DB: on every state change it
         // has to match the changed id against all subscription patterns. Above a threshold it is
@@ -2698,6 +2721,22 @@ class WebServer {
                 req.url = req.url.replace(/.*\/hacsfiles\//g, '/cards/');
                 req.url = req.url.replace(/.*\/local\/custom_ui\//g, '/cards/');
                 await this.onCards(req, res);
+            } else if (/\/lib\/esm\/react-1[89]\.js(\?|$)/.test(req.url)) {
+                // React as one ES module, for web components that use it (`@iobroker/web-components`):
+                // they import `../../../lib/esm/react-19.js` like under web and admin.
+                const file = /react-1[89]\.js/.exec(req.url)![0];
+                let dir: string | undefined;
+                try {
+                    dir = path.dirname(require.resolve(`@iobroker/web-components/esm/${file}`));
+                } catch (e) {
+                    this.adapter.log.warn(`Cannot find ${file} in @iobroker/web-components: ${String(e)}`);
+                }
+                if (dir) {
+                    this._sendStaticFile(req, res, dir, file, REVALIDATE_CACHE);
+                } else {
+                    res.writeHead(404);
+                    res.end('Not found');
+                }
             } else if (req.url.includes('/frontend_latest/')) {
                 //serve frontend:
                 //remove all from before frontend_latest.
@@ -3380,6 +3419,7 @@ class WebServer {
                     this._modules.condition.removeSubscription(ws, message.subscription);
                     this._modules.calendar.removeSubscription(ws, message.subscription);
                     this._modules.weatherForecast.removeSubscription(ws, message.subscription);
+                    this._modules.iobroker.removeSubscription(ws, message.subscription);
                 }
 
                 this._sendResponse(ws, message.id);
@@ -3544,6 +3584,7 @@ class WebServer {
             ws._subscribes = null;
             this._modules.template.clearWs(ws);
             this._modules.condition.clearWs(ws);
+            this._modules.iobroker.clearWs(ws);
             clearInterval(testTimer);
             testTimer = null;
         });

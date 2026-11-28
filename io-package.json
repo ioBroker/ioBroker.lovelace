@@ -341,6 +341,7 @@
   "native": {
     "history": "",
     "historyMaxCount": 10000,
+    "webComponents": false,
     "port": 8091,
     "auth": false,
     "secure": false,

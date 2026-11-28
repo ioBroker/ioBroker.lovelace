@@ -30,6 +30,28 @@ Die folgenden Karten wurden vom Entwickler oder der Community getestet und funkt
 * **[Mini Media Player](https://github.com/kalkih/mini-media-player)** — ein sehr konfigurierbarer Mediaplayer, der auch [Text-to-Speech und Shortcut-Knöpfe](#mini-media-card-mit-text2speech-tts-und-musik-shortcuts) unterstützt.
 * **[Mini Graph Card](https://github.com/kalkih/mini-graph-card)** — eine sehr konfigurierbare Karte für Sensordaten, die mehrere `entities` als Graphen oder Balkendiagramme anzeigen kann.
 
+## Widgets von ioBroker-Adaptern (Web-Komponenten)
+
+Adapter können Widgets als *Web-Komponenten* mitbringen (dieselben, die vis-2 und andere Visualisierungen anzeigen, siehe [`@iobroker/web-components`](https://github.com/ioBroker/web-components)). Der Adapter bringt die Karte `iob-web-component-card` mit, die sie in Lovelace anzeigt - es muss nichts installiert werden, nur in den Instanzeinstellungen **Web-Component-Karten** einschalten (standardmäßig aus):
+
+![Bedienfeld von home-guard und Wetter-Widget von openmeteo-notify als Lovelace-Karten](../de/media/web-components.png)
+
+* In der Kartenauswahl hat jede Web-Komponente der installierten Adapter einen eigenen Eintrag (`ioBroker: <Name>`). Auswählen und im Karteneditor einstellen: Die Einstellungen sind die der Komponente, mit denselben Listen und Feldern wie in vis-2.
+* Die Höhe richtet sich nach dem Inhalt; `height: 500` legt sie fest.
+* Die Karte nutzt die Verbindung, die Lovelace ohnehin hat, mit den Rechten des angemeldeten Benutzers - keine zweite Verbindung zum web-Adapter.
+
+```yaml
+type: custom:iob-web-component-card
+adapter: home-guard
+component: home-guard-panel
+settings:
+  instance: home-guard.0
+```
+
+Für Entwickler: Die Karte spricht mit dem Adapter über die Websocket-Nachrichten `iobroker/info`, `iobroker/get_state`, `iobroker/set_state`, `iobroker/subscribe_states`, `iobroker/get_object`, `iobroker/get_object_view`, `iobroker/send_to` (braucht das Recht *sendto* des Benutzers), `iobroker/get_history` und `iobroker/read_file`. React für Komponenten, die damit gebaut sind, liefert der Adapter unter `/lib/esm/react-19.js` und `/lib/esm/react-18.js` aus, wie web und admin. `iobroker/read_file` liest nur Dateien unter `webcomponents/` von `<Adapter>.admin`.
+
+Sicherheit: Die Karte lädt das JavaScript der installierten Adapter und führt es im Dashboard aus (und wertet die `hidden`/`disabled`-Ausdrücke ihrer Manifeste aus). Das ist dasselbe Vertrauen wie bei admin, vis-2 und Custom Cards: Ein installierter Adapter kann Code im Dashboard ausführen. Ohne Anmeldung handeln die Karten mit den Rechten des Benutzers unter *Ausführen als* - steht dort `admin`, kann jeder, der den Port erreicht, auch Nachrichten an jede Instanz senden (`iobroker/send_to`). Die Einstellung deshalb nur einschalten, wenn die Karten genutzt werden, am besten mit Anmeldung oder einem *Ausführen als*-Benutzer mit eingeschränkten Rechten.
+
 ## Eigene Bilder
 Eigene Bilder (z. B. für einen Hintergrund) können über denselben Dialog wie Custom Cards hochgeladen werden. Verwendung in der Lovelace-Konfiguration:
 
